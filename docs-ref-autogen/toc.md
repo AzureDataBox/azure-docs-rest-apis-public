@@ -1304,3 +1304,5 @@
 ## [List available skus for VMs](../docs-ref-conceptual/virtualmachinescalesets/list-available-skus-for-vms.md)
 ## [Manage a VM](../docs-ref-conceptual/virtualmachinescalesets/manage-a-vm.md)
 ## [Manage all VMs in a set](../docs-ref-conceptual/virtualmachinescalesets/manage-all-vms-in-a-set.md)
+# Datalake
+## [File System](datalake/FileSystem.json)
