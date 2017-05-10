@@ -12,7 +12,7 @@
 # [Azure](../index.md)
 ## [Analysis Services](../docs-ref-conceptual/analysisservices/index.md)
 ### [Servers](analysisservices/Servers.json)
-## [Analysis Services](../docs-ref-conceptual/machineLearning/index.md)
+## [MachineLearning](../docs-ref-conceptual/machineLearning/index.md)
 ### [Commitment Associations](machineLearning/CommitmentAssociations.json)
 ### [Commitment Plans](machineLearning/CommitmentPlans.json)
 ### [Usage History](machineLearning/UsageHistory.json)
