@@ -41,7 +41,6 @@
 ### [Elastic Pools](sql/ElasticPools.json)
 ### [Firewall Rules](sql/FirewallRules.json)
 ### [Recommended Elastic Pools](sql/RecommendedElasticPools.json)
-### [Servers](sql/Servers.json)
 # [Office](../index.md)
 ## [Compute](../docs-ref-conceptual/compute/index.md)
 ### [Availability Sets](../docs-ref-conceptual/compute/availabilitysets.md)
