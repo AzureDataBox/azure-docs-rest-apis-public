@@ -1,4 +1,4 @@
-# [Getting started with REST](../index.md)
+# [Getting started with REST](../docs-ref-index/index.md)
 # [Advisor](../docs-ref-conceptual/advisor/index.md)
 ## [Operations](advisor/Operations.json)
 ## [Recommendations](advisor/Recommendations.json)
