@@ -5,6 +5,7 @@ ms.service: analysis-services
 author: mmacy
 ms.author: marsma
 ms.manager: timlt
+service_description: Built on the proven analytics engine in Microsoft SQL Server Analysis Services, Azure Analysis Services provides enterprise-grade data modeling in the cloud.
 ---
 
 # Azure Analysis Services REST API

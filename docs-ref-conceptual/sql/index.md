@@ -6,7 +6,7 @@ ms.service: sql-database
 author:
 ms.author: sstein
 ms.manager: douge
-
+service_description: The Azure SQL Database REST API includes operations for managing Azure SQL Database servers, databases, elastic database pools, elastic databases, server firewall rules.
 ---
 
 # Azure SQL Database REST API

@@ -6,6 +6,7 @@ ms.service: machine-learning
 author: vDonGlover
 ms.author: garye
 ms.manager: jhubbard
+service_description: Azure Machine Learning REST APIs.
 ---
 
 # Azure Machine Learning Management REST APIs

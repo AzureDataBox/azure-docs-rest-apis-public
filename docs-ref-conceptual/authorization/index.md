@@ -5,6 +5,7 @@ ms.service: azure-resource-manager
 author: tfitzmac
 ms.author: tomfitz
 ms.manager: timlt
+service_description: You use role-based access control to manage the actions users in your organization can take on resources. This set of operations enables you to define roles, assign roles to users or groups, and get information about permissions. 
 ---
 
 # Authorization

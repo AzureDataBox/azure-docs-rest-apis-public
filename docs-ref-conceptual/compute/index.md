@@ -5,6 +5,7 @@ ms.service: virtual-machines
 author: davidmu1
 ms.author: davidmu
 ms.manager: timt
+service_description: The Azure Compute APIs give you programmatic access to virtual machines and their supporting resources. For a more detailed overview, see the [Virtual Machines product page](https://azure.microsoft.com/services/virtual-machines).
 ---
 
 

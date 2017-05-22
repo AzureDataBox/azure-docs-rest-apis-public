@@ -7,6 +7,7 @@ ms.date: 03/09/17
 ms.topic: reference
 ms.service: Azure
 ms.devlang: rest-api 
+service_description: Azure Advisor is a personalized cloud consultant that helps you follow best practices to optimize your Azure deployments. For a more detailed overview, see the [Azure Advisor product page](https://azure.microsoft.com/services/advisor). 
 ---
 
 # Azure Advisor REST API

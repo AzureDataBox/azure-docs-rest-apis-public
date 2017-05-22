@@ -5,6 +5,7 @@ ms.service: azure-resource-manager
 author: tfitzmac
 ms.author: tomfitz
 ms.manager: timlt
+service_description: Azure Resource Manager enables you to deploy and manage the infrastructure for your Azure solutions. You organize related resources in resource groups, and deploy your resources with JSON templates. For an introduction to deploying and managing resources with Resource Manager, see [Azure Resource Manager overview](https://docs.microsoft.com/azure/azure-resource-manager/resource-group-overview).
 ---
 
 # Azure Resource Manager
