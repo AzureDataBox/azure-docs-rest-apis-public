@@ -108,7 +108,7 @@
       },
       "allOf": [
         {
-          "$ref": "#/definitions/SubResource"
+          "$ref": "./network.json#/definitions/SubResource"
         }
       ],
       "description": "Authorization in an ExpressRouteCircuit resource."
@@ -272,7 +272,7 @@
           "description": "Gets whether the provider or the customer last modified the peering."
         },
         "routeFilter": {
-          "$ref": "#/definitions/RouteFilter",
+          "$ref": "./routeFilter.json#/definitions/RouteFilter",
           "description": "The reference of the RouteFilter resource."
         }
       }
@@ -295,7 +295,7 @@
       },
       "allOf": [
         {
-          "$ref": "#/definitions/SubResource"
+          "$ref": "./network.json#/definitions/SubResource"
         }
       ],
       "description": "Peering in an ExpressRouteCircuit resource."
@@ -446,7 +446,7 @@
       },
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "./network.json#/definitions/Resource"
         }
       ],
       "description": "ExpressRouteCircuit resource"
@@ -636,7 +636,7 @@
       },
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "./network.json#/definitions/Resource"
         }
       ],
       "description": "A ExpressRouteResourceProvider object."
@@ -656,172 +656,6 @@
         }
       },
       "description": "Response for the ListExpressRouteServiceProvider API service call."
-    },
-    "Resource": {
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Resource ID."
-        },
-        "name": {
-          "readOnly": true,
-          "type": "string",
-          "description": "Resource name."
-        },
-        "type": {
-          "readOnly": true,
-          "type": "string",
-          "description": "Resource type."
-        },
-        "location": {
-          "type": "string",
-          "description": "Resource location."
-        },
-        "tags": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          },
-          "description": "Resource tags."
-        }
-      },
-      "x-ms-azure-resource": true
-    },
-    "SubResource": {
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Resource ID."
-        }
-      },
-      "x-ms-azure-resource": true
-    },
-    "RouteFilterRulePropertiesFormat": {
-      "required": [
-        "access",
-        "routeFilterRuleType",
-        "communities"
-      ],
-      "properties": {
-        "access": {
-          "type": "string",
-          "description": "The access type of the rule. Valid values are: 'Allow', 'Deny'",
-          "enum": [
-            "Allow",
-            "Deny"
-          ],
-          "x-ms-enum": {
-            "name": "Access",
-            "modelAsString": true
-          }
-        },
-        "routeFilterRuleType": {
-          "type": "string",
-          "description": "The rule type of the rule. Valid value is: 'Community'",
-          "enum": [
-            "Community"
-          ],
-          "x-ms-enum": {
-            "name": "RouteFilterRuleType",
-            "modelAsString": true
-          }
-        },
-        "communities": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "description": "The collection for bgp community values to filter on. e.g. ['12076:5010','12076:5020']"
-        },
-        "provisioningState": {
-          "type": "string",
-          "readOnly": true,
-          "description": "The provisioning state of the resource. Possible values are: 'Updating', 'Deleting', 'Succeeded' and 'Failed'."
-        }
-      },
-      "description": "Route Filter Rule Resource"
-    },
-    "RouteFilterRule": {
-      "properties": {
-        "properties": {
-          "x-ms-client-flatten": true,
-          "$ref": "#/definitions/RouteFilterRulePropertiesFormat"
-        },
-        "name": {
-          "type": "string",
-          "readOnly": true,
-          "description": "The name of the resource that is unique within a resource group. This name can be used to access the resource."
-        },
-        "location": {
-          "type": "string",
-          "description": "Resource location."
-        },
-        "etag": {
-          "type": "string",
-          "readOnly": true,
-          "description": "A unique read-only string that changes whenever the resource is updated."
-        },
-        "tags": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          },
-          "description": "Resource tags."
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "#/definitions/SubResource"
-        }
-      ],
-      "description": "Route Filter Rule Resource"
-    },
-    "RouteFilterPropertiesFormat": {
-      "properties": {
-        "rules": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/RouteFilterRule"
-          },
-          "description": "Collection of RouteFilterRules contained within a route filter."
-        },
-        "peerings": {
-          "readOnly": true,
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ExpressRouteCircuitPeering"
-          },
-          "description": "A collection of references to express route circuit peerings."
-        },
-        "provisioningState": {
-          "type": "string",
-          "readOnly": true,
-          "description": "The provisioning state of the resource. Possible values are: 'Updating', 'Deleting', 'Succeeded' and 'Failed'."
-        }
-      },
-      "description": "Route Filter Resource"
-    },
-    "RouteFilter": {
-      "required": [
-        "location"
-      ],
-      "properties": {
-        "properties": {
-          "x-ms-client-flatten": true,
-          "$ref": "#/definitions/RouteFilterPropertiesFormat"
-        },
-        "etag": {
-          "type": "string",
-          "readOnly": true,
-          "description": "Gets a unique read-only string that changes whenever the resource is updated."
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "#/definitions/Resource"
-        }
-      ],
-      "description": "Route Filter Resource."
     }
   },
   "parameters": {

@@ -43,38 +43,7 @@
         "description": "Gets the appliance.",
         "x-ms-examples": {
           "Get an appliance": {
-            "parameters": {
-              "subscriptionId": "subid",
-              "resourceGroupName": "rg",
-              "applianceName": "myAppliance",
-              "api-version": "2016-09-01-preview"
-            },
-            "responses": {
-              "200": {
-                "headers": {},
-                "body": {
-                  "name": "myAppliance",
-                  "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/appliances/myAppliance",
-                  "type": "Microsoft.Solutions/appliances",
-                  "location": "East US 2",
-                  "managedBy": null,
-                  "resourceGroup": "rg",
-                  "tags": null,
-                  "plan": null,
-                  "identity": null,
-                  "kind": "ServiceCatalog",
-                  "sku": null,
-                  "properties": {
-                    "applianceDefinitionId": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/applianceDefinitions/myAppDef",
-                    "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG",
-                    "outputs": null,
-                    "parameters": null,
-                    "provisioningState": "Created",
-                    "uiDefinitionUri": "https://path/to/applianceCreateUiDefinition.json"
-                  }
-                }
-              }
-            }
+            "$ref": "#/definitions/getAppliance"
           }
         },
         "parameters": [
@@ -179,47 +148,7 @@
         "description": "Creates a new appliance.",
         "x-ms-examples": {
           "Create or update appliance": {
-            "parameters": {
-              "subscriptionId": "subid",
-              "resourceGroupName": "rg",
-              "applianceName": "myAppliance",
-              "api-version": "2016-09-01-preview",
-              "parameters": {
-                "properties": {
-                  "applianceDefinitionId": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/applianceDefinitions/myAppDef",
-                  "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG"
-                },
-                "name": "myAppliance",
-                "location": "East US 2",
-                "kind": "ServiceCatalog"
-              }
-            },
-            "responses": {
-              "201": {
-                "headers": {},
-                "body": {
-                  "name": "myAppliance",
-                  "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/appliances/myAppliance",
-                  "type": "Microsoft.Solutions/appliances",
-                  "location": "East US 2",
-                  "managedBy": null,
-                  "resourceGroup": "rg",
-                  "tags": null,
-                  "plan": null,
-                  "identity": null,
-                  "kind": "ServiceCatalog",
-                  "sku": null,
-                  "properties": {
-                    "applianceDefinitionId": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/applianceDefinitions/myAppDef",
-                    "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG",
-                    "outputs": null,
-                    "parameters": null,
-                    "provisioningState": "Created",
-                    "uiDefinitionUri": "https://path/to/applianceCreateUiDefinition.json"
-                  }
-                }
-              }
-            }
+            "$ref": "#/definitions/createOrUpdateAppliance"
           }
         },
         "parameters": [
@@ -346,62 +275,7 @@
         "description": "Gets all the appliances within a resource group.",
         "x-ms-examples": {
           "Lists appliances": {
-            "parameters": {
-              "subscriptionId": "subid",
-              "resourceGroupName": "rg",
-              "api-version": "2016-09-01-preview"
-            },
-            "responses": {
-              "200": {
-                "headers": {},
-                "body": {
-                  "value": [
-                    {
-                      "name": "myAppliance",
-                      "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/appliances/myAppliance",
-                      "type": "Microsoft.Solutions/appliances",
-                      "location": "East US 2",
-                      "managedBy": null,
-                      "resourceGroup": "rg",
-                      "tags": null,
-                      "plan": null,
-                      "identity": null,
-                      "kind": "ServiceCatalog",
-                      "sku": null,
-                      "properties": {
-                        "applianceDefinitionId": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/applianceDefinitions/myAppDef",
-                        "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG",
-                        "outputs": null,
-                        "parameters": null,
-                        "provisioningState": "Created",
-                        "uiDefinitionUri": "https://path/to/applianceCreateUiDefinition.json"
-                      }
-                    },
-                    {
-                      "name": "myAppliance2",
-                      "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/appliances/myAppliance2",
-                      "type": "Microsoft.Solutions/appliances",
-                      "location": "West US",
-                      "managedBy": null,
-                      "resourceGroup": "rg",
-                      "tags": null,
-                      "plan": null,
-                      "identity": null,
-                      "kind": "ServiceCatalog",
-                      "sku": null,
-                      "properties": {
-                        "applianceDefinitionId": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/applianceDefinitions/myAppDef2",
-                        "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG",
-                        "outputs": null,
-                        "parameters": null,
-                        "provisioningState": "Created",
-                        "uiDefinitionUri": "https://path/to/applianceCreateUiDefinition.json"
-                      }
-                    }
-                  ]
-                }
-              }
-            }
+            "$ref": "#/definitions/listAppliancesByResourceGroup"
           }
         },
         "parameters": [
@@ -1127,6 +1001,338 @@
         "errorMessage": {
           "description": "Error message indicating why the operation failed.",
           "type": "string"
+        }
+      }
+    },
+    "getAppliance": {
+      "parameters": {
+        "subscriptionId": "subid",
+        "resourceGroupName": "rg",
+        "applianceName": "myAppliance",
+        "api-version": "2016-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {},
+          "body": {
+            "name": "myAppliance",
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/appliances/myAppliance",
+            "type": "Microsoft.Solutions/appliances",
+            "location": "East US 2",
+            "managedBy": null,
+            "resourceGroup": "rg",
+            "tags": null,
+            "plan": null,
+            "identity": null,
+            "kind": "ServiceCatalog",
+            "sku": null,
+            "properties": {
+              "applianceDefinitionId": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/applianceDefinitions/myAppDef",
+              "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG",
+              "outputs": null,
+              "parameters": null,
+              "provisioningState": "Created",
+              "uiDefinitionUri": "https://path/to/applianceCreateUiDefinition.json"
+            }
+          }
+        }
+      }
+    },
+    "createOrUpdateAppliance": {
+      "parameters": {
+        "subscriptionId": "subid",
+        "resourceGroupName": "rg",
+        "applianceName": "myAppliance",
+        "api-version": "2016-09-01-preview",
+        "parameters": {
+          "properties": {
+            "applianceDefinitionId": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/applianceDefinitions/myAppDef",
+            "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG"
+          },
+          "name": "myAppliance",
+          "location": "East US 2",
+          "kind": "ServiceCatalog"
+        }
+      },
+      "responses": {
+        "201": {
+          "headers": {},
+          "body": {
+            "name": "myAppliance",
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/appliances/myAppliance",
+            "type": "Microsoft.Solutions/appliances",
+            "location": "East US 2",
+            "managedBy": null,
+            "resourceGroup": "rg",
+            "tags": null,
+            "plan": null,
+            "identity": null,
+            "kind": "ServiceCatalog",
+            "sku": null,
+            "properties": {
+              "applianceDefinitionId": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/applianceDefinitions/myAppDef",
+              "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG",
+              "outputs": null,
+              "parameters": null,
+              "provisioningState": "Created",
+              "uiDefinitionUri": "https://path/to/applianceCreateUiDefinition.json"
+            }
+          }
+        }
+      }
+    },
+    "getApplianceDefinition": {
+      "parameters": {
+        "subscriptionId": "subid",
+        "resourceGroupName": "rg",
+        "applianceName": "myApplianceDef",
+        "api-version": "2016-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {},
+          "body": {
+            "name": "myApplianceDef",
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/applianceDefinitions/myApplianceDef",
+            "type": "Microsoft.Solutions/applianceDefinitions",
+            "location": "East US 2",
+            "managedBy": null,
+            "resourceGroup": "rg",
+            "tags": null,
+            "identity": null,
+            "sku": null,
+            "properties": {
+              "artifacts": [
+                {
+                  "name": "CreateUiDefinition",
+                  "type": "Custom",
+                  "uri": "https://path/to/applianceCreateUiDefinition.json"
+                },
+                {
+                  "name": "ApplianceResourceTemplate",
+                  "type": "Template",
+                  "uri": "https://path/to/mainTemplate.json"
+                }
+              ],
+              "authorizations": [
+                {
+                  "principalId": "validprincipalguid",
+                  "roleDefinitionId": "validroleguid"
+                }
+              ],
+              "description": "myApplianceDef description",
+              "displayName": "myApplianceDef",
+              "lockLevel": null,
+              "packageFileUri": "https://path/to/packagezipfile"
+            }
+          }
+        }
+      }
+    },
+    "createOrUpdateApplianceDefinition": {
+      "parameters": {
+        "subscriptionId": "subid",
+        "resourceGroupName": "rg",
+        "applianceDefinitionName": "myApplianceDef",
+        "api-version": "2016-09-01-preview",
+        "parameters": {
+          "properties": {
+            "lockLevel": "None",
+            "displayName": "myApplianceDef",
+            "description": "myApplianceDef description",
+            "authorizations": [
+              {
+                "principalId": "validprincipalguid",
+                "roleDefinitionId": "validroleguid"
+              }
+            ],
+            "packageFileUri": "https://path/to/packagezipfile"
+          },
+          "location": "East US 2"
+        }
+      },
+      "responses": {
+        "201": {
+          "headers": {},
+          "body": {
+            "name": "myApplianceDef",
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/applianceDefinitions/myApplianceDef",
+            "type": "Microsoft.Solutions/applianceDefinitions",
+            "location": "East US 2",
+            "managedBy": null,
+            "resourceGroup": "rg",
+            "tags": null,
+            "identity": null,
+            "sku": null,
+            "properties": {
+              "artifacts": [
+                {
+                  "name": "CreateUiDefinition",
+                  "type": "Custom",
+                  "uri": "https://path/to/applianceCreateUiDefinition.json"
+                },
+                {
+                  "name": "ApplianceResourceTemplate",
+                  "type": "Template",
+                  "uri": "https://path/to/mainTemplate.json"
+                }
+              ],
+              "authorizations": [
+                {
+                  "principalId": "validprincipalguid",
+                  "roleDefinitionId": "validroleguid"
+                }
+              ],
+              "description": "myApplianceDef description",
+              "displayName": "myApplianceDef",
+              "lockLevel": null,
+              "packageFileUri": "https://path/to/packagezipfile"
+            }
+          }
+        }
+      }
+    },
+    "listApplianceDefinitionsByResourceGroup": {
+      "parameters": {
+        "subscriptionId": "subid",
+        "resourceGroupName": "rg",
+        "api-version": "2016-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {},
+          "body": {
+            "value": [
+              {
+                "name": "myApplianceDef",
+                "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/applianceDefinitions/myApplianceDef",
+                "type": "Microsoft.Solutions/applianceDefinitions",
+                "location": "East US 2",
+                "managedBy": null,
+                "resourceGroup": "rg",
+                "tags": null,
+                "identity": null,
+                "sku": null,
+                "properties": {
+                  "artifacts": [
+                    {
+                      "name": "CreateUiDefinition",
+                      "type": "Custom",
+                      "uri": "https://path/to/applianceCreateUiDefinition.json"
+                    },
+                    {
+                      "name": "ApplianceResourceTemplate",
+                      "type": "Template",
+                      "uri": "https://path/to/mainTemplate.json"
+                    }
+                  ],
+                  "authorizations": [
+                    {
+                      "principalId": "validprincipalguid",
+                      "roleDefinitionId": "validroleguid"
+                    }
+                  ],
+                  "description": "myApplianceDef description",
+                  "displayName": "myApplianceDef",
+                  "lockLevel": null,
+                  "packageFileUri": "https://path/to/packagezipfile"
+                }
+              },
+              {
+                "name": "myApplianceDef2",
+                "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/applianceDefinitions/myApplianceDef2",
+                "type": "Microsoft.Solutions/applianceDefinitions",
+                "location": "West US",
+                "managedBy": null,
+                "resourceGroup": "rg",
+                "tags": null,
+                "identity": null,
+                "sku": null,
+                "properties": {
+                  "artifacts": [
+                    {
+                      "name": "CreateUiDefinition",
+                      "type": "Custom",
+                      "uri": "https://path/to/applianceCreateUiDefinition.json"
+                    },
+                    {
+                      "name": "ApplianceResourceTemplate",
+                      "type": "Template",
+                      "uri": "https://path/to/mainTemplate.json"
+                    }
+                  ],
+                  "authorizations": [
+                    {
+                      "principalId": "validprincipalguid",
+                      "roleDefinitionId": "validroleguid"
+                    }
+                  ],
+                  "description": "myApplianceDef2 description",
+                  "displayName": "myApplianceDef2",
+                  "lockLevel": null,
+                  "packageFileUri": "https://path/to/packagezipfile"
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "listAppliancesByResourceGroup": {
+      "parameters": {
+        "subscriptionId": "subid",
+        "resourceGroupName": "rg",
+        "api-version": "2016-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {},
+          "body": {
+            "value": [
+              {
+                "name": "myAppliance",
+                "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/appliances/myAppliance",
+                "type": "Microsoft.Solutions/appliances",
+                "location": "East US 2",
+                "managedBy": null,
+                "resourceGroup": "rg",
+                "tags": null,
+                "plan": null,
+                "identity": null,
+                "kind": "ServiceCatalog",
+                "sku": null,
+                "properties": {
+                  "applianceDefinitionId": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/applianceDefinitions/myAppDef",
+                  "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG",
+                  "outputs": null,
+                  "parameters": null,
+                  "provisioningState": "Created",
+                  "uiDefinitionUri": "https://path/to/applianceCreateUiDefinition.json"
+                }
+              },
+              {
+                "name": "myAppliance2",
+                "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/appliances/myAppliance2",
+                "type": "Microsoft.Solutions/appliances",
+                "location": "West US",
+                "managedBy": null,
+                "resourceGroup": "rg",
+                "tags": null,
+                "plan": null,
+                "identity": null,
+                "kind": "ServiceCatalog",
+                "sku": null,
+                "properties": {
+                  "applianceDefinitionId": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/applianceDefinitions/myAppDef2",
+                  "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG",
+                  "outputs": null,
+                  "parameters": null,
+                  "provisioningState": "Created",
+                  "uiDefinitionUri": "https://path/to/applianceCreateUiDefinition.json"
+                }
+              }
+            ]
+          }
         }
       }
     }
