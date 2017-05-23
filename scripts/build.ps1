@@ -26,6 +26,27 @@ Foreach($reference in $mappingFile.mapping.reference)
         }
     }
 }
+Foreach($org in $mappingFile.organizations)
+{
+    if($org.services)
+    {
+        Foreach($service in $org.services)
+        {
+            if ($service.swagger_files)
+            {
+                Foreach($swagger_file in $service.swagger_files)
+                {
+                    $swaggerPath = Join-Path $RestSrcPath $swagger_file.source
+                    if (Test-Path $swaggerPath)
+                    {
+                        autorest -FANCY -g SwaggerResolver -i $swaggerPath -outputFileName $swaggerPath
+                        Write-Host "Done resolving swagger file by AutoRest" $swaggerPath
+                    }
+                }
+            }
+        }
+    }
+}
 
 # Unzip RestProcessorZip to RestProcessor
 Add-Type -AssemblyName System.IO.Compression.FileSystem
