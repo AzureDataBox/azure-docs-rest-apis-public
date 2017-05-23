@@ -44,10 +44,93 @@
         "operationId": "BatchAccount_Create",
         "x-ms-examples": {
           "BatchAccountCreate_Default": {
-            "$ref": "#/definitions/BatchAccountCreate_Default"
+            "parameters": {
+              "accountName": "sampleacct",
+              "resourceGroupName": "default-azurebatch-japaneast",
+              "api-version": "2017-05-01",
+              "subscriptionId": "subid",
+              "parameters": {
+                "location": "japaneast",
+                "properties": {
+                  "autoStorage": {
+                    "storageAccountId": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Storage/storageAccounts/samplestorage"
+                  }
+                }
+              }
+            },
+            "responses": {
+              "202": {},
+              "200": {
+                "body": {
+                  "name": "sampleacct",
+                  "location": "japaneast",
+                  "properties": {
+                    "accountEndpoint": "sampleacct.japaneast.batch.azure.com",
+                    "provisioningState": "Succeeded",
+                    "poolAllocationMode": "BatchService",
+                    "dedicatedCoreQuota": 20,
+                    "lowPriorityCoreQuota": 20,
+                    "poolQuota": 20,
+                    "activeJobAndJobScheduleQuota": 20,
+                    "autoStorage": {
+                      "storageAccountId": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Storage/storageAccounts/samplestorage",
+                      "lastKeySync": "2016-03-10T23:48:38.9878479Z"
+                    }
+                  },
+                  "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct",
+                  "type": "Microsoft.Batch/batchAccounts"
+                }
+              }
+            }
           },
           "BatchAccountCreate_BYOS": {
-            "$ref": "#/definitions/BatchAccountCreate_BYOS"
+            "parameters": {
+              "accountName": "sampleacct",
+              "resourceGroupName": "default-azurebatch-japaneast",
+              "api-version": "2017-05-01",
+              "subscriptionId": "subid",
+              "parameters": {
+                "location": "japaneast",
+                "properties": {
+                  "autoStorage": {
+                    "storageAccountId": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Storage/storageAccounts/samplestorage"
+                  },
+                  "poolAllocationMode": "UserSubscription",
+                  "keyVaultReference": {
+                    "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.KeyVault/vaults/sample",
+                    "url": "http://sample.vault.azure.net/"
+                  }
+                }
+              }
+            },
+            "responses": {
+              "202": {},
+              "200": {
+                "body": {
+                  "name": "sampleacct",
+                  "location": "japaneast",
+                  "properties": {
+                    "accountEndpoint": "sampleacct.japaneast.batch.azure.com",
+                    "provisioningState": "Succeeded",
+                    "poolAllocationMode": "UserSubscription",
+                    "dedicatedCoreQuota": 20,
+                    "lowPriorityCoreQuota": 20,
+                    "poolQuota": 20,
+                    "activeJobAndJobScheduleQuota": 20,
+                    "autoStorage": {
+                      "storageAccountId": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Storage/storageAccounts/samplestorage",
+                      "lastKeySync": "2016-03-10T23:48:38.9878479Z"
+                    },
+                    "keyVaultReference": {
+                      "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.KeyVault/vaults/sample",
+                      "url": "http://sample.vault.azure.net/"
+                    }
+                  },
+                  "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct",
+                  "type": "Microsoft.Batch/batchAccounts"
+                }
+              }
+            }
           }
         },
         "description": "Creates a new Batch account with the specified parameters. Existing accounts cannot be updated with this API and should instead be updated with the Update Batch Account API.",
@@ -118,7 +201,42 @@
         "operationId": "BatchAccount_Update",
         "x-ms-examples": {
           "BatchAccountUpdate": {
-            "$ref": "#/definitions/BatchAccountUpdate"
+            "parameters": {
+              "accountName": "sampleacct",
+              "resourceGroupName": "default-azurebatch-japaneast",
+              "api-version": "2017-05-01",
+              "subscriptionId": "subid",
+              "parameters": {
+                "properties": {
+                  "autoStorage": {
+                    "storageAccountId": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Storage/storageAccounts/samplestorage"
+                  }
+                }
+              }
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "name": "sampleacct",
+                  "location": "japaneast",
+                  "properties": {
+                    "accountEndpoint": "sampleacct.japaneast.batch.azure.com",
+                    "provisioningState": "Succeeded",
+                    "poolAllocationMode": "BatchService",
+                    "dedicatedCoreQuota": 20,
+                    "lowPriorityCoreQuota": 20,
+                    "poolQuota": 20,
+                    "activeJobAndJobScheduleQuota": 20,
+                    "autoStorage": {
+                      "storageAccountId": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Storage/storageAccounts/samplestorage",
+                      "lastKeySync": "2016-03-10T23:48:38.9878479Z"
+                    }
+                  },
+                  "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct",
+                  "type": "Microsoft.Batch/batchAccounts"
+                }
+              }
+            }
           }
         },
         "description": "Updates the properties of an existing Batch account.",
@@ -167,7 +285,16 @@
         "operationId": "BatchAccount_Delete",
         "x-ms-examples": {
           "BatchAccountDelete": {
-            "$ref": "#/definitions/BatchAccountDelete"
+            "parameters": {
+              "accountName": "sampleacct",
+              "resourceGroupName": "default-azurebatch-japaneast",
+              "api-version": "2017-05-01",
+              "subscriptionId": "subid"
+            },
+            "responses": {
+              "200": {},
+              "202": {}
+            }
           }
         },
         "description": "Deletes the specified Batch account.",
@@ -222,7 +349,35 @@
         "operationId": "BatchAccount_Get",
         "x-ms-examples": {
           "BatchAccountGet": {
-            "$ref": "#/definitions/BatchAccountGet"
+            "parameters": {
+              "accountName": "sampleacct",
+              "resourceGroupName": "default-azurebatch-japaneast",
+              "api-version": "2017-05-01",
+              "subscriptionId": "subid"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "name": "sampleacct",
+                  "location": "japaneast",
+                  "properties": {
+                    "accountEndpoint": "sampleacct.japaneast.batch.azure.com",
+                    "provisioningState": "Succeeded",
+                    "poolAllocationMode": "BatchService",
+                    "dedicatedCoreQuota": 20,
+                    "lowPriorityCoreQuota": 20,
+                    "poolQuota": 20,
+                    "activeJobAndJobScheduleQuota": 20,
+                    "autoStorage": {
+                      "storageAccountId": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Storage/storageAccounts/samplestorage",
+                      "lastKeySync": "2016-03-10T23:48:38.9878479Z"
+                    }
+                  },
+                  "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct",
+                  "type": "Microsoft.Batch/batchAccounts"
+                }
+              }
+            }
           }
         },
         "description": "Gets information about the specified Batch account.",
@@ -264,7 +419,37 @@
         "operationId": "BatchAccount_List",
         "x-ms-examples": {
           "BatchAccountList": {
-            "$ref": "#/definitions/BatchAccountList"
+            "parameters": {
+              "api-version": "2017-05-01",
+              "subscriptionId": "subid"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "value": [
+                    {
+                      "name": "sampleacct",
+                      "location": "japaneast",
+                      "properties": {
+                        "accountEndpoint": "sampleacct.japaneast.batch.azure.com",
+                        "provisioningState": "Succeeded",
+                        "poolAllocationMode": "BatchService",
+                        "dedicatedCoreQuota": 20,
+                        "lowPriorityCoreQuota": 20,
+                        "poolQuota": 20,
+                        "activeJobAndJobScheduleQuota": 20,
+                        "autoStorage": {
+                          "storageAccountId": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Storage/storageAccounts/samplestorage",
+                          "lastKeySync": "2016-03-10T23:48:38.9878479Z"
+                        }
+                      },
+                      "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct",
+                      "type": "Microsoft.Batch/batchAccounts"
+                    }
+                  ]
+                }
+              }
+            }
           }
         },
         "description": "Gets information about the Batch accounts associated with the subscription.",
@@ -303,7 +488,38 @@
         "operationId": "BatchAccount_ListByResourceGroup",
         "x-ms-examples": {
           "BatchAccountListByResourceGroup": {
-            "$ref": "#/definitions/BatchAccountListByResourceGroup"
+            "parameters": {
+              "resourceGroupName": "default-azurebatch-japaneast",
+              "api-version": "2017-05-01",
+              "subscriptionId": "subid"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "value": [
+                    {
+                      "name": "sampleacct",
+                      "location": "japaneast",
+                      "properties": {
+                        "accountEndpoint": "sampleacct.japaneast.batch.azure.com",
+                        "provisioningState": "Succeeded",
+                        "poolAllocationMode": "BatchService",
+                        "dedicatedCoreQuota": 20,
+                        "lowPriorityCoreQuota": 20,
+                        "poolQuota": 20,
+                        "activeJobAndJobScheduleQuota": 20,
+                        "autoStorage": {
+                          "storageAccountId": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Storage/storageAccounts/samplestorage",
+                          "lastKeySync": "2016-03-10T23:48:38.9878479Z"
+                        }
+                      },
+                      "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct",
+                      "type": "Microsoft.Batch/batchAccounts"
+                    }
+                  ]
+                }
+              }
+            }
           }
         },
         "description": "Gets information about the Batch accounts associated with the specified resource group.",
@@ -379,7 +595,24 @@
         "operationId": "BatchAccount_RegenerateKey",
         "x-ms-examples": {
           "BatchAccountRegenerateKey": {
-            "$ref": "#/definitions/BatchAccountRegenerateKey"
+            "parameters": {
+              "accountName": "sampleacct",
+              "resourceGroupName": "default-azurebatch-japaneast",
+              "api-version": "2017-05-01",
+              "subscriptionId": "subid",
+              "parameters": {
+                "keyName": "Primary"
+              }
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "accountName": "sampleacct",
+                  "primary": "AAAA==",
+                  "secondary": "BBBB=="
+                }
+              }
+            }
           }
         },
         "description": "Regenerates the specified account key for the Batch account.",
@@ -430,7 +663,21 @@
         "operationId": "BatchAccount_GetKeys",
         "x-ms-examples": {
           "BatchAccountGetKeys": {
-            "$ref": "#/definitions/BatchAccountGetKeys"
+            "parameters": {
+              "accountName": "sampleacct",
+              "resourceGroupName": "default-azurebatch-japaneast",
+              "api-version": "2017-05-01",
+              "subscriptionId": "subid"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "accountName": "sampleacct",
+                  "primary": "AAAA==",
+                  "secondary": "BBBB=="
+                }
+              }
+            }
           }
         },
         "summary": "Gets the account keys for the specified Batch account.",
@@ -1007,294 +1254,6 @@
         "nextLink": {
           "type": "string",
           "title": "The URL to get the next set of operation list results if there are any."
-        }
-      }
-    },
-    "BatchAccountCreate_Default": {
-      "parameters": {
-        "accountName": "sampleacct",
-        "resourceGroupName": "default-azurebatch-japaneast",
-        "api-version": "2017-05-01",
-        "subscriptionId": "subid",
-        "parameters": {
-          "location": "japaneast",
-          "properties": {
-            "autoStorage": {
-              "storageAccountId": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Storage/storageAccounts/samplestorage"
-            }
-          }
-        }
-      },
-      "responses": {
-        "202": {},
-        "200": {
-          "body": {
-            "name": "sampleacct",
-            "location": "japaneast",
-            "properties": {
-              "accountEndpoint": "sampleacct.japaneast.batch.azure.com",
-              "provisioningState": "Succeeded",
-              "poolAllocationMode": "BatchService",
-              "dedicatedCoreQuota": 20,
-              "lowPriorityCoreQuota": 20,
-              "poolQuota": 20,
-              "activeJobAndJobScheduleQuota": 20,
-              "autoStorage": {
-                "storageAccountId": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Storage/storageAccounts/samplestorage",
-                "lastKeySync": "2016-03-10T23:48:38.9878479Z"
-              }
-            },
-            "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct",
-            "type": "Microsoft.Batch/batchAccounts"
-          }
-        }
-      }
-    },
-    "BatchAccountCreate_BYOS": {
-      "parameters": {
-        "accountName": "sampleacct",
-        "resourceGroupName": "default-azurebatch-japaneast",
-        "api-version": "2017-05-01",
-        "subscriptionId": "subid",
-        "parameters": {
-          "location": "japaneast",
-          "properties": {
-            "autoStorage": {
-              "storageAccountId": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Storage/storageAccounts/samplestorage"
-            },
-            "poolAllocationMode": "UserSubscription",
-            "keyVaultReference": {
-              "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.KeyVault/vaults/sample",
-              "url": "http://sample.vault.azure.net/"
-            }
-          }
-        }
-      },
-      "responses": {
-        "202": {},
-        "200": {
-          "body": {
-            "name": "sampleacct",
-            "location": "japaneast",
-            "properties": {
-              "accountEndpoint": "sampleacct.japaneast.batch.azure.com",
-              "provisioningState": "Succeeded",
-              "poolAllocationMode": "UserSubscription",
-              "dedicatedCoreQuota": 20,
-              "lowPriorityCoreQuota": 20,
-              "poolQuota": 20,
-              "activeJobAndJobScheduleQuota": 20,
-              "autoStorage": {
-                "storageAccountId": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Storage/storageAccounts/samplestorage",
-                "lastKeySync": "2016-03-10T23:48:38.9878479Z"
-              },
-              "keyVaultReference": {
-                "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.KeyVault/vaults/sample",
-                "url": "http://sample.vault.azure.net/"
-              }
-            },
-            "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct",
-            "type": "Microsoft.Batch/batchAccounts"
-          }
-        }
-      }
-    },
-    "BatchAccountUpdate": {
-      "parameters": {
-        "accountName": "sampleacct",
-        "resourceGroupName": "default-azurebatch-japaneast",
-        "api-version": "2017-05-01",
-        "subscriptionId": "subid",
-        "parameters": {
-          "properties": {
-            "autoStorage": {
-              "storageAccountId": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Storage/storageAccounts/samplestorage"
-            }
-          }
-        }
-      },
-      "responses": {
-        "200": {
-          "body": {
-            "name": "sampleacct",
-            "location": "japaneast",
-            "properties": {
-              "accountEndpoint": "sampleacct.japaneast.batch.azure.com",
-              "provisioningState": "Succeeded",
-              "poolAllocationMode": "BatchService",
-              "dedicatedCoreQuota": 20,
-              "lowPriorityCoreQuota": 20,
-              "poolQuota": 20,
-              "activeJobAndJobScheduleQuota": 20,
-              "autoStorage": {
-                "storageAccountId": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Storage/storageAccounts/samplestorage",
-                "lastKeySync": "2016-03-10T23:48:38.9878479Z"
-              }
-            },
-            "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct",
-            "type": "Microsoft.Batch/batchAccounts"
-          }
-        }
-      }
-    },
-    "BatchAccountDelete": {
-      "parameters": {
-        "accountName": "sampleacct",
-        "resourceGroupName": "default-azurebatch-japaneast",
-        "api-version": "2017-05-01",
-        "subscriptionId": "subid"
-      },
-      "responses": {
-        "200": {},
-        "202": {}
-      }
-    },
-    "BatchAccountGet": {
-      "parameters": {
-        "accountName": "sampleacct",
-        "resourceGroupName": "default-azurebatch-japaneast",
-        "api-version": "2017-05-01",
-        "subscriptionId": "subid"
-      },
-      "responses": {
-        "200": {
-          "body": {
-            "name": "sampleacct",
-            "location": "japaneast",
-            "properties": {
-              "accountEndpoint": "sampleacct.japaneast.batch.azure.com",
-              "provisioningState": "Succeeded",
-              "poolAllocationMode": "BatchService",
-              "dedicatedCoreQuota": 20,
-              "lowPriorityCoreQuota": 20,
-              "poolQuota": 20,
-              "activeJobAndJobScheduleQuota": 20,
-              "autoStorage": {
-                "storageAccountId": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Storage/storageAccounts/samplestorage",
-                "lastKeySync": "2016-03-10T23:48:38.9878479Z"
-              }
-            },
-            "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct",
-            "type": "Microsoft.Batch/batchAccounts"
-          }
-        }
-      }
-    },
-    "BatchAccountList": {
-      "parameters": {
-        "api-version": "2017-05-01",
-        "subscriptionId": "subid"
-      },
-      "responses": {
-        "200": {
-          "body": {
-            "value": [
-              {
-                "name": "sampleacct",
-                "location": "japaneast",
-                "properties": {
-                  "accountEndpoint": "sampleacct.japaneast.batch.azure.com",
-                  "provisioningState": "Succeeded",
-                  "poolAllocationMode": "BatchService",
-                  "dedicatedCoreQuota": 20,
-                  "lowPriorityCoreQuota": 20,
-                  "poolQuota": 20,
-                  "activeJobAndJobScheduleQuota": 20,
-                  "autoStorage": {
-                    "storageAccountId": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Storage/storageAccounts/samplestorage",
-                    "lastKeySync": "2016-03-10T23:48:38.9878479Z"
-                  }
-                },
-                "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct",
-                "type": "Microsoft.Batch/batchAccounts"
-              }
-            ]
-          }
-        }
-      }
-    },
-    "BatchAccountListByResourceGroup": {
-      "parameters": {
-        "resourceGroupName": "default-azurebatch-japaneast",
-        "api-version": "2017-05-01",
-        "subscriptionId": "subid"
-      },
-      "responses": {
-        "200": {
-          "body": {
-            "value": [
-              {
-                "name": "sampleacct",
-                "location": "japaneast",
-                "properties": {
-                  "accountEndpoint": "sampleacct.japaneast.batch.azure.com",
-                  "provisioningState": "Succeeded",
-                  "poolAllocationMode": "BatchService",
-                  "dedicatedCoreQuota": 20,
-                  "lowPriorityCoreQuota": 20,
-                  "poolQuota": 20,
-                  "activeJobAndJobScheduleQuota": 20,
-                  "autoStorage": {
-                    "storageAccountId": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Storage/storageAccounts/samplestorage",
-                    "lastKeySync": "2016-03-10T23:48:38.9878479Z"
-                  }
-                },
-                "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct",
-                "type": "Microsoft.Batch/batchAccounts"
-              }
-            ]
-          }
-        }
-      }
-    },
-    "BatchAccountRegenerateKey": {
-      "parameters": {
-        "accountName": "sampleacct",
-        "resourceGroupName": "default-azurebatch-japaneast",
-        "api-version": "2017-05-01",
-        "subscriptionId": "subid",
-        "parameters": {
-          "keyName": "Primary"
-        }
-      },
-      "responses": {
-        "200": {
-          "body": {
-            "accountName": "sampleacct",
-            "primary": "AAAA==",
-            "secondary": "BBBB=="
-          }
-        }
-      }
-    },
-    "BatchAccountGetKeys": {
-      "parameters": {
-        "accountName": "sampleacct",
-        "resourceGroupName": "default-azurebatch-japaneast",
-        "api-version": "2017-05-01",
-        "subscriptionId": "subid"
-      },
-      "responses": {
-        "200": {
-          "body": {
-            "accountName": "sampleacct",
-            "primary": "AAAA==",
-            "secondary": "BBBB=="
-          }
-        }
-      }
-    },
-    "LocationGetQuotas": {
-      "parameters": {
-        "api-version": "2017-05-01",
-        "subscriptionId": "subid",
-        "locationName": "japaneast"
-      },
-      "responses": {
-        "200": {
-          "body": {
-            "accountQuota": 1
-          }
         }
       }
     }

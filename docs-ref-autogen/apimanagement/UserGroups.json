@@ -43,10 +43,10 @@
         "description": "Lists all user groups.",
         "parameters": [
           {
-            "$ref": "./apimanagement.json#/parameters/ResourceGroupNameParameter"
+            "$ref": "#/parameters/ResourceGroupNameParameter"
           },
           {
-            "$ref": "./apimanagement.json#/parameters/ServiceNameParameter"
+            "$ref": "#/parameters/ServiceNameParameter"
           },
           {
             "$ref": "#/parameters/UserIdParameter"
@@ -59,29 +59,29 @@
             "description": "| Field       | Supported operators    | Supported functions                         |\n|-------------|------------------------|---------------------------------------------|\n| id          | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |\n| name        | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |\n| description | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |"
           },
           {
-            "$ref": "./apimanagement.json#/parameters/TopQueryParameter"
+            "$ref": "#/parameters/TopQueryParameter"
           },
           {
-            "$ref": "./apimanagement.json#/parameters/SkipQueryParameter"
+            "$ref": "#/parameters/SkipQueryParameter"
           },
           {
-            "$ref": "./apimanagement.json#/parameters/ApiVersionParameter"
+            "$ref": "#/parameters/ApiVersionParameter"
           },
           {
-            "$ref": "./apimanagement.json#/parameters/SubscriptionIdParameter"
+            "$ref": "#/parameters/SubscriptionIdParameter"
           }
         ],
         "responses": {
           "200": {
             "description": "Lists a collection of Group entities.",
             "schema": {
-              "$ref": "./apimgroups.json#/definitions/GroupCollection"
+              "$ref": "#/definitions/GroupCollection"
             }
           },
           "default": {
             "description": "Error response describing why the operation failed.",
             "schema": {
-              "$ref": "./apimanagement.json#/definitions/ErrorBodyContract"
+              "$ref": "#/definitions/ErrorBodyContract"
             }
           }
         },
@@ -325,25 +325,214 @@
       },
       "description": "Parameters supplied to the Update User operation."
     },
-    "ApiManagementUsersGetToken": {
-      "parameters": {
-        "serviceName": "apimService1",
-        "resourceGroupName": "rg1",
-        "api-version": "2016-10-10",
-        "subscriptionId": "subid",
-        "uid": "57f2af53bb17172280f44057",
-        "parameters": {
-          "keyType": "primary",
-          "expiry": "2017-05-13T10:39:35Z"
+    "ErrorFieldContract": {
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Property level error code."
+        },
+        "message": {
+          "type": "string",
+          "description": "Human-readable representation of property-level error."
+        },
+        "target": {
+          "type": "string",
+          "description": "Property name."
         }
       },
-      "responses": {
-        "200": {
-          "body": {
-            "value": "57f2af53bb17172280f44057&201705131039&***************************/tJVExvjA=="
-          }
+      "description": "Error Field contract."
+    },
+    "ErrorBodyContract": {
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response."
+        },
+        "message": {
+          "type": "string",
+          "description": "Human-readable representation of the error."
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ErrorFieldContract"
+          },
+          "description": "The list of invalid fields send in request, in case of validation error."
         }
-      }
+      },
+      "description": "Error Body contract."
+    },
+    "SubscriptionContract": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Uniquely identifies the subscription within the current API Management service instance. The value is a valid relative URL in the format of /subscriptions/{sid} where {sid} is a subscription identifier.",
+          "readOnly": true
+        },
+        "userId": {
+          "type": "string",
+          "description": "The user resource identifier of the subscription owner. The value is a valid relative URL in the format of /users/{uid} where {uid} is a user identifier."
+        },
+        "productId": {
+          "type": "string",
+          "description": "The product resource identifier of the subscribed product. The value is a valid relative URL in the format of /products/{productId} where {productId} is a product identifier."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the subscription, or null if the subscription has no name.",
+          "minLength": 0,
+          "maxLength": 100
+        },
+        "state": {
+          "type": "string",
+          "description": "Subscription state. Possible states are * active – the subscription is active, * suspended – the subscription is blocked, and the subscriber cannot call any APIs of the product, * submitted – the subscription request has been made by the developer, but has not yet been approved or rejected, * rejected – the subscription request has been denied by an administrator, * cancelled – the subscription has been cancelled by the developer or administrator, * expired – the subscription reached its expiration date and was deactivated.",
+          "enum": [
+            "Suspended",
+            "Active",
+            "Expired",
+            "Submitted",
+            "Rejected",
+            "Cancelled"
+          ],
+          "x-ms-enum": {
+            "name": "SubscriptionStateContract",
+            "modelAsString": false
+          }
+        },
+        "createdDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Subscription creation date. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.\n",
+          "readOnly": true
+        },
+        "startDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Subscription activation date. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.\n"
+        },
+        "expirationDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Subscription expiration date. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.\n"
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Date when subscription was cancelled or expired. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.\n"
+        },
+        "notificationDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Upcoming subscription expiration notification date. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.\n"
+        },
+        "primaryKey": {
+          "type": "string",
+          "description": "Subscription primary key.",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "secondaryKey": {
+          "type": "string",
+          "description": "Subscription secondary key.",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "stateComment": {
+          "type": "string",
+          "description": "Optional subscription comment added by an administrator."
+        }
+      },
+      "description": "Subscription details."
+    },
+    "SubscriptionCollection": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SubscriptionContract"
+          },
+          "description": "Page values."
+        },
+        "count": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Total record count number across all pages."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "Next page link if any."
+        }
+      },
+      "description": "Paged Subscriptions list representation."
+    },
+    "GroupContract": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Uniquely identifies the group within the current API Management service instance. The value is a valid relative URL in the format of /groups/{groupid} where {groupid} is a group identifier.",
+          "readOnly": true
+        },
+        "name": {
+          "type": "string",
+          "description": "Group name.",
+          "maxLength": 300,
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "description": "Group description. Can contain HTML formatting tags.",
+          "maxLength": 1000
+        },
+        "builtIn": {
+          "readOnly": true,
+          "type": "boolean",
+          "description": "true if the group is one of the three system groups (Administrators, Developers, or Guests); otherwise false."
+        },
+        "type": {
+          "type": "string",
+          "description": "Group type.",
+          "readOnly": true,
+          "enum": [
+            "Custom",
+            "System",
+            "External"
+          ],
+          "x-ms-enum": {
+            "name": "GroupTypeContract",
+            "modelAsString": false
+          }
+        },
+        "externalId": {
+          "type": "string",
+          "description": "For external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "description": "Developer group."
+    },
+    "GroupCollection": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GroupContract"
+          },
+          "description": "Page values."
+        },
+        "count": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Total record count number across all pages."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "Next page link if any."
+        }
+      },
+      "description": "Paged Group list representation."
     }
   },
   "parameters": {
@@ -356,6 +545,59 @@
       "minLength": 1,
       "maxLength": 256,
       "pattern": "^[^*#&+:<>?]+$",
+      "x-ms-parameter-location": "method"
+    },
+    "SubscriptionIdParameter": {
+      "name": "subscriptionId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call."
+    },
+    "ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "required": true,
+      "type": "string",
+      "description": "Version of the API to be used with the client request."
+    },
+    "ServiceNameParameter": {
+      "name": "serviceName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of the API Management service.",
+      "minLength": 1,
+      "maxLength": 50,
+      "pattern": "^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$",
+      "x-ms-parameter-location": "method"
+    },
+    "ResourceGroupNameParameter": {
+      "name": "resourceGroupName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of the resource group.",
+      "x-ms-parameter-location": "method"
+    },
+    "SkipQueryParameter": {
+      "name": "$skip",
+      "in": "query",
+      "required": false,
+      "type": "integer",
+      "format": "int32",
+      "description": "Number of records to skip.",
+      "minimum": 0,
+      "x-ms-parameter-location": "method"
+    },
+    "TopQueryParameter": {
+      "name": "$top",
+      "in": "query",
+      "required": false,
+      "type": "integer",
+      "format": "int32",
+      "description": "Number of records to return.",
+      "minimum": 1,
       "x-ms-parameter-location": "method"
     }
   }

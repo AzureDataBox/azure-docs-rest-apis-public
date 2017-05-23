@@ -27,12 +27,21 @@
         },
         "x-ms-examples": {
           "Delete a hybrid worker group": {
-            "$ref": "#/definitions/deleteHybridRunbookWorkerGroup"
+            "parameters": {
+              "subscriptionId": "subid",
+              "resourceGroupName": "rg",
+              "automationAccountName": "myAutomationAccount20",
+              "hybridRunbookWorkerGroupName": "myGroup",
+              "api-version": "2015-10-31"
+            },
+            "responses": {
+              "200": {}
+            }
           }
         },
         "parameters": [
           {
-            "$ref": "./definitions.json#/parameters/ResourceGroupNameParameter"
+            "$ref": "#/parameters/ResourceGroupNameParameter"
           },
           {
             "name": "automationAccountName",
@@ -49,10 +58,10 @@
             "description": "The hybrid runbook worker group name"
           },
           {
-            "$ref": "./definitions.json#/parameters/SubscriptionIdParameter"
+            "$ref": "#/parameters/SubscriptionIdParameter"
           },
           {
-            "$ref": "./definitions.json#/parameters/ApiVersionParameter"
+            "$ref": "#/parameters/ApiVersionParameter"
           }
         ],
         "responses": {
@@ -62,7 +71,7 @@
           "default": {
             "description": "Automation error response describing why the operation failed.",
             "schema": {
-              "$ref": "./definitions.json#/definitions/ErrorResponse"
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         }
@@ -78,12 +87,37 @@
         },
         "x-ms-examples": {
           "Get a hybrid worker group": {
-            "$ref": "#/definitions/hybridRunbookWorkerGroupGet"
+            "parameters": {
+              "subscriptionId": "subid",
+              "resourceGroupName": "rg",
+              "automationAccountName": "testaccount",
+              "hybridRunbookWorkerGroupName": "TestHybridGroup",
+              "api-version": "2015-10-31"
+            },
+            "responses": {
+              "200": {
+                "headers": {},
+                "body": {
+                  "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/testaccount/hybridRunbookWorkerGroups/TestHybridGroup",
+                  "name": "TestHybridGroup",
+                  "hybridRunbookWorkers": [
+                    {
+                      "name": "TestHybridWorker",
+                      "ip": "100.1.1.1",
+                      "registrationTime": "2017-03-24T19:43:45.0146578+00:00"
+                    }
+                  ],
+                  "credential": {
+                    "name": "myRunAsCredentialName"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
           {
-            "$ref": "./definitions.json#/parameters/ResourceGroupNameParameter"
+            "$ref": "#/parameters/ResourceGroupNameParameter"
           },
           {
             "name": "automationAccountName",
@@ -100,23 +134,23 @@
             "description": "The hybrid runbook worker group name"
           },
           {
-            "$ref": "./definitions.json#/parameters/SubscriptionIdParameter"
+            "$ref": "#/parameters/SubscriptionIdParameter"
           },
           {
-            "$ref": "./definitions.json#/parameters/ApiVersionParameter"
+            "$ref": "#/parameters/ApiVersionParameter"
           }
         ],
         "responses": {
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "./definitions.json#/definitions/HybridRunbookWorkerGroup"
+              "$ref": "#/definitions/HybridRunbookWorkerGroup"
             }
           },
           "default": {
             "description": "Automation error response describing why the operation failed.",
             "schema": {
-              "$ref": "./definitions.json#/definitions/ErrorResponse"
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         }
@@ -132,7 +166,7 @@
         },
         "parameters": [
           {
-            "$ref": "./definitions.json#/parameters/ResourceGroupNameParameter"
+            "$ref": "#/parameters/ResourceGroupNameParameter"
           },
           {
             "name": "automationAccountName",
@@ -153,28 +187,28 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "./definitions.json#/definitions/HybridRunbookWorkerGroupUpdateParameters"
+              "$ref": "#/definitions/HybridRunbookWorkerGroupUpdateParameters"
             },
             "description": "The hybrid runbook worker group"
           },
           {
-            "$ref": "./definitions.json#/parameters/SubscriptionIdParameter"
+            "$ref": "#/parameters/SubscriptionIdParameter"
           },
           {
-            "$ref": "./definitions.json#/parameters/ApiVersionParameter"
+            "$ref": "#/parameters/ApiVersionParameter"
           }
         ],
         "responses": {
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "./definitions.json#/definitions/HybridRunbookWorkerGroup"
+              "$ref": "#/definitions/HybridRunbookWorkerGroup"
             }
           },
           "default": {
             "description": "Automation error response describing why the operation failed.",
             "schema": {
-              "$ref": "./definitions.json#/definitions/ErrorResponse"
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         }
@@ -192,12 +226,41 @@
         },
         "x-ms-examples": {
           "List hybrid worker groups by Automation Account": {
-            "$ref": "#/definitions/hybridRunbookWorkerGroupList"
+            "parameters": {
+              "subscriptionId": "subid",
+              "resourceGroupName": "udtest",
+              "automationAccountName": "testaccount",
+              "hybridRunbookWorkerGroupName": "TestWorkerGroup",
+              "api-version": "2015-10-31"
+            },
+            "responses": {
+              "200": {
+                "headers": {},
+                "body": {
+                  "value": [
+                    {
+                      "id": "/subscriptions/subid/resourceGroups/udtest/providers/Microsoft.Automation/automationAccounts/testaccount/hybridRunbookWorkerGroups/TestWorkerGroup",
+                      "name": "TestWorkerGroup",
+                      "hybridRunbookWorkers": [
+                        {
+                          "name": "TestMachine",
+                          "ip": "134.1.1.1",
+                          "registrationTime": "2017-03-24T19:43:43.053855+00:00"
+                        }
+                      ],
+                      "credential": {
+                        "name": "myRunAsCredentialName"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
           }
         },
         "parameters": [
           {
-            "$ref": "./definitions.json#/parameters/ResourceGroupNameParameter"
+            "$ref": "#/parameters/ResourceGroupNameParameter"
           },
           {
             "name": "automationAccountName",
@@ -207,23 +270,23 @@
             "description": "The automation account name."
           },
           {
-            "$ref": "./definitions.json#/parameters/SubscriptionIdParameter"
+            "$ref": "#/parameters/SubscriptionIdParameter"
           },
           {
-            "$ref": "./definitions.json#/parameters/ApiVersionParameter"
+            "$ref": "#/parameters/ApiVersionParameter"
           }
         ],
         "responses": {
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "./definitions.json#/definitions/HybridRunbookWorkerGroupsListResult"
+              "$ref": "#/definitions/HybridRunbookWorkerGroupsListResult"
             }
           },
           "default": {
             "description": "Automation error response describing why the operation failed.",
             "schema": {
-              "$ref": "./definitions.json#/definitions/ErrorResponse"
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         },
@@ -234,78 +297,120 @@
     }
   },
   "definitions": {
-    "deleteHybridRunbookWorkerGroup": {
-      "parameters": {
-        "subscriptionId": "subid",
-        "resourceGroupName": "rg",
-        "automationAccountName": "myAutomationAccount20",
-        "hybridRunbookWorkerGroupName": "myGroup",
-        "api-version": "2015-10-31"
-      },
-      "responses": {
-        "200": {}
-      }
-    },
-    "hybridRunbookWorkerGroupGet": {
-      "parameters": {
-        "subscriptionId": "subid",
-        "resourceGroupName": "rg",
-        "automationAccountName": "testaccount",
-        "hybridRunbookWorkerGroupName": "TestHybridGroup",
-        "api-version": "2015-10-31"
-      },
-      "responses": {
-        "200": {
-          "headers": {},
-          "body": {
-            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/testaccount/hybridRunbookWorkerGroups/TestHybridGroup",
-            "name": "TestHybridGroup",
-            "hybridRunbookWorkers": [
-              {
-                "name": "TestHybridWorker",
-                "ip": "100.1.1.1",
-                "registrationTime": "2017-03-24T19:43:45.0146578+00:00"
-              }
-            ],
-            "credential": {
-              "name": "myRunAsCredentialName"
-            }
-          }
+    "ErrorResponse": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "Error code",
+          "type": "string"
+        },
+        "message": {
+          "description": "Error message indicating why the operation failed.",
+          "type": "string"
         }
-      }
-    },
-    "hybridRunbookWorkerGroupList": {
-      "parameters": {
-        "subscriptionId": "subid",
-        "resourceGroupName": "udtest",
-        "automationAccountName": "testaccount",
-        "hybridRunbookWorkerGroupName": "TestWorkerGroup",
-        "api-version": "2015-10-31"
       },
-      "responses": {
-        "200": {
-          "headers": {},
-          "body": {
-            "value": [
-              {
-                "id": "/subscriptions/subid/resourceGroups/udtest/providers/Microsoft.Automation/automationAccounts/testaccount/hybridRunbookWorkerGroups/TestWorkerGroup",
-                "name": "TestWorkerGroup",
-                "hybridRunbookWorkers": [
-                  {
-                    "name": "TestMachine",
-                    "ip": "134.1.1.1",
-                    "registrationTime": "2017-03-24T19:43:43.053855+00:00"
-                  }
-                ],
-                "credential": {
-                  "name": "myRunAsCredentialName"
-                }
-              }
-            ]
-          }
+      "description": "Error response of an operation failure"
+    },
+    "RunAsCredentialAssociationProperty": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Gets or sets the name of the credential."
         }
-      }
+      },
+      "description": "Definition of runas credential to use for hybrid worker."
+    },
+    "HybridRunbookWorker": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Gets or sets the worker machine name."
+        },
+        "ip": {
+          "type": "string",
+          "description": "Gets or sets the assigned machine IP address."
+        },
+        "registrationTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Gets or sets the registration time of the worker machine."
+        }
+      },
+      "description": "Definition of hybrid runbook worker."
+    },
+    "HybridRunbookWorkerGroup": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Gets or sets the id of the resource."
+        },
+        "name": {
+          "type": "string",
+          "description": "Gets or sets the name of the group."
+        },
+        "hybridRunbookWorkers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/HybridRunbookWorker"
+          },
+          "description": "Gets or sets the list of hybrid runbook workers."
+        },
+        "credential": {
+          "$ref": "#/definitions/RunAsCredentialAssociationProperty",
+          "description": "Sets the credential of a worker group."
+        }
+      },
+      "description": "Definition of hybrid runbook worker group."
+    },
+    "HybridRunbookWorkerGroupsListResult": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/HybridRunbookWorkerGroup"
+          },
+          "description": "Gets or sets a list of hybrid runbook worker groups."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "Gets or sets the next link."
+        }
+      },
+      "description": "The response model for the list hybrid runbook worker groups."
+    },
+    "HybridRunbookWorkerGroupUpdateParameters": {
+      "properties": {
+        "credential": {
+          "$ref": "#/definitions/RunAsCredentialAssociationProperty",
+          "description": "Sets the credential of a worker group."
+        }
+      },
+      "description": "Parameters supplied to the update operation."
     }
   },
-  "parameters": {}
+  "parameters": {
+    "ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "required": true,
+      "type": "string",
+      "description": "Client Api Version."
+    },
+    "SubscriptionIdParameter": {
+      "name": "subscriptionId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call."
+    },
+    "ResourceGroupNameParameter": {
+      "name": "resourceGroupName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "pattern": "^[-\\w\\._]+$",
+      "description": "The resource group name.",
+      "x-ms-parameter-location": "method"
+    }
+  }
 }

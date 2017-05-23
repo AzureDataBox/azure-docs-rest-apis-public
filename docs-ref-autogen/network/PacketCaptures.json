@@ -338,7 +338,7 @@
       },
       "allOf": [
         {
-          "$ref": "./network.json#/definitions/Resource"
+          "$ref": "#/definitions/Resource"
         }
       ],
       "description": "Network watcher in a resource group."
@@ -649,14 +649,14 @@
         "defaultSecurityRules": {
           "type": "array",
           "items": {
-            "$ref": "./networkSecurityGroup.json#/definitions/SecurityRule"
+            "$ref": "#/definitions/SecurityRule"
           },
           "description": "Collection of default security rules of the network security group."
         },
         "effectiveSecurityRules": {
           "type": "array",
           "items": {
-            "$ref": "./networkInterface.json#/definitions/EffectiveNetworkSecurityRule"
+            "$ref": "#/definitions/EffectiveNetworkSecurityRule"
           },
           "description": "Collection of effective security rules."
         }
@@ -674,7 +674,7 @@
           "type": "array",
           "description": "Collection of custom security rules.",
           "items": {
-            "$ref": "./networkSecurityGroup.json#/definitions/SecurityRule"
+            "$ref": "#/definitions/SecurityRule"
           }
         }
       }
@@ -691,7 +691,7 @@
           "type": "array",
           "description": "Collection of custom security rules.",
           "items": {
-            "$ref": "./networkSecurityGroup.json#/definitions/SecurityRule"
+            "$ref": "#/definitions/SecurityRule"
           }
         }
       }
@@ -1304,6 +1304,225 @@
       "additionalProperties": {
         "type": "string"
       }
+    },
+    "SubResource": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Resource ID."
+        }
+      },
+      "x-ms-azure-resource": true
+    },
+    "SecurityRulePropertiesFormat": {
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "A description for this rule. Restricted to 140 chars."
+        },
+        "protocol": {
+          "type": "string",
+          "description": "Network protocol this rule applies to. Possible values are 'Tcp', 'Udp', and '*'.",
+          "enum": [
+            "Tcp",
+            "Udp",
+            "*"
+          ],
+          "x-ms-enum": {
+            "name": "SecurityRuleProtocol",
+            "modelAsString": true
+          }
+        },
+        "sourcePortRange": {
+          "type": "string",
+          "description": "The source port or range. Integer or range between 0 and 65535. Asterix '*' can also be used to match all ports."
+        },
+        "destinationPortRange": {
+          "type": "string",
+          "description": "The destination port or range. Integer or range between 0 and 65535. Asterix '*' can also be used to match all ports."
+        },
+        "sourceAddressPrefix": {
+          "type": "string",
+          "description": "The CIDR or source IP range. Asterix '*' can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used. If this is an ingress rule, specifies where network traffic originates from. "
+        },
+        "destinationAddressPrefix": {
+          "type": "string",
+          "description": "The destination address prefix. CIDR or source IP range. Asterix '*' can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used."
+        },
+        "access": {
+          "type": "string",
+          "description": "The network traffic is allowed or denied. Possible values are: 'Allow' and 'Deny'.",
+          "enum": [
+            "Allow",
+            "Deny"
+          ],
+          "x-ms-enum": {
+            "name": "SecurityRuleAccess",
+            "modelAsString": true
+          }
+        },
+        "priority": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The priority of the rule. The value can be between 100 and 4096. The priority number must be unique for each rule in the collection. The lower the priority number, the higher the priority of the rule."
+        },
+        "direction": {
+          "type": "string",
+          "description": "The direction of the rule. The direction specifies if rule will be evaluated on incoming or outcoming traffic. Possible values are: 'Inbound' and 'Outbound'.",
+          "enum": [
+            "Inbound",
+            "Outbound"
+          ],
+          "x-ms-enum": {
+            "name": "SecurityRuleDirection",
+            "modelAsString": true
+          }
+        },
+        "provisioningState": {
+          "type": "string",
+          "description": "The provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+        }
+      },
+      "required": [
+        "protocol",
+        "sourceAddressPrefix",
+        "destinationAddressPrefix",
+        "access",
+        "direction"
+      ]
+    },
+    "SecurityRule": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/SecurityRulePropertiesFormat"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the resource that is unique within a resource group. This name can be used to access the resource."
+        },
+        "etag": {
+          "type": "string",
+          "description": "A unique read-only string that changes whenever the resource is updated."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/SubResource"
+        }
+      ],
+      "description": "Network security rule."
+    },
+    "EffectiveNetworkSecurityRule": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the security rule specified by the user (if created by the user)."
+        },
+        "protocol": {
+          "type": "string",
+          "description": "The network protocol this rule applies to. Possible values are: 'Tcp', 'Udp', and '*'.",
+          "enum": [
+            "Tcp",
+            "Udp",
+            "*"
+          ],
+          "x-ms-enum": {
+            "name": "SecurityRuleProtocol",
+            "modelAsString": true
+          }
+        },
+        "sourcePortRange": {
+          "type": "string",
+          "description": "The source port or range."
+        },
+        "destinationPortRange": {
+          "type": "string",
+          "description": "The destination port or range."
+        },
+        "sourceAddressPrefix": {
+          "type": "string",
+          "description": "The source address prefix."
+        },
+        "destinationAddressPrefix": {
+          "type": "string",
+          "description": "The destination address prefix."
+        },
+        "expandedSourceAddressPrefix": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The expanded source address prefix."
+        },
+        "expandedDestinationAddressPrefix": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Expanded destination address prefix."
+        },
+        "access": {
+          "type": "string",
+          "description": "Whether network traffic is allowed or denied. Possible values are: 'Allow' and 'Deny'.",
+          "enum": [
+            "Allow",
+            "Deny"
+          ],
+          "x-ms-enum": {
+            "name": "SecurityRuleAccess",
+            "modelAsString": true
+          }
+        },
+        "priority": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The priority of the rule."
+        },
+        "direction": {
+          "type": "string",
+          "description": "The direction of the rule. Possible values are: 'Inbound and Outbound'.",
+          "enum": [
+            "Inbound",
+            "Outbound"
+          ],
+          "x-ms-enum": {
+            "name": "SecurityRuleDirection",
+            "modelAsString": true
+          }
+        }
+      },
+      "description": "Effective network security rules."
+    },
+    "Resource": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Resource ID."
+        },
+        "name": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource name."
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource type."
+        },
+        "location": {
+          "type": "string",
+          "description": "Resource location."
+        },
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Resource tags."
+        }
+      },
+      "x-ms-azure-resource": true
     }
   },
   "parameters": {
