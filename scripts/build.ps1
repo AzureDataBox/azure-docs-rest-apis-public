@@ -16,6 +16,7 @@ Write-Host "Pre-resolve swagger files by AutoRest"
 $mappingFile = Get-Content $restDocsPath\$MappingFilePath -Raw | ConvertFrom-Json
 Foreach($reference in $mappingFile.mapping.reference)
 {
+    Write-Host "Resolving old mapping file by autorest"
     if ($reference.source_swagger)
     {
         $swaggerPath = Join-Path $RestSrcPath $reference.source_swagger
@@ -28,6 +29,7 @@ Foreach($reference in $mappingFile.mapping.reference)
 }
 Foreach($org in $mappingFile.organizations)
 {
+    Write-Host "Resolving new mapping file by autorest"
     if($org.services)
     {
         Foreach($service in $org.services)
