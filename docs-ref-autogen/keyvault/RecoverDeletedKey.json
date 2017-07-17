@@ -20,7 +20,49 @@
       }
     ]
   },
-  "paths": {},
+  "paths": {
+    "/deletedkeys/{key-name}/recover": {
+      "post": {
+        "tags": [
+          "DeletedKeys"
+        ],
+        "operationId": "RecoverDeletedKey",
+        "description": "Recovers the deleted key back to its current version under /keys. Authorization: Requires the keys/recover permission.",
+        "parameters": [
+          {
+            "name": "key-name",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the deleted key"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A Key bundle of the original key and its attributes",
+            "schema": {
+              "$ref": "#/definitions/KeyBundle"
+            }
+          },
+          "default": {
+            "description": "Key Vault error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/KeyVaultError"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
+    }
+  },
   "definitions": {
     "Attributes": {
       "properties": {

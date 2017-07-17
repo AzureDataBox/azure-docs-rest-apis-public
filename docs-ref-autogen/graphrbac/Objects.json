@@ -27,7 +27,93 @@
       }
     }
   },
-  "paths": {},
+  "paths": {
+    "/{tenantID}/me": {
+      "get": {
+        "tags": [
+          "Objects"
+        ],
+        "operationId": "Objects_GetCurrentUser",
+        "description": "Gets the details for the currently logged-in user.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/tenantIDInPath"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK. The operation was successful.",
+            "schema": {
+              "$ref": "#/definitions/AADObject"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/GraphError"
+            }
+          }
+        },
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json"
+        ]
+      }
+    },
+    "/{tenantID}/getObjectsByObjectIds": {
+      "post": {
+        "tags": [
+          "Objects"
+        ],
+        "operationId": "Objects_GetObjectsByObjectIds",
+        "description": "Gets AD group membership for the specified AD object IDs.",
+        "parameters": [
+          {
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GetObjectsParameters"
+            },
+            "description": "Objects filtering parameters."
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/tenantIDInPath"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK. The operation was successful.",
+            "schema": {
+              "$ref": "#/definitions/GetObjectsResult"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "odata.nextLink",
+          "operationName": "Objects_GetObjectsByObjectIdsNext"
+        },
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json"
+        ]
+      }
+    }
+  },
   "x-ms-paths": {
     "/{tenantID}/{nextLink}?Groups_ListNext": {
       "get": {
