@@ -27,186 +27,87 @@
       }
     }
   },
-  "paths": {},
-  "definitions": {
-    "ErrorFieldContract": {
-      "properties": {
-        "code": {
-          "type": "string",
-          "description": "Property level error code."
+  "paths": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policySnippets": {
+      "get": {
+        "tags": [
+          "PolicySnippets"
+        ],
+        "operationId": "PolicySnippets_ListByService",
+        "description": "Lists all policy snippets.",
+        "x-ms-examples": {
+          "ApiManagementListPolicySnippets": {
+            "parameters": {
+              "serviceName": "apimService1",
+              "resourceGroupName": "rg1",
+              "api-version": "2017-03-01",
+              "subscriptionId": "subid",
+              "scope": "Api"
+            },
+            "responses": {
+              "200": {
+                "body": [
+                  {
+                    "name": "Authenticate with Basic",
+                    "content": "<authentication-basic username=\"username\" password=\"password\" />",
+                    "toolTip": "Authenticate with the backend service using Basic authentication. Use in the inbound section at API scope.",
+                    "scope": 268435471
+                  }
+                ]
+              }
+            }
+          }
         },
-        "message": {
-          "type": "string",
-          "description": "Human-readable representation of property-level error."
-        },
-        "target": {
-          "type": "string",
-          "description": "Property name."
-        }
-      },
-      "description": "Error Field contract."
-    },
-    "ErrorResponse": {
-      "properties": {
-        "code": {
-          "type": "string",
-          "description": "Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response."
-        },
-        "message": {
-          "type": "string",
-          "description": "Human-readable representation of the error."
-        },
-        "details": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ErrorFieldContract"
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
           },
-          "description": "The list of invalid fields send in request, in case of validation error."
-        }
-      },
-      "description": "Error Body contract."
-    },
-    "PolicyCollection": {
-      "properties": {
-        "value": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/PolicyContract"
+          {
+            "$ref": "#/parameters/ServiceNameParameter"
           },
-          "description": "Policy Contract value."
-        },
-        "nextLink": {
-          "type": "string",
-          "description": "Next page link if any."
-        }
-      },
-      "description": "The response of the list policy operation."
-    },
-    "PolicyContract": {
-      "properties": {
-        "properties": {
-          "x-ms-client-flatten": true,
-          "$ref": "#/definitions/PolicyContractProperties",
-          "description": "Properties of the Policy."
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "#/definitions/Resource"
-        }
-      ],
-      "description": "Policy Contract details."
-    },
-    "PolicyContractProperties": {
-      "properties": {
-        "policyContent": {
-          "type": "string",
-          "description": "Xml Encoded contents of the Policy."
-        }
-      },
-      "required": [
-        "policyContent"
-      ],
-      "description": "Policy contract Properties."
-    },
-    "PolicySnippetsCollection": {
-      "properties": {
-        "value": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/PolicySnippetContract"
+          {
+            "name": "scope",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": "Policy scope.",
+            "enum": [
+              "Tenant",
+              "Product",
+              "Api",
+              "Operation",
+              "All"
+            ],
+            "x-ms-enum": {
+              "name": "PolicyScopeContract",
+              "modelAsString": false
+            }
           },
-          "description": "Policy snippet value."
-        }
-      },
-      "description": "The response of the list policy snippets operation."
-    },
-    "PolicySnippetContract": {
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "Snippet name.",
-          "readOnly": true
-        },
-        "content": {
-          "type": "string",
-          "description": "Snippet content.",
-          "readOnly": true
-        },
-        "toolTip": {
-          "type": "string",
-          "description": "Snippet toolTip.",
-          "readOnly": true
-        },
-        "scope": {
-          "type": "integer",
-          "description": "Binary OR value of the Snippet scope.",
-          "readOnly": true
-        }
-      },
-      "description": "Policy snippet."
-    },
-    "RegionContract": {
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "Region name.",
-          "readOnly": true
-        },
-        "isMasterRegion": {
-          "description": "whether Region is the master region.",
-          "type": "boolean"
-        },
-        "isDeleted": {
-          "description": "whether Region is deleted.",
-          "type": "boolean"
-        }
-      },
-      "description": "Region profile."
-    },
-    "RegionListResult": {
-      "properties": {
-        "value": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/RegionContract"
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
           },
-          "description": "Lists of Regions."
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns an array of Policy Contracts.",
+            "schema": {
+              "$ref": "#/definitions/PolicySnippetsCollection"
+            }
+          }
         },
-        "count": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Total record count number across all pages."
-        },
-        "nextLink": {
-          "type": "string",
-          "description": "Next page link if any."
-        }
-      },
-      "description": "Lists Regions operation response details."
-    },
-    "Resource": {
-      "description": "The Resource definition.",
-      "x-ms-azure-resource": true,
-      "properties": {
-        "id": {
-          "readOnly": true,
-          "type": "string",
-          "description": "Resource ID."
-        },
-        "name": {
-          "type": "string",
-          "description": "Resource name.",
-          "readOnly": true
-        },
-        "type": {
-          "readOnly": true,
-          "type": "string",
-          "description": "Resource type for API Management resource."
-        }
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
       }
     }
   },
+  "definitions": null,
   "parameters": {
     "ApiVersionParameter": {
       "name": "api-version",
@@ -281,8 +182,20 @@
   "x-internal-split-type": "OperationGroup",
   "x-internal-split-members": [
     {
+      "displayName": "Create Or Update",
+      "relativePath": "Policy/CreateOrUpdate"
+    },
+    {
+      "displayName": "Delete",
+      "relativePath": "Policy/Delete"
+    },
+    {
+      "displayName": "Get",
+      "relativePath": "Policy/Get"
+    },
+    {
       "displayName": "List By Service",
-      "relativePath": "PolicySnippets/ListByService"
+      "relativePath": "Policy/ListByService"
     }
   ]
 }

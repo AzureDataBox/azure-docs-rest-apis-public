@@ -9,7 +9,55 @@
   "schemes": [
     "https"
   ],
-  "paths": {},
+  "paths": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/restorePoints": {
+      "get": {
+        "tags": [
+          "DatabaseBackup"
+        ],
+        "operationId": "Databases_ListRestorePoints",
+        "description": "Gets a list of database restore points.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupParameter"
+          },
+          {
+            "$ref": "#/parameters/ServerNameParameter"
+          },
+          {
+            "name": "databaseName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the database to get available restore points."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/RestorePointListResult"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": null
+        },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
+    }
+  },
   "definitions": {
     "Resource": {
       "description": "ARM resource.",
@@ -324,12 +372,5 @@
     }
   },
   "x-internal-operation-group-name": "Databases - Restore Points",
-  "x-internal-toc-name": "Databases - Restore Points",
-  "x-internal-split-type": "OperationGroup",
-  "x-internal-split-members": [
-    {
-      "displayName": "List Restore Points",
-      "relativePath": "Databases - Restore Points/ListRestorePoints"
-    }
-  ]
+  "x-internal-toc-name": "Databases - Restore Points"
 }
