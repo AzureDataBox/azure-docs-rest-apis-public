@@ -28,7 +28,215 @@
     }
   },
   "paths": {},
-  "definitions": null,
+  "definitions": {
+    "EmailTemplateCollection": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EmailTemplateContract"
+          },
+          "description": "Page values."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "Next page link if any."
+        }
+      },
+      "description": "Paged email template list representation."
+    },
+    "EmailTemplateContract": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/EmailTemplateContractProperties",
+          "description": "Email Template entity contract properties."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "Email Template details."
+    },
+    "EmailTemplateContractProperties": {
+      "properties": {
+        "subject": {
+          "type": "string",
+          "description": "Subject of the Template.",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "body": {
+          "type": "string",
+          "description": "Email Template Body. This should be a valid XDocument",
+          "minLength": 1
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the Template."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the Email Template."
+        },
+        "isDefault": {
+          "type": "boolean",
+          "description": "Whether the template is the default template provided by Api Management or has been edited.",
+          "readOnly": true
+        },
+        "parameters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EmailTemplateParametersContractProperties"
+          },
+          "description": "Email Template Parameter values."
+        }
+      },
+      "required": [
+        "body",
+        "subject"
+      ],
+      "description": "Email Template Contract properties."
+    },
+    "EmailTemplateUpdateParameters": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/EmailTemplateUpdateParameterProperties",
+          "description": "Email Template Update contract properties."
+        }
+      },
+      "description": "Email Template update Parameters."
+    },
+    "EmailTemplateUpdateParameterProperties": {
+      "properties": {
+        "subject": {
+          "type": "string",
+          "description": "Subject of the Template.",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "body": {
+          "type": "string",
+          "description": "Email Template Body. This should be a valid XDocument",
+          "minLength": 1
+        }
+      },
+      "description": "Email Template Update Contract properties."
+    },
+    "EmailTemplateParametersContractProperties": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Template parameter name.",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[A-Za-z0-9-._]+$"
+        },
+        "title": {
+          "type": "string",
+          "description": "Template parameter title.",
+          "minLength": 1,
+          "maxLength": 4096
+        },
+        "description": {
+          "type": "string",
+          "description": "Template parameter description.",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[A-Za-z0-9-._]+$"
+        }
+      },
+      "description": "Email Template Parameter contract."
+    },
+    "PolicyContractProperties": {
+      "properties": {
+        "policyContent": {
+          "type": "string",
+          "description": "Xml Encoded contents of the Policy."
+        }
+      },
+      "required": [
+        "policyContent"
+      ],
+      "description": "Policy contract Properties."
+    },
+    "PolicyContract": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/PolicyContractProperties",
+          "description": "Properties of the Policy."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "Policy Contract details."
+    },
+    "Resource": {
+      "description": "The Resource definition.",
+      "x-ms-azure-resource": true,
+      "properties": {
+        "id": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource ID."
+        },
+        "name": {
+          "type": "string",
+          "description": "Resource name.",
+          "readOnly": true
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource type for API Management resource."
+        }
+      }
+    },
+    "ErrorFieldContract": {
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Property level error code."
+        },
+        "message": {
+          "type": "string",
+          "description": "Human-readable representation of property-level error."
+        },
+        "target": {
+          "type": "string",
+          "description": "Property name."
+        }
+      },
+      "description": "Error Field contract."
+    },
+    "ErrorResponse": {
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response."
+        },
+        "message": {
+          "type": "string",
+          "description": "Human-readable representation of the error."
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ErrorFieldContract"
+          },
+          "description": "The list of invalid fields send in request, in case of validation error."
+        }
+      },
+      "description": "Error Body contract."
+    }
+  },
   "parameters": {
     "TemplateNameParameter": {
       "name": "templateName",

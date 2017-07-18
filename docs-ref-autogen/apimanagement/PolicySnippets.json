@@ -107,7 +107,185 @@
       }
     }
   },
-  "definitions": null,
+  "definitions": {
+    "ErrorFieldContract": {
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Property level error code."
+        },
+        "message": {
+          "type": "string",
+          "description": "Human-readable representation of property-level error."
+        },
+        "target": {
+          "type": "string",
+          "description": "Property name."
+        }
+      },
+      "description": "Error Field contract."
+    },
+    "ErrorResponse": {
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response."
+        },
+        "message": {
+          "type": "string",
+          "description": "Human-readable representation of the error."
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ErrorFieldContract"
+          },
+          "description": "The list of invalid fields send in request, in case of validation error."
+        }
+      },
+      "description": "Error Body contract."
+    },
+    "PolicyCollection": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PolicyContract"
+          },
+          "description": "Policy Contract value."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "Next page link if any."
+        }
+      },
+      "description": "The response of the list policy operation."
+    },
+    "PolicyContract": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/PolicyContractProperties",
+          "description": "Properties of the Policy."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "Policy Contract details."
+    },
+    "PolicyContractProperties": {
+      "properties": {
+        "policyContent": {
+          "type": "string",
+          "description": "Xml Encoded contents of the Policy."
+        }
+      },
+      "required": [
+        "policyContent"
+      ],
+      "description": "Policy contract Properties."
+    },
+    "PolicySnippetsCollection": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PolicySnippetContract"
+          },
+          "description": "Policy snippet value."
+        }
+      },
+      "description": "The response of the list policy snippets operation."
+    },
+    "PolicySnippetContract": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Snippet name.",
+          "readOnly": true
+        },
+        "content": {
+          "type": "string",
+          "description": "Snippet content.",
+          "readOnly": true
+        },
+        "toolTip": {
+          "type": "string",
+          "description": "Snippet toolTip.",
+          "readOnly": true
+        },
+        "scope": {
+          "type": "integer",
+          "description": "Binary OR value of the Snippet scope.",
+          "readOnly": true
+        }
+      },
+      "description": "Policy snippet."
+    },
+    "RegionContract": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Region name.",
+          "readOnly": true
+        },
+        "isMasterRegion": {
+          "description": "whether Region is the master region.",
+          "type": "boolean"
+        },
+        "isDeleted": {
+          "description": "whether Region is deleted.",
+          "type": "boolean"
+        }
+      },
+      "description": "Region profile."
+    },
+    "RegionListResult": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RegionContract"
+          },
+          "description": "Lists of Regions."
+        },
+        "count": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Total record count number across all pages."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "Next page link if any."
+        }
+      },
+      "description": "Lists Regions operation response details."
+    },
+    "Resource": {
+      "description": "The Resource definition.",
+      "x-ms-azure-resource": true,
+      "properties": {
+        "id": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource ID."
+        },
+        "name": {
+          "type": "string",
+          "description": "Resource name.",
+          "readOnly": true
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource type for API Management resource."
+        }
+      }
+    }
+  },
   "parameters": {
     "ApiVersionParameter": {
       "name": "api-version",

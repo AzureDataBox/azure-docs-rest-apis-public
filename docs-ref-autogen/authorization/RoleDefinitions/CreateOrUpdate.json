@@ -84,7 +84,351 @@
       }
     }
   },
-  "definitions": null,
+  "definitions": {
+    "RoleAssignmentFilter": {
+      "properties": {
+        "principalId": {
+          "type": "string",
+          "description": "Returns role assignment of the specific principal."
+        }
+      },
+      "description": "Role Assignments filter"
+    },
+    "RoleDefinitionFilter": {
+      "properties": {
+        "roleName": {
+          "type": "string",
+          "description": "Returns role definition with the specific name."
+        }
+      },
+      "description": "Role Definitions filter"
+    },
+    "ClassicAdministratorProperties": {
+      "properties": {
+        "emailAddress": {
+          "type": "string",
+          "description": "The email address of the administrator."
+        },
+        "role": {
+          "type": "string",
+          "description": "The role of the administrator."
+        }
+      },
+      "description": "Classic Administrator properties."
+    },
+    "ClassicAdministrator": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The ID of the administrator."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the administrator."
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of the administrator."
+        },
+        "properties": {
+          "$ref": "#/definitions/ClassicAdministratorProperties",
+          "description": "Properties for the classic administrator."
+        }
+      },
+      "description": "Classic Administrators"
+    },
+    "ClassicAdministratorListResult": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ClassicAdministrator"
+          },
+          "description": "An array of administrators."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "The URL to use for getting the next set of results."
+        }
+      },
+      "description": "ClassicAdministrator list result information."
+    },
+    "Permission": {
+      "properties": {
+        "actions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Allowed actions."
+        },
+        "notActions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Denied actions."
+        }
+      },
+      "description": "Role definition permissions."
+    },
+    "PermissionGetResult": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Permission"
+          },
+          "description": "An array of permissions."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "The URL to use for getting the next set of results."
+        }
+      },
+      "description": "Permissions information."
+    },
+    "ProviderOperation": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The operation name."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "The operation display name."
+        },
+        "description": {
+          "type": "string",
+          "description": "The operation description."
+        },
+        "origin": {
+          "type": "string",
+          "description": "The operation origin."
+        },
+        "properties": {
+          "type": "object",
+          "description": "The operation properties."
+        }
+      },
+      "description": "Operation"
+    },
+    "ResourceType": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The resource type name."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "The resource type display name."
+        },
+        "operations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ProviderOperation"
+          },
+          "description": "The resource type operations."
+        }
+      },
+      "description": "Resource Type"
+    },
+    "ProviderOperationsMetadata": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The provider id."
+        },
+        "name": {
+          "type": "string",
+          "description": "The provider name."
+        },
+        "type": {
+          "type": "string",
+          "description": "The provider type."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "The provider display name."
+        },
+        "resourceTypes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ResourceType"
+          },
+          "description": "The provider resource types"
+        },
+        "operations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ProviderOperation"
+          },
+          "description": "The provider operations."
+        }
+      },
+      "description": "Provider Operations metadata"
+    },
+    "ProviderOperationsMetadataListResult": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ProviderOperationsMetadata"
+          },
+          "description": "The list of providers."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "The URL to use for getting the next set of results."
+        }
+      },
+      "description": "Provider operations metadata list"
+    },
+    "RoleAssignmentPropertiesWithScope": {
+      "properties": {
+        "scope": {
+          "type": "string",
+          "description": "The role assignment scope."
+        },
+        "roleDefinitionId": {
+          "type": "string",
+          "description": "The role definition ID."
+        },
+        "principalId": {
+          "type": "string",
+          "description": "The principal ID."
+        }
+      },
+      "description": "Role assignment properties with scope."
+    },
+    "RoleAssignment": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The role assignment ID."
+        },
+        "name": {
+          "type": "string",
+          "description": "The role assignment name."
+        },
+        "type": {
+          "type": "string",
+          "description": "The role assignment type."
+        },
+        "properties": {
+          "$ref": "#/definitions/RoleAssignmentPropertiesWithScope",
+          "description": "Role assignment properties."
+        }
+      },
+      "description": "Role Assignments"
+    },
+    "RoleAssignmentListResult": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RoleAssignment"
+          },
+          "description": "Role assignment list."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "The URL to use for getting the next set of results."
+        }
+      },
+      "description": "Role assignment list operation result."
+    },
+    "RoleAssignmentProperties": {
+      "properties": {
+        "roleDefinitionId": {
+          "type": "string",
+          "description": "The role definition ID used in the role assignment."
+        },
+        "principalId": {
+          "type": "string",
+          "description": "The principal ID assigned to the role. This maps to the ID inside the Active Directory. It can point to a user, service principal, or security group."
+        }
+      },
+      "description": "Role assignment properties."
+    },
+    "RoleAssignmentCreateParameters": {
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/RoleAssignmentProperties",
+          "description": "Role assignment properties."
+        }
+      },
+      "description": "Role assignment create parameters."
+    },
+    "RoleDefinitionProperties": {
+      "properties": {
+        "roleName": {
+          "type": "string",
+          "description": "The role name."
+        },
+        "description": {
+          "type": "string",
+          "description": "The role definition description."
+        },
+        "type": {
+          "type": "string",
+          "description": "The role type."
+        },
+        "permissions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Permission"
+          },
+          "description": "Role definition permissions."
+        },
+        "assignableScopes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Role definition assignable scopes."
+        }
+      },
+      "description": "Role definition properties."
+    },
+    "RoleDefinition": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The role definition ID."
+        },
+        "name": {
+          "type": "string",
+          "description": "The role definition name."
+        },
+        "type": {
+          "type": "string",
+          "description": "The role definition type."
+        },
+        "properties": {
+          "$ref": "#/definitions/RoleDefinitionProperties",
+          "description": "Role definition properties."
+        }
+      },
+      "description": "Role definition."
+    },
+    "RoleDefinitionListResult": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RoleDefinition"
+          },
+          "description": "Role definition list."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "The URL to use for getting the next set of results."
+        }
+      },
+      "description": "Role definition list operation result."
+    }
+  },
   "parameters": {
     "SubscriptionIdParameter": {
       "name": "subscriptionId",

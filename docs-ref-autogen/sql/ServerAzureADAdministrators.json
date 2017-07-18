@@ -10,7 +10,85 @@
     "https"
   ],
   "paths": {},
-  "definitions": null,
+  "definitions": {
+    "ServerAdministratorProperties": {
+      "properties": {
+        "administratorType": {
+          "type": "string",
+          "description": "The type of administrator.",
+          "enum": [
+            "ActiveDirectory"
+          ],
+          "x-ms-enum": {
+            "name": "AdministratorType"
+          }
+        },
+        "login": {
+          "type": "string",
+          "description": "The server administrator login value."
+        },
+        "sid": {
+          "type": "string",
+          "description": "The server administrator Sid (Secure ID).",
+          "format": "uuid"
+        },
+        "tenantId": {
+          "type": "string",
+          "description": "The server Active Directory Administrator tenant id.",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "tenantId",
+        "administratorType",
+        "login",
+        "sid"
+      ],
+      "description": "The properties of an server Administrator."
+    },
+    "ServerAzureADAdministrator": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/ServerAdministratorProperties",
+          "description": "The properties of the resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/SqlSubResource"
+        }
+      ],
+      "description": "An server Active Directory Administrator."
+    },
+    "ServerAdministratorListResult": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ServerAzureADAdministrator"
+          },
+          "description": "The list of server Active Directory Administrators for the server."
+        }
+      },
+      "description": "The response to a list Active Directory Administrators request."
+    },
+    "SqlSubResource": {
+      "description": "Subresource properties",
+      "properties": {
+        "name": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource name"
+        },
+        "id": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource Id"
+        }
+      }
+    }
+  },
   "parameters": {
     "SubscriptionIdParameter": {
       "name": "subscriptionId",

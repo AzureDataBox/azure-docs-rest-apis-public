@@ -28,7 +28,111 @@
     }
   },
   "paths": {},
-  "definitions": null,
+  "definitions": {
+    "ConnectivityStatusContract": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The hostname of the resource which the service depends on. This can be the database, storage or any other azure resource on which the service depends upon.",
+          "minLength": 1
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "initializing",
+            "success",
+            "failure"
+          ],
+          "x-ms-enum": {
+            "name": "ConnectivityStatusType",
+            "modelAsString": true
+          },
+          "description": "Resource Connectivity Status Type identifier."
+        },
+        "error": {
+          "type": "string",
+          "description": "Error details of the connectivity to the resource."
+        },
+        "lastUpdated": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date when the resource connectivity status was last updated. This status should be updated every 15 minutes. If this status has not been updated, then it means that the service has lost network connectivity to the resource, from inside the Virtual Network.The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.\n"
+        },
+        "lastStatusChange": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date when the resource connectivity status last Changed from success to failure or vice-versa. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.\n"
+        }
+      },
+      "required": [
+        "name",
+        "status",
+        "lastUpdated",
+        "lastStatusChange"
+      ],
+      "description": "Details about connectivity to a resource."
+    },
+    "NetworkStatusContract": {
+      "properties": {
+        "dnsServers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Gets the list of DNS servers IPV4 addresses."
+        },
+        "connectivityStatus": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ConnectivityStatusContract"
+          },
+          "description": "Gets the list of Connectivity Status to the Resources on which the service depends upon."
+        }
+      },
+      "required": [
+        "dnsServers",
+        "connectivityStatus"
+      ],
+      "description": "Network Status details."
+    },
+    "ErrorFieldContract": {
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Property level error code."
+        },
+        "message": {
+          "type": "string",
+          "description": "Human-readable representation of property-level error."
+        },
+        "target": {
+          "type": "string",
+          "description": "Property name."
+        }
+      },
+      "description": "Error Field contract."
+    },
+    "ErrorResponse": {
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response."
+        },
+        "message": {
+          "type": "string",
+          "description": "Human-readable representation of the error."
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ErrorFieldContract"
+          },
+          "description": "The list of invalid fields send in request, in case of validation error."
+        }
+      },
+      "description": "Error Body contract."
+    }
+  },
   "parameters": {
     "LocationNameParameter": {
       "name": "locationName",

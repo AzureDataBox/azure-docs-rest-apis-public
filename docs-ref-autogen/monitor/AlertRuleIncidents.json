@@ -27,7 +27,66 @@
     }
   },
   "paths": {},
-  "definitions": null,
+  "definitions": {
+    "Incident": {
+      "properties": {
+        "name": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Incident name."
+        },
+        "ruleName": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Rule name that is associated with the incident."
+        },
+        "isActive": {
+          "readOnly": true,
+          "type": "boolean",
+          "description": "A boolean to indicate whether the incident is active or resolved."
+        },
+        "activatedTime": {
+          "readOnly": true,
+          "type": "string",
+          "format": "date-time",
+          "description": "The time at which the incident was activated in ISO8601 format."
+        },
+        "resolvedTime": {
+          "readOnly": true,
+          "type": "string",
+          "format": "date-time",
+          "description": "The time at which the incident was resolved in ISO8601 format. If null, it means the incident is still active."
+        }
+      },
+      "description": "An alert incident indicates the activation status of an alert rule."
+    },
+    "IncidentListResult": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Incident"
+          },
+          "description": "the incident collection."
+        }
+      },
+      "description": "The List incidents operation response."
+    },
+    "ErrorResponse": {
+      "description": "Describes the format of Error response.",
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "Error code",
+          "type": "string"
+        },
+        "message": {
+          "description": "Error message indicating why the operation failed.",
+          "type": "string"
+        }
+      }
+    }
+  },
   "parameters": {
     "SubscriptionIdParameter": {
       "name": "subscriptionId",

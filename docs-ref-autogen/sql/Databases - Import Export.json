@@ -10,7 +10,296 @@
     "https"
   ],
   "paths": {},
-  "definitions": null,
+  "definitions": {
+    "Resource": {
+      "description": "ARM resource.",
+      "properties": {
+        "id": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource ID."
+        },
+        "name": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource name."
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource type."
+        }
+      },
+      "x-ms-azure-resource": true
+    },
+    "TrackedResource": {
+      "description": "ARM tracked top level resource.",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "x-ms-mutability": [
+            "read",
+            "create",
+            "update"
+          ],
+          "description": "Resource tags."
+        },
+        "location": {
+          "type": "string",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ],
+          "description": "Resource location."
+        }
+      },
+      "required": [
+        "location"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ]
+    },
+    "ProxyResource": {
+      "description": "ARM proxy resource.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ]
+    },
+    "ImportExtensionProperties": {
+      "properties": {
+        "operationMode": {
+          "type": "string",
+          "description": "The type of import operation being performed. This is always Import.",
+          "enum": [
+            "Import"
+          ],
+          "x-ms-enum": {
+            "name": "ImportOperationMode"
+          }
+        }
+      },
+      "required": [
+        "operationMode"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/ExportRequest"
+        }
+      ],
+      "description": "Represents the properties for an import operation"
+    },
+    "ImportExtensionRequest": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the extension."
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of the extension."
+        },
+        "properties": {
+          "$ref": "#/definitions/ImportExtensionProperties",
+          "x-ms-client-flatten": true,
+          "description": "Represents the properties of the resource."
+        }
+      },
+      "description": "Import database parameters."
+    },
+    "ImportExportResponse": {
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/ImportExportResponseProperties",
+          "x-ms-client-flatten": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProxyResource"
+        }
+      ],
+      "description": "Response for Import/Export Get operation."
+    },
+    "ImportExportResponseProperties": {
+      "properties": {
+        "requestType": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The request type of the operation."
+        },
+        "requestId": {
+          "type": "string",
+          "format": "uuid",
+          "readOnly": true,
+          "description": "The request type of the operation."
+        },
+        "serverName": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The name of the server."
+        },
+        "databaseName": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The name of the database."
+        },
+        "status": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The status message returned from the server."
+        },
+        "lastModifiedTime": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The operation status last modified time."
+        },
+        "queuedTime": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The operation queued time."
+        },
+        "blobUri": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The blob uri."
+        },
+        "errorMessage": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The error message returned from the server."
+        }
+      },
+      "description": "Response for Import/Export Status operation."
+    },
+    "ImportRequest": {
+      "properties": {
+        "databaseName": {
+          "type": "string",
+          "description": "The name of the database to import."
+        },
+        "edition": {
+          "type": "string",
+          "description": "The edition for the database being created.",
+          "enum": [
+            "Web",
+            "Business",
+            "Basic",
+            "Standard",
+            "Premium",
+            "Free",
+            "Stretch",
+            "DataWarehouse",
+            "System",
+            "System2"
+          ],
+          "x-ms-enum": {
+            "name": "DatabaseEdition",
+            "modelAsString": true
+          }
+        },
+        "serviceObjectiveName": {
+          "type": "string",
+          "description": "The name of the service objective to assign to the database.",
+          "enum": [
+            "Basic",
+            "S0",
+            "S1",
+            "S2",
+            "S3",
+            "P1",
+            "P2",
+            "P3",
+            "P4",
+            "P6",
+            "P11",
+            "P15",
+            "System",
+            "System2",
+            "ElasticPool"
+          ],
+          "x-ms-enum": {
+            "modelAsString": true,
+            "name": "ServiceObjectiveName"
+          }
+        },
+        "maxSizeBytes": {
+          "type": "string",
+          "description": "The maximum size for the newly imported database."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ExportRequest"
+        }
+      ],
+      "required": [
+        "databaseName",
+        "edition",
+        "serviceObjectiveName",
+        "maxSizeBytes"
+      ],
+      "description": "Import database parameters."
+    },
+    "ExportRequest": {
+      "properties": {
+        "storageKeyType": {
+          "type": "string",
+          "description": "The type of the storage key to use.",
+          "enum": [
+            "StorageAccessKey",
+            "SharedAccessKey"
+          ],
+          "x-ms-enum": {
+            "name": "StorageKeyType"
+          }
+        },
+        "storageKey": {
+          "type": "string",
+          "description": "The storage key to use.  If storage key type is SharedAccessKey, it must be preceded with a \"?.\""
+        },
+        "storageUri": {
+          "type": "string",
+          "description": "The storage uri to use."
+        },
+        "administratorLogin": {
+          "type": "string",
+          "description": "The name of the SQL administrator."
+        },
+        "administratorLoginPassword": {
+          "type": "string",
+          "description": "The password of the SQL administrator."
+        },
+        "authenticationType": {
+          "type": "string",
+          "description": "The authentication type.",
+          "enum": [
+            "SQL",
+            "ADPassword"
+          ],
+          "x-ms-enum": {
+            "name": "AuthenticationType"
+          },
+          "default": "SQL"
+        }
+      },
+      "required": [
+        "storageKeyType",
+        "storageKey",
+        "storageUri",
+        "administratorLogin",
+        "administratorLoginPassword"
+      ],
+      "description": "Export database parameters."
+    }
+  },
   "parameters": {
     "SubscriptionIdParameter": {
       "name": "subscriptionId",
