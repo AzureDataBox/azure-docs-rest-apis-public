@@ -941,6 +941,603 @@
           "application/json"
         ]
       }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{cacheName}/firewallRules": {
+      "get": {
+        "tags": [
+          "Redis",
+          "FirewallRules"
+        ],
+        "operationId": "FirewallRules_List",
+        "description": "Gets all firewall rules in the specified redis cache.",
+        "x-ms-examples": {
+          "RedisCacheFirewallRulesList": {
+            "parameters": {
+              "cacheName": "cache1",
+              "resourceGroupName": "rg1",
+              "api-version": "2016-04-01",
+              "subscriptionId": "subid"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "value": [
+                    {
+                      "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/firewallRules/rule1",
+                      "name": "rule1",
+                      "type": "Microsoft.Cache/Redis/firewallRules",
+                      "properties": {
+                        "startIP": "192.168.1.1",
+                        "endIP": "192.168.1.4"
+                      }
+                    },
+                    {
+                      "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/firewallRules/rule2",
+                      "name": "rule2",
+                      "type": "Microsoft.Cache/Redis/firewallRules",
+                      "properties": {
+                        "startIP": "192.169.1.0",
+                        "endIP": "192.169.1.255"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "name": "resourceGroupName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the resource group."
+          },
+          {
+            "name": "cacheName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the Redis cache."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully got the current rules",
+            "schema": {
+              "$ref": "#/definitions/RedisFirewallRuleListResult"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{cacheName}/firewallRules/{ruleName}": {
+      "put": {
+        "tags": [
+          "Redis",
+          "FirewallRules"
+        ],
+        "operationId": "RedisFirewallRule_CreateOrUpdate",
+        "description": "Create or update a redis cache firewall rule",
+        "x-ms-examples": {
+          "RedisCacheFirewallRuleCreate": {
+            "parameters": {
+              "ruleName": "rule1",
+              "cacheName": "cache1",
+              "resourceGroupName": "rg1",
+              "api-version": "2016-04-01",
+              "subscriptionId": "subid",
+              "parameters": {
+                "properties": {
+                  "startIP": "192.168.1.1",
+                  "endIP": "192.168.1.4"
+                }
+              }
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/firewallRules/rule1",
+                  "name": "cache1/rule1",
+                  "type": "Microsoft.Cache/Redis/firewallRules",
+                  "properties": {
+                    "startIP": "192.168.1.1",
+                    "endIP": "192.168.1.4"
+                  }
+                }
+              },
+              "201": {
+                "body": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/firewallRules/rule1",
+                  "name": "cache1/rule1",
+                  "type": "Microsoft.Cache/Redis/firewallRules",
+                  "properties": {
+                    "startIP": "192.168.1.1",
+                    "endIP": "192.168.1.4"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "resourceGroupName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the resource group."
+          },
+          {
+            "name": "cacheName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the Redis cache."
+          },
+          {
+            "name": "ruleName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the firewall rule."
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RedisFirewallRule"
+            },
+            "description": "Parameters supplied to the create or update redis firewall rule operation."
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource was successfully updated",
+            "schema": {
+              "$ref": "#/definitions/RedisFirewallRule"
+            }
+          },
+          "201": {
+            "description": "Resource was successfully created",
+            "schema": {
+              "$ref": "#/definitions/RedisFirewallRule"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "tags": [
+          "Redis",
+          "FirewallRules"
+        ],
+        "operationId": "RedisFirewallRule_Get",
+        "description": "Gets a single firewall rule in a specified redis cache.",
+        "x-ms-examples": {
+          "RedisCacheFirewallRuleGet": {
+            "parameters": {
+              "ruleName": "rule1",
+              "cacheName": "cache1",
+              "resourceGroupName": "rg1",
+              "api-version": "2016-04-01",
+              "subscriptionId": "subid"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/firewallRules/rule1",
+                  "name": "cache1/rule1",
+                  "type": "Microsoft.Cache/Redis/firewallRules",
+                  "properties": {
+                    "startIP": "192.168.1.1",
+                    "endIP": "192.168.1.4"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "resourceGroupName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the resource group."
+          },
+          {
+            "name": "cacheName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the Redis cache."
+          },
+          {
+            "name": "ruleName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the firewall rule."
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully found the rule",
+            "schema": {
+              "$ref": "#/definitions/RedisFirewallRule"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Redis",
+          "FirewallRules"
+        ],
+        "operationId": "RedisFirewallRule_Delete",
+        "description": "Deletes a single firewall rule in a specified redis cache.",
+        "x-ms-examples": {
+          "RedisCacheFirewallRuleDelete": {
+            "parameters": {
+              "ruleName": "rule1",
+              "cacheName": "cache1",
+              "resourceGroupName": "rg1",
+              "api-version": "2016-04-01",
+              "subscriptionId": "subid"
+            },
+            "responses": {
+              "200": {},
+              "204": {}
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "resourceGroupName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the resource group."
+          },
+          {
+            "name": "cacheName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the Redis cache."
+          },
+          {
+            "name": "ruleName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the firewall rule."
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully deleted the rule"
+          },
+          "204": {
+            "description": "Successfully deleted the rule"
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/patchSchedules/default": {
+      "put": {
+        "tags": [
+          "Redis"
+        ],
+        "operationId": "PatchSchedules_CreateOrUpdate",
+        "x-ms-examples": {
+          "RedisCachePatchSchedulesCreateOrUpdate": {
+            "parameters": {
+              "name": "cache1",
+              "resourceGroupName": "rg1",
+              "api-version": "2016-04-01",
+              "subscriptionId": "subid",
+              "parameters": {
+                "properties": {
+                  "scheduleEntries": [
+                    {
+                      "dayOfWeek": "Monday",
+                      "startHourUtc": 12,
+                      "maintenanceWindow": "PT3H"
+                    },
+                    {
+                      "dayOfWeek": "Tuesday",
+                      "startHourUtc": 12
+                    }
+                  ]
+                }
+              }
+            },
+            "responses": {
+              "201": {
+                "body": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/patchSchedules/default",
+                  "location": "West US",
+                  "name": "default",
+                  "type": "Microsoft.Cache/Redis/patchSchedules",
+                  "properties": {
+                    "scheduleEntries": [
+                      {
+                        "dayOfWeek": "Monday",
+                        "startHourUtc": 12,
+                        "maintenanceWindow": "PT3H"
+                      },
+                      {
+                        "dayOfWeek": "Tuesday",
+                        "startHourUtc": 12
+                      }
+                    ]
+                  }
+                }
+              },
+              "200": {
+                "body": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/patchSchedules/default",
+                  "location": "West US",
+                  "name": "default",
+                  "type": "Microsoft.Cache/Redis/patchSchedules",
+                  "properties": {
+                    "scheduleEntries": [
+                      {
+                        "dayOfWeek": "Monday",
+                        "startHourUtc": 12,
+                        "maintenanceWindow": "PT3H"
+                      },
+                      {
+                        "dayOfWeek": "Tuesday",
+                        "startHourUtc": 12
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Create or replace the patching schedule for Redis cache (requires Premium SKU).",
+        "parameters": [
+          {
+            "name": "resourceGroupName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the resource group."
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the Redis cache."
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RedisPatchSchedule"
+            },
+            "description": "Parameters to set the patching schedule for Redis cache."
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The patch schedule was successfully updated.",
+            "schema": {
+              "$ref": "#/definitions/RedisPatchSchedule"
+            }
+          },
+          "201": {
+            "description": "The patch schedule was successfully created.",
+            "schema": {
+              "$ref": "#/definitions/RedisPatchSchedule"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Redis"
+        ],
+        "operationId": "PatchSchedules_Delete",
+        "x-ms-examples": {
+          "RedisCachePatchSchedulesDelete": {
+            "parameters": {
+              "name": "cache1",
+              "resourceGroupName": "rg1",
+              "api-version": "2016-04-01",
+              "subscriptionId": "subid"
+            },
+            "responses": {
+              "200": {},
+              "204": {}
+            }
+          }
+        },
+        "description": "Deletes the patching schedule of a redis cache (requires Premium SKU).",
+        "parameters": [
+          {
+            "name": "resourceGroupName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the resource group."
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the redis cache."
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success."
+          },
+          "204": {
+            "description": "Success."
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "tags": [
+          "Redis"
+        ],
+        "operationId": "PatchSchedules_Get",
+        "x-ms-examples": {
+          "RedisCachePatchSchedulesGet": {
+            "parameters": {
+              "name": "cache1",
+              "resourceGroupName": "rg1",
+              "api-version": "2016-04-01",
+              "subscriptionId": "subid"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/patchSchedules/default",
+                  "location": "West US",
+                  "name": "default",
+                  "type": "Microsoft.Cache/Redis/patchSchedules",
+                  "properties": {
+                    "scheduleEntries": [
+                      {
+                        "dayOfWeek": "Monday",
+                        "startHourUtc": 12,
+                        "maintenanceWindow": "PT3H"
+                      },
+                      {
+                        "dayOfWeek": "Tuesday",
+                        "startHourUtc": 12
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Gets the patching schedule of a redis cache (requires Premium SKU).",
+        "parameters": [
+          {
+            "name": "resourceGroupName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the resource group."
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the redis cache."
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response of get patch schedules.",
+            "schema": {
+              "$ref": "#/definitions/RedisPatchSchedule"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
     }
   },
   "definitions": {
@@ -1525,6 +2122,5 @@
       "type": "string",
       "description": "Client Api Version."
     }
-  },
-  "x-internal-toc-name": "Redis"
+  }
 }

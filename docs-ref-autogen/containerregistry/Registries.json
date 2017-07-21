@@ -9,84 +9,6 @@
     "https"
   ],
   "paths": {
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerRegistry/checkNameAvailability": {
-      "post": {
-        "tags": [
-          "Operation"
-        ],
-        "description": "Checks whether the container registry name is available for use. The name must contain only alphanumeric characters, be globally unique, and between 5 and 60 characters in length.",
-        "operationId": "Registries_CheckNameAvailability",
-        "parameters": [
-          {
-            "$ref": "#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "name": "registryNameCheckRequest",
-            "in": "body",
-            "description": "The object containing information for the availability request.",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/RegistryNameCheckRequest"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The request was successful; the request was well-formed and received properly.",
-            "schema": {
-              "$ref": "#/definitions/RegistryNameStatus"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "RegistryCheckNameAvailable": {
-            "parameters": {
-              "api-version": "2017-03-01",
-              "subscriptionId": "00000000-0000-0000-0000-000000000000",
-              "registryNameCheckRequest": {
-                "name": "myRegistry",
-                "type": "Microsoft.ContainerRegistry/registries"
-              }
-            },
-            "responses": {
-              "200": {
-                "body": {
-                  "nameAvailable": true
-                }
-              }
-            }
-          },
-          "RegistryCheckNameNotAvailable": {
-            "parameters": {
-              "api-version": "2017-03-01",
-              "subscriptionId": "00000000-0000-0000-0000-000000000000",
-              "registryNameCheckRequest": {
-                "name": "myRegistry",
-                "type": "Microsoft.ContainerRegistry/registries"
-              }
-            },
-            "responses": {
-              "200": {
-                "body": {
-                  "nameAvailable": false,
-                  "reason": "AlreadyExists",
-                  "message": "The registry myRegistry is already in use."
-                }
-              }
-            }
-          }
-        },
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/json"
-        ]
-      }
-    },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}": {
       "get": {
         "tags": [
@@ -1114,6 +1036,5 @@
       "pattern": "^[a-zA-Z0-9]*$",
       "x-ms-parameter-location": "method"
     }
-  },
-  "x-internal-toc-name": "Registries"
+  }
 }
