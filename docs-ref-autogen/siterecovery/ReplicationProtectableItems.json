@@ -11,211 +11,7 @@
   "schemes": [
     "https"
   ],
-  "paths": {
-    "/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectableItems/{protectableItemName}": {
-      "get": {
-        "tags": [
-          "ReplicationProtectableItems"
-        ],
-        "summary": "Gets the details of a protectable item.",
-        "description": "The operation to get the details of a protectable item.",
-        "operationId": "ReplicationProtectableItems_Get",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/ApiVersion"
-          },
-          {
-            "$ref": "#/parameters/ResourceName"
-          },
-          {
-            "$ref": "#/parameters/ResourceGroupName"
-          },
-          {
-            "$ref": "#/parameters/SubscriptionId"
-          },
-          {
-            "name": "fabricName",
-            "in": "path",
-            "description": "Fabric name.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "protectionContainerName",
-            "in": "path",
-            "description": "Protection container name.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "protectableItemName",
-            "in": "path",
-            "description": "Protectable item name.",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/ProtectableItem"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "Gets the details of a protectable item.": {
-            "parameters": {
-              "api-version": "2016-08-10",
-              "protectableItemName": "c0c14913-3d7a-48ea-9531-cc99e0e686e6",
-              "protectionContainerName": "cloud_6d224fc6-f326-5d35-96de-fbf51efb3179",
-              "fabricName": "cloud1",
-              "resourceName": "vault1",
-              "resourceGroupName": "resourceGroupPS1",
-              "subscriptionId": "c183865e-6077-46f2-a3b1-deb0f4f4650a"
-            },
-            "responses": {
-              "200": {
-                "body": {
-                  "id": "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1/replicationProtectionContainers/cloud_6d224fc6-f326-5d35-96de-fbf51efb3179/replicationProtectableItems/c0c14913-3d7a-48ea-9531-cc99e0e686e6",
-                  "name": "c0c14913-3d7a-48ea-9531-cc99e0e686e6",
-                  "type": "Microsoft.RecoveryServices/vaults/replicationFabrics/replicationProtectionContainers/replicationProtectableItems",
-                  "properties": {
-                    "friendlyName": "vm2",
-                    "protectionStatus": "Unprotected",
-                    "recoveryServicesProviderId": "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1/replicationRecoveryServicesProviders/241641e6-ee7b-4ee4-8141-821fadda43fa",
-                    "protectionReadinessErrors": [],
-                    "supportedReplicationProviders": [
-                      "HyperVReplicaAzure"
-                    ],
-                    "customDetails": {
-                      "instanceType": "HyperVVirtualMachine"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "consumes": [
-          "application/json"
-        ]
-      }
-    },
-    "/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectableItems": {
-      "get": {
-        "tags": [
-          "ReplicationProtectableItems"
-        ],
-        "summary": "Gets the list of protectable items.",
-        "description": "Lists the protectable items in a protection container.",
-        "operationId": "ReplicationProtectableItems_ListByReplicationProtectionContainers",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/ApiVersion"
-          },
-          {
-            "$ref": "#/parameters/ResourceName"
-          },
-          {
-            "$ref": "#/parameters/ResourceGroupName"
-          },
-          {
-            "$ref": "#/parameters/SubscriptionId"
-          },
-          {
-            "name": "fabricName",
-            "in": "path",
-            "description": "Fabric name.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "protectionContainerName",
-            "in": "path",
-            "description": "Protection container name.",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/ProtectableItemCollection"
-            }
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        },
-        "x-ms-examples": {
-          "Gets the list of protectable items.": {
-            "parameters": {
-              "api-version": "2016-08-10",
-              "protectionContainerName": "cloud_6d224fc6-f326-5d35-96de-fbf51efb3179",
-              "fabricName": "cloud1",
-              "resourceName": "vault1",
-              "resourceGroupName": "resourceGroupPS1",
-              "subscriptionId": "c183865e-6077-46f2-a3b1-deb0f4f4650a"
-            },
-            "responses": {
-              "200": {
-                "body": {
-                  "value": [
-                    {
-                      "id": "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1/replicationProtectionContainers/cloud_6d224fc6-f326-5d35-96de-fbf51efb3179/replicationProtectableItems/c0c14913-3d7a-48ea-9531-cc99e0e686e6",
-                      "name": "c0c14913-3d7a-48ea-9531-cc99e0e686e6",
-                      "type": "Microsoft.RecoveryServices/vaults/replicationFabrics/replicationProtectionContainers/replicationProtectableItems",
-                      "properties": {
-                        "friendlyName": "vm2",
-                        "protectionStatus": "Unprotected",
-                        "recoveryServicesProviderId": "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1/replicationRecoveryServicesProviders/241641e6-ee7b-4ee4-8141-821fadda43fa",
-                        "protectionReadinessErrors": [],
-                        "supportedReplicationProviders": [
-                          "HyperVReplicaAzure"
-                        ],
-                        "customDetails": {
-                          "instanceType": "HyperVVirtualMachine"
-                        }
-                      }
-                    },
-                    {
-                      "id": "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1/replicationProtectionContainers/cloud_6d224fc6-f326-5d35-96de-fbf51efb3179/replicationProtectableItems/f8491e4f-817a-40dd-a90c-af773978c75b",
-                      "name": "f8491e4f-817a-40dd-a90c-af773978c75b",
-                      "type": "Microsoft.RecoveryServices/vaults/replicationFabrics/replicationProtectionContainers/replicationProtectableItems",
-                      "properties": {
-                        "friendlyName": "vm1",
-                        "protectionStatus": "Unprotected",
-                        "recoveryServicesProviderId": "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1/replicationRecoveryServicesProviders/241641e6-ee7b-4ee4-8141-821fadda43fa",
-                        "protectionReadinessErrors": [],
-                        "supportedReplicationProviders": [
-                          "HyperVReplicaAzure"
-                        ],
-                        "customDetails": {
-                          "instanceType": "HyperVVirtualMachine"
-                        }
-                      }
-                    }
-                  ],
-                  "nextLink": "https://management.azure.com/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1/replicationProtectionContainers/cloud_6d224fc6-f326-5d35-96de-fbf51efb3179/replicationProtectableItems?api-version=2016-08-10&%24skipToken=ReplicationGroup%3aBegin"
-                }
-              }
-            }
-          }
-        },
-        "consumes": [
-          "application/json"
-        ]
-      }
-    }
-  },
+  "paths": {},
   "definitions": {
     "AlertCollection": {
       "description": "Collection of alerts.",
@@ -7867,5 +7663,16 @@
       ]
     }
   ],
-  "x-internal-toc-name": "Replication Protectable Items"
+  "x-internal-toc-name": "Replication Protectable Items",
+  "x-internal-split-type": "OperationGroup",
+  "x-internal-split-members": [
+    {
+      "displayName": "Get",
+      "relativePath": "ReplicationProtectableItems/Get"
+    },
+    {
+      "displayName": "List By Replication Protection Containers",
+      "relativePath": "ReplicationProtectableItems/ListByReplicationProtectionContainers"
+    }
+  ]
 }

@@ -11,239 +11,7 @@
   "schemes": [
     "https"
   ],
-  "paths": {
-    "/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationAlertSettings/{alertSettingName}": {
-      "get": {
-        "tags": [
-          "ReplicationAlertSettings"
-        ],
-        "summary": "Gets an email notification(alert) configuration.",
-        "description": "Gets the details of the specified email notification(alert) configuration.",
-        "operationId": "ReplicationAlertSettings_Get",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/ApiVersion"
-          },
-          {
-            "$ref": "#/parameters/ResourceName"
-          },
-          {
-            "$ref": "#/parameters/ResourceGroupName"
-          },
-          {
-            "$ref": "#/parameters/SubscriptionId"
-          },
-          {
-            "name": "alertSettingName",
-            "in": "path",
-            "description": "The name of the email notification configuration.",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/Alert"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "Gets an email notification(alert) configuration.": {
-            "parameters": {
-              "alertSettingName": "defaultAlertSetting",
-              "api-version": "2016-08-10",
-              "resourceName": "vault1",
-              "resourceGroupName": "resourceGroupPS1",
-              "subscriptionId": "c183865e-6077-46f2-a3b1-deb0f4f4650a"
-            },
-            "responses": {
-              "200": {
-                "body": {
-                  "type": "Microsoft.RecoveryServices/vaults/replicationAlertSettings",
-                  "id": "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationAlertSettings/defaultAlertSetting",
-                  "name": "defaultAlertSetting",
-                  "properties": {
-                    "sendToOwners": "false",
-                    "customEmailAddresses": [
-                      "ronehr@microsoft.com"
-                    ],
-                    "locale": "en-US"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "consumes": [
-          "application/json"
-        ]
-      },
-      "put": {
-        "tags": [
-          "ReplicationAlertSettings"
-        ],
-        "summary": "Configures email notifications for this vault.",
-        "description": "Create or update an email notification(alert) configuration.",
-        "operationId": "ReplicationAlertSettings_Create",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/ApiVersion"
-          },
-          {
-            "$ref": "#/parameters/ResourceName"
-          },
-          {
-            "$ref": "#/parameters/ResourceGroupName"
-          },
-          {
-            "$ref": "#/parameters/SubscriptionId"
-          },
-          {
-            "name": "alertSettingName",
-            "in": "path",
-            "description": "The name of the email notification(alert) configuration.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "request",
-            "in": "body",
-            "description": "The input to configure the email notification(alert).",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ConfigureAlertRequest"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/Alert"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "Configures email notifications for this vault.": {
-            "parameters": {
-              "alertSettingName": "defaultAlertSetting",
-              "api-version": "2016-08-10",
-              "resourceName": "vault1",
-              "resourceGroupName": "resourceGroupPS1",
-              "subscriptionId": "c183865e-6077-46f2-a3b1-deb0f4f4650a",
-              "request": {
-                "properties": {
-                  "sendToOwners": "false",
-                  "customEmailAddresses": [
-                    "ronehr@microsoft.com"
-                  ],
-                  "locale": ""
-                }
-              }
-            },
-            "responses": {
-              "200": {
-                "body": {
-                  "type": "Microsoft.RecoveryServices/vaults/replicationAlertSettings",
-                  "id": "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationAlertSettings/defaultAlertSetting",
-                  "name": "defaultAlertSetting",
-                  "properties": {
-                    "sendToOwners": "false",
-                    "customEmailAddresses": [
-                      "ronehr@microsoft.com"
-                    ],
-                    "locale": "en-US"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationAlertSettings": {
-      "get": {
-        "tags": [
-          "ReplicationAlertSettings"
-        ],
-        "summary": "Gets the list of configured email notification(alert) configurations.",
-        "description": "Gets the list of email notification(alert) configurations for the vault. .",
-        "operationId": "ReplicationAlertSettings_List",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/ApiVersion"
-          },
-          {
-            "$ref": "#/parameters/ResourceName"
-          },
-          {
-            "$ref": "#/parameters/ResourceGroupName"
-          },
-          {
-            "$ref": "#/parameters/SubscriptionId"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/AlertCollection"
-            }
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        },
-        "x-ms-examples": {
-          "Gets the list of configured email notification(alert) configurations.": {
-            "parameters": {
-              "api-version": "2016-08-10",
-              "resourceName": "vault1",
-              "resourceGroupName": "resourceGroupPS1",
-              "subscriptionId": "c183865e-6077-46f2-a3b1-deb0f4f4650a"
-            },
-            "responses": {
-              "200": {
-                "body": {
-                  "value": [
-                    {
-                      "type": "Microsoft.RecoveryServices/vaults/replicationAlertSettings",
-                      "id": "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationAlertSettings/defaultAlertSetting",
-                      "name": "defaultAlertSetting",
-                      "properties": {
-                        "sendToOwners": "false",
-                        "customEmailAddresses": [
-                          "ronehr@microsoft.com"
-                        ],
-                        "locale": "en-US"
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        },
-        "consumes": [
-          "application/json"
-        ]
-      }
-    }
-  },
+  "paths": {},
   "definitions": {
     "AlertCollection": {
       "description": "Collection of alerts.",
@@ -7895,5 +7663,20 @@
       ]
     }
   ],
-  "x-internal-toc-name": "Replication Alert Settings"
+  "x-internal-toc-name": "Replication Alert Settings",
+  "x-internal-split-type": "OperationGroup",
+  "x-internal-split-members": [
+    {
+      "displayName": "Create",
+      "relativePath": "ReplicationAlertSettings/Create"
+    },
+    {
+      "displayName": "Get",
+      "relativePath": "ReplicationAlertSettings/Get"
+    },
+    {
+      "displayName": "List",
+      "relativePath": "ReplicationAlertSettings/List"
+    }
+  ]
 }

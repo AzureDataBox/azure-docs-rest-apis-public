@@ -11,197 +11,7 @@
   "schemes": [
     "https"
   ],
-  "paths": {
-    "/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationEvents/{eventName}": {
-      "get": {
-        "tags": [
-          "ReplicationEvents"
-        ],
-        "summary": "Get the details of an Azure Site recovery event.",
-        "description": "The operation to get the details of an Azure Site recovery event.",
-        "operationId": "ReplicationEvents_Get",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/ApiVersion"
-          },
-          {
-            "$ref": "#/parameters/ResourceName"
-          },
-          {
-            "$ref": "#/parameters/ResourceGroupName"
-          },
-          {
-            "$ref": "#/parameters/SubscriptionId"
-          },
-          {
-            "name": "eventName",
-            "in": "path",
-            "description": "The name of the Azure Site Recovery event.",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/Event"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "Get the details of an Azure Site recovery event.": {
-            "parameters": {
-              "eventName": "654b71d0-b2ce-4e6e-a861-98528d4bd375",
-              "api-version": "2016-08-10",
-              "resourceName": "vault1",
-              "resourceGroupName": "resourceGroupPS1",
-              "subscriptionId": "c183865e-6077-46f2-a3b1-deb0f4f4650a"
-            },
-            "responses": {
-              "200": {
-                "body": {
-                  "type": "Microsoft.RecoveryServices/vaults/replicationEvents",
-                  "id": "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationEvents/VmMonitoringEvent;9091989947769704276_516de684-0079-48f7-b44b-882923268654",
-                  "name": "VmMonitoringEvent;9091989947769704276_516de684-0079-48f7-b44b-882923268654",
-                  "properties": {
-                    "eventCode": "d9a07b07-c7b5-49ca-ab6c-6926596dfe47",
-                    "description": "Virtual machine health is OK",
-                    "eventType": "VmHealth",
-                    "affectedObjectFriendlyName": "vm1",
-                    "severity": "OK",
-                    "timeOfOccurrence": "2017-05-02T14:28:28.5071531Z",
-                    "fabricId": "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1",
-                    "providerSpecificDetails": {
-                      "instanceType": "HyperVReplicaAzure"
-                    },
-                    "eventSpecificDetails": {
-                      "instanceType": "JobStatusEventDetails"
-                    },
-                    "healthErrors": []
-                  }
-                }
-              }
-            }
-          }
-        },
-        "consumes": [
-          "application/json"
-        ]
-      }
-    },
-    "/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationEvents": {
-      "get": {
-        "tags": [
-          "ReplicationEvents"
-        ],
-        "summary": "Gets the list of Azure Site Recovery events.",
-        "description": "Gets the list of Azure Site Recovery events for the vault.",
-        "operationId": "ReplicationEvents_List",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/ApiVersion"
-          },
-          {
-            "$ref": "#/parameters/ResourceName"
-          },
-          {
-            "$ref": "#/parameters/ResourceGroupName"
-          },
-          {
-            "$ref": "#/parameters/SubscriptionId"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/EventCollection"
-            }
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        },
-        "x-ms-examples": {
-          "Gets the list of Azure Site Recovery events.": {
-            "parameters": {
-              "api-version": "2016-08-10",
-              "resourceName": "vault1",
-              "resourceGroupName": "resourceGroupPS1",
-              "subscriptionId": "c183865e-6077-46f2-a3b1-deb0f4f4650a"
-            },
-            "responses": {
-              "200": {
-                "body": {
-                  "value": [
-                    {
-                      "type": "Microsoft.RecoveryServices/vaults/replicationEvents",
-                      "id": "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationEvents/JobStatusMonitoringEvent;9091989892524070155_4ed6f1a6-9b6d-4048-9079-1307dd24b814",
-                      "name": "JobStatusMonitoringEvent;9091989892524070155_4ed6f1a6-9b6d-4048-9079-1307dd24b814",
-                      "properties": {
-                        "eventCode": "d32574f6-f59e-4545-b5ac-bc88d545f089",
-                        "description": "TestFailover - Failed",
-                        "eventType": "JobStatus",
-                        "affectedObjectFriendlyName": "vm1",
-                        "severity": "Critical",
-                        "timeOfOccurrence": "2017-05-02T16:00:33.0705652Z",
-                        "fabricId": "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1",
-                        "providerSpecificDetails": {
-                          "instanceType": "HyperVReplicaAzure"
-                        },
-                        "eventSpecificDetails": {
-                          "instanceType": "JobStatusEventDetails"
-                        },
-                        "healthErrors": [
-                          {
-                            "errorCode": "499",
-                            "errorMessage": "An internal error occurred.",
-                            "possibleCauses": "The operation failed due to an internal error.",
-                            "recommendedAction": "Retry the last action. If the issue persists, contact Support."
-                          }
-                        ]
-                      }
-                    },
-                    {
-                      "type": "Microsoft.RecoveryServices/vaults/replicationEvents",
-                      "id": "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationEvents/VmMonitoringEvent;9091989947769704276_516de684-0079-48f7-b44b-882923268654",
-                      "name": "VmMonitoringEvent;9091989947769704276_516de684-0079-48f7-b44b-882923268654",
-                      "properties": {
-                        "eventCode": "d9a07b07-c7b5-49ca-ab6c-6926596dfe47",
-                        "description": "Virtual machine health is OK",
-                        "eventType": "VmHealth",
-                        "affectedObjectFriendlyName": "vm1",
-                        "severity": "OK",
-                        "timeOfOccurrence": "2017-05-02T14:28:28.5071531Z",
-                        "fabricId": "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1",
-                        "providerSpecificDetails": {
-                          "instanceType": "HyperVReplicaAzure"
-                        },
-                        "eventSpecificDetails": {
-                          "instanceType": "JobStatusEventDetails"
-                        },
-                        "healthErrors": []
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        },
-        "consumes": [
-          "application/json"
-        ]
-      }
-    }
-  },
+  "paths": {},
   "definitions": {
     "AlertCollection": {
       "description": "Collection of alerts.",
@@ -7853,5 +7663,16 @@
       ]
     }
   ],
-  "x-internal-toc-name": "Replication Events"
+  "x-internal-toc-name": "Replication Events",
+  "x-internal-split-type": "OperationGroup",
+  "x-internal-split-members": [
+    {
+      "displayName": "Get",
+      "relativePath": "ReplicationEvents/Get"
+    },
+    {
+      "displayName": "List",
+      "relativePath": "ReplicationEvents/List"
+    }
+  ]
 }

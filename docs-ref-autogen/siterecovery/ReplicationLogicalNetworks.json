@@ -11,176 +11,7 @@
   "schemes": [
     "https"
   ],
-  "paths": {
-    "/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationLogicalNetworks": {
-      "get": {
-        "tags": [
-          "ReplicationLogicalNetworks"
-        ],
-        "summary": "Gets the list of logical networks under a fabric.",
-        "description": "Lists all the logical networks of the Azure Site Recovery fabric",
-        "operationId": "ReplicationLogicalNetworks_ListByReplicationFabrics",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/ApiVersion"
-          },
-          {
-            "$ref": "#/parameters/ResourceName"
-          },
-          {
-            "$ref": "#/parameters/ResourceGroupName"
-          },
-          {
-            "$ref": "#/parameters/SubscriptionId"
-          },
-          {
-            "name": "fabricName",
-            "in": "path",
-            "description": "Server Id.",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/LogicalNetworkCollection"
-            }
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        },
-        "x-ms-examples": {
-          "Gets the list of logical networks under a fabric.": {
-            "parameters": {
-              "fabricName": "cloud1",
-              "api-version": "2016-08-10",
-              "resourceName": "vault1",
-              "resourceGroupName": "resourceGroupPS1",
-              "subscriptionId": "c183865e-6077-46f2-a3b1-deb0f4f4650a"
-            },
-            "responses": {
-              "200": {
-                "body": {
-                  "value": [
-                    {
-                      "type": "Microsoft.RecoveryServices/vaults/replicationFabrics/replicationLogicalNetworks",
-                      "id": "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1/replicationLogicalNetworks/53f5a278-ae85-4001-bd5f-f6a02e1f579d",
-                      "name": "87ab394f-165f-4aa9-bd84-b018500b4509",
-                      "properties": {
-                        "friendlyName": "corp",
-                        "networkVirtualizationStatus": "NetworkVirtualizationNotEnabled",
-                        "logicalNetworkUsage": "NotUsedAsPrivateNetworkForTestFailover",
-                        "logicalNetworkDefinitionsStatus": "LogicalNetworkDefinitionsNotIsolated"
-                      }
-                    },
-                    {
-                      "type": "Microsoft.RecoveryServices/vaults/replicationFabrics/replicationLogicalNetworks",
-                      "id": "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1/replicationLogicalNetworks/87ab394f-165f-4aa9-bd84-b018500b4509",
-                      "name": "53f5a278-ae85-4001-bd5f-f6a02e1f579d",
-                      "properties": {
-                        "friendlyName": "LN-VLANNetwork-4",
-                        "networkVirtualizationStatus": "NetworkVirtualizationNotEnabled",
-                        "logicalNetworkUsage": "NotUsedAsPrivateNetworkForTestFailover",
-                        "logicalNetworkDefinitionsStatus": "LogicalNetworkDefinitionsIsolated"
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        },
-        "consumes": [
-          "application/json"
-        ]
-      }
-    },
-    "/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationLogicalNetworks/{logicalNetworkName}": {
-      "get": {
-        "tags": [
-          "ReplicationLogicalNetworks"
-        ],
-        "summary": "Gets a logical network with specified server id and logical network name.",
-        "description": "Gets the details of a logical network.",
-        "operationId": "ReplicationLogicalNetworks_Get",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/ApiVersion"
-          },
-          {
-            "$ref": "#/parameters/ResourceName"
-          },
-          {
-            "$ref": "#/parameters/ResourceGroupName"
-          },
-          {
-            "$ref": "#/parameters/SubscriptionId"
-          },
-          {
-            "name": "fabricName",
-            "in": "path",
-            "description": "Server Id.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "logicalNetworkName",
-            "in": "path",
-            "description": "Logical network name.",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/LogicalNetwork"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "Gets a logical network with specified server id and logical network name.": {
-            "parameters": {
-              "logicalNetworkName": "87ab394f-165f-4aa9-bd84-b018500b4509",
-              "fabricName": "cloud1",
-              "api-version": "2016-08-10",
-              "resourceName": "vault1",
-              "resourceGroupName": "resourceGroupPS1",
-              "subscriptionId": "c183865e-6077-46f2-a3b1-deb0f4f4650a"
-            },
-            "responses": {
-              "200": {
-                "body": {
-                  "type": "Microsoft.RecoveryServices/vaults/replicationFabrics/replicationLogicalNetworks",
-                  "id": "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1/replicationLogicalNetworks/53f5a278-ae85-4001-bd5f-f6a02e1f579d",
-                  "name": "87ab394f-165f-4aa9-bd84-b018500b4509",
-                  "properties": {
-                    "friendlyName": "corp",
-                    "networkVirtualizationStatus": "NetworkVirtualizationNotEnabled",
-                    "logicalNetworkUsage": "NotUsedAsPrivateNetworkForTestFailover",
-                    "logicalNetworkDefinitionsStatus": "LogicalNetworkDefinitionsNotIsolated"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "consumes": [
-          "application/json"
-        ]
-      }
-    }
-  },
+  "paths": {},
   "definitions": {
     "AlertCollection": {
       "description": "Collection of alerts.",
@@ -7832,5 +7663,16 @@
       ]
     }
   ],
-  "x-internal-toc-name": "Replication Logical Networks"
+  "x-internal-toc-name": "Replication Logical Networks",
+  "x-internal-split-type": "OperationGroup",
+  "x-internal-split-members": [
+    {
+      "displayName": "Get",
+      "relativePath": "ReplicationLogicalNetworks/Get"
+    },
+    {
+      "displayName": "List By Replication Fabrics",
+      "relativePath": "ReplicationLogicalNetworks/ListByReplicationFabrics"
+    }
+  ]
 }
