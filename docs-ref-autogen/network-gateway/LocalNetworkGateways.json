@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "2017-03-01",
+    "version": "2017-06-01",
     "title": "NetworkManagementClient",
     "description": "The Microsoft Azure Network management API provides a RESTful set of web services that interact with Microsoft Azure Networks service to manage your network resources. The API has entities that capture the relationship between an end user and the Microsoft Azure Networks service."
   },
@@ -28,13 +28,13 @@
     }
   },
   "paths": {
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/localNetworkGateways/{localNetworkGatewayName}": {
       "put": {
         "tags": [
-          "VirtualNetworkGatewayConnections"
+          "LocalNetworkGateways"
         ],
-        "operationId": "VirtualNetworkGatewayConnections_CreateOrUpdate",
-        "description": "Creates or updates a virtual network gateway connection in the specified resource group.",
+        "operationId": "LocalNetworkGateways_CreateOrUpdate",
+        "description": "Creates or updates a local network gateway in the specified resource group.",
         "parameters": [
           {
             "name": "resourceGroupName",
@@ -44,20 +44,21 @@
             "description": "The name of the resource group."
           },
           {
-            "name": "virtualNetworkGatewayConnectionName",
+            "name": "localNetworkGatewayName",
             "in": "path",
             "required": true,
+            "minLength": 1,
             "type": "string",
-            "description": "The name of the virtual network gateway connection."
+            "description": "The name of the local network gateway."
           },
           {
             "name": "parameters",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/VirtualNetworkGatewayConnection"
+              "$ref": "#/definitions/LocalNetworkGateway"
             },
-            "description": "Parameters supplied to the create or update virtual network gateway connection operation."
+            "description": "Parameters supplied to the create or update local network gateway operation."
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -67,16 +68,16 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Update successful. The operation returns the resulting VirtualNetworkGatewayConnection resource.",
+          "201": {
+            "description": "Create successful. The operation returns the resulting LocalNetworkGateway resource.",
             "schema": {
-              "$ref": "#/definitions/VirtualNetworkGatewayConnection"
+              "$ref": "#/definitions/LocalNetworkGateway"
             }
           },
-          "201": {
-            "description": "Create successful. The operation returns the resulting VirtualNetworkGatewayConnection resource.",
+          "200": {
+            "description": "Update successful. The operation returns the resulting LocalNetworkGateway resource.",
             "schema": {
-              "$ref": "#/definitions/VirtualNetworkGatewayConnection"
+              "$ref": "#/definitions/LocalNetworkGateway"
             }
           }
         },
@@ -92,10 +93,10 @@
       },
       "get": {
         "tags": [
-          "VirtualNetworkGatewayConnections"
+          "LocalNetworkGateways"
         ],
-        "operationId": "VirtualNetworkGatewayConnections_Get",
-        "description": "Gets the specified virtual network gateway connection by resource group.",
+        "operationId": "LocalNetworkGateways_Get",
+        "description": "Gets the specified local network gateway in a resource group.",
         "parameters": [
           {
             "name": "resourceGroupName",
@@ -105,11 +106,12 @@
             "description": "The name of the resource group."
           },
           {
-            "name": "virtualNetworkGatewayConnectionName",
+            "name": "localNetworkGatewayName",
             "in": "path",
             "required": true,
+            "minLength": 1,
             "type": "string",
-            "description": "The name of the virtual network gateway connection."
+            "description": "The name of the local network gateway."
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -120,9 +122,9 @@
         ],
         "responses": {
           "200": {
-            "description": "Request successful. The operation returns the resulting VirtualNetworkPeering resource.",
+            "description": "Request successful. The operation returns the resulting LocalNetworkGateway resource.",
             "schema": {
-              "$ref": "#/definitions/VirtualNetworkGatewayConnection"
+              "$ref": "#/definitions/LocalNetworkGateway"
             }
           }
         },
@@ -137,10 +139,10 @@
       },
       "delete": {
         "tags": [
-          "VirtualNetworkGatewayConnections"
+          "LocalNetworkGateways"
         ],
-        "operationId": "VirtualNetworkGatewayConnections_Delete",
-        "description": "Deletes the specified virtual network Gateway connection.",
+        "operationId": "LocalNetworkGateways_Delete",
+        "description": "Deletes the specified local network gateway.",
         "parameters": [
           {
             "name": "resourceGroupName",
@@ -150,11 +152,12 @@
             "description": "The name of the resource group."
           },
           {
-            "name": "virtualNetworkGatewayConnectionName",
+            "name": "localNetworkGatewayName",
             "in": "path",
             "required": true,
+            "minLength": 1,
             "type": "string",
-            "description": "The name of the virtual network gateway connection."
+            "description": "The name of the local network gateway."
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -164,14 +167,14 @@
           }
         ],
         "responses": {
+          "204": {
+            "description": "Delete successful."
+          },
           "200": {
             "description": "Delete successful."
           },
           "202": {
             "description": "Accepted and the operation will complete asynchronously."
-          },
-          "204": {
-            "description": "Delete successful."
           }
         },
         "x-ms-long-running-operation": true,
@@ -185,121 +188,13 @@
         ]
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/sharedkey": {
-      "put": {
-        "tags": [
-          "VirtualNetworkGatewayConnections"
-        ],
-        "operationId": "VirtualNetworkGatewayConnections_SetSharedKey",
-        "description": "The Put VirtualNetworkGatewayConnectionSharedKey operation sets the virtual network gateway connection shared key for passed virtual network gateway connection in the specified resource group through Network resource provider.",
-        "parameters": [
-          {
-            "name": "resourceGroupName",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "The name of the resource group."
-          },
-          {
-            "name": "virtualNetworkGatewayConnectionName",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "The virtual network gateway connection name."
-          },
-          {
-            "name": "parameters",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ConnectionSharedKey"
-            },
-            "description": "Parameters supplied to the Begin Set Virtual Network Gateway connection Shared key operation throughNetwork resource provider."
-          },
-          {
-            "$ref": "#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "#/parameters/SubscriptionIdParameter"
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/ConnectionSharedKey"
-            }
-          },
-          "200": {
-            "description": "Request successful. The operation returns the resulting ConnectionSharedKey resource.",
-            "schema": {
-              "$ref": "#/definitions/ConnectionSharedKey"
-            }
-          }
-        },
-        "x-ms-long-running-operation": true,
-        "produces": [
-          "application/json",
-          "text/json"
-        ],
-        "consumes": [
-          "application/json",
-          "text/json"
-        ]
-      },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/localNetworkGateways": {
       "get": {
         "tags": [
-          "VirtualNetworkGatewayConnections"
+          "LocalNetworkGateways"
         ],
-        "operationId": "VirtualNetworkGatewayConnections_GetSharedKey",
-        "description": "The Get VirtualNetworkGatewayConnectionSharedKey operation retrieves information about the specified virtual network gateway connection shared key through Network resource provider.",
-        "parameters": [
-          {
-            "name": "resourceGroupName",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "The name of the resource group."
-          },
-          {
-            "name": "virtualNetworkGatewayConnectionName",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "The virtual network gateway connection shared key name."
-          },
-          {
-            "$ref": "#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "#/parameters/SubscriptionIdParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Request successful. The operation returns a list of VirtualNetworkGatewayConnection resources.",
-            "schema": {
-              "$ref": "#/definitions/ConnectionSharedKey"
-            }
-          }
-        },
-        "produces": [
-          "application/json",
-          "text/json"
-        ],
-        "consumes": [
-          "application/json",
-          "text/json"
-        ]
-      }
-    },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections": {
-      "get": {
-        "tags": [
-          "VirtualNetworkGatewayConnections"
-        ],
-        "operationId": "VirtualNetworkGatewayConnections_List",
-        "description": "The List VirtualNetworkGatewayConnections operation retrieves all the virtual network gateways connections created.",
+        "operationId": "LocalNetworkGateways_List",
+        "description": "Gets all the local network gateways in a resource group.",
         "parameters": [
           {
             "name": "resourceGroupName",
@@ -317,75 +212,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Request successful. The operation resets the virtual network gateway connection shared key.",
+            "description": "Request successful. The operation returns a list of LocalNetworkGateway resources.",
             "schema": {
-              "$ref": "#/definitions/VirtualNetworkGatewayConnectionListResult"
+              "$ref": "#/definitions/LocalNetworkGatewayListResult"
             }
           }
         },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
         },
-        "produces": [
-          "application/json",
-          "text/json"
-        ],
-        "consumes": [
-          "application/json",
-          "text/json"
-        ]
-      }
-    },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/sharedkey/reset": {
-      "post": {
-        "tags": [
-          "VirtualNetworkGatewayConnections"
-        ],
-        "operationId": "VirtualNetworkGatewayConnections_ResetSharedKey",
-        "description": "The VirtualNetworkGatewayConnectionResetSharedKey operation resets the virtual network gateway connection shared key for passed virtual network gateway connection in the specified resource group through Network resource provider.",
-        "parameters": [
-          {
-            "name": "resourceGroupName",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "The name of the resource group."
-          },
-          {
-            "name": "virtualNetworkGatewayConnectionName",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "The virtual network gateway connection reset shared key Name."
-          },
-          {
-            "name": "parameters",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ConnectionResetSharedKey"
-            },
-            "description": "Parameters supplied to the begin reset virtual network gateway connection shared key operation through network resource provider."
-          },
-          {
-            "$ref": "#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "#/parameters/SubscriptionIdParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Request successful. The operation sets the virtual network gateway connection shared key.",
-            "schema": {
-              "$ref": "#/definitions/ConnectionResetSharedKey"
-            }
-          },
-          "202": {
-            "description": ""
-          }
-        },
-        "x-ms-long-running-operation": true,
         "produces": [
           "application/json",
           "text/json"
@@ -409,7 +244,7 @@
           ],
           "x-ms-enum": {
             "name": "IPAllocationMethod",
-            "modelAsString": true
+            "modelAsString": false
           }
         },
         "subnet": {
@@ -445,7 +280,7 @@
       },
       "allOf": [
         {
-          "$ref": "#/definitions/SubResource"
+          "$ref": "#/definitions/SubResourceReadOnly"
         }
       ],
       "description": "IP configuration for virtual network gateway"
@@ -468,7 +303,7 @@
           ],
           "x-ms-enum": {
             "name": "VirtualNetworkGatewayType",
-            "modelAsString": true
+            "modelAsString": false
           }
         },
         "vpnType": {
@@ -480,7 +315,7 @@
           ],
           "x-ms-enum": {
             "name": "VpnType",
-            "modelAsString": true
+            "modelAsString": false
           }
         },
         "enableBgp": {
@@ -506,6 +341,14 @@
         "bgpSettings": {
           "$ref": "#/definitions/BgpSettings",
           "description": "Virtual network gateway's BGP speaker settings."
+        },
+        "radiusServer": {
+          "type": "string",
+          "description": "The radius server address property of the VirtualNetworkGateway resource for vpn client connection."
+        },
+        "radiusSecret": {
+          "type": "string",
+          "description": "The radius secret property of the VirtualNetworkGateway resource for vpn client connection."
         },
         "resourceGuid": {
           "type": "string",
@@ -553,7 +396,7 @@
       },
       "allOf": [
         {
-          "$ref": "#/definitions/SubResource"
+          "$ref": "#/definitions/SubResourceReadOnly"
         }
       ],
       "required": [
@@ -592,7 +435,7 @@
       },
       "allOf": [
         {
-          "$ref": "#/definitions/SubResource"
+          "$ref": "#/definitions/SubResourceReadOnly"
         }
       ],
       "description": "VPN client revoked certificate of virtual network gateway."
@@ -616,6 +459,22 @@
             "$ref": "#/definitions/VpnClientRevokedCertificate"
           },
           "description": "VpnClientRevokedCertificate for Virtual network gateway."
+        },
+        "vpnClientProtocols": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "VPN client protocol enabled for the virtual network gateway.",
+            "enum": [
+              "IkeV2",
+              "SSTP"
+            ],
+            "x-ms-enum": {
+              "name": "VpnClientProtocol",
+              "modelAsString": false
+            }
+          },
+          "description": "VpnClientProtocols for Virtual network gateway."
         }
       },
       "description": "VpnClientConfiguration for P2S client."
@@ -636,7 +495,7 @@
           ],
           "x-ms-enum": {
             "name": "VirtualNetworkGatewaySkuName",
-            "modelAsString": true
+            "modelAsString": false
           }
         },
         "tier": {
@@ -653,7 +512,7 @@
           ],
           "x-ms-enum": {
             "name": "VirtualNetworkGatewaySkuTier",
-            "modelAsString": true
+            "modelAsString": false
           }
         },
         "capacity": {
@@ -714,7 +573,7 @@
           ],
           "x-ms-enum": {
             "name": "BgpPeerState",
-            "modelAsString": true
+            "modelAsString": false
           }
         },
         "connectedDuration": {
@@ -816,13 +675,33 @@
           ],
           "x-ms-enum": {
             "name": "ProcessorArchitecture",
-            "modelAsString": true
+            "modelAsString": false
           }
+        },
+        "authenticationMethod": {
+          "type": "string",
+          "description": "VPN client Authentication Method. Possible values are: 'EAPTLS' and 'EAPMSCHAPv2'.",
+          "enum": [
+            "EAPTLS",
+            "EAPMSCHAPv2"
+          ],
+          "x-ms-enum": {
+            "name": "AuthenticationMethod",
+            "modelAsString": false
+          }
+        },
+        "radiusServerAuthCertificate": {
+          "type": "string",
+          "description": "The public certificate data for the radius server authentication certificate as a Base-64 encoded string. Required only if external radius authentication has been configured with EAPTLS authentication."
+        },
+        "clientRootCertificates": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "A list of client root certificates public certificate data encoded as Base-64 strings. Optional parameter for external radius based authentication with EAPTLS."
         }
       },
-      "required": [
-        "processorArchitecture"
-      ],
       "description": "Vpn Client Parameters for package generation"
     },
     "VirtualNetworkGatewayListResult": {
@@ -884,7 +763,7 @@
           ],
           "x-ms-enum": {
             "name": "VirtualNetworkGatewayConnectionStatus",
-            "modelAsString": true
+            "modelAsString": false
           }
         },
         "ingressBytesTransferred": {
@@ -933,7 +812,7 @@
           ],
           "x-ms-enum": {
             "name": "VirtualNetworkGatewayConnectionType",
-            "modelAsString": true
+            "modelAsString": false
           }
         },
         "routingWeight": {
@@ -957,7 +836,7 @@
           ],
           "x-ms-enum": {
             "name": "VirtualNetworkGatewayConnectionStatus",
-            "modelAsString": true
+            "modelAsString": false
           }
         },
         "tunnelConnectionStatus": {
@@ -1107,7 +986,7 @@
           ],
           "x-ms-enum": {
             "name": "IpsecEncryption",
-            "modelAsString": true
+            "modelAsString": false
           }
         },
         "ipsecIntegrity": {
@@ -1123,7 +1002,7 @@
           ],
           "x-ms-enum": {
             "name": "IpsecIntegrity",
-            "modelAsString": true
+            "modelAsString": false
           }
         },
         "ikeEncryption": {
@@ -1138,7 +1017,7 @@
           ],
           "x-ms-enum": {
             "name": "IkeEncryption",
-            "modelAsString": true
+            "modelAsString": false
           }
         },
         "ikeIntegrity": {
@@ -1152,7 +1031,7 @@
           ],
           "x-ms-enum": {
             "name": "IkeIntegrity",
-            "modelAsString": true
+            "modelAsString": false
           }
         },
         "dhGroup": {
@@ -1170,7 +1049,7 @@
           ],
           "x-ms-enum": {
             "name": "DhGroup",
-            "modelAsString": true
+            "modelAsString": false
           }
         },
         "pfsGroup": {
@@ -1187,7 +1066,7 @@
           ],
           "x-ms-enum": {
             "name": "PfsGroup",
-            "modelAsString": true
+            "modelAsString": false
           }
         }
       },
@@ -1270,7 +1149,8 @@
       "properties": {
         "id": {
           "type": "string",
-          "description": "Resource ID."
+          "description": "Resource ID.",
+          "readOnly": true
         },
         "name": {
           "readOnly": true,
@@ -1294,7 +1174,10 @@
           "description": "Resource tags."
         }
       },
-      "x-ms-azure-resource": true
+      "x-ms-azure-resource": true,
+      "required": [
+        "location"
+      ]
     },
     "AddressSpace": {
       "properties": {
@@ -1306,13 +1189,29 @@
           "description": "A list of address blocks reserved for this virtual network in CIDR notation."
         }
       },
-      "description": "AddressSpace contains an array of IP address ranges that can be used by subnets of the virtual network."
+      "description": "AddressSpace contains an array of IP address ranges that can be used by subnets of the virtual network.",
+      "required": [
+        "addressPrefixes"
+      ]
     },
     "SubResource": {
       "properties": {
         "id": {
           "type": "string",
           "description": "Resource ID."
+        }
+      },
+      "x-ms-azure-resource": true,
+      "required": [
+        "id"
+      ]
+    },
+    "SubResourceReadOnly": {
+      "properties": {
+        "id": {
+          "readOnly": true,
+          "description": "Resource ID",
+          "type": "string"
         }
       },
       "x-ms-azure-resource": true
@@ -1334,7 +1233,7 @@
       "description": "Client API version."
     }
   },
-  "x-internal-toc-name": "Virtual Network Gateway Connections",
+  "x-internal-toc-name": "Local Network Gateways",
   "x-internal-split-members": null,
   "x-internal-split-type": null
 }

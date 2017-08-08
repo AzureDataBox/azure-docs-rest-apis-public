@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "2017-03-01",
+    "version": "2017-06-01",
     "title": "NetworkManagementClient",
     "description": "The Microsoft Azure Network management API provides a RESTful set of web services that interact with Microsoft Azure Networks service to manage your network resources. The API has entities that capture the relationship between an end user and the Microsoft Azure Networks service."
   },
@@ -853,7 +853,7 @@
           ],
           "x-ms-enum": {
             "name": "ProvisioningState",
-            "modelAsString": true
+            "modelAsString": false
           },
           "description": "The provisioning state of the resource."
         }
@@ -953,7 +953,7 @@
           ],
           "x-ms-enum": {
             "name": "AssociationType",
-            "modelAsString": true
+            "modelAsString": false
           },
           "description": "The association type of the child resource to the parent resource."
         }
@@ -984,7 +984,7 @@
           ],
           "x-ms-enum": {
             "name": "Direction",
-            "modelAsString": true
+            "modelAsString": false
           },
           "description": "The direction of the packet represented as a 5-tuple."
         },
@@ -996,7 +996,7 @@
           ],
           "x-ms-enum": {
             "name": "Protocol",
-            "modelAsString": true
+            "modelAsString": false
           },
           "description": "Protocol to be verified on."
         },
@@ -1033,7 +1033,7 @@
           ],
           "x-ms-enum": {
             "name": "Access",
-            "modelAsString": true
+            "modelAsString": false
           },
           "description": "Indicates whether the traffic is allowed or denied."
         },
@@ -1084,7 +1084,7 @@
           ],
           "x-ms-enum": {
             "name": "NextHopType",
-            "modelAsString": true
+            "modelAsString": false
           },
           "description": "Next hop type."
         },
@@ -1270,7 +1270,7 @@
           ],
           "x-ms-enum": {
             "name": "PcProtocol",
-            "modelAsString": true
+            "modelAsString": false
           },
           "default": "Any",
           "description": "Protocol to be filtered on."
@@ -1341,7 +1341,7 @@
           ],
           "x-ms-enum": {
             "name": "ProvisioningState",
-            "modelAsString": true
+            "modelAsString": false
           },
           "description": "The provisioning state of the packet capture session."
         }
@@ -1379,7 +1379,7 @@
           ],
           "x-ms-enum": {
             "name": "PcStatus",
-            "modelAsString": true
+            "modelAsString": false
           },
           "description": "The status of the packet capture session."
         },
@@ -1401,7 +1401,7 @@
             ],
             "x-ms-enum": {
               "name": "PcError",
-              "modelAsString": true
+              "modelAsString": false
             }
           }
         }
@@ -1663,7 +1663,7 @@
           ],
           "x-ms-enum": {
             "name": "ConnectionStatus",
-            "modelAsString": true
+            "modelAsString": false
           },
           "description": "The connection status."
         },
@@ -1748,7 +1748,7 @@
           ],
           "x-ms-enum": {
             "name": "Origin",
-            "modelAsString": true
+            "modelAsString": false
           },
           "description": "The origin of the issue."
         },
@@ -1761,7 +1761,7 @@
           ],
           "x-ms-enum": {
             "name": "Severity",
-            "modelAsString": true
+            "modelAsString": false
           },
           "description": "The severity of the issue."
         },
@@ -1781,7 +1781,7 @@
           ],
           "x-ms-enum": {
             "name": "IssueType",
-            "modelAsString": true
+            "modelAsString": false
           },
           "description": "The type of issue."
         },
@@ -1802,11 +1802,12 @@
         "type": "string"
       }
     },
-    "SubResource": {
+    "SubResourceReadOnly": {
       "properties": {
         "id": {
-          "type": "string",
-          "description": "Resource ID."
+          "readOnly": true,
+          "description": "Resource ID",
+          "type": "string"
         }
       },
       "x-ms-azure-resource": true
@@ -1827,7 +1828,7 @@
           ],
           "x-ms-enum": {
             "name": "SecurityRuleProtocol",
-            "modelAsString": true
+            "modelAsString": false
           }
         },
         "sourcePortRange": {
@@ -1842,9 +1843,23 @@
           "type": "string",
           "description": "The CIDR or source IP range. Asterix '*' can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used. If this is an ingress rule, specifies where network traffic originates from. "
         },
+        "sourceAddressPrefixes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The CIDR or source IP ranges."
+        },
         "destinationAddressPrefix": {
           "type": "string",
-          "description": "The destination address prefix. CIDR or source IP range. Asterix '*' can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used."
+          "description": "The destination address prefix. CIDR or destination IP range. Asterix '*' can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used."
+        },
+        "destinationAddressPrefixes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The destination address prefixes. CIDR or destination IP rangees."
         },
         "access": {
           "type": "string",
@@ -1855,7 +1870,7 @@
           ],
           "x-ms-enum": {
             "name": "SecurityRuleAccess",
-            "modelAsString": true
+            "modelAsString": false
           }
         },
         "priority": {
@@ -1872,7 +1887,7 @@
           ],
           "x-ms-enum": {
             "name": "SecurityRuleDirection",
-            "modelAsString": true
+            "modelAsString": false
           }
         },
         "provisioningState": {
@@ -1885,7 +1900,10 @@
         "sourceAddressPrefix",
         "destinationAddressPrefix",
         "access",
-        "direction"
+        "direction",
+        "sourcePortRange",
+        "destinationPortRange",
+        "priority"
       ]
     },
     "SecurityRule": {
@@ -1905,7 +1923,7 @@
       },
       "allOf": [
         {
-          "$ref": "#/definitions/SubResource"
+          "$ref": "#/definitions/SubResourceReadOnly"
         }
       ],
       "description": "Network security rule."
@@ -1926,7 +1944,7 @@
           ],
           "x-ms-enum": {
             "name": "SecurityRuleProtocol",
-            "modelAsString": true
+            "modelAsString": false
           }
         },
         "sourcePortRange": {
@@ -1937,6 +1955,20 @@
           "type": "string",
           "description": "The destination port or range."
         },
+        "sourcePortRanges": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The source port ranges. Expected values include a single integer between 0 and 65535, a range using '-' as seperator (e.g. 100-400), or an asterix (*)"
+        },
+        "destinationPortRanges": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The destination port ranges. Expected values include a single integer between 0 and 65535, a range using '-' as seperator (e.g. 100-400), or an asterix (*)"
+        },
         "sourceAddressPrefix": {
           "type": "string",
           "description": "The source address prefix."
@@ -1944,6 +1976,20 @@
         "destinationAddressPrefix": {
           "type": "string",
           "description": "The destination address prefix."
+        },
+        "sourceAddressPrefixes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The source address prefixes. Expected values include CIDR IP ranges, Default Tags (VirtualNetwork, AureLoadBalancer, Internet), System Tags, and the asterix (*)."
+        },
+        "destinationAddressPrefixes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The destination address prefixes. Expected values include CIDR IP ranges, Default Tags (VirtualNetwork, AureLoadBalancer, Internet), System Tags, and the asterix (*)."
         },
         "expandedSourceAddressPrefix": {
           "type": "array",
@@ -1968,7 +2014,7 @@
           ],
           "x-ms-enum": {
             "name": "SecurityRuleAccess",
-            "modelAsString": true
+            "modelAsString": false
           }
         },
         "priority": {
@@ -1985,7 +2031,7 @@
           ],
           "x-ms-enum": {
             "name": "SecurityRuleDirection",
-            "modelAsString": true
+            "modelAsString": false
           }
         }
       },
@@ -1995,7 +2041,8 @@
       "properties": {
         "id": {
           "type": "string",
-          "description": "Resource ID."
+          "description": "Resource ID.",
+          "readOnly": true
         },
         "name": {
           "readOnly": true,
@@ -2019,7 +2066,10 @@
           "description": "Resource tags."
         }
       },
-      "x-ms-azure-resource": true
+      "x-ms-azure-resource": true,
+      "required": [
+        "location"
+      ]
     }
   },
   "parameters": {

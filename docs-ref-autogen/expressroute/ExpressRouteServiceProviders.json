@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "2017-03-01",
+    "version": "2017-06-01",
     "title": "NetworkManagementClient",
     "description": "The Microsoft Azure Network management API provides a RESTful set of web services that interact with Microsoft Azure Networks service to manage your network resources. The API has entities that capture the relationship between an end user and the Microsoft Azure Networks service."
   },
@@ -81,7 +81,7 @@
           ],
           "x-ms-enum": {
             "name": "AuthorizationUseStatus",
-            "modelAsString": true
+            "modelAsString": false
           }
         },
         "provisioningState": {
@@ -108,7 +108,7 @@
       },
       "allOf": [
         {
-          "$ref": "#/definitions/SubResource"
+          "$ref": "#/definitions/SubResourceReadOnly"
         }
       ],
       "description": "Authorization in an ExpressRouteCircuit resource."
@@ -138,6 +138,13 @@
           },
           "description": "The reference of AdvertisedPublicPrefixes."
         },
+        "advertisedCommunities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The communities of bgp peering. Spepcified for microsoft peering"
+        },
         "advertisedPublicPrefixesState": {
           "type": "string",
           "description": "AdvertisedPublicPrefixState of the Peering resource. Possible values are 'NotConfigured', 'Configuring', 'Configured', and 'ValidationNeeded'.",
@@ -149,8 +156,13 @@
           ],
           "x-ms-enum": {
             "name": "ExpressRouteCircuitPeeringAdvertisedPublicPrefixState",
-            "modelAsString": true
+            "modelAsString": false
           }
+        },
+        "legacyMode": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The legacy mode of the peering."
         },
         "customerASN": {
           "type": "integer",
@@ -179,7 +191,7 @@
           "description": "The Microsoft peering configuration."
         },
         "routeFilter": {
-          "$ref": "#/definitions/RouteFilter",
+          "$ref": "#/definitions/SubResource",
           "description": "The reference of the RouteFilter resource."
         },
         "state": {
@@ -191,7 +203,7 @@
           ],
           "x-ms-enum": {
             "name": "ExpressRouteCircuitPeeringState",
-            "modelAsString": true
+            "modelAsString": false
           }
         }
       },
@@ -234,7 +246,7 @@
           ],
           "x-ms-enum": {
             "name": "ExpressRouteCircuitPeeringType",
-            "modelAsString": true
+            "modelAsString": false
           }
         },
         "state": {
@@ -246,7 +258,7 @@
           ],
           "x-ms-enum": {
             "name": "ExpressRouteCircuitPeeringState",
-            "modelAsString": true
+            "modelAsString": false
           }
         },
         "azureASN": {
@@ -305,7 +317,7 @@
           "description": "Gets whether the provider or the customer last modified the peering."
         },
         "routeFilter": {
-          "$ref": "#/definitions/RouteFilter",
+          "$ref": "#/definitions/SubResource",
           "description": "The reference of the RouteFilter resource."
         },
         "ipv6PeeringConfig": {
@@ -332,7 +344,7 @@
       },
       "allOf": [
         {
-          "$ref": "#/definitions/SubResource"
+          "$ref": "#/definitions/SubResourceReadOnly"
         }
       ],
       "description": "Peering in an ExpressRouteCircuit resource."
@@ -368,7 +380,7 @@
           ],
           "x-ms-enum": {
             "name": "ExpressRouteCircuitSkuTier",
-            "modelAsString": true
+            "modelAsString": false
           }
         },
         "family": {
@@ -380,7 +392,7 @@
           ],
           "x-ms-enum": {
             "name": "ExpressRouteCircuitSkuFamily",
-            "modelAsString": true
+            "modelAsString": false
           }
         }
       },
@@ -425,7 +437,7 @@
           ],
           "x-ms-enum": {
             "name": "ServiceProviderProvisioningState",
-            "modelAsString": true
+            "modelAsString": false
           }
         },
         "authorizations": {
@@ -698,7 +710,8 @@
       "properties": {
         "id": {
           "type": "string",
-          "description": "Resource ID."
+          "description": "Resource ID.",
+          "readOnly": true
         },
         "name": {
           "readOnly": true,
@@ -722,6 +735,19 @@
           "description": "Resource tags."
         }
       },
+      "x-ms-azure-resource": true,
+      "required": [
+        "location"
+      ]
+    },
+    "SubResourceReadOnly": {
+      "properties": {
+        "id": {
+          "readOnly": true,
+          "description": "Resource ID",
+          "type": "string"
+        }
+      },
       "x-ms-azure-resource": true
     },
     "SubResource": {
@@ -731,134 +757,10 @@
           "description": "Resource ID."
         }
       },
-      "x-ms-azure-resource": true
-    },
-    "RouteFilterRulePropertiesFormat": {
+      "x-ms-azure-resource": true,
       "required": [
-        "access",
-        "routeFilterRuleType",
-        "communities"
-      ],
-      "properties": {
-        "access": {
-          "type": "string",
-          "description": "The access type of the rule. Valid values are: 'Allow', 'Deny'",
-          "enum": [
-            "Allow",
-            "Deny"
-          ],
-          "x-ms-enum": {
-            "name": "Access",
-            "modelAsString": true
-          }
-        },
-        "routeFilterRuleType": {
-          "type": "string",
-          "description": "The rule type of the rule. Valid value is: 'Community'",
-          "enum": [
-            "Community"
-          ],
-          "x-ms-enum": {
-            "name": "RouteFilterRuleType",
-            "modelAsString": true
-          }
-        },
-        "communities": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "description": "The collection for bgp community values to filter on. e.g. ['12076:5010','12076:5020']"
-        },
-        "provisioningState": {
-          "type": "string",
-          "readOnly": true,
-          "description": "The provisioning state of the resource. Possible values are: 'Updating', 'Deleting', 'Succeeded' and 'Failed'."
-        }
-      },
-      "description": "Route Filter Rule Resource"
-    },
-    "RouteFilterRule": {
-      "properties": {
-        "properties": {
-          "x-ms-client-flatten": true,
-          "$ref": "#/definitions/RouteFilterRulePropertiesFormat"
-        },
-        "name": {
-          "type": "string",
-          "readOnly": true,
-          "description": "The name of the resource that is unique within a resource group. This name can be used to access the resource."
-        },
-        "location": {
-          "type": "string",
-          "description": "Resource location."
-        },
-        "etag": {
-          "type": "string",
-          "readOnly": true,
-          "description": "A unique read-only string that changes whenever the resource is updated."
-        },
-        "tags": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          },
-          "description": "Resource tags."
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "#/definitions/SubResource"
-        }
-      ],
-      "description": "Route Filter Rule Resource"
-    },
-    "RouteFilterPropertiesFormat": {
-      "properties": {
-        "rules": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/RouteFilterRule"
-          },
-          "description": "Collection of RouteFilterRules contained within a route filter."
-        },
-        "peerings": {
-          "readOnly": true,
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ExpressRouteCircuitPeering"
-          },
-          "description": "A collection of references to express route circuit peerings."
-        },
-        "provisioningState": {
-          "type": "string",
-          "readOnly": true,
-          "description": "The provisioning state of the resource. Possible values are: 'Updating', 'Deleting', 'Succeeded' and 'Failed'."
-        }
-      },
-      "description": "Route Filter Resource"
-    },
-    "RouteFilter": {
-      "required": [
-        "location"
-      ],
-      "properties": {
-        "properties": {
-          "x-ms-client-flatten": true,
-          "$ref": "#/definitions/RouteFilterPropertiesFormat"
-        },
-        "etag": {
-          "type": "string",
-          "readOnly": true,
-          "description": "Gets a unique read-only string that changes whenever the resource is updated."
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "#/definitions/Resource"
-        }
-      ],
-      "description": "Route Filter Resource."
+        "id"
+      ]
     }
   },
   "parameters": {
