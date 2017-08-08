@@ -62,7 +62,7 @@ if (Test-Path $RestProcessor){
 }
 
 Write-Host "Downloading RestProcessorArtifacts"
-$RestProcessorArtifactsSource = "https://ci.appveyor.com/api/projects/VisualStudioChinaAppVeyorUsers/restprocessor/artifacts/RestProcessor/bin/RestProcessorArtifacts.zip?branch=operation"
+$RestProcessorArtifactsSource = "https://ci.appveyor.com/api/projects/VisualStudioChinaAppVeyorUsers/restprocessor/artifacts/RestProcessor/bin/RestProcessorArtifacts.zip?branch=master"
 $RestProcessorArtifactsDestination = Join-Path $scriptsHome $RestProcessorZip
 Invoke-WebRequest $RestProcessorArtifactsSource -OutFile $RestProcessorArtifactsDestination -Headers @{ "Authorization" = "Bearer $env:appveyor_api_token" }
 Unzip $RestProcessorArtifactsDestination $scriptsHome\$RestProcessor
