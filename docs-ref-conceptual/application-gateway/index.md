@@ -1,19 +1,20 @@
 ---
-title: .... REST API | Microsoft Docs
-author: gwallace
-ms.author: gwallace
-ms.date: 
-ms.topic: reference
-ms.service: Azure
+title: Azure Application Gateway REST API | Microsoft Docs
+ms.date: 08/08/2017
+ms.service: application-gateway
 ms.devlang: rest-api
-service_description: To be added
+ms.topic: reference
+author: amitsriva
+ms.author: amsriva
+manager: rossort
 ---
 
 # Application Gateway REST API
 
-George to Add...
+Application Gateway is a Network Service which provides HTTP Load balancing as a Service to Azure customers. This is a fully managed service implemented as dedicated Hosted Service in a subscription owned by Gateway Manager but deployed in customer vnet. In addition to basic HTTP Load balancing, it provides other Layer 7 features like Cookie based client affinity and SSL offload, URL routing and multi-site hosting.
 
-## REST Operation Groups 
+## REST Operation Groups
 
-| Operation group | Description                                                        |
-|-----------------|--------------------------------------------------------------------|
+|Operation Group|Description|
+|---|---|
+|[Application Gateway](~/docs-ref-autogen/application-gateway/applicationgateways.json) |Provides operations for managing Application Gateways.|
