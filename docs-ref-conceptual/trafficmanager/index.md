@@ -1,13 +1,12 @@
 ---
 title: Traffic Manager REST
-ms.date: 03/23/2017
+ms.date: 08/09/2017
 ms.service: traffic-manager
 ms.devlang: rest-api
 ms.topic: reference
 author: georgewallace
 ms.author: gwallace
 manager: timlt
-service_description: To be added
 ---
 # Traffic Manager REST
 
