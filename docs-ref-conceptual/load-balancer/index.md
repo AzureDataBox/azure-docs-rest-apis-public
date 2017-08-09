@@ -15,9 +15,9 @@ Load balancer allows fine-grained configuration of how incoming traffic is distr
 
 | Operation | REST Verb | Description | 
 |---------|---------|-----------|
-| [Create or update a load balancer](~/docs-ref-autogen/load-balncer/loadbalancers.json#LoadBalancers_CreateOrUpdate)   |  PUT | Creates or updates a Load balancer. | 
-| [Delete a load balancer](~/docs-ref-autogen/load-balncer/loadbalancers.json#LoadBalancers_Delete)    |  DELETE | Deletes an existing Load balancer |  
-| [Get information about a load balancer ](~/docs-ref-autogen/load-balncer/loadbalancers.json#LoadBalancers_Get)    |  GET | Gets a Load balancer. | 
-| [List load balancers within a resource group](~/docs-ref-autogen/load-balncer/loadbalancers.json#LoadBalancers_List)   |  GET | Lists all Load balancers in a resource group. |  
-| [List load balancers within a subscription](~/docs-ref-autogen/load-balncer/loadbalancers.json#LoadBalancers_ListAll) |  GET | Lists all Load balancers in a subscription. |    
+| [Create or update a load balancer](~/docs-ref-autogen/load-balancer/loadbalancers.json#LoadBalancers_CreateOrUpdate)   |  PUT | Creates or updates a Load balancer. | 
+| [Delete a load balancer](~/docs-ref-autogen/load-balancer/loadbalancers.json#LoadBalancers_Delete)    |  DELETE | Deletes an existing Load balancer |  
+| [Get information about a load balancer ](~/docs-ref-autogen/load-balancer/loadbalancers.json#LoadBalancers_Get)    |  GET | Gets a Load balancer. | 
+| [List load balancers within a resource group](~/docs-ref-autogen/load-balancer/loadbalancers.json#LoadBalancers_List)   |  GET | Lists all Load balancers in a resource group. |  
+| [List load balancers within a subscription](~/docs-ref-autogen/load-balancer/loadbalancers.json#LoadBalancers_ListAll) |  GET | Lists all Load balancers in a subscription. |    
 
