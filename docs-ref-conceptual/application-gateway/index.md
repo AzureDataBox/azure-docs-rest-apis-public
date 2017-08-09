@@ -1,6 +1,6 @@
 ---
 title: Azure Application Gateway REST API | Microsoft Docs
-ms.date: 08/08/2017
+ms.date: 08/09/2017
 ms.service: application-gateway
 ms.devlang: rest-api
 ms.topic: reference

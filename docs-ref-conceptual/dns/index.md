@@ -1,11 +1,12 @@
 ---
-ms.assetid: 0aeaf25a-c694-4199-b940-7e773d613fc5
 ms.title: Azure DNS REST API Reference
 ms.service: dns
 author: georgewallace
 ms.author: gwallace
 ms.manager: timlt
-service_description: To be added
+ms.date: 08/09/2017
+ms.topic: reference
+ms.devlang: rest-api
 ---
 
 # Azure DNS

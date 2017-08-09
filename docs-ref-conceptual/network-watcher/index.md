@@ -4,7 +4,7 @@ author: gwallace
 ms.author: gwallace
 ms.date: 08/09/2017
 ms.topic: reference
-ms.service: Azure
+ms.service: network-watcher
 ms.devlang: rest-api
 ---
 
