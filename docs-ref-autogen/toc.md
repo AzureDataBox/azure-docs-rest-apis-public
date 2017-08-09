@@ -1686,6 +1686,7 @@
 ## [Manage all VMs in a set](../docs-ref-conceptual/virtualmachinescalesets/manage-all-vms-in-a-set.md)
 ## [List all NSGs in a set](../docs-ref-conceptual/virtualmachinescalesets/list-all-nsgs-set.md)
 # [Virtual Networks](../docs-ref-conceptual/virtual-network/index.md)
+## [Available Private Access Services](virtualnetwork/AvailablePrivateAccessServices.json)
 ## [Check Dns Name Availability](virtualnetwork/CheckDnsNameAvailability.json)
 ## [Network Interfaces](virtualnetwork/NetworkInterfaces.json)
 ## [Network Security Groups](virtualnetwork/NetworkSecurityGroups.json)
