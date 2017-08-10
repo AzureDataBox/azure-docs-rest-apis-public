@@ -391,7 +391,7 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ProxyOnlyResource"
         }
       ],
       "properties": {
@@ -468,6 +468,31 @@
         }
       }
     },
+    "ProxyOnlyResource": {
+      "description": "Azure proxy only resource. This resource is not tracked by Azure Resource Manager.",
+      "properties": {
+        "id": {
+          "description": "Resource Id.",
+          "type": "string",
+          "readOnly": true
+        },
+        "name": {
+          "description": "Resource Name.",
+          "type": "string",
+          "readOnly": true
+        },
+        "kind": {
+          "description": "Kind of resource.",
+          "type": "string"
+        },
+        "type": {
+          "description": "Resource type.",
+          "type": "string",
+          "readOnly": true
+        }
+      },
+      "x-ms-azure-resource": true
+    },
     "ReissueCertificateOrderRequest": {
       "description": "Class representing certificate reissue request.",
       "type": "object",
@@ -534,7 +559,7 @@
       }
     },
     "Resource": {
-      "description": "Azure resource.",
+      "description": "Azure resource. This resource is tracked in Azure Resource Manager",
       "required": [
         "location"
       ],
@@ -546,7 +571,8 @@
         },
         "name": {
           "description": "Resource Name.",
-          "type": "string"
+          "type": "string",
+          "readOnly": true
         },
         "kind": {
           "description": "Kind of resource.",
@@ -558,7 +584,8 @@
         },
         "type": {
           "description": "Resource type.",
-          "type": "string"
+          "type": "string",
+          "readOnly": true
         },
         "tags": {
           "description": "Resource tags.",

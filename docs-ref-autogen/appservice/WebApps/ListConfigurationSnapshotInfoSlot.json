@@ -217,7 +217,7 @@
           "type": "integer"
         },
         "enabled": {
-          "description": "Enabled.",
+          "description": "True if configuration is enabled, false if it is disabled and null if configuration is not set.",
           "type": "boolean"
         }
       }
@@ -255,7 +255,7 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ProxyOnlyResource"
         }
       ],
       "properties": {
@@ -388,7 +388,7 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ProxyOnlyResource"
         }
       ],
       "properties": {
@@ -626,7 +626,7 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ProxyOnlyResource"
         }
       ],
       "properties": {
@@ -744,7 +744,7 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ProxyOnlyResource"
         }
       ],
       "properties": {
@@ -869,7 +869,7 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ProxyOnlyResource"
         }
       ],
       "properties": {
@@ -877,7 +877,7 @@
           "description": "Deployment resource specific properties",
           "properties": {
             "id": {
-              "description": "ID.",
+              "description": "Identifier for deployment.",
               "type": "string",
               "x-ms-mutability": [
                 "create",
@@ -886,19 +886,19 @@
             },
             "status": {
               "format": "int32",
-              "description": "Status.",
+              "description": "Deployment status.",
               "type": "integer"
             },
             "message": {
-              "description": "Message.",
+              "description": "Details about deployment status.",
               "type": "string"
             },
             "author": {
-              "description": "Author.",
+              "description": "Who authored the deployment.",
               "type": "string"
             },
             "deployer": {
-              "description": "Deployer.",
+              "description": "Who performed the deployment.",
               "type": "string"
             },
             "authorEmail": {
@@ -920,11 +920,11 @@
               "type": "string"
             },
             "active": {
-              "description": "Active.",
+              "description": "True if deployment is currently active, false if completed and null if not started.",
               "type": "boolean"
             },
             "details": {
-              "description": "Detail.",
+              "description": "Details on deployment.",
               "type": "string"
             }
           },
@@ -957,7 +957,7 @@
       "type": "object",
       "properties": {
         "enabled": {
-          "description": "Enabled.",
+          "description": "True if configuration is enabled, false if it is disabled and null if configuration is not set.",
           "type": "boolean"
         }
       }
@@ -1050,7 +1050,7 @@
           "type": "integer"
         },
         "enabled": {
-          "description": "Enabled.",
+          "description": "True if configuration is enabled, false if it is disabled and null if configuration is not set.",
           "type": "boolean"
         }
       }
@@ -1078,7 +1078,7 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ProxyOnlyResource"
         }
       ],
       "properties": {
@@ -1196,9 +1196,7 @@
             "virtualIP": {
               "description": "Virtual IP address assigned to the hostname if IP based SSL is enabled.",
               "type": "string",
-              "x-ms-mutability": [
-                "read"
-              ]
+              "readOnly": true
             }
           },
           "x-ms-client-flatten": true
@@ -1311,7 +1309,7 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ProxyOnlyResource"
         }
       ],
       "properties": {
@@ -1369,7 +1367,7 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ProxyOnlyResource"
         }
       ],
       "properties": {
@@ -1396,7 +1394,7 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ProxyOnlyResource"
         }
       ],
       "properties": {
@@ -1404,7 +1402,7 @@
           "description": "Identifier resource specific properties",
           "properties": {
             "id": {
-              "description": "ID.",
+              "description": "String representation of the identity.",
               "type": "string"
             }
           },
@@ -1466,44 +1464,24 @@
     "MSDeploy": {
       "description": "MSDeploy ARM PUT information",
       "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProxyOnlyResource"
+        }
+      ],
       "properties": {
-        "addOnPackages": {
-          "description": "List of Add-On packages. Add-On packages implicitly enable the Do Not Delete MSDeploy rule.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/MSDeployCore"
-          }
-        },
-        "packageUri": {
-          "description": "Package URI",
-          "type": "string"
-        },
-        "connectionString": {
-          "description": "SQL Connection String",
-          "type": "string"
-        },
-        "dbType": {
-          "description": "Database Type",
-          "type": "string"
-        },
-        "setParametersXmlFileUri": {
-          "description": "URI of MSDeploy Parameters file. Must not be set if SetParameters is used.",
-          "type": "string"
-        },
-        "setParameters": {
-          "description": "MSDeploy Parameters. Must not be set if SetParametersXmlFileUri is used.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/MSDeployParameterEntry"
-          }
-        },
-        "skipAppData": {
-          "description": "Controls whether the MSDeploy operation skips the AppData directory. If set to true, the existing AppData directory on the destination will not be deleted and overwritten.",
-          "type": "boolean"
-        },
-        "appOffline": {
-          "description": "Sets the AppOffline rule while the MSDeploy operation executes.",
-          "type": "boolean"
+        "properties": {
+          "$ref": "#/definitions/MSDeployCore",
+          "properties": {
+            "addOnPackages": {
+              "description": "List of Add-On packages. Add-On packages implicitly enable the Do Not Delete MSDeploy rule.",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MSDeployCore"
+              }
+            }
+          },
+          "x-ms-client-flatten": true
         }
       }
     },
@@ -1529,9 +1507,9 @@
         },
         "setParameters": {
           "description": "MSDeploy Parameters. Must not be set if SetParametersXmlFileUri is used.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/MSDeployParameterEntry"
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
           }
         },
         "skipAppData": {
@@ -1547,14 +1525,25 @@
     "MSDeployLog": {
       "description": "MSDeploy log",
       "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProxyOnlyResource"
+        }
+      ],
       "properties": {
-        "entries": {
-          "description": "List of log entry messages",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/MSDeployLogEntry"
+        "properties": {
+          "description": "MSDeployLog resource specific properties",
+          "properties": {
+            "entries": {
+              "description": "List of log entry messages",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MSDeployLogEntry"
+              },
+              "readOnly": true
+            }
           },
-          "readOnly": true
+          "x-ms-client-flatten": true
         }
       }
     },
@@ -1589,26 +1578,12 @@
         }
       }
     },
-    "MSDeployParameterEntry": {
-      "description": "MSDeploy ARM PUT core information",
-      "type": "object",
-      "properties": {
-        "name": {
-          "description": "Parameter name",
-          "type": "string"
-        },
-        "value": {
-          "description": "Parameter value",
-          "type": "string"
-        }
-      }
-    },
     "MSDeployStatus": {
       "description": "MSDeploy ARM response",
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ProxyOnlyResource"
         }
       ],
       "properties": {
@@ -1663,7 +1638,7 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ProxyOnlyResource"
         }
       ],
       "properties": {
@@ -1700,7 +1675,7 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ProxyOnlyResource"
         }
       ],
       "properties": {
@@ -1757,7 +1732,7 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ProxyOnlyResource"
         }
       ],
       "properties": {
@@ -1997,12 +1972,37 @@
         }
       }
     },
+    "ProxyOnlyResource": {
+      "description": "Azure proxy only resource. This resource is not tracked by Azure Resource Manager.",
+      "properties": {
+        "id": {
+          "description": "Resource Id.",
+          "type": "string",
+          "readOnly": true
+        },
+        "name": {
+          "description": "Resource Name.",
+          "type": "string",
+          "readOnly": true
+        },
+        "kind": {
+          "description": "Kind of resource.",
+          "type": "string"
+        },
+        "type": {
+          "description": "Resource type.",
+          "type": "string",
+          "readOnly": true
+        }
+      },
+      "x-ms-azure-resource": true
+    },
     "PublicCertificate": {
       "description": "Public certificate object",
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ProxyOnlyResource"
         }
       ],
       "properties": {
@@ -2058,26 +2058,37 @@
     },
     "PushSettings": {
       "description": "Push settings for the App.",
-      "required": [
-        "isPushEnabled"
-      ],
       "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProxyOnlyResource"
+        }
+      ],
       "properties": {
-        "isPushEnabled": {
-          "description": "Gets or sets a flag indicating whether the Push endpoint is enabled.",
-          "type": "boolean"
-        },
-        "tagWhitelistJson": {
-          "description": "Gets or sets a JSON string containing a list of tags that are whitelisted for use by the push registration endpoint.",
-          "type": "string"
-        },
-        "tagsRequiringAuth": {
-          "description": "Gets or sets a JSON string containing a list of tags that require user authentication to be used in the push registration endpoint.\n Tags can consist of alphanumeric characters and the following:\n '_', '@', '#', '.', ':', '-'. \n Validation should be performed at the PushRequestHandler.",
-          "type": "string"
-        },
-        "dynamicTagsJson": {
-          "description": "Gets or sets a JSON string containing a list of dynamic tags that will be evaluated from user claims in the push registration endpoint.",
-          "type": "string"
+        "properties": {
+          "description": "PushSettings resource specific properties",
+          "required": [
+            "isPushEnabled"
+          ],
+          "properties": {
+            "isPushEnabled": {
+              "description": "Gets or sets a flag indicating whether the Push endpoint is enabled.",
+              "type": "boolean"
+            },
+            "tagWhitelistJson": {
+              "description": "Gets or sets a JSON string containing a list of tags that are whitelisted for use by the push registration endpoint.",
+              "type": "string"
+            },
+            "tagsRequiringAuth": {
+              "description": "Gets or sets a JSON string containing a list of tags that require user authentication to be used in the push registration endpoint.\n Tags can consist of alphanumeric characters and the following:\n '_', '@', '#', '.', ':', '-'. \n Validation should be performed at the PushRequestHandler.",
+              "type": "string"
+            },
+            "dynamicTagsJson": {
+              "description": "Gets or sets a JSON string containing a list of dynamic tags that will be evaluated from user claims in the push registration endpoint.",
+              "type": "string"
+            }
+          },
+          "x-ms-client-flatten": true
         }
       }
     },
@@ -2151,7 +2162,7 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ProxyOnlyResource"
         }
       ],
       "properties": {
@@ -2201,7 +2212,7 @@
       }
     },
     "Resource": {
-      "description": "Azure resource.",
+      "description": "Azure resource. This resource is tracked in Azure Resource Manager",
       "required": [
         "location"
       ],
@@ -2338,7 +2349,7 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ProxyOnlyResource"
         }
       ],
       "properties": {
@@ -2495,7 +2506,7 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ProxyOnlyResource"
         }
       ],
       "properties": {
@@ -2572,7 +2583,7 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ProxyOnlyResource"
         }
       ],
       "properties": {
@@ -2790,7 +2801,7 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ProxyOnlyResource"
         }
       ],
       "properties": {
@@ -3235,7 +3246,7 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ProxyOnlyResource"
         }
       ],
       "properties": {
@@ -3270,7 +3281,7 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ProxyOnlyResource"
         }
       ],
       "properties": {
@@ -3299,7 +3310,7 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ProxyOnlyResource"
         }
       ],
       "properties": {
@@ -3342,7 +3353,7 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ProxyOnlyResource"
         }
       ],
       "properties": {
@@ -3397,7 +3408,7 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ProxyOnlyResource"
         }
       ],
       "properties": {
@@ -3430,7 +3441,7 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ProxyOnlyResource"
         }
       ],
       "properties": {
@@ -3507,7 +3518,7 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ProxyOnlyResource"
         }
       ],
       "properties": {
@@ -3522,7 +3533,7 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ProxyOnlyResource"
         }
       ],
       "properties": {
@@ -3635,7 +3646,7 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ProxyOnlyResource"
         }
       ],
       "properties": {
@@ -3678,7 +3689,7 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ProxyOnlyResource"
         }
       ],
       "properties": {
@@ -3759,7 +3770,7 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ProxyOnlyResource"
         }
       ],
       "properties": {
@@ -3810,7 +3821,7 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ProxyOnlyResource"
         }
       ],
       "properties": {
@@ -3832,7 +3843,7 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ProxyOnlyResource"
         }
       ],
       "properties": {
@@ -3851,7 +3862,7 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ProxyOnlyResource"
         }
       ],
       "properties": {
@@ -3934,7 +3945,7 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ProxyOnlyResource"
         }
       ],
       "properties": {
@@ -3968,36 +3979,47 @@
     "VnetInfo": {
       "description": "Virtual Network information contract.",
       "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProxyOnlyResource"
+        }
+      ],
       "properties": {
-        "vnetResourceId": {
-          "description": "The Virtual Network's resource ID.",
-          "type": "string"
-        },
-        "certThumbprint": {
-          "description": "The client certificate thumbprint.",
-          "type": "string",
-          "readOnly": true
-        },
-        "certBlob": {
-          "description": "A certificate file (.cer) blob containing the public key of the private key used to authenticate a \n Point-To-Site VPN connection.",
-          "type": "string"
-        },
-        "routes": {
-          "description": "The routes that this Virtual Network connection uses.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/VnetRoute"
+        "properties": {
+          "description": "VnetInfo resource specific properties",
+          "properties": {
+            "vnetResourceId": {
+              "description": "The Virtual Network's resource ID.",
+              "type": "string"
+            },
+            "certThumbprint": {
+              "description": "The client certificate thumbprint.",
+              "type": "string",
+              "readOnly": true
+            },
+            "certBlob": {
+              "description": "A certificate file (.cer) blob containing the public key of the private key used to authenticate a \n Point-To-Site VPN connection.",
+              "type": "string"
+            },
+            "routes": {
+              "description": "The routes that this Virtual Network connection uses.",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/VnetRoute"
+              },
+              "readOnly": true
+            },
+            "resyncRequired": {
+              "description": "<code>true</code> if a resync is required; otherwise, <code>false</code>.",
+              "type": "boolean",
+              "readOnly": true
+            },
+            "dnsServers": {
+              "description": "DNS servers to be used by this Virtual Network. This should be a comma-separated list of IP addresses.",
+              "type": "string"
+            }
           },
-          "readOnly": true
-        },
-        "resyncRequired": {
-          "description": "<code>true</code> if a resync is required; otherwise, <code>false</code>.",
-          "type": "boolean",
-          "readOnly": true
-        },
-        "dnsServers": {
-          "description": "DNS servers to be used by this Virtual Network. This should be a comma-separated list of IP addresses.",
-          "type": "string"
+          "x-ms-client-flatten": true
         }
       }
     },
@@ -4006,7 +4028,7 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ProxyOnlyResource"
         }
       ],
       "properties": {
