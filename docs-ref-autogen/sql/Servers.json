@@ -1,9 +1,9 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "2014-04-01",
-    "title": "Azure SQL Database",
-    "description": "Provides create, read, update and delete functionality for Azure SQL Database resources including servers, databases, elastic pools, recommendations, operations, and usage metrics."
+    "version": "2015-05-01-preview",
+    "title": "SqlManagementClient",
+    "description": "The Azure SQL Database management API provides a RESTful set of web APIs that interact with Azure SQL Database services to manage your databases. The API enables users to create, retrieve, update, and delete databases, servers, and other entities."
   },
   "host": "management.azure.com",
   "schemes": [
@@ -15,13 +15,35 @@
         "tags": [
           "Servers"
         ],
+        "description": "Gets a list of all servers in the subscription.",
         "operationId": "Servers_List",
-        "description": "Returns a list of servers.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved the list of servers.",
+            "schema": {
+              "$ref": "#/definitions/ServerListResult"
+            }
+          },
+          "default": {
+            "description": "*** Error Responses: ***"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
         "x-ms-examples": {
           "List servers": {
             "parameters": {
               "subscriptionId": "00000000-1111-2222-3333-444444444444",
-              "api-version": "2014-04-01"
+              "api-version": "2015-05-01-preview"
             },
             "responses": {
               "200": {
@@ -31,14 +53,11 @@
                       "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645",
                       "name": "sqlcrudtest-4645",
                       "type": "Microsoft.Sql/servers",
-                      "location": "Japan East",
+                      "location": "japaneast",
                       "kind": "v12.0",
                       "properties": {
                         "fullyQualifiedDomainName": "sqlcrudtest-4645.database.windows.net",
                         "administratorLogin": "dummylogin",
-                        "administratorLoginPassword": null,
-                        "externalAdministratorLogin": null,
-                        "externalAdministratorSid": null,
                         "version": "12.0",
                         "state": "Ready"
                       }
@@ -47,14 +66,11 @@
                       "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-6661",
                       "name": "sqlcrudtest-6661",
                       "type": "Microsoft.Sql/servers",
-                      "location": "Japan East",
+                      "location": "japaneast",
                       "kind": "v12.0",
                       "properties": {
                         "fullyQualifiedDomainName": "sqlcrudtest-6661.database.windows.net",
                         "administratorLogin": "dummylogin",
-                        "administratorLoginPassword": null,
-                        "externalAdministratorLogin": null,
-                        "externalAdministratorSid": null,
                         "version": "12.0",
                         "state": "Ready"
                       }
@@ -65,24 +81,88 @@
             }
           }
         },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers": {
+      "get": {
+        "tags": [
+          "Servers"
+        ],
+        "description": "Gets a list of servers in a resource groups.",
+        "operationId": "Servers_ListByResourceGroup",
         "parameters": [
           {
-            "$ref": "#/parameters/ApiVersionParameter"
+            "$ref": "#/parameters/ResourceGroupParameter"
           },
           {
             "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
           }
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Successfully retrieved the list of servers.",
             "schema": {
               "$ref": "#/definitions/ServerListResult"
             }
+          },
+          "default": {
+            "description": "*** Error Responses: ***"
           }
         },
         "x-ms-pageable": {
-          "nextLinkName": null
+          "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+          "List servers by resource group": {
+            "parameters": {
+              "subscriptionId": "00000000-1111-2222-3333-444444444444",
+              "resourceGroupName": "sqlcrudtest-7398",
+              "api-version": "2015-05-01-preview"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "value": [
+                    {
+                      "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645",
+                      "name": "sqlcrudtest-4645",
+                      "type": "Microsoft.Sql/servers",
+                      "location": "japaneast",
+                      "kind": "v12.0",
+                      "properties": {
+                        "fullyQualifiedDomainName": "sqlcrudtest-4645.database.windows.net",
+                        "administratorLogin": "dummylogin",
+                        "version": "12.0",
+                        "state": "Ready"
+                      }
+                    },
+                    {
+                      "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-6661",
+                      "name": "sqlcrudtest-6661",
+                      "type": "Microsoft.Sql/servers",
+                      "location": "japaneast",
+                      "kind": "v12.0",
+                      "properties": {
+                        "fullyQualifiedDomainName": "sqlcrudtest-6661.database.windows.net",
+                        "administratorLogin": "dummylogin",
+                        "version": "12.0",
+                        "state": "Ready"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
         },
         "produces": [
           "application/json"
@@ -93,72 +173,131 @@
       }
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}": {
-      "put": {
+      "get": {
         "tags": [
           "Servers"
         ],
-        "operationId": "Servers_CreateOrUpdate",
-        "description": "Creates or updates a new server.",
+        "description": "Gets a server.",
+        "operationId": "Servers_Get",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupParameter"
+          },
+          {
+            "$ref": "#/parameters/ServerNameParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved the specified server.",
+            "schema": {
+              "$ref": "#/definitions/Server"
+            }
+          },
+          "default": {
+            "description": "*** Error Responses: ***\n\n * 404 ResourceNotFound - The requested resource was not found."
+          }
+        },
         "x-ms-examples": {
-          "Create server min": {
+          "Get server": {
             "parameters": {
               "subscriptionId": "00000000-1111-2222-3333-444444444444",
               "resourceGroupName": "sqlcrudtest-7398",
               "serverName": "sqlcrudtest-4645",
-              "api-version": "2014-04-01",
-              "parameters": {
-                "properties": {
-                  "administratorLogin": "dummylogin",
-                  "administratorLoginPassword": "Un53cuRE!"
-                },
-                "location": "Japan East"
-              }
+              "api-version": "2015-05-01-preview"
             },
             "responses": {
               "200": {
                 "body": {
+                  "tags": {
+                    "tagKey1": "TagValue1"
+                  },
                   "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645",
                   "name": "sqlcrudtest-4645",
                   "type": "Microsoft.Sql/servers",
-                  "location": "Japan East",
+                  "location": "japaneast",
                   "kind": "v12.0",
                   "properties": {
                     "fullyQualifiedDomainName": "sqlcrudtest-4645.database.windows.net",
                     "administratorLogin": "dummylogin",
-                    "administratorLoginPassword": "Un53cuRE!",
-                    "externalAdministratorLogin": null,
-                    "externalAdministratorSid": null,
-                    "version": "12.0",
-                    "state": "Ready"
-                  }
-                }
-              },
-              "201": {
-                "body": {
-                  "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645",
-                  "name": "sqlcrudtest-4645",
-                  "type": "Microsoft.Sql/servers",
-                  "location": "Japan East",
-                  "kind": "v12.0",
-                  "properties": {
-                    "fullyQualifiedDomainName": "sqlcrudtest-4645.database.windows.net",
-                    "administratorLogin": "dummylogin",
-                    "administratorLoginPassword": "Un53cuRE!",
-                    "externalAdministratorLogin": null,
-                    "externalAdministratorSid": null,
                     "version": "12.0",
                     "state": "Ready"
                   }
                 }
               }
             }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      },
+      "put": {
+        "tags": [
+          "Servers"
+        ],
+        "description": "Creates or updates a server.",
+        "operationId": "Servers_CreateOrUpdate",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupParameter"
           },
-          "Create server max": {
+          {
+            "$ref": "#/parameters/ServerNameParameter"
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "description": "The requested server resource state.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Server"
+            }
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully updated the server.",
+            "schema": {
+              "$ref": "#/definitions/Server"
+            }
+          },
+          "default": {
+            "description": "*** Error Responses: ***\n\n * 400 NameAlreadyExists - The provided name already exists.\n\n * 400 RegionDoesNotSupportVersion - A user attempted to create a server of a specified version in a location where that server version isn't supported.\n\n * 400 ServerNotFound - The requested server was not found.\n\n * 400 InvalidUsername - Supplied user name contains invalid characters.\n\n * 400 InvalidParameterValue - An invalid value was given to a parameter.\n\n * 400 InvalidIdentifier - The identifier contains NULL or an invalid unicode character.\n\n * 400 TokenTooLong - The provided token is too long.\n\n * 400 InvalidLoginName - The provided login name is invalid.\n\n * 400 PasswordTooShort - The provided password is too short\n\n * 400 PasswordTooLong - The provided password is too long.\n\n * 400 PasswordNotComplex - The provided password is not complex enough.\n\n * 400 SubscriptionNotFound - The requested subscription was not found.\n\n * 400 InvalidLocation - An invalid location was specified.\n\n * 400 InvalidServerName - Invalid server name specified.\n\n * 400 RegionDoesNotAllowProvisioning - The selected location is not accepting new Windows Azure SQL Database servers. This may change at a later time.\n\n * 404 SubscriptionDoesNotHaveServer - The requested server was not found\n\n * 404 OperationIdNotFound - The operation with Id does not exist.\n\n * 409 OperationCancelled - The operation has been cancelled by user.\n\n * 409 OperationInterrupted - The operation on the resource could not be completed because it was interrupted by another operation on the same resource.\n\n * 409 ServerAlreadyExists - Duplicate server name.\n\n * 409 SubscriptionDisabled - Subscription is disabled.\n\n * 409 ServerDisabled - Server is disabled.\n\n * 409 ServerQuotaExceeded - Server cannot be added to a subscription because it will exceed quota.\n\n * 429 ConflictingSubscriptionOperation - An operation is currently in progress for the subscription.\n\n * 429 ConflictingServerOperation - An operation is currently in progress for the server.\n\n * 500 OperationTimedOut - The operation timed out and automatically rolled back. Please retry the operation."
+          },
+          "202": {
+            "description": "Accepted"
+          },
+          "201": {
+            "description": "Successfully created the server.",
+            "schema": {
+              "$ref": "#/definitions/Server"
+            }
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-examples": {
+          "Create server with all properties": {
             "parameters": {
               "subscriptionId": "00000000-1111-2222-3333-444444444444",
               "resourceGroupName": "sqlcrudtest-7398",
               "serverName": "sqlcrudtest-4645",
-              "api-version": "2014-04-01",
+              "api-version": "2015-05-01-preview",
               "parameters": {
                 "tags": {
                   "tagKey1": "TagValue1"
@@ -182,14 +321,11 @@
                   "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645",
                   "name": "sqlcrudtest-4645",
                   "type": "Microsoft.Sql/servers",
-                  "location": "Japan East",
+                  "location": "japaneast",
                   "kind": "v12.0",
                   "properties": {
                     "fullyQualifiedDomainName": "sqlcrudtest-4645.database.windows.net",
                     "administratorLogin": "dummylogin",
-                    "administratorLoginPassword": "Un53cuRE!",
-                    "externalAdministratorLogin": null,
-                    "externalAdministratorSid": null,
                     "version": "12.0",
                     "state": "Ready"
                   }
@@ -203,29 +339,82 @@
                   "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645",
                   "name": "sqlcrudtest-4645",
                   "type": "Microsoft.Sql/servers",
-                  "location": "Japan East",
+                  "location": "japaneast",
                   "kind": "v12.0",
                   "properties": {
                     "fullyQualifiedDomainName": "sqlcrudtest-4645.database.windows.net",
                     "administratorLogin": "dummylogin",
-                    "administratorLoginPassword": "Un53cuRE!",
-                    "externalAdministratorLogin": null,
-                    "externalAdministratorSid": null,
                     "version": "12.0",
                     "state": "Ready"
                   }
                 }
+              },
+              "202": {}
+            }
+          },
+          "Create server with minimal properties": {
+            "parameters": {
+              "subscriptionId": "00000000-1111-2222-3333-444444444444",
+              "resourceGroupName": "sqlcrudtest-7398",
+              "serverName": "sqlcrudtest-4645",
+              "api-version": "2015-05-01-preview",
+              "parameters": {
+                "properties": {
+                  "administratorLogin": "dummylogin",
+                  "administratorLoginPassword": "Un53cuRE!"
+                },
+                "location": "Japan East"
               }
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645",
+                  "name": "sqlcrudtest-4645",
+                  "type": "Microsoft.Sql/servers",
+                  "location": "japaneast",
+                  "kind": "v12.0",
+                  "properties": {
+                    "fullyQualifiedDomainName": "sqlcrudtest-4645.database.windows.net",
+                    "administratorLogin": "dummylogin",
+                    "version": "12.0",
+                    "state": "Ready"
+                  }
+                }
+              },
+              "201": {
+                "body": {
+                  "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645",
+                  "name": "sqlcrudtest-4645",
+                  "type": "Microsoft.Sql/servers",
+                  "location": "japaneast",
+                  "kind": "v12.0",
+                  "properties": {
+                    "fullyQualifiedDomainName": "sqlcrudtest-4645.database.windows.net",
+                    "administratorLogin": "dummylogin",
+                    "version": "12.0",
+                    "state": "Ready"
+                  }
+                }
+              },
+              "202": {}
             }
           }
         },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Servers"
+        ],
+        "description": "Deletes a server.",
+        "operationId": "Servers_Delete",
         "parameters": [
-          {
-            "$ref": "#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "#/parameters/SubscriptionIdParameter"
-          },
           {
             "$ref": "#/parameters/ResourceGroupParameter"
           },
@@ -233,26 +422,43 @@
             "$ref": "#/parameters/ServerNameParameter"
           },
           {
-            "name": "parameters",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Server"
-            },
-            "description": "The required parameters for creating or updating a server."
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
           }
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/Server"
-            }
+            "description": "Successfully deleted the server."
           },
-          "201": {
-            "description": "Created",
-            "schema": {
-              "$ref": "#/definitions/Server"
+          "default": {
+            "description": "*** Error Responses: ***\n\n * 400 SubscriptionNotFound - The requested subscription was not found.\n\n * 404 SubscriptionDoesNotHaveServer - The requested server was not found\n\n * 404 OperationIdNotFound - The operation with Id does not exist.\n\n * 409 OperationCancelled - The operation has been cancelled by user.\n\n * 409 OperationInterrupted - The operation on the resource could not be completed because it was interrupted by another operation on the same resource.\n\n * 429 ConflictingServerOperation - An operation is currently in progress for the server.\n\n * 500 OperationTimedOut - The operation timed out and automatically rolled back. Please retry the operation."
+          },
+          "202": {
+            "description": "Accepted"
+          },
+          "204": {
+            "description": "The specified server does not exist."
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-examples": {
+          "Delete server": {
+            "parameters": {
+              "subscriptionId": "00000000-1111-2222-3333-444444444444",
+              "resourceGroupName": "sqlcrudtest-7398",
+              "serverName": "sqlcrudtest-6661",
+              "api-version": "2015-05-01-preview"
+            },
+            "responses": {
+              "200": {
+                "body": ""
+              },
+              "202": {},
+              "204": {
+                "body": ""
+              }
             }
           }
         },
@@ -267,56 +473,58 @@
         "tags": [
           "Servers"
         ],
+        "description": "Updates a server.",
         "operationId": "Servers_Update",
-        "description": "Updates an existing server.",
-        "x-ms-examples": {
-          "Create server min": {
-            "parameters": {
-              "subscriptionId": "00000000-1111-2222-3333-444444444444",
-              "resourceGroupName": "sqlcrudtest-7398",
-              "serverName": "sqlcrudtest-4645",
-              "api-version": "2014-04-01",
-              "parameters": {
-                "properties": {
-                  "administratorLogin": "dummylogin",
-                  "administratorLoginPassword": "Un53cuRE!"
-                }
-              }
-            },
-            "responses": {
-              "200": {
-                "body": {
-                  "tags": {
-                    "tagKey1": "TagValue1"
-                  },
-                  "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645",
-                  "name": "sqlcrudtest-4645",
-                  "type": "Microsoft.Sql/servers",
-                  "location": "Japan East",
-                  "kind": "v12.0",
-                  "properties": {
-                    "fullyQualifiedDomainName": "sqlcrudtest-4645.database.windows.net",
-                    "administratorLogin": "dummylogin",
-                    "administratorLoginPassword": "Un53cuRE!",
-                    "externalAdministratorLogin": null,
-                    "externalAdministratorSid": null,
-                    "version": "12.0",
-                    "state": "Ready"
-                  }
-                }
-              }
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupParameter"
+          },
+          {
+            "$ref": "#/parameters/ServerNameParameter"
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "description": "The requested server resource state.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ServerUpdate"
             }
           },
-          "Create server max": {
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully updated the server.",
+            "schema": {
+              "$ref": "#/definitions/Server"
+            }
+          },
+          "default": {
+            "description": "*** Error Responses: ***\n\n * 400 NameAlreadyExists - The provided name already exists.\n\n * 400 RegionDoesNotSupportVersion - A user attempted to create a server of a specified version in a location where that server version isn't supported.\n\n * 400 ServerNotFound - The requested server was not found.\n\n * 400 InvalidUsername - Supplied user name contains invalid characters.\n\n * 400 InvalidParameterValue - An invalid value was given to a parameter.\n\n * 400 InvalidIdentifier - The identifier contains NULL or an invalid unicode character.\n\n * 400 TokenTooLong - The provided token is too long.\n\n * 400 InvalidLoginName - The provided login name is invalid.\n\n * 400 PasswordTooShort - The provided password is too short\n\n * 400 PasswordTooLong - The provided password is too long.\n\n * 400 PasswordNotComplex - The provided password is not complex enough.\n\n * 400 SubscriptionNotFound - The requested subscription was not found.\n\n * 400 InvalidLocation - An invalid location was specified.\n\n * 400 InvalidServerName - Invalid server name specified.\n\n * 400 RegionDoesNotAllowProvisioning - The selected location is not accepting new Windows Azure SQL Database servers. This may change at a later time.\n\n * 404 SubscriptionDoesNotHaveServer - The requested server was not found\n\n * 404 OperationIdNotFound - The operation with Id does not exist.\n\n * 409 OperationCancelled - The operation has been cancelled by user.\n\n * 409 OperationInterrupted - The operation on the resource could not be completed because it was interrupted by another operation on the same resource.\n\n * 409 ServerAlreadyExists - Duplicate server name.\n\n * 409 SubscriptionDisabled - Subscription is disabled.\n\n * 409 ServerDisabled - Server is disabled.\n\n * 409 ServerQuotaExceeded - Server cannot be added to a subscription because it will exceed quota.\n\n * 429 ConflictingSubscriptionOperation - An operation is currently in progress for the subscription.\n\n * 429 ConflictingServerOperation - An operation is currently in progress for the server.\n\n * 500 OperationTimedOut - The operation timed out and automatically rolled back. Please retry the operation."
+          },
+          "202": {
+            "description": "Accepted"
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-examples": {
+          "Update a server with all properties": {
             "parameters": {
               "subscriptionId": "00000000-1111-2222-3333-444444444444",
               "resourceGroupName": "sqlcrudtest-7398",
               "serverName": "sqlcrudtest-4645",
-              "api-version": "2014-04-01",
+              "api-version": "2015-05-01-preview",
               "parameters": {
                 "tags": {
                   "tagKey1": "TagValue1"
                 },
+                "location": "Japan East",
                 "properties": {
                   "fullyQualifiedDomainName": "sqlcrudtest-4645.database.windows.net",
                   "administratorLogin": "dummylogin",
@@ -335,126 +543,32 @@
                   "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645",
                   "name": "sqlcrudtest-4645",
                   "type": "Microsoft.Sql/servers",
-                  "location": "Japan East",
+                  "location": "japaneast",
                   "kind": "v12.0",
                   "properties": {
                     "fullyQualifiedDomainName": "sqlcrudtest-4645.database.windows.net",
                     "administratorLogin": "dummylogin",
-                    "administratorLoginPassword": "Un53cuRE!",
-                    "externalAdministratorLogin": null,
-                    "externalAdministratorSid": null,
                     "version": "12.0",
                     "state": "Ready"
                   }
                 }
-              }
-            }
-          }
-        },
-        "parameters": [
-          {
-            "$ref": "#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "#/parameters/ResourceGroupParameter"
-          },
-          {
-            "$ref": "#/parameters/ServerNameParameter"
-          },
-          {
-            "name": "parameters",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ServerUpdate"
-            },
-            "description": "The required parameters for updating a server."
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/Server"
-            }
-          }
-        },
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/json"
-        ]
-      },
-      "delete": {
-        "tags": [
-          "Servers"
-        ],
-        "operationId": "Servers_Delete",
-        "description": "Deletes a SQL server.",
-        "x-ms-examples": {
-          "Delete SQL Server": {
-            "parameters": {
-              "subscriptionId": "00000000-1111-2222-3333-444444444444",
-              "resourceGroupName": "sqlcrudtest-7398",
-              "serverName": "sqlcrudtest-6661",
-              "api-version": "2014-04-01"
-            },
-            "responses": {
-              "200": {
-                "body": ""
               },
-              "204": {
-                "body": ""
-              }
+              "202": {}
             }
-          }
-        },
-        "parameters": [
-          {
-            "$ref": "#/parameters/ApiVersionParameter"
           },
-          {
-            "$ref": "#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "#/parameters/ResourceGroupParameter"
-          },
-          {
-            "$ref": "#/parameters/ServerNameParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "204": {
-            "description": "Accepted"
-          }
-        },
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/json"
-        ]
-      },
-      "get": {
-        "tags": [
-          "Servers"
-        ],
-        "operationId": "Servers_Get",
-        "description": "Gets a server.",
-        "x-ms-examples": {
-          "Get Server": {
+          "Update a server with minimal properties": {
             "parameters": {
               "subscriptionId": "00000000-1111-2222-3333-444444444444",
               "resourceGroupName": "sqlcrudtest-7398",
               "serverName": "sqlcrudtest-4645",
-              "api-version": "2014-04-01"
+              "api-version": "2015-05-01-preview",
+              "parameters": {
+                "properties": {
+                  "administratorLogin": "dummylogin",
+                  "administratorLoginPassword": "Un53cuRE!"
+                },
+                "location": "Japan East"
+              }
             },
             "responses": {
               "200": {
@@ -465,129 +579,19 @@
                   "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645",
                   "name": "sqlcrudtest-4645",
                   "type": "Microsoft.Sql/servers",
-                  "location": "Japan East",
+                  "location": "japaneast",
                   "kind": "v12.0",
                   "properties": {
                     "fullyQualifiedDomainName": "sqlcrudtest-4645.database.windows.net",
                     "administratorLogin": "dummylogin",
-                    "administratorLoginPassword": null,
-                    "externalAdministratorLogin": null,
-                    "externalAdministratorSid": null,
                     "version": "12.0",
                     "state": "Ready"
                   }
                 }
-              }
+              },
+              "202": {}
             }
           }
-        },
-        "parameters": [
-          {
-            "$ref": "#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "#/parameters/ResourceGroupParameter"
-          },
-          {
-            "$ref": "#/parameters/ServerNameParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/Server"
-            }
-          }
-        },
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/json"
-        ]
-      }
-    },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers": {
-      "get": {
-        "tags": [
-          "Servers"
-        ],
-        "operationId": "Servers_ListByResourceGroup",
-        "description": "Returns a list of servers in a resource group.",
-        "x-ms-examples": {
-          "List servers by resource group": {
-            "parameters": {
-              "subscriptionId": "00000000-1111-2222-3333-444444444444",
-              "resourceGroupName": "sqlcrudtest-7398",
-              "api-version": "2014-04-01"
-            },
-            "responses": {
-              "200": {
-                "body": {
-                  "value": [
-                    {
-                      "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645",
-                      "name": "sqlcrudtest-4645",
-                      "type": "Microsoft.Sql/servers",
-                      "location": "Japan East",
-                      "kind": "v12.0",
-                      "properties": {
-                        "fullyQualifiedDomainName": "sqlcrudtest-4645.database.windows.net",
-                        "administratorLogin": "dummylogin",
-                        "administratorLoginPassword": null,
-                        "externalAdministratorLogin": null,
-                        "externalAdministratorSid": null,
-                        "version": "12.0",
-                        "state": "Ready"
-                      }
-                    },
-                    {
-                      "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-6661",
-                      "name": "sqlcrudtest-6661",
-                      "type": "Microsoft.Sql/servers",
-                      "location": "Japan East",
-                      "kind": "v12.0",
-                      "properties": {
-                        "fullyQualifiedDomainName": "sqlcrudtest-6661.database.windows.net",
-                        "administratorLogin": "dummylogin",
-                        "administratorLoginPassword": null,
-                        "externalAdministratorLogin": null,
-                        "externalAdministratorSid": null,
-                        "version": "12.0",
-                        "state": "Ready"
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        },
-        "parameters": [
-          {
-            "$ref": "#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "#/parameters/ResourceGroupParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/ServerListResult"
-            }
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": null
         },
         "produces": [
           "application/json"
@@ -599,224 +603,231 @@
     }
   },
   "definitions": {
-    "Resource": {
-      "description": "ARM resource.",
+    "ServerListResult": {
+      "description": "A list of servers.",
+      "type": "object",
       "properties": {
-        "id": {
-          "readOnly": true,
-          "type": "string",
-          "description": "Resource ID."
+        "value": {
+          "description": "Array of results.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Server"
+          },
+          "readOnly": true
         },
-        "name": {
-          "readOnly": true,
+        "nextLink": {
+          "description": "Link to retrieve next page of results.",
           "type": "string",
-          "description": "Resource name."
+          "readOnly": true
+        }
+      }
+    },
+    "ResourceIdentity": {
+      "description": "Azure Active Directory identity configuration for a resource.",
+      "type": "object",
+      "properties": {
+        "principalId": {
+          "format": "uuid",
+          "description": "The Azure Active Directory principal id.",
+          "type": "string",
+          "readOnly": true
         },
         "type": {
-          "readOnly": true,
+          "description": "The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource.",
+          "enum": [
+            "SystemAssigned"
+          ],
           "type": "string",
-          "description": "Resource type."
+          "x-ms-enum": {
+            "name": "IdentityType",
+            "modelAsString": true
+          }
+        },
+        "tenantId": {
+          "format": "uuid",
+          "description": "The Azure Active Directory tenant id.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "ServerProperties": {
+      "description": "The properties of a server.",
+      "type": "object",
+      "properties": {
+        "administratorLogin": {
+          "description": "Administrator username for the server. Once created it cannot be changed.",
+          "type": "string",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "administratorLoginPassword": {
+          "description": "The administrator login password (required for server creation).",
+          "type": "string",
+          "x-ms-mutability": [
+            "create",
+            "update"
+          ]
+        },
+        "version": {
+          "description": "The version of the server.",
+          "type": "string"
+        },
+        "state": {
+          "description": "The state of the server.",
+          "type": "string",
+          "readOnly": true
+        },
+        "fullyQualifiedDomainName": {
+          "description": "The fully qualified domain name of the server.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "Resource": {
+      "description": "ARM resource.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Resource ID.",
+          "type": "string",
+          "readOnly": true
+        },
+        "name": {
+          "description": "Resource name.",
+          "type": "string",
+          "readOnly": true
+        },
+        "type": {
+          "description": "Resource type.",
+          "type": "string",
+          "readOnly": true
         }
       },
       "x-ms-azure-resource": true
     },
     "TrackedResource": {
       "description": "ARM tracked top level resource.",
+      "required": [
+        "location"
+      ],
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
       "properties": {
-        "tags": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          },
-          "x-ms-mutability": [
-            "read",
-            "create",
-            "update"
-          ],
-          "description": "Resource tags."
-        },
         "location": {
+          "description": "Resource location.",
           "type": "string",
           "x-ms-mutability": [
             "read",
             "create"
-          ],
-          "description": "Resource location."
+          ]
+        },
+        "tags": {
+          "description": "Resource tags.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
         }
-      },
+      }
+    },
+    "Server": {
+      "description": "An Azure SQL Database server.",
       "required": [
         "location"
       ],
-      "allOf": [
-        {
-          "$ref": "#/definitions/Resource"
-        }
-      ]
-    },
-    "ProxyResource": {
-      "description": "ARM proxy resource.",
-      "allOf": [
-        {
-          "$ref": "#/definitions/Resource"
-        }
-      ]
-    },
-    "ServerProperties": {
-      "properties": {
-        "fullyQualifiedDomainName": {
-          "readOnly": true,
-          "type": "string",
-          "description": "The fully qualified domain name of the server."
-        },
-        "version": {
-          "type": "string",
-          "enum": [
-            "2.0",
-            "12.0"
-          ],
-          "description": "The version of the server.",
-          "x-ms-enum": {
-            "name": "ServerVersion",
-            "modelAsString": true
-          }
-        },
-        "administratorLogin": {
-          "type": "string",
-          "description": "Administrator username for the server. Can only be specified when the server is being created (and is required for creation).",
-          "x-ms-mutability": [
-            "create",
-            "read"
-          ]
-        },
-        "administratorLoginPassword": {
-          "type": "string",
-          "description": "The administrator login password (required for server creation).",
-          "x-ms-mutability": [
-            "create",
-            "update"
-          ]
-        },
-        "externalAdministratorSid": {
-          "readOnly": true,
-          "type": "string",
-          "format": "uuid",
-          "description": "The ID of the Active Azure Directory object with admin permissions on this server. Legacy parameter, always null. To check for Active Directory admin, query .../servers/{serverName}/administrators."
-        },
-        "externalAdministratorLogin": {
-          "readOnly": true,
-          "type": "string",
-          "description": "The display name of the Azure Active Directory object with admin permissions on this server. Legacy parameter, always null. To check for Active Directory admin, query .../servers/{serverName}/administrators"
-        },
-        "state": {
-          "readOnly": true,
-          "type": "string",
-          "description": "The state of the server.",
-          "enum": [
-            "Ready",
-            "Disabled"
-          ],
-          "x-ms-enum": {
-            "name": "ServerState"
-          }
-        }
-      },
-      "description": "Represents the properties of a server."
-    },
-    "Server": {
-      "properties": {
-        "kind": {
-          "readOnly": true,
-          "type": "string",
-          "description": "Kind of sql server.  This is metadata used for the Azure portal experience."
-        },
-        "properties": {
-          "$ref": "#/definitions/ServerProperties",
-          "description": "Represents the properties of the resource.",
-          "x-ms-client-flatten": true
-        }
-      },
+      "type": "object",
       "allOf": [
         {
           "$ref": "#/definitions/TrackedResource"
         }
       ],
-      "description": "Represents a server."
-    },
-    "ServerUpdate": {
       "properties": {
-        "tags": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          },
-          "description": "Resource tags."
+        "identity": {
+          "$ref": "#/definitions/ResourceIdentity",
+          "description": "The Azure Active Directory identity of the server.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "kind": {
+          "description": "Kind of sql server. This is metadata used for the Azure portal experience.",
+          "type": "string",
+          "readOnly": true
         },
         "properties": {
           "$ref": "#/definitions/ServerProperties",
-          "description": "Represents the properties of the resource.",
+          "description": "Resource properties.",
           "x-ms-client-flatten": true
         }
-      },
-      "allOf": [
-        {
-          "$ref": "#/definitions/Resource"
-        }
-      ],
-      "description": "Represents an update to a server."
+      }
     },
-    "ServerListResult": {
+    "ServerUpdate": {
+      "description": "An update request for an Azure SQL Database server.",
+      "type": "object",
       "properties": {
-        "value": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Server"
-          },
-          "description": "The list of servers."
+        "properties": {
+          "$ref": "#/definitions/ServerProperties",
+          "description": "Resource properties.",
+          "x-ms-client-flatten": true
+        },
+        "tags": {
+          "description": "Resource tags.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
         }
-      },
-      "required": [
-        "value"
-      ],
-      "description": "Represents the response to a get server request."
+      }
     }
   },
   "parameters": {
     "SubscriptionIdParameter": {
       "name": "subscriptionId",
       "in": "path",
+      "description": "The subscription ID that identifies an Azure subscription.",
       "required": true,
       "type": "string",
-      "description": "The subscription ID that identifies an Azure subscription."
+      "x-ms-parameter-location": "client"
     },
     "ApiVersionParameter": {
       "name": "api-version",
       "in": "query",
+      "description": "The API version to use for the request.",
       "required": true,
       "type": "string",
-      "description": "The API version to use for the request."
+      "x-ms-parameter-location": "client"
     },
     "ResourceGroupParameter": {
       "name": "resourceGroupName",
       "in": "path",
+      "description": "The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.",
       "required": true,
       "type": "string",
-      "description": "The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.",
       "x-ms-parameter-location": "method"
     },
     "ServerNameParameter": {
       "name": "serverName",
       "in": "path",
+      "description": "The name of the server.",
       "required": true,
       "type": "string",
-      "description": "The name of the server.",
       "x-ms-parameter-location": "method"
     },
-    "DatabaseExpandParameter": {
-      "name": "$expand",
-      "in": "query",
-      "required": false,
+    "DatabaseNameParameter": {
+      "name": "databaseName",
+      "in": "path",
+      "description": "The name of the database.",
+      "required": true,
       "type": "string",
-      "description": "A comma separated list of child objects to expand in the response. Possible properties: serviceTierAdvisors, transparentDataEncryption.",
       "x-ms-parameter-location": "method"
     }
   },
