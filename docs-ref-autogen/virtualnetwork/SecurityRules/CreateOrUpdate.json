@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "2017-06-01",
+    "version": "2017-08-01",
     "title": "NetworkManagementClient",
     "description": "The Microsoft Azure Network management API provides a RESTful set of web services that interact with Microsoft Azure Networks service to manage your network resources. The API has entities that capture the relationship between an end user and the Microsoft Azure Networks service."
   },
@@ -87,6 +87,65 @@
             }
           }
         },
+        "x-ms-examples": {
+          "Create security rule": {
+            "parameters": {
+              "api-version": "2017-08-01",
+              "subscriptionId": "subid",
+              "resourceGroupName": "rg1",
+              "networkSecurityGroupName": "testnsg",
+              "securityRuleName": "rule1",
+              "securityRuleParameters": {
+                "properties": {
+                  "protocol": "*",
+                  "sourceAddressPrefix": "10.0.0.0/8",
+                  "destinationAddressPrefix": "11.0.0.0/8",
+                  "access": "Deny",
+                  "destinationPortRange": "8080",
+                  "sourcePortRange": "*",
+                  "priority": 100,
+                  "direction": "Outbound"
+                }
+              }
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "name": "rule1",
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/testnsg/securityRules/rule1",
+                  "properties": {
+                    "provisioningState": "Succeeded",
+                    "protocol": "*",
+                    "sourcePortRange": "*",
+                    "destinationPortRange": "8080",
+                    "sourceAddressPrefix": "10.0.0.0/8",
+                    "destinationAddressPrefix": "11.0.0.0/8",
+                    "access": "Deny",
+                    "priority": 100,
+                    "direction": "Outbound"
+                  }
+                }
+              },
+              "201": {
+                "body": {
+                  "name": "rule1",
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/testnsg/securityRules/rule1",
+                  "properties": {
+                    "provisioningState": "Succeeded",
+                    "protocol": "*",
+                    "sourcePortRange": "*",
+                    "destinationPortRange": "8080",
+                    "sourceAddressPrefix": "10.0.0.0/8",
+                    "destinationAddressPrefix": "11.0.0.0/8",
+                    "access": "Deny",
+                    "priority": 100,
+                    "direction": "Outbound"
+                  }
+                }
+              }
+            }
+          }
+        },
         "x-ms-long-running-operation": true,
         "produces": [
           "application/json",
@@ -148,7 +207,23 @@
           "items": {
             "type": "string"
           },
-          "description": "The destination address prefixes. CIDR or destination IP rangees."
+          "description": "The destination address prefixes. CIDR or destination IP ranges."
+        },
+        "sourcePortRanges": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "The source port."
+          },
+          "description": "The source port ranges."
+        },
+        "destinationPortRanges": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "The destination port."
+          },
+          "description": "The destination port ranges."
         },
         "access": {
           "type": "string",
@@ -184,6 +259,7 @@
           "description": "The provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
         }
       },
+      "description": "Security rule resource.",
       "required": [
         "protocol",
         "sourceAddressPrefix",
@@ -199,7 +275,8 @@
       "properties": {
         "properties": {
           "x-ms-client-flatten": true,
-          "$ref": "#/definitions/SecurityRulePropertiesFormat"
+          "$ref": "#/definitions/SecurityRulePropertiesFormat",
+          "description": "Properties of the security rule"
         },
         "name": {
           "type": "string",
@@ -280,7 +357,8 @@
       "properties": {
         "properties": {
           "x-ms-client-flatten": true,
-          "$ref": "#/definitions/NetworkSecurityGroupPropertiesFormat"
+          "$ref": "#/definitions/NetworkSecurityGroupPropertiesFormat",
+          "description": "Properties of the network security group"
         },
         "etag": {
           "type": "string",
@@ -339,6 +417,7 @@
           "description": "Resource tags."
         }
       },
+      "description": "Common resource representation.",
       "x-ms-azure-resource": true,
       "required": [
         "location"
@@ -351,6 +430,7 @@
           "description": "Resource ID."
         }
       },
+      "description": "Reference to another subresource.",
       "x-ms-azure-resource": true,
       "required": [
         "id"

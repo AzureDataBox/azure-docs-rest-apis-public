@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "2017-06-01",
+    "version": "2017-08-01",
     "title": "NetworkManagementClient",
     "description": "The Microsoft Azure Network management API provides a RESTful set of web services that interact with Microsoft Azure Networks service to manage your network resources. The API has entities that capture the relationship between an end user and the Microsoft Azure Networks service."
   },
@@ -55,6 +55,53 @@
             "description": "Request successful. The operation returns a list of RouteTable resources.",
             "schema": {
               "$ref": "#/definitions/RouteTableListResult"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "List route tables in resource group": {
+            "parameters": {
+              "api-version": "2017-08-01",
+              "subscriptionId": "subid",
+              "resourceGroupName": "rg1"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "value": [
+                    {
+                      "name": "testrt",
+                      "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/routeTables/testrt",
+                      "type": "Microsoft.Network/routeTables",
+                      "location": "westus",
+                      "properties": {
+                        "provisioningState": "Succeeded",
+                        "routes": [
+                          {
+                            "name": "route1",
+                            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/routeTables/testrt/routes/route1",
+                            "properties": {
+                              "provisioningState": "Succeeded",
+                              "addressPrefix": "10.0.3.0/24",
+                              "nextHopType": "VirtualNetworkGateway"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "name": "testrt2",
+                      "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/routeTables/testrt2",
+                      "type": "Microsoft.Network/routeTables",
+                      "location": "westus",
+                      "properties": {
+                        "provisioningState": "Succeeded",
+                        "routes": []
+                      }
+                    }
+                  ]
+                }
+              }
             }
           }
         },
@@ -114,7 +161,8 @@
       "properties": {
         "properties": {
           "x-ms-client-flatten": true,
-          "$ref": "#/definitions/RoutePropertiesFormat"
+          "$ref": "#/definitions/RoutePropertiesFormat",
+          "description": "Properties of the route."
         },
         "name": {
           "type": "string",
@@ -160,7 +208,8 @@
       "properties": {
         "properties": {
           "x-ms-client-flatten": true,
-          "$ref": "#/definitions/RouteTablePropertiesFormat"
+          "$ref": "#/definitions/RouteTablePropertiesFormat",
+          "description": "Properties of the route table."
         },
         "etag": {
           "type": "string",
@@ -235,6 +284,7 @@
           "description": "Resource tags."
         }
       },
+      "description": "Common resource representation.",
       "x-ms-azure-resource": true,
       "required": [
         "location"
@@ -247,6 +297,7 @@
           "description": "Resource ID."
         }
       },
+      "description": "Reference to another subresource.",
       "x-ms-azure-resource": true,
       "required": [
         "id"

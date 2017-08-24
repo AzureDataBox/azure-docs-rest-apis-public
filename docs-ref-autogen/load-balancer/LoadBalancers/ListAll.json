@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "2017-06-01",
+    "version": "2017-08-01",
     "title": "NetworkManagementClient",
     "description": "The Microsoft Azure Network management API provides a RESTful set of web services that interact with Microsoft Azure Networks service to manage your network resources. The API has entities that capture the relationship between an end user and the Microsoft Azure Networks service."
   },
@@ -51,6 +51,147 @@
             }
           }
         },
+        "x-ms-examples": {
+          "List all load balancers": {
+            "parameters": {
+              "api-version": "2017-08-01",
+              "subscriptionId": "subid"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "value": [
+                    {
+                      "name": "lb",
+                      "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb",
+                      "type": "Microsoft.Network/loadBalancers",
+                      "location": "westus",
+                      "properties": {
+                        "provisioningState": "Succeeded",
+                        "frontendIPConfigurations": [
+                          {
+                            "name": "felb",
+                            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/felb",
+                            "properties": {
+                              "provisioningState": "Succeeded",
+                              "privateIPAddress": "10.0.1.4",
+                              "privateIPAllocationMethod": "Dynamic",
+                              "subnet": {
+                                "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb"
+                              },
+                              "loadBalancingRules": [
+                                {
+                                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb"
+                                }
+                              ],
+                              "inboundNatRules": [
+                                {
+                                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/inboundNatRules/inrlb"
+                                }
+                              ]
+                            }
+                          }
+                        ],
+                        "backendAddressPools": [
+                          {
+                            "name": "belb",
+                            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/belb",
+                            "properties": {
+                              "provisioningState": "Succeeded",
+                              "loadBalancingRules": [
+                                {
+                                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb"
+                                }
+                              ]
+                            }
+                          }
+                        ],
+                        "loadBalancingRules": [
+                          {
+                            "name": "rulelb",
+                            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb",
+                            "properties": {
+                              "provisioningState": "Succeeded",
+                              "frontendIPConfiguration": {
+                                "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/felb"
+                              },
+                              "frontendPort": 80,
+                              "backendPort": 80,
+                              "enableFloatingIP": true,
+                              "idleTimeoutInMinutes": 15,
+                              "protocol": "Tcp",
+                              "loadDistribution": "Default",
+                              "backendAddressPool": {
+                                "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/belb"
+                              },
+                              "probe": {
+                                "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/prlb"
+                              }
+                            }
+                          }
+                        ],
+                        "probes": [
+                          {
+                            "name": "prlb",
+                            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/prlb",
+                            "properties": {
+                              "provisioningState": "Succeeded",
+                              "protocol": "Http",
+                              "port": 80,
+                              "requestPath": "healthcheck.aspx",
+                              "intervalInSeconds": 15,
+                              "numberOfProbes": 2,
+                              "loadBalancingRules": [
+                                {
+                                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb"
+                                }
+                              ]
+                            }
+                          }
+                        ],
+                        "inboundNatRules": [
+                          {
+                            "name": "inrlb",
+                            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/inboundNatRules/inrlb",
+                            "properties": {
+                              "provisioningState": "Succeeded",
+                              "frontendIPConfiguration": {
+                                "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/felb"
+                              },
+                              "frontendPort": 3389,
+                              "backendPort": 3389,
+                              "enableFloatingIP": true,
+                              "idleTimeoutInMinutes": 15,
+                              "protocol": "Tcp"
+                            }
+                          }
+                        ],
+                        "outboundNatRules": [],
+                        "inboundNatPools": []
+                      }
+                    },
+                    {
+                      "name": "lb3",
+                      "id": "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Network/loadBalancers/lb3",
+                      "type": "Microsoft.Network/loadBalancers",
+                      "location": "westus",
+                      "properties": {
+                        "provisioningState": "Succeeded",
+                        "frontendIPConfigurations": [],
+                        "backendAddressPools": [],
+                        "loadBalancingRules": [],
+                        "probes": [],
+                        "inboundNatRules": [],
+                        "outboundNatRules": [],
+                        "inboundNatPools": []
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
         },
@@ -67,6 +208,23 @@
     }
   },
   "definitions": {
+    "LoadBalancerSku": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of a load balancer SKU.",
+          "enum": [
+            "Basic",
+            "Standard"
+          ],
+          "x-ms-enum": {
+            "name": "LoadBalancerSkuName",
+            "modelAsString": false
+          }
+        }
+      },
+      "description": "SKU of a load balancer"
+    },
     "FrontendIPConfigurationPropertiesFormat": {
       "properties": {
         "inboundNatRules": {
@@ -136,7 +294,8 @@
       "properties": {
         "properties": {
           "x-ms-client-flatten": true,
-          "$ref": "#/definitions/FrontendIPConfigurationPropertiesFormat"
+          "$ref": "#/definitions/FrontendIPConfigurationPropertiesFormat",
+          "description": "Properties of the load balancer probe."
         },
         "name": {
           "type": "string",
@@ -191,7 +350,8 @@
       "properties": {
         "properties": {
           "x-ms-client-flatten": true,
-          "$ref": "#/definitions/BackendAddressPoolPropertiesFormat"
+          "$ref": "#/definitions/BackendAddressPoolPropertiesFormat",
+          "description": "Properties of load balancer backend address pool."
         },
         "name": {
           "type": "string",
@@ -270,6 +430,10 @@
           "type": "boolean",
           "description": "Configures a virtual machine's endpoint for the floating IP capability required to configure a SQL AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server. This setting can't be changed after you create the endpoint."
         },
+        "disableOutboundSnat": {
+          "type": "boolean",
+          "description": "Configures SNAT for the VMs in the backend pool to use the publicIP address specified in the frontend of the load balancing rule."
+        },
         "provisioningState": {
           "type": "string",
           "description": "Gets the provisioning state of the PublicIP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
@@ -287,7 +451,8 @@
       "properties": {
         "properties": {
           "x-ms-client-flatten": true,
-          "$ref": "#/definitions/LoadBalancingRulePropertiesFormat"
+          "$ref": "#/definitions/LoadBalancingRulePropertiesFormat",
+          "description": "Properties of load balancer load balancing rule."
         },
         "name": {
           "type": "string",
@@ -303,7 +468,7 @@
           "$ref": "#/definitions/SubResourceReadOnly"
         }
       ],
-      "description": "A loag balancing rule for a load balancer.",
+      "description": "A load balancing rule for a load balancer.",
       "required": [
         "name"
       ]
@@ -354,6 +519,7 @@
           "description": "Gets the provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
         }
       },
+      "description": "Load balancer probe resource.",
       "required": [
         "protocol",
         "port",
@@ -364,7 +530,8 @@
       "properties": {
         "properties": {
           "x-ms-client-flatten": true,
-          "$ref": "#/definitions/ProbePropertiesFormat"
+          "$ref": "#/definitions/ProbePropertiesFormat",
+          "description": "Properties of load balancer probe."
         },
         "name": {
           "type": "string",
@@ -394,7 +561,7 @@
         "backendIPConfiguration": {
           "readOnly": true,
           "$ref": "#/definitions/SubResource",
-          "description": "A reference to a private IP address defined on a network interface of a VM. Traffic sent to the frontend port of each of the frontend IP configurations is forwarded to the backed IP."
+          "description": "A reference to a private IP address defined on a network interface of a VM. Traffic sent to the frontend port of each of the frontend IP configurations is forwarded to the backend IP."
         },
         "protocol": {
           "type": "string",
@@ -444,7 +611,8 @@
       "properties": {
         "properties": {
           "x-ms-client-flatten": true,
-          "$ref": "#/definitions/InboundNatRulePropertiesFormat"
+          "$ref": "#/definitions/InboundNatRulePropertiesFormat",
+          "description": "Properties of load balancer inbound nat rule."
         },
         "name": {
           "type": "string",
@@ -516,7 +684,8 @@
       "properties": {
         "properties": {
           "x-ms-client-flatten": true,
-          "$ref": "#/definitions/InboundNatPoolPropertiesFormat"
+          "$ref": "#/definitions/InboundNatPoolPropertiesFormat",
+          "description": "Properties of load balancer inbound nat pool."
         },
         "name": {
           "type": "string",
@@ -569,7 +738,8 @@
       "properties": {
         "properties": {
           "x-ms-client-flatten": true,
-          "$ref": "#/definitions/OutboundNatRulePropertiesFormat"
+          "$ref": "#/definitions/OutboundNatRulePropertiesFormat",
+          "description": "Properties of load balancer outbound nat rule."
         },
         "name": {
           "type": "string",
@@ -651,9 +821,14 @@
     },
     "LoadBalancer": {
       "properties": {
+        "sku": {
+          "$ref": "#/definitions/LoadBalancerSku",
+          "description": "The load balancer SKU."
+        },
         "properties": {
           "x-ms-client-flatten": true,
-          "$ref": "#/definitions/LoadBalancerPropertiesFormat"
+          "$ref": "#/definitions/LoadBalancerPropertiesFormat",
+          "description": "Properties of load balancer."
         },
         "etag": {
           "type": "string",
@@ -677,11 +852,97 @@
           "description": "A list of load balancers in a resource group."
         },
         "nextLink": {
+          "readOnly": true,
           "type": "string",
           "description": "The URL to get the next set of results."
         }
       },
       "description": "Response for ListLoadBalancers API service call."
+    },
+    "InboundNatRuleListResult": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/InboundNatRule"
+          },
+          "description": "A list of inbound nat rules in a load balancer."
+        },
+        "nextLink": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The URL to get the next set of results."
+        }
+      },
+      "description": "Response for ListInboundNatRule API service call."
+    },
+    "LoadBalancerBackendAddressPoolListResult": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BackendAddressPool"
+          },
+          "description": "A list of backend address pools in a load balancer."
+        },
+        "nextLink": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The URL to get the next set of results."
+        }
+      },
+      "description": "Response for ListBackendAddressPool API service call."
+    },
+    "LoadBalancerFrontendIPConfigurationListResult": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FrontendIPConfiguration"
+          },
+          "description": "A list of frontend IP configurations in a load balancer."
+        },
+        "nextLink": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The URL to get the next set of results."
+        }
+      },
+      "description": "Response for ListFrontendIPConfiguration API service call."
+    },
+    "LoadBalancerLoadBalancingRuleListResult": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LoadBalancingRule"
+          },
+          "description": "A list of load balancing rules in a load balancer."
+        },
+        "nextLink": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The URL to get the next set of results."
+        }
+      },
+      "description": "Response for ListLoadBalancingRule API service call."
+    },
+    "LoadBalancerProbeListResult": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Probe"
+          },
+          "description": "A list of probes in a load balancer."
+        },
+        "nextLink": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The URL to get the next set of results."
+        }
+      },
+      "description": "Response for ListProbe API service call."
     },
     "Resource": {
       "properties": {
@@ -712,6 +973,7 @@
           "description": "Resource tags."
         }
       },
+      "description": "Common resource representation.",
       "x-ms-azure-resource": true,
       "required": [
         "location"
@@ -734,10 +996,225 @@
           "description": "Resource ID."
         }
       },
+      "description": "Reference to another subresource.",
       "x-ms-azure-resource": true,
       "required": [
         "id"
       ]
+    },
+    "NetworkInterfaceDnsSettings": {
+      "properties": {
+        "dnsServers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of DNS servers IP addresses. Use 'AzureProvidedDNS' to switch to azure provided DNS resolution. 'AzureProvidedDNS' value cannot be combined with other IPs, it must be the only value in dnsServers collection."
+        },
+        "appliedDnsServers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "If the VM that uses this NIC is part of an Availability Set, then this list will have the union of all DNS servers from all NICs that are part of the Availability Set. This property is what is configured on each of those VMs."
+        },
+        "internalDnsNameLabel": {
+          "type": "string",
+          "description": "Relative DNS name for this NIC used for internal communications between VMs in the same virtual network."
+        },
+        "internalFqdn": {
+          "type": "string",
+          "description": "Fully qualified DNS name supporting internal communications between VMs in the same virtual network."
+        },
+        "internalDomainNameSuffix": {
+          "type": "string",
+          "description": "Even if internalDnsNameLabel is not specified, a DNS entry is created for the primary NIC of the VM. This DNS name can be constructed by concatenating the VM name with the value of internalDomainNameSuffix."
+        }
+      },
+      "description": "DNS settings of a network interface."
+    },
+    "NetworkInterfaceIPConfigurationPropertiesFormat": {
+      "properties": {
+        "applicationGatewayBackendAddressPools": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SubResource"
+          },
+          "description": "The reference of ApplicationGatewayBackendAddressPool resource."
+        },
+        "loadBalancerBackendAddressPools": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SubResource"
+          },
+          "description": "The reference of LoadBalancerBackendAddressPool resource."
+        },
+        "loadBalancerInboundNatRules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SubResource"
+          },
+          "description": "A list of references of LoadBalancerInboundNatRules."
+        },
+        "privateIPAddress": {
+          "type": "string",
+          "description": "Private IP address of the IP configuration."
+        },
+        "privateIPAllocationMethod": {
+          "type": "string",
+          "description": "Defines how a private IP address is assigned. Possible values are: 'Static' and 'Dynamic'.",
+          "enum": [
+            "Static",
+            "Dynamic"
+          ],
+          "x-ms-enum": {
+            "name": "IPAllocationMethod",
+            "modelAsString": false
+          }
+        },
+        "privateIPAddressVersion": {
+          "type": "string",
+          "description": "Available from Api-Version 2016-03-30 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'.",
+          "enum": [
+            "IPv4",
+            "IPv6"
+          ],
+          "x-ms-enum": {
+            "name": "IPVersion",
+            "modelAsString": false
+          }
+        },
+        "subnet": {
+          "$ref": "#/definitions/SubResource",
+          "description": "Subnet bound to the IP configuration."
+        },
+        "primary": {
+          "type": "boolean",
+          "description": "Gets whether this is a primary customer address on the network interface."
+        },
+        "publicIPAddress": {
+          "$ref": "#/definitions/SubResource",
+          "description": "Public IP address bound to the IP configuration."
+        },
+        "provisioningState": {
+          "type": "string",
+          "description": "The provisioning state of the network interface IP configuration. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+        }
+      },
+      "description": "Properties of IP configuration."
+    },
+    "NetworkInterfaceIPConfiguration": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/NetworkInterfaceIPConfigurationPropertiesFormat",
+          "description": "Network interface IP configuration properties."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the resource that is unique within a resource group. This name can be used to access the resource."
+        },
+        "etag": {
+          "type": "string",
+          "description": "A unique read-only string that changes whenever the resource is updated."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/SubResourceReadOnly"
+        }
+      ],
+      "description": "IPConfiguration in a network interface.",
+      "required": [
+        "name"
+      ]
+    },
+    "NetworkInterfacePropertiesFormat": {
+      "properties": {
+        "virtualMachine": {
+          "$ref": "#/definitions/SubResource",
+          "description": "The reference of a virtual machine."
+        },
+        "networkSecurityGroup": {
+          "$ref": "#/definitions/SubResource",
+          "description": "The reference of the NetworkSecurityGroup resource."
+        },
+        "ipConfigurations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NetworkInterfaceIPConfiguration"
+          },
+          "description": "A list of IPConfigurations of the network interface."
+        },
+        "dnsSettings": {
+          "$ref": "#/definitions/NetworkInterfaceDnsSettings",
+          "description": "The DNS settings in network interface."
+        },
+        "macAddress": {
+          "type": "string",
+          "description": "The MAC address of the network interface."
+        },
+        "primary": {
+          "type": "boolean",
+          "description": "Gets whether this is a primary network interface on a virtual machine."
+        },
+        "enableAcceleratedNetworking": {
+          "type": "boolean",
+          "description": "If the network interface is accelerated networking enabled."
+        },
+        "enableIPForwarding": {
+          "type": "boolean",
+          "description": "Indicates whether IP forwarding is enabled on this network interface."
+        },
+        "resourceGuid": {
+          "type": "string",
+          "description": "The resource GUID property of the network interface resource."
+        },
+        "provisioningState": {
+          "type": "string",
+          "description": "The provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+        }
+      },
+      "description": "NetworkInterface properties. ",
+      "required": [
+        "ipConfigurations"
+      ]
+    },
+    "NetworkInterface": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/NetworkInterfacePropertiesFormat",
+          "description": "Properties of the network interface."
+        },
+        "etag": {
+          "type": "string",
+          "description": "A unique read-only string that changes whenever the resource is updated."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "A network interface in a resource group."
+    },
+    "NetworkInterfaceListResult": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NetworkInterface"
+          },
+          "description": "A list of network interfaces in a resource group."
+        },
+        "nextLink": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The URL to get the next set of results."
+        }
+      },
+      "description": "Response for the ListNetworkInterface API service call."
     }
   },
   "parameters": {

@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "2017-06-01",
+    "version": "2017-08-01",
     "title": "NetworkManagementClient",
     "description": "The Microsoft Azure Network management API provides a RESTful set of web services that interact with Microsoft Azure Networks service to manage your network resources. The API has entities that capture the relationship between an end user and the Microsoft Azure Networks service."
   },
@@ -75,6 +75,22 @@
             "description": "Accepted and the operation will complete asynchronously."
           }
         },
+        "x-ms-examples": {
+          "Delete subnet": {
+            "parameters": {
+              "subnetName": "subnet1",
+              "virtualNetworkName": "vnetname",
+              "resourceGroupName": "subnet-test",
+              "api-version": "2017-08-01",
+              "subscriptionId": "subid"
+            },
+            "responses": {
+              "200": {},
+              "202": {},
+              "204": {}
+            }
+          }
+        },
         "x-ms-long-running-operation": true,
         "produces": [
           "application/json",
@@ -111,7 +127,8 @@
       "properties": {
         "properties": {
           "x-ms-client-flatten": true,
-          "$ref": "#/definitions/ResourceNavigationLinkFormat"
+          "$ref": "#/definitions/ResourceNavigationLinkFormat",
+          "description": "Resource navigation link properties format."
         },
         "name": {
           "type": "string",
@@ -144,12 +161,12 @@
           "$ref": "#/definitions/SubResource",
           "description": "The reference of the RouteTable resource."
         },
-        "privateAccessServices": {
+        "serviceEndpoints": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/PrivateAccessServicePropertiesFormat"
+            "$ref": "#/definitions/ServiceEndpointPropertiesFormat"
           },
-          "description": "An array of private access services values."
+          "description": "An array of service endpoints."
         },
         "ipConfigurations": {
           "readOnly": true,
@@ -171,15 +188,16 @@
           "description": "The provisioning state of the resource."
         }
       },
+      "description": "Properties of the subnet.",
       "required": [
         "addressPrefix"
       ]
     },
-    "PrivateAccessServicePropertiesFormat": {
+    "ServiceEndpointPropertiesFormat": {
       "properties": {
         "service": {
           "type": "string",
-          "description": "The type of the private access."
+          "description": "The type of the endpoint service."
         },
         "locations": {
           "type": "array",
@@ -193,7 +211,7 @@
           "description": "The provisioning state of the resource."
         }
       },
-      "description": "The private access service properties."
+      "description": "The service endpoint properties."
     },
     "VirtualNetworkPeeringPropertiesFormat": {
       "properties": {
@@ -235,6 +253,7 @@
           "description": "The provisioning state of the resource."
         }
       },
+      "description": "Properties of the virtual network peering.",
       "required": [
         "remoteVirtualNetwork"
       ]
@@ -243,7 +262,8 @@
       "properties": {
         "properties": {
           "x-ms-client-flatten": true,
-          "$ref": "#/definitions/SubnetPropertiesFormat"
+          "$ref": "#/definitions/SubnetPropertiesFormat",
+          "description": "Properties of the subnet."
         },
         "name": {
           "type": "string",
@@ -268,7 +288,8 @@
       "properties": {
         "properties": {
           "x-ms-client-flatten": true,
-          "$ref": "#/definitions/VirtualNetworkPeeringPropertiesFormat"
+          "$ref": "#/definitions/VirtualNetworkPeeringPropertiesFormat",
+          "description": "Properties of the virtual network peering."
         },
         "name": {
           "type": "string",
@@ -354,6 +375,7 @@
           "description": "The provisioning state of the PublicIP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
         }
       },
+      "description": "Properties of the virtual network.",
       "required": [
         "addressSpace"
       ]
@@ -362,7 +384,8 @@
       "properties": {
         "properties": {
           "x-ms-client-flatten": true,
-          "$ref": "#/definitions/VirtualNetworkPropertiesFormat"
+          "$ref": "#/definitions/VirtualNetworkPropertiesFormat",
+          "description": "Properties of the virtual network."
         },
         "etag": {
           "type": "string",
@@ -531,6 +554,7 @@
           "description": "Resource tags."
         }
       },
+      "description": "Common resource representation.",
       "x-ms-azure-resource": true,
       "required": [
         "location"
@@ -553,6 +577,7 @@
           "description": "Resource ID."
         }
       },
+      "description": "Reference to another subresource.",
       "x-ms-azure-resource": true,
       "required": [
         "id"
