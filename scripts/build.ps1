@@ -95,7 +95,9 @@ if($LASTEXITCODE -ne 0)
 # Clean unzipped folder and zip
 Remove-Item $RestProcessor -recurse -Force
 Remove-Item $RestProcessorArtifactsDestination
-
+if (Test-Path $RestSrcPath){
+    Remove-Item $RestSrcPath -recurse -Force
+}
 
 Pop-Location
 
