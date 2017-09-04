@@ -24,7 +24,7 @@ Foreach($reference in $mappingFile.mapping.reference)
         {
             oav generate-wireformat $swaggerPath -y
             autorest -FANCY -g SwaggerResolver -i $swaggerPath -outputFileName $swaggerPath
-            Write-Host "Done resolving swagger file by AutoRest" $swaggerPath
+            Write-Host "Done resolving swagger file by AutoRest and oav" $swaggerPath
         }
     }
 }
