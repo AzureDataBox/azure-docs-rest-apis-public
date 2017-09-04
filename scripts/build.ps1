@@ -44,7 +44,7 @@ Foreach($org in $mappingFile.organizations)
                     {
                         Write-Host "Start resolving swagger file by oav and AutoRest" $swaggerPath
                         oav generate-wireformat $swaggerPath -y
-                        f ($LASTEXITCODE -ne 0) {
+                        if ($LASTEXITCODE -ne 0) {
                             Write-Host "Error when resolving " $swaggerPath
                         }
                         Write-Host "Done resolving swagger file by oav and AutoRest" $swaggerPath
