@@ -11,6 +11,33 @@ $RestProcessorZip = "RestProcessor.zip"
 $RestProcessor = "RestProcessor"
 $MappingFilePath = "mapping.json"
 
+# Unzip RestProcessorZip to RestProcessor
+Add-Type -AssemblyName System.IO.Compression.FileSystem
+function Unzip
+{
+    param([string]$zipfile, [string]$outpath)
+    [System.IO.Compression.ZipFile]::ExtractToDirectory($zipfile, $outpath)
+}
+if (Test-Path $RestProcessor){
+    Remove-Item $RestProcessor -recurse -Force
+}
+
+# Download RestProcessorArtifacts
+Write-Host "Downloading RestProcessorArtifacts"
+$RestProcessorArtifactsSource = "https://ci.appveyor.com/api/projects/VisualStudioChinaAppVeyorUsers/restprocessor/artifacts/RestProcessor/bin/RestProcessorArtifacts.zip?branch=master"
+$RestProcessorArtifactsDestination = Join-Path $scriptsHome $RestProcessorZip
+Invoke-WebRequest $RestProcessorArtifactsSource -OutFile $RestProcessorArtifactsDestination -Headers @{ "Authorization" = "Bearer $env:appveyor_api_token" }
+Unzip $RestProcessorArtifactsDestination $scriptsHome\$RestProcessor
+
+# Running RestProcessor step 1: add mapping for x-ms-examples
+Write-Host "Running RestProcessor step 1: mapping for x-ms-examples"
+& $RestProcessor\$RestProcessor.exe $RestSrcPath $restDocsPath $restDocsPath\$MappingFilePath true
+if($LASTEXITCODE -ne 0)
+{
+    Pop-Location
+    exit 1
+}
+
 # Pre-resolve swagger files by AutoRest
 Write-Host "Pre-resolve swagger files by AutoRest"
 $mappingFile = Get-Content $restDocsPath\$MappingFilePath -Raw | ConvertFrom-Json
@@ -44,6 +71,7 @@ Foreach($org in $mappingFile.organizations)
                     {
                         Write-Host "Start resolving swagger file by oav and AutoRest" $swaggerPath
                         oav generate-wireformat $swaggerPath -y
+                        autorest -FANCY -g SwaggerResolver -i $swaggerPath -outputFileName $swaggerPath
                         if ($LASTEXITCODE -ne 0) {
                             Write-Host "Error when resolving " $swaggerPath
                         }
@@ -55,23 +83,8 @@ Foreach($org in $mappingFile.organizations)
     }
 }
 
-# Unzip RestProcessorZip to RestProcessor
-Add-Type -AssemblyName System.IO.Compression.FileSystem
-function Unzip
-{
-    param([string]$zipfile, [string]$outpath)
-    [System.IO.Compression.ZipFile]::ExtractToDirectory($zipfile, $outpath)
-}
-if (Test-Path $RestProcessor){
-    Remove-Item $RestProcessor -recurse -Force
-}
-
-Write-Host "Downloading RestProcessorArtifacts"
-$RestProcessorArtifactsSource = "https://ci.appveyor.com/api/projects/VisualStudioChinaAppVeyorUsers/restprocessor/artifacts/RestProcessor/bin/RestProcessorArtifacts.zip?branch=master"
-$RestProcessorArtifactsDestination = Join-Path $scriptsHome $RestProcessorZip
-Invoke-WebRequest $RestProcessorArtifactsSource -OutFile $RestProcessorArtifactsDestination -Headers @{ "Authorization" = "Bearer $env:appveyor_api_token" }
-Unzip $RestProcessorArtifactsDestination $scriptsHome\$RestProcessor
-
+# Running RestProcessor step 2: processing core
+Write-Host "Running RestProcessor step 2: processing core"
 & $RestProcessor\$RestProcessor.exe $RestSrcPath $restDocsPath $restDocsPath\$MappingFilePath
 if($LASTEXITCODE -ne 0)
 {
