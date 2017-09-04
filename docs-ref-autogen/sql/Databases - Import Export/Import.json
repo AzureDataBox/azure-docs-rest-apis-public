@@ -1,0 +1,603 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2014-04-01",
+    "title": "Azure SQL Database Import/Export spec",
+    "description": "Provides create and read functionality for Import/Export operations on Azure SQL databases."
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/import": {
+      "post": {
+        "tags": [
+          "ImportExport"
+        ],
+        "operationId": "Databases_Import",
+        "description": "Imports a bacpac into a new database. ",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupParameter"
+          },
+          {
+            "$ref": "#/parameters/ServerNameParameter"
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ImportRequest"
+            },
+            "description": "The required parameters for importing a Bacpac into a database."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ImportExportResponse"
+            }
+          },
+          "202": {
+            "description": "Accepted"
+          }
+        },
+        "x-ms-examples": {
+          "Import bacpac into new database Max with storage key": {
+            "parameters": {
+              "subscriptionId": "00000000-1111-2222-3333-444444444444",
+              "resourceGroupName": "sqlcrudtest-4799",
+              "serverName": "sqlcrudtest-5961",
+              "api-version": "2014-04-01",
+              "parameters": {
+                "databaseName": "TestDbImport",
+                "edition": "Basic",
+                "serviceObjectiveName": "Basic",
+                "maxSizeBytes": "2147483648",
+                "storageKeyType": "StorageAccessKey",
+                "storageKey": "sdlfkjdsf+sdlfkjsdlkfsjdfLDKFJSDLKFDFKLjsdfksjdflsdkfD2342309432849328479324/3RSD==",
+                "storageUri": "https://test.blob.core.windows.net/bacpacs/testbacpac.bacpac",
+                "administratorLogin": "dummyLogin",
+                "administratorLoginPassword": "Un53cuRE!",
+                "authenticationType": "SQL"
+              }
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-5961/importExportOperationResult/f01d7bfe-7162-44e7-9350-f1c85ce83e4c",
+                  "name": "f01d7bfe-7162-44e7-9350-f1c85ce83e4c",
+                  "type": "Microsoft.Sql/servers/importExportOperationResults",
+                  "properties": {
+                    "requestId": "f01d7bfe-7162-44e7-9350-f1c85ce83e4c",
+                    "requestType": "Import",
+                    "queuedTime": "3/1/2017 12:14:25 AM",
+                    "lastModifiedTime": "3/1/2017 12:16:33 AM",
+                    "blobUri": "https://test.blob.core.windows.net/bacpacs/test.bacpac",
+                    "serverName": "test",
+                    "databaseName": "testdb",
+                    "status": "Completed",
+                    "errorMessage": null
+                  }
+                }
+              },
+              "202": {}
+            }
+          },
+          "Import bacpac into new database Min with storage key": {
+            "parameters": {
+              "subscriptionId": "00000000-1111-2222-3333-444444444444",
+              "resourceGroupName": "sqlcrudtest-4799",
+              "serverName": "sqlcrudtest-5961",
+              "api-version": "2014-04-01",
+              "parameters": {
+                "databaseName": "TestDbImport",
+                "edition": "Basic",
+                "serviceObjectiveName": "Basic",
+                "maxSizeBytes": "2147483648",
+                "storageKeyType": "StorageAccessKey",
+                "storageKey": "sdlfkjdsf+sdlfkjsdlkfsjdfLDKFJSDLKFDFKLjsdfksjdflsdkfD2342309432849328479324/3RSD==",
+                "storageUri": "https://test.blob.core.windows.net/bacpacs/testbacpac.bacpac",
+                "administratorLogin": "dummyLogin",
+                "administratorLoginPassword": "Un53cuRE!"
+              }
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-5961/importExportOperationResult/f01d7bfe-7162-44e7-9350-f1c85ce83e4c",
+                  "name": "f01d7bfe-7162-44e7-9350-f1c85ce83e4c",
+                  "type": "Microsoft.Sql/servers/importExportOperationResults",
+                  "properties": {
+                    "requestId": "f01d7bfe-7162-44e7-9350-f1c85ce83e4c",
+                    "requestType": "Import",
+                    "queuedTime": "3/1/2017 12:14:25 AM",
+                    "lastModifiedTime": "3/1/2017 12:16:33 AM",
+                    "blobUri": "https://test.blob.core.windows.net/bacpacs/test.bacpac",
+                    "serverName": "test",
+                    "databaseName": "testdb",
+                    "status": "Completed",
+                    "errorMessage": null
+                  }
+                }
+              },
+              "202": {}
+            }
+          },
+          "Import bacpac into new database Max with SAS key": {
+            "parameters": {
+              "subscriptionId": "00000000-1111-2222-3333-444444444444",
+              "resourceGroupName": "sqlcrudtest-4799",
+              "serverName": "sqlcrudtest-5961",
+              "api-version": "2014-04-01",
+              "parameters": {
+                "databaseName": "TestDbImport",
+                "edition": "Basic",
+                "serviceObjectiveName": "Basic",
+                "maxSizeBytes": "2147483648",
+                "storageKeyType": "SharedAccessKey",
+                "storageKey": "?sr=b&sp=rw&se=2018-01-01T00%3A00%3A00Z&sig=sdfsdfklsdjflSLIFJLSIEJFLKSDJFDd/%2wdfskdjf3%3D&sv=2015-07-08",
+                "storageUri": "https://test.blob.core.windows.net/bacpacs/testbacpac.bacpac",
+                "administratorLogin": "dummyLogin",
+                "administratorLoginPassword": "Un53cuRE!",
+                "authenticationType": "SQL"
+              }
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-5961/importExportOperationResult/f01d7bfe-7162-44e7-9350-f1c85ce83e4c",
+                  "name": "f01d7bfe-7162-44e7-9350-f1c85ce83e4c",
+                  "type": "Microsoft.Sql/servers/importExportOperationResults",
+                  "properties": {
+                    "requestId": "f01d7bfe-7162-44e7-9350-f1c85ce83e4c",
+                    "requestType": "Import",
+                    "queuedTime": "3/1/2017 12:14:25 AM",
+                    "lastModifiedTime": "3/1/2017 12:16:33 AM",
+                    "blobUri": "https://test.blob.core.windows.net/bacpacs/test.bacpac",
+                    "serverName": "test",
+                    "databaseName": "testdb",
+                    "status": "Completed",
+                    "errorMessage": null
+                  }
+                }
+              },
+              "202": {}
+            }
+          },
+          "Import bacpac into new database Min with SAS key": {
+            "parameters": {
+              "subscriptionId": "00000000-1111-2222-3333-444444444444",
+              "resourceGroupName": "sqlcrudtest-4799",
+              "serverName": "sqlcrudtest-5961",
+              "api-version": "2014-04-01",
+              "parameters": {
+                "databaseName": "TestDbImport",
+                "edition": "Basic",
+                "serviceObjectiveName": "Basic",
+                "maxSizeBytes": "2147483648",
+                "storageKeyType": "SharedAccessKey",
+                "storageKey": "?sr=b&sp=rw&se=2018-01-01T00%3A00%3A00Z&sig=sdfsdfklsdjflSLIFJLSIEJFLKSDJFDd/%2wdfskdjf3%3D&sv=2015-07-08",
+                "storageUri": "https://test.blob.core.windows.net/bacpacs/testbacpac.bacpac",
+                "administratorLogin": "dummyLogin",
+                "administratorLoginPassword": "Un53cuRE!"
+              }
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-5961/importExportOperationResult/f01d7bfe-7162-44e7-9350-f1c85ce83e4c",
+                  "name": "f01d7bfe-7162-44e7-9350-f1c85ce83e4c",
+                  "type": "Microsoft.Sql/servers/importExportOperationResults",
+                  "properties": {
+                    "requestId": "f01d7bfe-7162-44e7-9350-f1c85ce83e4c",
+                    "requestType": "Import",
+                    "queuedTime": "3/1/2017 12:14:25 AM",
+                    "lastModifiedTime": "3/1/2017 12:16:33 AM",
+                    "blobUri": "https://test.blob.core.windows.net/bacpacs/test.bacpac",
+                    "serverName": "test",
+                    "databaseName": "testdb",
+                    "status": "Completed",
+                    "errorMessage": null
+                  }
+                }
+              },
+              "202": {}
+            }
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-internal-ms-examples-mapping": {
+          "Import bacpac into new database Max with storage key": "DatabaseCreateImportMaxStorageKey",
+          "Import bacpac into new database Min with storage key": "DatabaseCreateImportMinStorageKey",
+          "Import bacpac into new database Max with SAS key": "DatabaseCreateImportMaxSasKey",
+          "Import bacpac into new database Min with SAS key": "DatabaseCreateImportMinSasKey"
+        },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "x-internal-ms-examples": {
+          "Import bacpac into new database Max with storage key": {
+            "request": "POST https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-5961/import?api-version=2014-04-01 HTTP/1.1\nAuthorization: Bearer <token>\nContent-Length: 421\nContent-Type: application/json\naccept-language: en-US\nx-ms-client-request-id: dfb3f158-62e5-4b52-a10f-6613b5b776bf\nhost: management.azure.com\nConnection: close\n\n{\"databaseName\":\"TestDbImport\",\"edition\":\"Basic\",\"serviceObjectiveName\":\"Basic\",\"maxSizeBytes\":\"2147483648\",\"storageKeyType\":\"StorageAccessKey\",\"storageKey\":\"sdlfkjdsf+sdlfkjsdlkfsjdfLDKFJSDLKFDFKLjsdfksjdflsdkfD2342309432849328479324/3RSD==\",\"storageUri\":\"https://test.blob.core.windows.net/bacpacs/testbacpac.bacpac\",\"administratorLogin\":\"dummyLogin\",\"administratorLoginPassword\":\"Un53cuRE!\",\"authenticationType\":\"SQL\"}\n",
+            "curl": "curl -X POST 'https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-5961/import?api-version=2014-04-01' \\\n-H 'authorization: bearer <token>' \\\n-H 'Content-Length: 421' \\\n-H 'Content-Type: application/json' \\\n-H 'accept-language: en-US' \\\n-H 'x-ms-client-request-id: dfb3f158-62e5-4b52-a10f-6613b5b776bf' \\\n-d @- << EOF\n{\n  \"databaseName\": \"TestDbImport\",\n  \"edition\": \"Basic\",\n  \"serviceObjectiveName\": \"Basic\",\n  \"maxSizeBytes\": \"2147483648\",\n  \"storageKeyType\": \"StorageAccessKey\",\n  \"storageKey\": \"sdlfkjdsf+sdlfkjsdlkfsjdfLDKFJSDLKFDFKLjsdfksjdflsdkfD2342309432849328479324/3RSD==\",\n  \"storageUri\": \"https://test.blob.core.windows.net/bacpacs/testbacpac.bacpac\",\n  \"administratorLogin\": \"dummyLogin\",\n  \"administratorLoginPassword\": \"Un53cuRE!\",\n  \"authenticationType\": \"SQL\"\n}\nEOF\n",
+            "response": {
+              "200": "HTTP 1.1 200\nCache-Control: no-cache\nPragma: no-cache\nExpires: -1\nx-ms-ratelimit-remaining-subscription-writes: 1199\nx-ms-request-id: 0056321e-fdb8-480d-8fd3-56fd2f90390f\nx-ms-correlation-request-id: 0056321e-fdb8-480d-8fd3-56fd2f90390f\nx-ms-routing-request-id: WESTUS2:20170904T093454280Z:0056321e-fdb8-480d-8fd3-56fd2f90390f\nStrict-Transport-Security: max-age=31536000; includeSubDomains\nContent-Length: 631\ncontent-type: application/json\nDate: Mon, 04 Sep 2017 09:34:54 GMT\nConnection: close\n\n{\"id\":\"/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-5961/importExportOperationResult/f01d7bfe-7162-44e7-9350-f1c85ce83e4c\",\"name\":\"f01d7bfe-7162-44e7-9350-f1c85ce83e4c\",\"type\":\"Microsoft.Sql/servers/importExportOperationResults\",\"properties\":{\"requestId\":\"f01d7bfe-7162-44e7-9350-f1c85ce83e4c\",\"requestType\":\"Import\",\"queuedTime\":\"3/1/2017 12:14:25 AM\",\"lastModifiedTime\":\"3/1/2017 12:16:33 AM\",\"blobUri\":\"https://test.blob.core.windows.net/bacpacs/test.bacpac\",\"serverName\":\"test\",\"databaseName\":\"testdb\",\"status\":\"Completed\",\"errorMessage\":null}}\n"
+            }
+          },
+          "Import bacpac into new database Min with storage key": {
+            "request": "POST https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-5961/import?api-version=2014-04-01 HTTP/1.1\nAuthorization: Bearer <token>\nContent-Length: 394\nContent-Type: application/json\naccept-language: en-US\nx-ms-client-request-id: 5f6d05c3-abfb-47f3-8741-5a9ea0e0b61e\nhost: management.azure.com\nConnection: close\n\n{\"databaseName\":\"TestDbImport\",\"edition\":\"Basic\",\"serviceObjectiveName\":\"Basic\",\"maxSizeBytes\":\"2147483648\",\"storageKeyType\":\"StorageAccessKey\",\"storageKey\":\"sdlfkjdsf+sdlfkjsdlkfsjdfLDKFJSDLKFDFKLjsdfksjdflsdkfD2342309432849328479324/3RSD==\",\"storageUri\":\"https://test.blob.core.windows.net/bacpacs/testbacpac.bacpac\",\"administratorLogin\":\"dummyLogin\",\"administratorLoginPassword\":\"Un53cuRE!\"}\n",
+            "curl": "curl -X POST 'https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-5961/import?api-version=2014-04-01' \\\n-H 'authorization: bearer <token>' \\\n-H 'Content-Length: 394' \\\n-H 'Content-Type: application/json' \\\n-H 'accept-language: en-US' \\\n-H 'x-ms-client-request-id: 5f6d05c3-abfb-47f3-8741-5a9ea0e0b61e' \\\n-d @- << EOF\n{\n  \"databaseName\": \"TestDbImport\",\n  \"edition\": \"Basic\",\n  \"serviceObjectiveName\": \"Basic\",\n  \"maxSizeBytes\": \"2147483648\",\n  \"storageKeyType\": \"StorageAccessKey\",\n  \"storageKey\": \"sdlfkjdsf+sdlfkjsdlkfsjdfLDKFJSDLKFDFKLjsdfksjdflsdkfD2342309432849328479324/3RSD==\",\n  \"storageUri\": \"https://test.blob.core.windows.net/bacpacs/testbacpac.bacpac\",\n  \"administratorLogin\": \"dummyLogin\",\n  \"administratorLoginPassword\": \"Un53cuRE!\"\n}\nEOF\n",
+            "response": {
+              "200": "HTTP 1.1 200\nCache-Control: no-cache\nPragma: no-cache\nExpires: -1\nx-ms-ratelimit-remaining-subscription-writes: 1199\nx-ms-request-id: 8efdb9dc-eefe-49c4-a69f-c5842ec2b3c4\nx-ms-correlation-request-id: 8efdb9dc-eefe-49c4-a69f-c5842ec2b3c4\nx-ms-routing-request-id: WESTUS2:20170904T093454280Z:8efdb9dc-eefe-49c4-a69f-c5842ec2b3c4\nStrict-Transport-Security: max-age=31536000; includeSubDomains\nContent-Length: 631\ncontent-type: application/json\nDate: Mon, 04 Sep 2017 09:34:54 GMT\nConnection: close\n\n{\"id\":\"/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-5961/importExportOperationResult/f01d7bfe-7162-44e7-9350-f1c85ce83e4c\",\"name\":\"f01d7bfe-7162-44e7-9350-f1c85ce83e4c\",\"type\":\"Microsoft.Sql/servers/importExportOperationResults\",\"properties\":{\"requestId\":\"f01d7bfe-7162-44e7-9350-f1c85ce83e4c\",\"requestType\":\"Import\",\"queuedTime\":\"3/1/2017 12:14:25 AM\",\"lastModifiedTime\":\"3/1/2017 12:16:33 AM\",\"blobUri\":\"https://test.blob.core.windows.net/bacpacs/test.bacpac\",\"serverName\":\"test\",\"databaseName\":\"testdb\",\"status\":\"Completed\",\"errorMessage\":null}}\n"
+            }
+          },
+          "Import bacpac into new database Max with SAS key": {
+            "request": "POST https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-5961/import?api-version=2014-04-01 HTTP/1.1\nAuthorization: Bearer <token>\nContent-Length: 442\nContent-Type: application/json\naccept-language: en-US\nx-ms-client-request-id: e0057947-3277-4372-9896-ac6ba28585b3\nhost: management.azure.com\nConnection: close\n\n{\"databaseName\":\"TestDbImport\",\"edition\":\"Basic\",\"serviceObjectiveName\":\"Basic\",\"maxSizeBytes\":\"2147483648\",\"storageKeyType\":\"SharedAccessKey\",\"storageKey\":\"?sr=b&sp=rw&se=2018-01-01T00%3A00%3A00Z&sig=sdfsdfklsdjflSLIFJLSIEJFLKSDJFDd/%2wdfskdjf3%3D&sv=2015-07-08\",\"storageUri\":\"https://test.blob.core.windows.net/bacpacs/testbacpac.bacpac\",\"administratorLogin\":\"dummyLogin\",\"administratorLoginPassword\":\"Un53cuRE!\",\"authenticationType\":\"SQL\"}\n",
+            "curl": "curl -X POST 'https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-5961/import?api-version=2014-04-01' \\\n-H 'authorization: bearer <token>' \\\n-H 'Content-Length: 442' \\\n-H 'Content-Type: application/json' \\\n-H 'accept-language: en-US' \\\n-H 'x-ms-client-request-id: e0057947-3277-4372-9896-ac6ba28585b3' \\\n-d @- << EOF\n{\n  \"databaseName\": \"TestDbImport\",\n  \"edition\": \"Basic\",\n  \"serviceObjectiveName\": \"Basic\",\n  \"maxSizeBytes\": \"2147483648\",\n  \"storageKeyType\": \"SharedAccessKey\",\n  \"storageKey\": \"?sr=b&sp=rw&se=2018-01-01T00%3A00%3A00Z&sig=sdfsdfklsdjflSLIFJLSIEJFLKSDJFDd/%2wdfskdjf3%3D&sv=2015-07-08\",\n  \"storageUri\": \"https://test.blob.core.windows.net/bacpacs/testbacpac.bacpac\",\n  \"administratorLogin\": \"dummyLogin\",\n  \"administratorLoginPassword\": \"Un53cuRE!\",\n  \"authenticationType\": \"SQL\"\n}\nEOF\n",
+            "response": {
+              "200": "HTTP 1.1 200\nCache-Control: no-cache\nPragma: no-cache\nExpires: -1\nx-ms-ratelimit-remaining-subscription-writes: 1199\nx-ms-request-id: 61d0ab26-588b-4143-98c8-1de683e3d74b\nx-ms-correlation-request-id: 61d0ab26-588b-4143-98c8-1de683e3d74b\nx-ms-routing-request-id: WESTUS2:20170904T093454280Z:61d0ab26-588b-4143-98c8-1de683e3d74b\nStrict-Transport-Security: max-age=31536000; includeSubDomains\nContent-Length: 631\ncontent-type: application/json\nDate: Mon, 04 Sep 2017 09:34:54 GMT\nConnection: close\n\n{\"id\":\"/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-5961/importExportOperationResult/f01d7bfe-7162-44e7-9350-f1c85ce83e4c\",\"name\":\"f01d7bfe-7162-44e7-9350-f1c85ce83e4c\",\"type\":\"Microsoft.Sql/servers/importExportOperationResults\",\"properties\":{\"requestId\":\"f01d7bfe-7162-44e7-9350-f1c85ce83e4c\",\"requestType\":\"Import\",\"queuedTime\":\"3/1/2017 12:14:25 AM\",\"lastModifiedTime\":\"3/1/2017 12:16:33 AM\",\"blobUri\":\"https://test.blob.core.windows.net/bacpacs/test.bacpac\",\"serverName\":\"test\",\"databaseName\":\"testdb\",\"status\":\"Completed\",\"errorMessage\":null}}\n"
+            }
+          },
+          "Import bacpac into new database Min with SAS key": {
+            "request": "POST https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-5961/import?api-version=2014-04-01 HTTP/1.1\nAuthorization: Bearer <token>\nContent-Length: 415\nContent-Type: application/json\naccept-language: en-US\nx-ms-client-request-id: 8699598d-e522-4cbd-95fd-8b3ac0d5294d\nhost: management.azure.com\nConnection: close\n\n{\"databaseName\":\"TestDbImport\",\"edition\":\"Basic\",\"serviceObjectiveName\":\"Basic\",\"maxSizeBytes\":\"2147483648\",\"storageKeyType\":\"SharedAccessKey\",\"storageKey\":\"?sr=b&sp=rw&se=2018-01-01T00%3A00%3A00Z&sig=sdfsdfklsdjflSLIFJLSIEJFLKSDJFDd/%2wdfskdjf3%3D&sv=2015-07-08\",\"storageUri\":\"https://test.blob.core.windows.net/bacpacs/testbacpac.bacpac\",\"administratorLogin\":\"dummyLogin\",\"administratorLoginPassword\":\"Un53cuRE!\"}\n",
+            "curl": "curl -X POST 'https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-5961/import?api-version=2014-04-01' \\\n-H 'authorization: bearer <token>' \\\n-H 'Content-Length: 415' \\\n-H 'Content-Type: application/json' \\\n-H 'accept-language: en-US' \\\n-H 'x-ms-client-request-id: 8699598d-e522-4cbd-95fd-8b3ac0d5294d' \\\n-d @- << EOF\n{\n  \"databaseName\": \"TestDbImport\",\n  \"edition\": \"Basic\",\n  \"serviceObjectiveName\": \"Basic\",\n  \"maxSizeBytes\": \"2147483648\",\n  \"storageKeyType\": \"SharedAccessKey\",\n  \"storageKey\": \"?sr=b&sp=rw&se=2018-01-01T00%3A00%3A00Z&sig=sdfsdfklsdjflSLIFJLSIEJFLKSDJFDd/%2wdfskdjf3%3D&sv=2015-07-08\",\n  \"storageUri\": \"https://test.blob.core.windows.net/bacpacs/testbacpac.bacpac\",\n  \"administratorLogin\": \"dummyLogin\",\n  \"administratorLoginPassword\": \"Un53cuRE!\"\n}\nEOF\n",
+            "response": {
+              "200": "HTTP 1.1 200\nCache-Control: no-cache\nPragma: no-cache\nExpires: -1\nx-ms-ratelimit-remaining-subscription-writes: 1199\nx-ms-request-id: dd6ba581-f85c-4e0a-9860-59f895e79c39\nx-ms-correlation-request-id: dd6ba581-f85c-4e0a-9860-59f895e79c39\nx-ms-routing-request-id: WESTUS2:20170904T093454280Z:dd6ba581-f85c-4e0a-9860-59f895e79c39\nStrict-Transport-Security: max-age=31536000; includeSubDomains\nContent-Length: 631\ncontent-type: application/json\nDate: Mon, 04 Sep 2017 09:34:54 GMT\nConnection: close\n\n{\"id\":\"/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-5961/importExportOperationResult/f01d7bfe-7162-44e7-9350-f1c85ce83e4c\",\"name\":\"f01d7bfe-7162-44e7-9350-f1c85ce83e4c\",\"type\":\"Microsoft.Sql/servers/importExportOperationResults\",\"properties\":{\"requestId\":\"f01d7bfe-7162-44e7-9350-f1c85ce83e4c\",\"requestType\":\"Import\",\"queuedTime\":\"3/1/2017 12:14:25 AM\",\"lastModifiedTime\":\"3/1/2017 12:16:33 AM\",\"blobUri\":\"https://test.blob.core.windows.net/bacpacs/test.bacpac\",\"serverName\":\"test\",\"databaseName\":\"testdb\",\"status\":\"Completed\",\"errorMessage\":null}}\n"
+            }
+          }
+        },
+        "x-internal-toc-name": "Import"
+      }
+    }
+  },
+  "definitions": {
+    "Resource": {
+      "description": "ARM resource.",
+      "properties": {
+        "id": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource ID."
+        },
+        "name": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource name."
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource type."
+        }
+      },
+      "x-ms-azure-resource": true
+    },
+    "TrackedResource": {
+      "description": "ARM tracked top level resource.",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "x-ms-mutability": [
+            "read",
+            "create",
+            "update"
+          ],
+          "description": "Resource tags."
+        },
+        "location": {
+          "type": "string",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ],
+          "description": "Resource location."
+        }
+      },
+      "required": [
+        "location"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ]
+    },
+    "ProxyResource": {
+      "description": "ARM proxy resource.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ]
+    },
+    "ImportExtensionProperties": {
+      "properties": {
+        "operationMode": {
+          "type": "string",
+          "description": "The type of import operation being performed. This is always Import.",
+          "enum": [
+            "Import"
+          ],
+          "x-ms-enum": {
+            "name": "ImportOperationMode"
+          }
+        }
+      },
+      "required": [
+        "operationMode"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/ExportRequest"
+        }
+      ],
+      "description": "Represents the properties for an import operation"
+    },
+    "ImportExtensionRequest": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the extension."
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of the extension."
+        },
+        "properties": {
+          "$ref": "#/definitions/ImportExtensionProperties",
+          "x-ms-client-flatten": true,
+          "description": "Represents the properties of the resource."
+        }
+      },
+      "description": "Import database parameters."
+    },
+    "ImportExportResponse": {
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/ImportExportResponseProperties",
+          "x-ms-client-flatten": true,
+          "description": "The import/export operation properties."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProxyResource"
+        }
+      ],
+      "description": "Response for Import/Export Get operation."
+    },
+    "ImportExportResponseProperties": {
+      "properties": {
+        "requestType": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The request type of the operation."
+        },
+        "requestId": {
+          "type": "string",
+          "format": "uuid",
+          "readOnly": true,
+          "description": "The request type of the operation."
+        },
+        "serverName": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The name of the server."
+        },
+        "databaseName": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The name of the database."
+        },
+        "status": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The status message returned from the server."
+        },
+        "lastModifiedTime": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The operation status last modified time."
+        },
+        "queuedTime": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The operation queued time."
+        },
+        "blobUri": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The blob uri."
+        },
+        "errorMessage": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The error message returned from the server."
+        }
+      },
+      "description": "Response for Import/Export Status operation."
+    },
+    "ImportRequest": {
+      "properties": {
+        "databaseName": {
+          "type": "string",
+          "description": "The name of the database to import."
+        },
+        "edition": {
+          "type": "string",
+          "description": "The edition for the database being created.",
+          "enum": [
+            "Web",
+            "Business",
+            "Basic",
+            "Standard",
+            "Premium",
+            "Free",
+            "Stretch",
+            "DataWarehouse",
+            "System",
+            "System2"
+          ],
+          "x-ms-enum": {
+            "name": "DatabaseEdition",
+            "modelAsString": true
+          }
+        },
+        "serviceObjectiveName": {
+          "type": "string",
+          "description": "The name of the service objective to assign to the database.",
+          "enum": [
+            "Basic",
+            "S0",
+            "S1",
+            "S2",
+            "S3",
+            "P1",
+            "P2",
+            "P3",
+            "P4",
+            "P6",
+            "P11",
+            "P15",
+            "System",
+            "System2",
+            "ElasticPool"
+          ],
+          "x-ms-enum": {
+            "modelAsString": true,
+            "name": "ServiceObjectiveName"
+          }
+        },
+        "maxSizeBytes": {
+          "type": "string",
+          "description": "The maximum size for the newly imported database."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ExportRequest"
+        }
+      ],
+      "required": [
+        "databaseName",
+        "edition",
+        "serviceObjectiveName",
+        "maxSizeBytes"
+      ],
+      "description": "Import database parameters."
+    },
+    "ExportRequest": {
+      "properties": {
+        "storageKeyType": {
+          "type": "string",
+          "description": "The type of the storage key to use.",
+          "enum": [
+            "StorageAccessKey",
+            "SharedAccessKey"
+          ],
+          "x-ms-enum": {
+            "name": "StorageKeyType"
+          }
+        },
+        "storageKey": {
+          "type": "string",
+          "description": "The storage key to use.  If storage key type is SharedAccessKey, it must be preceded with a \"?.\""
+        },
+        "storageUri": {
+          "type": "string",
+          "description": "The storage uri to use."
+        },
+        "administratorLogin": {
+          "type": "string",
+          "description": "The name of the SQL administrator."
+        },
+        "administratorLoginPassword": {
+          "type": "string",
+          "description": "The password of the SQL administrator."
+        },
+        "authenticationType": {
+          "type": "string",
+          "description": "The authentication type.",
+          "enum": [
+            "SQL",
+            "ADPassword"
+          ],
+          "x-ms-enum": {
+            "name": "AuthenticationType"
+          },
+          "default": "SQL"
+        }
+      },
+      "required": [
+        "storageKeyType",
+        "storageKey",
+        "storageUri",
+        "administratorLogin",
+        "administratorLoginPassword"
+      ],
+      "description": "Export database parameters."
+    }
+  },
+  "parameters": {
+    "SubscriptionIdParameter": {
+      "name": "subscriptionId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The subscription ID that identifies an Azure subscription."
+    },
+    "ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "required": true,
+      "type": "string",
+      "description": "The API version to use for the request."
+    },
+    "ResourceGroupParameter": {
+      "name": "resourceGroupName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.",
+      "x-ms-parameter-location": "method"
+    },
+    "ServerNameParameter": {
+      "name": "serverName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of the server.",
+      "x-ms-parameter-location": "method"
+    }
+  },
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "description": "Azure Active Directory OAuth2 Flow",
+      "flow": "implicit",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "x-internal-service-name": "SQL Database",
+  "x-internal-operation-group-name": "Databases - Import Export",
+  "x-internal-toc-name": "Databases - Import Export",
+  "x-internal-split-type": "Operation"
+}

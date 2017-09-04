@@ -1,0 +1,276 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2016-03-01",
+    "title": "MonitorManagementClient"
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "paths": {
+    "/subscriptions/{subscriptionId}/providers/microsoft.insights/logprofiles/{logProfileName}": {
+      "delete": {
+        "tags": [
+          "LogProfiles"
+        ],
+        "operationId": "LogProfiles_Delete",
+        "description": "Deletes the log profile.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/LogProfileNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful request to delete a log profile"
+          }
+        },
+        "x-ms-examples": {
+          "Delete log profile": {
+            "parameters": {
+              "subscriptionId": "b67f7fec-69fc-4974-9099-a26bd6ffeda3",
+              "logProfileName": "Rac46PostSwapRG",
+              "api-version": "2016-03-01"
+            },
+            "responses": {
+              "200": {
+                "headers": {},
+                "body": null
+              }
+            }
+          }
+        },
+        "x-internal-ms-examples-mapping": {
+          "Delete log profile": "deleteLogProfile"
+        },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "x-internal-ms-examples": {
+          "Delete log profile": {
+            "request": "DELETE https://management.azure.com/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/providers/microsoft.insights/logprofiles/Rac46PostSwapRG?api-version=2016-03-01 HTTP/1.1\nAuthorization: Bearer <token>\nContent-Type: application/json\naccept-language: en-US\nx-ms-client-request-id: 8de25625-5652-4aa5-b062-b64507bc7c24\nhost: management.azure.com\nConnection: close\n",
+            "curl": "curl -X DELETE 'https://management.azure.com/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/providers/microsoft.insights/logprofiles/Rac46PostSwapRG?api-version=2016-03-01' \\\n-H 'authorization: bearer <token>' \\\n-H 'Content-Type: application/json' \\\n-H 'accept-language: en-US' \\\n-H 'x-ms-client-request-id: 8de25625-5652-4aa5-b062-b64507bc7c24' \\\n",
+            "response": {
+              "200": "HTTP 1.1 200\nCache-Control: no-cache\nPragma: no-cache\nExpires: -1\nx-ms-ratelimit-remaining-subscription-writes: 1199\nx-ms-request-id: 1161a1a8-e223-46e6-83e1-0ba61a06d33b\nx-ms-correlation-request-id: 1161a1a8-e223-46e6-83e1-0ba61a06d33b\nx-ms-routing-request-id: WESTUS2:20170904T093241342Z:1161a1a8-e223-46e6-83e1-0ba61a06d33b\nStrict-Transport-Security: max-age=31536000; includeSubDomains\ncontent-type: application/json\nDate: Mon, 04 Sep 2017 09:32:41 GMT\nConnection: close\n"
+            }
+          }
+        },
+        "x-internal-toc-name": "Delete"
+      }
+    }
+  },
+  "definitions": {
+    "Resource": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "readOnly": true,
+          "description": "Azure resource Id"
+        },
+        "name": {
+          "type": "string",
+          "readOnly": true,
+          "description": "Azure resource name"
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "description": "Azure resource type"
+        },
+        "location": {
+          "type": "string",
+          "description": "Resource location",
+          "x-ms-mutability": [
+            "create",
+            "read"
+          ]
+        },
+        "tags": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Resource tags"
+        }
+      },
+      "required": [
+        "location"
+      ],
+      "x-ms-azure-resource": true,
+      "description": "An azure resource object"
+    },
+    "RetentionPolicy": {
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "a value indicating whether the retention policy is enabled."
+        },
+        "days": {
+          "type": "integer",
+          "format": "int32",
+          "minimum": 0,
+          "description": "the number of days for the retention in days. A value of 0 will retain the events indefinitely."
+        }
+      },
+      "required": [
+        "enabled",
+        "days"
+      ],
+      "description": "Specifies the retention policy for the log."
+    },
+    "LogProfileProperties": {
+      "required": [
+        "locations",
+        "categories",
+        "retentionPolicy"
+      ],
+      "properties": {
+        "storageAccountId": {
+          "type": "string",
+          "description": "the resource id of the storage account to which you would like to send the Activity Log."
+        },
+        "serviceBusRuleId": {
+          "type": "string",
+          "description": "The service bus rule ID of the service bus namespace in which you would like to have Event Hubs created for streaming the Activity Log. The rule ID is of the format: '{service bus resource ID}/authorizationrules/{key name}'."
+        },
+        "locations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of regions for which Activity Log events should be stored or streamed. It is a comma separated list of valid ARM locations including the 'global' location."
+        },
+        "categories": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "the categories of the logs. These categories are created as is convenient to the user. Some values are: 'Write', 'Delete', and/or 'Action.'"
+        },
+        "retentionPolicy": {
+          "$ref": "#/definitions/RetentionPolicy",
+          "description": "the retention policy for the events in the log."
+        }
+      },
+      "description": "The log profile properties."
+    },
+    "LogProfileResource": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/LogProfileProperties",
+          "description": "The log profile properties of the resource."
+        }
+      },
+      "required": [
+        "properties"
+      ],
+      "description": "The log profile resource."
+    },
+    "LogProfileResourcePatch": {
+      "description": "The log profile resource for patch operations.",
+      "properties": {
+        "tags": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Resource tags"
+        },
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/LogProfileProperties",
+          "description": "The log profile properties for an update operation."
+        }
+      }
+    },
+    "LogProfileCollection": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LogProfileResource"
+          },
+          "description": "the values of the log profiles."
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "description": "Represents a collection of log profiles."
+    },
+    "ErrorResponse": {
+      "description": "Describes the format of Error response.",
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "Error code",
+          "type": "string"
+        },
+        "message": {
+          "description": "Error message indicating why the operation failed.",
+          "type": "string"
+        }
+      }
+    }
+  },
+  "parameters": {
+    "SubscriptionIdParameter": {
+      "name": "subscriptionId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The Azure subscription Id."
+    },
+    "ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "required": true,
+      "type": "string",
+      "description": "Client Api Version."
+    },
+    "LogProfileNameParameter": {
+      "name": "logProfileName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of the log profile.",
+      "x-ms-parameter-location": "method"
+    }
+  },
+  "x-internal-service-name": "Monitor",
+  "x-internal-toc-name": "Log Profiles",
+  "x-internal-split-type": "Operation"
+}
