@@ -42,7 +42,7 @@ Foreach($org in $mappingFile.organizations)
                     $swaggerPath = Join-Path $RestSrcPath $swagger_file.source
                     if (Test-Path $swaggerPath)
                     {
-                        autorest -FANCY -g SwaggerResolver -i $swaggerPath -outputFileName $swaggerPath
+                        oav generate-wireformat $swaggerPath -y
                         Write-Host "Done resolving swagger file by AutoRest" $swaggerPath
                     }
                 }
