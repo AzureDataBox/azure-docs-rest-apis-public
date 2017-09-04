@@ -29,8 +29,11 @@ before_build:
           Install-Product node $env:nodejs_version
           echo "print node version"
           node --version
+          echo "clear npm cache"
           npm cache clear -g
+          echo "install oav"
           npm install -g oav
+          echo "config git credential"
           git config --global credential.helper store
           Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:access_token):x-oauth-basic@github.com`n"
           Add-Content "$env:USERPROFILE\.git-credentials" "https://name:$($env:access_token_vso)@msazure.visualstudio.com`n"
