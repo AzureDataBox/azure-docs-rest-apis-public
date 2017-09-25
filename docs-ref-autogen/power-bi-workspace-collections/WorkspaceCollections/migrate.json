@@ -10,16 +10,13 @@
     "https"
   ],
   "paths": {
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBI/workspaceCollections": {
-      "get": {
-        "x-ms-pageable": {
-          "nextLinkName": null
-        },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/moveResources": {
+      "post": {
         "tags": [
           "WorkspaceCollections"
         ],
-        "operationId": "WorkspaceCollections_listByResourceGroup",
-        "description": "Retrieves all existing Power BI workspace collections in the specified resource group.",
+        "operationId": "WorkspaceCollections_migrate",
+        "description": "Migrates an existing Power BI Workspace Collection to a different resource group and/or subscription.",
         "consumes": [
           "application/json"
         ],
@@ -39,14 +36,20 @@
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Workspace migration request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MigrateWorkspaceCollectionRequest"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "Get workspaces response",
-            "schema": {
-              "$ref": "#/definitions/WorkspaceCollectionList"
-            }
+            "description": "Migration completed successfully"
           },
           "default": {
             "description": "Default Response. It will be deserialized as per the Error defintion specified in the schema. Exception will be thrown.",
@@ -55,7 +58,7 @@
             }
           }
         },
-        "x-internal-toc-name": "list By Resource Group"
+        "x-internal-toc-name": "migrate"
       }
     }
   },
@@ -383,7 +386,7 @@
       "description": "Client Api Version."
     }
   },
-  "x-internal-service-name": "Power BI Embedded",
+  "x-internal-service-name": "Power BI Workspace Collections",
   "x-internal-toc-name": "Workspace Collections",
   "x-internal-split-type": "Operation"
 }
