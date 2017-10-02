@@ -168,18 +168,6 @@ If the service suspects a denial of service attack, the request succeeds (HTTP s
 |<a name="searchresponse-spellsuggestions" />spellSuggestions|The query string that likely represents the user's intent.|[SpellSuggestions](#spellsuggestions)|  
 |<a name="search-response-webpages" />webPages|A list of webpages that are relevant to the search query.|[WebAnswer](#webanswer)|  
 
-
-<a name="spellsuggestions"></a>   
-### SpellSuggestions  
-Defines a suggested query string that likely represents the user's intent.  
-  
-If Bing determines that the user may have intended to search for something different, the search results include this answer. For example, if the user searches for *alon brown*, Bing may determine that the user likely intended to search for Alton Brown instead (based on past searches by others of Alon Brown).  
-  
-|Name|Value|Type|  
-|----------|-----------|----------|  
-|<a name="spell-value" />value|A list of suggested query strings that may represent the user's intention.<br /><br /> The array contains only one `Query` object.|[Query](#query_obj)[]|  
-
-
 <a name="webanswer"></a>   
 ### WebAnswer  
 Defines a list of relevant webpage links.  
