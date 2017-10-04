@@ -1265,6 +1265,7 @@
 #### [Get](datafactory/Datasets/Get.json)
 #### [List By Factory](datafactory/Datasets/ListByFactory.json)
 ### [Factories](datafactory/Factories.json)
+#### [Cancel Pipeline Run](datafactory/Factories/CancelPipelineRun.json)
 #### [Create Or Update](datafactory/Factories/CreateOrUpdate.json)
 #### [Delete](datafactory/Factories/Delete.json)
 #### [Get](datafactory/Factories/Get.json)
