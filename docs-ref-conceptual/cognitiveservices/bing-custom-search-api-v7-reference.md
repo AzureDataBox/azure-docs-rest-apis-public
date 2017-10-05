@@ -165,7 +165,6 @@ If the service suspects a denial of service attack, the request succeeds (HTTP s
 |----------|-----------|----------|  
 |_type|Type hint, which is set to SearchResponse.|String|  
 |<a name="searchresponse-querycontext" />queryContext|The query string that Bing used for the request.<br /><br /> The response includes the context only if the query string contains a spelling mistake or has adult intent.|[QueryContext](#querycontext)|  
-|<a name="searchresponse-spellsuggestions" />spellSuggestions|The query string that likely represents the user's intent.|[SpellSuggestions](#spellsuggestions)|  
 |<a name="search-response-webpages" />webPages|A list of webpages that are relevant to the search query.|[WebAnswer](#webanswer)|  
 
 <a name="webanswer"></a>   
