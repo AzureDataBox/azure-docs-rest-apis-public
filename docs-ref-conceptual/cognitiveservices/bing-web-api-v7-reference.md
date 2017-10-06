@@ -331,6 +331,7 @@ If the service suspects a denial of service attack, the request succeeds (HTTP s
 |----------|-----------|----------|  
 |_type|Type hint.|String|  
 |<a name="searchresponse-computation" />computation|The answer to a math expression or units conversion expression.|[Computation](#computation)|  
+|<a name="searchresponse-entities" />entities|A list of entities that are relevant to the search query.|[EntityAnswer](#entityanswer)|  
 |<a name="searchresponse-images" />images|A list of images that are relevant to the search query.|[Images](assetId:///d46fcc3e-dc6f-4131-8a63-d74b0911bddf#images)|  
 |<a name="searchresponse-news" />news|A list of news articles that are relevant to the search query.|[News](assetId:///3f21b448-e4d5-4bc6-b407-6e645c2e05b8#news)|  
 |<a name="searchresponse-querycontext" />queryContext|The query string that Bing used for the request.<br /><br /> The response includes the context only if the query string contains a spelling mistake or has adult intent.|[QueryContext](#querycontext)|  
