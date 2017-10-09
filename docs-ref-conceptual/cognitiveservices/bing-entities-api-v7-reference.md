@@ -19,7 +19,7 @@ The Entity Search API lets you send a search query to Bing and get back search r
 
 
 
-This section provides technical details about the response objects, and the query parameters and headers that affect the search results. For examples that show how to make requests, see [Searching the web](https://docs.microsoft.com/azure/cognitive-services/bing-entities-search/search-the-web) 
+This section provides technical details about the response objects, and the query parameters and headers that affect the search results. For examples that show how to make requests, see [Search the web for entities and places](https://docs.microsoft.com/azure/cognitive-services/bing-entities-search/search-the-web). 
   
 For information about headers that requests should include, see [Headers](#headers).  
   
