@@ -15,6 +15,9 @@ ms.author: scottwhi
 
 # Web Search API v5 reference
 
+> [!NOTE]
+> A new version of this API is available, see [Web Search API v7](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/bing-web-api-v7-reference).  For information about upgrading, see the [upgrade guide](https://docs.microsoft.com/en-us/azure/cognitive-services/bing-web-search/bing-web-upgrade-guide-v5-to-v7).
+
 The Web Search API lets you send a search query to Bing and get back search results that include links to webpages, images, and more. This section provides technical details about the webpages, related searches, and ranking results in addition to the query parameters that affect the search results. For examples that show how to make requests, see [Searching the web](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/search-the-web) 
   
 For information about headers that requests should include, see [Request Headers](#headers).  
