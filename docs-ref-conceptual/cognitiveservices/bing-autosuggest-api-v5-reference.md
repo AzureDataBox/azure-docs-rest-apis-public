@@ -17,7 +17,7 @@ ms.author: scottwhi
 # Autosuggest API v5 reference
 
 > [!NOTE]
-> A new version of this API is available, see [Autosuggest API v7](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/bing-autosuggest-api-v7-reference).  For infromation about upgrading, see the [upgrade guide](https://docs.microsoft.com/en-us/azure/cognitive-services/bing-autosuggest/bing-autosuggest-upgrade-guide-v5-to-v7).
+> A new version of this API is available. See [Autosuggest API v7](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/bing-autosuggest-api-v7-reference).  For information about upgrading, see the [upgrade guide](https://docs.microsoft.com/en-us/azure/cognitive-services/bing-autosuggest/bing-autosuggest-upgrade-guide-v5-to-v7).
 
 The Autosuggest API lets you send a partial search query term to Bing and get back a list of suggested queries that other users have searched on. In addition to including searches made by others, the list may include suggestions based on user intent.  
 
