@@ -1,0 +1,470 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2016-11-01",
+    "x-ms-code-generation-settings": {
+      "internalConstructors": true
+    },
+    "title": "DataLakeStoreFileSystemManagementClient",
+    "description": "Creates an Azure Data Lake Store filesystem client."
+  },
+  "x-ms-parameterized-host": {
+    "hostTemplate": "{accountName}.{adlsFileSystemDnsSuffix}",
+    "parameters": [
+      {
+        "name": "accountName",
+        "description": "The Azure Data Lake Store account to execute filesystem operations on.",
+        "required": true,
+        "type": "string",
+        "in": "path",
+        "x-ms-skip-url-encoding": true
+      },
+      {
+        "$ref": "#/parameters/adlsFilesystemDnsSuffixInPath"
+      }
+    ]
+  },
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/webhdfs/v1/{path}?op=GETFILESTATUS": {
+      "get": {
+        "tags": [
+          "FileSystem"
+        ],
+        "operationId": "FileSystem_GetFileStatus",
+        "description": "Get the file status object specified by the file path.",
+        "x-ms-examples": {
+          "Get the file status object specified by the file path": {
+            "parameters": {
+              "api-version": "2016-11-01",
+              "path": "/test_file_path",
+              "tooId": false,
+              "op": "GETFILESTATUS"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "FileStatus": {
+                    "accessTime": 1,
+                    "blockSize": 1,
+                    "childrenNum": 1,
+                    "msExpirationTime": 1,
+                    "group": "test_group",
+                    "length": 1,
+                    "modificationTime": 1,
+                    "owner": "test_owner",
+                    "pathSuffix": "test_path_suffix",
+                    "permission": "test_permission",
+                    "type": "FILE",
+                    "aclBit": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "path",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The Data Lake Store path (starting with '/') of the file or directory for which to retrieve the status."
+          },
+          {
+            "name": "tooId",
+            "in": "query",
+            "required": false,
+            "type": "boolean",
+            "description": "An optional switch to return friendly names in place of owner and group. tooid=false returns friendly names instead of the AAD Object ID. Default value is true, returning AAD object IDs."
+          },
+          {
+            "name": "op",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "The constant value for the operation.",
+            "enum": [
+              "GETFILESTATUS"
+            ]
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/FileStatusResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error from the server.",
+            "schema": {
+              "$ref": "#/definitions/AdlsError"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "x-internal-path-from": "x-ms-paths",
+        "x-internal-toc-name": "Get File Status"
+      }
+    }
+  },
+  "definitions": {
+    "FileOperationResult": {
+      "properties": {
+        "boolean": {
+          "type": "boolean",
+          "x-ms-client-name": "operationResult",
+          "readOnly": true,
+          "description": "the result of the operation or request."
+        }
+      },
+      "description": "The result of the request or operation."
+    },
+    "AclStatus": {
+      "properties": {
+        "entries": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "the list of ACLSpec entries on a file or directory."
+        },
+        "group": {
+          "type": "string",
+          "description": "the group owner, an AAD Object ID."
+        },
+        "owner": {
+          "type": "string",
+          "description": "the user owner, an AAD Object ID."
+        },
+        "permission": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The octal representation of the unnamed user, mask and other permissions."
+        },
+        "stickyBit": {
+          "type": "boolean",
+          "readOnly": true,
+          "description": "the indicator of whether the sticky bit is on or off."
+        }
+      },
+      "description": "Data Lake Store file or directory Access Control List information."
+    },
+    "AclStatusResult": {
+      "properties": {
+        "AclStatus": {
+          "$ref": "#/definitions/AclStatus",
+          "description": "the AclStatus object for a given file or directory."
+        }
+      },
+      "description": "Data Lake Store file or directory Access Control List information."
+    },
+    "ContentSummary": {
+      "properties": {
+        "directoryCount": {
+          "type": "integer",
+          "readOnly": true,
+          "format": "int64",
+          "description": "the number of directories."
+        },
+        "fileCount": {
+          "type": "integer",
+          "readOnly": true,
+          "format": "int64",
+          "description": "the number of files."
+        },
+        "length": {
+          "type": "integer",
+          "readOnly": true,
+          "format": "int64",
+          "description": "the number of bytes used by the content."
+        },
+        "spaceConsumed": {
+          "type": "integer",
+          "readOnly": true,
+          "format": "int64",
+          "description": "the disk space consumed by the content."
+        }
+      },
+      "description": "Data Lake Store content summary information"
+    },
+    "ContentSummaryResult": {
+      "properties": {
+        "ContentSummary": {
+          "$ref": "#/definitions/ContentSummary",
+          "readOnly": true,
+          "description": "the content summary for the specified path"
+        }
+      },
+      "description": "Data Lake Store filesystem content summary information response."
+    },
+    "FileStatusProperties": {
+      "properties": {
+        "accessTime": {
+          "type": "integer",
+          "readOnly": true,
+          "format": "int64",
+          "description": "the last access time as ticks since the epoch."
+        },
+        "blockSize": {
+          "type": "integer",
+          "readOnly": true,
+          "format": "int64",
+          "description": "the block size for the file."
+        },
+        "childrenNum": {
+          "type": "integer",
+          "readOnly": true,
+          "format": "int64",
+          "description": "the number of children in the directory."
+        },
+        "msExpirationTime": {
+          "x-ms-client-name": "expirationTime",
+          "type": "integer",
+          "readOnly": true,
+          "format": "int64",
+          "description": "Gets the expiration time, if any, as ticks since the epoch. If the value is 0 or DateTime.MaxValue there is no expiration."
+        },
+        "group": {
+          "type": "string",
+          "readOnly": true,
+          "description": "the group owner."
+        },
+        "length": {
+          "type": "integer",
+          "readOnly": true,
+          "format": "int64",
+          "description": "the number of bytes in a file."
+        },
+        "modificationTime": {
+          "type": "integer",
+          "readOnly": true,
+          "format": "int64",
+          "description": "the modification time as ticks since the epoch."
+        },
+        "owner": {
+          "type": "string",
+          "readOnly": true,
+          "description": "the user who is the owner."
+        },
+        "pathSuffix": {
+          "type": "string",
+          "readOnly": true,
+          "description": "the path suffix."
+        },
+        "permission": {
+          "type": "string",
+          "readOnly": true,
+          "description": "the permission represented as an string."
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "description": "the type of the path object.",
+          "enum": [
+            "FILE",
+            "DIRECTORY"
+          ],
+          "x-ms-enum": {
+            "name": "FileType",
+            "modelAsString": false
+          }
+        },
+        "aclBit": {
+          "type": "boolean",
+          "readOnly": true,
+          "description": "flag to indicate if extended acls are enabled "
+        }
+      },
+      "description": "Data Lake Store file or directory information."
+    },
+    "FileStatuses": {
+      "properties": {
+        "FileStatus": {
+          "type": "array",
+          "readOnly": true,
+          "items": {
+            "$ref": "#/definitions/FileStatusProperties"
+          },
+          "description": "the object containing the list of properties of the files."
+        }
+      },
+      "description": "Data Lake Store file status list information."
+    },
+    "FileStatusesResult": {
+      "properties": {
+        "FileStatuses": {
+          "$ref": "#/definitions/FileStatuses",
+          "readOnly": true,
+          "description": "the object representing the list of file statuses."
+        }
+      },
+      "description": "Data Lake Store filesystem file status list information response."
+    },
+    "FileStatusResult": {
+      "properties": {
+        "FileStatus": {
+          "$ref": "#/definitions/FileStatusProperties",
+          "readOnly": true,
+          "description": "the file status object associated with the specified path."
+        }
+      },
+      "description": "Data Lake Store filesystem file status information response."
+    },
+    "AdlsIllegalArgumentException": {
+      "x-ms-discriminator-value": "IllegalArgumentException",
+      "allOf": [
+        {
+          "$ref": "#/definitions/AdlsRemoteException"
+        }
+      ],
+      "description": "A WebHDFS exception thrown indicating that one more arguments is incorrect. Thrown when a 400 error response code is returned (bad request)."
+    },
+    "AdlsUnsupportedOperationException": {
+      "x-ms-discriminator-value": "UnsupportedOperationException",
+      "allOf": [
+        {
+          "$ref": "#/definitions/AdlsRemoteException"
+        }
+      ],
+      "description": "A WebHDFS exception thrown indicating that the requested operation is not supported. Thrown when a 400 error response code is returned (bad request)."
+    },
+    "AdlsSecurityException": {
+      "x-ms-discriminator-value": "SecurityException",
+      "allOf": [
+        {
+          "$ref": "#/definitions/AdlsRemoteException"
+        }
+      ],
+      "description": "A WebHDFS exception thrown indicating that access is denied. Thrown when a 401 error response code is returned (Unauthorized)."
+    },
+    "AdlsIOException": {
+      "x-ms-discriminator-value": "IOException",
+      "allOf": [
+        {
+          "$ref": "#/definitions/AdlsRemoteException"
+        }
+      ],
+      "description": "A WebHDFS exception thrown indicating there was an IO (read or write) error. Thrown when a 403 error response code is returned (forbidden)."
+    },
+    "AdlsFileNotFoundException": {
+      "x-ms-discriminator-value": "FileNotFoundException",
+      "allOf": [
+        {
+          "$ref": "#/definitions/AdlsRemoteException"
+        }
+      ],
+      "description": "A WebHDFS exception thrown indicating the file or folder could not be found. Thrown when a 404 error response code is returned (not found)."
+    },
+    "AdlsFileAlreadyExistsException": {
+      "x-ms-discriminator-value": "FileAlreadyExistsException",
+      "allOf": [
+        {
+          "$ref": "#/definitions/AdlsRemoteException"
+        }
+      ],
+      "description": "A WebHDFS exception thrown indicating the file or folder already exists. Thrown when a 403 error response code is returned (forbidden)."
+    },
+    "AdlsBadOffsetException": {
+      "x-ms-discriminator-value": "BadOffsetException",
+      "allOf": [
+        {
+          "$ref": "#/definitions/AdlsRemoteException"
+        }
+      ],
+      "description": "A WebHDFS exception thrown indicating the append or read is from a bad offset. Thrown when a 400 error response code is returned for append and open operations (Bad request)."
+    },
+    "AdlsRuntimeException": {
+      "x-ms-discriminator-value": "RuntimeException",
+      "allOf": [
+        {
+          "$ref": "#/definitions/AdlsRemoteException"
+        }
+      ],
+      "description": "A WebHDFS exception thrown when an unexpected error occurs during an operation. Thrown when a 500 error response code is returned (Internal server error)."
+    },
+    "AdlsAccessControlException": {
+      "x-ms-discriminator-value": "AccessControlException",
+      "allOf": [
+        {
+          "$ref": "#/definitions/AdlsRemoteException"
+        }
+      ],
+      "description": "A WebHDFS exception thrown indicating that access is denied due to insufficient permissions. Thrown when a 403 error response code is returned (forbidden)."
+    },
+    "AdlsThrottledException": {
+      "x-ms-discriminator-value": "ThrottledException",
+      "allOf": [
+        {
+          "$ref": "#/definitions/AdlsRemoteException"
+        }
+      ],
+      "description": "A WebHDFS exception thrown indicating that the request is being throttled. Reducing the number of requests or request size helps to mitigate this error."
+    },
+    "AdlsRemoteException": {
+      "discriminator": "exception",
+      "required": [
+        "exception"
+      ],
+      "properties": {
+        "exception": {
+          "type": "string",
+          "description": "the class name of the exception thrown, such as 'IllegalArgumentException'."
+        },
+        "javaClassName": {
+          "type": "string",
+          "readOnly": true,
+          "description": "the full class package name for the exception thrown, such as 'java.lang.IllegalArgumentException'."
+        },
+        "message": {
+          "type": "string",
+          "readOnly": true,
+          "description": "the message associated with the exception that was thrown, such as 'Invalid value for webhdfs parameter \"permission\":...'."
+        }
+      },
+      "description": "Data Lake Store filesystem exception based on the WebHDFS definition for RemoteExceptions. This is a WebHDFS 'catch all' exception"
+    },
+    "AdlsError": {
+      "properties": {
+        "RemoteException": {
+          "$ref": "#/definitions/AdlsRemoteException",
+          "readOnly": true,
+          "description": "the object representing the actual WebHDFS exception being returned."
+        }
+      },
+      "description": "Data Lake Store filesystem error containing a specific WebHDFS exception."
+    }
+  },
+  "parameters": {
+    "ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "required": true,
+      "type": "string",
+      "description": "Client Api Version."
+    },
+    "adlsFilesystemDnsSuffixInPath": {
+      "name": "adlsFileSystemDnsSuffix",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "default": "azuredatalakestore.net",
+      "x-ms-skip-url-encoding": true,
+      "description": "Gets the URI used as the base for all cloud service requests."
+    }
+  },
+  "x-internal-service-name": "Data Lake Store",
+  "x-internal-toc-name": "File System",
+  "x-internal-split-type": "Operation"
+}
