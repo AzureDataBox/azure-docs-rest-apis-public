@@ -136,7 +136,6 @@
 ### [ServiceUpdateProperties](sfrp-2017-07-01-preview-model-serviceupdateproperties.md)
 ### [StatelessServiceUpdateProperties](sfrp-2017-07-01-preview-model-statelessserviceupdateproperties.md)
 ### [StatefulServiceUpdateProperties](sfrp-2017-07-01-preview-model-statefulserviceupdateproperties.md)
-### [Cluster](sfrp-2017-07-01-preview-model-cluster.md)
 # [Service Fabric Client APIs](sfclient-index.md)
 ## [Authenticating Service Fabric REST Requests](sfclient-authenticating-service-fabric-rest-requests.md)
 ## [Service Fabric Names and JSON Serialization](sfclient-service-fabric-names-and-json-serialization.md)
