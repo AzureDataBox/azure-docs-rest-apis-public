@@ -2231,52 +2231,8 @@
         "typeProperties"
       ]
     },
-    "SapCloudForCustomerLinkedServiceTypeProperties": {
-      "description": "SAP Cloud for Customer linked service properties.",
-      "properties": {
-        "url": {
-          "type": "object",
-          "description": "The URL of SAP Cloud for Customer OData API. For example, '[https://[tenantname].crm.ondemand.com/sap/c4c/odata/v1]'. Type: string (or Expression with resultType string)."
-        },
-        "username": {
-          "type": "object",
-          "description": "The username for Basic authentication. Type: string (or Expression with resultType string)."
-        },
-        "password": {
-          "description": "The password for Basic authentication.",
-          "$ref": "#/definitions/SecureString"
-        },
-        "encryptedCredential": {
-          "type": "object",
-          "description": "The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Either encryptedCredential or username/password must be provided. Type: string (or Expression with resultType string)."
-        }
-      },
-      "required": [
-        "url"
-      ]
-    },
-    "SapCloudForCustomerLinkedService": {
-      "x-ms-discriminator-value": "SapCloudForCustomer",
-      "description": "Linked service for SAP Cloud for Customer.",
-      "type": "object",
-      "allOf": [
-        {
-          "$ref": "#/definitions/LinkedService"
-        }
-      ],
-      "properties": {
-        "typeProperties": {
-          "description": "SAP Cloud for Customer linked service properties.",
-          "x-ms-client-flatten": true,
-          "$ref": "#/definitions/SapCloudForCustomerLinkedServiceTypeProperties"
-        }
-      },
-      "required": [
-        "typeProperties"
-      ]
-    },
-    "SalesforceLinkedServiceTypeProperties": {
-      "description": "Salesforce linked service properties.",
+    "PaypalLinkedServiceTypeProperties": {
+      "description": "Paypal Serivce linked service properties.",
       "properties": {
         "host": {
           "description": "The URL of the PayPal instance. (i.e. api.sandbox.paypal.com)",
@@ -3415,18 +3371,36 @@
           "description": "The username used to log on to the SFTP server. Type: string (or Expression with resultType string)."
         },
         "password": {
-          "description": "Password to access the Dynamics instance.",
-          "$ref": "#/definitions/SecretBase"
+          "description": "Password to logon the SFTP server for Basic authentication.",
+          "$ref": "#/definitions/SecureString"
         },
         "encryptedCredential": {
           "type": "object",
           "description": "The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string)."
+        },
+        "privateKeyPath": {
+          "type": "object",
+          "description": "The SSH private key file path for SshPublicKey authentication. Only valid for on-premises copy. For on-premises copy with SshPublicKey authentication, either PrivateKeyPath or PrivateKeyContent should be specified. SSH private key should be OpenSSH format. Type: string (or Expression with resultType string)."
+        },
+        "privateKeyContent": {
+          "description": "Base64 encoded SSH private key content for SshPublicKey authentication. For on-premises copy with SshPublicKey authentication, either PrivateKeyPath or PrivateKeyContent should be specified. SSH private key should be OpenSSH format.",
+          "$ref": "#/definitions/SecureString"
+        },
+        "passPhrase": {
+          "description": "The password to decrypt the SSH private key if the SSH private key is encrypted.",
+          "$ref": "#/definitions/SecureString"
+        },
+        "skipHostKeyValidation": {
+          "type": "object",
+          "description": "If true, skip the SSH host key validation. Default value is false. Type: boolean (or Expression with resultType boolean)."
+        },
+        "hostKeyFingerprint": {
+          "type": "object",
+          "description": "The host key finger-print of the SFTP server. When SkipHostKeyValidation is false, HostKeyFingerprint should be specified. Type: string (or Expression with resultType string)."
         }
       },
       "required": [
-        "deploymentType",
-        "authenticationType",
-        "username"
+        "host"
       ]
     },
     "SftpServerLinkedService": {
@@ -4110,40 +4084,8 @@
         "typeProperties"
       ]
     },
-    "SapCloudForCustomerResourceDatasetTypeProperties": {
-      "description": "Sap Cloud For Customer OData resource dataset properties.",
-      "properties": {
-        "path": {
-          "type": "object",
-          "description": "The path of the SAP Cloud for Customer OData entity. Type: string (or Expression with resultType string)."
-        }
-      },
-      "required": [
-        "path"
-      ]
-    },
-    "SapCloudForCustomerResourceDataset": {
-      "x-ms-discriminator-value": "SapCloudForCustomerResource",
-      "description": "The path of the SAP Cloud for Customer OData entity.",
-      "type": "object",
-      "allOf": [
-        {
-          "$ref": "#/definitions/Dataset"
-        }
-      ],
-      "properties": {
-        "typeProperties": {
-          "description": "SAP Cloud For Customer OData resource dataset properties.",
-          "x-ms-client-flatten": true,
-          "$ref": "#/definitions/SapCloudForCustomerResourceDatasetTypeProperties"
-        }
-      },
-      "required": [
-        "typeProperties"
-      ]
-    },
-    "SalesforceObjectDatasetTypeProperties": {
-      "description": "Salesforce object dataset properties.",
+    "ODataLinkedServiceTypeProperties": {
+      "description": "OData linked service properties.",
       "properties": {
         "url": {
           "type": "object",
