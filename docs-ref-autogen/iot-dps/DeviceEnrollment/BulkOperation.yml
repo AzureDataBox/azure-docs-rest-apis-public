@@ -1,0 +1,86 @@
+### YamlMime:RESTOperation
+summary: Bulk device enrollment operation.
+service: IoT Hub Device Provisioning Service
+apiVersion: 2017-11-15
+groupName: Device Enrollment
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://contoso.azure-devices-provisioning.net/enrollments
+uriParameters: []
+responses:
+- description: Success
+  types:
+  - uid: BulkEnrollmentOperationResult
+  name: 200 OK
+requestBody:
+- parameters:
+  - in: body
+    isRequired: true
+    description: Operation mode
+    types:
+    - uid: create
+    - uid: update
+    - uid: updateIfMatchETag
+    - uid: delete
+    typesTitle: enum
+    name: mode
+  - in: body
+    isRequired: true
+    description: Enrollment items
+    types:
+    - isArray: true
+      uid: IndividualEnrollment
+    name: enrollments
+requestHeader: []
+definitions:
+- description: Operation mode
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: create
+  - types:
+    - uid: string
+    name: update
+  - types:
+    - uid: string
+    name: updateIfMatchETag
+  - types:
+    - uid: string
+    name: delete
+- name: BulkEnrollmentOperationResult
+  description: Bulk enrollment operation result
+  kind: object
+  properties:
+  - description: Indicates if the operation was successful in its entirety
+    types:
+    - uid: boolean
+    name: isSuccessful
+  - description: Registration errors
+    types:
+    - isArray: true
+      uid: BulkEnrollmentOperationError
+    name: errors
+- name: BulkEnrollmentOperationError
+  description: Bulk enrollment operation error
+  kind: object
+  properties:
+  - description: Device registration id.
+    types:
+    - uid: string
+    name: registrationId
+  - description: Error code
+    types:
+    - uid: integer
+    name: errorCode
+  - description: Error status
+    types:
+    - uid: string
+    name: errorStatus
+examples: []
+security: []
+name: BulkOperation
+uid: contoso.azure-devices-provisioning.net.iothubdeviceprovisioningservice.deviceenrollment.bulkoperation

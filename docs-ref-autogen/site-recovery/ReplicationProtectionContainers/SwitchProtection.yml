@@ -1,0 +1,151 @@
+### YamlMime:RESTOperation
+summary: Switches protection from one container to another or one replication provider to another. Operation to switch protection from one container to another or one replication provider to another.
+service: Recovery Services - Site Recovery
+apiVersion: 2016-08-10
+groupName: Replication Protection Containers
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/switchprotection?api-version=2016-08-10
+uriParameters:
+- in: path
+  isRequired: true
+  description: The subscription Id.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group where the recovery services vault is present.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the recovery services vault.
+  types:
+  - uid: string
+  name: resourceName
+- in: path
+  isRequired: true
+  description: Unique fabric name.
+  types:
+  - uid: string
+  name: fabricName
+- in: path
+  isRequired: true
+  description: Protection container name.
+  types:
+  - uid: string
+  name: protectionContainerName
+- in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK
+  types:
+  - uid: ProtectionContainer
+  name: 200 OK
+- description: Accepted
+  name: 202 Accepted
+requestBody:
+- parameters:
+  - in: body
+    description: Switch protection properties
+    types:
+    - uid: SwitchProtectionInputProperties
+    name: properties
+requestHeader: []
+definitions:
+- name: ProtectionContainer
+  description: Protection container details.
+  kind: object
+  properties:
+  - description: The custom data.
+    types:
+    - uid: ProtectionContainerProperties
+    name: properties
+  - isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource Name
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource Type
+    types:
+    - uid: string
+    name: type
+  - description: Resource Location
+    types:
+    - uid: string
+    name: location
+- name: ProtectionContainerProperties
+  description: The custom data.
+  kind: object
+  properties:
+  - description: Fabric friendly name.
+    types:
+    - uid: string
+    name: fabricFriendlyName
+  - description: The name.
+    types:
+    - uid: string
+    name: friendlyName
+  - description: The fabric type.
+    types:
+    - uid: string
+    name: fabricType
+  - description: Number of protected PEs
+    types:
+    - uid: integer
+    name: protectedItemCount
+  - description: The pairing status of this cloud.
+    types:
+    - uid: string
+    name: pairingStatus
+  - description: The role of this cloud.
+    types:
+    - uid: string
+    name: role
+  - description: Fabric specific details.
+    types:
+    - uid: ProtectionContainerFabricSpecificDetails
+    name: fabricSpecificDetails
+- name: ProtectionContainerFabricSpecificDetails
+  description: Fabric specific details.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Gets the class type. Overriden in derived classes.
+    types:
+    - uid: string
+    name: instanceType
+examples:
+- request:
+    uri: POST https://management.azure.com/Subscriptions/42195872-7e70-4f8a-837f-84b28ecbb78b/resourceGroups/priyanprg/providers/Microsoft.RecoveryServices/vaults/priyanponeboxvault/replicationFabrics/CentralUSCanSite/replicationProtectionContainers/CentralUSCancloud/switchprotection?api-version=2016-08-10
+    requestBody: '{"properties":{"replicationProtectedItemName":"a2aSwapOsVm","providerSpecificDetails":{"instanceType":"A2A"}}}'
+  responses:
+  - statusCode: "200"
+    body: '{"id":"/Subscriptions/42195872-7e70-4f8a-837f-84b28ecbb78b/resourceGroups/priyanprg/providers/Microsoft.RecoveryServices/vaults/priyanponeboxvault/replicationFabrics/EUSCanSite/replicationProtectionContainers/euscancloud","name":"euscancloud","type":"Microsoft.RecoveryServices/vaults/replicationFabrics/replicationProtectionContainers","properties":{"fabricFriendlyName":"East US 2 EUAP","friendlyName":"euscancloud","fabricType":"Azure","protectedItemCount":0,"pairingStatus":"Paired","role":"Primary"}}'
+  - statusCode: "202"
+  name: Switches protection from one container to another or one replication provider to another.
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account.
+    name: user_impersonation
+name: SwitchProtection
+uid: management.azure.com.recoveryservices-siterecovery.replicationprotectioncontainers.switchprotection

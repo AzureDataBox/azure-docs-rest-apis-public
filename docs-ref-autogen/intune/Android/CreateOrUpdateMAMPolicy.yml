@@ -1,0 +1,295 @@
+### YamlMime:RESTOperation
+summary: Creates or updates AndroidMAMPolicy.
+service: Intune
+apiVersion: 2015-01-14-preview
+groupName: Android
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/providers/Microsoft.Intune/locations/{hostName}/androidPolicies/{policyName}?api-version=2015-01-14-preview
+uriParameters:
+- in: path
+  isRequired: true
+  description: Location hostName for the tenant
+  types:
+  - uid: string
+  name: hostName
+- in: path
+  isRequired: true
+  description: Unique name for the policy
+  types:
+  - uid: string
+  name: policyName
+- in: query
+  isRequired: true
+  description: Service Api Version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: android entity.
+  types:
+  - uid: AndroidMAMPolicy
+  name: 200 OK
+- description: unexpected error
+  types:
+  - uid: Error
+  name: Other Status Codes
+requestBody:
+- parameters:
+  - in: body
+    types:
+    - uid: allow
+    - uid: block
+    typesTitle: enum
+    name: screenCapture
+  - in: body
+    types:
+    - uid: required
+    - uid: notRequired
+    typesTitle: enum
+    name: fileEncryption
+  - in: body
+    description: Resource Tags
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+  - in: body
+    description: Resource Location
+    types:
+    - uid: string
+    name: location
+  - in: body
+    isRequired: true
+    types:
+    - uid: string
+    name: friendlyName
+  - in: body
+    types:
+    - uid: string
+    name: description
+  - in: body
+    types:
+    - uid: none
+    - uid: policyManagedApps
+    - uid: allApps
+    typesTitle: enum
+    name: appSharingFromLevel
+  - in: body
+    types:
+    - uid: none
+    - uid: policyManagedApps
+    - uid: allApps
+    typesTitle: enum
+    name: appSharingToLevel
+  - in: body
+    types:
+    - uid: required
+    - uid: notRequired
+    typesTitle: enum
+    name: authentication
+  - in: body
+    types:
+    - uid: blocked
+    - uid: policyManagedApps
+    - uid: policyManagedAppsWithPasteIn
+    - uid: allApps
+    typesTitle: enum
+    name: clipboardSharingLevel
+  - in: body
+    types:
+    - uid: allow
+    - uid: block
+    typesTitle: enum
+    name: dataBackup
+  - in: body
+    types:
+    - uid: allow
+    - uid: block
+    typesTitle: enum
+    name: fileSharingSaveAs
+  - in: body
+    types:
+    - uid: required
+    - uid: notRequired
+    typesTitle: enum
+    name: pin
+  - in: body
+    types:
+    - uid: integer
+    name: pinNumRetry
+  - in: body
+    types:
+    - uid: enable
+    - uid: disable
+    typesTitle: enum
+    name: deviceCompliance
+  - in: body
+    types:
+    - uid: required
+    - uid: notRequired
+    typesTitle: enum
+    name: managedBrowser
+  - in: body
+    types:
+    - uid: string
+    name: accessRecheckOfflineTimeout
+  - in: body
+    types:
+    - uid: string
+    name: accessRecheckOnlineTimeout
+  - in: body
+    types:
+    - uid: string
+    name: offlineWipeTimeout
+requestHeader: []
+definitions:
+- kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: allow
+  - types:
+    - uid: string
+    name: block
+- name: AndroidMAMPolicy
+  description: Android Policy entity for Intune MAM.
+  kind: object
+  properties:
+  - types:
+    - uid: allow
+    - uid: block
+    typesTitle: enum
+    name: screenCapture
+  - types:
+    - uid: required
+    - uid: notRequired
+    typesTitle: enum
+    name: fileEncryption
+  - isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+    name: type
+  - description: Resource Tags
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+  - description: Resource Location
+    types:
+    - uid: string
+    name: location
+  - types:
+    - uid: string
+    name: friendlyName
+  - types:
+    - uid: string
+    name: description
+  - types:
+    - uid: none
+    - uid: policyManagedApps
+    - uid: allApps
+    typesTitle: enum
+    name: appSharingFromLevel
+  - types:
+    - uid: none
+    - uid: policyManagedApps
+    - uid: allApps
+    typesTitle: enum
+    name: appSharingToLevel
+  - types:
+    - uid: required
+    - uid: notRequired
+    typesTitle: enum
+    name: authentication
+  - types:
+    - uid: blocked
+    - uid: policyManagedApps
+    - uid: policyManagedAppsWithPasteIn
+    - uid: allApps
+    typesTitle: enum
+    name: clipboardSharingLevel
+  - types:
+    - uid: allow
+    - uid: block
+    typesTitle: enum
+    name: dataBackup
+  - types:
+    - uid: allow
+    - uid: block
+    typesTitle: enum
+    name: fileSharingSaveAs
+  - types:
+    - uid: required
+    - uid: notRequired
+    typesTitle: enum
+    name: pin
+  - types:
+    - uid: integer
+    name: pinNumRetry
+  - types:
+    - uid: enable
+    - uid: disable
+    typesTitle: enum
+    name: deviceCompliance
+  - types:
+    - uid: required
+    - uid: notRequired
+    typesTitle: enum
+    name: managedBrowser
+  - types:
+    - uid: string
+    name: accessRecheckOfflineTimeout
+  - types:
+    - uid: string
+    name: accessRecheckOnlineTimeout
+  - types:
+    - uid: string
+    name: offlineWipeTimeout
+  - isReadyOnly: true
+    types:
+    - uid: integer
+    name: numOfApps
+  - isReadyOnly: true
+    types:
+    - uid: notTargeted
+    - uid: targeted
+    typesTitle: enum
+    name: groupStatus
+  - isReadyOnly: true
+    types:
+    - uid: string
+    name: lastModifiedTime
+- name: Error
+  kind: object
+  properties:
+  - types:
+    - uid: string
+    name: code
+  - types:
+    - uid: string
+    name: message
+examples: []
+security: []
+name: CreateOrUpdateMAMPolicy
+uid: management.azure.com.intune.android.createorupdatemampolicy

@@ -1,0 +1,260 @@
+### YamlMime:RESTOperation
+summary: Adds a collection of tasks to the specified job. Note that each task must have a unique ID. The Batch service may not return the results for each task in the same order the tasks were submitted in this request. If the server times out or the connection is closed during the request, the request may have been partially or fully processed, or not at all. In such cases, the user should re-issue the request. Note that it is up to the user to correctly handle failures when re-issuing a request. For example, you should use the same task IDs during a retry so that if the prior operation succeeded, the retry will not create extra tasks unexpectedly. If the response contains any tasks which failed to add, a client can retry the request. In a retry, it is most efficient to resubmit only tasks that failed to add, and to omit tasks that were successfully added on the first attempt. The maximum lifetime of a task from addition to completion is 7 days. If a task has not completed within 7 days of being added it will be terminated by the Batch service and left in whatever state it was in at that time.
+service: Batch Service
+apiVersion: 2017-09-01.6.0
+groupName: Task
+consumes:
+- application/json; odata=minimalmetadata
+produces:
+- application/json
+paths:
+- content: POST https://batch.core.windows.net/jobs/{jobId}/addtaskcollection?api-version=2017-09-01.6.0
+- content: POST https://batch.core.windows.net/jobs/{jobId}/addtaskcollection?timeout={timeout}&api-version=2017-09-01.6.0
+  isOptional: true
+uriParameters:
+- in: path
+  isRequired: true
+  description: The ID of the job to which the task collection is to be added.
+  types:
+  - uid: string
+  name: jobId
+- in: query
+  description: The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds.
+  types:
+  - uid: integer
+  format: int32
+  name: timeout
+- in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- headers:
+  - value: string
+    name: client-request-id
+  - value: string
+    name: request-id
+  description: A response containing the results of the add task collection operation.
+  types:
+  - uid: TaskAddCollectionResult
+  name: 200 OK
+- description: Unexpected error
+  types:
+  - uid: BatchError
+  name: Other Status Codes
+requestBody:
+- parameters:
+  - in: body
+    isRequired: true
+    description: The total serialized size of this collection must be less than 4MB. If it is greater than 4MB (for example if each task has 100's of resource files or environment variables), the request will fail with code 'RequestBodyTooLarge' and should be retried again with fewer tasks.
+    types:
+    - isArray: true
+      uid: TaskAddParameter
+    name: value
+requestHeader:
+- in: header
+  description: The caller-generated request identity, in the form of a GUID with no decoration such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+  types:
+  - uid: string
+  format: uuid
+  name: client-request-id
+- in: header
+  description: Whether the server should return the client-request-id in the response.
+  types:
+  - uid: boolean
+  name: return-client-request-id
+- in: header
+  description: The time the request was issued. Client libraries typically set this to the current system clock time; set it explicitly if you are calling the REST API directly.
+  types:
+  - uid: string
+  format: date-time-rfc1123
+  name: ocp-date
+definitions:
+- name: JobAction
+  description: The default is none for exit code 0 and terminate for all other exit conditions. If the job's onTaskFailed property is noaction, then specifying this property returns an error and the add task request fails with an invalid property value error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request).
+  kind: enum
+  properties:
+  - description: Take no action.
+    types:
+    - uid: string
+    name: none
+  - description: Disable the job. This is equivalent to calling the disable job API, with a disableTasks value of requeue.
+    types:
+    - uid: string
+    name: disable
+  - description: Terminate the job. The terminateReason in the job's executionInfo is set to "TaskFailed".
+    types:
+    - uid: string
+    name: terminate
+- name: DependencyAction
+  description: The default is 'satisfy' for exit code 0, and 'block' for all other exit conditions. If the job's usesTaskDependencies property is set to false, then specifying the dependencyAction property returns an error and the add task request fails with an invalid property value error; if you are calling the REST API directly, the HTTP status code is 400  (Bad Request).
+  kind: enum
+  properties:
+  - description: Satisfy the task's dependencies.
+    types:
+    - uid: string
+    name: satisfy
+  - description: Block the task's dependencies.
+    types:
+    - uid: string
+    name: block
+- name: OutputFileUploadCondition
+  description: The default is taskcompletion.
+  kind: enum
+  properties:
+  - description: Upload the file(s) only after the task process exits with an exit code of 0.
+    types:
+    - uid: string
+    name: tasksuccess
+  - description: Upload the file(s) only after the task process exits with a nonzero exit code.
+    types:
+    - uid: string
+    name: taskfailure
+  - description: Upload the file(s) after the task process exits, no matter what the exit code was.
+    types:
+    - uid: string
+    name: taskcompletion
+- name: AutoUserScope
+  description: The default value is task.
+  kind: enum
+  properties:
+  - description: Specifies that the service should create a new user for the task.
+    types:
+    - uid: string
+    name: task
+  - description: Specifies that the task runs as the common auto user account which is created on every node in a pool.
+    types:
+    - uid: string
+    name: pool
+- name: ElevationLevel
+  description: nonAdmin - The auto user is a standard user without elevated access. admin - The auto user is a user with elevated access and operates with full Administrator permissions. The default value is nonAdmin.
+  kind: enum
+  properties:
+  - description: The user is a standard user without elevated access.
+    types:
+    - uid: string
+    name: nonadmin
+  - description: The user is a user with elevated access and operates with full Administrator permissions.
+    types:
+    - uid: string
+    name: admin
+- name: TaskAddCollectionResult
+  description: The result of adding a collection of tasks to a job.
+  kind: object
+  properties:
+  - description: The results of the add task collection operation.
+    types:
+    - isArray: true
+      uid: TaskAddResult
+    name: value
+- name: TaskAddResult
+  description: Result for a single task added as part of an add task collection operation.
+  kind: object
+  properties:
+  - description: The status of the add task request.
+    types:
+    - uid: TaskAddStatus
+    name: status
+  - description: The ID of the task for which this is the result.
+    types:
+    - uid: string
+    name: taskId
+  - description: You can use this to detect whether the task has changed between requests. In particular, you can be pass the ETag with an Update Task request to specify that your changes should take effect only if nobody else has modified the job in the meantime.
+    types:
+    - uid: string
+    name: eTag
+  - description: The last modified time of the task.
+    types:
+    - uid: string
+    name: lastModified
+  - description: The URL of the task, if the task was successfully added.
+    types:
+    - uid: string
+    name: location
+  - description: The error encountered while attempting to add the task.
+    types:
+    - uid: BatchError
+    name: error
+- name: TaskAddStatus
+  description: The status of the add task request.
+  kind: enum
+  properties:
+  - description: The task was added successfully.
+    types:
+    - uid: string
+    name: success
+  - description: The task failed to add due to a client error and should not be retried without modifying the request as appropriate.
+    types:
+    - uid: string
+    name: clienterror
+  - description: Task failed to add due to a server error and can be retried without modification.
+    types:
+    - uid: string
+    name: servererror
+- name: BatchError
+  description: The error encountered while attempting to add the task.
+  kind: object
+  properties:
+  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+    name: code
+  - description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: ErrorMessage
+    name: message
+  - description: A collection of key-value pairs containing additional details about the error.
+    types:
+    - isArray: true
+      uid: BatchErrorDetail
+    name: values
+- name: ErrorMessage
+  description: A message describing the error, intended to be suitable for display in a user interface.
+  kind: object
+  properties:
+  - description: The language code of the error message
+    types:
+    - uid: string
+    name: lang
+  - description: The text of the message.
+    types:
+    - uid: string
+    name: value
+- name: BatchErrorDetail
+  description: An item of additional information included in an Azure Batch error response.
+  kind: object
+  properties:
+  - description: An identifier specifying the meaning of the Value property.
+    types:
+    - uid: string
+    name: key
+  - description: The additional information included with the error response.
+    types:
+    - uid: string
+    name: value
+examples:
+- request:
+    uri: POST https://batch.core.windows.net/jobs/jobId/addtaskcollection?api-version=2017-09-01.6.0
+    requestBody: '{"value":[{"id":"simple1","commandLine":"cmd /c dir /s"},{"id":"simple2","commandLine":"cmd /c dir /s"}]}'
+    headers:
+    - value: 00000000-0000-0000-0000-000000000000
+      name: client-request-id
+  responses:
+  - statusCode: "200"
+    body: '{"value":[{"status":"success","taskId":"simple1","eTag":"0x8D3D623CD661246","lastModified":"2016-09-06T07:02:44.7589958Z","location":"https://account.region.batch.azure.com/jobs/jobId/tasks/simple1"},{"status":"success","taskId":"simple2","eTag":"0x8D3D623CD7072CC","lastModified":"2016-09-06T07:02:44.8270028Z","location":"https://account.region.batch.azure.com/jobs/jobId/tasks/simple2"}]}'
+  name: Add a basic collection of tasks
+- request:
+    uri: POST https://batch.core.windows.net/jobs/jobId/addtaskcollection?api-version=2017-09-01.6.0
+    requestBody: '{"value":[{"id":"complex1","commandLine":"cmd /c dir /s","resourceFiles":[{"blobSource":"https://account.blob.core.windows.net/","filePath":"file1"}],"environmentSettings":[{"name":"env1","value":"value1"},{"name":"env2","value":"value2"}],"affinityInfo":{"affinityId":"affinityId"},"constraints":{"maxWallClockTime":"P1D","retentionTime":"P2D","maxTaskRetryCount":5},"multiInstanceSettings":{"numberOfInstances":3,"coordinationCommandLine":"cmd /c echo coordinating","commonResourceFiles":[{"blobSource":"https://common.blob.core.windows.net/","filePath":"common.exe"}]}},{"id":"simple3","commandLine":"cmd /c dir /s"}]}'
+    headers:
+    - value: 00000000-0000-0000-0000-000000000000
+      name: client-request-id
+  responses:
+  - statusCode: "200"
+    body: '{"value":[{"taskId":"simple3","status":"success","eTag":"0x8D3D623CE295629","lastModified":"2016-09-06T07:02:46.0386857Z","location":"https://account.region.batch.azure.com/jobs/jobId/tasks/simple3"},{"taskId":"complex1","status":"success","eTag":"0x8D3D623CE29A412","lastModified":"2016-09-06T07:02:46.0406802Z","location":"https://account.region.batch.azure.com/jobs/jobId/tasks/complex1"}]}'
+  name: Add a complex collection of tasks
+security: []
+name: AddCollection
+uid: batch.core.windows.net.batchservice.task.addcollection

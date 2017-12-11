@@ -1,0 +1,172 @@
+### YamlMime:RESTOperation
+summary: Creates a new certificate.  If this is the first version, the certificate resource is created.
+service: Key Vault
+apiVersion: 2016-10-01
+groupName: Create Certificate
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://{vaultBaseUrl}/certificates/{certificate-name}/create?api-version=2016-10-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: The vault name, for example https://myvault.vault.azure.net.
+  types:
+  - uid: string
+  name: vaultBaseUrl
+- in: path
+  isRequired: true
+  description: The name of the certificate.
+  types:
+  - uid: string
+  pattern: ^[0-9a-zA-Z-]+$
+  name: certificate-name
+- in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: Created certificate bundle.
+  types:
+  - uid: CertificateOperation
+  name: 202 Accepted
+- description: Key Vault error response describing why the operation failed.
+  types:
+  - uid: KeyVaultError
+  name: Other Status Codes
+requestBody:
+- parameters:
+  - in: body
+    description: The management policy for the certificate.
+    types:
+    - uid: CertificatePolicy
+    name: policy
+  - in: body
+    description: The attributes of the certificate (optional).
+    types:
+    - uid: CertificateAttributes
+    name: attributes
+  - in: body
+    description: Application specific metadata in the form of key-value pairs.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+requestHeader: []
+definitions:
+- name: ActionType
+  description: The type of the action.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: EmailContacts
+  - types:
+    - uid: string
+    name: AutoRenew
+- name: DeletionRecoveryLevel
+  description: Reflects the deletion recovery level currently in effect for certificates in the current vault. If it contains 'Purgeable', the certificate can be permanently deleted by a privileged user; otherwise, only the system can purge the certificate, at the end of the retention interval.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Purgeable
+  - types:
+    - uid: string
+    name: Recoverable+Purgeable
+  - types:
+    - uid: string
+    name: Recoverable
+  - types:
+    - uid: string
+    name: Recoverable+ProtectedSubscription
+- name: CertificateOperation
+  description: A certificate operation is returned in case of asynchronous requests.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The certificate id.
+    types:
+    - uid: string
+    name: id
+  - description: Parameters for the issuer of the X509 component of a certificate.
+    types:
+    - uid: IssuerParameters
+    name: issuer
+  - description: The certificate signing request (CSR) that is being used in the certificate operation.
+    types:
+    - uid: string
+    name: csr
+  - description: Indicates if cancellation was requested on the certificate operation.
+    types:
+    - uid: boolean
+    name: cancellation_requested
+  - description: Status of the certificate operation.
+    types:
+    - uid: string
+    name: status
+  - description: The status details of the certificate operation.
+    types:
+    - uid: string
+    name: status_details
+  - description: Error encountered, if any, during the certificate operation.
+    types:
+    - uid: Error
+    name: error
+  - description: Location which contains the result of the certificate operation.
+    types:
+    - uid: string
+    name: target
+  - description: Identifier for the certificate operation.
+    types:
+    - uid: string
+    name: request_id
+- name: IssuerParameters
+  description: Parameters for the issuer of the X509 component of a certificate.
+  kind: object
+  properties:
+  - description: Name of the referenced issuer object or reserved names; for example, 'Self' or 'Unknown'.
+    types:
+    - uid: string
+    name: name
+  - description: Type of certificate to be requested from the issuer provider.
+    types:
+    - uid: string
+    name: cty
+- name: Error
+  description: Error encountered, if any, during the certificate operation.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+    name: code
+  - isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+    name: message
+  - types:
+    - {}
+    name: innererror
+- name: KeyVaultError
+  description: The key vault error exception.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
+    name: error
+examples: []
+security: []
+name: CreateCertificate
+uid: .keyvault.createcertificate.createcertificate

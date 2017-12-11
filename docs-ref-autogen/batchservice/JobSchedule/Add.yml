@@ -1,0 +1,319 @@
+### YamlMime:RESTOperation
+summary: Adds a job schedule to the specified account.
+service: Batch Service
+apiVersion: 2017-09-01.6.0
+groupName: Job Schedule
+consumes:
+- application/json; odata=minimalmetadata
+produces:
+- application/json
+paths:
+- content: POST https://batch.core.windows.net/jobschedules?api-version=2017-09-01.6.0
+- content: POST https://batch.core.windows.net/jobschedules?timeout={timeout}&api-version=2017-09-01.6.0
+  isOptional: true
+uriParameters:
+- in: query
+  description: The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds.
+  types:
+  - uid: integer
+  format: int32
+  name: timeout
+- in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- headers:
+  - value: string
+    name: client-request-id
+  - value: string
+    name: request-id
+  - value: string
+    name: ETag
+  - value: string
+    name: Last-Modified
+  - value: string
+    name: DataServiceId
+  description: The request to the Batch service was successful.
+  name: 201 Created
+- description: The error from the Batch service.
+  types:
+  - uid: BatchError
+  name: Other Status Codes
+requestBody:
+- parameters:
+  - in: body
+    isRequired: true
+    description: The ID can contain any combination of alphanumeric characters including hyphens and underscores, and cannot contain more than 64 characters. The ID is case-preserving and case-insensitive (that is, you may not have two IDs within an account that differ only by case).
+    types:
+    - uid: string
+    name: id
+  - in: body
+    description: The display name need not be unique and can contain any Unicode characters up to a maximum length of 1024.
+    types:
+    - uid: string
+    name: displayName
+  - in: body
+    isRequired: true
+    description: The schedule according to which jobs will be created.
+    types:
+    - uid: Schedule
+    name: schedule
+  - in: body
+    isRequired: true
+    description: The details of the jobs to be created on this schedule.
+    types:
+    - uid: JobSpecification
+    name: jobSpecification
+  - in: body
+    description: The Batch service does not assign any meaning to metadata; it is solely for the use of user code.
+    types:
+    - isArray: true
+      uid: MetadataItem
+    name: metadata
+requestHeader:
+- in: header
+  description: The caller-generated request identity, in the form of a GUID with no decoration such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+  types:
+  - uid: string
+  format: uuid
+  name: client-request-id
+- in: header
+  description: Whether the server should return the client-request-id in the response.
+  types:
+  - uid: boolean
+  name: return-client-request-id
+- in: header
+  description: The time the request was issued. Client libraries typically set this to the current system clock time; set it explicitly if you are calling the REST API directly.
+  types:
+  - uid: string
+  format: date-time-rfc1123
+  name: ocp-date
+definitions:
+- name: OnAllTasksComplete
+  description: Note that if a job contains no tasks, then all tasks are considered complete. This option is therefore most commonly used with a Job Manager task; if you want to use automatic job termination without a Job Manager, you should initially set onAllTasksComplete to noaction and update the job properties to set onAllTasksComplete to terminatejob once you have finished adding tasks. The default is noaction.
+  kind: enum
+  properties:
+  - description: Do nothing. The job remains active unless terminated or disabled by some other means.
+    types:
+    - uid: string
+    name: noaction
+  - description: Terminate the job. The job's terminateReason is set to 'AllTasksComplete'.
+    types:
+    - uid: string
+    name: terminatejob
+- name: OnTaskFailure
+  description: The default is noaction.
+  kind: enum
+  properties:
+  - description: Do nothing. The job remains active unless terminated or disabled by some other means.
+    types:
+    - uid: string
+    name: noaction
+  - description: Take the action associated with the task exit condition in the task's exitConditions collection. (This may still result in no action being taken, if that is what the task specifies.)
+    types:
+    - uid: string
+    name: performexitoptionsjobaction
+- name: OutputFileUploadCondition
+  description: The default is taskcompletion.
+  kind: enum
+  properties:
+  - description: Upload the file(s) only after the task process exits with an exit code of 0.
+    types:
+    - uid: string
+    name: tasksuccess
+  - description: Upload the file(s) only after the task process exits with a nonzero exit code.
+    types:
+    - uid: string
+    name: taskfailure
+  - description: Upload the file(s) after the task process exits, no matter what the exit code was.
+    types:
+    - uid: string
+    name: taskcompletion
+- name: AutoUserScope
+  description: The default value is task.
+  kind: enum
+  properties:
+  - description: Specifies that the service should create a new user for the task.
+    types:
+    - uid: string
+    name: task
+  - description: Specifies that the task runs as the common auto user account which is created on every node in a pool.
+    types:
+    - uid: string
+    name: pool
+- name: ElevationLevel
+  description: nonAdmin - The auto user is a standard user without elevated access. admin - The auto user is a user with elevated access and operates with full Administrator permissions. The default value is nonAdmin.
+  kind: enum
+  properties:
+  - description: The user is a standard user without elevated access.
+    types:
+    - uid: string
+    name: nonadmin
+  - description: The user is a user with elevated access and operates with full Administrator permissions.
+    types:
+    - uid: string
+    name: admin
+- name: PoolLifetimeOption
+  description: The minimum lifetime of created auto pools, and how multiple jobs on a schedule are assigned to pools.
+  kind: enum
+  properties:
+  - description: The pool exists for the lifetime of the job schedule. The Batch Service creates the pool when it creates the first job on the schedule. You may apply this option only to job schedules, not to jobs.
+    types:
+    - uid: string
+    name: jobschedule
+  - description: The pool exists for the lifetime of the job to which it is dedicated. The Batch service creates the pool when it creates the job. If the 'job' option is applied to a job schedule, the Batch service creates a new auto pool for every job created on the schedule.
+    types:
+    - uid: string
+    name: job
+- name: CachingType
+  description: 'The default value for caching is none. For information about the caching options see: https://blogs.msdn.microsoft.com/windowsazurestorage/2012/06/27/exploring-windows-azure-drives-disks-and-images/.'
+  kind: enum
+  properties:
+  - description: The caching mode for the disk is not enabled.
+    types:
+    - uid: string
+    name: none
+  - description: The caching mode for the disk is read only.
+    types:
+    - uid: string
+    name: readonly
+  - description: The caching mode for the disk is read and write.
+    types:
+    - uid: string
+    name: readwrite
+- name: StorageAccountType
+  description: If omitted, the default is "standard_lrs".
+  kind: enum
+  properties:
+  - description: The data disk should use standard locally redundant storage.
+    types:
+    - uid: string
+    name: standard_lrs
+  - description: The data disk should use premium locally redundant storage.
+    types:
+    - uid: string
+    name: premium_lrs
+- name: ContainerType
+  description: The container technology to be used.
+  kind: enum
+  properties:
+  - description: Docker will be used to launch the containers.
+    types:
+    - uid: string
+    name: docker
+- name: ComputeNodeFillType
+  description: How tasks are distributed across compute nodes in a pool.
+  kind: enum
+  properties:
+  - description: Tasks should be assigned evenly across all nodes in the pool.
+    types:
+    - uid: string
+    name: spread
+  - description: As many tasks as possible (maxTasksPerNode) should be assigned to each node in the pool before any tasks are assigned to the next node in the pool.
+    types:
+    - uid: string
+    name: pack
+- name: InboundEndpointProtocol
+  description: The protocol of the endpoint.
+  kind: enum
+  properties:
+  - description: Use TCP for the endpoint.
+    types:
+    - uid: string
+    name: tcp
+  - description: Use UDP for the endpoint.
+    types:
+    - uid: string
+    name: udp
+- name: NetworkSecurityGroupRuleAccess
+  description: The action that should be taken for a specified IP address, subnet range or tag.
+  kind: enum
+  properties:
+  - description: Allow access.
+    types:
+    - uid: string
+    name: allow
+  - description: Deny access.
+    types:
+    - uid: string
+    name: deny
+- name: CertificateStoreLocation
+  description: The default value is currentuser. This property is applicable only for pools configured with Windows nodes (that is, created with cloudServiceConfiguration, or with virtualMachineConfiguration using a Windows image reference). For Linux compute nodes, the certificates are stored in a directory inside the task working directory and an environment variable AZ_BATCH_CERTIFICATES_DIR is supplied to the task to query for this location. For certificates with visibility of 'remoteUser', a 'certs' directory is created in the user's home directory (e.g., /home/{user-name}/certs) and certificates are placed in that directory.
+  kind: enum
+  properties:
+  - description: Certificates should be installed to the CurrentUser certificate store.
+    types:
+    - uid: string
+    name: currentuser
+  - description: Certificates should be installed to the LocalMachine certificate store.
+    types:
+    - uid: string
+    name: localmachine
+- name: BatchError
+  description: An error response received from the Azure Batch service.
+  kind: object
+  properties:
+  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+    name: code
+  - description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: ErrorMessage
+    name: message
+  - description: A collection of key-value pairs containing additional details about the error.
+    types:
+    - isArray: true
+      uid: BatchErrorDetail
+    name: values
+- name: ErrorMessage
+  description: A message describing the error, intended to be suitable for display in a user interface.
+  kind: object
+  properties:
+  - description: The language code of the error message
+    types:
+    - uid: string
+    name: lang
+  - description: The text of the message.
+    types:
+    - uid: string
+    name: value
+- name: BatchErrorDetail
+  description: An item of additional information included in an Azure Batch error response.
+  kind: object
+  properties:
+  - description: An identifier specifying the meaning of the Value property.
+    types:
+    - uid: string
+    name: key
+  - description: The additional information included with the error response.
+    types:
+    - uid: string
+    name: value
+examples:
+- request:
+    uri: POST https://batch.core.windows.net/jobschedules?api-version=2017-09-01.6.0
+    requestBody: '{"id":"jobScheduleId","schedule":{"recurrenceInterval":"PT5M"},"jobSpecification":{"poolInfo":{"poolId":"poolId"}}}'
+    headers:
+    - value: 00000000-0000-0000-0000-000000000000
+      name: client-request-id
+  responses:
+  - statusCode: "201"
+    body: "\"\""
+  name: Add a basic JobSchedule
+- request:
+    uri: POST https://batch.core.windows.net/jobschedules?api-version=2017-09-01.6.0
+    requestBody: '{"id":"jobScheduleId","schedule":{"doNotRunUntil":"2014-09-10T02:30:00Z","doNotRunAfter":"2014-09-10T06:30:00Z","startWindow":"PT1M","recurrenceInterval":"PT5M"},"jobSpecification":{"priority":100,"constraints":{"maxWallClockTime":"PT1H","maxTaskRetryCount":-1},"jobManagerTask":{"id":"mytask1","commandLine":"myprogram.exe","resourceFiles":[{"blobSource":"http://mystorage1.blob.core.windows.net/scripts/myprogram.exe?st=2013-08-09T08%3a49%3a37.0000000Z&se=2013-08-10T08%3a49%3a37.0000000Z&sr=c&sp=d&si=YWJjZGTVMZw%3d%3d&sig=%2bSzBm0wi8xECuGkKw97wnkSZ%2f62sxU%2b6Hq6a7qojIVE%3d","filePath":"myprogram.exe"},{"blobSource":"http://mystorage1.blob.core.windows.net/scripts/test.txt?st=2013-08-09T08%3a49%3a37.0000000Z&se=2013-08-10T08%3a49%3a37.0000000Z&sr=c&sp=d&si=YWJjZGTVMZw%3d%3d&sig=%2bSzBm0wi8xECuGkKw97wnkSZ%2f62sxU%2b6Hq6a7qojIVE%3d","filePath":"test.txt"}],"environmentSettings":[{"name":"myvariable","value":"myvalue"}],"constraints":{"maxWallClockTime":"PT1H","maxTaskRetryCount":0,"retentionTime":"PT1H"},"killJobOnCompletion":true,"userIdentity":{"autoUser":{"scope":"task","elevationLevel":"nonadmin"}},"runExclusive":true},"poolInfo":{"autoPoolSpecification":{"autoPoolIdPrefix":"mypool","poolLifetimeOption":"jobschedule","pool":{"vmSize":"small","cloudServiceConfiguration":{"osFamily":"4","targetOSVersion":"*"},"resizeTimeout":"PT15M","targetDedicatedNodes":3,"targetLowPriorityNodes":0,"maxTasksPerNode":2,"taskSchedulingPolicy":{"nodeFillType":"spread"},"enableAutoScale":false,"enableInterNodeCommunication":true,"startTask":{"commandLine":"myprogram2.exe","resourceFiles":[{"blobSource":"http://mystorage1.blob.core.windows.net/scripts/myprogram2.exe?st=2013-08-09T08%3a49%3a37.0000000Z&se=2013-08-10T08%3a49%3a37.0000000Z&sr=c&sp=d&si=YWJjZGTVMZw%3d%3d&sig= %2bSzBm0wi8xECuGkKw97wnkSZ%2f62sxU%2b6Hq6a7qojIVE%3d","filePath":"myprogram2.exe"}],"environmentSettings":[{"name":"myvariable","value":"myvalue"}],"userIdentity":{"autoUser":{"scope":"task","elevationLevel":"admin"}},"maxTaskRetryCount":2,"waitForSuccess":true},"certificateReferences":[{"thumbprint":"0123456789abcdef0123456789abcdef01234567","thumbprintAlgorithm":"sha1","storeLocation":"localmachine","storeName":"Root","visibility":["task"]}],"metadata":[{"name":"myproperty","value":"myvalue"}]}}}},"metadata":[{"name":"myproperty","value":"myvalue"}]}'
+    headers:
+    - value: 00000000-0000-0000-0000-000000000000
+      name: client-request-id
+  responses:
+  - statusCode: "201"
+    body: "\"\""
+  name: Add a complex JobScheduleAdd
+security: []
+name: Add
+uid: batch.core.windows.net.batchservice.jobschedule.add

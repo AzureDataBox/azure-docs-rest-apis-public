@@ -1,0 +1,92 @@
+### YamlMime:RESTOperation
+summary: The List operation gets information about the vaults associated with the subscription.
+service: Key Vault
+apiVersion: 2016-10-01
+groupName: Vaults
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resources?$filter={$filter}&api-version=2016-10-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resources?$filter={$filter}&$top={$top}&api-version=2016-10-01
+  isOptional: true
+uriParameters:
+- in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: query
+  isRequired: true
+  description: The filter to apply on the operation.
+  types:
+  - uid: string
+  name: $filter
+- in: query
+  description: Maximum number of results to return.
+  types:
+  - uid: integer
+  format: int32
+  name: $top
+- in: query
+  isRequired: true
+  description: Azure Resource Manager Api Version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: Get information about all key vaults in the subscription.
+  types:
+  - uid: ResourceListResult
+  name: 200 OK
+requestHeader: []
+definitions:
+- name: ResourceListResult
+  description: List of vault resources.
+  kind: object
+  properties:
+  - description: Gets the list of vault resources.
+    types:
+    - isArray: true
+      uid: Resource
+    name: value
+  - description: Gets the URL to get the next set of vault resources.
+    types:
+    - uid: string
+    name: nextLink
+- name: Resource
+  description: Key Vault resource
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The Azure Resource Manager resource ID for the key vault.
+    types:
+    - uid: string
+    name: id
+  - description: The name of the key vault.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: The resource type of the key vault.
+    types:
+    - uid: string
+    name: type
+  - description: The supported Azure location where the key vault should be created.
+    types:
+    - uid: string
+    name: location
+  - description: 'The tags that will be assigned to the key vault. '
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+examples: []
+security: []
+name: List
+uid: management.azure.com.keyvault.vaults.list

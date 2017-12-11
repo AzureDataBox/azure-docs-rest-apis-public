@@ -1,0 +1,134 @@
+### YamlMime:RESTOperation
+summary: Gets the current network topology by resource group.
+service: Network Watcher
+apiVersion: 2017-09-01
+groupName: Network Watchers
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/topology?api-version=2017-09-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the network watcher.
+  types:
+  - uid: string
+  name: networkWatcherName
+- in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: Request successful. The operation returns the topology of resource group.
+  types:
+  - uid: Topology
+  name: 200 OK
+requestBody:
+- parameters:
+  - in: body
+    isRequired: true
+    description: The name of the target resource group to perform topology on.
+    types:
+    - uid: string
+    name: targetResourceGroupName
+requestHeader: []
+definitions:
+- name: Topology
+  description: Topology of the specified resource group.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: GUID representing the operation id.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: The datetime when the topology was initially created for the resource group.
+    types:
+    - uid: string
+    name: createdDateTime
+  - isReadyOnly: true
+    description: The datetime when the topology was last modified.
+    types:
+    - uid: string
+    name: lastModified
+  - types:
+    - isArray: true
+      uid: TopologyResource
+    name: resources
+- name: TopologyResource
+  description: The network resource topology information for the given resource group.
+  kind: object
+  properties:
+  - description: Name of the resource.
+    types:
+    - uid: string
+    name: name
+  - description: ID of the resource.
+    types:
+    - uid: string
+    name: id
+  - description: Resource location.
+    types:
+    - uid: string
+    name: location
+  - description: Holds the associations the resource has with other resources in the resource group.
+    types:
+    - isArray: true
+      uid: TopologyAssociation
+    name: associations
+- name: TopologyAssociation
+  description: Resources that have an association with the parent resource.
+  kind: object
+  properties:
+  - description: The name of the resource that is associated with the parent resource.
+    types:
+    - uid: string
+    name: name
+  - description: The ID of the resource that is associated with the parent resource.
+    types:
+    - uid: string
+    name: resourceId
+  - description: The association type of the child resource to the parent resource.
+    types:
+    - uid: AssociationType
+    name: associationType
+- name: AssociationType
+  description: The association type of the child resource to the parent resource.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Associated
+  - types:
+    - uid: string
+    name: Contains
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: GetTopology
+uid: management.azure.com.networkwatcher.networkwatchers.gettopology

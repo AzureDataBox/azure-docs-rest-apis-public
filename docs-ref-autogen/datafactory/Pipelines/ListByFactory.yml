@@ -1,0 +1,301 @@
+### YamlMime:RESTOperation
+summary: Lists pipelines.
+service: Data Factory
+apiVersion: 2017-09-01-preview
+groupName: Pipelines
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/pipelines?api-version=2017-09-01-preview
+uriParameters:
+- in: path
+  isRequired: true
+  description: The subscription identifier.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The factory name.
+  types:
+  - uid: string
+  pattern: ^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$
+  name: factoryName
+- in: query
+  isRequired: true
+  description: The API version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK.
+  types:
+  - uid: PipelineListResponse
+  name: 200 OK
+- description: An error response received from the Azure Data Factory service.
+  types:
+  - uid: ErrorResponse
+  name: Other Status Codes
+requestHeader: []
+definitions:
+- name: PipelineListResponse
+  description: A list of pipeline resources.
+  kind: object
+  properties:
+  - description: List of pipelines.
+    types:
+    - isArray: true
+      uid: PipelineResource
+    name: value
+  - description: The link to the next page of results, if any remaining results exist.
+    types:
+    - uid: string
+    name: nextLink
+- name: PipelineResource
+  description: Pipeline resource type.
+  kind: object
+  properties:
+  - description: The description of the pipeline.
+    types:
+    - uid: string
+    name: description
+  - description: List of activities in pipeline.
+    types:
+    - isArray: true
+      uid: ExecutionActivity
+    - isArray: true
+      uid: ControlActivity
+    typesTitle: Activity[]
+    name: activities
+  - description: List of parameters for pipeline.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+      uid: object
+    name: parameters
+  - description: The max number of concurrent runs for the pipeline.
+    types:
+    - uid: integer
+    name: concurrency
+  - isReadyOnly: true
+    description: The resource identifier.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: The resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: The resource type.
+    types:
+    - uid: string
+    name: type
+  - isReadyOnly: true
+    description: Etag identifies change in the resource.
+    types:
+    - uid: string
+    name: etag
+- name: ActivityDependency
+  description: Activity dependency information.
+  kind: object
+  properties:
+  - description: Activity name.
+    types:
+    - uid: string
+    name: activity
+  - description: Match-Condition for the dependency.
+    types:
+    - isArray: true
+      uid: string
+    name: dependencyConditions
+- name: ParameterDefinitionSpecification
+  description: List of parameters for pipeline.
+  kind: object
+  properties:
+  - description: Definition of a single parameter for an entity.
+    types:
+    - uid: ParameterSpecification
+    name: ''
+- name: ParameterSpecification
+  description: Definition of a single parameter for an entity.
+  kind: object
+  properties:
+  - description: Parameter type.
+    types:
+    - uid: ParameterType
+    name: type
+  - description: Default value of parameter.
+    types:
+    - uid: object
+    name: defaultValue
+- name: ParameterType
+  description: Parameter type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Object
+  - types:
+    - uid: string
+    name: String
+  - types:
+    - uid: string
+    name: Int
+  - types:
+    - uid: string
+    name: Float
+  - types:
+    - uid: string
+    name: Bool
+  - types:
+    - uid: string
+    name: Array
+- name: ErrorResponse
+  description: The object that defines the structure of an Azure Data Factory response.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: string
+    name: code
+  - description: Error message.
+    types:
+    - uid: string
+    name: message
+  - description: Property name/path in request associated with error.
+    types:
+    - uid: string
+    name: target
+  - description: Array with additional error details.
+    types:
+    - isArray: true
+      uid: Details
+    name: details
+- name: ExecutionActivity
+  description: Base class for all execution activities.
+  kind: object
+  properties:
+  - description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+    name: linkedServiceName
+  - description: Activity policy.
+    types:
+    - uid: ActivityPolicy
+    name: policy
+  - description: Activity name.
+    types:
+    - uid: string
+    name: name
+  - description: Type of activity.
+    types:
+    - uid: Execution
+    typesTitle: string
+    name: type
+  - description: Activity description.
+    types:
+    - uid: string
+    name: description
+  - description: Activity depends on condition.
+    types:
+    - isArray: true
+      uid: ActivityDependency
+    name: dependsOn
+- name: LinkedServiceReference
+  description: Linked service reference.
+  kind: object
+  properties:
+  - description: Linked service reference type.
+    types:
+    - uid: LinkedServiceReference
+    typesTitle: enum
+    name: type
+  - description: Reference LinkedService name.
+    types:
+    - uid: string
+    name: referenceName
+- description: Linked service reference type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: LinkedServiceReference
+- name: ActivityPolicy
+  description: Activity policy.
+  kind: object
+  properties:
+  - description: 'Specifies the timeout for the activity to run. The default timeout is 7 days. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+    name: timeout
+  - description: 'Maximum ordinary retry attempts. Default is 0. Type: integer (or Expression with resultType integer), minimum: 0.'
+    types:
+    - uid: object
+    name: retry
+  - description: Interval between each retry attempt (in seconds). The default is 30 sec.
+    types:
+    - uid: integer
+    name: retryIntervalInSeconds
+- name: ControlActivity
+  description: Base class for all control activities like IfCondition, ForEach , Until.
+  kind: object
+  properties:
+  - description: Activity name.
+    types:
+    - uid: string
+    name: name
+  - description: Type of activity.
+    types:
+    - uid: Container
+    typesTitle: string
+    name: type
+  - description: Activity description.
+    types:
+    - uid: string
+    name: description
+  - description: Activity depends on condition.
+    types:
+    - isArray: true
+      uid: ActivityDependency
+    name: dependsOn
+examples:
+- request:
+    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/pipelines?api-version=2017-09-01-preview
+  responses:
+  - statusCode: "200"
+    headers:
+    - value: Wed, 13 Sep 2017 17:55:56 GMT
+      name: Date
+    - value: a8129560-dc5c-4312-9c3e-22fc00f9033f
+      name: x-ms-request-id
+    - value: nosniff
+      name: X-Content-Type-Options
+    - value: "14909"
+      name: x-ms-ratelimit-remaining-subscription-reads
+    - value: fa5fe506-baa4-4974-9d0a-0d79da341bd8
+      name: x-ms-correlation-request-id
+    body: '{"value":[{"id":"/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/pipelines/examplePipeline","name":"examplePipeline","properties":{"description":"Example description","activities":[{"type":"ForEach","typeProperties":{"isSequential":true,"items":{"value":"@pipeline().parameters.OutputBlobNameList","type":"Expression"},"activities":[{"type":"Copy","typeProperties":{"source":{"type":"BlobSource"},"sink":{"type":"BlobSink"}},"inputs":[{"referenceName":"exampleDataset","parameters":{"MyFolderPath":"examplecontainer","MyFileName":"examplecontainer.csv"},"type":"DatasetReference"}],"outputs":[{"referenceName":"exampleDataset","parameters":{"MyFolderPath":"examplecontainer","MyFileName":{"value":"@item()","type":"Expression"}},"type":"DatasetReference"}],"name":"ExampleCopyActivity"}]},"name":"ExampleForeachActivity"}],"parameters":{"OutputBlobNameList":{"type":"Array"}}},"etag":"280324a7-0000-0000-0000-59b9712b0000"}]}'
+  name: Pipelines_ListByFactory
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: ListByFactory
+uid: management.azure.com.datafactory.pipelines.listbyfactory

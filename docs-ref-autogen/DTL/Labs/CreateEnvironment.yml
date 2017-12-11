@@ -1,0 +1,301 @@
+### YamlMime:RESTOperation
+summary: Create virtual machines in a lab. This operation can take a while to complete.
+service: Dev Test Labs
+apiVersion: 2016-05-15
+groupName: Labs
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{name}/createEnvironment?api-version=2016-05-15
+uriParameters:
+- in: path
+  isRequired: true
+  description: The subscription ID.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the lab.
+  types:
+  - uid: string
+  name: name
+- in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK
+  name: 200 OK
+- description: Accepted
+  name: 202 Accepted
+- description: BadRequest
+  types:
+  - uid: CloudError
+  name: Other Status Codes
+requestBody:
+- parameters:
+  - in: body
+    description: The name of the virtual machine or environment
+    types:
+    - uid: string
+    name: name
+  - in: body
+    description: The location of the new virtual machine or environment
+    types:
+    - uid: string
+    name: location
+  - in: body
+    description: The tags of the resource.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+  - in: body
+    description: The number of virtual machine instances to create.
+    types:
+    - uid: BulkCreationParameters
+    name: bulkCreationParameters
+  - in: body
+    description: The notes of the virtual machine.
+    types:
+    - uid: string
+    name: notes
+  - in: body
+    description: The object identifier of the owner of the virtual machine.
+    types:
+    - uid: string
+    name: ownerObjectId
+  - in: body
+    description: The user principal name of the virtual machine owner.
+    types:
+    - uid: string
+    name: ownerUserPrincipalName
+  - in: body
+    description: The object identifier of the creator of the virtual machine.
+    types:
+    - uid: string
+    name: createdByUserId
+  - in: body
+    description: The email address of creator of the virtual machine.
+    types:
+    - uid: string
+    name: createdByUser
+  - in: body
+    description: The creation date of the virtual machine.
+    types:
+    - uid: string
+    name: createdDate
+  - in: body
+    description: The custom image identifier of the virtual machine.
+    types:
+    - uid: string
+    name: customImageId
+  - in: body
+    description: The OS type of the virtual machine.
+    types:
+    - uid: string
+    name: osType
+  - in: body
+    description: The size of the virtual machine.
+    types:
+    - uid: string
+    name: size
+  - in: body
+    description: The user name of the virtual machine.
+    types:
+    - uid: string
+    name: userName
+  - in: body
+    description: The password of the virtual machine administrator.
+    types:
+    - uid: string
+    name: password
+  - in: body
+    description: The SSH key of the virtual machine administrator.
+    types:
+    - uid: string
+    name: sshKey
+  - in: body
+    description: Indicates whether this virtual machine uses an SSH key for authentication.
+    types:
+    - uid: boolean
+    name: isAuthenticationWithSshKey
+  - in: body
+    description: The fully-qualified domain name of the virtual machine.
+    types:
+    - uid: string
+    name: fqdn
+  - in: body
+    description: The lab subnet name of the virtual machine.
+    types:
+    - uid: string
+    name: labSubnetName
+  - in: body
+    description: The lab virtual network identifier of the virtual machine.
+    types:
+    - uid: string
+    name: labVirtualNetworkId
+  - in: body
+    description: Indicates whether the virtual machine is to be created without a public IP address.
+    types:
+    - uid: boolean
+    name: disallowPublicIpAddress
+  - in: body
+    description: The artifacts to be installed on the virtual machine.
+    types:
+    - isArray: true
+      uid: ArtifactInstallProperties
+    name: artifacts
+  - in: body
+    description: The artifact deployment status for the virtual machine.
+    types:
+    - uid: ArtifactDeploymentStatusProperties
+    name: artifactDeploymentStatus
+  - in: body
+    description: The Microsoft Azure Marketplace image reference of the virtual machine.
+    types:
+    - uid: GalleryImageReference
+    name: galleryImageReference
+  - in: body
+    description: The compute virtual machine properties.
+    types:
+    - uid: ComputeVmProperties
+    name: computeVm
+  - in: body
+    description: The network interface properties.
+    types:
+    - uid: NetworkInterfaceProperties
+    name: networkInterface
+  - in: body
+    description: The applicable schedule for the virtual machine.
+    types:
+    - uid: ApplicableSchedule
+    name: applicableSchedule
+  - in: body
+    description: The expiration date for VM.
+    types:
+    - uid: string
+    name: expirationDate
+  - in: body
+    description: Indicates whether another user can take ownership of the virtual machine
+    types:
+    - uid: boolean
+    name: allowClaim
+  - in: body
+    description: Storage type to use for virtual machine (i.e. Standard, Premium).
+    types:
+    - uid: string
+    name: storageType
+  - in: body
+    description: Tells source of creation of lab virtual machine. Output property only.
+    types:
+    - uid: VirtualMachineCreationSource
+    name: virtualMachineCreationSource
+  - in: body
+    description: The resource ID of the environment that contains this virtual machine, if any.
+    types:
+    - uid: string
+    name: environmentId
+  - in: body
+    description: The provisioning status of the resource.
+    types:
+    - uid: string
+    name: provisioningState
+  - in: body
+    description: The unique immutable identifier of a resource (Guid).
+    types:
+    - uid: string
+    name: uniqueIdentifier
+requestHeader: []
+definitions:
+- name: TransportProtocol
+  description: The transport protocol for the endpoint.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Tcp
+  - types:
+    - uid: string
+    name: Udp
+- name: EnableStatus
+  description: The status of the schedule (i.e. Enabled, Disabled)
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Enabled
+  - types:
+    - uid: string
+    name: Disabled
+- name: NotificationStatus
+  description: If notifications are enabled for this schedule (i.e. Enabled, Disabled).
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Disabled
+  - types:
+    - uid: string
+    name: Enabled
+- name: VirtualMachineCreationSource
+  description: Tells source of creation of lab virtual machine. Output property only.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: FromCustomImage
+  - types:
+    - uid: string
+    name: FromGalleryImage
+- name: CloudError
+  description: Error from a REST request.
+  kind: object
+  properties:
+  - description: Body of an error from a REST request.
+    types:
+    - uid: CloudErrorBody
+    name: error
+- name: CloudErrorBody
+  description: Body of an error from a REST request.
+  kind: object
+  properties:
+  - types:
+    - uid: string
+    name: code
+  - types:
+    - uid: string
+    name: message
+  - types:
+    - uid: string
+    name: target
+  - description: Inner errors.
+    types:
+    - isArray: true
+      uid: Details
+    name: details
+examples: []
+security:
+- type: oauth2
+  description: OAuth2 Implicit Grant
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: Access Microsoft Azure
+    name: user_impersonation
+name: CreateEnvironment
+uid: management.azure.com.devtestlabs.labs.createenvironment

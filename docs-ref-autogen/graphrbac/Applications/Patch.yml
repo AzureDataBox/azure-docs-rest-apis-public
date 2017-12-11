@@ -1,0 +1,116 @@
+### YamlMime:RESTOperation
+summary: Update an existing application.
+service: Graph RBAC
+apiVersion: "1.6"
+groupName: Applications
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: PATCH https://graph.windows.net/{tenantID}/applications/{applicationObjectId}?api-version=1.6
+uriParameters:
+- in: path
+  isRequired: true
+  description: The tenant ID.
+  types:
+  - uid: string
+  name: tenantID
+- in: path
+  isRequired: true
+  description: Application object ID.
+  types:
+  - uid: string
+  name: applicationObjectId
+- in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: No Content
+  name: 204 No Content
+- description: Error response describing why the operation failed.
+  types:
+  - uid: GraphError
+  name: Other Status Codes
+requestBody:
+- parameters:
+  - in: body
+    description: Whether the application is available to other tenants
+    types:
+    - uid: boolean
+    name: availableToOtherTenants
+  - in: body
+    description: The display name of the application.
+    types:
+    - uid: string
+    name: displayName
+  - in: body
+    description: The home page of the application.
+    types:
+    - uid: string
+    name: homepage
+  - in: body
+    description: A collection of URIs for the application.
+    types:
+    - isArray: true
+      uid: string
+    name: identifierUris
+  - in: body
+    description: A collection of reply URLs for the application.
+    types:
+    - isArray: true
+      uid: string
+    name: replyUrls
+  - in: body
+    description: The list of KeyCredential objects.
+    types:
+    - isArray: true
+      uid: KeyCredential
+    name: keyCredentials
+  - in: body
+    description: The list of PasswordCredential objects.
+    types:
+    - isArray: true
+      uid: PasswordCredential
+    name: passwordCredentials
+  - in: body
+    description: Whether to allow implicit grant flow for OAuth2
+    types:
+    - uid: boolean
+    name: oauth2AllowImplicitFlow
+  - in: body
+    description: Specifies resources that this application requires access to and the set of OAuth permission scopes and application roles that it needs under each of those resources. This pre-configuration of required resource access drives the consent experience.
+    types:
+    - isArray: true
+      uid: RequiredResourceAccess
+    name: requiredResourceAccess
+requestHeader: []
+definitions:
+- name: GraphError
+  description: Active Directory error information.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: string
+    name: code
+  - description: Error message value.
+    types:
+    - uid: string
+    name: value
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Patch
+uid: graph.windows.net.graphrbac.applications.patch

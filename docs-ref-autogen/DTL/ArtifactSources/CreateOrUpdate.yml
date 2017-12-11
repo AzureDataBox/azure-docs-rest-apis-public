@@ -1,0 +1,256 @@
+### YamlMime:RESTOperation
+summary: Create or replace an existing artifact source.
+service: Dev Test Labs
+apiVersion: 2016-05-15
+groupName: Artifact Sources
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/artifactsources/{name}?api-version=2016-05-15
+uriParameters:
+- in: path
+  isRequired: true
+  description: The subscription ID.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the lab.
+  types:
+  - uid: string
+  name: labName
+- in: path
+  isRequired: true
+  description: The name of the artifact source.
+  types:
+  - uid: string
+  name: name
+- in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK
+  types:
+  - uid: ArtifactSource
+  name: 200 OK
+- description: Created
+  types:
+  - uid: ArtifactSource
+  name: 201 Created
+- description: BadRequest
+  types:
+  - uid: CloudError
+  name: Other Status Codes
+requestBody:
+- parameters:
+  - in: body
+    description: The artifact source's display name.
+    types:
+    - uid: string
+    name: displayName
+  - in: body
+    description: The artifact source's URI.
+    types:
+    - uid: string
+    name: uri
+  - in: body
+    description: The artifact source's type.
+    types:
+    - uid: SourceControlType
+    name: sourceType
+  - in: body
+    description: The folder containing artifacts.
+    types:
+    - uid: string
+    name: folderPath
+  - in: body
+    description: The folder containing Azure Resource Manager templates.
+    types:
+    - uid: string
+    name: armTemplateFolderPath
+  - in: body
+    description: The artifact source's branch reference.
+    types:
+    - uid: string
+    name: branchRef
+  - in: body
+    description: The security token to authenticate to the artifact source.
+    types:
+    - uid: string
+    name: securityToken
+  - in: body
+    description: 'Indicates if the artifact source is enabled (values: Enabled, Disabled).'
+    types:
+    - uid: EnableStatus
+    name: status
+  - in: body
+    description: The provisioning status of the resource.
+    types:
+    - uid: string
+    name: provisioningState
+  - in: body
+    description: The unique immutable identifier of a resource (Guid).
+    types:
+    - uid: string
+    name: uniqueIdentifier
+  - in: body
+    description: The location of the resource.
+    types:
+    - uid: string
+    name: location
+  - in: body
+    description: The tags of the resource.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+requestHeader: []
+definitions:
+- name: SourceControlType
+  description: The artifact source's type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: VsoGit
+  - types:
+    - uid: string
+    name: GitHub
+- name: EnableStatus
+  description: 'Indicates if the artifact source is enabled (values: Enabled, Disabled).'
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Enabled
+  - types:
+    - uid: string
+    name: Disabled
+- name: ArtifactSource
+  description: Properties of an artifact source.
+  kind: object
+  properties:
+  - description: The artifact source's display name.
+    types:
+    - uid: string
+    name: displayName
+  - description: The artifact source's URI.
+    types:
+    - uid: string
+    name: uri
+  - description: The artifact source's type.
+    types:
+    - uid: SourceControlType
+    name: sourceType
+  - description: The folder containing artifacts.
+    types:
+    - uid: string
+    name: folderPath
+  - description: The folder containing Azure Resource Manager templates.
+    types:
+    - uid: string
+    name: armTemplateFolderPath
+  - description: The artifact source's branch reference.
+    types:
+    - uid: string
+    name: branchRef
+  - description: The security token to authenticate to the artifact source.
+    types:
+    - uid: string
+    name: securityToken
+  - description: 'Indicates if the artifact source is enabled (values: Enabled, Disabled).'
+    types:
+    - uid: EnableStatus
+    name: status
+  - isReadyOnly: true
+    description: The artifact source's creation date.
+    types:
+    - uid: string
+    name: createdDate
+  - description: The provisioning status of the resource.
+    types:
+    - uid: string
+    name: provisioningState
+  - description: The unique immutable identifier of a resource (Guid).
+    types:
+    - uid: string
+    name: uniqueIdentifier
+  - isReadyOnly: true
+    description: The identifier of the resource.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+    name: type
+  - description: The location of the resource.
+    types:
+    - uid: string
+    name: location
+  - description: The tags of the resource.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+- name: CloudError
+  description: Error from a REST request.
+  kind: object
+  properties:
+  - description: Body of an error from a REST request.
+    types:
+    - uid: CloudErrorBody
+    name: error
+- name: CloudErrorBody
+  description: Body of an error from a REST request.
+  kind: object
+  properties:
+  - types:
+    - uid: string
+    name: code
+  - types:
+    - uid: string
+    name: message
+  - types:
+    - uid: string
+    name: target
+  - description: Inner errors.
+    types:
+    - isArray: true
+      uid: Details
+    name: details
+examples: []
+security:
+- type: oauth2
+  description: OAuth2 Implicit Grant
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: Access Microsoft Azure
+    name: user_impersonation
+name: CreateOrUpdate
+uid: management.azure.com.devtestlabs.artifactsources.createorupdate

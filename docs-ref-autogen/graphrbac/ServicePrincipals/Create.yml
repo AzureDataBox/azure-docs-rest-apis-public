@@ -1,0 +1,119 @@
+### YamlMime:RESTOperation
+summary: Creates a service principal in the directory.
+service: Graph RBAC
+apiVersion: "1.6"
+groupName: Service Principals
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: POST https://graph.windows.net/{tenantID}/servicePrincipals?api-version=1.6
+uriParameters:
+- in: path
+  isRequired: true
+  description: The tenant ID.
+  types:
+  - uid: string
+  name: tenantID
+- in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: The service principal was created successfully.
+  types:
+  - uid: ServicePrincipal
+  name: 201 Created
+- description: Error response describing why the operation failed.
+  types:
+  - uid: GraphError
+  name: Other Status Codes
+requestBody:
+- parameters:
+  - in: body
+    isRequired: true
+    description: application Id
+    types:
+    - uid: string
+    name: appId
+  - in: body
+    isRequired: true
+    description: Whether the account is enabled
+    types:
+    - uid: boolean
+    name: accountEnabled
+  - in: body
+    description: A collection of KeyCredential objects.
+    types:
+    - isArray: true
+      uid: KeyCredential
+    name: keyCredentials
+  - in: body
+    description: A collection of PasswordCredential objects
+    types:
+    - isArray: true
+      uid: PasswordCredential
+    name: passwordCredentials
+requestHeader: []
+definitions:
+- name: ServicePrincipal
+  description: Active Directory service principal information.
+  kind: object
+  properties:
+  - description: The display name of the service principal.
+    types:
+    - uid: string
+    name: displayName
+  - description: The application ID.
+    types:
+    - uid: string
+    name: appId
+  - description: A collection of service principal names.
+    types:
+    - isArray: true
+      uid: string
+    name: servicePrincipalNames
+  - isReadyOnly: true
+    description: The object ID.
+    types:
+    - uid: string
+    name: objectId
+  - isReadyOnly: true
+    description: The object type.
+    types:
+    - {}
+    typesTitle: string
+    name: objectType
+  - isReadyOnly: true
+    description: The time at which the directory object was deleted.
+    types:
+    - uid: string
+    name: deletionTimestamp
+- name: GraphError
+  description: Active Directory error information.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: string
+    name: code
+  - description: Error message value.
+    types:
+    - uid: string
+    name: value
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Create
+uid: graph.windows.net.graphrbac.serviceprincipals.create

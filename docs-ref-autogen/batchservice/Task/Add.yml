@@ -1,0 +1,295 @@
+### YamlMime:RESTOperation
+summary: Adds a task to the specified job. The maximum lifetime of a task from addition to completion is 7 days. If a task has not completed within 7 days of being added it will be terminated by the Batch service and left in whatever state it was in at that time.
+service: Batch Service
+apiVersion: 2017-09-01.6.0
+groupName: Task
+consumes:
+- application/json; odata=minimalmetadata
+produces:
+- application/json
+paths:
+- content: POST https://batch.core.windows.net/jobs/{jobId}/tasks?api-version=2017-09-01.6.0
+- content: POST https://batch.core.windows.net/jobs/{jobId}/tasks?timeout={timeout}&api-version=2017-09-01.6.0
+  isOptional: true
+uriParameters:
+- in: path
+  isRequired: true
+  description: The ID of the job to which the task is to be added.
+  types:
+  - uid: string
+  name: jobId
+- in: query
+  description: The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds.
+  types:
+  - uid: integer
+  format: int32
+  name: timeout
+- in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- headers:
+  - value: string
+    name: client-request-id
+  - value: string
+    name: request-id
+  - value: string
+    name: ETag
+  - value: string
+    name: Last-Modified
+  - value: string
+    name: DataServiceId
+  description: The request to the Batch service was successful.
+  name: 201 Created
+- description: The error from the Batch service.
+  types:
+  - uid: BatchError
+  name: Other Status Codes
+requestBody:
+- parameters:
+  - in: body
+    isRequired: true
+    description: The ID can contain any combination of alphanumeric characters including hyphens and underscores, and cannot contain more than 64 characters. The ID is case-preserving and case-insensitive (that is, you may not have two IDs within a job that differ only by case).
+    types:
+    - uid: string
+    name: id
+  - in: body
+    description: The display name need not be unique and can contain any Unicode characters up to a maximum length of 1024.
+    types:
+    - uid: string
+    name: displayName
+  - in: body
+    isRequired: true
+    description: For multi-instance tasks, the command line is executed as the primary task, after the primary task and all subtasks have finished executing the coordination command line. The command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux.
+    types:
+    - uid: string
+    name: commandLine
+  - in: body
+    description: If the pool that will run this task has containerConfiguration set, this must be set as well. If the pool that will run this task doesn't have containerConfiguration set, this must not be set. When this is specified, all directories recursively below the AZ_BATCH_NODE_ROOT_DIR (the root of Azure Batch directories on the node) are mapped into the container, all task environment variables are mapped into the container, and the task command line is executed in the container.
+    types:
+    - uid: TaskContainerSettings
+    name: containerSettings
+  - in: body
+    description: How the Batch service should respond when the task completes.
+    types:
+    - uid: ExitConditions
+    name: exitConditions
+  - in: body
+    description: For multi-instance tasks, the resource files will only be downloaded to the compute node on which the primary task is executed.
+    types:
+    - isArray: true
+      uid: ResourceFile
+    name: resourceFiles
+  - in: body
+    description: For multi-instance tasks, the files will only be uploaded from the compute node on which the primary task is executed.
+    types:
+    - isArray: true
+      uid: OutputFile
+    name: outputFiles
+  - in: body
+    description: A list of environment variable settings for the task.
+    types:
+    - isArray: true
+      uid: EnvironmentSetting
+    name: environmentSettings
+  - in: body
+    description: A locality hint that can be used by the Batch service to select a compute node on which to start the new task.
+    types:
+    - uid: AffinityInformation
+    name: affinityInfo
+  - in: body
+    description: If you do not specify constraints, the maxTaskRetryCount is the maxTaskRetryCount specified for the job, and the maxWallClockTime and retentionTime are infinite.
+    types:
+    - uid: TaskConstraints
+    name: constraints
+  - in: body
+    description: If omitted, the task runs as a non-administrative user unique to the task.
+    types:
+    - uid: UserIdentity
+    name: userIdentity
+  - in: body
+    description: Multi-instance tasks are commonly used to support MPI tasks.
+    types:
+    - uid: MultiInstanceSettings
+    name: multiInstanceSettings
+  - in: body
+    description: This task will not be scheduled until all tasks that it depends on have completed successfully. If any of those tasks fail and exhaust their retry counts, this task will never be scheduled. If the job does not have usesTaskDependencies set to true, and this element is present, the request fails with error code TaskDependenciesNotSpecifiedOnJob.
+    types:
+    - uid: TaskDependencies
+    name: dependsOn
+  - in: body
+    description: Application packages are downloaded and deployed to a shared directory, not the task working directory. Therefore, if a referenced package is already on the compute node, and is up to date, then it is not re-downloaded; the existing copy on the compute node is used. If a referenced application package cannot be installed, for example because the package has been deleted or because download failed, the task fails.
+    types:
+    - isArray: true
+      uid: ApplicationPackageReference
+    name: applicationPackageReferences
+  - in: body
+    description: If this property is set, the Batch service provides the task with an authentication token which can be used to authenticate Batch service operations without requiring an account access key. The token is provided via the AZ_BATCH_AUTHENTICATION_TOKEN environment variable. The operations that the task can carry out using the token depend on the settings. For example, a task can request job permissions in order to add other tasks to the job, or check the status of the job or of other tasks under the job.
+    types:
+    - uid: AuthenticationTokenSettings
+    name: authenticationTokenSettings
+requestHeader:
+- in: header
+  description: The caller-generated request identity, in the form of a GUID with no decoration such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+  types:
+  - uid: string
+  format: uuid
+  name: client-request-id
+- in: header
+  description: Whether the server should return the client-request-id in the response.
+  types:
+  - uid: boolean
+  name: return-client-request-id
+- in: header
+  description: The time the request was issued. Client libraries typically set this to the current system clock time; set it explicitly if you are calling the REST API directly.
+  types:
+  - uid: string
+  format: date-time-rfc1123
+  name: ocp-date
+definitions:
+- name: JobAction
+  description: The default is none for exit code 0 and terminate for all other exit conditions. If the job's onTaskFailed property is noaction, then specifying this property returns an error and the add task request fails with an invalid property value error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request).
+  kind: enum
+  properties:
+  - description: Take no action.
+    types:
+    - uid: string
+    name: none
+  - description: Disable the job. This is equivalent to calling the disable job API, with a disableTasks value of requeue.
+    types:
+    - uid: string
+    name: disable
+  - description: Terminate the job. The terminateReason in the job's executionInfo is set to "TaskFailed".
+    types:
+    - uid: string
+    name: terminate
+- name: DependencyAction
+  description: The default is 'satisfy' for exit code 0, and 'block' for all other exit conditions. If the job's usesTaskDependencies property is set to false, then specifying the dependencyAction property returns an error and the add task request fails with an invalid property value error; if you are calling the REST API directly, the HTTP status code is 400  (Bad Request).
+  kind: enum
+  properties:
+  - description: Satisfy the task's dependencies.
+    types:
+    - uid: string
+    name: satisfy
+  - description: Block the task's dependencies.
+    types:
+    - uid: string
+    name: block
+- name: OutputFileUploadCondition
+  description: The default is taskcompletion.
+  kind: enum
+  properties:
+  - description: Upload the file(s) only after the task process exits with an exit code of 0.
+    types:
+    - uid: string
+    name: tasksuccess
+  - description: Upload the file(s) only after the task process exits with a nonzero exit code.
+    types:
+    - uid: string
+    name: taskfailure
+  - description: Upload the file(s) after the task process exits, no matter what the exit code was.
+    types:
+    - uid: string
+    name: taskcompletion
+- name: AutoUserScope
+  description: The default value is task.
+  kind: enum
+  properties:
+  - description: Specifies that the service should create a new user for the task.
+    types:
+    - uid: string
+    name: task
+  - description: Specifies that the task runs as the common auto user account which is created on every node in a pool.
+    types:
+    - uid: string
+    name: pool
+- name: ElevationLevel
+  description: nonAdmin - The auto user is a standard user without elevated access. admin - The auto user is a user with elevated access and operates with full Administrator permissions. The default value is nonAdmin.
+  kind: enum
+  properties:
+  - description: The user is a standard user without elevated access.
+    types:
+    - uid: string
+    name: nonadmin
+  - description: The user is a user with elevated access and operates with full Administrator permissions.
+    types:
+    - uid: string
+    name: admin
+- name: BatchError
+  description: An error response received from the Azure Batch service.
+  kind: object
+  properties:
+  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+    name: code
+  - description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: ErrorMessage
+    name: message
+  - description: A collection of key-value pairs containing additional details about the error.
+    types:
+    - isArray: true
+      uid: BatchErrorDetail
+    name: values
+- name: ErrorMessage
+  description: A message describing the error, intended to be suitable for display in a user interface.
+  kind: object
+  properties:
+  - description: The language code of the error message
+    types:
+    - uid: string
+    name: lang
+  - description: The text of the message.
+    types:
+    - uid: string
+    name: value
+- name: BatchErrorDetail
+  description: An item of additional information included in an Azure Batch error response.
+  kind: object
+  properties:
+  - description: An identifier specifying the meaning of the Value property.
+    types:
+    - uid: string
+    name: key
+  - description: The additional information included with the error response.
+    types:
+    - uid: string
+    name: value
+examples:
+- request:
+    uri: POST https://batch.core.windows.net/jobs/jobId/tasks?api-version=2017-09-01.6.0
+    requestBody: '{"id":"task1","commandLine":"cmd /c echo task1"}'
+    headers:
+    - value: 00000000-0000-0000-0000-000000000000
+      name: client-request-id
+  responses:
+  - statusCode: "201"
+    body: "\"\""
+  name: Add a basic task
+- request:
+    uri: POST https://batch.core.windows.net/jobs/jobId/tasks?api-version=2017-09-01.6.0
+    requestBody: '{"id":"taskId","commandLine":"cmd /c exit 3","exitConditions":{"exitCodeRanges":[{"start":2,"end":4,"exitOptions":{"jobAction":"terminate"}}]},"userIdentity":{"autoUser":{"scope":"task","elevationLevel":"nonadmin"}}}'
+    headers:
+    - value: 00000000-0000-0000-0000-000000000000
+      name: client-request-id
+  responses:
+  - statusCode: "201"
+    body: "\"\""
+  name: Add a task with exit conditions
+- request:
+    uri: POST https://batch.core.windows.net/jobs/jobId/tasks?api-version=2017-09-01.6.0
+    requestBody: "{\"id\":\"taskId\",\"commandLine\":\"bash -c 'echo hello'\",\"containerSettings\":{\"imageName\":\"ubuntu\",\"containerRunOptions\":\"--rm\"},\"userIdentity\":{\"autoUser\":{\"scope\":\"task\",\"elevationLevel\":\"nonadmin\"}}}"
+    headers:
+    - value: 00000000-0000-0000-0000-000000000000
+      name: client-request-id
+  responses:
+  - statusCode: "201"
+    body: "\"\""
+  name: Add a task with container settings
+security: []
+name: Add
+uid: batch.core.windows.net.batchservice.task.add

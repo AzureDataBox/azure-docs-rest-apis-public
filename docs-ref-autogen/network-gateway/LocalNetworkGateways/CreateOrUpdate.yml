@@ -1,0 +1,183 @@
+### YamlMime:RESTOperation
+summary: Creates or updates a local network gateway in the specified resource group.
+service: Network Gateway
+apiVersion: 2017-09-01
+groupName: Local Network Gateways
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/localNetworkGateways/{localNetworkGatewayName}?api-version=2017-09-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the local network gateway.
+  types:
+  - uid: string
+  name: localNetworkGatewayName
+- in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: Create successful. The operation returns the resulting LocalNetworkGateway resource.
+  types:
+  - uid: LocalNetworkGateway
+  name: 201 Created
+- description: Update successful. The operation returns the resulting LocalNetworkGateway resource.
+  types:
+  - uid: LocalNetworkGateway
+  name: 200 OK
+requestBody:
+- parameters:
+  - in: body
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+    name: etag
+  - in: body
+    description: Local network site address space.
+    types:
+    - uid: AddressSpace
+    name: localNetworkAddressSpace
+  - in: body
+    description: IP address of local network gateway.
+    types:
+    - uid: string
+    name: gatewayIpAddress
+  - in: body
+    description: Local network gateway's BGP speaker settings.
+    types:
+    - uid: BgpSettings
+    name: bgpSettings
+  - in: body
+    description: The resource GUID property of the LocalNetworkGateway resource.
+    types:
+    - uid: string
+    name: resourceGuid
+  - in: body
+    isRequired: true
+    description: Resource location.
+    types:
+    - uid: string
+    name: location
+  - in: body
+    description: Resource tags.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+requestHeader: []
+definitions:
+- name: LocalNetworkGateway
+  description: A common class for general resource information
+  kind: object
+  properties:
+  - description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+    name: etag
+  - description: Local network site address space.
+    types:
+    - uid: AddressSpace
+    name: localNetworkAddressSpace
+  - description: IP address of local network gateway.
+    types:
+    - uid: string
+    name: gatewayIpAddress
+  - description: Local network gateway's BGP speaker settings.
+    types:
+    - uid: BgpSettings
+    name: bgpSettings
+  - description: The resource GUID property of the LocalNetworkGateway resource.
+    types:
+    - uid: string
+    name: resourceGuid
+  - isReadyOnly: true
+    description: "The provisioning state of the LocalNetworkGateway resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
+    name: provisioningState
+  - isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+  - description: Resource location.
+    types:
+    - uid: string
+    name: location
+  - description: Resource tags.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+- name: AddressSpace
+  description: Local network site address space.
+  kind: object
+  properties:
+  - description: A list of address blocks reserved for this virtual network in CIDR notation.
+    types:
+    - isArray: true
+      uid: string
+    name: addressPrefixes
+- name: BgpSettings
+  description: Local network gateway's BGP speaker settings.
+  kind: object
+  properties:
+  - description: The BGP speaker's ASN.
+    types:
+    - uid: integer
+    name: asn
+  - description: The BGP peering address and BGP identifier of this BGP speaker.
+    types:
+    - uid: string
+    name: bgpPeeringAddress
+  - description: The weight added to routes learned from this BGP speaker.
+    types:
+    - uid: integer
+    name: peerWeight
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: CreateOrUpdate
+uid: management.azure.com.networkgateway.localnetworkgateways.createorupdate

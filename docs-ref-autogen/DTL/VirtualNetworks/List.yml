@@ -1,0 +1,287 @@
+### YamlMime:RESTOperation
+summary: List virtual networks in a given lab.
+service: Dev Test Labs
+apiVersion: 2016-05-15
+groupName: Virtual Networks
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualnetworks?api-version=2016-05-15
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualnetworks?$expand={$expand}&$filter={$filter}&$top={$top}&$orderby={$orderby}&api-version=2016-05-15
+  isOptional: true
+uriParameters:
+- in: path
+  isRequired: true
+  description: The subscription ID.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the lab.
+  types:
+  - uid: string
+  name: labName
+- in: query
+  description: "Specify the $expand query. Example: 'properties($expand=externalSubnets)'"
+  types:
+  - uid: string
+  name: $expand
+- in: query
+  description: The filter to apply to the operation.
+  types:
+  - uid: string
+  name: $filter
+- in: query
+  description: The maximum number of resources to return from the operation.
+  types:
+  - uid: integer
+  format: int32
+  name: $top
+- in: query
+  description: The ordering expression for the results, using OData notation.
+  types:
+  - uid: string
+  name: $orderby
+- in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK
+  types:
+  - uid: ResponseWithContinuation[VirtualNetwork]
+  name: 200 OK
+- description: BadRequest
+  types:
+  - uid: CloudError
+  name: Other Status Codes
+requestHeader: []
+definitions:
+- name: ResponseWithContinuation[VirtualNetwork]
+  description: The response of a list operation.
+  kind: object
+  properties:
+  - description: Results of the list operation.
+    types:
+    - isArray: true
+      uid: VirtualNetwork
+    name: value
+  - description: Link for next set of results.
+    types:
+    - uid: string
+    name: nextLink
+- name: VirtualNetwork
+  description: A virtual network.
+  kind: object
+  properties:
+  - description: The allowed subnets of the virtual network.
+    types:
+    - isArray: true
+      uid: Subnet
+    name: allowedSubnets
+  - description: The description of the virtual network.
+    types:
+    - uid: string
+    name: description
+  - description: The Microsoft.Network resource identifier of the virtual network.
+    types:
+    - uid: string
+    name: externalProviderResourceId
+  - description: The external subnet properties.
+    types:
+    - isArray: true
+      uid: ExternalSubnet
+    name: externalSubnets
+  - description: The subnet overrides of the virtual network.
+    types:
+    - isArray: true
+      uid: SubnetOverride
+    name: subnetOverrides
+  - isReadyOnly: true
+    description: The creation date of the virtual network.
+    types:
+    - uid: string
+    name: createdDate
+  - description: The provisioning status of the resource.
+    types:
+    - uid: string
+    name: provisioningState
+  - description: The unique immutable identifier of a resource (Guid).
+    types:
+    - uid: string
+    name: uniqueIdentifier
+  - isReadyOnly: true
+    description: The identifier of the resource.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+    name: type
+  - description: The location of the resource.
+    types:
+    - uid: string
+    name: location
+  - description: The tags of the resource.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+- name: Subnet
+  description: Subnet information.
+  kind: object
+  properties:
+  - description: The resource ID of the subnet.
+    types:
+    - uid: string
+    name: resourceId
+  - description: The name of the subnet as seen in the lab.
+    types:
+    - uid: string
+    name: labSubnetName
+  - description: The permission policy of the subnet for allowing public IP addresses (i.e. Allow, Deny)).
+    types:
+    - uid: UsagePermissionType
+    name: allowPublicIp
+- name: UsagePermissionType
+  description: The permission policy of the subnet for allowing public IP addresses (i.e. Allow, Deny)).
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Default
+  - types:
+    - uid: string
+    name: Deny
+  - types:
+    - uid: string
+    name: Allow
+- name: ExternalSubnet
+  description: Subnet information as returned by the Microsoft.Network API.
+  kind: object
+  properties:
+  - description: Gets or sets the identifier.
+    types:
+    - uid: string
+    name: id
+  - description: Gets or sets the name.
+    types:
+    - uid: string
+    name: name
+- name: SubnetOverride
+  description: Property overrides on a subnet of a virtual network.
+  kind: object
+  properties:
+  - description: The resource ID of the subnet.
+    types:
+    - uid: string
+    name: resourceId
+  - description: The name given to the subnet within the lab.
+    types:
+    - uid: string
+    name: labSubnetName
+  - description: Indicates whether this subnet can be used during virtual machine creation (i.e. Allow, Deny).
+    types:
+    - uid: UsagePermissionType
+    name: useInVmCreationPermission
+  - description: Indicates whether public IP addresses can be assigned to virtual machines on this subnet (i.e. Allow, Deny).
+    types:
+    - uid: UsagePermissionType
+    name: usePublicIpAddressPermission
+  - description: Properties that virtual machines on this subnet will share.
+    types:
+    - uid: SubnetSharedPublicIpAddressConfiguration
+    name: sharedPublicIpAddressConfiguration
+  - description: The virtual network pool associated with this subnet.
+    types:
+    - uid: string
+    name: virtualNetworkPoolName
+- name: SubnetSharedPublicIpAddressConfiguration
+  description: Properties that virtual machines on this subnet will share.
+  kind: object
+  properties:
+  - description: Backend ports that virtual machines on this subnet are allowed to expose
+    types:
+    - isArray: true
+      uid: Port
+    name: allowedPorts
+- name: Port
+  description: Properties of a network port.
+  kind: object
+  properties:
+  - description: Protocol type of the port.
+    types:
+    - uid: TransportProtocol
+    name: transportProtocol
+  - description: Backend port of the target virtual machine.
+    types:
+    - uid: integer
+    name: backendPort
+- name: TransportProtocol
+  description: Protocol type of the port.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Tcp
+  - types:
+    - uid: string
+    name: Udp
+- name: CloudError
+  description: Error from a REST request.
+  kind: object
+  properties:
+  - description: Body of an error from a REST request.
+    types:
+    - uid: CloudErrorBody
+    name: error
+- name: CloudErrorBody
+  description: Body of an error from a REST request.
+  kind: object
+  properties:
+  - types:
+    - uid: string
+    name: code
+  - types:
+    - uid: string
+    name: message
+  - types:
+    - uid: string
+    name: target
+  - description: Inner errors.
+    types:
+    - isArray: true
+      uid: Details
+    name: details
+examples: []
+security:
+- type: oauth2
+  description: OAuth2 Implicit Grant
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: Access Microsoft Azure
+    name: user_impersonation
+name: List
+uid: management.azure.com.devtestlabs.virtualnetworks.list
