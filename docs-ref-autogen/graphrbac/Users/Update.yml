@@ -91,16 +91,18 @@ requestBody:
     name: userType
 requestHeader: []
 definitions:
-- name: UserType
-  description: A string value that can be used to classify user types in your directory, such as 'Member' and 'Guest'.
-  kind: enum
+- name: PasswordProfile
+  description: The password profile associated with a user.
+  kind: object
   properties:
-  - types:
+  - description: Password
+    types:
     - uid: string
-    name: Member
-  - types:
-    - uid: string
-    name: Guest
+    name: password
+  - description: Whether to force a password change on next login.
+    types:
+    - uid: boolean
+    name: forceChangePasswordNextLogin
 - name: GraphError
   description: Active Directory error information.
   kind: object
@@ -108,11 +110,11 @@ definitions:
   - description: Error code.
     types:
     - uid: string
-    name: code
+    name: odata.error.code
   - description: Error message value.
     types:
     - uid: string
-    name: value
+    name: odata.error.message.value
 examples: []
 security:
 - type: oauth2

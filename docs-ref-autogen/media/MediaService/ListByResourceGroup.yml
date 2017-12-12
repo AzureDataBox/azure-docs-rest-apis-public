@@ -45,9 +45,20 @@ definitions:
   properties:
   - description: The collection of Media Service resources.
     types:
-    - isArray: true
-      uid: MediaService
+    - uid: MediaService
     name: value
+- name: ApiError
+  description: The error returned from a failed Media Services REST API call.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: string
+    name: code
+  - description: Error message.
+    types:
+    - uid: string
+    name: message
 - name: MediaService
   description: The properties of a Media Service resource.
   kind: object
@@ -55,14 +66,12 @@ definitions:
   - isReadyOnly: true
     description: Read-only property that lists the Media Services REST API endpoints for this resource. If supplied on a PUT or PATCH, the value will be ignored.
     types:
-    - isArray: true
-      uid: ApiEndpoint
-    name: apiEndpoints
+    - uid: ApiEndpoint
+    name: properties.apiEndpoints
   - description: The storage accounts for this resource.
     types:
-    - isArray: true
-      uid: StorageAccount
-    name: storageAccounts
+    - uid: StorageAccount
+    name: properties.storageAccounts
   - isReadyOnly: true
     description: The id of the resource.
     types:
@@ -114,18 +123,6 @@ definitions:
     types:
     - uid: boolean
     name: isPrimary
-- name: ApiError
-  description: The error returned from a failed Media Services REST API call.
-  kind: object
-  properties:
-  - description: Error code.
-    types:
-    - uid: string
-    name: code
-  - description: Error message.
-    types:
-    - uid: string
-    name: message
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices?api-version=2015-10-01

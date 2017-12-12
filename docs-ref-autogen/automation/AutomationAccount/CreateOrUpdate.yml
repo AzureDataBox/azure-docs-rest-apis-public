@@ -73,19 +73,25 @@ requestBody:
     description: Gets or sets account SKU.
     types:
     - uid: Sku
-    name: sku
+    name: properties.sku
 requestHeader: []
 definitions:
-- name: SkuNameEnum
-  description: Gets or sets the SKU name of the account.
-  kind: enum
+- name: Sku
+  description: The account SKU.
+  kind: object
   properties:
-  - types:
+  - description: Gets or sets the SKU name of the account.
+    types:
+    - uid: SkuNameEnum
+    name: name
+  - description: Gets or sets the SKU family.
+    types:
     - uid: string
-    name: Free
-  - types:
-    - uid: string
-    name: Basic
+    name: family
+  - description: Gets or sets the SKU capacity.
+    types:
+    - uid: integer
+    name: capacity
 - name: AutomationAccount
   description: Definition of the automation account type.
   kind: object
@@ -97,30 +103,30 @@ definitions:
   - description: Gets or sets the SKU of account.
     types:
     - uid: Sku
-    name: sku
+    name: properties.sku
   - description: Gets or sets the last modified by.
     types:
     - uid: string
-    name: lastModifiedBy
+    name: properties.lastModifiedBy
   - isReadyOnly: true
     description: Gets status of account.
     types:
     - uid: AutomationAccountState
-    name: state
+    name: properties.state
   - isReadyOnly: true
     description: Gets the creation time.
     types:
     - uid: string
-    name: creationTime
+    name: properties.creationTime
   - isReadyOnly: true
     description: Gets the last modified time.
     types:
     - uid: string
-    name: lastModifiedTime
+    name: properties.lastModifiedTime
   - description: Gets or sets the description.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - isReadyOnly: true
     description: Resource Id
     types:
@@ -148,35 +154,6 @@ definitions:
       - uid: string
       uid: object
     name: tags
-- name: Sku
-  description: Gets or sets the SKU of account.
-  kind: object
-  properties:
-  - description: Gets or sets the SKU name of the account.
-    types:
-    - uid: SkuNameEnum
-    name: name
-  - description: Gets or sets the SKU family.
-    types:
-    - uid: string
-    name: family
-  - description: Gets or sets the SKU capacity.
-    types:
-    - uid: integer
-    name: capacity
-- name: AutomationAccountState
-  description: Gets status of account.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Ok
-  - types:
-    - uid: string
-    name: Unavailable
-  - types:
-    - uid: string
-    name: Suspended
 - name: ErrorResponse
   description: Error response of an operation failure
   kind: object

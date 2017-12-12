@@ -48,14 +48,22 @@ definitions:
   - isReadyOnly: true
     description: A response message containing a list of storage accounts in the key vault along with a link to the next page of storage accounts.
     types:
-    - isArray: true
-      uid: StorageAccountItem
+    - uid: StorageAccountItem
     name: value
   - isReadyOnly: true
     description: The URL to get the next set of storage accounts.
     types:
     - uid: string
     name: nextLink
+- name: KeyVaultError
+  description: The key vault error exception.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
+    name: error
 - name: StorageAccountItem
   description: The storage account item containing storage account metadata.
   kind: object
@@ -84,6 +92,25 @@ definitions:
       - uid: string
       uid: object
     name: tags
+- name: Error
+  description: The key vault server error.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+    name: code
+  - isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+    name: message
+  - isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
+    name: innererror
 - name: StorageAccountAttributes
   description: The storage account management attributes.
   kind: object
@@ -102,32 +129,6 @@ definitions:
     types:
     - uid: integer
     name: updated
-- name: KeyVaultError
-  description: The key vault error exception.
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: The key vault server error.
-    types:
-    - uid: Error
-    name: error
-- name: Error
-  description: The key vault server error.
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: The error code.
-    types:
-    - uid: string
-    name: code
-  - isReadyOnly: true
-    description: The error message.
-    types:
-    - uid: string
-    name: message
-  - types:
-    - {}
-    name: innererror
 examples:
 - request:
     uri: GET https://{vaultBaseUrl}/storage?api-version=2016-10-01

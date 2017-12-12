@@ -47,8 +47,7 @@ definitions:
   properties:
   - description: The fabric details.
     types:
-    - isArray: true
-      uid: Fabric
+    - uid: Fabric
     name: value
   - description: The value of next link.
     types:
@@ -82,7 +81,7 @@ definitions:
     - uid: string
     name: location
 - name: FabricProperties
-  description: Fabric related data.
+  description: Fabric properties.
   kind: object
   properties:
   - description: Friendly name of the fabric.
@@ -116,8 +115,7 @@ definitions:
     name: customDetails
   - description: Fabric health error details.
     types:
-    - isArray: true
-      uid: HealthError
+    - uid: HealthError
     name: healthErrorDetails
   - description: Health of fabric.
     types:
@@ -185,8 +183,7 @@ definitions:
     name: entityId
   - description: The child health errors.
     types:
-    - isArray: true
-      uid: ChildErrors
+    - uid: HealthError
     name: childErrors
 - name: AzureFabricSpecificDetails
   description: Azure Fabric Specific Details.
@@ -198,8 +195,7 @@ definitions:
     name: location
   - description: The container Ids for the Azure fabric.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: containerIds
   - isReadyOnly: true
     description: Gets the class type. Overriden in derived classes.
@@ -233,18 +229,15 @@ definitions:
   properties:
   - description: The list of Process Servers associated with the fabric.
     types:
-    - isArray: true
-      uid: ProcessServer
+    - uid: ProcessServer
     name: processServers
   - description: The list of Master Target servers associated with the fabric.
     types:
-    - isArray: true
-      uid: MasterTargetServer
+    - uid: MasterTargetServer
     name: masterTargetServers
   - description: The list of run as accounts created on the server.
     types:
-    - isArray: true
-      uid: RunAsAccount
+    - uid: RunAsAccount
     name: runAsAccounts
   - description: The number of replication pairs configured in this CS.
     types:
@@ -360,6 +353,24 @@ definitions:
     - uid: VMware
     typesTitle: string
     name: instanceType
+- name: VMwareV2FabricSpecificDetails
+  description: VMwareV2 fabric Specific Details.
+  kind: object
+  properties:
+  - description: The endpoint for making requests to the SRS Service.
+    types:
+    - uid: string
+    name: srsServiceEndpoint
+  - description: The endpoint for making requests to the RCM Service.
+    types:
+    - uid: string
+    name: rcmServiceEndpoint
+  - isReadyOnly: true
+    description: Gets the class type. Overriden in derived classes.
+    types:
+    - uid: VMwareV2
+    typesTitle: string
+    name: instanceType
 - name: ProcessServer
   description: Details of the Process Server.
   kind: object
@@ -394,8 +405,7 @@ definitions:
     name: versionStatus
   - description: The list of the mobility service updates available on the Process Server.
     types:
-    - isArray: true
-      uid: MobilityServiceUpdate
+    - uid: MobilityServiceUpdate
     name: mobilityServiceUpdates
   - description: The agent generated Id.
     types:
@@ -465,22 +475,6 @@ definitions:
     types:
     - uid: string
     name: osVersion
-- name: MobilityServiceUpdate
-  description: The Mobility Service update details.
-  kind: object
-  properties:
-  - description: The version of the latest update.
-    types:
-    - uid: string
-    name: version
-  - description: The reboot status of the update - whether it is required or not.
-    types:
-    - uid: string
-    name: rebootStatus
-  - description: The OS type.
-    types:
-    - uid: string
-    name: osType
 - name: MasterTargetServer
   description: Details of a Master Target Server.
   kind: object
@@ -515,18 +509,15 @@ definitions:
     name: versionStatus
   - description: The retention volumes of Master target Server.
     types:
-    - isArray: true
-      uid: RetentionVolume
+    - uid: RetentionVolume
     name: retentionVolumes
   - description: The list of data stores in the fabric.
     types:
-    - isArray: true
-      uid: DataStore
+    - uid: DataStore
     name: dataStores
   - description: Validation errors.
     types:
-    - isArray: true
-      uid: HealthError
+    - uid: HealthError
     name: validationErrors
   - description: Disk count of the master target.
     types:
@@ -536,6 +527,34 @@ definitions:
     types:
     - uid: string
     name: osVersion
+- name: RunAsAccount
+  description: CS Accounts Details.
+  kind: object
+  properties:
+  - description: The CS RunAs account Id.
+    types:
+    - uid: string
+    name: accountId
+  - description: The CS RunAs account name.
+    types:
+    - uid: string
+    name: accountName
+- name: MobilityServiceUpdate
+  description: The Mobility Service update details.
+  kind: object
+  properties:
+  - description: The version of the latest update.
+    types:
+    - uid: string
+    name: version
+  - description: The reboot status of the update - whether it is required or not.
+    types:
+    - uid: string
+    name: rebootStatus
+  - description: The OS type.
+    types:
+    - uid: string
+    name: osType
 - name: RetentionVolume
   description: The retention details of the MT.
   kind: object
@@ -580,36 +599,6 @@ definitions:
     types:
     - uid: string
     name: type
-- name: RunAsAccount
-  description: CS Accounts Details.
-  kind: object
-  properties:
-  - description: The CS RunAs account Id.
-    types:
-    - uid: string
-    name: accountId
-  - description: The CS RunAs account name.
-    types:
-    - uid: string
-    name: accountName
-- name: VMwareV2FabricSpecificDetails
-  description: VMwareV2 fabric Specific Details.
-  kind: object
-  properties:
-  - description: The endpoint for making requests to the SRS Service.
-    types:
-    - uid: string
-    name: srsServiceEndpoint
-  - description: The endpoint for making requests to the RCM Service.
-    types:
-    - uid: string
-    name: rcmServiceEndpoint
-  - isReadyOnly: true
-    description: Gets the class type. Overriden in derived classes.
-    types:
-    - uid: VMwareV2
-    typesTitle: string
-    name: instanceType
 examples:
 - request:
     uri: GET https://management.azure.com/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics?api-version=2016-08-10

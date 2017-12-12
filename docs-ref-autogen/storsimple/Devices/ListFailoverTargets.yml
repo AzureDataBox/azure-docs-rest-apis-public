@@ -50,8 +50,7 @@ requestBody:
   - in: body
     description: The list of path IDs of the volume containers that needs to be failed-over, for which we want to fetch the eligible targets.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: volumeContainers
 requestHeader: []
 definitions:
@@ -61,8 +60,7 @@ definitions:
   properties:
   - description: The list of all the failover targets.
     types:
-    - isArray: true
-      uid: FailoverTarget
+    - uid: FailoverTarget
     name: value
 - name: FailoverTarget
   description: Represents the eligibility of a device as a failover target device.
@@ -112,45 +110,8 @@ definitions:
     types:
     - uid: TargetEligibilityResult
     name: eligibilityResult
-- name: DeviceStatus
-  description: The status of the device.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Unknown
-  - types:
-    - uid: string
-    name: Online
-  - types:
-    - uid: string
-    name: Offline
-  - types:
-    - uid: string
-    name: Deactivated
-  - types:
-    - uid: string
-    name: RequiresAttention
-  - types:
-    - uid: string
-    name: MaintenanceMode
-  - types:
-    - uid: string
-    name: Creating
-  - types:
-    - uid: string
-    name: Provisioning
-  - types:
-    - uid: string
-    name: Deactivating
-  - types:
-    - uid: string
-    name: Deleted
-  - types:
-    - uid: string
-    name: ReadyToSetup
 - name: TargetEligibilityResult
-  description: The eligibility result of the device, as a failover target device.
+  description: The eligibility result of device, as a failover target device.
   kind: object
   properties:
   - description: The eligibility status of device, as a failover target device.
@@ -159,19 +120,8 @@ definitions:
     name: eligibilityStatus
   - description: The list of error messages, if a device does not qualify as a failover target device.
     types:
-    - isArray: true
-      uid: TargetEligibilityErrorMessage
+    - uid: TargetEligibilityErrorMessage
     name: messages
-- name: TargetEligibilityStatus
-  description: The eligibility status of device, as a failover target device.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: NotEligible
-  - types:
-    - uid: string
-    name: Eligible
 - name: TargetEligibilityErrorMessage
   description: The error/warning message due to which the device is ineligible as a failover target device.
   kind: object
@@ -188,31 +138,6 @@ definitions:
     types:
     - uid: TargetEligibilityResultCode
     name: resultCode
-- name: TargetEligibilityResultCode
-  description: The result code for the error, due to which the device does not qualify as a failover target device.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: TargetAndSourceCannotBeSameError
-  - types:
-    - uid: string
-    name: TargetIsNotOnlineError
-  - types:
-    - uid: string
-    name: TargetSourceIncompatibleVersionError
-  - types:
-    - uid: string
-    name: LocalToTieredVolumesConversionWarning
-  - types:
-    - uid: string
-    name: TargetInsufficientCapacityError
-  - types:
-    - uid: string
-    name: TargetInsufficientLocalVolumeMemoryError
-  - types:
-    - uid: string
-    name: TargetInsufficientTieredVolumeMemoryError
 examples:
 - request:
     uri: POST https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/listFailoverTargets?api-version=2017-06-01

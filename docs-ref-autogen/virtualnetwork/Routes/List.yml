@@ -49,8 +49,7 @@ definitions:
   properties:
   - description: Gets a list of routes in a resource group.
     types:
-    - isArray: true
-      uid: Route
+    - uid: Route
     name: value
   - description: The URL to get the next set of results.
     types:
@@ -71,43 +70,24 @@ definitions:
   - description: The destination CIDR to which the route applies.
     types:
     - uid: string
-    name: addressPrefix
+    name: properties.addressPrefix
   - description: "The type of Azure hop the packet should be sent to. Possible values are: 'VirtualNetworkGateway', 'VnetLocal', 'Internet', 'VirtualAppliance', and 'None'"
     types:
     - uid: RouteNextHopType
-    name: nextHopType
+    name: properties.nextHopType
   - description: The IP address packets should be forwarded to. Next hop values are only allowed in routes where the next hop type is VirtualAppliance.
     types:
     - uid: string
-    name: nextHopIpAddress
+    name: properties.nextHopIpAddress
   - description: "The provisioning state of the resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: Resource ID
     types:
     - uid: string
     name: id
-- name: RouteNextHopType
-  description: "The type of Azure hop the packet should be sent to. Possible values are: 'VirtualNetworkGateway', 'VnetLocal', 'Internet', 'VirtualAppliance', and 'None'"
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: VirtualNetworkGateway
-  - types:
-    - uid: string
-    name: VnetLocal
-  - types:
-    - uid: string
-    name: Internet
-  - types:
-    - uid: string
-    name: VirtualAppliance
-  - types:
-    - uid: string
-    name: None
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/routeTables/testrt/routes?api-version=2017-09-01

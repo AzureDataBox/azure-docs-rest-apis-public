@@ -85,8 +85,24 @@ definitions:
     types:
     - uid: ResourceStatistics
     name: resourceStats
+- name: BatchError
+  description: An error response received from the Azure Batch service.
+  kind: object
+  properties:
+  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+    name: code
+  - description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: ErrorMessage
+    name: message
+  - description: A collection of key-value pairs containing additional details about the error.
+    types:
+    - uid: BatchErrorDetail
+    name: values
 - name: UsageStatistics
-  description: Statistics related to pool usage, such as the amount of core-time used.
+  description: Statistics related to pool usage information.
   kind: object
   properties:
   - description: The start time of the time range covered by the statistics.
@@ -102,7 +118,7 @@ definitions:
     - uid: string
     name: dedicatedCoreTime
 - name: ResourceStatistics
-  description: Statistics related to resource consumption by compute nodes in the pool.
+  description: Statistics related to resource consumption by compute nodes in a pool.
   kind: object
   properties:
   - description: The start time of the time range covered by the statistics.
@@ -157,25 +173,8 @@ definitions:
     types:
     - uid: number
     name: networkWriteGiB
-- name: BatchError
-  description: An error response received from the Azure Batch service.
-  kind: object
-  properties:
-  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
-    types:
-    - uid: string
-    name: code
-  - description: A message describing the error, intended to be suitable for display in a user interface.
-    types:
-    - uid: ErrorMessage
-    name: message
-  - description: A collection of key-value pairs containing additional details about the error.
-    types:
-    - isArray: true
-      uid: BatchErrorDetail
-    name: values
 - name: ErrorMessage
-  description: A message describing the error, intended to be suitable for display in a user interface.
+  description: An error message received in an Azure Batch error response.
   kind: object
   properties:
   - description: The language code of the error message

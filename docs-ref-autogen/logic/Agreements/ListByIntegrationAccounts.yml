@@ -60,8 +60,7 @@ definitions:
   properties:
   - description: The list of integration account agreements.
     types:
-    - isArray: true
-      uid: IntegrationAccountAgreement
+    - uid: IntegrationAccountAgreement
     name: value
   - description: The URL to get the next set of results.
     types:
@@ -75,40 +74,40 @@ definitions:
     description: The created time.
     types:
     - uid: string
-    name: createdTime
+    name: properties.createdTime
   - isReadyOnly: true
     description: The changed time.
     types:
     - uid: string
-    name: changedTime
+    name: properties.changedTime
   - description: The metadata.
     types:
     - uid: Metadata
-    name: metadata
+    name: properties.metadata
   - description: The agreement type.
     types:
     - uid: AgreementType
-    name: agreementType
+    name: properties.agreementType
   - description: The integration account partner that is set as host partner for this agreement.
     types:
     - uid: string
-    name: hostPartner
+    name: properties.hostPartner
   - description: The integration account partner that is set as guest partner for this agreement.
     types:
     - uid: string
-    name: guestPartner
+    name: properties.guestPartner
   - description: The business identity of the host partner.
     types:
     - uid: BusinessIdentity
-    name: hostIdentity
+    name: properties.hostIdentity
   - description: The business identity of the guest partner.
     types:
     - uid: BusinessIdentity
-    name: guestIdentity
+    name: properties.guestIdentity
   - description: The agreement content.
     types:
     - uid: AgreementContent
-    name: content
+    name: properties.content
   - isReadyOnly: true
     description: The resource id.
     types:
@@ -136,12 +135,7 @@ definitions:
       - uid: string
       uid: object
     name: tags
-- name: Metadata
-  description: The metadata.
-  kind: object
-  properties: []
 - name: AgreementType
-  description: The agreement type.
   kind: enum
   properties:
   - types:
@@ -157,7 +151,7 @@ definitions:
     - uid: string
     name: Edifact
 - name: BusinessIdentity
-  description: The business identity of the host partner.
+  description: The integration account partner's business identity.
   kind: object
   properties:
   - description: The business identity qualifier e.g. as2identity, ZZ, ZZZ, 31, 32
@@ -169,7 +163,7 @@ definitions:
     - uid: string
     name: value
 - name: AgreementContent
-  description: The agreement content.
+  description: The integration account agreement content.
   kind: object
   properties:
   - description: The AS2 agreement content.
@@ -185,7 +179,7 @@ definitions:
     - uid: EdifactAgreementContent
     name: edifact
 - name: AS2AgreementContent
-  description: The AS2 agreement content.
+  description: The integration account AS2 agreement content.
   kind: object
   properties:
   - description: The AS2 one-way receive agreement.
@@ -196,8 +190,32 @@ definitions:
     types:
     - uid: AS2OneWayAgreement
     name: sendAgreement
+- name: X12AgreementContent
+  description: The X12 agreement content.
+  kind: object
+  properties:
+  - description: The X12 one-way receive agreement.
+    types:
+    - uid: X12OneWayAgreement
+    name: receiveAgreement
+  - description: The X12 one-way send agreement.
+    types:
+    - uid: X12OneWayAgreement
+    name: sendAgreement
+- name: EdifactAgreementContent
+  description: The Edifact agreement content.
+  kind: object
+  properties:
+  - description: The EDIFACT one-way receive agreement.
+    types:
+    - uid: EdifactOneWayAgreement
+    name: receiveAgreement
+  - description: The EDIFACT one-way send agreement.
+    types:
+    - uid: EdifactOneWayAgreement
+    name: sendAgreement
 - name: AS2OneWayAgreement
-  description: The AS2 one-way receive agreement.
+  description: The integration account AS2 oneway agreement.
   kind: object
   properties:
   - description: The sender business identity
@@ -212,8 +230,40 @@ definitions:
     types:
     - uid: AS2ProtocolSettings
     name: protocolSettings
+- name: X12OneWayAgreement
+  description: The X12 oneway agreement.
+  kind: object
+  properties:
+  - description: The sender business identity
+    types:
+    - uid: BusinessIdentity
+    name: senderBusinessIdentity
+  - description: The receiver business identity
+    types:
+    - uid: BusinessIdentity
+    name: receiverBusinessIdentity
+  - description: The X12 protocol settings.
+    types:
+    - uid: X12ProtocolSettings
+    name: protocolSettings
+- name: EdifactOneWayAgreement
+  description: The Edifact one way agreement.
+  kind: object
+  properties:
+  - description: The sender business identity
+    types:
+    - uid: BusinessIdentity
+    name: senderBusinessIdentity
+  - description: The receiver business identity
+    types:
+    - uid: BusinessIdentity
+    name: receiverBusinessIdentity
+  - description: The EDIFACT protocol settings.
+    types:
+    - uid: EdifactProtocolSettings
+    name: protocolSettings
 - name: AS2ProtocolSettings
-  description: The AS2 protocol settings.
+  description: The AS2 agreement protocol settings.
   kind: object
   properties:
   - description: The message connection settings.
@@ -244,8 +294,108 @@ definitions:
     types:
     - uid: AS2ErrorSettings
     name: errorSettings
+- name: X12ProtocolSettings
+  description: The X12 agreement protocol settings.
+  kind: object
+  properties:
+  - description: The X12 validation settings.
+    types:
+    - uid: X12ValidationSettings
+    name: validationSettings
+  - description: The X12 framing settings.
+    types:
+    - uid: X12FramingSettings
+    name: framingSettings
+  - description: The X12 envelope settings.
+    types:
+    - uid: X12EnvelopeSettings
+    name: envelopeSettings
+  - description: The X12 acknowledgment settings.
+    types:
+    - uid: X12AcknowledgementSettings
+    name: acknowledgementSettings
+  - description: The X12 message filter.
+    types:
+    - uid: X12MessageFilter
+    name: messageFilter
+  - description: The X12 security settings.
+    types:
+    - uid: X12SecuritySettings
+    name: securitySettings
+  - description: The X12 processing settings.
+    types:
+    - uid: X12ProcessingSettings
+    name: processingSettings
+  - description: The X12 envelope override settings.
+    types:
+    - uid: X12EnvelopeOverride
+    name: envelopeOverrides
+  - description: The X12 validation override settings.
+    types:
+    - uid: X12ValidationOverride
+    name: validationOverrides
+  - description: The X12 message filter list.
+    types:
+    - uid: X12MessageIdentifier
+    name: messageFilterList
+  - description: The X12 schema references.
+    types:
+    - uid: X12SchemaReference
+    name: schemaReferences
+  - description: The X12 delimiter override settings.
+    types:
+    - uid: X12DelimiterOverrides
+    name: x12DelimiterOverrides
+- name: EdifactProtocolSettings
+  description: The Edifact agreement protocol settings.
+  kind: object
+  properties:
+  - description: The EDIFACT validation settings.
+    types:
+    - uid: EdifactValidationSettings
+    name: validationSettings
+  - description: The EDIFACT framing settings.
+    types:
+    - uid: EdifactFramingSettings
+    name: framingSettings
+  - description: The EDIFACT envelope settings.
+    types:
+    - uid: EdifactEnvelopeSettings
+    name: envelopeSettings
+  - description: The EDIFACT acknowledgement settings.
+    types:
+    - uid: EdifactAcknowledgementSettings
+    name: acknowledgementSettings
+  - description: The EDIFACT message filter.
+    types:
+    - uid: EdifactMessageFilter
+    name: messageFilter
+  - description: The EDIFACT processing Settings.
+    types:
+    - uid: EdifactProcessingSettings
+    name: processingSettings
+  - description: The EDIFACT envelope override settings.
+    types:
+    - uid: EdifactEnvelopeOverride
+    name: envelopeOverrides
+  - description: The EDIFACT message filter list.
+    types:
+    - uid: EdifactMessageIdentifier
+    name: messageFilterList
+  - description: The EDIFACT schema references.
+    types:
+    - uid: EdifactSchemaReference
+    name: schemaReferences
+  - description: The EDIFACT validation override settings.
+    types:
+    - uid: EdifactValidationOverride
+    name: validationOverrides
+  - description: The EDIFACT delimiter override settings.
+    types:
+    - uid: EdifactDelimiterOverride
+    name: edifactDelimiterOverrides
 - name: AS2MessageConnectionSettings
-  description: The message connection settings.
+  description: The AS2 agreement message connection settings.
   kind: object
   properties:
   - description: The value indicating whether to ignore mismatch in certificate name.
@@ -265,7 +415,7 @@ definitions:
     - uid: boolean
     name: unfoldHttpHeaders
 - name: AS2AcknowledgementConnectionSettings
-  description: The acknowledgement connection settings.
+  description: The AS2 agreement acknowledegment connection settings.
   kind: object
   properties:
   - description: The value indicating whether to ignore mismatch in certificate name.
@@ -285,7 +435,7 @@ definitions:
     - uid: boolean
     name: unfoldHttpHeaders
 - name: AS2MdnSettings
-  description: The MDN settings.
+  description: The AS2 agreement mdn settings.
   kind: object
   properties:
   - description: The value indicating whether to send or request a MDN.
@@ -324,33 +474,8 @@ definitions:
     types:
     - uid: HashingAlgorithm
     name: micHashingAlgorithm
-- name: HashingAlgorithm
-  description: The signing or hashing algorithm.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: NotSpecified
-  - types:
-    - uid: string
-    name: None
-  - types:
-    - uid: string
-    name: MD5
-  - types:
-    - uid: string
-    name: SHA1
-  - types:
-    - uid: string
-    name: SHA2256
-  - types:
-    - uid: string
-    name: SHA2384
-  - types:
-    - uid: string
-    name: SHA2512
 - name: AS2SecuritySettings
-  description: The security settings.
+  description: The AS2 agreement security settings.
   kind: object
   properties:
   - description: The value indicating whether to send or request a MDN.
@@ -394,7 +519,7 @@ definitions:
     - uid: string
     name: sha2AlgorithmFormat
 - name: AS2ValidationSettings
-  description: The validation settings.
+  description: The AS2 agreement validation settings.
   kind: object
   properties:
   - description: The value indicating whether to override incoming message properties with those in agreement.
@@ -437,55 +562,8 @@ definitions:
     types:
     - uid: SigningAlgorithm
     name: signingAlgorithm
-- name: EncryptionAlgorithm
-  description: The encryption algorithm.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: NotSpecified
-  - types:
-    - uid: string
-    name: None
-  - types:
-    - uid: string
-    name: DES3
-  - types:
-    - uid: string
-    name: RC2
-  - types:
-    - uid: string
-    name: AES128
-  - types:
-    - uid: string
-    name: AES192
-  - types:
-    - uid: string
-    name: AES256
-- name: SigningAlgorithm
-  description: The signing algorithm.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: NotSpecified
-  - types:
-    - uid: string
-    name: Default
-  - types:
-    - uid: string
-    name: SHA1
-  - types:
-    - uid: string
-    name: SHA2256
-  - types:
-    - uid: string
-    name: SHA2384
-  - types:
-    - uid: string
-    name: SHA2512
 - name: AS2EnvelopeSettings
-  description: The envelope settings.
+  description: The AS2 agreement envelope settings.
   kind: object
   properties:
   - description: The message content type.
@@ -509,7 +587,7 @@ definitions:
     - uid: boolean
     name: autogenerateFileName
 - name: AS2ErrorSettings
-  description: The error settings.
+  description: The AS2 agreement error settings.
   kind: object
   properties:
   - description: The value indicating whether to suspend duplicate message.
@@ -520,93 +598,8 @@ definitions:
     types:
     - uid: boolean
     name: resendIfMdnNotReceived
-- name: X12AgreementContent
-  description: The X12 agreement content.
-  kind: object
-  properties:
-  - description: The X12 one-way receive agreement.
-    types:
-    - uid: X12OneWayAgreement
-    name: receiveAgreement
-  - description: The X12 one-way send agreement.
-    types:
-    - uid: X12OneWayAgreement
-    name: sendAgreement
-- name: X12OneWayAgreement
-  description: The X12 one-way receive agreement.
-  kind: object
-  properties:
-  - description: The sender business identity
-    types:
-    - uid: BusinessIdentity
-    name: senderBusinessIdentity
-  - description: The receiver business identity
-    types:
-    - uid: BusinessIdentity
-    name: receiverBusinessIdentity
-  - description: The X12 protocol settings.
-    types:
-    - uid: X12ProtocolSettings
-    name: protocolSettings
-- name: X12ProtocolSettings
-  description: The X12 protocol settings.
-  kind: object
-  properties:
-  - description: The X12 validation settings.
-    types:
-    - uid: X12ValidationSettings
-    name: validationSettings
-  - description: The X12 framing settings.
-    types:
-    - uid: X12FramingSettings
-    name: framingSettings
-  - description: The X12 envelope settings.
-    types:
-    - uid: X12EnvelopeSettings
-    name: envelopeSettings
-  - description: The X12 acknowledgment settings.
-    types:
-    - uid: X12AcknowledgementSettings
-    name: acknowledgementSettings
-  - description: The X12 message filter.
-    types:
-    - uid: X12MessageFilter
-    name: messageFilter
-  - description: The X12 security settings.
-    types:
-    - uid: X12SecuritySettings
-    name: securitySettings
-  - description: The X12 processing settings.
-    types:
-    - uid: X12ProcessingSettings
-    name: processingSettings
-  - description: The X12 envelope override settings.
-    types:
-    - isArray: true
-      uid: X12EnvelopeOverride
-    name: envelopeOverrides
-  - description: The X12 validation override settings.
-    types:
-    - isArray: true
-      uid: X12ValidationOverride
-    name: validationOverrides
-  - description: The X12 message filter list.
-    types:
-    - isArray: true
-      uid: X12MessageIdentifier
-    name: messageFilterList
-  - description: The X12 schema references.
-    types:
-    - isArray: true
-      uid: X12SchemaReference
-    name: schemaReferences
-  - description: The X12 delimiter override settings.
-    types:
-    - isArray: true
-      uid: X12DelimiterOverrides
-    name: x12DelimiterOverrides
 - name: X12ValidationSettings
-  description: The X12 validation settings.
+  description: The X12 agreement validation settings.
   kind: object
   properties:
   - description: The value indicating whether to validate character set in the message.
@@ -649,24 +642,8 @@ definitions:
     types:
     - uid: TrailingSeparatorPolicy
     name: trailingSeparatorPolicy
-- name: TrailingSeparatorPolicy
-  description: The trailing separator policy.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: NotSpecified
-  - types:
-    - uid: string
-    name: NotAllowed
-  - types:
-    - uid: string
-    name: Optional
-  - types:
-    - uid: string
-    name: Mandatory
 - name: X12FramingSettings
-  description: The X12 framing settings.
+  description: The X12 agreement framing settings.
   kind: object
   properties:
   - description: The data element separator.
@@ -697,43 +674,8 @@ definitions:
     types:
     - uid: SegmentTerminatorSuffix
     name: segmentTerminatorSuffix
-- name: X12CharacterSet
-  description: The X12 character set.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: NotSpecified
-  - types:
-    - uid: string
-    name: Basic
-  - types:
-    - uid: string
-    name: Extended
-  - types:
-    - uid: string
-    name: UTF8
-- name: SegmentTerminatorSuffix
-  description: The segment terminator suffix.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: NotSpecified
-  - types:
-    - uid: string
-    name: None
-  - types:
-    - uid: string
-    name: CR
-  - types:
-    - uid: string
-    name: LF
-  - types:
-    - uid: string
-    name: CRLF
 - name: X12EnvelopeSettings
-  description: The X12 envelope settings.
+  description: The X12 agreement envelope settings.
   kind: object
   properties:
   - description: The controls standards id.
@@ -832,56 +774,8 @@ definitions:
     types:
     - uid: UsageIndicator
     name: usageIndicator
-- name: X12DateFormat
-  description: The group header date format.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: NotSpecified
-  - types:
-    - uid: string
-    name: CCYYMMDD
-  - types:
-    - uid: string
-    name: YYMMDD
-- name: X12TimeFormat
-  description: The group header time format.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: NotSpecified
-  - types:
-    - uid: string
-    name: HHMM
-  - types:
-    - uid: string
-    name: HHMMSS
-  - types:
-    - uid: string
-    name: HHMMSSdd
-  - types:
-    - uid: string
-    name: HHMMSSd
-- name: UsageIndicator
-  description: The usage indicator.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: NotSpecified
-  - types:
-    - uid: string
-    name: Test
-  - types:
-    - uid: string
-    name: Information
-  - types:
-    - uid: string
-    name: Production
 - name: X12AcknowledgementSettings
-  description: The X12 acknowledgment settings.
+  description: The X12 agreement acknowledgement settings.
   kind: object
   properties:
   - description: The value indicating whether technical acknowledgement is needed.
@@ -945,28 +839,15 @@ definitions:
     - uid: boolean
     name: rolloverAcknowledgementControlNumber
 - name: X12MessageFilter
-  description: The X12 message filter.
+  description: The X12 message filter for odata query.
   kind: object
   properties:
   - description: The message filter type.
     types:
     - uid: MessageFilterType
     name: messageFilterType
-- name: MessageFilterType
-  description: The message filter type.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: NotSpecified
-  - types:
-    - uid: string
-    name: Include
-  - types:
-    - uid: string
-    name: Exclude
 - name: X12SecuritySettings
-  description: The X12 security settings.
+  description: The X12 agreement security settings.
   kind: object
   properties:
   - description: The authorization qualifier.
@@ -1157,89 +1038,8 @@ definitions:
     types:
     - uid: string
     name: targetNamespace
-- name: EdifactAgreementContent
-  description: The EDIFACT agreement content.
-  kind: object
-  properties:
-  - description: The EDIFACT one-way receive agreement.
-    types:
-    - uid: EdifactOneWayAgreement
-    name: receiveAgreement
-  - description: The EDIFACT one-way send agreement.
-    types:
-    - uid: EdifactOneWayAgreement
-    name: sendAgreement
-- name: EdifactOneWayAgreement
-  description: The EDIFACT one-way receive agreement.
-  kind: object
-  properties:
-  - description: The sender business identity
-    types:
-    - uid: BusinessIdentity
-    name: senderBusinessIdentity
-  - description: The receiver business identity
-    types:
-    - uid: BusinessIdentity
-    name: receiverBusinessIdentity
-  - description: The EDIFACT protocol settings.
-    types:
-    - uid: EdifactProtocolSettings
-    name: protocolSettings
-- name: EdifactProtocolSettings
-  description: The EDIFACT protocol settings.
-  kind: object
-  properties:
-  - description: The EDIFACT validation settings.
-    types:
-    - uid: EdifactValidationSettings
-    name: validationSettings
-  - description: The EDIFACT framing settings.
-    types:
-    - uid: EdifactFramingSettings
-    name: framingSettings
-  - description: The EDIFACT envelope settings.
-    types:
-    - uid: EdifactEnvelopeSettings
-    name: envelopeSettings
-  - description: The EDIFACT acknowledgement settings.
-    types:
-    - uid: EdifactAcknowledgementSettings
-    name: acknowledgementSettings
-  - description: The EDIFACT message filter.
-    types:
-    - uid: EdifactMessageFilter
-    name: messageFilter
-  - description: The EDIFACT processing Settings.
-    types:
-    - uid: EdifactProcessingSettings
-    name: processingSettings
-  - description: The EDIFACT envelope override settings.
-    types:
-    - isArray: true
-      uid: EdifactEnvelopeOverride
-    name: envelopeOverrides
-  - description: The EDIFACT message filter list.
-    types:
-    - isArray: true
-      uid: EdifactMessageIdentifier
-    name: messageFilterList
-  - description: The EDIFACT schema references.
-    types:
-    - isArray: true
-      uid: EdifactSchemaReference
-    name: schemaReferences
-  - description: The EDIFACT validation override settings.
-    types:
-    - isArray: true
-      uid: EdifactValidationOverride
-    name: validationOverrides
-  - description: The EDIFACT delimiter override settings.
-    types:
-    - isArray: true
-      uid: EdifactDelimiterOverride
-    name: edifactDelimiterOverrides
 - name: EdifactValidationSettings
-  description: The EDIFACT validation settings.
+  description: The Edifact agreement validation settings.
   kind: object
   properties:
   - description: The value indicating whether to validate character set in the message.
@@ -1283,7 +1083,7 @@ definitions:
     - uid: TrailingSeparatorPolicy
     name: trailingSeparatorPolicy
 - name: EdifactFramingSettings
-  description: The EDIFACT framing settings.
+  description: The Edifact agreement framing settings.
   kind: object
   properties:
   - description: The service code list directory version.
@@ -1330,70 +1130,8 @@ definitions:
     types:
     - uid: SegmentTerminatorSuffix
     name: segmentTerminatorSuffix
-- name: EdifactCharacterSet
-  description: The EDIFACT frame setting characterSet.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: NotSpecified
-  - types:
-    - uid: string
-    name: UNOB
-  - types:
-    - uid: string
-    name: UNOA
-  - types:
-    - uid: string
-    name: UNOC
-  - types:
-    - uid: string
-    name: UNOD
-  - types:
-    - uid: string
-    name: UNOE
-  - types:
-    - uid: string
-    name: UNOF
-  - types:
-    - uid: string
-    name: UNOG
-  - types:
-    - uid: string
-    name: UNOH
-  - types:
-    - uid: string
-    name: UNOI
-  - types:
-    - uid: string
-    name: UNOJ
-  - types:
-    - uid: string
-    name: UNOK
-  - types:
-    - uid: string
-    name: UNOX
-  - types:
-    - uid: string
-    name: UNOY
-  - types:
-    - uid: string
-    name: KECA
-- name: EdifactDecimalIndicator
-  description: The EDIFACT frame setting decimal indicator.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: NotSpecified
-  - types:
-    - uid: string
-    name: Comma
-  - types:
-    - uid: string
-    name: Decimal
 - name: EdifactEnvelopeSettings
-  description: The EDIFACT envelope settings.
+  description: The Edifact agreement envelope settings.
   kind: object
   properties:
   - description: The group association assigned code.
@@ -1561,7 +1299,7 @@ definitions:
     - uid: string
     name: receiverInternalSubIdentification
 - name: EdifactAcknowledgementSettings
-  description: The EDIFACT acknowledgement settings.
+  description: The Edifact agreement acknowledgement settings.
   kind: object
   properties:
   - description: The value indicating whether technical acknowledgement is needed.
@@ -1609,7 +1347,7 @@ definitions:
     - uid: boolean
     name: rolloverAcknowledgementControlNumber
 - name: EdifactMessageFilter
-  description: The EDIFACT message filter.
+  description: The Edifact message filter for odata query.
   kind: object
   properties:
   - description: The message filter type.
@@ -1617,7 +1355,7 @@ definitions:
     - uid: MessageFilterType
     name: messageFilterType
 - name: EdifactProcessingSettings
-  description: The EDIFACT processing Settings.
+  description: The Edifact agreement protocol settings.
   kind: object
   properties:
   - description: The value indicating whether to mask security information.
@@ -1828,6 +1566,240 @@ definitions:
     types:
     - uid: string
     name: targetNamespace
+- name: HashingAlgorithm
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NotSpecified
+  - types:
+    - uid: string
+    name: None
+  - types:
+    - uid: string
+    name: MD5
+  - types:
+    - uid: string
+    name: SHA1
+  - types:
+    - uid: string
+    name: SHA2256
+  - types:
+    - uid: string
+    name: SHA2384
+  - types:
+    - uid: string
+    name: SHA2512
+- name: EncryptionAlgorithm
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NotSpecified
+  - types:
+    - uid: string
+    name: None
+  - types:
+    - uid: string
+    name: DES3
+  - types:
+    - uid: string
+    name: RC2
+  - types:
+    - uid: string
+    name: AES128
+  - types:
+    - uid: string
+    name: AES192
+  - types:
+    - uid: string
+    name: AES256
+- name: SigningAlgorithm
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NotSpecified
+  - types:
+    - uid: string
+    name: Default
+  - types:
+    - uid: string
+    name: SHA1
+  - types:
+    - uid: string
+    name: SHA2256
+  - types:
+    - uid: string
+    name: SHA2384
+  - types:
+    - uid: string
+    name: SHA2512
+- name: TrailingSeparatorPolicy
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NotSpecified
+  - types:
+    - uid: string
+    name: NotAllowed
+  - types:
+    - uid: string
+    name: Optional
+  - types:
+    - uid: string
+    name: Mandatory
+- name: X12CharacterSet
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NotSpecified
+  - types:
+    - uid: string
+    name: Basic
+  - types:
+    - uid: string
+    name: Extended
+  - types:
+    - uid: string
+    name: UTF8
+- name: SegmentTerminatorSuffix
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NotSpecified
+  - types:
+    - uid: string
+    name: None
+  - types:
+    - uid: string
+    name: CR
+  - types:
+    - uid: string
+    name: LF
+  - types:
+    - uid: string
+    name: CRLF
+- name: X12DateFormat
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NotSpecified
+  - types:
+    - uid: string
+    name: CCYYMMDD
+  - types:
+    - uid: string
+    name: YYMMDD
+- name: X12TimeFormat
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NotSpecified
+  - types:
+    - uid: string
+    name: HHMM
+  - types:
+    - uid: string
+    name: HHMMSS
+  - types:
+    - uid: string
+    name: HHMMSSdd
+  - types:
+    - uid: string
+    name: HHMMSSd
+- name: UsageIndicator
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NotSpecified
+  - types:
+    - uid: string
+    name: Test
+  - types:
+    - uid: string
+    name: Information
+  - types:
+    - uid: string
+    name: Production
+- name: MessageFilterType
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NotSpecified
+  - types:
+    - uid: string
+    name: Include
+  - types:
+    - uid: string
+    name: Exclude
+- name: EdifactCharacterSet
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NotSpecified
+  - types:
+    - uid: string
+    name: UNOB
+  - types:
+    - uid: string
+    name: UNOA
+  - types:
+    - uid: string
+    name: UNOC
+  - types:
+    - uid: string
+    name: UNOD
+  - types:
+    - uid: string
+    name: UNOE
+  - types:
+    - uid: string
+    name: UNOF
+  - types:
+    - uid: string
+    name: UNOG
+  - types:
+    - uid: string
+    name: UNOH
+  - types:
+    - uid: string
+    name: UNOI
+  - types:
+    - uid: string
+    name: UNOJ
+  - types:
+    - uid: string
+    name: UNOK
+  - types:
+    - uid: string
+    name: UNOX
+  - types:
+    - uid: string
+    name: UNOY
+  - types:
+    - uid: string
+    name: KECA
+- name: EdifactDecimalIndicator
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NotSpecified
+  - types:
+    - uid: string
+    name: Comma
+  - types:
+    - uid: string
+    name: Decimal
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testResourceGroup/providers/Microsoft.Logic/integrationAccounts/testIntegrationAccount/agreements?api-version=2016-06-01

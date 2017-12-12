@@ -50,72 +50,68 @@ requestBody:
     description: the default data lake storage account associated with this Data Lake Analytics account.
     types:
     - uid: string
-    name: defaultDataLakeStoreAccount
+    name: properties.defaultDataLakeStoreAccount
   - in: body
     description: the maximum supported degree of parallelism for this account.
     types:
     - uid: integer
-    name: maxDegreeOfParallelism
+    name: properties.maxDegreeOfParallelism
   - in: body
     description: the number of days that job metadata is retained.
     types:
     - uid: integer
-    name: queryStoreRetention
+    name: properties.queryStoreRetention
   - in: body
     description: the maximum supported jobs running under the account at the same time.
     types:
     - uid: integer
-    name: maxJobCount
+    name: properties.maxJobCount
   - in: body
     isRequired: true
     description: the list of Data Lake storage accounts associated with this account.
     types:
-    - isArray: true
-      uid: DataLakeStoreAccountInfo
-    name: dataLakeStoreAccounts
+    - uid: DataLakeStoreAccountInfo
+    name: properties.dataLakeStoreAccounts
   - in: body
     description: the list of Azure Blob storage accounts associated with this account.
     types:
-    - isArray: true
-      uid: StorageAccountInfo
-    name: storageAccounts
+    - uid: StorageAccountInfo
+    name: properties.storageAccounts
   - in: body
     description: the commitment tier for the next month.
     types:
     - uid: TierType
-    name: newTier
+    name: properties.newTier
   - in: body
     description: The current state of the IP address firewall for this Data Lake Analytics account.
     types:
     - uid: FirewallState
-    name: firewallState
+    name: properties.firewallState
   - in: body
     description: The current state of allowing or disallowing IPs originating within Azure through the firewall. If the firewall is disabled, this is not enforced.
     types:
     - uid: FirewallAllowAzureIpsState
-    name: firewallAllowAzureIps
+    name: properties.firewallAllowAzureIps
   - in: body
     description: The list of firewall rules associated with this Data Lake Analytics account.
     types:
-    - isArray: true
-      uid: FirewallRule
-    name: firewallRules
+    - uid: FirewallRule
+    name: properties.firewallRules
   - in: body
     description: the maximum supported degree of parallelism per job for this account.
     types:
     - uid: integer
-    name: maxDegreeOfParallelismPerJob
+    name: properties.maxDegreeOfParallelismPerJob
   - in: body
     description: the minimum supported priority per job for this account.
     types:
     - uid: integer
-    name: minPriorityPerJob
+    name: properties.minPriorityPerJob
   - in: body
     description: the list of compute policies to create in this account.
     types:
-    - isArray: true
-      uid: ComputePolicyAccountCreateParameters
-    name: computePolicies
+    - uid: ComputePolicyAccountCreateParameters
+    name: properties.computePolicies
   - in: body
     isRequired: true
     description: Resource location
@@ -133,117 +129,104 @@ requestBody:
     name: tags
 requestHeader: []
 definitions:
-- name: TierType
-  description: the commitment tier for the next month.
-  kind: enum
+- name: DataLakeStoreAccountInfo
+  description: Data Lake Store account information.
+  kind: object
   properties:
-  - types:
+  - description: the optional suffix for the Data Lake Store account.
+    types:
     - uid: string
-    name: Consumption
-  - types:
+    name: properties.suffix
+  - isReadyOnly: true
+    description: Resource Id
+    types:
     - uid: string
-    name: Commitment_100AUHours
-  - types:
+    name: id
+  - description: Resource name
+    types:
     - uid: string
-    name: Commitment_500AUHours
-  - types:
+    name: name
+  - isReadyOnly: true
+    description: Resource type
+    types:
     - uid: string
-    name: Commitment_1000AUHours
-  - types:
-    - uid: string
-    name: Commitment_5000AUHours
-  - types:
-    - uid: string
-    name: Commitment_10000AUHours
-  - types:
-    - uid: string
-    name: Commitment_50000AUHours
-  - types:
-    - uid: string
-    name: Commitment_100000AUHours
-  - types:
-    - uid: string
-    name: Commitment_500000AUHours
-- name: FirewallState
-  description: The current state of the IP address firewall for this Data Lake Analytics account.
-  kind: enum
+    name: type
+- name: StorageAccountInfo
+  description: Azure Storage account information.
+  kind: object
   properties:
-  - types:
+  - description: the access key associated with this Azure Storage account that will be used to connect to it.
+    types:
     - uid: string
-    name: Enabled
-  - types:
+    name: properties.accessKey
+  - description: the optional suffix for the storage account.
+    types:
     - uid: string
-    name: Disabled
-- name: FirewallAllowAzureIpsState
-  description: The current state of allowing or disallowing IPs originating within Azure through the firewall. If the firewall is disabled, this is not enforced.
-  kind: enum
+    name: properties.suffix
+  - isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+    name: id
+  - description: Resource name
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+    name: type
+- name: FirewallRule
+  description: Data Lake Analytics firewall rule information
+  kind: object
   properties:
-  - types:
+  - description: the start IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
+    types:
     - uid: string
-    name: Enabled
-  - types:
+    name: properties.startIpAddress
+  - description: the end IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
+    types:
     - uid: string
-    name: Disabled
-- name: AADObjectType
-  description: The type of AAD object the object identifier refers to.
-  kind: enum
+    name: properties.endIpAddress
+  - isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+    name: id
+  - description: Resource name
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+    name: type
+- name: ComputePolicyAccountCreateParameters
+  description: The parameters used to create a new compute policy.
+  kind: object
   properties:
-  - types:
+  - description: The unique name of the policy to create
+    types:
     - uid: string
-    name: User
-  - types:
+    name: name
+  - description: The AAD object identifier for the entity to create a policy for.
+    types:
     - uid: string
-    name: Group
-  - types:
-    - uid: string
-    name: ServicePrincipal
-- name: DataLakeAnalyticsAccountStatus
-  description: the provisioning status of the Data Lake Analytics account.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Failed
-  - types:
-    - uid: string
-    name: Creating
-  - types:
-    - uid: string
-    name: Running
-  - types:
-    - uid: string
-    name: Succeeded
-  - types:
-    - uid: string
-    name: Patching
-  - types:
-    - uid: string
-    name: Suspending
-  - types:
-    - uid: string
-    name: Resuming
-  - types:
-    - uid: string
-    name: Deleting
-  - types:
-    - uid: string
-    name: Deleted
-  - types:
-    - uid: string
-    name: Undeleting
-  - types:
-    - uid: string
-    name: Canceled
-- name: DataLakeAnalyticsAccountState
-  description: the state of the Data Lake Analytics account.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Active
-  - types:
-    - uid: string
-    name: Suspended
+    name: properties.objectId
+  - description: The type of AAD object the object identifier refers to.
+    types:
+    - uid: AADObjectType
+    name: properties.objectType
+  - description: The maximum degree of parallelism per job this user can use to submit jobs. This property, the min priority per job property, or both must be passed.
+    types:
+    - uid: integer
+    name: properties.maxDegreeOfParallelismPerJob
+  - description: The minimum priority per job this user can use to submit jobs. This property, the max degree of parallelism per job property, or both must be passed.
+    types:
+    - uid: integer
+    name: properties.minPriorityPerJob
 - name: DataLakeAnalyticsAccount
   description: A Data Lake Analytics account object, containing all information associated with the named Data Lake Analytics account.
   kind: object
@@ -251,74 +234,70 @@ definitions:
   - description: the default data lake storage account associated with this Data Lake Analytics account.
     types:
     - uid: string
-    name: defaultDataLakeStoreAccount
+    name: properties.defaultDataLakeStoreAccount
   - description: the maximum supported degree of parallelism for this account.
     types:
     - uid: integer
-    name: maxDegreeOfParallelism
+    name: properties.maxDegreeOfParallelism
   - description: the number of days that job metadata is retained.
     types:
     - uid: integer
-    name: queryStoreRetention
+    name: properties.queryStoreRetention
   - description: the maximum supported jobs running under the account at the same time.
     types:
     - uid: integer
-    name: maxJobCount
+    name: properties.maxJobCount
   - isReadyOnly: true
     description: the system defined maximum supported degree of parallelism for this account, which restricts the maximum value of parallelism the user can set for the account.
     types:
     - uid: integer
-    name: systemMaxDegreeOfParallelism
+    name: properties.systemMaxDegreeOfParallelism
   - isReadyOnly: true
     description: the system defined maximum supported jobs running under the account at the same time, which restricts the maximum number of running jobs the user can set for the account.
     types:
     - uid: integer
-    name: systemMaxJobCount
+    name: properties.systemMaxJobCount
   - description: the list of Data Lake storage accounts associated with this account.
     types:
-    - isArray: true
-      uid: DataLakeStoreAccountInfo
-    name: dataLakeStoreAccounts
+    - uid: DataLakeStoreAccountInfo
+    name: properties.dataLakeStoreAccounts
   - description: the list of Azure Blob storage accounts associated with this account.
     types:
-    - isArray: true
-      uid: StorageAccountInfo
-    name: storageAccounts
+    - uid: StorageAccountInfo
+    name: properties.storageAccounts
   - description: the commitment tier for the next month.
     types:
     - uid: TierType
-    name: newTier
+    name: properties.newTier
   - isReadyOnly: true
     description: the commitment tier in use for the current month.
     types:
     - uid: TierType
-    name: currentTier
+    name: properties.currentTier
   - description: The current state of the IP address firewall for this Data Lake Analytics account.
     types:
     - uid: FirewallState
-    name: firewallState
+    name: properties.firewallState
   - description: The current state of allowing or disallowing IPs originating within Azure through the firewall. If the firewall is disabled, this is not enforced.
     types:
     - uid: FirewallAllowAzureIpsState
-    name: firewallAllowAzureIps
+    name: properties.firewallAllowAzureIps
   - description: The list of firewall rules associated with this Data Lake Analytics account.
     types:
-    - isArray: true
-      uid: FirewallRule
-    name: firewallRules
+    - uid: FirewallRule
+    name: properties.firewallRules
   - description: the maximum supported degree of parallelism per job for this account.
     types:
     - uid: integer
-    name: maxDegreeOfParallelismPerJob
+    name: properties.maxDegreeOfParallelismPerJob
   - description: the minimum supported priority per job for this account.
     types:
     - uid: integer
-    name: minPriorityPerJob
+    name: properties.minPriorityPerJob
   - description: the list of compute policies to create in this account.
     types:
-    - isArray: true
-      uid: ComputePolicyAccountCreateParameters
-    name: computePolicies
+    - uid: ComputePolicyAccountCreateParameters
+    name: properties.computePolicies
   - isReadyOnly: true
     description: Resource Id
     types:
@@ -350,130 +329,32 @@ definitions:
     description: the provisioning status of the Data Lake Analytics account.
     types:
     - uid: DataLakeAnalyticsAccountStatus
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: the state of the Data Lake Analytics account.
     types:
     - uid: DataLakeAnalyticsAccountState
-    name: state
+    name: properties.state
   - isReadyOnly: true
     description: the account creation time.
     types:
     - uid: string
-    name: creationTime
+    name: properties.creationTime
   - isReadyOnly: true
     description: the account last modified time.
     types:
     - uid: string
-    name: lastModifiedTime
+    name: properties.lastModifiedTime
   - isReadyOnly: true
     description: the full CName endpoint for this account.
     types:
     - uid: string
-    name: endpoint
+    name: properties.endpoint
   - isReadyOnly: true
     description: The unique identifier associated with this Data Lake Analytics account.
     types:
     - uid: string
-    name: accountId
-- name: DataLakeStoreAccountInfo
-  description: Data Lake Store account information.
-  kind: object
-  properties:
-  - description: the optional suffix for the Data Lake Store account.
-    types:
-    - uid: string
-    name: suffix
-  - isReadyOnly: true
-    description: Resource Id
-    types:
-    - uid: string
-    name: id
-  - description: Resource name
-    types:
-    - uid: string
-    name: name
-  - isReadyOnly: true
-    description: Resource type
-    types:
-    - uid: string
-    name: type
-- name: StorageAccountInfo
-  description: Azure Storage account information.
-  kind: object
-  properties:
-  - description: the access key associated with this Azure Storage account that will be used to connect to it.
-    types:
-    - uid: string
-    name: accessKey
-  - description: the optional suffix for the storage account.
-    types:
-    - uid: string
-    name: suffix
-  - isReadyOnly: true
-    description: Resource Id
-    types:
-    - uid: string
-    name: id
-  - description: Resource name
-    types:
-    - uid: string
-    name: name
-  - isReadyOnly: true
-    description: Resource type
-    types:
-    - uid: string
-    name: type
-- name: FirewallRule
-  description: Data Lake Analytics firewall rule information
-  kind: object
-  properties:
-  - description: the start IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
-    types:
-    - uid: string
-    name: startIpAddress
-  - description: the end IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
-    types:
-    - uid: string
-    name: endIpAddress
-  - isReadyOnly: true
-    description: Resource Id
-    types:
-    - uid: string
-    name: id
-  - description: Resource name
-    types:
-    - uid: string
-    name: name
-  - isReadyOnly: true
-    description: Resource type
-    types:
-    - uid: string
-    name: type
-- name: ComputePolicyAccountCreateParameters
-  description: The parameters used to create a new compute policy.
-  kind: object
-  properties:
-  - description: The unique name of the policy to create
-    types:
-    - uid: string
-    name: name
-  - description: The AAD object identifier for the entity to create a policy for.
-    types:
-    - uid: string
-    name: objectId
-  - description: The type of AAD object the object identifier refers to.
-    types:
-    - uid: AADObjectType
-    name: objectType
-  - description: The maximum degree of parallelism per job this user can use to submit jobs. This property, the min priority per job property, or both must be passed.
-    types:
-    - uid: integer
-    name: maxDegreeOfParallelismPerJob
-  - description: The minimum priority per job this user can use to submit jobs. This property, the max degree of parallelism per job property, or both must be passed.
-    types:
-    - uid: integer
-    name: minPriorityPerJob
+    name: properties.accountId
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/contosorg/providers/Microsoft.DataLakeAnalytics/accounts/contosoadla?api-version=2016-11-01

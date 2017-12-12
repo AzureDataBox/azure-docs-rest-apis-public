@@ -64,15 +64,15 @@ definitions:
   - description: The name of this route. This is only returned by the server and does not need to be set by the client.
     types:
     - uid: string
-    name: name
+    name: properties.name
   - description: The starting address for this route. This may also include a CIDR notation, in which case the end address must not be specified.
     types:
     - uid: string
-    name: startAddress
+    name: properties.startAddress
   - description: The ending address for this route. If the start address is specified in CIDR notation, this must be omitted.
     types:
     - uid: string
-    name: endAddress
+    name: properties.endAddress
   - description: >-
       The type of route this is:
 
@@ -86,12 +86,17 @@ definitions:
       These values will be used for syncing an app's routes with those from a Virtual Network.
     types:
     - uid: RouteType
-    name: routeType
+    name: properties.routeType
   - isReadyOnly: true
     description: Resource Id.
     types:
     - uid: string
     name: id
+  - isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+    name: name
   - description: Kind of resource.
     types:
     - uid: string
@@ -101,29 +106,6 @@ definitions:
     types:
     - uid: string
     name: type
-- name: RouteType
-  description: >-
-    The type of route this is:
-
-    DEFAULT - By default, every app has routes to the local address ranges specified by RFC1918
-
-    INHERITED - Routes inherited from the real Virtual Network routes
-
-    STATIC - Static route set on the app only
-
-
-    These values will be used for syncing an app's routes with those from a Virtual Network.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: DEFAULT
-  - types:
-    - uid: string
-    name: INHERITED
-  - types:
-    - uid: string
-    name: STATIC
 examples: []
 security:
 - type: oauth2

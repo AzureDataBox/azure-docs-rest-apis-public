@@ -80,9 +80,25 @@ requestBody:
     description: Gets or sets the module content link.
     types:
     - uid: ContentLink
-    name: contentLink
+    name: properties.contentLink
 requestHeader: []
 definitions:
+- name: ContentLink
+  description: Definition of the content link.
+  kind: object
+  properties:
+  - description: Gets or sets the uri of the runbook content.
+    types:
+    - uid: string
+    name: uri
+  - description: Gets or sets the hash.
+    types:
+    - uid: ContentHash
+    name: contentHash
+  - description: Gets or sets the version of the content.
+    types:
+    - uid: string
+    name: version
 - name: Module
   description: Definition of the module type.
   kind: object
@@ -94,43 +110,43 @@ definitions:
   - description: Gets or sets the isGlobal flag of the module.
     types:
     - uid: boolean
-    name: isGlobal
+    name: properties.isGlobal
   - description: Gets or sets the version of the module.
     types:
     - uid: string
-    name: version
+    name: properties.version
   - description: Gets or sets the size in bytes of the module.
     types:
     - uid: integer
-    name: sizeInBytes
+    name: properties.sizeInBytes
   - description: Gets or sets the activity count of the module.
     types:
     - uid: integer
-    name: activityCount
+    name: properties.activityCount
   - description: Gets or sets the provisioning state of the module.
     types:
     - uid: ModuleProvisioningState
-    name: provisioningState
+    name: properties.provisioningState
   - description: Gets or sets the contentLink of the module.
     types:
     - uid: ContentLink
-    name: contentLink
+    name: properties.contentLink
   - description: Gets or sets the error info of the module.
     types:
     - uid: ModuleErrorInfo
-    name: error
+    name: properties.error
   - description: Gets or sets the creation time.
     types:
     - uid: string
-    name: creationTime
+    name: properties.creationTime
   - description: Gets or sets the last modified time.
     types:
     - uid: string
-    name: lastModifiedTime
+    name: properties.lastModifiedTime
   - description: Gets or sets the description.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - isReadyOnly: true
     description: Resource Id
     types:
@@ -158,76 +174,20 @@ definitions:
       - uid: string
       uid: object
     name: tags
-- name: ModuleProvisioningState
-  description: Gets or sets the provisioning state of the module.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Created
-  - types:
-    - uid: string
-    name: Creating
-  - types:
-    - uid: string
-    name: StartingImportModuleRunbook
-  - types:
-    - uid: string
-    name: RunningImportModuleRunbook
-  - types:
-    - uid: string
-    name: ContentRetrieved
-  - types:
-    - uid: string
-    name: ContentDownloaded
-  - types:
-    - uid: string
-    name: ContentValidated
-  - types:
-    - uid: string
-    name: ConnectionTypeImported
-  - types:
-    - uid: string
-    name: ContentStored
-  - types:
-    - uid: string
-    name: ModuleDataStored
-  - types:
-    - uid: string
-    name: ActivitiesStored
-  - types:
-    - uid: string
-    name: ModuleImportRunbookComplete
-  - types:
-    - uid: string
-    name: Succeeded
-  - types:
-    - uid: string
-    name: Failed
-  - types:
-    - uid: string
-    name: Cancelled
-  - types:
-    - uid: string
-    name: Updating
-- name: ContentLink
-  description: Gets or sets the contentLink of the module.
+- name: ErrorResponse
+  description: Error response of an operation failure
   kind: object
   properties:
-  - description: Gets or sets the uri of the runbook content.
+  - description: Error code
     types:
     - uid: string
-    name: uri
-  - description: Gets or sets the hash.
-    types:
-    - uid: ContentHash
-    name: contentHash
-  - description: Gets or sets the version of the content.
+    name: code
+  - description: Error message indicating why the operation failed.
     types:
     - uid: string
-    name: version
+    name: message
 - name: ContentHash
-  description: Gets or sets the hash.
+  description: Definition of the runbook property type.
   kind: object
   properties:
   - description: Gets or sets the content hash algorithm used to hash the content.
@@ -239,7 +199,7 @@ definitions:
     - uid: string
     name: value
 - name: ModuleErrorInfo
-  description: Gets or sets the error info of the module.
+  description: Definition of the module error info type.
   kind: object
   properties:
   - description: Gets or sets the error code.
@@ -247,18 +207,6 @@ definitions:
     - uid: string
     name: code
   - description: Gets or sets the error message.
-    types:
-    - uid: string
-    name: message
-- name: ErrorResponse
-  description: Error response of an operation failure
-  kind: object
-  properties:
-  - description: Error code
-    types:
-    - uid: string
-    name: code
-  - description: Error message indicating why the operation failed.
     types:
     - uid: string
     name: message

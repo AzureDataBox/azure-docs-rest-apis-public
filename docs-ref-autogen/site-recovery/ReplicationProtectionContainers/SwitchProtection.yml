@@ -62,6 +62,19 @@ requestBody:
     name: properties
 requestHeader: []
 definitions:
+- name: SwitchProtectionInputProperties
+  description: Switch protection input properties.
+  kind: object
+  properties:
+  - description: The unique replication protected item name.
+    types:
+    - uid: string
+    name: replicationProtectedItemName
+  - description: Provider specific switch protection input.
+    types:
+    - uid: A2ASwitchProtectionInput
+    typesTitle: SwitchProtectionProviderSpecificInput
+    name: providerSpecificDetails
 - name: ProtectionContainer
   description: Protection container details.
   kind: object
@@ -90,7 +103,7 @@ definitions:
     - uid: string
     name: location
 - name: ProtectionContainerProperties
-  description: The custom data.
+  description: Protection profile custom data details.
   kind: object
   properties:
   - description: Fabric friendly name.
@@ -121,8 +134,46 @@ definitions:
     types:
     - uid: ProtectionContainerFabricSpecificDetails
     name: fabricSpecificDetails
+- name: A2ASwitchProtectionInput
+  description: A2A specific switch protection input.
+  kind: object
+  properties:
+  - description: The recovery container Id.
+    types:
+    - uid: string
+    name: recoveryContainerId
+  - description: The list of vm disk details.
+    types:
+    - uid: A2AVmDiskInputDetails
+    name: vmDisks
+  - description: The list of vm managed disk details.
+    types:
+    - uid: A2AVmManagedDiskInputDetails
+    name: vmManagedDisks
+  - description: The recovery resource group Id. Valid for V2 scenarios.
+    types:
+    - uid: string
+    name: recoveryResourceGroupId
+  - description: The recovery cloud service Id. Valid for V1 scenarios.
+    types:
+    - uid: string
+    name: recoveryCloudServiceId
+  - description: The recovery availability set.
+    types:
+    - uid: string
+    name: recoveryAvailabilitySetId
+  - description: The Policy Id.
+    types:
+    - uid: string
+    name: policyId
+  - isReadyOnly: true
+    description: Gets the Instance type.
+    types:
+    - uid: A2A
+    typesTitle: string
+    name: instanceType
 - name: ProtectionContainerFabricSpecificDetails
-  description: Fabric specific details.
+  description: Base class for fabric specific details of container.
   kind: object
   properties:
   - isReadyOnly: true
@@ -130,6 +181,38 @@ definitions:
     types:
     - uid: string
     name: instanceType
+- name: A2AVmDiskInputDetails
+  description: Azure VM disk input details.
+  kind: object
+  properties:
+  - description: The disk Uri.
+    types:
+    - uid: string
+    name: diskUri
+  - description: The recovery VHD storage account Id.
+    types:
+    - uid: string
+    name: recoveryAzureStorageAccountId
+  - description: The primary staging storage account Id.
+    types:
+    - uid: string
+    name: primaryStagingAzureStorageAccountId
+- name: A2AVmManagedDiskInputDetails
+  description: Azure VM managed disk input details.
+  kind: object
+  properties:
+  - description: The disk Id.
+    types:
+    - uid: string
+    name: diskId
+  - description: The primary staging storage account Arm Id.
+    types:
+    - uid: string
+    name: primaryStagingAzureStorageAccountId
+  - description: The target resource group Arm Id.
+    types:
+    - uid: string
+    name: recoveryResourceGroupId
 examples:
 - request:
     uri: POST https://management.azure.com/Subscriptions/42195872-7e70-4f8a-837f-84b28ecbb78b/resourceGroups/priyanprg/providers/Microsoft.RecoveryServices/vaults/priyanponeboxvault/replicationFabrics/CentralUSCanSite/replicationProtectionContainers/CentralUSCancloud/switchprotection?api-version=2016-08-10

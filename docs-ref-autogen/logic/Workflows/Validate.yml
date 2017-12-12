@@ -49,22 +49,22 @@ requestBody:
     description: The state.
     types:
     - uid: WorkflowState
-    name: state
+    name: properties.state
   - in: body
     description: The sku.
     types:
     - uid: Sku
-    name: sku
+    name: properties.sku
   - in: body
     description: The integration account.
     types:
     - uid: ResourceReference
-    name: integrationAccount
+    name: properties.integrationAccount
   - in: body
     description: The definition.
     types:
     - uid: Object
-    name: definition
+    name: properties.definition
   - in: body
     description: The parameters.
     types:
@@ -73,7 +73,7 @@ requestBody:
       - uid: string
       - uid: WorkflowParameter
       uid: object
-    name: parameters
+    name: properties.parameters
   - in: body
     description: The resource location.
     types:
@@ -90,88 +90,42 @@ requestBody:
     name: tags
 requestHeader: []
 definitions:
-- name: WorkflowProvisioningState
-  description: Gets the provisioning state.
-  kind: enum
+- name: Sku
+  description: The sku type.
+  kind: object
   properties:
-  - types:
-    - uid: string
-    name: NotSpecified
-  - types:
-    - uid: string
-    name: Accepted
-  - types:
-    - uid: string
-    name: Running
-  - types:
-    - uid: string
-    name: Ready
-  - types:
-    - uid: string
-    name: Creating
-  - types:
-    - uid: string
-    name: Created
-  - types:
-    - uid: string
-    name: Deleting
-  - types:
-    - uid: string
-    name: Deleted
-  - types:
-    - uid: string
-    name: Canceled
-  - types:
-    - uid: string
-    name: Failed
-  - types:
-    - uid: string
-    name: Succeeded
-  - types:
-    - uid: string
-    name: Moving
-  - types:
-    - uid: string
-    name: Updating
-  - types:
-    - uid: string
-    name: Registering
-  - types:
-    - uid: string
-    name: Registered
-  - types:
-    - uid: string
-    name: Unregistering
-  - types:
-    - uid: string
-    name: Unregistered
-  - types:
-    - uid: string
-    name: Completed
-- name: WorkflowState
-  description: The state.
-  kind: enum
+  - description: The name.
+    types:
+    - uid: SkuName
+    name: name
+  - description: The reference to plan.
+    types:
+    - uid: ResourceReference
+    name: plan
+- name: ResourceReference
+  description: The resource reference.
+  kind: object
   properties:
-  - types:
+  - isReadyOnly: true
+    description: The resource id.
+    types:
     - uid: string
-    name: NotSpecified
-  - types:
+    name: id
+  - isReadyOnly: true
+    description: Gets the resource name.
+    types:
     - uid: string
-    name: Completed
-  - types:
+    name: name
+  - isReadyOnly: true
+    description: Gets the resource type.
+    types:
     - uid: string
-    name: Enabled
-  - types:
-    - uid: string
-    name: Disabled
-  - types:
-    - uid: string
-    name: Deleted
-  - types:
-    - uid: string
-    name: Suspended
+    name: type
+- name: Object
+  kind: object
+  properties: []
 - name: SkuName
-  description: The name.
+  description: The sku name.
   kind: enum
   properties:
   - types:
@@ -192,45 +146,6 @@ definitions:
   - types:
     - uid: string
     name: Premium
-- name: Parameters
-  description: The parameters.
-  kind: object
-  properties:
-  - description: The workflow parameters.
-    types:
-    - uid: WorkflowParameter
-    name: ''
-- name: ParameterType
-  description: The type.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: NotSpecified
-  - types:
-    - uid: string
-    name: String
-  - types:
-    - uid: string
-    name: SecureString
-  - types:
-    - uid: string
-    name: Int
-  - types:
-    - uid: string
-    name: Float
-  - types:
-    - uid: string
-    name: Bool
-  - types:
-    - uid: string
-    name: Array
-  - types:
-    - uid: string
-    name: Object
-  - types:
-    - uid: string
-    name: SecureObject
 examples: []
 security:
 - type: oauth2

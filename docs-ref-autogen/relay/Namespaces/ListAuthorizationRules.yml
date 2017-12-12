@@ -51,22 +51,32 @@ definitions:
   properties:
   - description: Result of the list authorization rules operation.
     types:
-    - isArray: true
-      uid: AuthorizationRule
+    - uid: AuthorizationRule
     name: value
   - description: Link to the next set of results. Not empty if value contains incomplete list of authorization rules.
     types:
     - uid: string
     name: nextLink
+- name: ErrorResponse
+  description: Error reponse indicates Relay service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
 - name: AuthorizationRule
   description: Description of a namespace authorization rule.
   kind: object
   properties:
   - description: The rights associated with the rule.
     types:
-    - isArray: true
-      uid: string
-    name: rights
+    - uid: string
+    name: properties.rights
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -82,18 +92,6 @@ definitions:
     types:
     - uid: string
     name: type
-- name: ErrorResponse
-  description: Error reponse indicates Relay service is not able to process the incoming request. The reason is provided in the error message.
-  kind: object
-  properties:
-  - description: Error code.
-    types:
-    - uid: string
-    name: code
-  - description: Error message indicating why the operation failed.
-    types:
-    - uid: string
-    name: message
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/8c246e6a-cbc6-4a87-aff1-d6a886f376ef/resourceGroups/RG-eg/providers/Microsoft.Relay/namespaces/sdk-RelayNamespace-01/authorizationRules?api-version=2017-04-01

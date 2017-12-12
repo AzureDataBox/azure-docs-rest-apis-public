@@ -69,55 +69,50 @@ requestBody:
     description: A reference to frontend IP addresses.
     types:
     - uid: SubResource
-    name: frontendIPConfiguration
+    name: properties.frontendIPConfiguration
   - in: body
     isRequired: true
     description: The transport protocol for the endpoint. Possible values are 'Udp' or 'Tcp' or 'All.'
     types:
     - uid: TransportProtocol
-    name: protocol
+    name: properties.protocol
   - in: body
     isRequired: true
     description: The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer. Acceptable values range from 1 to 65534.
     types:
     - uid: integer
-    name: frontendPort
+    name: properties.frontendPort
   - in: body
     isRequired: true
     description: The port used for the internal endpoint. Acceptable values range from 1 to 65535.
     types:
     - uid: integer
-    name: backendPort
+    name: properties.backendPort
   - in: body
     description: The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The default value is 4 minutes. This element is only used when the protocol is set to TCP.
     types:
     - uid: integer
-    name: idleTimeoutInMinutes
+    name: properties.idleTimeoutInMinutes
   - in: body
     description: Configures a virtual machine's endpoint for the floating IP capability required to configure a SQL AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server. This setting can't be changed after you create the endpoint.
     types:
     - uid: boolean
-    name: enableFloatingIP
+    name: properties.enableFloatingIP
   - in: body
     description: "Gets the provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
 requestHeader: []
 definitions:
-- name: TransportProtocol
-  description: The transport protocol for the endpoint. Possible values are 'Udp' or 'Tcp' or 'All.'
-  kind: enum
+- name: SubResource
+  description: Reference to another subresource.
+  kind: object
   properties:
-  - types:
+  - description: Resource ID.
+    types:
     - uid: string
-    name: Udp
-  - types:
-    - uid: string
-    name: Tcp
-  - types:
-    - uid: string
-    name: All
+    name: id
 - name: InboundNatRule
   description: Inbound NAT rule of the load balancer.
   kind: object
@@ -133,49 +128,54 @@ definitions:
   - description: A reference to frontend IP addresses.
     types:
     - uid: SubResource
-    name: frontendIPConfiguration
+    name: properties.frontendIPConfiguration
   - isReadyOnly: true
     description: A reference to a private IP address defined on a network interface of a VM. Traffic sent to the frontend port of each of the frontend IP configurations is forwarded to the backend IP.
     types:
     - uid: SubResource
-    name: backendIPConfiguration
+    name: properties.backendIPConfiguration
   - description: The transport protocol for the endpoint. Possible values are 'Udp' or 'Tcp' or 'All.'
     types:
     - uid: TransportProtocol
-    name: protocol
+    name: properties.protocol
   - description: The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer. Acceptable values range from 1 to 65534.
     types:
     - uid: integer
-    name: frontendPort
+    name: properties.frontendPort
   - description: The port used for the internal endpoint. Acceptable values range from 1 to 65535.
     types:
     - uid: integer
-    name: backendPort
+    name: properties.backendPort
   - description: The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The default value is 4 minutes. This element is only used when the protocol is set to TCP.
     types:
     - uid: integer
-    name: idleTimeoutInMinutes
+    name: properties.idleTimeoutInMinutes
   - description: Configures a virtual machine's endpoint for the floating IP capability required to configure a SQL AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server. This setting can't be changed after you create the endpoint.
     types:
     - uid: boolean
-    name: enableFloatingIP
+    name: properties.enableFloatingIP
   - description: "Gets the provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: Resource ID
     types:
     - uid: string
     name: id
-- name: SubResource
-  description: A reference to frontend IP addresses.
-  kind: object
+- name: TransportProtocol
+  description: The transport protocol for the endpoint. Possible values are 'Udp' or 'Tcp' or 'All.'
+  kind: enum
   properties:
-  - description: Resource ID.
-    types:
+  - types:
     - uid: string
-    name: id
+    name: Udp
+  - types:
+    - uid: string
+    name: Tcp
+  - types:
+    - uid: string
+    name: All
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb1/inboundNatRules/natRule1.1?api-version=2017-09-01

@@ -54,11 +54,38 @@ requestBody:
   - in: body
     description: The list of artifacts to apply.
     types:
-    - isArray: true
-      uid: ArtifactInstallProperties
+    - uid: ArtifactInstallProperties
     name: artifacts
 requestHeader: []
 definitions:
+- name: ArtifactInstallProperties
+  description: Properties of an artifact.
+  kind: object
+  properties:
+  - description: The artifact's identifier.
+    types:
+    - uid: string
+    name: artifactId
+  - description: The parameters of the artifact.
+    types:
+    - uid: ArtifactParameterProperties
+    name: parameters
+  - description: The status of the artifact.
+    types:
+    - uid: string
+    name: status
+  - description: The status message from the deployment.
+    types:
+    - uid: string
+    name: deploymentStatusMessage
+  - description: The status message from the virtual machine extension.
+    types:
+    - uid: string
+    name: vmExtensionStatusMessage
+  - description: The time that the artifact starts to install on the virtual machine.
+    types:
+    - uid: string
+    name: installTime
 - name: CloudError
   description: Error from a REST request.
   kind: object
@@ -67,6 +94,18 @@ definitions:
     types:
     - uid: CloudErrorBody
     name: error
+- name: ArtifactParameterProperties
+  description: Properties of an artifact parameter.
+  kind: object
+  properties:
+  - description: The name of the artifact parameter.
+    types:
+    - uid: string
+    name: name
+  - description: The value of the artifact parameter.
+    types:
+    - uid: string
+    name: value
 - name: CloudErrorBody
   description: Body of an error from a REST request.
   kind: object
@@ -82,8 +121,7 @@ definitions:
     name: target
   - description: Inner errors.
     types:
-    - isArray: true
-      uid: Details
+    - uid: CloudErrorBody
     name: details
 examples: []
 security:

@@ -69,32 +69,32 @@ definitions:
        Failed - The user requested that the certificate be deleted, but there are pools that still have references to the certificate, or it is still installed on one or more compute nodes. (The latter can occur if the certificate has been removed from the pool, but the node has not yet restarted. Nodes refresh their certificates only when they restart.) You may use the cancel certificate delete operation to cancel the delete, or the delete certificate operation to retry the delete.
     types:
     - uid: CertificateProvisioningState
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: The time at which the certificate entered its current state.
     types:
     - uid: string
-    name: provisioningStateTransitionTime
+    name: properties.provisioningStateTransitionTime
   - isReadyOnly: true
     description: The previous provisioned state of the resource
     types:
     - uid: CertificateProvisioningState
-    name: previousProvisioningState
+    name: properties.previousProvisioningState
   - isReadyOnly: true
     description: The time at which the certificate entered its previous state.
     types:
     - uid: string
-    name: previousProvisioningStateTransitionTime
+    name: properties.previousProvisioningStateTransitionTime
   - isReadyOnly: true
     description: The public key of the certificate.
     types:
     - uid: string
-    name: publicData
+    name: properties.publicData
   - isReadyOnly: true
     description: This is only returned when the certificate provisioningState is 'Failed'.
     types:
     - uid: DeleteCertificateError
-    name: deleteCertificateError
+    name: properties.deleteCertificateError
   - isReadyOnly: true
     description: The ID of the resource.
     types:
@@ -118,35 +118,25 @@ definitions:
   - description: This must match the first portion of the certificate name. Currently required to be 'SHA1'.
     types:
     - uid: string
-    name: thumbprintAlgorithm
+    name: properties.thumbprintAlgorithm
   - description: This must match the thumbprint from the name.
     types:
     - uid: string
-    name: thumbprint
+    name: properties.thumbprint
   - description: The format of the certificate - either Pfx or Cer. If omitted, the default is Pfx.
     types:
     - uid: CertificateFormat
-    name: format
-- name: CertificateProvisioningState
-  description: >-
-    Values are:
-
-     Succeeded - The certificate is available for use in pools.
-     Deleting - The user has requested that the certificate be deleted, but the delete operation has not yet completed. You may not reference the certificate when creating or updating pools.
-     Failed - The user requested that the certificate be deleted, but there are pools that still have references to the certificate, or it is still installed on one or more compute nodes. (The latter can occur if the certificate has been removed from the pool, but the node has not yet restarted. Nodes refresh their certificates only when they restart.) You may use the cancel certificate delete operation to cancel the delete, or the delete certificate operation to retry the delete.
-  kind: enum
+    name: properties.format
+- name: CloudError
+  description: An error response from the Batch service.
+  kind: object
   properties:
-  - types:
-    - uid: string
-    name: Succeeded
-  - types:
-    - uid: string
-    name: Deleting
-  - types:
-    - uid: string
-    name: Failed
+  - description: An error response from the Batch service.
+    types:
+    - uid: CloudErrorBody
+    name: error
 - name: DeleteCertificateError
-  description: This is only returned when the certificate provisioningState is 'Failed'.
+  description: An error response from the Batch service.
   kind: object
   properties:
   - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
@@ -163,27 +153,8 @@ definitions:
     name: target
   - description: A list of additional details about the error.
     types:
-    - isArray: true
-      uid: Details
+    - uid: DeleteCertificateError
     name: details
-- name: CertificateFormat
-  description: The format of the certificate - either Pfx or Cer. If omitted, the default is Pfx.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Pfx
-  - types:
-    - uid: string
-    name: Cer
-- name: CloudError
-  description: An error response from the Batch service.
-  kind: object
-  properties:
-  - description: An error response from the Batch service.
-    types:
-    - uid: CloudErrorBody
-    name: error
 - name: CloudErrorBody
   description: An error response from the Batch service.
   kind: object
@@ -202,8 +173,7 @@ definitions:
     name: target
   - description: A list of additional details about the error.
     types:
-    - isArray: true
-      uid: Details
+    - uid: CloudErrorBody
     name: details
 examples:
 - request:

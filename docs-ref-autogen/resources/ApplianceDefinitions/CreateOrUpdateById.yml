@@ -42,36 +42,34 @@ requestBody:
     description: The appliance lock level.
     types:
     - uid: ApplianceLockLevel
-    name: lockLevel
+    name: properties.lockLevel
   - in: body
     description: The appliance definition display name.
     types:
     - uid: string
-    name: displayName
+    name: properties.displayName
   - in: body
     isRequired: true
     description: The appliance provider authorizations.
     types:
-    - isArray: true
-      uid: ApplianceProviderAuthorization
-    name: authorizations
+    - uid: ApplianceProviderAuthorization
+    name: properties.authorizations
   - in: body
     description: The collection of appliance artifacts. The portal will use the files specified as artifacts to construct the user experience of creating an appliance from an appliance definition.
     types:
-    - isArray: true
-      uid: ApplianceArtifact
-    name: artifacts
+    - uid: ApplianceArtifact
+    name: properties.artifacts
   - in: body
     description: The appliance definition description.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - in: body
     isRequired: true
     description: The appliance definition package file Uri.
     types:
     - uid: string
-    name: packageFileUri
+    name: properties.packageFileUri
   - in: body
     description: ID of the resource that manages this resource.
     types:
@@ -103,36 +101,80 @@ requestBody:
     name: tags
 requestHeader: []
 definitions:
-- name: ApplianceLockLevel
-  description: The appliance lock level.
-  kind: enum
+- name: ApplianceProviderAuthorization
+  description: The appliance provider authorization.
+  kind: object
   properties:
-  - types:
+  - description: The provider's principal identifier. This is the identity that the provider will use to call ARM to manage the appliance resources.
+    types:
     - uid: string
-    name: CanNotDelete
-  - types:
+    name: principalId
+  - description: The provider's role definition identifier. This role will define all the permissions that the provider must have on the appliance's container resource group. This role definition cannot have permission to delete the resource group.
+    types:
     - uid: string
-    name: ReadOnly
-  - types:
-    - uid: string
-    name: None
-- name: ApplianceArtifactType
-  description: The the appliance artifact type.
-  kind: enum
+    name: roleDefinitionId
+- name: ApplianceArtifact
+  description: Appliance artifact.
+  kind: object
   properties:
-  - types:
+  - description: The appliance artifact name.
+    types:
     - uid: string
-    name: Template
-  - types:
+    name: name
+  - description: The appliance artifact blob uri.
+    types:
     - uid: string
-    name: Custom
-- name: ResourceIdentityType
-  description: The identity type.
-  kind: enum
+    name: uri
+  - description: The the appliance artifact type.
+    types:
+    - uid: ApplianceArtifactType
+    name: type
+- name: Sku
+  description: SKU for the resource.
+  kind: object
   properties:
-  - types:
+  - description: The SKU name.
+    types:
     - uid: string
-    name: SystemAssigned
+    name: name
+  - description: The SKU tier.
+    types:
+    - uid: string
+    name: tier
+  - description: The SKU size.
+    types:
+    - uid: string
+    name: size
+  - description: The SKU family.
+    types:
+    - uid: string
+    name: family
+  - description: The SKU model.
+    types:
+    - uid: string
+    name: model
+  - description: The SKU capacity.
+    types:
+    - uid: integer
+    name: capacity
+- name: Identity
+  description: Identity for the resource.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The principal ID of resource identity.
+    types:
+    - uid: string
+    name: principalId
+  - isReadyOnly: true
+    description: The tenant ID of resource.
+    types:
+    - uid: string
+    name: tenantId
+  - description: The identity type.
+    types:
+    - uid: ResourceIdentityType
+    name: type
 - name: ApplianceDefinition
   description: Information about appliance definition.
   kind: object
@@ -140,29 +182,27 @@ definitions:
   - description: The appliance lock level.
     types:
     - uid: ApplianceLockLevel
-    name: lockLevel
+    name: properties.lockLevel
   - description: The appliance definition display name.
     types:
     - uid: string
-    name: displayName
+    name: properties.displayName
   - description: The appliance provider authorizations.
     types:
-    - isArray: true
-      uid: ApplianceProviderAuthorization
-    name: authorizations
+    - uid: ApplianceProviderAuthorization
+    name: properties.authorizations
   - description: The collection of appliance artifacts. The portal will use the files specified as artifacts to construct the user experience of creating an appliance from an appliance definition.
     types:
-    - isArray: true
-      uid: ApplianceArtifact
-    name: artifacts
+    - uid: ApplianceArtifact
+    name: properties.artifacts
   - description: The appliance definition description.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - description: The appliance definition package file Uri.
     types:
     - uid: string
-    name: packageFileUri
+    name: properties.packageFileUri
   - description: ID of the resource that manages this resource.
     types:
     - uid: string
@@ -202,80 +242,6 @@ definitions:
       - uid: string
       uid: object
     name: tags
-- name: ApplianceProviderAuthorization
-  description: The appliance provider authorization.
-  kind: object
-  properties:
-  - description: The provider's principal identifier. This is the identity that the provider will use to call ARM to manage the appliance resources.
-    types:
-    - uid: string
-    name: principalId
-  - description: The provider's role definition identifier. This role will define all the permissions that the provider must have on the appliance's container resource group. This role definition cannot have permission to delete the resource group.
-    types:
-    - uid: string
-    name: roleDefinitionId
-- name: ApplianceArtifact
-  description: Appliance artifact.
-  kind: object
-  properties:
-  - description: The appliance artifact name.
-    types:
-    - uid: string
-    name: name
-  - description: The appliance artifact blob uri.
-    types:
-    - uid: string
-    name: uri
-  - description: The the appliance artifact type.
-    types:
-    - uid: ApplianceArtifactType
-    name: type
-- name: Sku
-  description: The SKU of the resource.
-  kind: object
-  properties:
-  - description: The SKU name.
-    types:
-    - uid: string
-    name: name
-  - description: The SKU tier.
-    types:
-    - uid: string
-    name: tier
-  - description: The SKU size.
-    types:
-    - uid: string
-    name: size
-  - description: The SKU family.
-    types:
-    - uid: string
-    name: family
-  - description: The SKU model.
-    types:
-    - uid: string
-    name: model
-  - description: The SKU capacity.
-    types:
-    - uid: integer
-    name: capacity
-- name: Identity
-  description: The identity of the resource.
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: The principal ID of resource identity.
-    types:
-    - uid: string
-    name: principalId
-  - isReadyOnly: true
-    description: The tenant ID of resource.
-    types:
-    - uid: string
-    name: tenantId
-  - description: The identity type.
-    types:
-    - uid: ResourceIdentityType
-    name: type
 - name: ErrorResponse
   description: Error reponse indicates ARM appliance is not able to process the incoming request. The reason is provided in the error message.
   kind: object
@@ -292,6 +258,29 @@ definitions:
     types:
     - uid: string
     name: errorMessage
+- name: ApplianceArtifactType
+  description: The appliance artifact type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Template
+  - types:
+    - uid: string
+    name: Custom
+- name: ApplianceLockLevel
+  description: The appliance lock level.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: CanNotDelete
+  - types:
+    - uid: string
+    name: ReadOnly
+  - types:
+    - uid: string
+    name: None
 examples: []
 security:
 - type: oauth2

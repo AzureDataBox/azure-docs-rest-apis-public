@@ -54,30 +54,45 @@ requestBody:
     description: Subject of the Template.
     types:
     - uid: string
-    name: subject
+    name: properties.subject
   - in: body
     description: Title of the Template.
     types:
     - uid: string
-    name: title
+    name: properties.title
   - in: body
     description: Description of the Email Template.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - in: body
     description: Email Template Body. This should be a valid XDocument
     types:
     - uid: string
-    name: body
+    name: properties.body
   - in: body
     description: Email Template Parameter values.
     types:
-    - isArray: true
-      uid: EmailTemplateParametersContractProperties
-    name: parameters
+    - uid: EmailTemplateParametersContractProperties
+    name: properties.parameters
 requestHeader: []
 definitions:
+- name: EmailTemplateParametersContractProperties
+  description: Email Template Parameter contract.
+  kind: object
+  properties:
+  - description: Template parameter name.
+    types:
+    - uid: string
+    name: name
+  - description: Template parameter title.
+    types:
+    - uid: string
+    name: title
+  - description: Template parameter description.
+    types:
+    - uid: string
+    name: description
 - name: ErrorResponse
   description: Error Body contract.
   kind: object
@@ -92,8 +107,7 @@ definitions:
     name: message
   - description: The list of invalid fields send in request, in case of validation error.
     types:
-    - isArray: true
-      uid: ErrorFieldContract
+    - uid: ErrorFieldContract
     name: details
 - name: ErrorFieldContract
   description: Error Field contract.

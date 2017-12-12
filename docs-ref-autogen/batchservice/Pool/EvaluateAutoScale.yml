@@ -93,35 +93,6 @@ definitions:
     types:
     - uid: AutoScaleRunError
     name: error
-- name: AutoScaleRunError
-  description: Details of the error encountered evaluating the autoscale formula on the pool, if the evaluation was unsuccessful.
-  kind: object
-  properties:
-  - description: An identifier for the autoscale error. Codes are invariant and are intended to be consumed programmatically.
-    types:
-    - uid: string
-    name: code
-  - description: A message describing the autoscale error, intended to be suitable for display in a user interface.
-    types:
-    - uid: string
-    name: message
-  - description: A list of additional error details related to the autoscale error.
-    types:
-    - isArray: true
-      uid: NameValuePair
-    name: values
-- name: NameValuePair
-  description: Represents a name-value pair.
-  kind: object
-  properties:
-  - description: The name in the name-value pair.
-    types:
-    - uid: string
-    name: name
-  - description: The value in the name-value pair.
-    types:
-    - uid: string
-    name: value
 - name: BatchError
   description: An error response received from the Azure Batch service.
   kind: object
@@ -136,11 +107,26 @@ definitions:
     name: message
   - description: A collection of key-value pairs containing additional details about the error.
     types:
-    - isArray: true
-      uid: BatchErrorDetail
+    - uid: BatchErrorDetail
+    name: values
+- name: AutoScaleRunError
+  description: An error that occurred when executing or evaluating a pool autoscale formula.
+  kind: object
+  properties:
+  - description: An identifier for the autoscale error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+    name: code
+  - description: A message describing the autoscale error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+    name: message
+  - description: A list of additional error details related to the autoscale error.
+    types:
+    - uid: NameValuePair
     name: values
 - name: ErrorMessage
-  description: A message describing the error, intended to be suitable for display in a user interface.
+  description: An error message received in an Azure Batch error response.
   kind: object
   properties:
   - description: The language code of the error message
@@ -160,6 +146,18 @@ definitions:
     - uid: string
     name: key
   - description: The additional information included with the error response.
+    types:
+    - uid: string
+    name: value
+- name: NameValuePair
+  description: Represents a name-value pair.
+  kind: object
+  properties:
+  - description: The name in the name-value pair.
+    types:
+    - uid: string
+    name: name
+  - description: The value in the name-value pair.
     types:
     - uid: string
     name: value

@@ -64,40 +64,39 @@ definitions:
   - description: The Azure Resource URI of the of the endpoint. Not applicable to endpoints of type 'ExternalEndpoints'.
     types:
     - uid: string
-    name: targetResourceId
+    name: properties.targetResourceId
   - description: The fully-qualified DNS name of the endpoint. Traffic Manager returns this value in DNS responses to direct traffic to this endpoint.
     types:
     - uid: string
-    name: target
+    name: properties.target
   - description: The status of the endpoint. If the endpoint is Enabled, it is probed for endpoint health and is included in the traffic routing method.
     types:
     - uid: EndpointStatus
-    name: endpointStatus
+    name: properties.endpointStatus
   - description: The weight of this endpoint when using the 'Weighted' traffic routing method. Possible values are from 1 to 1000.
     types:
     - uid: integer
-    name: weight
+    name: properties.weight
   - description: The priority of this endpoint when using the ‘Priority’ traffic routing method. Possible values are from 1 to 1000, lower values represent higher priority. This is an optional parameter.  If specified, it must be specified on all endpoints, and no two endpoints can share the same priority value.
     types:
     - uid: integer
-    name: priority
+    name: properties.priority
   - description: Specifies the location of the external or nested endpoints when using the ‘Performance’ traffic routing method.
     types:
     - uid: string
-    name: endpointLocation
+    name: properties.endpointLocation
   - description: The monitoring status of the endpoint.
     types:
     - uid: EndpointMonitorStatus
-    name: endpointMonitorStatus
+    name: properties.endpointMonitorStatus
   - description: The minimum number of endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type 'NestedEndpoints'.
     types:
     - uid: integer
-    name: minChildEndpoints
+    name: properties.minChildEndpoints
   - description: The list of countries/regions mapped to this endpoint when using the ‘Geographic’ traffic routing method. Please consult Traffic Manager Geographic documentation for a full list of accepted values.
     types:
-    - isArray: true
-      uid: string
-    name: geoMapping
+    - uid: string
+    name: properties.geoMapping
   - isReadyOnly: true
     description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}
     types:
@@ -113,38 +112,6 @@ definitions:
     types:
     - uid: string
     name: type
-- name: EndpointStatus
-  description: The status of the endpoint. If the endpoint is Enabled, it is probed for endpoint health and is included in the traffic routing method.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Enabled
-  - types:
-    - uid: string
-    name: Disabled
-- name: EndpointMonitorStatus
-  description: The monitoring status of the endpoint.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: CheckingEndpoint
-  - types:
-    - uid: string
-    name: Online
-  - types:
-    - uid: string
-    name: Degraded
-  - types:
-    - uid: string
-    name: Disabled
-  - types:
-    - uid: string
-    name: Inactive
-  - types:
-    - uid: string
-    name: Stopped
 - name: CloudError
   description: An error returned by the Azure Resource Manager
   kind: object
@@ -154,7 +121,7 @@ definitions:
     - uid: CloudErrorBody
     name: error
 - name: CloudErrorBody
-  description: The content of the error.
+  description: The content of an error returned by the Azure Resource Manager
   kind: object
   properties:
   - description: Error code
@@ -171,8 +138,7 @@ definitions:
     name: target
   - description: Error details
     types:
-    - isArray: true
-      uid: Details
+    - uid: CloudErrorBody
     name: details
 examples:
 - request:

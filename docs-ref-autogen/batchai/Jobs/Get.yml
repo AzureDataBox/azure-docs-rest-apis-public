@@ -54,102 +54,99 @@ definitions:
   - description: Describe the experiment information of the job
     types:
     - uid: string
-    name: experimentName
+    name: properties.experimentName
   - description: Priority associated with the job. Priority values can range from -1000 to 1000, with -1000 being the lowest priority and 1000 being the highest priority. The default value is 0.
     types:
     - uid: integer
-    name: priority
+    name: properties.priority
   - description: Represents a resource ID. For example, for a subnet, it is the resource URL for the subnet.
     types:
     - uid: ResourceId
-    name: cluster
+    name: properties.cluster
   - description: The job will be gang scheduled on that many compute nodes
     types:
     - uid: integer
-    name: nodeCount
+    name: properties.nodeCount
   - description: If the container was downloaded as part of cluster setup then the same container image will be used. If not provided, the job will run on the VM.
     types:
     - uid: ContainerSettings
-    name: containerSettings
+    name: properties.containerSettings
   - description: 'Possible values are: cntk, tensorflow, caffe, caffe2, chainer, custom.'
     types:
     - uid: ToolType
-    name: toolType
+    name: properties.toolType
   - description: Specifies the settings for CNTK (aka Microsoft Cognitive Toolkit) job.
     types:
     - uid: CNTKsettings
-    name: cntkSettings
+    name: properties.cntkSettings
   - description: Specifies the settings for TensorFlow job.
     types:
     - uid: TensorFlowSettings
-    name: tensorFlowSettings
+    name: properties.tensorFlowSettings
   - description: Specifies the settings for Caffe job.
     types:
     - uid: CaffeSettings
-    name: caffeSettings
+    name: properties.caffeSettings
   - description: Specifies the settings for Chainer job.
     types:
     - uid: ChainerSettings
-    name: chainerSettings
+    name: properties.chainerSettings
   - description: Specifies the settings for a custom tool kit job.
     types:
     - uid: CustomToolkitSettings
-    name: customToolkitSettings
+    name: properties.customToolkitSettings
   - description: The specified actions will run on all the nodes that are part of the job
     types:
     - uid: JobPreparation
-    name: jobPreparation
+    name: properties.jobPreparation
   - description: The path where the Batch AI service will upload stdout and stderror of the job.
     types:
     - uid: string
-    name: stdOutErrPathPrefix
+    name: properties.stdOutErrPathPrefix
   - description: Specifies the list of input directories for the Job.
     types:
-    - isArray: true
-      uid: InputDirectory
-    name: inputDirectories
+    - uid: InputDirectory
+    name: properties.inputDirectories
   - description: Specifies the list of output directories where the models will be created. .
     types:
-    - isArray: true
-      uid: OutputDirectory
-    name: outputDirectories
+    - uid: OutputDirectory
+    name: properties.outputDirectories
   - description: 'Batch AI services sets the following environment variables for all jobs: AZ_BATCHAI_INPUT_id, AZ_BATCHAI_OUTPUT_id, AZ_BATCHAI_NUM_GPUS_PER_NODE, For distributed TensorFlow jobs, following additional environment variables are set by the Batch AI Service: AZ_BATCHAI_PS_HOSTS, AZ_BATCHAI_WORKER_HOSTS.'
     types:
-    - isArray: true
-      uid: EnvironmentSetting
-    name: environmentVariables
+    - uid: EnvironmentSetting
+    name: properties.environmentVariables
   - description: Constraints associated with the Job.
     types:
     - uid: Constraints
-    name: constraints
+    name: properties.constraints
   - isReadyOnly: true
     description: The creation time of the job.
     types:
     - uid: string
-    name: creationTime
+    name: properties.creationTime
   - isReadyOnly: true
     description: The provisioned state of the Batch AI job
     types:
     - uid: ProvisioningState
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: The time at which the job entered its current provisioning state.
     types:
     - uid: string
-    name: provisioningStateTransitionTime
+    name: properties.provisioningStateTransitionTime
   - description: 'The current state of the job. Possible values are: queued - The job is queued and able to run. A job enters this state when it is created, or when it is awaiting a retry after a failed run. running - The job is running on a compute cluster. This includes job-level preparation such as downloading resource files or set up container specified on the job - it does not necessarily mean that the job command line has started executing. terminating - The job is terminated by the user, the terminate operation is in progress. succeeded - The job has completed running succesfully and exited with exit code 0. failed - The job has finished unsuccessfully (failed with a non-zero exit code) and has exhausted its retry limit. A job is also marked as failed if an error occurred launching the job.'
     types:
     - uid: ExecutionState
-    name: executionState
+    name: properties.executionState
   - isReadyOnly: true
     description: The time at which the job entered its current execution state.
     types:
     - uid: string
-    name: executionStateTransitionTime
+    name: properties.executionStateTransitionTime
   - description: Contains information about the execution of a job in the Azure Batch service.
     types:
     - uid: ExecutionInfo
-    name: executionInfo
+    name: properties.executionInfo
   - isReadyOnly: true
     description: The ID of the resource
     types:
@@ -179,6 +176,14 @@ definitions:
       - uid: string
       uid: object
     name: tags
+- name: CloudError
+  description: An error response from the Batch AI service.
+  kind: object
+  properties:
+  - description: An error response from the Batch AI service.
+    types:
+    - uid: CloudErrorBody
+    name: error
 - name: ResourceId
   description: Represents a resource ID. For example, for a subnet, it is the resource URL for the subnet.
   kind: object
@@ -188,59 +193,15 @@ definitions:
     - uid: string
     name: id
 - name: ContainerSettings
-  description: If the container was downloaded as part of cluster setup then the same container image will be used. If not provided, the job will run on the VM.
+  description: Settings for the container to be downloaded.
   kind: object
   properties:
   - description: Details of the container image such as name, URL and credentials.
     types:
     - uid: ImageSourceRegistry
     name: imageSourceRegistry
-- name: ImageSourceRegistry
-  description: Details of the container image such as name, URL and credentials.
-  kind: object
-  properties:
-  - description: URL for image repository.
-    types:
-    - uid: string
-    name: serverUrl
-  - description: The name of the image in image repository.
-    types:
-    - uid: string
-    name: image
-  - description: Credentials to access a container image in a private repository.
-    types:
-    - uid: PrivateRegistryCredentials
-    name: credentials
-- name: PrivateRegistryCredentials
-  description: Credentials to access a container image in a private repository.
-  kind: object
-  properties:
-  - description: User name to login.
-    types:
-    - uid: string
-    name: username
-  - description: One of password or passwordSecretReference must be specified.
-    types:
-    - uid: string
-    name: password
-  - description: Users can store their secrets in Azure KeyVault and pass it to the Batch AI Service to integrate with KeyVault. One of password or passwordSecretReference must be specified.
-    types:
-    - uid: KeyVaultSecretReference
-    name: passwordSecretReference
-- name: KeyVaultSecretReference
-  description: Users can store their secrets in Azure KeyVault and pass it to the Batch AI Service to integrate with KeyVault. One of password or passwordSecretReference must be specified.
-  kind: object
-  properties:
-  - description: Represents a resource ID. For example, for a subnet, it is the resource URL for the subnet.
-    types:
-    - uid: ResourceId
-    name: sourceVault
-  - description: The URL referencing a secret in a Key Vault.
-    types:
-    - uid: string
-    name: secretUrl
 - name: ToolType
-  description: 'Possible values are: cntk, tensorflow, caffe, caffe2, chainer, custom.'
+  description: The toolkit type of this job.
   kind: enum
   properties:
   - types:
@@ -374,7 +335,7 @@ definitions:
     - uid: string
     name: commandLine
 - name: JobPreparation
-  description: The specified actions will run on all the nodes that are part of the job
+  description: Specifies the settings for job preparation.
   kind: object
   properties:
   - description: If containerSettings is specified on the job, this commandLine will be executed in the same container as job. Otherwise it will be executed on the node.
@@ -417,22 +378,6 @@ definitions:
     types:
     - uid: boolean
     name: createNew
-- name: OutputType
-  description: Default value is Custom. The possible values are Model, Logs, Summary, and Custom. Users can use multiple enums for a single directory. Eg. outPutType='Model,Logs, Summary'
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: model
-  - types:
-    - uid: string
-    name: logs
-  - types:
-    - uid: string
-    name: summary
-  - types:
-    - uid: string
-    name: custom
 - name: EnvironmentSetting
   description: A collection of environment variables to set.
   kind: object
@@ -445,107 +390,6 @@ definitions:
     types:
     - uid: string
     name: value
-- name: Constraints
-  description: Constraints associated with the Job.
-  kind: object
-  properties:
-  - description: Default Value = 1 week.
-    types:
-    - uid: string
-    name: maxWallClockTime
-- name: ProvisioningState
-  description: The provisioned state of the Batch AI job
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: creating
-  - types:
-    - uid: string
-    name: deleting
-  - types:
-    - uid: string
-    name: succeeded
-  - types:
-    - uid: string
-    name: failed
-- name: ExecutionState
-  description: 'The current state of the job. Possible values are: queued - The job is queued and able to run. A job enters this state when it is created, or when it is awaiting a retry after a failed run. running - The job is running on a compute cluster. This includes job-level preparation such as downloading resource files or set up container specified on the job - it does not necessarily mean that the job command line has started executing. terminating - The job is terminated by the user, the terminate operation is in progress. succeeded - The job has completed running succesfully and exited with exit code 0. failed - The job has finished unsuccessfully (failed with a non-zero exit code) and has exhausted its retry limit. A job is also marked as failed if an error occurred launching the job.'
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: queued
-  - types:
-    - uid: string
-    name: running
-  - types:
-    - uid: string
-    name: terminating
-  - types:
-    - uid: string
-    name: succeeded
-  - types:
-    - uid: string
-    name: failed
-- name: ExecutionInfo
-  description: Contains information about the execution of a job in the Azure Batch service.
-  kind: object
-  properties:
-  - description: "'Running' corresponds to the running state. If the job has been restarted or retried, this is the most recent time at which the job started running. This property is present only for job that are in the running or completed state."
-    types:
-    - uid: string
-    name: startTime
-  - description: This property is only returned if the job is in completed state.
-    types:
-    - uid: string
-    name: endTime
-  - description: This property is only returned if the job is in completed state.
-    types:
-    - uid: integer
-    name: exitCode
-  - description: Contains details of various errors encountered by the service during job execution
-    types:
-    - isArray: true
-      uid: BatchAIError
-    name: errors
-- name: BatchAIError
-  description: An error response from the Batch AI service.
-  kind: object
-  properties:
-  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
-    types:
-    - uid: string
-    name: code
-  - description: A message describing the error, intended to be suitable for display in a user interface.
-    types:
-    - uid: string
-    name: message
-  - description: A list of additional details about the error.
-    types:
-    - isArray: true
-      uid: NameValuePair
-    name: details
-- name: NameValuePair
-  description: Represents a name-value pair.
-  kind: object
-  properties:
-  - description: The name in the name-value pair.
-    types:
-    - uid: string
-    name: name
-  - description: The value in the name-value pair.
-    types:
-    - uid: string
-    name: value
-- name: CloudError
-  description: An error response from the Batch AI service.
-  kind: object
-  properties:
-  - description: An error response from the Batch AI service.
-    types:
-    - uid: CloudErrorBody
-    name: error
 - name: CloudErrorBody
   description: An error response from the Batch AI service.
   kind: object
@@ -564,9 +408,52 @@ definitions:
     name: target
   - description: A list of additional details about the error.
     types:
-    - isArray: true
-      uid: Details
+    - uid: CloudErrorBody
     name: details
+- name: ImageSourceRegistry
+  description: Details of the container image such as name, URL and credentials.
+  kind: object
+  properties:
+  - description: URL for image repository.
+    types:
+    - uid: string
+    name: serverUrl
+  - description: The name of the image in image repository.
+    types:
+    - uid: string
+    name: image
+  - description: Credentials to access a container image in a private repository.
+    types:
+    - uid: PrivateRegistryCredentials
+    name: credentials
+- name: PrivateRegistryCredentials
+  description: Credentials to access a container image in a private repository.
+  kind: object
+  properties:
+  - description: User name to login.
+    types:
+    - uid: string
+    name: username
+  - description: One of password or passwordSecretReference must be specified.
+    types:
+    - uid: string
+    name: password
+  - description: Users can store their secrets in Azure KeyVault and pass it to the Batch AI Service to integrate with KeyVault. One of password or passwordSecretReference must be specified.
+    types:
+    - uid: KeyVaultSecretReference
+    name: passwordSecretReference
+- name: KeyVaultSecretReference
+  description: Describes a reference to Key Vault Secret.
+  kind: object
+  properties:
+  - description: Represents a resource ID. For example, for a subnet, it is the resource URL for the subnet.
+    types:
+    - uid: ResourceId
+    name: sourceVault
+  - description: The URL referencing a secret in a Key Vault.
+    types:
+    - uid: string
+    name: secretUrl
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/demo_resource_group/providers/Microsoft.BatchAI/jobs/demo_job?api-version=2017-09-01-preview

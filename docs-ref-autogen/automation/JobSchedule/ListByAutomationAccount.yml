@@ -52,61 +52,12 @@ definitions:
   properties:
   - description: Gets or sets a list of job schedules.
     types:
-    - isArray: true
-      uid: JobSchedule
+    - uid: JobSchedule
     name: value
   - description: Gets or sets the next link.
     types:
     - uid: string
     name: nextLink
-- name: JobSchedule
-  description: Definition of the job schedule.
-  kind: object
-  properties:
-  - description: Gets or sets the id of the resource.
-    types:
-    - uid: string
-    name: id
-  - description: Gets or sets the id of job schedule.
-    types:
-    - uid: string
-    name: jobScheduleId
-  - description: Gets or sets the schedule.
-    types:
-    - uid: ScheduleAssociationProperty
-    name: schedule
-  - description: Gets or sets the runbook.
-    types:
-    - uid: RunbookAssociationProperty
-    name: runbook
-  - description: Gets or sets the hybrid worker group that the scheduled job should run on.
-    types:
-    - uid: string
-    name: runOn
-  - description: Gets or sets the parameters of the job schedule.
-    types:
-    - isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-      uid: object
-    name: parameters
-- name: ScheduleAssociationProperty
-  description: Gets or sets the schedule.
-  kind: object
-  properties:
-  - description: Gets or sets the name of the schedule.
-    types:
-    - uid: string
-    name: name
-- name: RunbookAssociationProperty
-  description: Gets or sets the runbook.
-  kind: object
-  properties:
-  - description: Gets or sets the name of the runbook.
-    types:
-    - uid: string
-    name: name
 - name: ErrorResponse
   description: Error response of an operation failure
   kind: object
@@ -119,6 +70,54 @@ definitions:
     types:
     - uid: string
     name: message
+- name: JobSchedule
+  description: Definition of the job schedule.
+  kind: object
+  properties:
+  - description: Gets or sets the id of the resource.
+    types:
+    - uid: string
+    name: id
+  - description: Gets or sets the id of job schedule.
+    types:
+    - uid: string
+    name: properties.jobScheduleId
+  - description: Gets or sets the schedule.
+    types:
+    - uid: ScheduleAssociationProperty
+    name: properties.schedule
+  - description: Gets or sets the runbook.
+    types:
+    - uid: RunbookAssociationProperty
+    name: properties.runbook
+  - description: Gets or sets the hybrid worker group that the scheduled job should run on.
+    types:
+    - uid: string
+    name: properties.runOn
+  - description: Gets or sets the parameters of the job schedule.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: properties.parameters
+- name: ScheduleAssociationProperty
+  description: The schedule property associated with the entity.
+  kind: object
+  properties:
+  - description: Gets or sets the name of the schedule.
+    types:
+    - uid: string
+    name: name
+- name: RunbookAssociationProperty
+  description: The runbook property associated with the entity.
+  kind: object
+  properties:
+  - description: Gets or sets the name of the runbook.
+    types:
+    - uid: string
+    name: name
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/ContoseAutomationAccount/jobSchedules?api-version=2015-10-31

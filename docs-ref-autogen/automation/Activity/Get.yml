@@ -74,29 +74,39 @@ definitions:
   - description: Gets or sets the user name of the activity.
     types:
     - uid: string
-    name: definition
+    name: properties.definition
   - description: Gets or sets the parameter sets of the activity.
     types:
-    - isArray: true
-      uid: ActivityParameterSet
-    name: parameterSets
+    - uid: ActivityParameterSet
+    name: properties.parameterSets
   - description: Gets or sets the output types of the activity.
     types:
-    - isArray: true
-      uid: ActivityOutputType
-    name: outputTypes
+    - uid: ActivityOutputType
+    name: properties.outputTypes
   - description: Gets or sets the creation time.
     types:
     - uid: string
-    name: creationTime
+    name: properties.creationTime
   - description: Gets or sets the last modified time.
     types:
     - uid: string
-    name: lastModifiedTime
+    name: properties.lastModifiedTime
   - description: Gets or sets the description.
     types:
     - uid: string
-    name: description
+    name: properties.description
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - description: Error code
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
 - name: ActivityParameterSet
   description: Definition of the activity parameter set.
   kind: object
@@ -107,9 +117,20 @@ definitions:
     name: name
   - description: Gets or sets the parameters of the activity parameter set.
     types:
-    - isArray: true
-      uid: ActivityParameter
+    - uid: ActivityParameter
     name: parameters
+- name: ActivityOutputType
+  description: Definition of the activity output type.
+  kind: object
+  properties:
+  - description: Gets or sets the name of the activity output type.
+    types:
+    - uid: string
+    name: name
+  - description: Gets or sets the type of the activity output type.
+    types:
+    - uid: string
+    name: type
 - name: ActivityParameter
   description: Definition of the activity parameter.
   kind: object
@@ -146,30 +167,6 @@ definitions:
     types:
     - uid: boolean
     name: valueFromRemainingArguments
-- name: ActivityOutputType
-  description: Definition of the activity output type.
-  kind: object
-  properties:
-  - description: Gets or sets the name of the activity output type.
-    types:
-    - uid: string
-    name: name
-  - description: Gets or sets the type of the activity output type.
-    types:
-    - uid: string
-    name: type
-- name: ErrorResponse
-  description: Error response of an operation failure
-  kind: object
-  properties:
-  - description: Error code
-    types:
-    - uid: string
-    name: code
-  - description: Error message indicating why the operation failed.
-    types:
-    - uid: string
-    name: message
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/modules/OmsCompositeResources/activities/Add-AzureRmAccount?api-version=2015-10-31

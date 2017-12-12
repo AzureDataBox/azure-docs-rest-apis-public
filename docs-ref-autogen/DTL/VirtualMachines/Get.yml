@@ -65,129 +65,128 @@ definitions:
   - description: The notes of the virtual machine.
     types:
     - uid: string
-    name: notes
+    name: properties.notes
   - description: The object identifier of the owner of the virtual machine.
     types:
     - uid: string
-    name: ownerObjectId
+    name: properties.ownerObjectId
   - description: The user principal name of the virtual machine owner.
     types:
     - uid: string
-    name: ownerUserPrincipalName
+    name: properties.ownerUserPrincipalName
   - description: The object identifier of the creator of the virtual machine.
     types:
     - uid: string
-    name: createdByUserId
+    name: properties.createdByUserId
   - description: The email address of creator of the virtual machine.
     types:
     - uid: string
-    name: createdByUser
+    name: properties.createdByUser
   - description: The creation date of the virtual machine.
     types:
     - uid: string
-    name: createdDate
+    name: properties.createdDate
   - isReadyOnly: true
     description: The resource identifier (Microsoft.Compute) of the virtual machine.
     types:
     - uid: string
-    name: computeId
+    name: properties.computeId
   - description: The custom image identifier of the virtual machine.
     types:
     - uid: string
-    name: customImageId
+    name: properties.customImageId
   - description: The OS type of the virtual machine.
     types:
     - uid: string
-    name: osType
+    name: properties.osType
   - description: The size of the virtual machine.
     types:
     - uid: string
-    name: size
+    name: properties.size
   - description: The user name of the virtual machine.
     types:
     - uid: string
-    name: userName
+    name: properties.userName
   - description: The password of the virtual machine administrator.
     types:
     - uid: string
-    name: password
+    name: properties.password
   - description: The SSH key of the virtual machine administrator.
     types:
     - uid: string
-    name: sshKey
+    name: properties.sshKey
   - description: Indicates whether this virtual machine uses an SSH key for authentication.
     types:
     - uid: boolean
-    name: isAuthenticationWithSshKey
+    name: properties.isAuthenticationWithSshKey
   - description: The fully-qualified domain name of the virtual machine.
     types:
     - uid: string
-    name: fqdn
+    name: properties.fqdn
   - description: The lab subnet name of the virtual machine.
     types:
     - uid: string
-    name: labSubnetName
+    name: properties.labSubnetName
   - description: The lab virtual network identifier of the virtual machine.
     types:
     - uid: string
-    name: labVirtualNetworkId
+    name: properties.labVirtualNetworkId
   - description: Indicates whether the virtual machine is to be created without a public IP address.
     types:
     - uid: boolean
-    name: disallowPublicIpAddress
+    name: properties.disallowPublicIpAddress
   - description: The artifacts to be installed on the virtual machine.
     types:
-    - isArray: true
-      uid: ArtifactInstallProperties
-    name: artifacts
+    - uid: ArtifactInstallProperties
+    name: properties.artifacts
   - description: The artifact deployment status for the virtual machine.
     types:
     - uid: ArtifactDeploymentStatusProperties
-    name: artifactDeploymentStatus
+    name: properties.artifactDeploymentStatus
   - description: The Microsoft Azure Marketplace image reference of the virtual machine.
     types:
     - uid: GalleryImageReference
-    name: galleryImageReference
+    name: properties.galleryImageReference
   - description: The compute virtual machine properties.
     types:
     - uid: ComputeVmProperties
-    name: computeVm
+    name: properties.computeVm
   - description: The network interface properties.
     types:
     - uid: NetworkInterfaceProperties
-    name: networkInterface
+    name: properties.networkInterface
   - description: The applicable schedule for the virtual machine.
     types:
     - uid: ApplicableSchedule
-    name: applicableSchedule
+    name: properties.applicableSchedule
   - description: The expiration date for VM.
     types:
     - uid: string
-    name: expirationDate
+    name: properties.expirationDate
   - description: Indicates whether another user can take ownership of the virtual machine
     types:
     - uid: boolean
-    name: allowClaim
+    name: properties.allowClaim
   - description: Storage type to use for virtual machine (i.e. Standard, Premium).
     types:
     - uid: string
-    name: storageType
+    name: properties.storageType
   - description: Tells source of creation of lab virtual machine. Output property only.
     types:
     - uid: VirtualMachineCreationSource
-    name: virtualMachineCreationSource
+    name: properties.virtualMachineCreationSource
   - description: The resource ID of the environment that contains this virtual machine, if any.
     types:
     - uid: string
-    name: environmentId
+    name: properties.environmentId
   - description: The provisioning status of the resource.
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - description: The unique immutable identifier of a resource (Guid).
     types:
     - uid: string
-    name: uniqueIdentifier
+    name: properties.uniqueIdentifier
   - isReadyOnly: true
     description: The identifier of the resource.
     types:
@@ -215,6 +214,14 @@ definitions:
       - uid: string
       uid: object
     name: tags
+- name: CloudError
+  description: Error from a REST request.
+  kind: object
+  properties:
+  - description: Body of an error from a REST request.
+    types:
+    - uid: CloudErrorBody
+    name: error
 - name: ArtifactInstallProperties
   description: Properties of an artifact.
   kind: object
@@ -225,8 +232,7 @@ definitions:
     name: artifactId
   - description: The parameters of the artifact.
     types:
-    - isArray: true
-      uid: ArtifactParameterProperties
+    - uid: ArtifactParameterProperties
     name: parameters
   - description: The status of the artifact.
     types:
@@ -244,20 +250,8 @@ definitions:
     types:
     - uid: string
     name: installTime
-- name: ArtifactParameterProperties
-  description: Properties of an artifact parameter.
-  kind: object
-  properties:
-  - description: The name of the artifact parameter.
-    types:
-    - uid: string
-    name: name
-  - description: The value of the artifact parameter.
-    types:
-    - uid: string
-    name: value
 - name: ArtifactDeploymentStatusProperties
-  description: The artifact deployment status for the virtual machine.
+  description: Properties of an artifact deployment.
   kind: object
   properties:
   - description: The deployment status of the artifact.
@@ -273,7 +267,7 @@ definitions:
     - uid: integer
     name: totalArtifacts
 - name: GalleryImageReference
-  description: The Microsoft Azure Marketplace image reference of the virtual machine.
+  description: The reference information for an Azure Marketplace image.
   kind: object
   properties:
   - description: The offer of the gallery image.
@@ -297,13 +291,12 @@ definitions:
     - uid: string
     name: version
 - name: ComputeVmProperties
-  description: The compute virtual machine properties.
+  description: Properties of a virtual machine returned by the Microsoft.Compute API.
   kind: object
   properties:
   - description: Gets the statuses of the virtual machine.
     types:
-    - isArray: true
-      uid: ComputeVmInstanceViewStatus
+    - uid: ComputeVmInstanceViewStatus
     name: statuses
   - description: Gets the OS type of the virtual machine.
     types:
@@ -323,52 +316,14 @@ definitions:
     name: osDiskId
   - description: Gets data disks blob uri for the virtual machine.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: dataDiskIds
   - description: Gets all data disks attached to the virtual machine.
     types:
-    - isArray: true
-      uid: ComputeDataDisk
+    - uid: ComputeDataDisk
     name: dataDisks
-- name: ComputeVmInstanceViewStatus
-  description: Status information about a virtual machine.
-  kind: object
-  properties:
-  - description: Gets the status Code.
-    types:
-    - uid: string
-    name: code
-  - description: Gets the short localizable label for the status.
-    types:
-    - uid: string
-    name: displayStatus
-  - description: Gets the message associated with the status.
-    types:
-    - uid: string
-    name: message
-- name: ComputeDataDisk
-  description: A data disks attached to a virtual machine.
-  kind: object
-  properties:
-  - description: Gets data disk name.
-    types:
-    - uid: string
-    name: name
-  - description: When backed by a blob, the URI of underlying blob.
-    types:
-    - uid: string
-    name: diskUri
-  - description: When backed by managed disk, this is the ID of the compute disk resource.
-    types:
-    - uid: string
-    name: managedDiskId
-  - description: Gets data disk size in GiB.
-    types:
-    - uid: integer
-    name: diskSizeGiB
 - name: NetworkInterfaceProperties
-  description: The network interface properties.
+  description: Properties of a network interface.
   kind: object
   properties:
   - description: The resource ID of the virtual network.
@@ -407,15 +362,194 @@ definitions:
     types:
     - uid: SharedPublicIpAddressConfiguration
     name: sharedPublicIpAddressConfiguration
+- name: ApplicableSchedule
+  description: Schedules applicable to a virtual machine. The schedules may have been defined on a VM or on lab level.
+  kind: object
+  properties:
+  - description: The auto-shutdown schedule, if one has been set at the lab or lab resource level.
+    types:
+    - uid: Schedule
+    name: properties.labVmsShutdown
+  - description: The auto-startup schedule, if one has been set at the lab or lab resource level.
+    types:
+    - uid: Schedule
+    name: properties.labVmsStartup
+  - isReadyOnly: true
+    description: The identifier of the resource.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+    name: type
+  - description: The location of the resource.
+    types:
+    - uid: string
+    name: location
+  - description: The tags of the resource.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+- name: CloudErrorBody
+  description: Body of an error from a REST request.
+  kind: object
+  properties:
+  - types:
+    - uid: string
+    name: code
+  - types:
+    - uid: string
+    name: message
+  - types:
+    - uid: string
+    name: target
+  - description: Inner errors.
+    types:
+    - uid: CloudErrorBody
+    name: details
+- name: ArtifactParameterProperties
+  description: Properties of an artifact parameter.
+  kind: object
+  properties:
+  - description: The name of the artifact parameter.
+    types:
+    - uid: string
+    name: name
+  - description: The value of the artifact parameter.
+    types:
+    - uid: string
+    name: value
+- name: ComputeVmInstanceViewStatus
+  description: Status information about a virtual machine.
+  kind: object
+  properties:
+  - description: Gets the status Code.
+    types:
+    - uid: string
+    name: code
+  - description: Gets the short localizable label for the status.
+    types:
+    - uid: string
+    name: displayStatus
+  - description: Gets the message associated with the status.
+    types:
+    - uid: string
+    name: message
+- name: ComputeDataDisk
+  description: A data disks attached to a virtual machine.
+  kind: object
+  properties:
+  - description: Gets data disk name.
+    types:
+    - uid: string
+    name: name
+  - description: When backed by a blob, the URI of underlying blob.
+    types:
+    - uid: string
+    name: diskUri
+  - description: When backed by managed disk, this is the ID of the compute disk resource.
+    types:
+    - uid: string
+    name: managedDiskId
+  - description: Gets data disk size in GiB.
+    types:
+    - uid: integer
+    name: diskSizeGiB
 - name: SharedPublicIpAddressConfiguration
-  description: The configuration for sharing a public IP address across multiple virtual machines.
+  description: Properties of a virtual machine that determine how it is connected to a load balancer.
   kind: object
   properties:
   - description: The incoming NAT rules
     types:
-    - isArray: true
-      uid: InboundNatRule
+    - uid: InboundNatRule
     name: inboundNatRules
+- name: Schedule
+  description: A schedule.
+  kind: object
+  properties:
+  - description: The status of the schedule (i.e. Enabled, Disabled)
+    types:
+    - uid: EnableStatus
+    name: properties.status
+  - description: The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
+    types:
+    - uid: string
+    name: properties.taskType
+  - description: If the schedule will occur only some days of the week, specify the weekly recurrence.
+    types:
+    - uid: WeekDetails
+    name: properties.weeklyRecurrence
+  - description: If the schedule will occur once each day of the week, specify the daily recurrence.
+    types:
+    - uid: DayDetails
+    name: properties.dailyRecurrence
+  - description: If the schedule will occur multiple times a day, specify the hourly recurrence.
+    types:
+    - uid: HourDetails
+    name: properties.hourlyRecurrence
+  - description: The time zone ID (e.g. Pacific Standard time).
+    types:
+    - uid: string
+    name: properties.timeZoneId
+  - description: Notification settings.
+    types:
+    - uid: NotificationSettings
+    name: properties.notificationSettings
+  - isReadyOnly: true
+    description: The creation date of the schedule.
+    types:
+    - uid: string
+    name: properties.createdDate
+  - description: The resource ID to which the schedule belongs
+    types:
+    - uid: string
+    name: properties.targetResourceId
+  - description: The provisioning status of the resource.
+    types:
+    - uid: string
+    name: properties.provisioningState
+  - description: The unique immutable identifier of a resource (Guid).
+    types:
+    - uid: string
+    name: properties.uniqueIdentifier
+  - isReadyOnly: true
+    description: The identifier of the resource.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+    name: type
+  - description: The location of the resource.
+    types:
+    - uid: string
+    name: location
+  - description: The tags of the resource.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
 - name: InboundNatRule
   description: A rule for NAT - exposing a VM's port (backendPort) on the public IP address using a load balancer.
   kind: object
@@ -432,156 +566,20 @@ definitions:
     types:
     - uid: integer
     name: backendPort
-- name: TransportProtocol
-  description: The transport protocol for the endpoint.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Tcp
-  - types:
-    - uid: string
-    name: Udp
-- name: ApplicableSchedule
-  description: The applicable schedule for the virtual machine.
-  kind: object
-  properties:
-  - description: The auto-shutdown schedule, if one has been set at the lab or lab resource level.
-    types:
-    - uid: Schedule
-    name: labVmsShutdown
-  - description: The auto-startup schedule, if one has been set at the lab or lab resource level.
-    types:
-    - uid: Schedule
-    name: labVmsStartup
-  - isReadyOnly: true
-    description: The identifier of the resource.
-    types:
-    - uid: string
-    name: id
-  - isReadyOnly: true
-    description: The name of the resource.
-    types:
-    - uid: string
-    name: name
-  - isReadyOnly: true
-    description: The type of the resource.
-    types:
-    - uid: string
-    name: type
-  - description: The location of the resource.
-    types:
-    - uid: string
-    name: location
-  - description: The tags of the resource.
-    types:
-    - isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-      uid: object
-    name: tags
-- name: Schedule
-  description: The auto-shutdown schedule, if one has been set at the lab or lab resource level.
-  kind: object
-  properties:
-  - description: The status of the schedule (i.e. Enabled, Disabled)
-    types:
-    - uid: EnableStatus
-    name: status
-  - description: The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
-    types:
-    - uid: string
-    name: taskType
-  - description: If the schedule will occur only some days of the week, specify the weekly recurrence.
-    types:
-    - uid: WeekDetails
-    name: weeklyRecurrence
-  - description: If the schedule will occur once each day of the week, specify the daily recurrence.
-    types:
-    - uid: DayDetails
-    name: dailyRecurrence
-  - description: If the schedule will occur multiple times a day, specify the hourly recurrence.
-    types:
-    - uid: HourDetails
-    name: hourlyRecurrence
-  - description: The time zone ID (e.g. Pacific Standard time).
-    types:
-    - uid: string
-    name: timeZoneId
-  - description: Notification settings.
-    types:
-    - uid: NotificationSettings
-    name: notificationSettings
-  - isReadyOnly: true
-    description: The creation date of the schedule.
-    types:
-    - uid: string
-    name: createdDate
-  - description: The resource ID to which the schedule belongs
-    types:
-    - uid: string
-    name: targetResourceId
-  - description: The provisioning status of the resource.
-    types:
-    - uid: string
-    name: provisioningState
-  - description: The unique immutable identifier of a resource (Guid).
-    types:
-    - uid: string
-    name: uniqueIdentifier
-  - isReadyOnly: true
-    description: The identifier of the resource.
-    types:
-    - uid: string
-    name: id
-  - isReadyOnly: true
-    description: The name of the resource.
-    types:
-    - uid: string
-    name: name
-  - isReadyOnly: true
-    description: The type of the resource.
-    types:
-    - uid: string
-    name: type
-  - description: The location of the resource.
-    types:
-    - uid: string
-    name: location
-  - description: The tags of the resource.
-    types:
-    - isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-      uid: object
-    name: tags
-- name: EnableStatus
-  description: The status of the schedule (i.e. Enabled, Disabled)
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Enabled
-  - types:
-    - uid: string
-    name: Disabled
 - name: WeekDetails
-  description: If the schedule will occur only some days of the week, specify the weekly recurrence.
+  description: Properties of a weekly schedule.
   kind: object
   properties:
   - description: The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: weekdays
   - description: The time of the day the schedule will occur.
     types:
     - uid: string
     name: time
 - name: DayDetails
-  description: If the schedule will occur once each day of the week, specify the daily recurrence.
+  description: Properties of a daily schedule.
   kind: object
   properties:
   - description: The time of day the schedule will occur.
@@ -589,7 +587,7 @@ definitions:
     - uid: string
     name: time
 - name: HourDetails
-  description: If the schedule will occur multiple times a day, specify the hourly recurrence.
+  description: Properties of an hourly schedule.
   kind: object
   properties:
   - description: Minutes of the hour the schedule will run.
@@ -597,7 +595,7 @@ definitions:
     - uid: integer
     name: minute
 - name: NotificationSettings
-  description: Notification settings.
+  description: Notification settings for a schedule.
   kind: object
   properties:
   - description: If notifications are enabled for this schedule (i.e. Enabled, Disabled).
@@ -612,52 +610,6 @@ definitions:
     types:
     - uid: string
     name: webhookUrl
-- name: NotificationStatus
-  description: If notifications are enabled for this schedule (i.e. Enabled, Disabled).
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Disabled
-  - types:
-    - uid: string
-    name: Enabled
-- name: VirtualMachineCreationSource
-  description: Tells source of creation of lab virtual machine. Output property only.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: FromCustomImage
-  - types:
-    - uid: string
-    name: FromGalleryImage
-- name: CloudError
-  description: Error from a REST request.
-  kind: object
-  properties:
-  - description: Body of an error from a REST request.
-    types:
-    - uid: CloudErrorBody
-    name: error
-- name: CloudErrorBody
-  description: Body of an error from a REST request.
-  kind: object
-  properties:
-  - types:
-    - uid: string
-    name: code
-  - types:
-    - uid: string
-    name: message
-  - types:
-    - uid: string
-    name: target
-  - description: Inner errors.
-    types:
-    - isArray: true
-      uid: Details
-    name: details
 examples: []
 security:
 - type: oauth2

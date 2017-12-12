@@ -65,47 +65,44 @@ definitions:
     description: The status of the Cosmos DB account at the time the operation was called. The status can be one of following. 'Creating' – the Cosmos DB account is being created. When an account is in Creating state, only properties that are specified as input for the Create Cosmos DB account operation are returned. 'Succeeded' – the Cosmos DB account is active for use. 'Updating' – the Cosmos DB account is being updated. 'Deleting' – the Cosmos DB account is being deleted. 'Failed' – the Cosmos DB account failed creation.
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: The connection endpoint for the Cosmos DB database account.
     types:
     - uid: string
-    name: documentEndpoint
+    name: properties.documentEndpoint
   - isReadyOnly: true
     description: 'The offer type for the Cosmos DB database account. Default value: Standard.'
     types:
     - uid: DatabaseAccountOfferType
-    name: databaseAccountOfferType
+    name: properties.databaseAccountOfferType
   - description: 'Cosmos DB Firewall Support: This value specifies the set of IP addresses or IP address ranges in CIDR form to be included as the allowed list of client IPs for a given database account. IP addresses/ranges must be comma separated and must not contain any spaces.'
     types:
     - uid: string
-    name: ipRangeFilter
+    name: properties.ipRangeFilter
   - description: Enables automatic failover of the write region in the rare event that the region is unavailable due to an outage. Automatic failover will result in a new write region for the account and is chosen based on the failover priorities configured for the account.
     types:
     - uid: boolean
-    name: enableAutomaticFailover
+    name: properties.enableAutomaticFailover
   - description: The consistency policy for the Cosmos DB database account.
     types:
     - uid: ConsistencyPolicy
-    name: consistencyPolicy
+    name: properties.consistencyPolicy
   - isReadyOnly: true
     description: An array that contains the write location for the Cosmos DB account.
     types:
-    - isArray: true
-      uid: Location
-    name: writeLocations
+    - uid: Location
+    name: properties.writeLocations
   - isReadyOnly: true
     description: An array that contains of the read locations enabled for the Cosmos DB account.
     types:
-    - isArray: true
-      uid: Location
-    name: readLocations
+    - uid: Location
+    name: properties.readLocations
   - isReadyOnly: true
     description: An array that contains the regions ordered by their failover priorities.
     types:
-    - isArray: true
-      uid: FailoverPolicy
-    name: failoverPolicies
+    - uid: FailoverPolicy
+    name: properties.failoverPolicies
   - isReadyOnly: true
     description: The unique resource identifier of the database account.
     types:
@@ -133,21 +130,8 @@ definitions:
       - uid: string
       uid: object
     name: tags
-- name: DatabaseAccountKind
-  description: Indicates the type of database account. This can only be set at database account creation.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: GlobalDocumentDB
-  - types:
-    - uid: string
-    name: MongoDB
-  - types:
-    - uid: string
-    name: Parse
 - name: DatabaseAccountOfferType
-  description: 'The offer type for the Cosmos DB database account. Default value: Standard.'
+  description: The offer type for the Cosmos DB database account.
   kind: enum
   properties:
   - types:
@@ -169,25 +153,6 @@ definitions:
     types:
     - uid: integer
     name: maxIntervalInSeconds
-- name: DefaultConsistencyLevel
-  description: The default consistency level and configuration settings of the Cosmos DB account.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Eventual
-  - types:
-    - uid: string
-    name: Session
-  - types:
-    - uid: string
-    name: BoundedStaleness
-  - types:
-    - uid: string
-    name: Strong
-  - types:
-    - uid: string
-    name: ConsistentPrefix
 - name: Location
   description: A region in which the Azure Cosmos DB database account is deployed.
   kind: object

@@ -57,44 +57,42 @@ requestBody:
     description: The AddressSpace that contains an array of IP address ranges that can be used by subnets.
     types:
     - uid: AddressSpace
-    name: addressSpace
+    name: properties.addressSpace
   - in: body
     description: The dhcpOptions that contains an array of DNS servers available to VMs deployed in the virtual network.
     types:
     - uid: DhcpOptions
-    name: dhcpOptions
+    name: properties.dhcpOptions
   - in: body
     description: A list of subnets in a Virtual Network.
     types:
-    - isArray: true
-      uid: Subnet
-    name: subnets
+    - uid: Subnet
+    name: properties.subnets
   - in: body
     description: A list of peerings in a Virtual Network.
     types:
-    - isArray: true
-      uid: VirtualNetworkPeering
-    name: virtualNetworkPeerings
+    - uid: VirtualNetworkPeering
+    name: properties.virtualNetworkPeerings
   - in: body
     description: The resourceGuid property of the Virtual Network resource.
     types:
     - uid: string
-    name: resourceGuid
+    name: properties.resourceGuid
   - in: body
     description: "The provisioning state of the PublicIP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - in: body
     description: Indicates if DDoS protection is enabled for all the protected resources in a Virtual Network.
     types:
     - uid: boolean
-    name: enableDdosProtection
+    name: properties.enableDdosProtection
   - in: body
     description: Indicates if Vm protection is enabled for all the subnets in a Virtual Network.
     types:
     - uid: boolean
-    name: enableVmProtection
+    name: properties.enableVmProtection
   - in: body
     isRequired: true
     description: Resource location.
@@ -112,19 +110,113 @@ requestBody:
     name: tags
 requestHeader: []
 definitions:
-- name: VirtualNetworkPeeringState
-  description: The status of the virtual network peering. Possible values are 'Initiated', 'Connected', and 'Disconnected'.
-  kind: enum
+- name: AddressSpace
+  description: AddressSpace contains an array of IP address ranges that can be used by subnets of the virtual network.
+  kind: object
   properties:
-  - types:
+  - description: A list of address blocks reserved for this virtual network in CIDR notation.
+    types:
     - uid: string
-    name: Initiated
-  - types:
+    name: addressPrefixes
+- name: DhcpOptions
+  description: DhcpOptions contains an array of DNS servers available to VMs deployed in the virtual network. Standard DHCP option for a subnet overrides VNET DHCP options.
+  kind: object
+  properties:
+  - description: The list of DNS servers IP addresses.
+    types:
     - uid: string
-    name: Connected
-  - types:
+    name: dnsServers
+- name: Subnet
+  description: Subnet in a virtual network resource.
+  kind: object
+  properties:
+  - description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
     - uid: string
-    name: Disconnected
+    name: name
+  - description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+    name: etag
+  - description: The address prefix for the subnet.
+    types:
+    - uid: string
+    name: properties.addressPrefix
+  - description: The reference of the NetworkSecurityGroup resource.
+    types:
+    - uid: SubResource
+    name: properties.networkSecurityGroup
+  - description: The reference of the RouteTable resource.
+    types:
+    - uid: SubResource
+    name: properties.routeTable
+  - description: An array of service endpoints.
+    types:
+    - uid: ServiceEndpointPropertiesFormat
+    name: properties.serviceEndpoints
+  - isReadyOnly: true
+    description: Gets an array of references to the network interface IP configurations using subnet.
+    types:
+    - uid: SubResource
+    name: properties.ipConfigurations
+  - description: Gets an array of references to the external resources using subnet.
+    types:
+    - uid: ResourceNavigationLink
+    name: properties.resourceNavigationLinks
+  - description: The provisioning state of the resource.
+    types:
+    - uid: string
+    name: properties.provisioningState
+  - isReadyOnly: true
+    description: Resource ID
+    types:
+    - uid: string
+    name: id
+- name: VirtualNetworkPeering
+  description: Peerings in a virtual network resource.
+  kind: object
+  properties:
+  - description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+    name: name
+  - description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+    name: etag
+  - description: Whether the VMs in the linked virtual network space would be able to access all the VMs in local Virtual network space.
+    types:
+    - uid: boolean
+    name: properties.allowVirtualNetworkAccess
+  - description: Whether the forwarded traffic from the VMs in the remote virtual network will be allowed/disallowed.
+    types:
+    - uid: boolean
+    name: properties.allowForwardedTraffic
+  - description: If gateway links can be used in remote virtual networking to link to this virtual network.
+    types:
+    - uid: boolean
+    name: properties.allowGatewayTransit
+  - description: If remote gateways can be used on this virtual network. If the flag is set to true, and allowGatewayTransit on remote peering is also true, virtual network will use gateways of remote virtual network for transit. Only one peering can have this flag set to true. This flag cannot be set if virtual network already has a gateway.
+    types:
+    - uid: boolean
+    name: properties.useRemoteGateways
+  - description: The reference of the remote virtual network. The remote virtual network can be in the same or different region (preview). See here to register for the preview and learn more (https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering).
+    types:
+    - uid: SubResource
+    name: properties.remoteVirtualNetwork
+  - description: The status of the virtual network peering. Possible values are 'Initiated', 'Connected', and 'Disconnected'.
+    types:
+    - uid: VirtualNetworkPeeringState
+    name: properties.peeringState
+  - description: The provisioning state of the resource.
+    types:
+    - uid: string
+    name: properties.provisioningState
+  - isReadyOnly: true
+    description: Resource ID
+    types:
+    - uid: string
+    name: id
 - name: VirtualNetwork
   description: Virtual Network resource.
   kind: object
@@ -136,37 +228,35 @@ definitions:
   - description: The AddressSpace that contains an array of IP address ranges that can be used by subnets.
     types:
     - uid: AddressSpace
-    name: addressSpace
+    name: properties.addressSpace
   - description: The dhcpOptions that contains an array of DNS servers available to VMs deployed in the virtual network.
     types:
     - uid: DhcpOptions
-    name: dhcpOptions
+    name: properties.dhcpOptions
   - description: A list of subnets in a Virtual Network.
     types:
-    - isArray: true
-      uid: Subnet
-    name: subnets
+    - uid: Subnet
+    name: properties.subnets
   - description: A list of peerings in a Virtual Network.
     types:
-    - isArray: true
-      uid: VirtualNetworkPeering
-    name: virtualNetworkPeerings
+    - uid: VirtualNetworkPeering
+    name: properties.virtualNetworkPeerings
   - description: The resourceGuid property of the Virtual Network resource.
     types:
     - uid: string
-    name: resourceGuid
+    name: properties.resourceGuid
   - description: "The provisioning state of the PublicIP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - description: Indicates if DDoS protection is enabled for all the protected resources in a Virtual Network.
     types:
     - uid: boolean
-    name: enableDdosProtection
+    name: properties.enableDdosProtection
   - description: Indicates if Vm protection is enabled for all the subnets in a Virtual Network.
     types:
     - uid: boolean
-    name: enableVmProtection
+    name: properties.enableVmProtection
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -194,75 +284,8 @@ definitions:
       - uid: string
       uid: object
     name: tags
-- name: AddressSpace
-  description: The AddressSpace that contains an array of IP address ranges that can be used by subnets.
-  kind: object
-  properties:
-  - description: A list of address blocks reserved for this virtual network in CIDR notation.
-    types:
-    - isArray: true
-      uid: string
-    name: addressPrefixes
-- name: DhcpOptions
-  description: The dhcpOptions that contains an array of DNS servers available to VMs deployed in the virtual network.
-  kind: object
-  properties:
-  - description: The list of DNS servers IP addresses.
-    types:
-    - isArray: true
-      uid: string
-    name: dnsServers
-- name: Subnet
-  description: Subnet in a virtual network resource.
-  kind: object
-  properties:
-  - description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-    types:
-    - uid: string
-    name: name
-  - description: A unique read-only string that changes whenever the resource is updated.
-    types:
-    - uid: string
-    name: etag
-  - description: The address prefix for the subnet.
-    types:
-    - uid: string
-    name: addressPrefix
-  - description: The reference of the NetworkSecurityGroup resource.
-    types:
-    - uid: SubResource
-    name: networkSecurityGroup
-  - description: The reference of the RouteTable resource.
-    types:
-    - uid: SubResource
-    name: routeTable
-  - description: An array of service endpoints.
-    types:
-    - isArray: true
-      uid: ServiceEndpointPropertiesFormat
-    name: serviceEndpoints
-  - isReadyOnly: true
-    description: Gets an array of references to the network interface IP configurations using subnet.
-    types:
-    - isArray: true
-      uid: SubResource
-    name: ipConfigurations
-  - description: Gets an array of references to the external resources using subnet.
-    types:
-    - isArray: true
-      uid: ResourceNavigationLink
-    name: resourceNavigationLinks
-  - description: The provisioning state of the resource.
-    types:
-    - uid: string
-    name: provisioningState
-  - isReadyOnly: true
-    description: Resource ID
-    types:
-    - uid: string
-    name: id
 - name: SubResource
-  description: The reference of the NetworkSecurityGroup resource.
+  description: Reference to another subresource.
   kind: object
   properties:
   - description: Resource ID.
@@ -279,8 +302,7 @@ definitions:
     name: service
   - description: A list of locations.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: locations
   - description: The provisioning state of the resource.
     types:
@@ -302,61 +324,16 @@ definitions:
   - description: Resource type of the linked resource.
     types:
     - uid: string
-    name: linkedResourceType
+    name: properties.linkedResourceType
   - description: Link to the external resource
     types:
     - uid: string
-    name: link
+    name: properties.link
   - isReadyOnly: true
     description: Provisioning state of the ResourceNavigationLink resource.
     types:
     - uid: string
-    name: provisioningState
-  - isReadyOnly: true
-    description: Resource ID
-    types:
-    - uid: string
-    name: id
-- name: VirtualNetworkPeering
-  description: Peerings in a virtual network resource.
-  kind: object
-  properties:
-  - description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-    types:
-    - uid: string
-    name: name
-  - description: A unique read-only string that changes whenever the resource is updated.
-    types:
-    - uid: string
-    name: etag
-  - description: Whether the VMs in the linked virtual network space would be able to access all the VMs in local Virtual network space.
-    types:
-    - uid: boolean
-    name: allowVirtualNetworkAccess
-  - description: Whether the forwarded traffic from the VMs in the remote virtual network will be allowed/disallowed.
-    types:
-    - uid: boolean
-    name: allowForwardedTraffic
-  - description: If gateway links can be used in remote virtual networking to link to this virtual network.
-    types:
-    - uid: boolean
-    name: allowGatewayTransit
-  - description: If remote gateways can be used on this virtual network. If the flag is set to true, and allowGatewayTransit on remote peering is also true, virtual network will use gateways of remote virtual network for transit. Only one peering can have this flag set to true. This flag cannot be set if virtual network already has a gateway.
-    types:
-    - uid: boolean
-    name: useRemoteGateways
-  - description: The reference of the remote virtual network. The remote virtual network can be in the same or different region (preview). See here to register for the preview and learn more (https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering).
-    types:
-    - uid: SubResource
-    name: remoteVirtualNetwork
-  - description: The status of the virtual network peering. Possible values are 'Initiated', 'Connected', and 'Disconnected'.
-    types:
-    - uid: VirtualNetworkPeeringState
-    name: peeringState
-  - description: The provisioning state of the resource.
-    types:
-    - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: Resource ID
     types:

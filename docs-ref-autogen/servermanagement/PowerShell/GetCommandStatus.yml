@@ -73,18 +73,17 @@ definitions:
   kind: object
   properties:
   - types:
-    - isArray: true
-      uid: PowerShellCommandResult
-    name: results
+    - uid: PowerShellCommandResult
+    name: properties.results
   - types:
     - uid: string
-    name: pssession
+    name: properties.pssession
   - types:
     - uid: string
-    name: command
+    name: properties.command
   - types:
     - uid: boolean
-    name: completed
+    name: properties.completed
   - isReadyOnly: true
     description: Resource Manager Resource ID.
     types:
@@ -116,6 +115,19 @@ definitions:
   - types:
     - uid: string
     name: etag
+- name: Error
+  description: Error message.
+  kind: object
+  properties:
+  - types:
+    - uid: integer
+    name: code
+  - types:
+    - uid: string
+    name: message
+  - types:
+    - uid: string
+    name: fields
 - name: PowerShellCommandResult
   description: Results from invoking a PowerShell command.
   kind: object
@@ -158,8 +170,7 @@ definitions:
     name: message
   - description: Collection of PromptFieldDescription objects that contains the user input.
     types:
-    - isArray: true
-      uid: PromptFieldDescription
+    - uid: PromptFieldDescription
     name: descriptions
 - name: PromptFieldDescription
   description: Field description for the implementation of PSHostUserInterface.Prompt
@@ -184,31 +195,6 @@ definitions:
   - types:
     - uid: PromptFieldType
     name: promptFieldType
-- name: PromptFieldType
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: String
-  - types:
-    - uid: string
-    name: SecureString
-  - types:
-    - uid: string
-    name: Credential
-- name: Error
-  description: Error message.
-  kind: object
-  properties:
-  - types:
-    - uid: integer
-    name: code
-  - types:
-    - uid: string
-    name: message
-  - types:
-    - uid: string
-    name: fields
 examples: []
 security:
 - type: oauth2

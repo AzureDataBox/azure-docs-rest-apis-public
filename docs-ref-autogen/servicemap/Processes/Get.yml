@@ -74,11 +74,11 @@ definitions:
   - description: UTC date and time when this process resource was updated in the system
     types:
     - uid: string
-    name: timestamp
+    name: properties.timestamp
   - description: Specifies whether the process is actively monitored or discovered.
     types:
     - uid: MonitoringState
-    name: monitoringState
+    name: properties.monitoringState
   - description: Machine hosting this process.
     types:
     - uid: MachineReference
@@ -86,31 +86,31 @@ definitions:
     - uid: PortReference
     - uid: MachineReferenceWithHints
     typesTitle: ResourceReference
-    name: machine
+    name: properties.machine
   - description: The name of the process executable
     types:
     - uid: string
-    name: executableName
+    name: properties.executableName
   - description: Name to use for display purposes
     types:
     - uid: string
-    name: displayName
+    name: properties.displayName
   - description: UTC date and time when the process started
     types:
     - uid: string
-    name: startTime
+    name: properties.startTime
   - description: The inferred role of this process based on its name, command line, etc.
     types:
     - uid: ProcessRole
-    name: role
+    name: properties.role
   - description: Process metadata (command line, product name, etc.).
     types:
     - uid: ProcessDetails
-    name: details
+    name: properties.details
   - description: Information about the account under which the process is executing.
     types:
     - uid: ProcessUser
-    name: user
+    name: properties.user
   - description: Present only for a discovered process acting as a client of a monitored process/machine/port. References the monitored process/machine/port that this process is a client of.
     types:
     - uid: MachineReference
@@ -118,7 +118,7 @@ definitions:
     - uid: PortReference
     - uid: MachineReferenceWithHints
     typesTitle: ResourceReference
-    name: clientOf
+    name: properties.clientOf
   - description: Present only for a discovered process acting as a server. References the port on which the discovered process is accepting.
     types:
     - uid: MachineReference
@@ -126,7 +126,7 @@ definitions:
     - uid: PortReference
     - uid: MachineReferenceWithHints
     typesTitle: ResourceReference
-    name: acceptorOf
+    name: properties.acceptorOf
   - description: Resource ETAG.
     types:
     - uid: string
@@ -151,8 +151,16 @@ definitions:
     types:
     - uid: string
     name: name
+- name: ErrorResponse
+  description: An error response from the API.
+  kind: object
+  properties:
+  - description: Error information.
+    types:
+    - uid: Error
+    name: error
 - name: MonitoringState
-  description: Specifies whether the process is actively monitored or discovered.
+  description: Used to specify if a resources is monitored or discovered.
   kind: enum
   properties:
   - types:
@@ -161,27 +169,8 @@ definitions:
   - types:
     - uid: string
     name: discovered
-- name: ProcessRole
-  description: The inferred role of this process based on its name, command line, etc.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: webServer
-  - types:
-    - uid: string
-    name: appServer
-  - types:
-    - uid: string
-    name: databaseServer
-  - types:
-    - uid: string
-    name: ldapServer
-  - types:
-    - uid: string
-    name: smbServer
 - name: ProcessDetails
-  description: Process metadata (command line, product name, etc.).
+  description: Describes process metadata.
   kind: object
   properties:
   - description: A unique indentifier for a process, generally resilient to process restart, computed by Service Map.
@@ -233,7 +222,7 @@ definitions:
     - uid: string
     name: workingDirectory
 - name: ProcessUser
-  description: Information about the account under which the process is executing.
+  description: Describes the user under which a process is running.
   kind: object
   properties:
   - description: User name under which the process is running.
@@ -244,16 +233,8 @@ definitions:
     types:
     - uid: string
     name: userDomain
-- name: ErrorResponse
-  description: An error response from the API.
-  kind: object
-  properties:
-  - description: Error information.
-    types:
-    - uid: Error
-    name: error
 - name: Error
-  description: Error information.
+  description: Error details.
   kind: object
   properties:
   - description: Error code identifying the specific error.
@@ -295,7 +276,7 @@ definitions:
     description: Machine hosting the process.
     types:
     - uid: MachineReference
-    name: machine
+    name: properties.machine
   - description: Resource URI.
     types:
     - uid: string
@@ -323,16 +304,16 @@ definitions:
     description: Machine hosting the port.
     types:
     - uid: MachineReference
-    name: machine
+    name: properties.machine
   - isReadyOnly: true
     description: IP address of the port.
     types:
     - uid: string
-    name: ipAddress
+    name: properties.ipAddress
   - description: Port number.
     types:
     - uid: integer
-    name: portNumber
+    name: properties.portNumber
   - description: Resource URI.
     types:
     - uid: string
@@ -360,12 +341,12 @@ definitions:
     description: Last known display name.
     types:
     - uid: string
-    name: displayNameHint
+    name: properties.displayNameHint
   - isReadyOnly: true
     description: Last known operating system family.
     types:
     - uid: OperatingSystemFamily
-    name: osFamilyHint
+    name: properties.osFamilyHint
   - description: Resource URI.
     types:
     - uid: string
@@ -386,7 +367,7 @@ definitions:
     typesTitle: string
     name: kind
 - name: OperatingSystemFamily
-  description: Last known operating system family.
+  description: Specifies the operating system family, e.g., Linux, Windows, etc.
   kind: enum
   properties:
   - types:

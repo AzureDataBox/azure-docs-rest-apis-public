@@ -167,8 +167,7 @@ definitions:
   properties:
   - description: This property is used as the discriminator for deciding the specific types in the polymorhpic chain of types.
     types:
-    - {}
-    typesTitle: string
+    - uid: string
     name: schedulePolicyType
 - name: SimpleSchedulePolicy
   description: Simple policy schedule.
@@ -180,13 +179,11 @@ definitions:
     name: scheduleRunFrequency
   - description: This list is the days of the week when the schedule runs.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: scheduleRunDays
   - description: List of times, during a day, when the schedule runs.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: scheduleRunTimes
   - description: The number of times per week the schedule runs.
     types:
@@ -197,19 +194,6 @@ definitions:
     - uid: SimpleSchedulePolicy
     typesTitle: string
     name: schedulePolicyType
-- name: ScheduleRunType
-  description: Defines the frequency interval (daily or weekly) for the schedule policy.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Invalid
-  - types:
-    - uid: string
-    name: Daily
-  - types:
-    - uid: string
-    name: Weekly
 - name: SimpleRetentionPolicy
   description: Simple policy retention.
   kind: object
@@ -223,37 +207,6 @@ definitions:
     - uid: SimpleRetentionPolicy
     typesTitle: string
     name: retentionPolicyType
-- name: RetentionDuration
-  description: Retention duration of the protection policy.
-  kind: object
-  properties:
-  - description: "Count of the duration types. Retention duration is determined by the combining the Count times and durationType. \r\n   For example, if Count = 3 and durationType = Weeks, then the retention duration is three weeks."
-    types:
-    - uid: integer
-    name: count
-  - description: The retention duration type of the retention policy.
-    types:
-    - uid: RetentionDurationType
-    name: durationType
-- name: RetentionDurationType
-  description: The retention duration type of the retention policy.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Invalid
-  - types:
-    - uid: string
-    name: Days
-  - types:
-    - uid: string
-    name: Weeks
-  - types:
-    - uid: string
-    name: Months
-  - types:
-    - uid: string
-    name: Years
 - name: LongTermRetentionPolicy
   description: Long-term retention policy.
   kind: object
@@ -279,39 +232,48 @@ definitions:
     - uid: LongTermRetentionPolicy
     typesTitle: string
     name: retentionPolicyType
+- name: RetentionDuration
+  description: Retention duration.
+  kind: object
+  properties:
+  - description: "Count of the duration types. Retention duration is determined by the combining the Count times and durationType. \r\n   For example, if Count = 3 and durationType = Weeks, then the retention duration is three weeks."
+    types:
+    - uid: integer
+    name: count
+  - description: The retention duration type of the retention policy.
+    types:
+    - uid: RetentionDurationType
+    name: durationType
 - name: DailyRetentionSchedule
-  description: Daily retention schedule of the backup policy.
+  description: Daily retention schedule.
   kind: object
   properties:
   - description: The retention times of retention policy.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: retentionTimes
   - description: The retention duration of retention policy.
     types:
     - uid: RetentionDuration
     name: retentionDuration
 - name: WeeklyRetentionSchedule
-  description: Weekly retention schedule of the backup policy.
+  description: Weekly retention schedule.
   kind: object
   properties:
   - description: List of the days of the week for the weekly retention policy.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: daysOfTheWeek
   - description: Retention times of the retention policy.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: retentionTimes
   - description: Retention duration of retention policy.
     types:
     - uid: RetentionDuration
     name: retentionDuration
 - name: MonthlyRetentionSchedule
-  description: Monthly retention schedule of the backup policy.
+  description: The monthly retention schedule.
   kind: object
   properties:
   - description: Retention schedule format type for monthly retention policy.
@@ -328,61 +290,14 @@ definitions:
     name: retentionScheduleWeekly
   - description: Retention times of the retention policy.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: retentionTimes
   - description: Retention duration of the retention policy.
     types:
     - uid: RetentionDuration
     name: retentionDuration
-- name: RetentionScheduleFormat
-  description: Retention schedule format type for monthly retention policy.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Invalid
-  - types:
-    - uid: string
-    name: Daily
-  - types:
-    - uid: string
-    name: Weekly
-- name: DailyRetentionFormat
-  description: Daily retention format for the monthly retention policy.
-  kind: object
-  properties:
-  - description: List of days of the month.
-    types:
-    - isArray: true
-      uid: Day
-    name: daysOfTheMonth
-- name: Day
-  description: Day of the week.
-  kind: object
-  properties:
-  - types:
-    - uid: integer
-    name: date
-  - types:
-    - uid: boolean
-    name: isLast
-- name: WeeklyRetentionFormat
-  description: Weekly retention format for the monthly retention policy.
-  kind: object
-  properties:
-  - description: List of days of the week.
-    types:
-    - isArray: true
-      uid: string
-    name: daysOfTheWeek
-  - description: List of weeks of the month.
-    types:
-    - isArray: true
-      uid: string
-    name: weeksOfTheMonth
 - name: YearlyRetentionSchedule
-  description: Yearly retention schedule of the backup policy.
+  description: Yearly retention schedule.
   kind: object
   properties:
   - description: Retention schedule format for the yearly retention policy.
@@ -391,8 +306,7 @@ definitions:
     name: retentionScheduleFormatType
   - description: List of the months of year for the yearly retention policy.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: monthsOfYear
   - description: Daily retention format for the yearly retention policy.
     types:
@@ -404,13 +318,42 @@ definitions:
     name: retentionScheduleWeekly
   - description: Retention times for the retention policy.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: retentionTimes
   - description: Retention duration for the retention policy.
     types:
     - uid: RetentionDuration
     name: retentionDuration
+- name: DailyRetentionFormat
+  description: Daily retention format.
+  kind: object
+  properties:
+  - description: List of days of the month.
+    types:
+    - uid: Day
+    name: daysOfTheMonth
+- name: WeeklyRetentionFormat
+  description: Weekly retention format.
+  kind: object
+  properties:
+  - description: List of days of the week.
+    types:
+    - uid: string
+    name: daysOfTheWeek
+  - description: List of weeks of the month.
+    types:
+    - uid: string
+    name: weeksOfTheMonth
+- name: Day
+  description: Day of the week.
+  kind: object
+  properties:
+  - types:
+    - uid: integer
+    name: date
+  - types:
+    - uid: boolean
+    name: isLast
 examples: []
 security:
 - type: oauth2

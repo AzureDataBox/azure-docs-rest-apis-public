@@ -38,9 +38,32 @@ definitions:
   properties:
   - description: locations
     types:
-    - isArray: true
-      uid: Location
+    - uid: Location
     name: value
+- name: ErrorResponse
+  description: Response when errors occurred
+  kind: object
+  properties:
+  - description: Provides information about the error code.
+    types:
+    - uid: string
+    name: error.code
+  - description: Provides information about the error message.
+    types:
+    - uid: string
+    name: error.message
+  - description: Provides information about the error target.
+    types:
+    - uid: string
+    name: error.target
+  - description: Describes the error details if present.
+    types:
+    - uid: Details
+    name: error.details
+  - description: Inner error object if present.
+    types:
+    - uid: object
+    name: error.innererror
 - name: Location
   description: Provides information about an Azure data center location.
   kind: object
@@ -60,85 +83,43 @@ definitions:
   - description: 'The recipient name to use when shipping the drives to the Azure data center. '
     types:
     - uid: string
-    name: recipientName
+    name: properties.recipientName
   - description: 'The first line of the street address to use when shipping the drives to the Azure data center. '
     types:
     - uid: string
-    name: streetAddress1
+    name: properties.streetAddress1
   - description: 'The second line of the street address to use when shipping the drives to the Azure data center. '
     types:
     - uid: string
-    name: streetAddress2
+    name: properties.streetAddress2
   - description: 'The city name to use when shipping the drives to the Azure data center. '
     types:
     - uid: string
-    name: city
+    name: properties.city
   - description: 'The state or province to use when shipping the drives to the Azure data center. '
     types:
     - uid: string
-    name: stateOrProvince
+    name: properties.stateOrProvince
   - description: 'The postal code to use when shipping the drives to the Azure data center. '
     types:
     - uid: string
-    name: postalCode
+    name: properties.postalCode
   - description: 'The country or region to use when shipping the drives to the Azure data center. '
     types:
     - uid: string
-    name: countryOrRegion
+    name: properties.countryOrRegion
   - description: 'The phone number for the Azure data center. '
     types:
     - uid: string
-    name: phone
+    name: properties.phone
   - description: 'A list of carriers that are supported at this location. '
     types:
-    - isArray: true
-      uid: string
-    name: supportedCarriers
+    - uid: string
+    name: properties.supportedCarriers
   - description: 'A list of location IDs that should be used to ship shipping drives to for jobs created against the current location. If the current location is active, it will be part of the list. If it is temporarily closed due to maintenance, this list may contain other locations. '
     types:
-    - isArray: true
-      uid: string
-    name: alternateLocations
-- name: ErrorResponse
-  description: Response when errors occurred
-  kind: object
-  properties:
-  - description: Provides information about the error code.
-    types:
     - uid: string
-    name: code
-  - description: Provides information about the error message.
-    types:
-    - uid: string
-    name: message
-  - description: Provides information about the error target.
-    types:
-    - uid: string
-    name: target
-  - description: Describes the error details if present.
-    types:
-    - isArray: true
-      uid: Details
-    name: details
-  - description: Inner error object if present.
-    types:
-    - uid: object
-    name: innererror
-- name: Details
-  kind: object
-  properties:
-  - description: Provides information about the error code.
-    types:
-    - uid: string
-    name: code
-  - description: Provides information about the error target.
-    types:
-    - uid: string
-    name: target
-  - description: Provides information about the error message.
-    types:
-    - uid: string
-    name: message
+    name: properties.alternateLocations
 examples:
 - request:
     uri: GET https://management.azure.com/providers/Microsoft.ImportExport/locations?api-version=2016-11-01

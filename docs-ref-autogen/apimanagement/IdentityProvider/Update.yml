@@ -54,43 +54,42 @@ requestBody:
     description: Client Id of the Application in the external Identity Provider. It is App ID for Facebook login, Client ID for Google login, App ID for Microsoft.
     types:
     - uid: string
-    name: clientId
+    name: properties.clientId
   - in: body
     description: Client secret of the Application in external Identity Provider, used to authenticate login request. For example, it is App Secret for Facebook login, API Key for Google login, Public Key for Microsoft.
     types:
     - uid: string
-    name: clientSecret
+    name: properties.clientSecret
   - in: body
     description: Identity Provider Type identifier.
     types:
     - uid: IdentityProviderType
-    name: type
+    name: properties.type
   - in: body
     description: List of Allowed Tenants when configuring Azure Active Directory login.
     types:
-    - isArray: true
-      uid: string
-    name: allowedTenants
+    - uid: string
+    name: properties.allowedTenants
   - in: body
     description: Signup Policy Name. Only applies to AAD B2C Identity Provider.
     types:
     - uid: string
-    name: signupPolicyName
+    name: properties.signupPolicyName
   - in: body
     description: Signin Policy Name. Only applies to AAD B2C Identity Provider.
     types:
     - uid: string
-    name: signinPolicyName
+    name: properties.signinPolicyName
   - in: body
     description: Profile Editing Policy Name. Only applies to AAD B2C Identity Provider.
     types:
     - uid: string
-    name: profileEditingPolicyName
+    name: properties.profileEditingPolicyName
   - in: body
     description: Password Reset Policy Name. Only applies to AAD B2C Identity Provider.
     types:
     - uid: string
-    name: passwordResetPolicyName
+    name: properties.passwordResetPolicyName
 requestHeader:
 - in: header
   isRequired: true
@@ -99,34 +98,6 @@ requestHeader:
   - uid: string
   name: If-Match
 definitions:
-- name: IdentityProviderType
-  description: Identity Provider Type identifier.
-  kind: enum
-  properties:
-  - description: Facebook as Identity provider.
-    types:
-    - uid: string
-    name: facebook
-  - description: Google as Identity provider.
-    types:
-    - uid: string
-    name: google
-  - description: Microsoft Live as Identity provider.
-    types:
-    - uid: string
-    name: microsoft
-  - description: Twitter as Identity provider.
-    types:
-    - uid: string
-    name: twitter
-  - description: Azure Active Directory as Identity provider.
-    types:
-    - uid: string
-    name: aad
-  - description: Azure Active Directory B2C as Identity provider.
-    types:
-    - uid: string
-    name: aadB2C
 - name: ErrorResponse
   description: Error Body contract.
   kind: object
@@ -141,8 +112,7 @@ definitions:
     name: message
   - description: The list of invalid fields send in request, in case of validation error.
     types:
-    - isArray: true
-      uid: ErrorFieldContract
+    - uid: ErrorFieldContract
     name: details
 - name: ErrorFieldContract
   description: Error Field contract.

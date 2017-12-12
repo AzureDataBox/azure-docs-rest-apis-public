@@ -38,9 +38,32 @@ definitions:
   properties:
   - description: operations
     types:
-    - isArray: true
-      uid: Operation
+    - uid: Operation
     name: value
+- name: ErrorResponse
+  description: Response when errors occurred
+  kind: object
+  properties:
+  - description: Provides information about the error code.
+    types:
+    - uid: string
+    name: error.code
+  - description: Provides information about the error message.
+    types:
+    - uid: string
+    name: error.message
+  - description: Provides information about the error target.
+    types:
+    - uid: string
+    name: error.target
+  - description: Describes the error details if present.
+    types:
+    - uid: Details
+    name: error.details
+  - description: Inner error object if present.
+    types:
+    - uid: object
+    name: error.innererror
 - name: Operation
   description: Describes a supported operation by the Storage Import/Export job API.
   kind: object
@@ -52,59 +75,19 @@ definitions:
   - description: The resource provider name to which the operation belongs.
     types:
     - uid: string
-    name: provider
+    name: display.provider
   - description: The name of the resource to which the operation belongs.
     types:
     - uid: string
-    name: resource
+    name: display.resource
   - description: The display name of the operation.
     types:
     - uid: string
-    name: operation
+    name: display.operation
   - description: Short description of the operation.
     types:
     - uid: string
-    name: description
-- name: ErrorResponse
-  description: Response when errors occurred
-  kind: object
-  properties:
-  - description: Provides information about the error code.
-    types:
-    - uid: string
-    name: code
-  - description: Provides information about the error message.
-    types:
-    - uid: string
-    name: message
-  - description: Provides information about the error target.
-    types:
-    - uid: string
-    name: target
-  - description: Describes the error details if present.
-    types:
-    - isArray: true
-      uid: Details
-    name: details
-  - description: Inner error object if present.
-    types:
-    - uid: object
-    name: innererror
-- name: Details
-  kind: object
-  properties:
-  - description: Provides information about the error code.
-    types:
-    - uid: string
-    name: code
-  - description: Provides information about the error target.
-    types:
-    - uid: string
-    name: target
-  - description: Provides information about the error message.
-    types:
-    - uid: string
-    name: message
+    name: display.description
 examples:
 - request:
     uri: GET https://management.azure.com/providers/Microsoft.ImportExport/operations?api-version=2016-11-01

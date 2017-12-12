@@ -66,88 +66,28 @@ requestBody:
   - in: body
     description: Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter expression.
     types:
-    - uid: Action
-    name: action
+    - uid: SqlRuleAction
+    typesTitle: Action
+    name: properties.action
   - in: body
     description: Filter type that is evaluated against a BrokeredMessage.
     types:
     - uid: FilterType
-    name: filterType
+    name: properties.filterType
   - in: body
     description: Properties of sqlFilter
     types:
     - uid: SqlFilter
-    name: sqlFilter
+    name: properties.sqlFilter
   - in: body
     description: Properties of correlationFilter
     types:
     - uid: CorrelationFilter
-    name: correlationFilter
+    name: properties.correlationFilter
 requestHeader: []
 definitions:
-- name: FilterType
-  description: Filter type that is evaluated against a BrokeredMessage.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: SqlFilter
-  - types:
-    - uid: string
-    name: CorrelationFilter
-- name: Rule
-  description: Description of Rule Resource.
-  kind: object
-  properties:
-  - description: Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter expression.
-    types:
-    - uid: Action
-    name: action
-  - description: Filter type that is evaluated against a BrokeredMessage.
-    types:
-    - uid: FilterType
-    name: filterType
-  - description: Properties of sqlFilter
-    types:
-    - uid: SqlFilter
-    name: sqlFilter
-  - description: Properties of correlationFilter
-    types:
-    - uid: CorrelationFilter
-    name: correlationFilter
-  - isReadyOnly: true
-    description: Resource Id
-    types:
-    - uid: string
-    name: id
-  - isReadyOnly: true
-    description: Resource name
-    types:
-    - uid: string
-    name: name
-  - isReadyOnly: true
-    description: Resource type
-    types:
-    - uid: string
-    name: type
-- name: Action
-  description: Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter expression.
-  kind: object
-  properties:
-  - description: SQL expression. e.g. MyProperty='ABC'
-    types:
-    - uid: string
-    name: sqlExpression
-  - description: This property is reserved for future use. An integer value showing the compatibility level, currently hard-coded to 20.
-    types:
-    - uid: integer
-    name: compatibilityLevel
-  - description: Value that indicates whether the rule action requires preprocessing.
-    types:
-    - uid: boolean
-    name: requiresPreprocessing
 - name: SqlFilter
-  description: Properties of sqlFilter
+  description: Represents a filter which is a composition of an expression and an action that is executed in the pub/sub pipeline.
   kind: object
   properties:
   - description: The SQL expression. e.g. MyProperty='ABC'
@@ -164,7 +104,7 @@ definitions:
     - uid: boolean
     name: requiresPreprocessing
 - name: CorrelationFilter
-  description: Properties of correlationFilter
+  description: Represents the correlation filter expression.
   kind: object
   properties:
   - description: Identifier of the correlation.
@@ -203,6 +143,42 @@ definitions:
     types:
     - uid: boolean
     name: requiresPreprocessing
+- name: Rule
+  description: Description of Rule Resource.
+  kind: object
+  properties:
+  - description: Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter expression.
+    types:
+    - uid: SqlRuleAction
+    typesTitle: Action
+    name: properties.action
+  - description: Filter type that is evaluated against a BrokeredMessage.
+    types:
+    - uid: FilterType
+    name: properties.filterType
+  - description: Properties of sqlFilter
+    types:
+    - uid: SqlFilter
+    name: properties.sqlFilter
+  - description: Properties of correlationFilter
+    types:
+    - uid: CorrelationFilter
+    name: properties.correlationFilter
+  - isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+    name: type
 - name: ErrorResponse
   description: Error reponse indicates ServiceBus service is not able to process the incoming request. The reason is provided in the error message.
   kind: object
@@ -215,6 +191,32 @@ definitions:
     types:
     - uid: string
     name: message
+- name: SqlRuleAction
+  description: 'Represents set of actions written in SQL language-based syntax that is performed against a ServiceBus.Messaging.BrokeredMessage '
+  kind: object
+  properties:
+  - description: SQL expression. e.g. MyProperty='ABC'
+    types:
+    - uid: string
+    name: sqlExpression
+  - description: This property is reserved for future use. An integer value showing the compatibility level, currently hard-coded to 20.
+    types:
+    - uid: integer
+    name: compatibilityLevel
+  - description: Value that indicates whether the rule action requires preprocessing.
+    types:
+    - uid: boolean
+    name: requiresPreprocessing
+- name: FilterType
+  description: Rule filter types
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: SqlFilter
+  - types:
+    - uid: string
+    name: CorrelationFilter
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-1319/topics/sdk-Topics-2081/subscriptions/sdk-Subscriptions-8691/rules/sdk-Rules-6571?api-version=2017-04-01

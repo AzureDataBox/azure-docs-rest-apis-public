@@ -77,62 +77,84 @@ requestBody:
     description: Gets or sets verbose log option.
     types:
     - uid: boolean
-    name: logVerbose
+    name: properties.logVerbose
   - in: body
     description: Gets or sets progress log option.
     types:
     - uid: boolean
-    name: logProgress
+    name: properties.logProgress
   - in: body
     isRequired: true
     description: Gets or sets the type of the runbook.
     types:
     - uid: RunbookTypeEnum
-    name: runbookType
+    name: properties.runbookType
   - in: body
     description: Gets or sets the draft runbook properties.
     types:
     - uid: RunbookDraft
-    name: draft
+    name: properties.draft
   - in: body
     description: Gets or sets the published runbook content link.
     types:
     - uid: ContentLink
-    name: publishContentLink
+    name: properties.publishContentLink
   - in: body
     description: Gets or sets the description of the runbook.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - in: body
     description: Gets or sets the activity-level tracing options of the runbook.
     types:
     - uid: integer
-    name: logActivityTrace
+    name: properties.logActivityTrace
 requestHeader: []
 definitions:
-- name: RunbookTypeEnum
-  description: Gets or sets the type of the runbook.
-  kind: enum
+- name: RunbookDraft
+  description: Definition of the runbook type.
+  kind: object
   properties:
-  - types:
+  - description: Gets or sets whether runbook is in edit mode.
+    types:
+    - uid: boolean
+    name: inEdit
+  - description: Gets or sets the draft runbook content link.
+    types:
+    - uid: ContentLink
+    name: draftContentLink
+  - description: Gets or sets the creation time of the runbook draft.
+    types:
     - uid: string
-    name: Script
-  - types:
+    name: creationTime
+  - description: Gets or sets the last modified time of the runbook draft.
+    types:
     - uid: string
-    name: Graph
-  - types:
+    name: lastModifiedTime
+  - description: Gets or sets the runbook draft parameters.
+    types:
+    - {}
+    name: parameters
+  - description: Gets or sets the runbook output types.
+    types:
     - uid: string
-    name: PowerShellWorkflow
-  - types:
+    name: outputTypes
+- name: ContentLink
+  description: Definition of the content link.
+  kind: object
+  properties:
+  - description: Gets or sets the uri of the runbook content.
+    types:
     - uid: string
-    name: PowerShell
-  - types:
+    name: uri
+  - description: Gets or sets the hash.
+    types:
+    - uid: ContentHash
+    name: contentHash
+  - description: Gets or sets the version of the content.
+    types:
     - uid: string
-    name: GraphPowerShellWorkflow
-  - types:
-    - uid: string
-    name: GraphPowerShell
+    name: version
 - name: ErrorResponse
   description: Error response of an operation failure
   kind: object
@@ -145,6 +167,18 @@ definitions:
     types:
     - uid: string
     name: message
+- name: ContentHash
+  description: Definition of the runbook property type.
+  kind: object
+  properties:
+  - description: Gets or sets the content hash algorithm used to hash the content.
+    types:
+    - uid: string
+    name: algorithm
+  - description: Gets or sets expected hash value of the content.
+    types:
+    - uid: string
+    name: value
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/ContoseAutomationAccount/runbooks/Get-AzureVMTutorial?api-version=2015-10-31

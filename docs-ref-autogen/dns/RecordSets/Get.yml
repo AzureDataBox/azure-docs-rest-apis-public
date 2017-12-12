@@ -87,64 +87,64 @@ definitions:
       - uid: string
       - uid: string
       uid: object
-    name: metadata
+    name: properties.metadata
   - description: The TTL (time-to-live) of the records in the record set.
     types:
     - uid: integer
-    name: TTL
+    name: properties.TTL
   - isReadyOnly: true
     description: Fully qualified domain name of the record set.
     types:
     - uid: string
-    name: fqdn
+    name: properties.fqdn
   - description: The list of A records in the record set.
     types:
-    - isArray: true
-      uid: ARecord
-    name: ARecords
+    - uid: ARecord
+    name: properties.ARecords
   - description: The list of AAAA records in the record set.
     types:
-    - isArray: true
-      uid: AaaaRecord
-    name: AAAARecords
+    - uid: AaaaRecord
+    name: properties.AAAARecords
   - description: The list of MX records in the record set.
     types:
-    - isArray: true
-      uid: MxRecord
-    name: MXRecords
+    - uid: MxRecord
+    name: properties.MXRecords
   - description: The list of NS records in the record set.
     types:
-    - isArray: true
-      uid: NsRecord
-    name: NSRecords
+    - uid: NsRecord
+    name: properties.NSRecords
   - description: The list of PTR records in the record set.
     types:
-    - isArray: true
-      uid: PtrRecord
-    name: PTRRecords
+    - uid: PtrRecord
+    name: properties.PTRRecords
   - description: The list of SRV records in the record set.
     types:
-    - isArray: true
-      uid: SrvRecord
-    name: SRVRecords
+    - uid: SrvRecord
+    name: properties.SRVRecords
   - description: The list of TXT records in the record set.
     types:
-    - isArray: true
-      uid: TxtRecord
-    name: TXTRecords
+    - uid: TxtRecord
+    name: properties.TXTRecords
   - description: The CNAME record in the  record set.
     types:
     - uid: CnameRecord
-    name: CNAMERecord
+    name: properties.CNAMERecord
   - description: The SOA record in the record set.
     types:
     - uid: SoaRecord
-    name: SOARecord
+    name: properties.SOARecord
   - description: The list of CAA records in the record set.
     types:
-    - isArray: true
-      uid: CaaRecord
-    name: caaRecords
+    - uid: CaaRecord
+    name: properties.caaRecords
+- name: CloudError
+  description: An error message
+  kind: object
+  properties:
+  - description: The error message body
+    types:
+    - uid: CloudErrorBody
+    name: error
 - name: ARecord
   description: An A record.
   kind: object
@@ -215,11 +215,10 @@ definitions:
   properties:
   - description: The text value of this TXT record.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: value
 - name: CnameRecord
-  description: The CNAME record in the  record set.
+  description: A CNAME record.
   kind: object
   properties:
   - description: The canonical name for this CNAME record.
@@ -227,7 +226,7 @@ definitions:
     - uid: string
     name: cname
 - name: SoaRecord
-  description: The SOA record in the record set.
+  description: An SOA record.
   kind: object
   properties:
   - description: The domain name of the authoritative name server for this SOA record.
@@ -274,16 +273,8 @@ definitions:
     types:
     - uid: string
     name: value
-- name: CloudError
-  description: An error message
-  kind: object
-  properties:
-  - description: The error message body
-    types:
-    - uid: CloudErrorBody
-    name: error
 - name: CloudErrorBody
-  description: The error message body
+  description: The body of an error message
   kind: object
   properties:
   - description: The error code
@@ -300,8 +291,7 @@ definitions:
     name: target
   - description: Extra error information
     types:
-    - isArray: true
-      uid: Details
+    - uid: CloudErrorBody
     name: details
 examples:
 - request:

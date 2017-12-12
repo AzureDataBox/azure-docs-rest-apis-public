@@ -83,13 +83,28 @@ definitions:
   properties:
   - description: The list of certificates.
     types:
-    - isArray: true
-      uid: Certificate
+    - uid: Certificate
     name: value
   - description: The URL to get the next set of results.
     types:
     - uid: string
     name: odata.nextLink
+- name: BatchError
+  description: An error response received from the Azure Batch service.
+  kind: object
+  properties:
+  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+    name: code
+  - description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: ErrorMessage
+    name: message
+  - description: A collection of key-value pairs containing additional details about the error.
+    types:
+    - uid: BatchErrorDetail
+    name: values
 - name: Certificate
   description: A certificate that can be installed on compute nodes and can be used to authenticate operations on the machine.
   kind: object
@@ -130,70 +145,8 @@ definitions:
     types:
     - uid: DeleteCertificateError
     name: deleteCertificateError
-- name: CertificateState
-  description: The current state of the certificate.
-  kind: enum
-  properties:
-  - description: The certificate is available for use in pools.
-    types:
-    - uid: string
-    name: active
-  - description: The user has requested that the certificate be deleted, but the delete operation has not yet completed. You may not reference the certificate when creating or updating pools.
-    types:
-    - uid: string
-    name: deleting
-  - description: The user requested that the certificate be deleted, but there are pools that still have references to the certificate, or it is still installed on one or more compute nodes. (The latter can occur if the certificate has been removed from the pool, but the node has not yet restarted. Nodes refresh their certificates only when they restart.) You may use the cancel certificate delete operation to cancel the delete, or the delete certificate operation to retry the delete.
-    types:
-    - uid: string
-    name: deletefailed
-- name: DeleteCertificateError
-  description: This property is set only if the certificate is in the DeleteFailed state.
-  kind: object
-  properties:
-  - description: An identifier for the certificate deletion error. Codes are invariant and are intended to be consumed programmatically.
-    types:
-    - uid: string
-    name: code
-  - description: A message describing the certificate deletion error, intended to be suitable for display in a user interface.
-    types:
-    - uid: string
-    name: message
-  - description: This list includes details such as the active pools and nodes referencing this certificate. However, if a large number of resources reference the certificate, the list contains only about the first hundred.
-    types:
-    - isArray: true
-      uid: NameValuePair
-    name: values
-- name: NameValuePair
-  description: Represents a name-value pair.
-  kind: object
-  properties:
-  - description: The name in the name-value pair.
-    types:
-    - uid: string
-    name: name
-  - description: The value in the name-value pair.
-    types:
-    - uid: string
-    name: value
-- name: BatchError
-  description: An error response received from the Azure Batch service.
-  kind: object
-  properties:
-  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
-    types:
-    - uid: string
-    name: code
-  - description: A message describing the error, intended to be suitable for display in a user interface.
-    types:
-    - uid: ErrorMessage
-    name: message
-  - description: A collection of key-value pairs containing additional details about the error.
-    types:
-    - isArray: true
-      uid: BatchErrorDetail
-    name: values
 - name: ErrorMessage
-  description: A message describing the error, intended to be suitable for display in a user interface.
+  description: An error message received in an Azure Batch error response.
   kind: object
   properties:
   - description: The language code of the error message
@@ -213,6 +166,50 @@ definitions:
     - uid: string
     name: key
   - description: The additional information included with the error response.
+    types:
+    - uid: string
+    name: value
+- name: CertificateState
+  description: The state of the certificate.
+  kind: enum
+  properties:
+  - description: The certificate is available for use in pools.
+    types:
+    - uid: string
+    name: active
+  - description: The user has requested that the certificate be deleted, but the delete operation has not yet completed. You may not reference the certificate when creating or updating pools.
+    types:
+    - uid: string
+    name: deleting
+  - description: The user requested that the certificate be deleted, but there are pools that still have references to the certificate, or it is still installed on one or more compute nodes. (The latter can occur if the certificate has been removed from the pool, but the node has not yet restarted. Nodes refresh their certificates only when they restart.) You may use the cancel certificate delete operation to cancel the delete, or the delete certificate operation to retry the delete.
+    types:
+    - uid: string
+    name: deletefailed
+- name: DeleteCertificateError
+  description: An error encountered by the Batch service when deleting a certificate.
+  kind: object
+  properties:
+  - description: An identifier for the certificate deletion error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+    name: code
+  - description: A message describing the certificate deletion error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+    name: message
+  - description: This list includes details such as the active pools and nodes referencing this certificate. However, if a large number of resources reference the certificate, the list contains only about the first hundred.
+    types:
+    - uid: NameValuePair
+    name: values
+- name: NameValuePair
+  description: Represents a name-value pair.
+  kind: object
+  properties:
+  - description: The name in the name-value pair.
+    types:
+    - uid: string
+    name: name
+  - description: The value in the name-value pair.
     types:
     - uid: string
     name: value

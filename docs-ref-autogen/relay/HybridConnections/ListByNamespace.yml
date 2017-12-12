@@ -51,13 +51,24 @@ definitions:
   properties:
   - description: Result of the list hybrid connections.
     types:
-    - isArray: true
-      uid: HybridConnection
+    - uid: HybridConnection
     name: value
   - description: Link to the next set of results. Not empty if value contains incomplete list hybrid connection operation.
     types:
     - uid: string
     name: nextLink
+- name: ErrorResponse
+  description: Error reponse indicates Relay service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
 - name: HybridConnection
   description: Description of hybrid connection resource.
   kind: object
@@ -66,25 +77,25 @@ definitions:
     description: The time the hybrid connection was created.
     types:
     - uid: string
-    name: createdAt
+    name: properties.createdAt
   - isReadyOnly: true
     description: The time the namespace was updated.
     types:
     - uid: string
-    name: updatedAt
+    name: properties.updatedAt
   - isReadyOnly: true
     description: 'The number of listeners for this hybrid connection. Note that min : 1 and max:25 are supported.'
     types:
     - uid: integer
-    name: listenerCount
+    name: properties.listenerCount
   - description: Returns true if client authorization is needed for this hybrid connection; otherwise, false.
     types:
     - uid: boolean
-    name: requiresClientAuthorization
+    name: properties.requiresClientAuthorization
   - description: The usermetadata is a placeholder to store user-defined string data for the hybrid connection endpoint. For example, it can be used to store descriptive data, such as a list of teams and their contact information. Also, user-defined configuration settings can be stored.
     types:
     - uid: string
-    name: userMetadata
+    name: properties.userMetadata
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -100,18 +111,6 @@ definitions:
     types:
     - uid: string
     name: type
-- name: ErrorResponse
-  description: Error reponse indicates Relay service is not able to process the incoming request. The reason is provided in the error message.
-  kind: object
-  properties:
-  - description: Error code.
-    types:
-    - uid: string
-    name: code
-  - description: Error message indicating why the operation failed.
-    types:
-    - uid: string
-    name: message
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/8c246e6a-cbc6-4a87-aff1-d6a886f376ef/resourceGroups/RG-eg/providers/Microsoft.Relay/namespaces/sdk-RelayNamespace-01/hybridConnections?api-version=2017-04-01

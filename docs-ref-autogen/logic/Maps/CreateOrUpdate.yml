@@ -56,27 +56,27 @@ requestBody:
     description: The map type.
     types:
     - uid: MapType
-    name: mapType
+    name: properties.mapType
   - in: body
     description: The parameters schema of integration account map.
     types:
     - uid: ParametersSchema
-    name: parametersSchema
+    name: properties.parametersSchema
   - in: body
     description: The content.
     types:
     - uid: Content
-    name: content
+    name: properties.content
   - in: body
     description: The content type.
     types:
     - uid: string
-    name: contentType
+    name: properties.contentType
   - in: body
     description: The metadata.
     types:
     - uid: Metadata
-    name: metadata
+    name: properties.metadata
   - in: body
     description: The resource location.
     types:
@@ -93,16 +93,30 @@ requestBody:
     name: tags
 requestHeader: []
 definitions:
-- name: MapType
-  description: The map type.
-  kind: enum
+- name: ContentLink
+  description: The content link.
+  kind: object
   properties:
-  - types:
+  - description: The content link URI.
+    types:
     - uid: string
-    name: NotSpecified
-  - types:
+    name: uri
+  - description: The content version.
+    types:
     - uid: string
-    name: Xslt
+    name: contentVersion
+  - description: The content size.
+    types:
+    - uid: integer
+    name: contentSize
+  - description: The content hash.
+    types:
+    - uid: ContentHash
+    name: contentHash
+  - description: The metadata.
+    types:
+    - uid: Object
+    name: metadata
 - name: IntegrationAccountMap
   description: The integration account map.
   kind: object
@@ -110,38 +124,38 @@ definitions:
   - description: The map type.
     types:
     - uid: MapType
-    name: mapType
+    name: properties.mapType
   - description: The parameters schema of integration account map.
     types:
     - uid: ParametersSchema
-    name: parametersSchema
+    name: properties.parametersSchema
   - isReadyOnly: true
     description: The created time.
     types:
     - uid: string
-    name: createdTime
+    name: properties.createdTime
   - isReadyOnly: true
     description: The changed time.
     types:
     - uid: string
-    name: changedTime
+    name: properties.changedTime
   - description: The content.
     types:
     - uid: Content
-    name: content
+    name: properties.content
   - description: The content type.
     types:
     - uid: string
-    name: contentType
+    name: properties.contentType
   - isReadyOnly: true
     description: The content link.
     types:
     - uid: ContentLink
-    name: contentLink
+    name: properties.contentLink
   - description: The metadata.
     types:
     - uid: Metadata
-    name: metadata
+    name: properties.metadata
   - isReadyOnly: true
     description: The resource id.
     types:
@@ -169,42 +183,6 @@ definitions:
       - uid: string
       uid: object
     name: tags
-- name: ParametersSchema
-  description: The parameters schema of integration account map.
-  kind: object
-  properties:
-  - description: The reference name.
-    types:
-    - uid: string
-    name: ref
-- name: Content
-  description: The content.
-  kind: object
-  properties: []
-- name: ContentLink
-  description: The content link.
-  kind: object
-  properties:
-  - description: The content link URI.
-    types:
-    - uid: string
-    name: uri
-  - description: The content version.
-    types:
-    - uid: string
-    name: contentVersion
-  - description: The content size.
-    types:
-    - uid: integer
-    name: contentSize
-  - description: The content hash.
-    types:
-    - uid: ContentHash
-    name: contentHash
-  - description: The metadata.
-    types:
-    - uid: Object
-    name: metadata
 - name: ContentHash
   description: The content hash.
   kind: object
@@ -218,13 +196,17 @@ definitions:
     - uid: string
     name: value
 - name: Object
-  description: The metadata.
   kind: object
   properties: []
-- name: Metadata
-  description: The metadata.
-  kind: object
-  properties: []
+- name: MapType
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NotSpecified
+  - types:
+    - uid: string
+    name: Xslt
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testResourceGroup/providers/Microsoft.Logic/integrationAccounts/testIntegrationAccount/maps/testMap?api-version=2016-06-01

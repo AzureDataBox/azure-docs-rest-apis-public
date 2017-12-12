@@ -56,18 +56,18 @@ requestBody:
     description: The partner type.
     types:
     - uid: PartnerType
-    name: partnerType
+    name: properties.partnerType
   - in: body
     description: The metadata.
     types:
     - uid: Metadata
-    name: metadata
+    name: properties.metadata
   - in: body
     isRequired: true
     description: The partner content.
     types:
     - uid: PartnerContent
-    name: content
+    name: properties.content
   - in: body
     description: The resource location.
     types:
@@ -84,16 +84,14 @@ requestBody:
     name: tags
 requestHeader: []
 definitions:
-- name: PartnerType
-  description: The partner type.
-  kind: enum
+- name: PartnerContent
+  description: The integration account partner content.
+  kind: object
   properties:
-  - types:
-    - uid: string
-    name: NotSpecified
-  - types:
-    - uid: string
-    name: B2B
+  - description: The B2B partner content.
+    types:
+    - uid: B2BPartnerContent
+    name: b2b
 - name: IntegrationAccountPartner
   description: The integration account partner.
   kind: object
@@ -101,25 +99,25 @@ definitions:
   - description: The partner type.
     types:
     - uid: PartnerType
-    name: partnerType
+    name: properties.partnerType
   - isReadyOnly: true
     description: The created time.
     types:
     - uid: string
-    name: createdTime
+    name: properties.createdTime
   - isReadyOnly: true
     description: The changed time.
     types:
     - uid: string
-    name: changedTime
+    name: properties.changedTime
   - description: The metadata.
     types:
     - uid: Metadata
-    name: metadata
+    name: properties.metadata
   - description: The partner content.
     types:
     - uid: PartnerContent
-    name: content
+    name: properties.content
   - isReadyOnly: true
     description: The resource id.
     types:
@@ -147,27 +145,23 @@ definitions:
       - uid: string
       uid: object
     name: tags
-- name: Metadata
-  description: The metadata.
-  kind: object
-  properties: []
-- name: PartnerContent
-  description: The partner content.
-  kind: object
-  properties:
-  - description: The B2B partner content.
-    types:
-    - uid: B2BPartnerContent
-    name: b2b
 - name: B2BPartnerContent
   description: The B2B partner content.
   kind: object
   properties:
   - description: The list of partner business identities.
     types:
-    - isArray: true
-      uid: BusinessIdentity
+    - uid: BusinessIdentity
     name: businessIdentities
+- name: PartnerType
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NotSpecified
+  - types:
+    - uid: string
+    name: B2B
 - name: BusinessIdentity
   description: The integration account partner's business identity.
   kind: object

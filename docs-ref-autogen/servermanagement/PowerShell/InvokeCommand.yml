@@ -67,7 +67,7 @@ requestBody:
     description: Script to execute.
     types:
     - uid: string
-    name: command
+    name: properties.command
 requestHeader: []
 definitions:
 - name: PowerShellCommandResults
@@ -75,8 +75,7 @@ definitions:
   kind: object
   properties:
   - types:
-    - isArray: true
-      uid: PowerShellCommandResult
+    - uid: PowerShellCommandResult
     name: results
   - types:
     - uid: string
@@ -87,6 +86,19 @@ definitions:
   - types:
     - uid: boolean
     name: completed
+- name: Error
+  description: Error message.
+  kind: object
+  properties:
+  - types:
+    - uid: integer
+    name: code
+  - types:
+    - uid: string
+    name: message
+  - types:
+    - uid: string
+    name: fields
 - name: PowerShellCommandResult
   description: Results from invoking a PowerShell command.
   kind: object
@@ -129,8 +141,7 @@ definitions:
     name: message
   - description: Collection of PromptFieldDescription objects that contains the user input.
     types:
-    - isArray: true
-      uid: PromptFieldDescription
+    - uid: PromptFieldDescription
     name: descriptions
 - name: PromptFieldDescription
   description: Field description for the implementation of PSHostUserInterface.Prompt
@@ -155,31 +166,6 @@ definitions:
   - types:
     - uid: PromptFieldType
     name: promptFieldType
-- name: PromptFieldType
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: String
-  - types:
-    - uid: string
-    name: SecureString
-  - types:
-    - uid: string
-    name: Credential
-- name: Error
-  description: Error message.
-  kind: object
-  properties:
-  - types:
-    - uid: integer
-    name: code
-  - types:
-    - uid: string
-    name: message
-  - types:
-    - uid: string
-    name: fields
 examples: []
 security:
 - type: oauth2

@@ -62,14 +62,21 @@ definitions:
   - isReadyOnly: true
     description: The list of invoices.
     types:
-    - isArray: true
-      uid: Invoice
+    - uid: Invoice
     name: value
   - isReadyOnly: true
     description: the link (url) to the next page of results.
     types:
     - uid: string
     name: nextLink
+- name: ErrorResponse
+  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - description: The details of the error.
+    types:
+    - uid: ErrorDetails
+    name: error
 - name: Invoice
   description: An invoice resource can be used download a PDF version of an invoice.
   kind: object
@@ -78,16 +85,16 @@ definitions:
     description: The start of the date range covered by the invoice.
     types:
     - uid: string
-    name: invoicePeriodStartDate
+    name: properties.invoicePeriodStartDate
   - isReadyOnly: true
     description: The end of the date range covered by the invoice.
     types:
     - uid: string
-    name: invoicePeriodEndDate
+    name: properties.invoicePeriodEndDate
   - description: A secure link to download the PDF version of an invoice. The link will cease to work after its expiry time is reached.
     types:
     - uid: DownloadUrl
-    name: downloadUrl
+    name: properties.downloadUrl
   - isReadyOnly: true
     description: Resource Id
     types:
@@ -103,28 +110,6 @@ definitions:
     types:
     - uid: string
     name: type
-- name: DownloadUrl
-  description: A secure link to download the PDF version of an invoice. The link will cease to work after its expiry time is reached.
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: The time in UTC at which this download URL will expire.
-    types:
-    - uid: string
-    name: expiryTime
-  - isReadyOnly: true
-    description: The URL to the PDF file.
-    types:
-    - uid: string
-    name: url
-- name: ErrorResponse
-  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
-  kind: object
-  properties:
-  - description: The details of the error.
-    types:
-    - uid: ErrorDetails
-    name: error
 - name: ErrorDetails
   description: The details of the error.
   kind: object
@@ -144,6 +129,20 @@ definitions:
     types:
     - uid: string
     name: target
+- name: DownloadUrl
+  description: A secure URL that can be used to download a PDF invoice until the URL expires.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The time in UTC at which this download URL will expire.
+    types:
+    - uid: string
+    name: expiryTime
+  - isReadyOnly: true
+    description: The URL to the PDF file.
+    types:
+    - uid: string
+    name: url
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Billing/invoices?api-version=2017-02-27-preview

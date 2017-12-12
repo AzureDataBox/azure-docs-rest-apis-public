@@ -94,11 +94,11 @@ definitions:
   - description: Publisher email.
     types:
     - uid: string
-    name: publisherEmail
+    name: properties.publisherEmail
   - description: Publisher name.
     types:
     - uid: string
-    name: publisherName
+    name: properties.publisherName
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -125,67 +125,64 @@ definitions:
   - description: Email address from which the notification will be sent.
     types:
     - uid: string
-    name: notificationSenderEmail
+    name: properties.notificationSenderEmail
   - isReadyOnly: true
     description: 'The current provisioning state of the API Management service which can be one of the following: Created/Activating/Succeeded/Updating/Failed/Stopped/Terminating/TerminationFailed/Deleted.'
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: The provisioning state of the API Management service, which is targeted by the long running operation started on the service.
     types:
     - uid: string
-    name: targetProvisioningState
+    name: properties.targetProvisioningState
   - isReadyOnly: true
     description: 'Creation UTC date of the API Management service.The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.'
     types:
     - uid: string
-    name: createdAtUtc
+    name: properties.createdAtUtc
   - isReadyOnly: true
     description: Gateway URL of the API Management service.
     types:
     - uid: string
-    name: gatewayUrl
+    name: properties.gatewayUrl
   - isReadyOnly: true
     description: Gateway URL of the API Management service in the Default Region.
     types:
     - uid: string
-    name: gatewayRegionalUrl
+    name: properties.gatewayRegionalUrl
   - isReadyOnly: true
     description: Publisher portal endpoint Url of the API Management service.
     types:
     - uid: string
-    name: portalUrl
+    name: properties.portalUrl
   - isReadyOnly: true
     description: Management API endpoint URL of the API Management service.
     types:
     - uid: string
-    name: managementApiUrl
+    name: properties.managementApiUrl
   - isReadyOnly: true
     description: SCM endpoint URL of the API Management service.
     types:
     - uid: string
-    name: scmUrl
+    name: properties.scmUrl
   - description: Custom hostname configuration of the API Management service.
     types:
-    - isArray: true
-      uid: HostnameConfiguration
-    name: hostnameConfigurations
+    - uid: HostnameConfiguration
+    name: properties.hostnameConfigurations
   - isReadyOnly: true
     description: Static IP addresses of the API Management service virtual machines. Available only for Standard and Premium SKU.
     types:
-    - isArray: true
-      uid: string
-    name: staticIps
+    - uid: string
+    name: properties.staticIps
   - description: Virtual network configuration of the API Management service.
     types:
     - uid: VirtualNetworkConfiguration
-    name: virtualNetworkConfiguration
+    name: properties.virtualNetworkConfiguration
   - description: Additional datacenter locations of the API Management service.
     types:
-    - isArray: true
-      uid: AdditionalLocation
-    name: additionalLocations
+    - uid: AdditionalLocation
+    name: properties.additionalLocations
   - description: Custom properties of the API Management service. Setting `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TripleDes168` will disable the cipher TLS_RSA_WITH_3DES_EDE_CBC_SHA for all TLS(1.0, 1.1 and 1.2). Setting `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11` can be used to disable just TLS 1.1 and setting `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10` can be used to disable TLS 1.0 on an API Management service.
     types:
     - isDictionary: true
@@ -193,18 +190,17 @@ definitions:
       - uid: string
       - uid: string
       uid: object
-    name: customProperties
+    name: properties.customProperties
   - description: List of Certificates that need to be installed in the API Management service. Max supported certificates that can be installed is 10.
     types:
-    - isArray: true
-      uid: CertificateConfiguration
-    name: certificates
+    - uid: CertificateConfiguration
+    name: properties.certificates
   - description: The type of VPN in which API Managemet service needs to be configured in. None (Default Value) means the API Management service is not part of any Virtual Network, External means the API Management deployment is set up inside a Virtual Network having an Internet Facing Endpoint, and Internal means that API Management deployment is setup inside a Virtual Network having an Intranet Facing Endpoint only.
     types:
     - uid: VirtualNetworkType
-    name: virtualNetworkType
+    name: properties.virtualNetworkType
 - name: ApiManagementServiceSkuProperties
-  description: SKU properties of the API Management service.
+  description: API Management service resource SKU properties.
   kind: object
   properties:
   - description: Name of the Sku.
@@ -215,28 +211,8 @@ definitions:
     types:
     - uid: integer
     name: capacity
-- name: SkuType
-  description: Name of the Sku.
-  kind: enum
-  properties:
-  - description: Developer SKU of Api Management.
-    types:
-    - uid: string
-    name: Developer
-  - description: Standard SKU of Api Management.
-    types:
-    - uid: string
-    name: Standard
-  - description: Premium SKU of Api Management.
-    types:
-    - uid: string
-    name: Premium
-  - description: Basic SKU of Api Management.
-    types:
-    - uid: string
-    name: Basic
 - name: ApiManagementServiceIdentity
-  description: Managed service identity of the Api Management service.
+  description: Identity properties of the Api Management service resource.
   kind: object
   properties:
   - description: The identity type. Currently the only supported type is 'SystemAssigned'.
@@ -253,13 +229,6 @@ definitions:
     types:
     - uid: string
     name: tenantId
-- name: ApimIdentityType
-  description: The identity type. Currently the only supported type is 'SystemAssigned'.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: SystemAssigned
 - name: HostnameConfiguration
   description: Custom hostname configuration.
   kind: object
@@ -297,40 +266,8 @@ definitions:
     types:
     - uid: CertificateInformation
     name: certificate
-- name: HostnameType
-  description: Hostname type.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Proxy
-  - types:
-    - uid: string
-    name: Portal
-  - types:
-    - uid: string
-    name: Management
-  - types:
-    - uid: string
-    name: Scm
-- name: CertificateInformation
-  description: Certificate information.
-  kind: object
-  properties:
-  - description: 'Expiration date of the certificate. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.'
-    types:
-    - uid: string
-    name: expiry
-  - description: Thumbprint of the certificate.
-    types:
-    - uid: string
-    name: thumbprint
-  - description: Subject of the certificate.
-    types:
-    - uid: string
-    name: subject
 - name: VirtualNetworkConfiguration
-  description: Virtual network configuration of the API Management service.
+  description: Configuration of a virtual network to which API Management service is deployed.
   kind: object
   properties:
   - isReadyOnly: true
@@ -362,8 +299,7 @@ definitions:
   - isReadyOnly: true
     description: Static IP addresses of the location's virtual machines.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: staticIps
   - description: Virtual network configuration for the location.
     types:
@@ -397,31 +333,22 @@ definitions:
     types:
     - uid: CertificateInformation
     name: certificate
-- description: The local certificate store location. Only Root and CertificateAuthority are valid locations.
-  kind: enum
+- name: CertificateInformation
+  description: SSL certificate information.
+  kind: object
   properties:
-  - types:
-    - uid: string
-    name: CertificateAuthority
-  - types:
-    - uid: string
-    name: Root
-- name: VirtualNetworkType
-  description: The type of VPN in which API Managemet service needs to be configured in. None (Default Value) means the API Management service is not part of any Virtual Network, External means the API Management deployment is set up inside a Virtual Network having an Internet Facing Endpoint, and Internal means that API Management deployment is setup inside a Virtual Network having an Intranet Facing Endpoint only.
-  kind: enum
-  properties:
-  - description: The service is not part of any Virtual Network.
+  - description: 'Expiration date of the certificate. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.'
     types:
     - uid: string
-    name: None
-  - description: The service is part of Virtual Network and it is accessible from Internet.
+    name: expiry
+  - description: Thumbprint of the certificate.
     types:
     - uid: string
-    name: External
-  - description: The service is part of Virtual Network and it is only accessible from within the virtual network.
+    name: thumbprint
+  - description: Subject of the certificate.
     types:
     - uid: string
-    name: Internal
+    name: subject
 examples:
 - request:
     uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/restore?api-version=2017-03-01

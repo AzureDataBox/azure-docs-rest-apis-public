@@ -46,9 +46,32 @@ definitions:
   - isReadyOnly: true
     description: A Location Based Services Account.
     types:
-    - isArray: true
-      uid: LocationBasedServicesAccount
+    - uid: LocationBasedServicesAccount
     name: value
+- name: Error
+  description: This object is returned when an error occurs in the Location Based Service API
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+    name: code
+  - isReadyOnly: true
+    description: If available, a human readable description of the error.
+    types:
+    - uid: string
+    name: message
+  - isReadyOnly: true
+    description: If available, the component generating the error.
+    types:
+    - uid: string
+    name: target
+  - isReadyOnly: true
+    description: If available, a list of additional details about the error.
+    types:
+    - uid: Details
+    name: details
 - name: LocationBasedServicesAccount
   description: An Azure resource which represents access to a suite of Location Based Services REST APIs.
   kind: object
@@ -88,7 +111,7 @@ definitions:
     - uid: string
     name: type
 - name: Sku
-  description: The SKU of this account.
+  description: The SKU of the Location Based Services Account.
   kind: object
   properties:
   - description: The name of the SKU, in standard format (such as S0).
@@ -100,49 +123,6 @@ definitions:
     types:
     - uid: string
     name: tier
-- name: Error
-  description: This object is returned when an error occurs in the Location Based Service API
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: Error code.
-    types:
-    - uid: string
-    name: code
-  - isReadyOnly: true
-    description: If available, a human readable description of the error.
-    types:
-    - uid: string
-    name: message
-  - isReadyOnly: true
-    description: If available, the component generating the error.
-    types:
-    - uid: string
-    name: target
-  - isReadyOnly: true
-    description: If available, a list of additional details about the error.
-    types:
-    - isArray: true
-      uid: Details
-    name: details
-- name: Details
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: Error code.
-    types:
-    - uid: string
-    name: code
-  - isReadyOnly: true
-    description: If available, a human readable description of the error.
-    types:
-    - uid: string
-    name: message
-  - isReadyOnly: true
-    description: If available, the component generating the error.
-    types:
-    - uid: string
-    name: target
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.LocationBasedServices/accounts?api-version=2017-01-01-preview

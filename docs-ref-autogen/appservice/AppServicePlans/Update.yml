@@ -51,22 +51,22 @@ requestBody:
     description: Name for the App Service plan.
     types:
     - uid: string
-    name: name
+    name: properties.name
   - in: body
     description: Target worker tier assigned to the App Service plan.
     types:
     - uid: string
-    name: workerTierName
+    name: properties.workerTierName
   - in: body
     description: App Service plan administration site.
     types:
     - uid: string
-    name: adminSiteName
+    name: properties.adminSiteName
   - in: body
     description: Specification for the App Service Environment to use for the App Service plan.
     types:
     - uid: HostingEnvironmentProfile
-    name: hostingEnvironmentProfile
+    name: properties.hostingEnvironmentProfile
   - in: body
     description: >-
       If <code>true</code>, apps assigned to this App Service plan can be scaled independently.
@@ -74,32 +74,32 @@ requestBody:
       If <code>false</code>, apps assigned to this App Service plan will scale to all instances of the plan.
     types:
     - uid: boolean
-    name: perSiteScaling
+    name: properties.perSiteScaling
   - in: body
     description: If <code>true</code>, this App Service Plan owns spot instances.
     types:
     - uid: boolean
-    name: isSpot
+    name: properties.isSpot
   - in: body
     description: The time when the server farm expires. Valid only if it is a spot server farm.
     types:
     - uid: string
-    name: spotExpirationTime
+    name: properties.spotExpirationTime
   - in: body
     description: If Linux app service plan <code>true</code>, <code>false</code> otherwise.
     types:
     - uid: boolean
-    name: reserved
+    name: properties.reserved
   - in: body
     description: Scaling worker count.
     types:
     - uid: integer
-    name: targetWorkerCount
+    name: properties.targetWorkerCount
   - in: body
     description: Scaling worker size ID.
     types:
     - uid: integer
-    name: targetWorkerSizeId
+    name: properties.targetWorkerSizeId
   - in: body
     description: Kind of resource.
     types:
@@ -107,38 +107,24 @@ requestBody:
     name: kind
 requestHeader: []
 definitions:
-- name: StatusOptions
-  description: App Service plan status.
-  kind: enum
+- name: HostingEnvironmentProfile
+  description: Specification for an App Service Environment to use for this resource.
+  kind: object
   properties:
-  - types:
+  - description: Resource ID of the App Service Environment.
+    types:
     - uid: string
-    name: Ready
-  - types:
+    name: id
+  - isReadyOnly: true
+    description: Name of the App Service Environment.
+    types:
     - uid: string
-    name: Pending
-  - types:
+    name: name
+  - isReadyOnly: true
+    description: Resource type of the App Service Environment.
+    types:
     - uid: string
-    name: Creating
-- name: ProvisioningState
-  description: Provisioning state of the App Service Environment.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Succeeded
-  - types:
-    - uid: string
-    name: Failed
-  - types:
-    - uid: string
-    name: Canceled
-  - types:
-    - uid: string
-    name: InProgress
-  - types:
-    - uid: string
-    name: Deleting
+    name: type
 - name: AppServicePlan
   description: App Service plan.
   kind: object
@@ -150,86 +136,91 @@ definitions:
   - description: Name for the App Service plan.
     types:
     - uid: string
-    name: name
+    name: properties.name
   - description: Target worker tier assigned to the App Service plan.
     types:
     - uid: string
-    name: workerTierName
+    name: properties.workerTierName
   - isReadyOnly: true
     description: App Service plan status.
     types:
     - uid: StatusOptions
-    name: status
+    name: properties.status
   - isReadyOnly: true
     description: App Service plan subscription.
     types:
     - uid: string
-    name: subscription
+    name: properties.subscription
   - description: App Service plan administration site.
     types:
     - uid: string
-    name: adminSiteName
+    name: properties.adminSiteName
   - description: Specification for the App Service Environment to use for the App Service plan.
     types:
     - uid: HostingEnvironmentProfile
-    name: hostingEnvironmentProfile
+    name: properties.hostingEnvironmentProfile
   - isReadyOnly: true
     description: Maximum number of instances that can be assigned to this App Service plan.
     types:
     - uid: integer
-    name: maximumNumberOfWorkers
+    name: properties.maximumNumberOfWorkers
   - isReadyOnly: true
     description: Geographical location for the App Service plan.
     types:
     - uid: string
-    name: geoRegion
+    name: properties.geoRegion
   - description: >-
       If <code>true</code>, apps assigned to this App Service plan can be scaled independently.
 
       If <code>false</code>, apps assigned to this App Service plan will scale to all instances of the plan.
     types:
     - uid: boolean
-    name: perSiteScaling
+    name: properties.perSiteScaling
   - isReadyOnly: true
     description: Number of apps assigned to this App Service plan.
     types:
     - uid: integer
-    name: numberOfSites
+    name: properties.numberOfSites
   - description: If <code>true</code>, this App Service Plan owns spot instances.
     types:
     - uid: boolean
-    name: isSpot
+    name: properties.isSpot
   - description: The time when the server farm expires. Valid only if it is a spot server farm.
     types:
     - uid: string
-    name: spotExpirationTime
+    name: properties.spotExpirationTime
   - isReadyOnly: true
     description: Resource group of the App Service plan.
     types:
     - uid: string
-    name: resourceGroup
+    name: properties.resourceGroup
   - description: If Linux app service plan <code>true</code>, <code>false</code> otherwise.
     types:
     - uid: boolean
-    name: reserved
+    name: properties.reserved
   - description: Scaling worker count.
     types:
     - uid: integer
-    name: targetWorkerCount
+    name: properties.targetWorkerCount
   - description: Scaling worker size ID.
     types:
     - uid: integer
-    name: targetWorkerSizeId
+    name: properties.targetWorkerSizeId
   - isReadyOnly: true
     description: Provisioning state of the App Service Environment.
     types:
     - uid: ProvisioningState
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: Resource Id.
     types:
     - uid: string
     name: id
+  - isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+    name: name
   - description: Kind of resource.
     types:
     - uid: string
@@ -281,16 +272,14 @@ definitions:
     name: skuCapacity
   - description: Locations of the SKU.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: locations
   - description: Capabilities of the SKU, e.g., is traffic manager enabled?
     types:
-    - isArray: true
-      uid: Capability
+    - uid: Capability
     name: capabilities
 - name: SkuCapacity
-  description: Min, max, and default scale values of the SKU.
+  description: Description of the App Service plan scale options.
   kind: object
   properties:
   - description: Minimum number of workers for this App Service plan SKU.
@@ -325,24 +314,6 @@ definitions:
     types:
     - uid: string
     name: reason
-- name: HostingEnvironmentProfile
-  description: Specification for the App Service Environment to use for the App Service plan.
-  kind: object
-  properties:
-  - description: Resource ID of the App Service Environment.
-    types:
-    - uid: string
-    name: id
-  - isReadyOnly: true
-    description: Name of the App Service Environment.
-    types:
-    - uid: string
-    name: name
-  - isReadyOnly: true
-    description: Resource type of the App Service Environment.
-    types:
-    - uid: string
-    name: type
 examples:
 - request:
     uri: PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/serverfarms/testsf6141?api-version=2016-09-01

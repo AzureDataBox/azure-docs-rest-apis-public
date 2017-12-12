@@ -59,37 +59,37 @@ requestBody:
     description: The target cost properties
     types:
     - uid: TargetCostProperties
-    name: targetCost
+    name: properties.targetCost
   - in: body
     description: The currency code of the cost.
     types:
     - uid: string
-    name: currencyCode
+    name: properties.currencyCode
   - in: body
     description: The start time of the cost data.
     types:
     - uid: string
-    name: startDateTime
+    name: properties.startDateTime
   - in: body
     description: The end time of the cost data.
     types:
     - uid: string
-    name: endDateTime
+    name: properties.endDateTime
   - in: body
     description: The creation date of the cost.
     types:
     - uid: string
-    name: createdDate
+    name: properties.createdDate
   - in: body
     description: The provisioning status of the resource.
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - in: body
     description: The unique immutable identifier of a resource (Guid).
     types:
     - uid: string
-    name: uniqueIdentifier
+    name: properties.uniqueIdentifier
   - in: body
     description: The location of the resource.
     types:
@@ -106,127 +106,8 @@ requestBody:
     name: tags
 requestHeader: []
 definitions:
-- name: TargetCostStatus
-  description: Target cost status
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Enabled
-  - types:
-    - uid: string
-    name: Disabled
-- name: CostThresholdStatus
-  description: Indicates whether this threshold will be displayed on cost charts.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Enabled
-  - types:
-    - uid: string
-    name: Disabled
-- name: ReportingCycleType
-  description: Reporting cycle type.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: CalendarMonth
-  - types:
-    - uid: string
-    name: Custom
-- name: CostType
-  description: The type of the cost.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Unavailable
-  - types:
-    - uid: string
-    name: Reported
-  - types:
-    - uid: string
-    name: Projected
-- name: LabCost
-  description: A cost item.
-  kind: object
-  properties:
-  - description: The target cost properties
-    types:
-    - uid: TargetCostProperties
-    name: targetCost
-  - isReadyOnly: true
-    description: The lab cost summary component of the cost data.
-    types:
-    - uid: LabCostSummaryProperties
-    name: labCostSummary
-  - isReadyOnly: true
-    description: The lab cost details component of the cost data.
-    types:
-    - isArray: true
-      uid: LabCostDetailsProperties
-    name: labCostDetails
-  - isReadyOnly: true
-    description: The resource cost component of the cost data.
-    types:
-    - isArray: true
-      uid: LabResourceCostProperties
-    name: resourceCosts
-  - description: The currency code of the cost.
-    types:
-    - uid: string
-    name: currencyCode
-  - description: The start time of the cost data.
-    types:
-    - uid: string
-    name: startDateTime
-  - description: The end time of the cost data.
-    types:
-    - uid: string
-    name: endDateTime
-  - description: The creation date of the cost.
-    types:
-    - uid: string
-    name: createdDate
-  - description: The provisioning status of the resource.
-    types:
-    - uid: string
-    name: provisioningState
-  - description: The unique immutable identifier of a resource (Guid).
-    types:
-    - uid: string
-    name: uniqueIdentifier
-  - isReadyOnly: true
-    description: The identifier of the resource.
-    types:
-    - uid: string
-    name: id
-  - isReadyOnly: true
-    description: The name of the resource.
-    types:
-    - uid: string
-    name: name
-  - isReadyOnly: true
-    description: The type of the resource.
-    types:
-    - uid: string
-    name: type
-  - description: The location of the resource.
-    types:
-    - uid: string
-    name: location
-  - description: The tags of the resource.
-    types:
-    - isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-      uid: object
-    name: tags
 - name: TargetCostProperties
-  description: The target cost properties
+  description: Properties of a cost target.
   kind: object
   properties:
   - description: Target cost status
@@ -239,8 +120,7 @@ definitions:
     name: target
   - description: Cost thresholds.
     types:
-    - isArray: true
-      uid: CostThresholdProperties
+    - uid: CostThresholdProperties
     name: costThresholds
   - description: Reporting cycle start date.
     types:
@@ -254,40 +134,8 @@ definitions:
     types:
     - uid: ReportingCycleType
     name: cycleType
-- name: CostThresholdProperties
-  description: Properties of a cost threshold item.
-  kind: object
-  properties:
-  - description: The ID of the cost threshold item.
-    types:
-    - uid: string
-    name: thresholdId
-  - description: The value of the percentage cost threshold.
-    types:
-    - uid: PercentageCostThresholdProperties
-    name: percentageThreshold
-  - description: Indicates whether this threshold will be displayed on cost charts.
-    types:
-    - uid: CostThresholdStatus
-    name: displayOnChart
-  - description: Indicates whether notifications will be sent when this threshold is exceeded.
-    types:
-    - uid: CostThresholdStatus
-    name: sendNotificationWhenExceeded
-  - description: Indicates the datetime when notifications were last sent for this threshold.
-    types:
-    - uid: string
-    name: NotificationSent
-- name: PercentageCostThresholdProperties
-  description: The value of the percentage cost threshold.
-  kind: object
-  properties:
-  - description: The cost threshold value.
-    types:
-    - uid: number
-    name: thresholdValue
 - name: LabCostSummaryProperties
-  description: The lab cost summary component of the cost data.
+  description: The properties of the cost summary.
   kind: object
   properties:
   - description: The cost component of the cost item.
@@ -350,6 +198,80 @@ definitions:
     types:
     - uid: string
     name: externalResourceId
+- name: LabCost
+  description: A cost item.
+  kind: object
+  properties:
+  - description: The target cost properties
+    types:
+    - uid: TargetCostProperties
+    name: properties.targetCost
+  - isReadyOnly: true
+    description: The lab cost summary component of the cost data.
+    types:
+    - uid: LabCostSummaryProperties
+    name: properties.labCostSummary
+  - isReadyOnly: true
+    description: The lab cost details component of the cost data.
+    types:
+    - uid: LabCostDetailsProperties
+    name: properties.labCostDetails
+  - isReadyOnly: true
+    description: The resource cost component of the cost data.
+    types:
+    - uid: LabResourceCostProperties
+    name: properties.resourceCosts
+  - description: The currency code of the cost.
+    types:
+    - uid: string
+    name: properties.currencyCode
+  - description: The start time of the cost data.
+    types:
+    - uid: string
+    name: properties.startDateTime
+  - description: The end time of the cost data.
+    types:
+    - uid: string
+    name: properties.endDateTime
+  - description: The creation date of the cost.
+    types:
+    - uid: string
+    name: properties.createdDate
+  - description: The provisioning status of the resource.
+    types:
+    - uid: string
+    name: properties.provisioningState
+  - description: The unique immutable identifier of a resource (Guid).
+    types:
+    - uid: string
+    name: properties.uniqueIdentifier
+  - isReadyOnly: true
+    description: The identifier of the resource.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+    name: type
+  - description: The location of the resource.
+    types:
+    - uid: string
+    name: location
+  - description: The tags of the resource.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
 - name: CloudError
   description: Error from a REST request.
   kind: object
@@ -358,6 +280,30 @@ definitions:
     types:
     - uid: CloudErrorBody
     name: error
+- name: CostThresholdProperties
+  description: Properties of a cost threshold item.
+  kind: object
+  properties:
+  - description: The ID of the cost threshold item.
+    types:
+    - uid: string
+    name: thresholdId
+  - description: The value of the percentage cost threshold.
+    types:
+    - uid: PercentageCostThresholdProperties
+    name: percentageThreshold
+  - description: Indicates whether this threshold will be displayed on cost charts.
+    types:
+    - uid: CostThresholdStatus
+    name: displayOnChart
+  - description: Indicates whether notifications will be sent when this threshold is exceeded.
+    types:
+    - uid: CostThresholdStatus
+    name: sendNotificationWhenExceeded
+  - description: Indicates the datetime when notifications were last sent for this threshold.
+    types:
+    - uid: string
+    name: NotificationSent
 - name: CloudErrorBody
   description: Body of an error from a REST request.
   kind: object
@@ -373,9 +319,16 @@ definitions:
     name: target
   - description: Inner errors.
     types:
-    - isArray: true
-      uid: Details
+    - uid: CloudErrorBody
     name: details
+- name: PercentageCostThresholdProperties
+  description: Properties of a percentage cost threshold.
+  kind: object
+  properties:
+  - description: The cost threshold value.
+    types:
+    - uid: number
+    name: thresholdValue
 examples: []
 security:
 - type: oauth2

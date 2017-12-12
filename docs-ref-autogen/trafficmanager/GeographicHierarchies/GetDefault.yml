@@ -34,7 +34,7 @@ definitions:
   - description: The region at the root of the hierarchy from all the regions in the hierarchy can be retrieved.
     types:
     - uid: Region
-    name: geographicHierarchy
+    name: properties.geographicHierarchy
   - isReadyOnly: true
     description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}
     types:
@@ -50,8 +50,16 @@ definitions:
     types:
     - uid: string
     name: type
+- name: CloudError
+  description: An error returned by the Azure Resource Manager
+  kind: object
+  properties:
+  - description: The content of the error.
+    types:
+    - uid: CloudErrorBody
+    name: error
 - name: Region
-  description: The region at the root of the hierarchy from all the regions in the hierarchy can be retrieved.
+  description: Class representing a region in the Geographic hierarchy used with the Geographic traffic routing method.
   kind: object
   properties:
   - description: The code of the region
@@ -64,19 +72,10 @@ definitions:
     name: name
   - description: The list of Regions grouped under this Region in the Geographic Hierarchy.
     types:
-    - isArray: true
-      uid: Regions
+    - uid: Region
     name: regions
-- name: CloudError
-  description: An error returned by the Azure Resource Manager
-  kind: object
-  properties:
-  - description: The content of the error.
-    types:
-    - uid: CloudErrorBody
-    name: error
 - name: CloudErrorBody
-  description: The content of the error.
+  description: The content of an error returned by the Azure Resource Manager
   kind: object
   properties:
   - description: Error code
@@ -93,8 +92,7 @@ definitions:
     name: target
   - description: Error details
     types:
-    - isArray: true
-      uid: Details
+    - uid: CloudErrorBody
     name: details
 examples:
 - request:

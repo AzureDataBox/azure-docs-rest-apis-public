@@ -77,42 +77,27 @@ requestBody:
     name: eTag
 requestHeader: []
 definitions:
-- name: VaultUpgradeState
-  description: Status of the vault upgrade operation.
-  kind: enum
+- name: VaultProperties
+  description: Properties of the vault.
+  kind: object
   properties:
-  - types:
+  - isReadyOnly: true
+    description: Provisioning State.
+    types:
     - uid: string
-    name: Unknown
-  - types:
-    - uid: string
-    name: InProgress
-  - types:
-    - uid: string
-    name: Upgraded
-  - types:
-    - uid: string
-    name: Failed
-- name: TriggerType
-  description: The way the vault upgradation was triggered.
-  kind: enum
+    name: provisioningState
+  - description: Details for upgrading vault.
+    types:
+    - uid: UpgradeDetails
+    name: upgradeDetails
+- name: Sku
+  description: Identifies the unique system identifier for each Azure resource.
+  kind: object
   properties:
-  - types:
-    - uid: string
-    name: UserTriggered
-  - types:
-    - uid: string
-    name: ForcedUpgrade
-- name: SkuName
-  description: The Sku name.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Standard
-  - types:
-    - uid: string
-    name: RS0
+  - description: The Sku name.
+    types:
+    - uid: SkuName
+    name: name
 - name: Vault
   description: Resource information, as returned by the resource provider.
   kind: object
@@ -156,19 +141,6 @@ definitions:
     types:
     - uid: string
     name: eTag
-- name: VaultProperties
-  description: Properties of the vault.
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: Provisioning State.
-    types:
-    - uid: string
-    name: provisioningState
-  - description: Details for upgrading vault.
-    types:
-    - uid: UpgradeDetails
-    name: upgradeDetails
 - name: UpgradeDetails
   description: Details for upgrading vault.
   kind: object
@@ -218,14 +190,6 @@ definitions:
     types:
     - uid: string
     name: previousResourceId
-- name: Sku
-  description: Identifies the unique system identifier for each Azure resource.
-  kind: object
-  properties:
-  - description: The Sku name.
-    types:
-    - uid: SkuName
-    name: name
 examples: []
 security:
 - type: oauth2

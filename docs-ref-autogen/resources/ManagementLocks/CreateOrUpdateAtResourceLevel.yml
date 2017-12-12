@@ -80,33 +80,27 @@ requestBody:
     description: "The level of the lock. Possible values are: NotSpecified, CanNotDelete, ReadOnly. CanNotDelete means authorized users are able to read and modify the resources, but not delete. ReadOnly means authorized users can only read from a resource, but they can't modify or delete it."
     types:
     - uid: LockLevel
-    name: level
+    name: properties.level
   - in: body
     description: Notes about the lock. Maximum of 512 characters.
     types:
     - uid: string
-    name: notes
+    name: properties.notes
   - in: body
     description: The owners of the lock.
     types:
-    - isArray: true
-      uid: ManagementLockOwner
-    name: owners
+    - uid: ManagementLockOwner
+    name: properties.owners
 requestHeader: []
 definitions:
-- name: LockLevel
-  description: "The level of the lock. Possible values are: NotSpecified, CanNotDelete, ReadOnly. CanNotDelete means authorized users are able to read and modify the resources, but not delete. ReadOnly means authorized users can only read from a resource, but they can't modify or delete it."
-  kind: enum
+- name: ManagementLockOwner
+  description: Lock owner properties.
+  kind: object
   properties:
-  - types:
+  - description: The application ID of the lock owner.
+    types:
     - uid: string
-    name: NotSpecified
-  - types:
-    - uid: string
-    name: CanNotDelete
-  - types:
-    - uid: string
-    name: ReadOnly
+    name: applicationId
 - name: ManagementLockObject
   description: The lock information.
   kind: object
@@ -128,24 +122,15 @@ definitions:
   - description: "The level of the lock. Possible values are: NotSpecified, CanNotDelete, ReadOnly. CanNotDelete means authorized users are able to read and modify the resources, but not delete. ReadOnly means authorized users can only read from a resource, but they can't modify or delete it."
     types:
     - uid: LockLevel
-    name: level
+    name: properties.level
   - description: Notes about the lock. Maximum of 512 characters.
     types:
     - uid: string
-    name: notes
+    name: properties.notes
   - description: The owners of the lock.
     types:
-    - isArray: true
-      uid: ManagementLockOwner
-    name: owners
-- name: ManagementLockOwner
-  description: Lock owner properties.
-  kind: object
-  properties:
-  - description: The application ID of the lock owner.
-    types:
-    - uid: string
-    name: applicationId
+    - uid: ManagementLockOwner
+    name: properties.owners
 examples: []
 security:
 - type: oauth2

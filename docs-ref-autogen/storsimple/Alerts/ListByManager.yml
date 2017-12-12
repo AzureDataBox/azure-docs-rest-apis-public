@@ -54,8 +54,7 @@ definitions:
   properties:
   - description: The value.
     types:
-    - isArray: true
-      uid: Alert
+    - uid: Alert
     name: value
   - description: The URI of the next page of alerts.
     types:
@@ -68,55 +67,55 @@ definitions:
   - description: The title of the alert
     types:
     - uid: string
-    name: title
+    name: properties.title
   - description: The scope of the alert
     types:
     - uid: AlertScope
-    name: scope
+    name: properties.scope
   - description: The type of the alert
     types:
     - uid: string
-    name: alertType
+    name: properties.alertType
   - description: The UTC time at which the alert was raised
     types:
     - uid: string
-    name: appearedAtTime
+    name: properties.appearedAtTime
   - description: The source time at which the alert was raised
     types:
     - uid: string
-    name: appearedAtSourceTime
+    name: properties.appearedAtSourceTime
   - description: The UTC time at which the alert was cleared
     types:
     - uid: string
-    name: clearedAtTime
+    name: properties.clearedAtTime
   - description: The source time at which the alert was cleared
     types:
     - uid: string
-    name: clearedAtSourceTime
+    name: properties.clearedAtSourceTime
   - description: The source at which the alert was raised
     types:
     - uid: AlertSource
-    name: source
+    name: properties.source
   - description: The recommended action for the issue raised in the alert
     types:
     - uid: string
-    name: recommendation
+    name: properties.recommendation
   - description: The reason for resolving the alert
     types:
     - uid: string
-    name: resolutionReason
+    name: properties.resolutionReason
   - description: The severity of the alert
     types:
     - uid: AlertSeverity
-    name: severity
+    name: properties.severity
   - description: The current status of the alert
     types:
     - uid: AlertStatus
-    name: status
+    name: properties.status
   - description: The details of the error for which the alert was raised
     types:
     - uid: AlertErrorDetails
-    name: errorDetails
+    name: properties.errorDetails
   - description: More details about the alert
     types:
     - isDictionary: true
@@ -124,7 +123,7 @@ definitions:
       - uid: string
       - uid: string
       uid: object
-    name: detailedInformation
+    name: properties.detailedInformation
   - isReadyOnly: true
     description: The path ID that uniquely identifies the object.
     types:
@@ -144,18 +143,8 @@ definitions:
     types:
     - uid: Kind
     name: kind
-- name: AlertScope
-  description: The scope of the alert
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Resource
-  - types:
-    - uid: string
-    name: Device
 - name: AlertSource
-  description: The source at which the alert was raised
+  description: The source details at which the alert was raised
   kind: object
   properties:
   - description: The name of the source
@@ -170,39 +159,6 @@ definitions:
     types:
     - uid: AlertSourceType
     name: alertSourceType
-- name: AlertSourceType
-  description: The source type of the alert
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Resource
-  - types:
-    - uid: string
-    name: Device
-- name: AlertSeverity
-  description: The severity of the alert
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Informational
-  - types:
-    - uid: string
-    name: Warning
-  - types:
-    - uid: string
-    name: Critical
-- name: AlertStatus
-  description: The current status of the alert
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Active
-  - types:
-    - uid: string
-    name: Cleared
 - name: AlertErrorDetails
   description: The details of the error for which the alert was raised
   kind: object
@@ -219,13 +175,6 @@ definitions:
     types:
     - uid: integer
     name: occurences
-- name: Kind
-  description: The Kind of the object. Currently only Series8000 is supported
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Series8000
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/alerts?api-version=2017-06-01&$filter=status%20eq%20'Active'%20and%20appearedOnTime%20ge%20'2017-06-09T18:30:00Z'%20and%20appearedOnTime%20le%20'2017-06-19T18:30:00Z'%20and%20sourceType%20eq%20'Device'%20and%20sourceName%20eq%20'Device05ForSDKTest'

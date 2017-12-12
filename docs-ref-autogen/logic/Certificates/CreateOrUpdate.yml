@@ -55,17 +55,17 @@ requestBody:
     description: The metadata.
     types:
     - uid: Metadata
-    name: metadata
+    name: properties.metadata
   - in: body
     description: The key details in the key vault.
     types:
     - uid: KeyVaultKeyReference
-    name: key
+    name: properties.key
   - in: body
     description: The public certificate.
     types:
     - uid: string
-    name: publicCertificate
+    name: properties.publicCertificate
   - in: body
     description: The resource location.
     types:
@@ -82,6 +82,22 @@ requestBody:
     name: tags
 requestHeader: []
 definitions:
+- name: KeyVaultKeyReference
+  description: The reference to the key vault key.
+  kind: object
+  properties:
+  - description: The key vault reference.
+    types:
+    - uid: KeyVault
+    name: keyVault
+  - description: The private key name in key vault.
+    types:
+    - uid: string
+    name: keyName
+  - description: The private key version in key vault.
+    types:
+    - uid: string
+    name: keyVersion
 - name: IntegrationAccountCertificate
   description: The integration account certificate.
   kind: object
@@ -90,24 +106,24 @@ definitions:
     description: The created time.
     types:
     - uid: string
-    name: createdTime
+    name: properties.createdTime
   - isReadyOnly: true
     description: The changed time.
     types:
     - uid: string
-    name: changedTime
+    name: properties.changedTime
   - description: The metadata.
     types:
     - uid: Metadata
-    name: metadata
+    name: properties.metadata
   - description: The key details in the key vault.
     types:
     - uid: KeyVaultKeyReference
-    name: key
+    name: properties.key
   - description: The public certificate.
     types:
     - uid: string
-    name: publicCertificate
+    name: properties.publicCertificate
   - isReadyOnly: true
     description: The resource id.
     types:
@@ -135,44 +151,6 @@ definitions:
       - uid: string
       uid: object
     name: tags
-- name: Metadata
-  description: The metadata.
-  kind: object
-  properties: []
-- name: KeyVaultKeyReference
-  description: The key details in the key vault.
-  kind: object
-  properties:
-  - description: The key vault reference.
-    types:
-    - uid: KeyVault
-    name: keyVault
-  - description: The private key name in key vault.
-    types:
-    - uid: string
-    name: keyName
-  - description: The private key version in key vault.
-    types:
-    - uid: string
-    name: keyVersion
-- name: KeyVault
-  description: The key vault reference.
-  kind: object
-  properties:
-  - description: The resource id.
-    types:
-    - uid: string
-    name: id
-  - isReadyOnly: true
-    description: The resource name.
-    types:
-    - uid: string
-    name: name
-  - isReadyOnly: true
-    description: The resource type.
-    types:
-    - uid: string
-    name: type
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testResourceGroup/providers/Microsoft.Logic/integrationAccounts/testIntegrationAccount/certificates/testCertificate?api-version=2016-06-01

@@ -78,13 +78,28 @@ definitions:
   properties:
   - description: The list of supported node agent SKUs.
     types:
-    - isArray: true
-      uid: NodeAgentSku
+    - uid: NodeAgentSku
     name: value
   - description: The URL to get the next set of results.
     types:
     - uid: string
     name: odata.nextLink
+- name: BatchError
+  description: An error response received from the Azure Batch service.
+  kind: object
+  properties:
+  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+    name: code
+  - description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: ErrorMessage
+    name: message
+  - description: A collection of key-value pairs containing additional details about the error.
+    types:
+    - uid: BatchErrorDetail
+    name: values
 - name: NodeAgentSku
   description: The Batch node agent is a program that runs on each node in the pool, and provides the command-and-control interface between the node and the Batch service. There are different implementations of the node agent, known as SKUs, for different operating systems.
   kind: object
@@ -95,13 +110,36 @@ definitions:
     name: id
   - description: This collection is not exhaustive (the node agent may be compatible with other images).
     types:
-    - isArray: true
-      uid: ImageReference
+    - uid: ImageReference
     name: verifiedImageReferences
   - description: The type of operating system (e.g. Windows or Linux) compatible with the node agent SKU.
     types:
     - uid: OSType
     name: osType
+- name: ErrorMessage
+  description: An error message received in an Azure Batch error response.
+  kind: object
+  properties:
+  - description: The language code of the error message
+    types:
+    - uid: string
+    name: lang
+  - description: The text of the message.
+    types:
+    - uid: string
+    name: value
+- name: BatchErrorDetail
+  description: An item of additional information included in an Azure Batch error response.
+  kind: object
+  properties:
+  - description: An identifier specifying the meaning of the Value property.
+    types:
+    - uid: string
+    name: key
+  - description: The additional information included with the error response.
+    types:
+    - uid: string
+    name: value
 - name: ImageReference
   description: A reference to an Azure Virtual Machines Marketplace image or a custom Azure Virtual Machine image. To get the list of all Azure Marketplace image references verified by Azure Batch, see the 'List node agent SKUs' operation.
   kind: object
@@ -126,59 +164,6 @@ definitions:
     types:
     - uid: string
     name: virtualMachineImageId
-- name: OSType
-  description: The type of operating system (e.g. Windows or Linux) compatible with the node agent SKU.
-  kind: enum
-  properties:
-  - description: The Linux operating system.
-    types:
-    - uid: string
-    name: linux
-  - description: The Windows operating system.
-    types:
-    - uid: string
-    name: windows
-- name: BatchError
-  description: An error response received from the Azure Batch service.
-  kind: object
-  properties:
-  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
-    types:
-    - uid: string
-    name: code
-  - description: A message describing the error, intended to be suitable for display in a user interface.
-    types:
-    - uid: ErrorMessage
-    name: message
-  - description: A collection of key-value pairs containing additional details about the error.
-    types:
-    - isArray: true
-      uid: BatchErrorDetail
-    name: values
-- name: ErrorMessage
-  description: A message describing the error, intended to be suitable for display in a user interface.
-  kind: object
-  properties:
-  - description: The language code of the error message
-    types:
-    - uid: string
-    name: lang
-  - description: The text of the message.
-    types:
-    - uid: string
-    name: value
-- name: BatchErrorDetail
-  description: An item of additional information included in an Azure Batch error response.
-  kind: object
-  properties:
-  - description: An identifier specifying the meaning of the Value property.
-    types:
-    - uid: string
-    name: key
-  - description: The additional information included with the error response.
-    types:
-    - uid: string
-    name: value
 examples:
 - request:
     uri: GET https://batch.core.windows.net/nodeagentskus?api-version=2017-09-01.6.0

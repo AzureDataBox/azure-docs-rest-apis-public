@@ -72,7 +72,7 @@ definitions:
     - uid: string
     name: lastUpdatedDateTimeUtc
 - name: AttestationMechanism
-  description: Attestation method used by the device.
+  description: Device attestation method.
   kind: object
   properties:
   - types:
@@ -89,17 +89,18 @@ definitions:
     types:
     - uid: X509Attestation
     name: x509
-- kind: enum
+- name: InitialTwin
+  description: Initial device twin. Contains a subset of the properties of Twin.
+  kind: object
   properties:
-  - types:
-    - uid: string
-    name: none
-  - types:
-    - uid: string
-    name: tpm
-  - types:
-    - uid: string
-    name: x509
+  - description: Twin tags.
+    types:
+    - uid: TwinCollection
+    name: tags
+  - description: Twin desired properties.
+    types:
+    - uid: InitialTwinProperties
+    name: properties
 - name: TpmAttestation
   description: Attestation via TPM.
   kind: object
@@ -126,6 +127,25 @@ definitions:
     types:
     - uid: X509CAReferences
     name: caReferences
+- name: TwinCollection
+  kind: object
+  properties:
+  - types:
+    - uid: integer
+    name: version
+  - types:
+    - uid: integer
+    name: count
+  - types:
+    - uid: Metadata
+    name: metadata
+- name: InitialTwinProperties
+  kind: object
+  properties:
+  - description: Gets and sets the InitialTwin desired properties.
+    types:
+    - uid: TwinCollection
+    name: desired
 - name: X509Certificates
   description: Primary and secondary certificates
   kind: object
@@ -138,6 +158,26 @@ definitions:
     types:
     - uid: X509CertificateWithInfo
     name: secondary
+- name: X509CAReferences
+  description: Primary and secondary CA references.
+  kind: object
+  properties:
+  - types:
+    - uid: string
+    name: primary
+  - types:
+    - uid: string
+    name: secondary
+- name: Metadata
+  kind: object
+  properties:
+  - types:
+    - uid: string
+    name: lastUpdated
+  - description: This SHOULD be null for Reported properties metadata and MUST not be null for Desired properties metadata.
+    types:
+    - uid: integer
+    name: lastUpdatedVersion
 - name: X509CertificateWithInfo
   description: Certificate and Certificate info
   kind: object
@@ -177,59 +217,6 @@ definitions:
   - types:
     - uid: integer
     name: version
-- name: X509CAReferences
-  description: Primary and secondary CA references.
-  kind: object
-  properties:
-  - types:
-    - uid: string
-    name: primary
-  - types:
-    - uid: string
-    name: secondary
-- name: InitialTwin
-  description: Initial device twin.
-  kind: object
-  properties:
-  - description: Twin tags.
-    types:
-    - uid: TwinCollection
-    name: tags
-  - description: Twin desired properties.
-    types:
-    - uid: InitialTwinProperties
-    name: properties
-- name: TwinCollection
-  description: Twin tags.
-  kind: object
-  properties:
-  - types:
-    - uid: integer
-    name: version
-  - types:
-    - uid: integer
-    name: count
-  - types:
-    - uid: Metadata
-    name: metadata
-- name: Metadata
-  kind: object
-  properties:
-  - types:
-    - uid: string
-    name: lastUpdated
-  - description: This SHOULD be null for Reported properties metadata and MUST not be null for Desired properties metadata.
-    types:
-    - uid: integer
-    name: lastUpdatedVersion
-- name: InitialTwinProperties
-  description: Twin desired properties.
-  kind: object
-  properties:
-  - description: Gets and sets the InitialTwin desired properties.
-    types:
-    - uid: TwinCollection
-    name: desired
 examples: []
 security: []
 name: Query

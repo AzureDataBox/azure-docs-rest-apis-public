@@ -42,29 +42,27 @@ definitions:
   - description: The appliance lock level.
     types:
     - uid: ApplianceLockLevel
-    name: lockLevel
+    name: properties.lockLevel
   - description: The appliance definition display name.
     types:
     - uid: string
-    name: displayName
+    name: properties.displayName
   - description: The appliance provider authorizations.
     types:
-    - isArray: true
-      uid: ApplianceProviderAuthorization
-    name: authorizations
+    - uid: ApplianceProviderAuthorization
+    name: properties.authorizations
   - description: The collection of appliance artifacts. The portal will use the files specified as artifacts to construct the user experience of creating an appliance from an appliance definition.
     types:
-    - isArray: true
-      uid: ApplianceArtifact
-    name: artifacts
+    - uid: ApplianceArtifact
+    name: properties.artifacts
   - description: The appliance definition description.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - description: The appliance definition package file Uri.
     types:
     - uid: string
-    name: packageFileUri
+    name: properties.packageFileUri
   - description: ID of the resource that manages this resource.
     types:
     - uid: string
@@ -104,6 +102,22 @@ definitions:
       - uid: string
       uid: object
     name: tags
+- name: ErrorResponse
+  description: Error reponse indicates ARM appliance is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - description: Http status code.
+    types:
+    - uid: string
+    name: httpStatus
+  - description: Error code.
+    types:
+    - uid: string
+    name: errorCode
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: errorMessage
 - name: ApplianceLockLevel
   description: The appliance lock level.
   kind: enum
@@ -145,18 +159,8 @@ definitions:
     types:
     - uid: ApplianceArtifactType
     name: type
-- name: ApplianceArtifactType
-  description: The the appliance artifact type.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Template
-  - types:
-    - uid: string
-    name: Custom
 - name: Sku
-  description: The SKU of the resource.
+  description: SKU for the resource.
   kind: object
   properties:
   - description: The SKU name.
@@ -184,7 +188,7 @@ definitions:
     - uid: integer
     name: capacity
 - name: Identity
-  description: The identity of the resource.
+  description: Identity for the resource.
   kind: object
   properties:
   - isReadyOnly: true
@@ -201,29 +205,16 @@ definitions:
     types:
     - uid: ResourceIdentityType
     name: type
-- name: ResourceIdentityType
-  description: The identity type.
+- name: ApplianceArtifactType
+  description: The appliance artifact type.
   kind: enum
   properties:
   - types:
     - uid: string
-    name: SystemAssigned
-- name: ErrorResponse
-  description: Error reponse indicates ARM appliance is not able to process the incoming request. The reason is provided in the error message.
-  kind: object
-  properties:
-  - description: Http status code.
-    types:
+    name: Template
+  - types:
     - uid: string
-    name: httpStatus
-  - description: Error code.
-    types:
-    - uid: string
-    name: errorCode
-  - description: Error message indicating why the operation failed.
-    types:
-    - uid: string
-    name: errorMessage
+    name: Custom
 examples: []
 security:
 - type: oauth2

@@ -74,13 +74,20 @@ definitions:
   properties:
   - description: Results of the list operation.
     types:
-    - isArray: true
-      uid: NotificationChannel
+    - uid: NotificationChannel
     name: value
   - description: Link for next set of results.
     types:
     - uid: string
     name: nextLink
+- name: CloudError
+  description: Error from a REST request.
+  kind: object
+  properties:
+  - description: Body of an error from a REST request.
+    types:
+    - uid: CloudErrorBody
+    name: error
 - name: NotificationChannel
   description: A notification.
   kind: object
@@ -88,29 +95,28 @@ definitions:
   - description: The webhook URL to send notifications to.
     types:
     - uid: string
-    name: webHookUrl
+    name: properties.webHookUrl
   - description: Description of notification.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - description: The list of event for which this notification is enabled.
     types:
-    - isArray: true
-      uid: Event
-    name: events
+    - uid: Event
+    name: properties.events
   - isReadyOnly: true
     description: The creation date of the notification channel.
     types:
     - uid: string
-    name: createdDate
+    name: properties.createdDate
   - description: The provisioning status of the resource.
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - description: The unique immutable identifier of a resource (Guid).
     types:
     - uid: string
-    name: uniqueIdentifier
+    name: properties.uniqueIdentifier
   - isReadyOnly: true
     description: The identifier of the resource.
     types:
@@ -138,32 +144,6 @@ definitions:
       - uid: string
       uid: object
     name: tags
-- name: Event
-  description: An event to be notified for.
-  kind: object
-  properties:
-  - description: The event type for which this notification is enabled (i.e. AutoShutdown, Cost)
-    types:
-    - uid: NotificationChannelEventType
-    name: eventName
-- name: NotificationChannelEventType
-  description: The event type for which this notification is enabled (i.e. AutoShutdown, Cost)
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: AutoShutdown
-  - types:
-    - uid: string
-    name: Cost
-- name: CloudError
-  description: Error from a REST request.
-  kind: object
-  properties:
-  - description: Body of an error from a REST request.
-    types:
-    - uid: CloudErrorBody
-    name: error
 - name: CloudErrorBody
   description: Body of an error from a REST request.
   kind: object
@@ -179,9 +159,16 @@ definitions:
     name: target
   - description: Inner errors.
     types:
-    - isArray: true
-      uid: Details
+    - uid: CloudErrorBody
     name: details
+- name: Event
+  description: An event to be notified for.
+  kind: object
+  properties:
+  - description: The event type for which this notification is enabled (i.e. AutoShutdown, Cost)
+    types:
+    - uid: NotificationChannelEventType
+    name: eventName
 examples: []
 security:
 - type: oauth2

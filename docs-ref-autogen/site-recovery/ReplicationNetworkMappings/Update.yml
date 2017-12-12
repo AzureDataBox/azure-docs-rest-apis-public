@@ -68,6 +68,25 @@ requestBody:
     name: properties
 requestHeader: []
 definitions:
+- name: UpdateNetworkMappingInputProperties
+  description: Common input details for network mapping operation.
+  kind: object
+  properties:
+  - description: Recovery fabric name.
+    types:
+    - uid: string
+    name: recoveryFabricName
+  - description: Recovery network Id.
+    types:
+    - uid: string
+    name: recoveryNetworkId
+  - description: Fabrics specific input network Id.
+    types:
+    - uid: AzureToAzureUpdateNetworkMappingInput
+    - uid: VmmToAzureUpdateNetworkMappingInput
+    - uid: VmmToVmmUpdateNetworkMappingInput
+    typesTitle: FabricSpecificUpdateNetworkMappingInput
+    name: fabricSpecificDetails
 - name: NetworkMapping
   description: Network Mapping model. Ideally it should have been possible to inherit this class from prev version in InheritedModels as long as there is no difference in structure or method signature. Since there were no base Models for certain fields and methods viz NetworkMappingProperties and Load with required return type, the class has been introduced in its entirety with references to base models to facilitate exensions in subsequent versions.
   kind: object
@@ -96,7 +115,7 @@ definitions:
     - uid: string
     name: location
 - name: NetworkMappingProperties
-  description: The Network Mapping Properties.
+  description: Network Mapping Properties.
   kind: object
   properties:
   - description: The pairing state for network mapping.
@@ -138,6 +157,37 @@ definitions:
     - uid: VmmToVmmNetworkMappingSettings
     typesTitle: NetworkMappingFabricSpecificSettings
     name: fabricSpecificSettings
+- name: AzureToAzureUpdateNetworkMappingInput
+  description: Updates network mappings input.
+  kind: object
+  properties:
+  - description: The primary azure vnet Id.
+    types:
+    - uid: string
+    name: primaryNetworkId
+  - description: The instance type.
+    types:
+    - uid: AzureToAzure
+    typesTitle: string
+    name: instanceType
+- name: VmmToAzureUpdateNetworkMappingInput
+  description: Update network mappings input properties/behaviour specific to vmm to azure.
+  kind: object
+  properties:
+  - description: The instance type.
+    types:
+    - uid: VmmToAzure
+    typesTitle: string
+    name: instanceType
+- name: VmmToVmmUpdateNetworkMappingInput
+  description: Update network mappings input properties/behaviour specific to vmm to vmm.
+  kind: object
+  properties:
+  - description: The instance type.
+    types:
+    - uid: VmmToVmm
+    typesTitle: string
+    name: instanceType
 - name: AzureToAzureNetworkMappingSettings
   description: A2A Network Mapping fabric specific settings.
   kind: object

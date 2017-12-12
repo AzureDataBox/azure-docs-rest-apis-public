@@ -57,57 +57,52 @@ definitions:
     description: <code>true</code> if hostname is already verified; otherwise, <code>false</code>.
     types:
     - uid: boolean
-    name: isHostnameAlreadyVerified
+    name: properties.isHostnameAlreadyVerified
   - isReadyOnly: true
     description: DNS verification test result.
     types:
     - uid: DnsVerificationTestResult
-    name: customDomainVerificationTest
+    name: properties.customDomainVerificationTest
   - isReadyOnly: true
     description: Raw failure information if DNS verification fails.
     types:
     - uid: ErrorEntity
-    name: customDomainVerificationFailureInfo
+    name: properties.customDomainVerificationFailureInfo
   - isReadyOnly: true
     description: <code>true</code> if there is a conflict on a scale unit; otherwise, <code>false</code>.
     types:
     - uid: boolean
-    name: hasConflictOnScaleUnit
+    name: properties.hasConflictOnScaleUnit
   - isReadyOnly: true
     description: <code>true</code> if htere is a conflict across subscriptions; otherwise, <code>false</code>.
     types:
     - uid: boolean
-    name: hasConflictAcrossSubscription
+    name: properties.hasConflictAcrossSubscription
   - isReadyOnly: true
     description: Name of the conflicting app on scale unit if it's within the same subscription.
     types:
     - uid: string
-    name: conflictingAppResourceId
+    name: properties.conflictingAppResourceId
   - description: CName records controller can see for this hostname.
     types:
-    - isArray: true
-      uid: string
-    name: cNameRecords
+    - uid: string
+    name: properties.cNameRecords
   - description: TXT records controller can see for this hostname.
     types:
-    - isArray: true
-      uid: string
-    name: txtRecords
+    - uid: string
+    name: properties.txtRecords
   - description: A records controller can see for this hostname.
     types:
-    - isArray: true
-      uid: string
-    name: aRecords
+    - uid: string
+    name: properties.aRecords
   - description: Alternate CName records controller can see for this hostname.
     types:
-    - isArray: true
-      uid: string
-    name: alternateCNameRecords
+    - uid: string
+    name: properties.alternateCNameRecords
   - description: Alternate TXT records controller can see for this hostname.
     types:
-    - isArray: true
-      uid: string
-    name: alternateTxtRecords
+    - uid: string
+    name: properties.alternateTxtRecords
   - isReadyOnly: true
     description: Resource Id.
     types:
@@ -127,21 +122,8 @@ definitions:
     types:
     - uid: string
     name: type
-- name: DnsVerificationTestResult
-  description: DNS verification test result.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Passed
-  - types:
-    - uid: string
-    name: Failed
-  - types:
-    - uid: string
-    name: Skipped
 - name: ErrorEntity
-  description: Raw failure information if DNS verification fails.
+  description: Body of the error response returned from the API.
   kind: object
   properties:
   - description: Type of error.
@@ -154,13 +136,11 @@ definitions:
     name: messageTemplate
   - description: Parameters for the template.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: parameters
   - description: Inner errors.
     types:
-    - isArray: true
-      uid: InnerErrors
+    - uid: ErrorEntity
     name: innerErrors
   - description: Basic error code.
     types:

@@ -74,13 +74,20 @@ definitions:
   properties:
   - description: Results of the list operation.
     types:
-    - isArray: true
-      uid: CustomImage
+    - uid: CustomImage
     name: value
   - description: Link for next set of results.
     types:
     - uid: string
     name: nextLink
+- name: CloudError
+  description: Error from a REST request.
+  kind: object
+  properties:
+  - description: Body of an error from a REST request.
+    types:
+    - uid: CloudErrorBody
+    name: error
 - name: CustomImage
   description: A custom image.
   kind: object
@@ -88,36 +95,36 @@ definitions:
   - description: The virtual machine from which the image is to be created.
     types:
     - uid: CustomImagePropertiesFromVm
-    name: vm
+    name: properties.vm
   - description: The VHD from which the image is to be created.
     types:
     - uid: CustomImagePropertiesCustom
-    name: vhd
+    name: properties.vhd
   - description: The description of the custom image.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - description: The author of the custom image.
     types:
     - uid: string
-    name: author
+    name: properties.author
   - isReadyOnly: true
     description: The creation date of the custom image.
     types:
     - uid: string
-    name: creationDate
+    name: properties.creationDate
   - description: The Managed Image Id backing the custom image.
     types:
     - uid: string
-    name: managedImageId
+    name: properties.managedImageId
   - description: The provisioning status of the resource.
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - description: The unique immutable identifier of a resource (Guid).
     types:
     - uid: string
-    name: uniqueIdentifier
+    name: properties.uniqueIdentifier
   - isReadyOnly: true
     description: The identifier of the resource.
     types:
@@ -145,101 +152,6 @@ definitions:
       - uid: string
       uid: object
     name: tags
-- name: CustomImagePropertiesFromVm
-  description: The virtual machine from which the image is to be created.
-  kind: object
-  properties:
-  - description: The source vm identifier.
-    types:
-    - uid: string
-    name: sourceVmId
-  - description: The Windows OS information of the VM.
-    types:
-    - uid: WindowsOsInfo
-    name: windowsOsInfo
-  - description: The Linux OS information of the VM.
-    types:
-    - uid: LinuxOsInfo
-    name: linuxOsInfo
-- name: WindowsOsInfo
-  description: The Windows OS information of the VM.
-  kind: object
-  properties:
-  - description: The state of the Windows OS (i.e. NonSysprepped, SysprepRequested, SysprepApplied).
-    types:
-    - uid: WindowsOsState
-    name: windowsOsState
-- name: WindowsOsState
-  description: The state of the Windows OS (i.e. NonSysprepped, SysprepRequested, SysprepApplied).
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: NonSysprepped
-  - types:
-    - uid: string
-    name: SysprepRequested
-  - types:
-    - uid: string
-    name: SysprepApplied
-- name: LinuxOsInfo
-  description: The Linux OS information of the VM.
-  kind: object
-  properties:
-  - description: The state of the Linux OS (i.e. NonDeprovisioned, DeprovisionRequested, DeprovisionApplied).
-    types:
-    - uid: LinuxOsState
-    name: linuxOsState
-- name: LinuxOsState
-  description: The state of the Linux OS (i.e. NonDeprovisioned, DeprovisionRequested, DeprovisionApplied).
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: NonDeprovisioned
-  - types:
-    - uid: string
-    name: DeprovisionRequested
-  - types:
-    - uid: string
-    name: DeprovisionApplied
-- name: CustomImagePropertiesCustom
-  description: The VHD from which the image is to be created.
-  kind: object
-  properties:
-  - description: The image name.
-    types:
-    - uid: string
-    name: imageName
-  - description: Indicates whether sysprep has been run on the VHD.
-    types:
-    - uid: boolean
-    name: sysPrep
-  - description: The OS type of the custom image (i.e. Windows, Linux)
-    types:
-    - uid: CustomImageOsType
-    name: osType
-- name: CustomImageOsType
-  description: The OS type of the custom image (i.e. Windows, Linux)
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Windows
-  - types:
-    - uid: string
-    name: Linux
-  - types:
-    - uid: string
-    name: None
-- name: CloudError
-  description: Error from a REST request.
-  kind: object
-  properties:
-  - description: Body of an error from a REST request.
-    types:
-    - uid: CloudErrorBody
-    name: error
 - name: CloudErrorBody
   description: Body of an error from a REST request.
   kind: object
@@ -255,9 +167,56 @@ definitions:
     name: target
   - description: Inner errors.
     types:
-    - isArray: true
-      uid: Details
+    - uid: CloudErrorBody
     name: details
+- name: CustomImagePropertiesFromVm
+  description: Properties for creating a custom image from a virtual machine.
+  kind: object
+  properties:
+  - description: The source vm identifier.
+    types:
+    - uid: string
+    name: sourceVmId
+  - description: The Windows OS information of the VM.
+    types:
+    - uid: WindowsOsInfo
+    name: windowsOsInfo
+  - description: The Linux OS information of the VM.
+    types:
+    - uid: LinuxOsInfo
+    name: linuxOsInfo
+- name: CustomImagePropertiesCustom
+  description: Properties for creating a custom image from a VHD.
+  kind: object
+  properties:
+  - description: The image name.
+    types:
+    - uid: string
+    name: imageName
+  - description: Indicates whether sysprep has been run on the VHD.
+    types:
+    - uid: boolean
+    name: sysPrep
+  - description: The OS type of the custom image (i.e. Windows, Linux)
+    types:
+    - uid: CustomImageOsType
+    name: osType
+- name: WindowsOsInfo
+  description: Information about a Windows OS.
+  kind: object
+  properties:
+  - description: The state of the Windows OS (i.e. NonSysprepped, SysprepRequested, SysprepApplied).
+    types:
+    - uid: WindowsOsState
+    name: windowsOsState
+- name: LinuxOsInfo
+  description: Information about a Linux OS.
+  kind: object
+  properties:
+  - description: The state of the Linux OS (i.e. NonDeprovisioned, DeprovisionRequested, DeprovisionApplied).
+    types:
+    - uid: LinuxOsState
+    name: linuxOsState
 examples: []
 security:
 - type: oauth2

@@ -53,8 +53,7 @@ definitions:
   properties:
   - description: The list of failover sets.
     types:
-    - isArray: true
-      uid: FailoverSet
+    - uid: FailoverSet
     name: value
 - name: FailoverSet
   description: The failover set on a device.
@@ -62,8 +61,7 @@ definitions:
   properties:
   - description: The list of meta data of volume containers, which are part of the failover set.
     types:
-    - isArray: true
-      uid: VolumeContainerFailoverMetadata
+    - uid: VolumeContainerFailoverMetadata
     name: volumeContainers
   - description: The eligibility result of the failover set, for failover.
     types:
@@ -79,9 +77,20 @@ definitions:
     name: volumeContainerId
   - description: The list of metadata of volumes inside the volume container, which contains valid cloud snapshots.
     types:
-    - isArray: true
-      uid: VolumeFailoverMetadata
+    - uid: VolumeFailoverMetadata
     name: volumes
+- name: FailoverSetEligibilityResult
+  description: The eligibility result of failover set, for failover.
+  kind: object
+  properties:
+  - description: Represents if this failover set is eligible for failover or not.
+    types:
+    - uid: boolean
+    name: isEligibleForFailover
+  - description: The error message, if the failover set is not eligible for failover.
+    types:
+    - uid: string
+    name: errorMessage
 - name: VolumeFailoverMetadata
   description: The metadata of a volume that has valid cloud snapshot.
   kind: object
@@ -114,31 +123,6 @@ definitions:
     types:
     - uid: string
     name: backupPolicyId
-- name: VolumeType
-  description: The type of the volume.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Tiered
-  - types:
-    - uid: string
-    name: Archival
-  - types:
-    - uid: string
-    name: LocallyPinned
-- name: FailoverSetEligibilityResult
-  description: The eligibility result of the failover set, for failover.
-  kind: object
-  properties:
-  - description: Represents if this failover set is eligible for failover or not.
-    types:
-    - uid: boolean
-    name: isEligibleForFailover
-  - description: The error message, if the failover set is not eligible for failover.
-    types:
-    - uid: string
-    name: errorMessage
 examples:
 - request:
     uri: POST https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/listFailoverSets?api-version=2017-06-01

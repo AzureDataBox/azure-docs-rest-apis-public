@@ -89,13 +89,28 @@ definitions:
   properties:
   - description: A list of Job Preparation and Job Release task execution information.
     types:
-    - isArray: true
-      uid: JobPreparationAndReleaseTaskExecutionInformation
+    - uid: JobPreparationAndReleaseTaskExecutionInformation
     name: value
   - description: The URL to get the next set of results.
     types:
     - uid: string
     name: odata.nextLink
+- name: BatchError
+  description: An error response received from the Azure Batch service.
+  kind: object
+  properties:
+  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+    name: code
+  - description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: ErrorMessage
+    name: message
+  - description: A collection of key-value pairs containing additional details about the error.
+    types:
+    - uid: BatchErrorDetail
+    name: values
 - name: JobPreparationAndReleaseTaskExecutionInformation
   description: The status of the Job Preparation and Job Release tasks on a compute node.
   kind: object
@@ -120,8 +135,32 @@ definitions:
     types:
     - uid: JobReleaseTaskExecutionInformation
     name: jobReleaseTaskExecutionInfo
+- name: ErrorMessage
+  description: An error message received in an Azure Batch error response.
+  kind: object
+  properties:
+  - description: The language code of the error message
+    types:
+    - uid: string
+    name: lang
+  - description: The text of the message.
+    types:
+    - uid: string
+    name: value
+- name: BatchErrorDetail
+  description: An item of additional information included in an Azure Batch error response.
+  kind: object
+  properties:
+  - description: An identifier specifying the meaning of the Value property.
+    types:
+    - uid: string
+    name: key
+  - description: The additional information included with the error response.
+    types:
+    - uid: string
+    name: value
 - name: JobPreparationTaskExecutionInformation
-  description: Information about the execution status of the Job Preparation task on this compute node.
+  description: Contains information about the execution of a Job Preparation task on a compute node.
   kind: object
   properties:
   - description: If the task has been restarted or retried, this is the most recent time at which the task started running.
@@ -168,93 +207,8 @@ definitions:
     types:
     - uid: TaskExecutionResult
     name: result
-- name: JobPreparationTaskState
-  description: The current state of the Job Preparation task on the compute node.
-  kind: enum
-  properties:
-  - description: The task is currently running (including retrying).
-    types:
-    - uid: string
-    name: running
-  - description: The task has exited with exit code 0, or the task has exhausted its retry limit, or the Batch service was unable to start the task due to task preparation errors (such as resource file download failures).
-    types:
-    - uid: string
-    name: completed
-- name: TaskContainerExecutionInformation
-  description: This property is set only if the task runs in a container context.
-  kind: object
-  properties:
-  - description: The ID of the container.
-    types:
-    - uid: string
-    name: containerId
-  - description: This is the state of the container according to the Docker service. It is equivalent to the status field returned by "docker inspect".
-    types:
-    - uid: string
-    name: state
-  - description: This is the detailed error string from the Docker service, if available. It is equivalent to the error field returned by "docker inspect".
-    types:
-    - uid: string
-    name: error
-- name: TaskFailureInformation
-  description: This property is set only if the task is in the completed state and encountered a failure.
-  kind: object
-  properties:
-  - description: The category of the task error.
-    types:
-    - uid: ErrorCategory
-    name: category
-  - description: An identifier for the task error. Codes are invariant and are intended to be consumed programmatically.
-    types:
-    - uid: string
-    name: code
-  - description: A message describing the task error, intended to be suitable for display in a user interface.
-    types:
-    - uid: string
-    name: message
-  - description: A list of additional details related to the error.
-    types:
-    - isArray: true
-      uid: NameValuePair
-    name: details
-- name: ErrorCategory
-  description: The category of the task error.
-  kind: enum
-  properties:
-  - description: The error is due to a user issue, such as misconfiguration.
-    types:
-    - uid: string
-    name: usererror
-  - description: The error is due to an internal server issue.
-    types:
-    - uid: string
-    name: servererror
-- name: NameValuePair
-  description: Represents a name-value pair.
-  kind: object
-  properties:
-  - description: The name in the name-value pair.
-    types:
-    - uid: string
-    name: name
-  - description: The value in the name-value pair.
-    types:
-    - uid: string
-    name: value
-- name: TaskExecutionResult
-  description: If the value is 'failed', then the details of the failure can be found in the failureInfo property.
-  kind: enum
-  properties:
-  - description: The task ran successfully.
-    types:
-    - uid: string
-    name: success
-  - description: There was an error during processing of the task. The failure may have occurred before the task process was launched, while the task process was executing, or after the task process exited.
-    types:
-    - uid: string
-    name: failure
 - name: JobReleaseTaskExecutionInformation
-  description: This property is set only if the Job Release task has run on the node.
+  description: Contains information about the execution of a Job Release task on a compute node.
   kind: object
   properties:
   - description: If the task has been restarted or retried, this is the most recent time at which the task started running.
@@ -293,56 +247,75 @@ definitions:
     types:
     - uid: TaskExecutionResult
     name: result
-- name: JobReleaseTaskState
-  description: The current state of the Job Release task on the compute node.
-  kind: enum
-  properties:
-  - description: The task is currently running (including retrying).
-    types:
-    - uid: string
-    name: running
-  - description: The task has exited with exit code 0, or the task has exhausted its retry limit, or the Batch service was unable to start the task due to task preparation errors (such as resource file download failures).
-    types:
-    - uid: string
-    name: completed
-- name: BatchError
-  description: An error response received from the Azure Batch service.
+- name: TaskContainerExecutionInformation
+  description: Contains information about the container which a task is executing.
   kind: object
   properties:
-  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+  - description: The ID of the container.
+    types:
+    - uid: string
+    name: containerId
+  - description: This is the state of the container according to the Docker service. It is equivalent to the status field returned by "docker inspect".
+    types:
+    - uid: string
+    name: state
+  - description: This is the detailed error string from the Docker service, if available. It is equivalent to the error field returned by "docker inspect".
+    types:
+    - uid: string
+    name: error
+- name: TaskFailureInformation
+  description: Information about a task failure.
+  kind: object
+  properties:
+  - description: The category of the task error.
+    types:
+    - uid: ErrorCategory
+    name: category
+  - description: An identifier for the task error. Codes are invariant and are intended to be consumed programmatically.
     types:
     - uid: string
     name: code
-  - description: A message describing the error, intended to be suitable for display in a user interface.
+  - description: A message describing the task error, intended to be suitable for display in a user interface.
     types:
-    - uid: ErrorMessage
+    - uid: string
     name: message
-  - description: A collection of key-value pairs containing additional details about the error.
+  - description: A list of additional details related to the error.
     types:
-    - isArray: true
-      uid: BatchErrorDetail
-    name: values
-- name: ErrorMessage
-  description: A message describing the error, intended to be suitable for display in a user interface.
+    - uid: NameValuePair
+    name: details
+- name: TaskExecutionResult
+  description: The result of task execution.
+  kind: enum
+  properties:
+  - description: The task ran successfully.
+    types:
+    - uid: string
+    name: success
+  - description: There was an error during processing of the task. The failure may have occurred before the task process was launched, while the task process was executing, or after the task process exited.
+    types:
+    - uid: string
+    name: failure
+- name: ErrorCategory
+  description: The category of the error.
+  kind: enum
+  properties:
+  - description: The error is due to a user issue, such as misconfiguration.
+    types:
+    - uid: string
+    name: usererror
+  - description: The error is due to an internal server issue.
+    types:
+    - uid: string
+    name: servererror
+- name: NameValuePair
+  description: Represents a name-value pair.
   kind: object
   properties:
-  - description: The language code of the error message
+  - description: The name in the name-value pair.
     types:
     - uid: string
-    name: lang
-  - description: The text of the message.
-    types:
-    - uid: string
-    name: value
-- name: BatchErrorDetail
-  description: An item of additional information included in an Azure Batch error response.
-  kind: object
-  properties:
-  - description: An identifier specifying the meaning of the Value property.
-    types:
-    - uid: string
-    name: key
-  - description: The additional information included with the error response.
+    name: name
+  - description: The value in the name-value pair.
     types:
     - uid: string
     name: value

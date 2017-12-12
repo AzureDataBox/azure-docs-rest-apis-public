@@ -73,57 +73,21 @@ requestBody:
     name: properties
 requestHeader: []
 definitions:
-- name: SkuDefinition
-  description: Gets or set the SKU.
-  kind: enum
+- name: JobCollectionProperties
+  kind: object
   properties:
-  - types:
-    - uid: string
-    name: Standard
-  - types:
-    - uid: string
-    name: Free
-  - types:
-    - uid: string
-    name: P10Premium
-  - types:
-    - uid: string
-    name: P20Premium
-- name: JobCollectionState
-  description: Gets or sets the state.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Enabled
-  - types:
-    - uid: string
-    name: Disabled
-  - types:
-    - uid: string
-    name: Suspended
-  - types:
-    - uid: string
-    name: Deleted
-- name: RecurrenceFrequency
-  description: Gets or sets the frequency of recurrence (second, minute, hour, day, week, month).
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Minute
-  - types:
-    - uid: string
-    name: Hour
-  - types:
-    - uid: string
-    name: Day
-  - types:
-    - uid: string
-    name: Week
-  - types:
-    - uid: string
-    name: Month
+  - description: Gets or sets the SKU.
+    types:
+    - uid: Sku
+    name: sku
+  - description: Gets or sets the state.
+    types:
+    - uid: JobCollectionState
+    name: state
+  - description: Gets or sets the job collection quota.
+    types:
+    - uid: JobCollectionQuota
+    name: quota
 - name: JobCollectionDefinition
   kind: object
   properties:
@@ -157,24 +121,7 @@ definitions:
     types:
     - uid: JobCollectionProperties
     name: properties
-- name: JobCollectionProperties
-  description: Gets or sets the job collection properties.
-  kind: object
-  properties:
-  - description: Gets or sets the SKU.
-    types:
-    - uid: Sku
-    name: sku
-  - description: Gets or sets the state.
-    types:
-    - uid: JobCollectionState
-    name: state
-  - description: Gets or sets the job collection quota.
-    types:
-    - uid: JobCollectionQuota
-    name: quota
 - name: Sku
-  description: Gets or sets the SKU.
   kind: object
   properties:
   - description: Gets or set the SKU.
@@ -182,7 +129,6 @@ definitions:
     - uid: SkuDefinition
     name: name
 - name: JobCollectionQuota
-  description: Gets or sets the job collection quota.
   kind: object
   properties:
   - description: Gets or set the maximum job count.
@@ -198,7 +144,6 @@ definitions:
     - uid: JobMaxRecurrence
     name: maxRecurrence
 - name: JobMaxRecurrence
-  description: Gets or set the maximum recurrence.
   kind: object
   properties:
   - description: Gets or sets the frequency of recurrence (second, minute, hour, day, week, month).
@@ -209,6 +154,25 @@ definitions:
     types:
     - uid: integer
     name: interval
+- name: RecurrenceFrequency
+  description: Gets or sets the frequency of recurrence (minute, hour, day, week, month).
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Minute
+  - types:
+    - uid: string
+    name: Hour
+  - types:
+    - uid: string
+    name: Day
+  - types:
+    - uid: string
+    name: Week
+  - types:
+    - uid: string
+    name: Month
 examples: []
 security: []
 name: CreateOrUpdate

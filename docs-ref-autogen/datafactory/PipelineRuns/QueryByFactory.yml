@@ -67,82 +67,75 @@ requestBody:
   - in: body
     description: List of filters.
     types:
-    - isArray: true
-      uid: PipelineRunQueryFilter
+    - uid: PipelineRunQueryFilter
     name: filters
   - in: body
     description: List of OrderBy option.
     types:
-    - isArray: true
-      uid: PipelineRunQueryOrderBy
+    - uid: PipelineRunQueryOrderBy
     name: orderBy
 requestHeader: []
 definitions:
-- name: PipelineRunQueryFilterOperand
-  description: Parameter name to be used for filter.
-  kind: enum
+- name: PipelineRunQueryFilter
+  description: Query filter option for listing pipeline runs.
+  kind: object
   properties:
-  - types:
+  - description: Parameter name to be used for filter.
+    types:
+    - uid: PipelineRunQueryFilterOperand
+    name: operand
+  - description: Operator to be used for filter.
+    types:
+    - uid: PipelineRunQueryFilterOperator
+    name: operator
+  - description: List of filter values.
+    types:
     - uid: string
-    name: PipelineName
-  - types:
-    - uid: string
-    name: Status
-  - types:
-    - uid: string
-    name: RunStart
-  - types:
-    - uid: string
-    name: RunEnd
-- name: PipelineRunQueryFilterOperator
-  description: Operator to be used for filter.
-  kind: enum
+    name: values
+- name: PipelineRunQueryOrderBy
+  description: An object to provide order by options for listing pipeline runs.
+  kind: object
   properties:
-  - types:
-    - uid: string
-    name: Equals
-  - types:
-    - uid: string
-    name: NotEquals
-  - types:
-    - uid: string
-    name: In
-  - types:
-    - uid: string
-    name: NotIn
-- name: PipelineRunQueryOrderByField
-  description: Parameter name to be used for order by.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: RunStart
-  - types:
-    - uid: string
-    name: RunEnd
-- name: PipelineRunQueryOrder
-  description: Sorting order of the parameter.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: ASC
-  - types:
-    - uid: string
-    name: DESC
+  - description: Parameter name to be used for order by.
+    types:
+    - uid: PipelineRunQueryOrderByField
+    name: orderBy
+  - description: Sorting order of the parameter.
+    types:
+    - uid: PipelineRunQueryOrder
+    name: order
 - name: PipelineRunQueryResponse
   description: A list pipeline runs.
   kind: object
   properties:
   - description: List of pipeline runs.
     types:
-    - isArray: true
-      uid: PipelineRun
+    - uid: PipelineRun
     name: value
   - description: The continuation token for getting the next page of results, if any remaining results exist, null otherwise.
     types:
     - uid: string
     name: continuationToken
+- name: ErrorResponse
+  description: The object that defines the structure of an Azure Data Factory response.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: string
+    name: code
+  - description: Error message.
+    types:
+    - uid: string
+    name: message
+  - description: Property name/path in request associated with error.
+    types:
+    - uid: string
+    name: target
+  - description: Array with additional error details.
+    types:
+    - uid: ErrorResponse
+    name: details
 - name: PipelineRun
   description: Information about a pipeline run.
   kind: object
@@ -202,7 +195,7 @@ definitions:
     - uid: string
     name: message
 - name: PipelineRunInvokedBy
-  description: Entity that started the pipeline run.
+  description: Provides entity name and id that started the pipeline run.
   kind: object
   properties:
   - isReadyOnly: true
@@ -215,27 +208,6 @@ definitions:
     types:
     - uid: string
     name: id
-- name: ErrorResponse
-  description: The object that defines the structure of an Azure Data Factory response.
-  kind: object
-  properties:
-  - description: Error code.
-    types:
-    - uid: string
-    name: code
-  - description: Error message.
-    types:
-    - uid: string
-    name: message
-  - description: Property name/path in request associated with error.
-    types:
-    - uid: string
-    name: target
-  - description: Array with additional error details.
-    types:
-    - isArray: true
-      uid: Details
-    name: details
 examples:
 - request:
     uri: POST https://management.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/pipelineruns?api-version=2017-09-01-preview

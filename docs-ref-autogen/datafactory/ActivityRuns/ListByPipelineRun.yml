@@ -91,13 +91,32 @@ definitions:
   properties:
   - description: List of activity runs.
     types:
-    - isArray: true
-      uid: ActivityRun
+    - uid: ActivityRun
     name: value
   - description: The link to the next page of results, if any remaining results exist.
     types:
     - uid: string
     name: nextLink
+- name: ErrorResponse
+  description: The object that defines the structure of an Azure Data Factory response.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: string
+    name: code
+  - description: Error message.
+    types:
+    - uid: string
+    name: message
+  - description: Property name/path in request associated with error.
+    types:
+    - uid: string
+    name: target
+  - description: Array with additional error details.
+    types:
+    - uid: ErrorResponse
+    name: details
 - name: ActivityRun
   description: Information about an activity run in a pipeline.
   kind: object
@@ -167,27 +186,6 @@ definitions:
     types:
     - uid: object
     name: error
-- name: ErrorResponse
-  description: The object that defines the structure of an Azure Data Factory response.
-  kind: object
-  properties:
-  - description: Error code.
-    types:
-    - uid: string
-    name: code
-  - description: Error message.
-    types:
-    - uid: string
-    name: message
-  - description: Property name/path in request associated with error.
-    types:
-    - uid: string
-    name: target
-  - description: Array with additional error details.
-    types:
-    - isArray: true
-      uid: Details
-    name: details
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/pipelineruns/a420e4fd-ebe9-4758-8db7-852b4d06245e/activityruns?api-version=2017-09-01-preview&startTime=2017-09-13T17%3A54%3A57.0811551Z&endTime=2017-09-13T18%3A07%3A59.6211018Z&status=&activityName=&linkedServiceName=

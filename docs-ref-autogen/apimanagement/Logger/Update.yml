@@ -55,12 +55,12 @@ requestBody:
     description: Logger type.
     types:
     - uid: LoggerType
-    name: loggerType
+    name: properties.loggerType
   - in: body
     description: Logger description.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - in: body
     description: Logger credentials.
     types:
@@ -69,12 +69,12 @@ requestBody:
       - uid: string
       - uid: string
       uid: object
-    name: credentials
+    name: properties.credentials
   - in: body
     description: Whether records are buffered in the logger before publishing. Default is assumed to be true.
     types:
     - uid: boolean
-    name: isBuffered
+    name: properties.isBuffered
 requestHeader:
 - in: header
   isRequired: true
@@ -83,14 +83,6 @@ requestHeader:
   - uid: string
   name: If-Match
 definitions:
-- name: LoggerType
-  description: Logger type.
-  kind: enum
-  properties:
-  - description: Azure Event Hub as log destination.
-    types:
-    - uid: string
-    name: azureEventHub
 - name: ErrorResponse
   description: Error Body contract.
   kind: object
@@ -105,8 +97,7 @@ definitions:
     name: message
   - description: The list of invalid fields send in request, in case of validation error.
     types:
-    - isArray: true
-      uid: ErrorFieldContract
+    - uid: ErrorFieldContract
     name: details
 - name: ErrorFieldContract
   description: Error Field contract.

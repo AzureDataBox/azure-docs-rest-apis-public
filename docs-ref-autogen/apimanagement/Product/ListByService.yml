@@ -89,13 +89,28 @@ definitions:
   properties:
   - description: Page values.
     types:
-    - isArray: true
-      uid: ProductContract
+    - uid: ProductContract
     name: value
   - description: Next page link if any.
     types:
     - uid: string
     name: nextLink
+- name: ErrorResponse
+  description: Error Body contract.
+  kind: object
+  properties:
+  - description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+    name: code
+  - description: Human-readable representation of the error.
+    types:
+    - uid: string
+    name: message
+  - description: The list of invalid fields send in request, in case of validation error.
+    types:
+    - uid: ErrorFieldContract
+    name: details
 - name: ProductContract
   description: Product details.
   kind: object
@@ -103,7 +118,7 @@ definitions:
   - description: Product name.
     types:
     - uid: string
-    name: displayName
+    name: properties.displayName
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -122,54 +137,27 @@ definitions:
   - description: Product description. May include HTML formatting tags.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - description: Product terms of use. Developers trying to subscribe to the product will be presented and required to accept these terms before they can complete the subscription process.
     types:
     - uid: string
-    name: terms
+    name: properties.terms
   - description: Whether a product subscription is required for accessing APIs included in this product. If true, the product is referred to as "protected" and a valid subscription key is required for a request to an API included in the product to succeed. If false, the product is referred to as "open" and requests to an API included in the product can be made without a subscription key. If property is omitted when creating a new product it's value is assumed to be true.
     types:
     - uid: boolean
-    name: subscriptionRequired
+    name: properties.subscriptionRequired
   - description: whether subscription approval is required. If false, new subscriptions will be approved automatically enabling developers to call the product’s APIs immediately after subscribing. If true, administrators must manually approve the subscription before the developer can any of the product’s APIs. Can be present only if subscriptionRequired property is present and has a value of false.
     types:
     - uid: boolean
-    name: approvalRequired
+    name: properties.approvalRequired
   - description: Whether the number of subscriptions a user can have to this product at the same time. Set to null or omit to allow unlimited per user subscriptions. Can be present only if subscriptionRequired property is present and has a value of false.
     types:
     - uid: integer
-    name: subscriptionsLimit
+    name: properties.subscriptionsLimit
   - description: whether product is published or not. Published products are discoverable by users of developer portal. Non published products are visible only to administrators. Default state of Product is notPublished.
     types:
     - uid: ProductState
-    name: state
-- name: ProductState
-  description: whether product is published or not. Published products are discoverable by users of developer portal. Non published products are visible only to administrators. Default state of Product is notPublished.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: notPublished
-  - types:
-    - uid: string
-    name: published
-- name: ErrorResponse
-  description: Error Body contract.
-  kind: object
-  properties:
-  - description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
-    types:
-    - uid: string
-    name: code
-  - description: Human-readable representation of the error.
-    types:
-    - uid: string
-    name: message
-  - description: The list of invalid fields send in request, in case of validation error.
-    types:
-    - isArray: true
-      uid: ErrorFieldContract
-    name: details
+    name: properties.state
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object

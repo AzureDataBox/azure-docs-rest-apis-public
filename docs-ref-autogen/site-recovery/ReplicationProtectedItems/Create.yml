@@ -68,6 +68,27 @@ requestBody:
     name: properties
 requestHeader: []
 definitions:
+- name: EnableProtectionInputProperties
+  description: Enable protection input properties.
+  kind: object
+  properties:
+  - description: The Policy Id.
+    types:
+    - uid: string
+    name: policyId
+  - description: The protectable item Id.
+    types:
+    - uid: string
+    name: protectableItemId
+  - description: The ReplicationProviderInput. For HyperVReplicaAzure provider, it will be AzureEnableProtectionInput object. For San provider, it will be SanEnableProtectionInput object. For HyperVReplicaAzure provider, it can be null.
+    types:
+    - uid: HyperVReplicaAzureEnableProtectionInput
+    - uid: SanEnableProtectionInput
+    - uid: InMageAzureV2EnableProtectionInput
+    - uid: InMageEnableProtectionInput
+    - uid: A2AEnableProtectionInput
+    typesTitle: EnableProtectionProviderSpecificInput
+    name: providerSpecificDetails
 - name: ReplicationProtectedItem
   description: Replication protected item.
   kind: object
@@ -96,7 +117,7 @@ definitions:
     - uid: string
     name: location
 - name: ReplicationProtectedItemProperties
-  description: The custom data.
+  description: Replication protected item custom data details.
   kind: object
   properties:
   - description: The name.
@@ -157,8 +178,7 @@ definitions:
     name: testFailoverStateDescription
   - description: The allowed operations on the Replication protected item.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: allowedOperations
   - description: The consolidated protection health for the VM taking any issues with SRS as well as all the replication units associated with the VM's replication group into account. This is a string representation of the ProtectionHealth enumeration.
     types:
@@ -170,13 +190,11 @@ definitions:
     name: failoverHealth
   - description: List of replication health errors.
     types:
-    - isArray: true
-      uid: HealthError
+    - uid: HealthError
     name: replicationHealthErrors
   - description: List of failover health errors.
     types:
-    - isArray: true
-      uid: HealthError
+    - uid: HealthError
     name: failoverHealthErrors
   - description: The ID of Policy governing this PE.
     types:
@@ -217,6 +235,235 @@ definitions:
     types:
     - uid: string
     name: recoveryContainerId
+- name: HyperVReplicaAzureEnableProtectionInput
+  description: Azure specific enable protection input.
+  kind: object
+  properties:
+  - description: The Hyper-V host Vm Id.
+    types:
+    - uid: string
+    name: hvHostVmId
+  - description: The Vm Name.
+    types:
+    - uid: string
+    name: vmName
+  - description: The OS type associated with vm.
+    types:
+    - uid: string
+    name: osType
+  - description: The OS disk VHD id associated with vm.
+    types:
+    - uid: string
+    name: vhdId
+  - description: The storage account name.
+    types:
+    - uid: string
+    name: targetStorageAccountId
+  - description: The selected target Azure network Id.
+    types:
+    - uid: string
+    name: targetAzureNetworkId
+  - description: The selected target Azure subnet Id.
+    types:
+    - uid: string
+    name: targetAzureSubnetId
+  - description: The selected option to enable RDP\SSH on target vm after failover. String value of {SrsDataContract.EnableRDPOnTargetOption} enum.
+    types:
+    - uid: string
+    name: enableRDPOnTargetOption
+  - description: The target azure Vm Name.
+    types:
+    - uid: string
+    name: targetAzureVmName
+  - description: The storage account to be used for logging during replication.
+    types:
+    - uid: string
+    name: logStorageAccountId
+  - description: The list of VHD IDs of disks to be protected.
+    types:
+    - uid: string
+    name: disksToInclude
+  - description: The Id of the target resource group (for classic deployment) in which the failover VM is to be created.
+    types:
+    - uid: string
+    name: targetAzureV1ResourceGroupId
+  - description: The Id of the target resource group (for resource manager deployment) in which the failover VM is to be created.
+    types:
+    - uid: string
+    name: targetAzureV2ResourceGroupId
+  - description: A value indicating whether managed disks should be used during failover.
+    types:
+    - uid: string
+    name: useManagedDisks
+  - description: The class type.
+    types:
+    - uid: HyperVReplicaAzure
+    typesTitle: string
+    name: instanceType
+- name: SanEnableProtectionInput
+  description: San enable protection provider specific input.
+  kind: object
+  properties:
+  - description: The class type.
+    types:
+    - uid: San
+    typesTitle: string
+    name: instanceType
+- name: InMageAzureV2EnableProtectionInput
+  description: VMware Azure specific enable protection input.
+  kind: object
+  properties:
+  - description: The Master target Id.
+    types:
+    - uid: string
+    name: masterTargetId
+  - description: The Process Server Id.
+    types:
+    - uid: string
+    name: processServerId
+  - description: The storage account name.
+    types:
+    - uid: string
+    name: storageAccountId
+  - description: The CS account Id.
+    types:
+    - uid: string
+    name: runAsAccountId
+  - description: The multi vm group Id.
+    types:
+    - uid: string
+    name: multiVmGroupId
+  - description: The multi vm group name.
+    types:
+    - uid: string
+    name: multiVmGroupName
+  - description: The disks to include list.
+    types:
+    - uid: string
+    name: disksToInclude
+  - description: The selected target Azure network Id.
+    types:
+    - uid: string
+    name: targetAzureNetworkId
+  - description: The selected target Azure subnet Id.
+    types:
+    - uid: string
+    name: targetAzureSubnetId
+  - description: The selected option to enable RDP\SSH on target vm after failover. String value of {SrsDataContract.EnableRDPOnTargetOption} enum.
+    types:
+    - uid: string
+    name: enableRDPOnTargetOption
+  - description: The target azure Vm Name.
+    types:
+    - uid: string
+    name: targetAzureVmName
+  - description: The storage account to be used for logging during replication.
+    types:
+    - uid: string
+    name: logStorageAccountId
+  - description: The Id of the target resource group (for classic deployment) in which the failover VM is to be created.
+    types:
+    - uid: string
+    name: targetAzureV1ResourceGroupId
+  - description: The Id of the target resource group (for resource manager deployment) in which the failover VM is to be created.
+    types:
+    - uid: string
+    name: targetAzureV2ResourceGroupId
+  - description: A value indicating whether managed disks should be used during failover.
+    types:
+    - uid: string
+    name: useManagedDisks
+  - description: The class type.
+    types:
+    - uid: InMageAzureV2
+    typesTitle: string
+    name: instanceType
+- name: InMageEnableProtectionInput
+  description: VMware Azure specific enable protection input.
+  kind: object
+  properties:
+  - description: The Vm Name.
+    types:
+    - uid: string
+    name: vmFriendlyName
+  - description: The Master Target Id.
+    types:
+    - uid: string
+    name: masterTargetId
+  - description: The Process Server Id.
+    types:
+    - uid: string
+    name: processServerId
+  - description: The retention drive to use on the MT.
+    types:
+    - uid: string
+    name: retentionDrive
+  - description: The CS account Id.
+    types:
+    - uid: string
+    name: runAsAccountId
+  - description: The multi vm group Id.
+    types:
+    - uid: string
+    name: multiVmGroupId
+  - description: The multi vm group name.
+    types:
+    - uid: string
+    name: multiVmGroupName
+  - description: The target datastore name.
+    types:
+    - uid: string
+    name: datastoreName
+  - description: The enable disk exclusion input.
+    types:
+    - uid: InMageDiskExclusionInput
+    name: diskExclusionInput
+  - description: The disks to include list.
+    types:
+    - uid: string
+    name: disksToInclude
+  - description: The class type.
+    types:
+    - uid: InMage
+    typesTitle: string
+    name: instanceType
+- name: A2AEnableProtectionInput
+  description: A2A enable protection input.
+  kind: object
+  properties:
+  - description: The fabric specific object Id of the virtual machine.
+    types:
+    - uid: string
+    name: fabricObjectId
+  - description: The recovery container Id.
+    types:
+    - uid: string
+    name: recoveryContainerId
+  - description: The recovery resource group Id. Valid for V2 scenarios.
+    types:
+    - uid: string
+    name: recoveryResourceGroupId
+  - description: The recovery cloud service Id. Valid for V1 scenarios.
+    types:
+    - uid: string
+    name: recoveryCloudServiceId
+  - description: The recovery availability set Id.
+    types:
+    - uid: string
+    name: recoveryAvailabilitySetId
+  - description: The list of vm disk details.
+    types:
+    - uid: A2AVmDiskInputDetails
+    name: vmDisks
+  - description: The list of vm managed disk details.
+    types:
+    - uid: A2AVmManagedDiskInputDetails
+    name: vmManagedDisks
+  - description: The class type.
+    types:
+    - uid: A2A
+    typesTitle: string
+    name: instanceType
 - name: HealthError
   description: Health Error
   kind: object
@@ -263,11 +510,10 @@ definitions:
     name: entityId
   - description: The child health errors.
     types:
-    - isArray: true
-      uid: ChildErrors
+    - uid: HealthError
     name: childErrors
 - name: CurrentScenarioDetails
-  description: The current scenario.
+  description: Current scenario details of the protected entity.
   kind: object
   properties:
   - description: Scenario name.
@@ -282,6 +528,50 @@ definitions:
     types:
     - uid: string
     name: startTime
+- name: InMageDiskExclusionInput
+  description: DiskExclusionInput when doing enable protection of virtual machine in InMage provider.
+  kind: object
+  properties:
+  - description: The volume label based option for disk exclusion.
+    types:
+    - uid: InMageVolumeExclusionOptions
+    name: volumeOptions
+  - description: The guest disk signature based option for disk exclusion.
+    types:
+    - uid: InMageDiskSignatureExclusionOptions
+    name: diskSignatureOptions
+- name: A2AVmDiskInputDetails
+  description: Azure VM disk input details.
+  kind: object
+  properties:
+  - description: The disk Uri.
+    types:
+    - uid: string
+    name: diskUri
+  - description: The recovery VHD storage account Id.
+    types:
+    - uid: string
+    name: recoveryAzureStorageAccountId
+  - description: The primary staging storage account Id.
+    types:
+    - uid: string
+    name: primaryStagingAzureStorageAccountId
+- name: A2AVmManagedDiskInputDetails
+  description: Azure VM managed disk input details.
+  kind: object
+  properties:
+  - description: The disk Id.
+    types:
+    - uid: string
+    name: diskId
+  - description: The primary staging storage account Arm Id.
+    types:
+    - uid: string
+    name: primaryStagingAzureStorageAccountId
+  - description: The target resource group Arm Id.
+    types:
+    - uid: string
+    name: recoveryResourceGroupId
 - name: HyperVReplicaBaseReplicationDetails
   description: Hyper V replica provider specific settings base class.
   kind: object
@@ -292,8 +582,7 @@ definitions:
     name: lastReplicatedTime
   - description: The PE Network details.
     types:
-    - isArray: true
-      uid: VMNicDetails
+    - uid: VMNicDetails
     name: vmNics
   - description: The virtual machine Id.
     types:
@@ -313,8 +602,7 @@ definitions:
     name: initialReplicationDetails
   - description: VM disk details.
     types:
-    - isArray: true
-      uid: DiskDetails
+    - uid: DiskDetails
     name: vMDiskDetails
   - isReadyOnly: true
     description: Gets the Instance type.
@@ -322,6 +610,682 @@ definitions:
     - uid: HyperVReplicaBaseReplicationDetails
     typesTitle: string
     name: instanceType
+- name: HyperVReplicaReplicationDetails
+  description: HyperV replica 2012 replication details.
+  kind: object
+  properties:
+  - description: The Last replication time.
+    types:
+    - uid: string
+    name: lastReplicatedTime
+  - description: The PE Network details.
+    types:
+    - uid: VMNicDetails
+    name: vmNics
+  - description: The virtual machine Id.
+    types:
+    - uid: string
+    name: vmId
+  - description: The protection state for the vm.
+    types:
+    - uid: string
+    name: vmProtectionState
+  - description: The protection state description for the vm.
+    types:
+    - uid: string
+    name: vmProtectionStateDescription
+  - description: Initial replication details.
+    types:
+    - uid: InitialReplicationDetails
+    name: initialReplicationDetails
+  - description: VM disk details.
+    types:
+    - uid: DiskDetails
+    name: vMDiskDetails
+  - isReadyOnly: true
+    description: Gets the Instance type.
+    types:
+    - uid: HyperVReplica2012
+    typesTitle: string
+    name: instanceType
+- name: HyperVReplicaBlueReplicationDetails
+  description: HyperV replica 2012 R2 (Blue) replication details.
+  kind: object
+  properties:
+  - description: The Last replication time.
+    types:
+    - uid: string
+    name: lastReplicatedTime
+  - description: The PE Network details.
+    types:
+    - uid: VMNicDetails
+    name: vmNics
+  - description: The virtual machine Id.
+    types:
+    - uid: string
+    name: vmId
+  - description: The protection state for the vm.
+    types:
+    - uid: string
+    name: vmProtectionState
+  - description: The protection state description for the vm.
+    types:
+    - uid: string
+    name: vmProtectionStateDescription
+  - description: Initial replication details.
+    types:
+    - uid: InitialReplicationDetails
+    name: initialReplicationDetails
+  - description: VM disk details.
+    types:
+    - uid: DiskDetails
+    name: vMDiskDetails
+  - isReadyOnly: true
+    description: Gets the Instance type.
+    types:
+    - uid: HyperVReplica2012R2
+    typesTitle: string
+    name: instanceType
+- name: HyperVReplicaAzureReplicationDetails
+  description: Hyper V Replica Azure provider specific settings.
+  kind: object
+  properties:
+  - description: Azure VM Disk details.
+    types:
+    - uid: AzureVmDiskDetails
+    name: azureVMDiskDetails
+  - description: Recovery Azure given name.
+    types:
+    - uid: string
+    name: recoveryAzureVMName
+  - description: The Recovery Azure VM size.
+    types:
+    - uid: string
+    name: recoveryAzureVMSize
+  - description: The recovery Azure storage account.
+    types:
+    - uid: string
+    name: recoveryAzureStorageAccount
+  - description: The ARM id of the log storage account used for replication. This will be set to null if no log storage account was provided during enable protection.
+    types:
+    - uid: string
+    name: recoveryAzureLogStorageAccountId
+  - description: The Last replication time.
+    types:
+    - uid: string
+    name: lastReplicatedTime
+  - description: The virtual machine Id.
+    types:
+    - uid: string
+    name: vmId
+  - description: The protection state for the vm.
+    types:
+    - uid: string
+    name: vmProtectionState
+  - description: The protection state description for the vm.
+    types:
+    - uid: string
+    name: vmProtectionStateDescription
+  - description: Initial replication details.
+    types:
+    - uid: InitialReplicationDetails
+    name: initialReplicationDetails
+  - description: The PE Network details.
+    types:
+    - uid: VMNicDetails
+    name: vmNics
+  - description: The selected recovery azure network Id.
+    types:
+    - uid: string
+    name: selectedRecoveryAzureNetworkId
+  - description: The encryption info.
+    types:
+    - uid: string
+    name: encryption
+  - description: The operating system info.
+    types:
+    - uid: OSDetails
+    name: oSDetails
+  - description: The RAM size of the VM on the primary side.
+    types:
+    - uid: integer
+    name: sourceVmRAMSizeInMB
+  - description: The CPU count of the VM on the primary side.
+    types:
+    - uid: integer
+    name: sourceVmCPUCount
+  - description: The selected option to enable RDP\SSH on target vm after failover. String value of {SrsDataContract.EnableRDPOnTargetOption} enum.
+    types:
+    - uid: string
+    name: enableRDPOnTargetOption
+  - description: The target resource group Id.
+    types:
+    - uid: string
+    name: recoveryAzureResourceGroupId
+  - description: The recovery availability set Id.
+    types:
+    - uid: string
+    name: recoveryAvailabilitySetId
+  - description: A value indicating whether managed disks should be used during failover.
+    types:
+    - uid: string
+    name: useManagedDisks
+  - description: License Type of the VM to be used.
+    types:
+    - uid: string
+    name: licenseType
+  - isReadyOnly: true
+    description: Gets the Instance type.
+    types:
+    - uid: HyperVReplicaAzure
+    typesTitle: string
+    name: instanceType
+- name: InMageAzureV2ReplicationDetails
+  description: InMageAzureV2 provider specific settings
+  kind: object
+  properties:
+  - description: The infrastructure VM Id.
+    types:
+    - uid: string
+    name: infrastructureVmId
+  - description: The vCenter infrastructure Id.
+    types:
+    - uid: string
+    name: vCenterInfrastructureId
+  - description: The protection stage.
+    types:
+    - uid: string
+    name: protectionStage
+  - description: The virtual machine Id.
+    types:
+    - uid: string
+    name: vmId
+  - description: The protection state for the vm.
+    types:
+    - uid: string
+    name: vmProtectionState
+  - description: The protection state description for the vm.
+    types:
+    - uid: string
+    name: vmProtectionStateDescription
+  - description: The resync progress percentage.
+    types:
+    - uid: integer
+    name: resyncProgressPercentage
+  - description: The RPO in seconds.
+    types:
+    - uid: integer
+    name: rpoInSeconds
+  - description: The compressed data change rate in MB.
+    types:
+    - uid: number
+    name: compressedDataRateInMB
+  - description: The uncompressed data change rate in MB.
+    types:
+    - uid: number
+    name: uncompressedDataRateInMB
+  - description: The source IP address.
+    types:
+    - uid: string
+    name: ipAddress
+  - description: The agent version.
+    types:
+    - uid: string
+    name: agentVersion
+  - description: A value indicating whether installed agent needs to be updated.
+    types:
+    - uid: string
+    name: isAgentUpdateRequired
+  - description: A value indicating whether the source server requires a restart after update.
+    types:
+    - uid: string
+    name: isRebootAfterUpdateRequired
+  - description: The last heartbeat received from the source server.
+    types:
+    - uid: string
+    name: lastHeartbeat
+  - description: The process server Id.
+    types:
+    - uid: string
+    name: processServerId
+  - description: The multi vm group Id.
+    types:
+    - uid: string
+    name: multiVmGroupId
+  - description: The multi vm group name.
+    types:
+    - uid: string
+    name: multiVmGroupName
+  - description: A value indicating whether multi vm sync is enabled or disabled.
+    types:
+    - uid: string
+    name: multiVmSyncStatus
+  - description: The list of protected disks.
+    types:
+    - uid: InMageAzureV2ProtectedDiskDetails
+    name: protectedDisks
+  - description: A value indicating whether any disk is resized for this VM.
+    types:
+    - uid: string
+    name: diskResized
+  - description: The master target Id.
+    types:
+    - uid: string
+    name: masterTargetId
+  - description: The CPU count of the VM on the primary side.
+    types:
+    - uid: integer
+    name: sourceVmCPUCount
+  - description: The RAM size of the VM on the primary side.
+    types:
+    - uid: integer
+    name: sourceVmRAMSizeInMB
+  - description: The type of the OS on the VM.
+    types:
+    - uid: string
+    name: osType
+  - description: The OS disk VHD name.
+    types:
+    - uid: string
+    name: vhdName
+  - description: The id of the disk containing the OS.
+    types:
+    - uid: string
+    name: osDiskId
+  - description: Azure VM Disk details.
+    types:
+    - uid: AzureVmDiskDetails
+    name: azureVMDiskDetails
+  - description: Recovery Azure given name.
+    types:
+    - uid: string
+    name: recoveryAzureVMName
+  - description: The Recovery Azure VM size.
+    types:
+    - uid: string
+    name: recoveryAzureVMSize
+  - description: The recovery Azure storage account.
+    types:
+    - uid: string
+    name: recoveryAzureStorageAccount
+  - description: The ARM id of the log storage account used for replication. This will be set to null if no log storage account was provided during enable protection.
+    types:
+    - uid: string
+    name: recoveryAzureLogStorageAccountId
+  - description: The PE Network details.
+    types:
+    - uid: VMNicDetails
+    name: vmNics
+  - description: The selected recovery azure network Id.
+    types:
+    - uid: string
+    name: selectedRecoveryAzureNetworkId
+  - description: A value indicating the discovery type of the machine. Value can be vCenter or physical.
+    types:
+    - uid: string
+    name: discoveryType
+  - description: The selected option to enable RDP\SSH on target vm after failover. String value of {SrsDataContract.EnableRDPOnTargetOption} enum.
+    types:
+    - uid: string
+    name: enableRDPOnTargetOption
+  - description: The datastores of the on-premise machine. Value can be list of strings that contain datastore names.
+    types:
+    - uid: string
+    name: datastores
+  - description: The ARM Id of the target Azure VM. This value will be null until the VM is failed over. Only after failure it will be populated with the ARM Id of the Azure VM.
+    types:
+    - uid: string
+    name: targetVmId
+  - description: The target resource group Id.
+    types:
+    - uid: string
+    name: recoveryAzureResourceGroupId
+  - description: The recovery availability set Id.
+    types:
+    - uid: string
+    name: recoveryAvailabilitySetId
+  - description: A value indicating whether managed disks should be used during failover.
+    types:
+    - uid: string
+    name: useManagedDisks
+  - description: License Type of the VM to be used.
+    types:
+    - uid: string
+    name: licenseType
+  - description: The validation errors of the on-premise machine Value can be list of validation errors.
+    types:
+    - uid: HealthError
+    name: validationErrors
+  - description: The last RPO calculated time.
+    types:
+    - uid: string
+    name: lastRpoCalculatedTime
+  - description: The last update time received from on-prem components.
+    types:
+    - uid: string
+    name: lastUpdateReceivedTime
+  - description: The replica id of the protected item.
+    types:
+    - uid: string
+    name: replicaId
+  - description: The OS Version of the protected item.
+    types:
+    - uid: string
+    name: osVersion
+  - isReadyOnly: true
+    description: Gets the Instance type.
+    types:
+    - uid: InMageAzureV2
+    typesTitle: string
+    name: instanceType
+- name: InMageReplicationDetails
+  description: InMage provider specific settings
+  kind: object
+  properties:
+  - description: The active location of the VM. If the VM is being protected from Azure, this field will take values from { Azure, OnPrem }. If the VM is being protected between two data-centers, this field will be OnPrem always.
+    types:
+    - uid: string
+    name: activeSiteType
+  - description: The CPU count of the VM on the primary side.
+    types:
+    - uid: integer
+    name: sourceVmCPUCount
+  - description: The RAM size of the VM on the primary side.
+    types:
+    - uid: integer
+    name: sourceVmRAMSizeInMB
+  - description: The OS details.
+    types:
+    - uid: OSDiskDetails
+    name: osDetails
+  - description: The protection stage.
+    types:
+    - uid: string
+    name: protectionStage
+  - description: The virtual machine Id.
+    types:
+    - uid: string
+    name: vmId
+  - description: The protection state for the vm.
+    types:
+    - uid: string
+    name: vmProtectionState
+  - description: The protection state description for the vm.
+    types:
+    - uid: string
+    name: vmProtectionStateDescription
+  - description: The resync details of the machine
+    types:
+    - uid: InitialReplicationDetails
+    name: resyncDetails
+  - description: The retention window start time.
+    types:
+    - uid: string
+    name: retentionWindowStart
+  - description: The retention window end time.
+    types:
+    - uid: string
+    name: retentionWindowEnd
+  - description: The compressed data change rate in MB.
+    types:
+    - uid: number
+    name: compressedDataRateInMB
+  - description: The uncompressed data change rate in MB.
+    types:
+    - uid: number
+    name: uncompressedDataRateInMB
+  - description: The RPO in seconds.
+    types:
+    - uid: integer
+    name: rpoInSeconds
+  - description: The list of protected disks.
+    types:
+    - uid: InMageProtectedDiskDetails
+    name: protectedDisks
+  - description: The source IP address.
+    types:
+    - uid: string
+    name: ipAddress
+  - description: The last heartbeat received from the source server.
+    types:
+    - uid: string
+    name: lastHeartbeat
+  - description: The process server Id.
+    types:
+    - uid: string
+    name: processServerId
+  - description: The master target Id.
+    types:
+    - uid: string
+    name: masterTargetId
+  - description: The collection of Consistency points.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: consistencyPoints
+  - description: A value indicating whether any disk is resized for this VM.
+    types:
+    - uid: string
+    name: diskResized
+  - description: A value indicating whether the source server requires a restart after update.
+    types:
+    - uid: string
+    name: rebootAfterUpdateStatus
+  - description: The multi vm group Id, if any.
+    types:
+    - uid: string
+    name: multiVmGroupId
+  - description: The multi vm group name, if any.
+    types:
+    - uid: string
+    name: multiVmGroupName
+  - description: A value indicating whether the multi vm sync is enabled or disabled.
+    types:
+    - uid: string
+    name: multiVmSyncStatus
+  - description: The agent details.
+    types:
+    - uid: InMageAgentDetails
+    name: agentDetails
+  - description: The vCenter infrastructure Id.
+    types:
+    - uid: string
+    name: vCenterInfrastructureId
+  - description: The infrastructure VM Id.
+    types:
+    - uid: string
+    name: infrastructureVmId
+  - description: The PE Network details.
+    types:
+    - uid: VMNicDetails
+    name: vmNics
+  - description: A value indicating the discovery type of the machine.
+    types:
+    - uid: string
+    name: discoveryType
+  - description: A value indicating the underlying Azure storage account. If the VM is not running in Azure, this value shall be set to null.
+    types:
+    - uid: string
+    name: azureStorageAccountId
+  - description: The datastores of the on-premise machine Value can be list of strings that contain datastore names
+    types:
+    - uid: string
+    name: datastores
+  - description: The validation errors of the on-premise machine Value can be list of validation errors
+    types:
+    - uid: HealthError
+    name: validationErrors
+  - description: The last RPO calculated time.
+    types:
+    - uid: string
+    name: lastRpoCalculatedTime
+  - description: The last update time received from on-prem components.
+    types:
+    - uid: string
+    name: lastUpdateReceivedTime
+  - description: The replica id of the protected item.
+    types:
+    - uid: string
+    name: replicaId
+  - description: The OS Version of the protected item.
+    types:
+    - uid: string
+    name: osVersion
+  - isReadyOnly: true
+    description: Gets the Instance type.
+    types:
+    - uid: InMage
+    typesTitle: string
+    name: instanceType
+- name: A2AReplicationDetails
+  description: A2A provider specific settings.
+  kind: object
+  properties:
+  - description: The fabric specific object Id of the virtual machine.
+    types:
+    - uid: string
+    name: fabricObjectId
+  - description: The multi vm group Id.
+    types:
+    - uid: string
+    name: multiVmGroupId
+  - description: The multi vm group name.
+    types:
+    - uid: string
+    name: multiVmGroupName
+  - description: The management Id.
+    types:
+    - uid: string
+    name: managementId
+  - description: The list of protected disks.
+    types:
+    - uid: A2AProtectedDiskDetails
+    name: protectedDisks
+  - description: The list of protected managed disks.
+    types:
+    - uid: A2AProtectedManagedDiskDetails
+    name: protectedManagedDisks
+  - description: Primary fabric location.
+    types:
+    - uid: string
+    name: primaryFabricLocation
+  - description: The recovery fabric location.
+    types:
+    - uid: string
+    name: recoveryFabricLocation
+  - description: The type of operating system.
+    types:
+    - uid: string
+    name: osType
+  - description: The size of recovery virtual machine.
+    types:
+    - uid: string
+    name: recoveryAzureVMSize
+  - description: The name of recovery virtual machine.
+    types:
+    - uid: string
+    name: recoveryAzureVMName
+  - description: The recovery resource group.
+    types:
+    - uid: string
+    name: recoveryAzureResourceGroupId
+  - description: The recovery cloud service.
+    types:
+    - uid: string
+    name: recoveryCloudService
+  - description: The recovery availability set.
+    types:
+    - uid: string
+    name: recoveryAvailabilitySet
+  - description: The recovery virtual network.
+    types:
+    - uid: string
+    name: selectedRecoveryAzureNetworkId
+  - description: The virtual machine nic details.
+    types:
+    - uid: VMNicDetails
+    name: vmNics
+  - description: The synced configuration details.
+    types:
+    - uid: AzureToAzureVmSyncedConfigDetails
+    name: vmSyncedConfigDetails
+  - description: The percentage of the monitoring job. The type of the monitoring job is defined by MonitoringJobType property.
+    types:
+    - uid: integer
+    name: monitoringPercentageCompletion
+  - description: The type of the monitoring job. The progress is contained in MonitoringPercentageCompletion property.
+    types:
+    - uid: string
+    name: monitoringJobType
+  - description: The last heartbeat received from the source server.
+    types:
+    - uid: string
+    name: lastHeartbeat
+  - description: The agent version.
+    types:
+    - uid: string
+    name: agentVersion
+  - description: A value indicating whether replication agent update is required.
+    types:
+    - uid: boolean
+    name: isReplicationAgentUpdateRequired
+  - description: The recovery fabric object Id.
+    types:
+    - uid: string
+    name: recoveryFabricObjectId
+  - description: The protection state for the vm.
+    types:
+    - uid: string
+    name: vmProtectionState
+  - description: The protection state description for the vm.
+    types:
+    - uid: string
+    name: vmProtectionStateDescription
+  - description: An id associated with the PE that survives actions like switch protection which change the backing PE/CPE objects internally.The lifecycle id gets carried forward to have a link/continuity in being able to have an Id that denotes the "same" protected item even though other internal Ids/ARM Id might be changing.
+    types:
+    - uid: string
+    name: lifecycleId
+  - description: The test failover fabric object Id.
+    types:
+    - uid: string
+    name: testFailoverRecoveryFabricObjectId
+  - description: The last RPO value in seconds.
+    types:
+    - uid: integer
+    name: rpoInSeconds
+  - description: The time (in UTC) when the last RPO value was calculated by Protection Service.
+    types:
+    - uid: string
+    name: lastRpoCalculatedTime
+  - isReadyOnly: true
+    description: Gets the Instance type.
+    types:
+    - uid: A2A
+    typesTitle: string
+    name: instanceType
+- name: InMageVolumeExclusionOptions
+  description: Guest disk signature based disk exclusion option when doing enable protection of virtual machine in InMage provider.
+  kind: object
+  properties:
+  - description: The volume label. The disk having any volume with this label will be excluded from replication.
+    types:
+    - uid: string
+    name: volumeLabel
+  - description: The value indicating whether to exclude multi volume disk or not. If a disk has multiple volumes and one of the volume has label matching with VolumeLabel this disk will be excluded from replication if OnlyExcludeIfSingleVolume is false.
+    types:
+    - uid: string
+    name: OnlyExcludeIfSingleVolume
+- name: InMageDiskSignatureExclusionOptions
+  description: Guest disk signature based disk exclusion option when doing enable protection of virtual machine in InMage provider.
+  kind: object
+  properties:
+  - description: The guest signature of disk to be excluded from replication.
+    types:
+    - uid: string
+    name: diskSignature
 - name: VMNicDetails
   description: Hyper V VM network details.
   kind: object
@@ -406,182 +1370,6 @@ definitions:
     types:
     - uid: string
     name: vhdName
-- name: HyperVReplicaReplicationDetails
-  description: HyperV replica 2012 replication details.
-  kind: object
-  properties:
-  - description: The Last replication time.
-    types:
-    - uid: string
-    name: lastReplicatedTime
-  - description: The PE Network details.
-    types:
-    - isArray: true
-      uid: VMNicDetails
-    name: vmNics
-  - description: The virtual machine Id.
-    types:
-    - uid: string
-    name: vmId
-  - description: The protection state for the vm.
-    types:
-    - uid: string
-    name: vmProtectionState
-  - description: The protection state description for the vm.
-    types:
-    - uid: string
-    name: vmProtectionStateDescription
-  - description: Initial replication details.
-    types:
-    - uid: InitialReplicationDetails
-    name: initialReplicationDetails
-  - description: VM disk details.
-    types:
-    - isArray: true
-      uid: DiskDetails
-    name: vMDiskDetails
-  - isReadyOnly: true
-    description: Gets the Instance type.
-    types:
-    - uid: HyperVReplica2012
-    typesTitle: string
-    name: instanceType
-- name: HyperVReplicaBlueReplicationDetails
-  description: HyperV replica 2012 R2 (Blue) replication details.
-  kind: object
-  properties:
-  - description: The Last replication time.
-    types:
-    - uid: string
-    name: lastReplicatedTime
-  - description: The PE Network details.
-    types:
-    - isArray: true
-      uid: VMNicDetails
-    name: vmNics
-  - description: The virtual machine Id.
-    types:
-    - uid: string
-    name: vmId
-  - description: The protection state for the vm.
-    types:
-    - uid: string
-    name: vmProtectionState
-  - description: The protection state description for the vm.
-    types:
-    - uid: string
-    name: vmProtectionStateDescription
-  - description: Initial replication details.
-    types:
-    - uid: InitialReplicationDetails
-    name: initialReplicationDetails
-  - description: VM disk details.
-    types:
-    - isArray: true
-      uid: DiskDetails
-    name: vMDiskDetails
-  - isReadyOnly: true
-    description: Gets the Instance type.
-    types:
-    - uid: HyperVReplica2012R2
-    typesTitle: string
-    name: instanceType
-- name: HyperVReplicaAzureReplicationDetails
-  description: Hyper V Replica Azure provider specific settings.
-  kind: object
-  properties:
-  - description: Azure VM Disk details.
-    types:
-    - isArray: true
-      uid: AzureVmDiskDetails
-    name: azureVMDiskDetails
-  - description: Recovery Azure given name.
-    types:
-    - uid: string
-    name: recoveryAzureVMName
-  - description: The Recovery Azure VM size.
-    types:
-    - uid: string
-    name: recoveryAzureVMSize
-  - description: The recovery Azure storage account.
-    types:
-    - uid: string
-    name: recoveryAzureStorageAccount
-  - description: The ARM id of the log storage account used for replication. This will be set to null if no log storage account was provided during enable protection.
-    types:
-    - uid: string
-    name: recoveryAzureLogStorageAccountId
-  - description: The Last replication time.
-    types:
-    - uid: string
-    name: lastReplicatedTime
-  - description: The virtual machine Id.
-    types:
-    - uid: string
-    name: vmId
-  - description: The protection state for the vm.
-    types:
-    - uid: string
-    name: vmProtectionState
-  - description: The protection state description for the vm.
-    types:
-    - uid: string
-    name: vmProtectionStateDescription
-  - description: Initial replication details.
-    types:
-    - uid: InitialReplicationDetails
-    name: initialReplicationDetails
-  - description: The PE Network details.
-    types:
-    - isArray: true
-      uid: VMNicDetails
-    name: vmNics
-  - description: The selected recovery azure network Id.
-    types:
-    - uid: string
-    name: selectedRecoveryAzureNetworkId
-  - description: The encryption info.
-    types:
-    - uid: string
-    name: encryption
-  - description: The operating system info.
-    types:
-    - uid: OSDetails
-    name: oSDetails
-  - description: The RAM size of the VM on the primary side.
-    types:
-    - uid: integer
-    name: sourceVmRAMSizeInMB
-  - description: The CPU count of the VM on the primary side.
-    types:
-    - uid: integer
-    name: sourceVmCPUCount
-  - description: The selected option to enable RDP\SSH on target vm after failover. String value of {SrsDataContract.EnableRDPOnTargetOption} enum.
-    types:
-    - uid: string
-    name: enableRDPOnTargetOption
-  - description: The target resource group Id.
-    types:
-    - uid: string
-    name: recoveryAzureResourceGroupId
-  - description: The recovery availability set Id.
-    types:
-    - uid: string
-    name: recoveryAvailabilitySetId
-  - description: A value indicating whether managed disks should be used during failover.
-    types:
-    - uid: string
-    name: useManagedDisks
-  - description: License Type of the VM to be used.
-    types:
-    - uid: string
-    name: licenseType
-  - isReadyOnly: true
-    description: Gets the Instance type.
-    types:
-    - uid: HyperVReplicaAzure
-    typesTitle: string
-    name: instanceType
 - name: AzureVmDiskDetails
   description: Disk details for E2A provider.
   kind: object
@@ -615,7 +1403,7 @@ definitions:
     - uid: string
     name: lunId
 - name: OSDetails
-  description: The operating system info.
+  description: Disk Details.
   kind: object
   properties:
   - description: VM Disk details.
@@ -642,209 +1430,6 @@ definitions:
     types:
     - uid: string
     name: oSMinorVersion
-- name: InMageAzureV2ReplicationDetails
-  description: InMageAzureV2 provider specific settings
-  kind: object
-  properties:
-  - description: The infrastructure VM Id.
-    types:
-    - uid: string
-    name: infrastructureVmId
-  - description: The vCenter infrastructure Id.
-    types:
-    - uid: string
-    name: vCenterInfrastructureId
-  - description: The protection stage.
-    types:
-    - uid: string
-    name: protectionStage
-  - description: The virtual machine Id.
-    types:
-    - uid: string
-    name: vmId
-  - description: The protection state for the vm.
-    types:
-    - uid: string
-    name: vmProtectionState
-  - description: The protection state description for the vm.
-    types:
-    - uid: string
-    name: vmProtectionStateDescription
-  - description: The resync progress percentage.
-    types:
-    - uid: integer
-    name: resyncProgressPercentage
-  - description: The RPO in seconds.
-    types:
-    - uid: integer
-    name: rpoInSeconds
-  - description: The compressed data change rate in MB.
-    types:
-    - uid: number
-    name: compressedDataRateInMB
-  - description: The uncompressed data change rate in MB.
-    types:
-    - uid: number
-    name: uncompressedDataRateInMB
-  - description: The source IP address.
-    types:
-    - uid: string
-    name: ipAddress
-  - description: The agent version.
-    types:
-    - uid: string
-    name: agentVersion
-  - description: A value indicating whether installed agent needs to be updated.
-    types:
-    - uid: string
-    name: isAgentUpdateRequired
-  - description: A value indicating whether the source server requires a restart after update.
-    types:
-    - uid: string
-    name: isRebootAfterUpdateRequired
-  - description: The last heartbeat received from the source server.
-    types:
-    - uid: string
-    name: lastHeartbeat
-  - description: The process server Id.
-    types:
-    - uid: string
-    name: processServerId
-  - description: The multi vm group Id.
-    types:
-    - uid: string
-    name: multiVmGroupId
-  - description: The multi vm group name.
-    types:
-    - uid: string
-    name: multiVmGroupName
-  - description: A value indicating whether multi vm sync is enabled or disabled.
-    types:
-    - uid: string
-    name: multiVmSyncStatus
-  - description: The list of protected disks.
-    types:
-    - isArray: true
-      uid: InMageAzureV2ProtectedDiskDetails
-    name: protectedDisks
-  - description: A value indicating whether any disk is resized for this VM.
-    types:
-    - uid: string
-    name: diskResized
-  - description: The master target Id.
-    types:
-    - uid: string
-    name: masterTargetId
-  - description: The CPU count of the VM on the primary side.
-    types:
-    - uid: integer
-    name: sourceVmCPUCount
-  - description: The RAM size of the VM on the primary side.
-    types:
-    - uid: integer
-    name: sourceVmRAMSizeInMB
-  - description: The type of the OS on the VM.
-    types:
-    - uid: string
-    name: osType
-  - description: The OS disk VHD name.
-    types:
-    - uid: string
-    name: vhdName
-  - description: The id of the disk containing the OS.
-    types:
-    - uid: string
-    name: osDiskId
-  - description: Azure VM Disk details.
-    types:
-    - isArray: true
-      uid: AzureVmDiskDetails
-    name: azureVMDiskDetails
-  - description: Recovery Azure given name.
-    types:
-    - uid: string
-    name: recoveryAzureVMName
-  - description: The Recovery Azure VM size.
-    types:
-    - uid: string
-    name: recoveryAzureVMSize
-  - description: The recovery Azure storage account.
-    types:
-    - uid: string
-    name: recoveryAzureStorageAccount
-  - description: The ARM id of the log storage account used for replication. This will be set to null if no log storage account was provided during enable protection.
-    types:
-    - uid: string
-    name: recoveryAzureLogStorageAccountId
-  - description: The PE Network details.
-    types:
-    - isArray: true
-      uid: VMNicDetails
-    name: vmNics
-  - description: The selected recovery azure network Id.
-    types:
-    - uid: string
-    name: selectedRecoveryAzureNetworkId
-  - description: A value indicating the discovery type of the machine. Value can be vCenter or physical.
-    types:
-    - uid: string
-    name: discoveryType
-  - description: The selected option to enable RDP\SSH on target vm after failover. String value of {SrsDataContract.EnableRDPOnTargetOption} enum.
-    types:
-    - uid: string
-    name: enableRDPOnTargetOption
-  - description: The datastores of the on-premise machine. Value can be list of strings that contain datastore names.
-    types:
-    - isArray: true
-      uid: string
-    name: datastores
-  - description: The ARM Id of the target Azure VM. This value will be null until the VM is failed over. Only after failure it will be populated with the ARM Id of the Azure VM.
-    types:
-    - uid: string
-    name: targetVmId
-  - description: The target resource group Id.
-    types:
-    - uid: string
-    name: recoveryAzureResourceGroupId
-  - description: The recovery availability set Id.
-    types:
-    - uid: string
-    name: recoveryAvailabilitySetId
-  - description: A value indicating whether managed disks should be used during failover.
-    types:
-    - uid: string
-    name: useManagedDisks
-  - description: License Type of the VM to be used.
-    types:
-    - uid: string
-    name: licenseType
-  - description: The validation errors of the on-premise machine Value can be list of validation errors.
-    types:
-    - isArray: true
-      uid: HealthError
-    name: validationErrors
-  - description: The last RPO calculated time.
-    types:
-    - uid: string
-    name: lastRpoCalculatedTime
-  - description: The last update time received from on-prem components.
-    types:
-    - uid: string
-    name: lastUpdateReceivedTime
-  - description: The replica id of the protected item.
-    types:
-    - uid: string
-    name: replicaId
-  - description: The OS Version of the protected item.
-    types:
-    - uid: string
-    name: osVersion
-  - isReadyOnly: true
-    description: Gets the Instance type.
-    types:
-    - uid: InMageAzureV2
-    typesTitle: string
-    name: instanceType
 - name: InMageAzureV2ProtectedDiskDetails
   description: InMageAzureV2 protected disk details.
   kind: object
@@ -909,174 +1494,8 @@ definitions:
     types:
     - uid: string
     name: lastRpoCalculatedTime
-- name: InMageReplicationDetails
-  description: InMage provider specific settings
-  kind: object
-  properties:
-  - description: The active location of the VM. If the VM is being protected from Azure, this field will take values from { Azure, OnPrem }. If the VM is being protected between two data-centers, this field will be OnPrem always.
-    types:
-    - uid: string
-    name: activeSiteType
-  - description: The CPU count of the VM on the primary side.
-    types:
-    - uid: integer
-    name: sourceVmCPUCount
-  - description: The RAM size of the VM on the primary side.
-    types:
-    - uid: integer
-    name: sourceVmRAMSizeInMB
-  - description: The OS details.
-    types:
-    - uid: OSDiskDetails
-    name: osDetails
-  - description: The protection stage.
-    types:
-    - uid: string
-    name: protectionStage
-  - description: The virtual machine Id.
-    types:
-    - uid: string
-    name: vmId
-  - description: The protection state for the vm.
-    types:
-    - uid: string
-    name: vmProtectionState
-  - description: The protection state description for the vm.
-    types:
-    - uid: string
-    name: vmProtectionStateDescription
-  - description: The resync details of the machine
-    types:
-    - uid: InitialReplicationDetails
-    name: resyncDetails
-  - description: The retention window start time.
-    types:
-    - uid: string
-    name: retentionWindowStart
-  - description: The retention window end time.
-    types:
-    - uid: string
-    name: retentionWindowEnd
-  - description: The compressed data change rate in MB.
-    types:
-    - uid: number
-    name: compressedDataRateInMB
-  - description: The uncompressed data change rate in MB.
-    types:
-    - uid: number
-    name: uncompressedDataRateInMB
-  - description: The RPO in seconds.
-    types:
-    - uid: integer
-    name: rpoInSeconds
-  - description: The list of protected disks.
-    types:
-    - isArray: true
-      uid: InMageProtectedDiskDetails
-    name: protectedDisks
-  - description: The source IP address.
-    types:
-    - uid: string
-    name: ipAddress
-  - description: The last heartbeat received from the source server.
-    types:
-    - uid: string
-    name: lastHeartbeat
-  - description: The process server Id.
-    types:
-    - uid: string
-    name: processServerId
-  - description: The master target Id.
-    types:
-    - uid: string
-    name: masterTargetId
-  - description: The collection of Consistency points.
-    types:
-    - isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-      uid: object
-    name: consistencyPoints
-  - description: A value indicating whether any disk is resized for this VM.
-    types:
-    - uid: string
-    name: diskResized
-  - description: A value indicating whether the source server requires a restart after update.
-    types:
-    - uid: string
-    name: rebootAfterUpdateStatus
-  - description: The multi vm group Id, if any.
-    types:
-    - uid: string
-    name: multiVmGroupId
-  - description: The multi vm group name, if any.
-    types:
-    - uid: string
-    name: multiVmGroupName
-  - description: A value indicating whether the multi vm sync is enabled or disabled.
-    types:
-    - uid: string
-    name: multiVmSyncStatus
-  - description: The agent details.
-    types:
-    - uid: InMageAgentDetails
-    name: agentDetails
-  - description: The vCenter infrastructure Id.
-    types:
-    - uid: string
-    name: vCenterInfrastructureId
-  - description: The infrastructure VM Id.
-    types:
-    - uid: string
-    name: infrastructureVmId
-  - description: The PE Network details.
-    types:
-    - isArray: true
-      uid: VMNicDetails
-    name: vmNics
-  - description: A value indicating the discovery type of the machine.
-    types:
-    - uid: string
-    name: discoveryType
-  - description: A value indicating the underlying Azure storage account. If the VM is not running in Azure, this value shall be set to null.
-    types:
-    - uid: string
-    name: azureStorageAccountId
-  - description: The datastores of the on-premise machine Value can be list of strings that contain datastore names
-    types:
-    - isArray: true
-      uid: string
-    name: datastores
-  - description: The validation errors of the on-premise machine Value can be list of validation errors
-    types:
-    - isArray: true
-      uid: HealthError
-    name: validationErrors
-  - description: The last RPO calculated time.
-    types:
-    - uid: string
-    name: lastRpoCalculatedTime
-  - description: The last update time received from on-prem components.
-    types:
-    - uid: string
-    name: lastUpdateReceivedTime
-  - description: The replica id of the protected item.
-    types:
-    - uid: string
-    name: replicaId
-  - description: The OS Version of the protected item.
-    types:
-    - uid: string
-    name: osVersion
-  - isReadyOnly: true
-    description: Gets the Instance type.
-    types:
-    - uid: InMage
-    typesTitle: string
-    name: instanceType
 - name: OSDiskDetails
-  description: The OS details.
+  description: Details of the OS Disk.
   kind: object
   properties:
   - description: The id of the disk containing the OS.
@@ -1156,7 +1575,7 @@ definitions:
     - uid: string
     name: lastRpoCalculatedTime
 - name: InMageAgentDetails
-  description: The agent details.
+  description: The details of the InMage agent.
   kind: object
   properties:
   - description: The agent version.
@@ -1171,135 +1590,6 @@ definitions:
     types:
     - uid: string
     name: postUpdateRebootStatus
-- name: A2AReplicationDetails
-  description: A2A provider specific settings.
-  kind: object
-  properties:
-  - description: The fabric specific object Id of the virtual machine.
-    types:
-    - uid: string
-    name: fabricObjectId
-  - description: The multi vm group Id.
-    types:
-    - uid: string
-    name: multiVmGroupId
-  - description: The multi vm group name.
-    types:
-    - uid: string
-    name: multiVmGroupName
-  - description: The management Id.
-    types:
-    - uid: string
-    name: managementId
-  - description: The list of protected disks.
-    types:
-    - isArray: true
-      uid: A2AProtectedDiskDetails
-    name: protectedDisks
-  - description: The list of protected managed disks.
-    types:
-    - isArray: true
-      uid: A2AProtectedManagedDiskDetails
-    name: protectedManagedDisks
-  - description: Primary fabric location.
-    types:
-    - uid: string
-    name: primaryFabricLocation
-  - description: The recovery fabric location.
-    types:
-    - uid: string
-    name: recoveryFabricLocation
-  - description: The type of operating system.
-    types:
-    - uid: string
-    name: osType
-  - description: The size of recovery virtual machine.
-    types:
-    - uid: string
-    name: recoveryAzureVMSize
-  - description: The name of recovery virtual machine.
-    types:
-    - uid: string
-    name: recoveryAzureVMName
-  - description: The recovery resource group.
-    types:
-    - uid: string
-    name: recoveryAzureResourceGroupId
-  - description: The recovery cloud service.
-    types:
-    - uid: string
-    name: recoveryCloudService
-  - description: The recovery availability set.
-    types:
-    - uid: string
-    name: recoveryAvailabilitySet
-  - description: The recovery virtual network.
-    types:
-    - uid: string
-    name: selectedRecoveryAzureNetworkId
-  - description: The virtual machine nic details.
-    types:
-    - isArray: true
-      uid: VMNicDetails
-    name: vmNics
-  - description: The synced configuration details.
-    types:
-    - uid: AzureToAzureVmSyncedConfigDetails
-    name: vmSyncedConfigDetails
-  - description: The percentage of the monitoring job. The type of the monitoring job is defined by MonitoringJobType property.
-    types:
-    - uid: integer
-    name: monitoringPercentageCompletion
-  - description: The type of the monitoring job. The progress is contained in MonitoringPercentageCompletion property.
-    types:
-    - uid: string
-    name: monitoringJobType
-  - description: The last heartbeat received from the source server.
-    types:
-    - uid: string
-    name: lastHeartbeat
-  - description: The agent version.
-    types:
-    - uid: string
-    name: agentVersion
-  - description: A value indicating whether replication agent update is required.
-    types:
-    - uid: boolean
-    name: isReplicationAgentUpdateRequired
-  - description: The recovery fabric object Id.
-    types:
-    - uid: string
-    name: recoveryFabricObjectId
-  - description: The protection state for the vm.
-    types:
-    - uid: string
-    name: vmProtectionState
-  - description: The protection state description for the vm.
-    types:
-    - uid: string
-    name: vmProtectionStateDescription
-  - description: An id associated with the PE that survives actions like switch protection which change the backing PE/CPE objects internally.The lifecycle id gets carried forward to have a link/continuity in being able to have an Id that denotes the "same" protected item even though other internal Ids/ARM Id might be changing.
-    types:
-    - uid: string
-    name: lifecycleId
-  - description: The test failover fabric object Id.
-    types:
-    - uid: string
-    name: testFailoverRecoveryFabricObjectId
-  - description: The last RPO value in seconds.
-    types:
-    - uid: integer
-    name: rpoInSeconds
-  - description: The time (in UTC) when the last RPO value was calculated by Protection Service.
-    types:
-    - uid: string
-    name: lastRpoCalculatedTime
-  - isReadyOnly: true
-    description: Gets the Instance type.
-    types:
-    - uid: A2A
-    typesTitle: string
-    name: instanceType
 - name: A2AProtectedDiskDetails
   description: A2A protected disk details.
   kind: object
@@ -1409,7 +1699,7 @@ definitions:
     - uid: number
     name: dataPendingAtSourceAgentInMB
 - name: AzureToAzureVmSyncedConfigDetails
-  description: The synced configuration details.
+  description: Azure to Azure VM synced configuration details.
   kind: object
   properties:
   - description: The Azure VM tags.
@@ -1422,13 +1712,11 @@ definitions:
     name: tags
   - description: The Azure role assignments.
     types:
-    - isArray: true
-      uid: RoleAssignment
+    - uid: RoleAssignment
     name: roleAssignments
   - description: The Azure VM input endpoints.
     types:
-    - isArray: true
-      uid: InputEndpoint
+    - uid: InputEndpoint
     name: inputEndpoints
 - name: RoleAssignment
   description: Azure role assignment details.

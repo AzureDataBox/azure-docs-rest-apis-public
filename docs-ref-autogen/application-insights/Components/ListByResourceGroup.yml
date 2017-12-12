@@ -41,8 +41,7 @@ definitions:
   properties:
   - description: List of Application Insights component definitions.
     types:
-    - isArray: true
-      uid: ApplicationInsightsComponent
+    - uid: ApplicationInsightsComponent
     name: value
   - description: The URI to get the next set of Application Insights component defintions if too many components where returned in the result set.
     types:
@@ -60,57 +59,57 @@ definitions:
     description: The unique ID of your application. This field mirrors the 'Name' field and cannot be changed.
     types:
     - uid: string
-    name: ApplicationId
+    name: properties.ApplicationId
   - isReadyOnly: true
     description: Application Insights Unique ID for your Application.
     types:
     - uid: string
-    name: AppId
+    name: properties.AppId
   - description: Type of application being monitored.
     types:
     - uid: ApplicationType
-    name: Application_Type
+    name: properties.Application_Type
   - description: Used by the Application Insights system to determine what kind of flow this component was created by. This is to be set to 'Bluefield' when creating/updating a component via the REST API.
     types:
     - uid: FlowType
-    name: Flow_Type
+    name: properties.Flow_Type
   - description: Describes what tool created this Application Insights component. Customers using this API should set this to the default 'rest'.
     types:
     - uid: RequestSource
-    name: Request_Source
+    name: properties.Request_Source
   - isReadyOnly: true
     description: Application Insights Instrumentation key. A read-only value that applications can use to identify the destination for all telemetry sent to Azure Application Insights. This value will be supplied upon construction of each new Application Insights component.
     types:
     - uid: string
-    name: InstrumentationKey
+    name: properties.InstrumentationKey
   - isReadyOnly: true
     description: Creation Date for the Application Insights component, in ISO 8601 format.
     types:
     - uid: string
-    name: CreationDate
+    name: properties.CreationDate
   - isReadyOnly: true
     description: Azure Tenant Id.
     types:
     - uid: string
-    name: TenantId
+    name: properties.TenantId
   - description: The unique application ID created when a new application is added to HockeyApp, used for communications with HockeyApp.
     types:
     - uid: string
-    name: HockeyAppId
+    name: properties.HockeyAppId
   - isReadyOnly: true
     description: Token used to authenticate communications with between Application Insights and HockeyApp.
     types:
     - uid: string
-    name: HockeyAppToken
+    name: properties.HockeyAppToken
   - isReadyOnly: true
     description: 'Current state of this component: whether or not is has been provisioned within the resource group it is defined. Users cannot change this value but are able to read from it. Values will include Succeeded, Deploying, Canceled, and Failed.'
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - description: Percentage of the data produced by the application being monitored that is being sampled for Application Insights telemetry.
     types:
     - uid: number
-    name: SamplingPercentage
+    name: properties.SamplingPercentage
   - isReadyOnly: true
     description: Azure resource Id
     types:
@@ -138,30 +137,6 @@ definitions:
       - uid: string
       uid: object
     name: tags
-- name: ApplicationType
-  description: Type of application being monitored.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: web
-  - types:
-    - uid: string
-    name: other
-- name: FlowType
-  description: Used by the Application Insights system to determine what kind of flow this component was created by. This is to be set to 'Bluefield' when creating/updating a component via the REST API.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Bluefield
-- name: RequestSource
-  description: Describes what tool created this Application Insights component. Customers using this API should set this to the default 'rest'.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: rest
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/my-resource-group/providers/microsoft.insights/components?api-version=2015-05-01

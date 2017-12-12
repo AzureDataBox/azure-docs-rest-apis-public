@@ -83,28 +83,46 @@ requestBody:
     name: sku
 requestHeader: []
 definitions:
-- name: SkuName
-  description: Name of the notification hub sku
-  kind: enum
+- name: SharedAccessAuthorizationRuleProperties
+  description: SharedAccessAuthorizationRule properties.
+  kind: object
   properties:
-  - types:
+  - description: The rights associated with the rule.
+    types:
     - uid: string
-    name: Free
-  - types:
+    name: rights
+- name: Sku
+  description: The Sku description for a namespace
+  kind: object
+  properties:
+  - description: Name of the notification hub sku
+    types:
+    - uid: SkuName
+    name: name
+  - description: The tier of particular sku
+    types:
     - uid: string
-    name: Basic
-  - types:
+    name: tier
+  - description: The Sku size
+    types:
     - uid: string
-    name: Standard
+    name: size
+  - description: The Sku Family
+    types:
+    - uid: string
+    name: family
+  - description: The capacity of the resource
+    types:
+    - uid: integer
+    name: capacity
 - name: SharedAccessAuthorizationRuleResource
   description: Description of a Namespace AuthorizationRules.
   kind: object
   properties:
   - description: The rights associated with the rule.
     types:
-    - isArray: true
-      uid: string
-    name: rights
+    - uid: string
+    name: properties.rights
   - isReadyOnly: true
     description: Resource Id
     types:
@@ -136,30 +154,6 @@ definitions:
     types:
     - uid: Sku
     name: sku
-- name: Sku
-  description: The sku of the created namespace
-  kind: object
-  properties:
-  - description: Name of the notification hub sku
-    types:
-    - uid: SkuName
-    name: name
-  - description: The tier of particular sku
-    types:
-    - uid: string
-    name: tier
-  - description: The Sku size
-    types:
-    - uid: string
-    name: size
-  - description: The Sku Family
-    types:
-    - uid: string
-    name: family
-  - description: The capacity of the resource
-    types:
-    - uid: integer
-    name: capacity
 examples: []
 security:
 - type: oauth2

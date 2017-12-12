@@ -52,11 +52,10 @@ definitions:
   - isReadyOnly: true
     description: The list of supported server versions.
     types:
-    - isArray: true
-      uid: ServerVersionCapability
+    - uid: ServerVersionCapability
     name: supportedServerVersions
 - name: CapabilityStatus
-  description: Azure SQL Database's status for the location.
+  description: The availability status of the capability
   kind: enum
   properties:
   - types:
@@ -88,14 +87,12 @@ definitions:
   - isReadyOnly: true
     description: The list of supported database editions.
     types:
-    - isArray: true
-      uid: EditionCapability
+    - uid: EditionCapability
     name: supportedEditions
   - isReadyOnly: true
     description: The list of supported elastic pool editions.
     types:
-    - isArray: true
-      uid: ElasticPoolEditionCapability
+    - uid: ElasticPoolEditionCapability
     name: supportedElasticPoolEditions
 - name: EditionCapability
   description: The database edition capabilities.
@@ -114,9 +111,32 @@ definitions:
   - isReadyOnly: true
     description: The list of supported service objectives for the edition.
     types:
-    - isArray: true
-      uid: ServiceObjectiveCapability
+    - uid: ServiceObjectiveCapability
     name: supportedServiceLevelObjectives
+  - isReadyOnly: true
+    description: Whether or not zone redundancy is supported for the edition.
+    types:
+    - uid: boolean
+    name: zoneRedundant
+- name: ElasticPoolEditionCapability
+  description: The elastic pool edition capabilities.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The elastic pool edition name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: The status of the elastic pool edition.
+    types:
+    - uid: CapabilityStatus
+    name: status
+  - isReadyOnly: true
+    description: The list of supported elastic pool DTU levels for the edition.
+    types:
+    - uid: ElasticPoolDtuCapability
+    name: supportedElasticPoolDtus
   - isReadyOnly: true
     description: Whether or not zone redundancy is supported for the edition.
     types:
@@ -144,8 +164,7 @@ definitions:
   - isReadyOnly: true
     description: The list of supported maximum database sizes for this service objective.
     types:
-    - isArray: true
-      uid: MaxSizeCapability
+    - uid: MaxSizeCapability
     name: supportedMaxSizes
   - isReadyOnly: true
     description: The included (free) max size for this service level objective.
@@ -156,79 +175,12 @@ definitions:
     description: Unit type used to measure service objective performance level.
     types:
     - uid: PerformanceLevelUnit
-    name: unit
+    name: performanceLevel.unit
   - isReadyOnly: true
     description: Performance level value.
     types:
     - uid: integer
-    name: value
-- name: MaxSizeCapability
-  description: The maximum size limits for a database.
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: The maximum size of the database (see 'unit' for the units).
-    types:
-    - uid: integer
-    name: limit
-  - isReadyOnly: true
-    description: The units that the limit is expressed in.
-    types:
-    - uid: MaxSizeUnits
-    name: unit
-  - isReadyOnly: true
-    description: The status of the maximum size capability.
-    types:
-    - uid: CapabilityStatus
-    name: status
-- name: MaxSizeUnits
-  description: The units that the limit is expressed in.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Megabytes
-  - types:
-    - uid: string
-    name: Gigabytes
-  - types:
-    - uid: string
-    name: Terabytes
-  - types:
-    - uid: string
-    name: Petabytes
-- name: PerformanceLevelUnit
-  description: Unit type used to measure service objective performance level.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: DTU
-- name: ElasticPoolEditionCapability
-  description: The elastic pool edition capabilities.
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: The elastic pool edition name.
-    types:
-    - uid: string
-    name: name
-  - isReadyOnly: true
-    description: The status of the elastic pool edition.
-    types:
-    - uid: CapabilityStatus
-    name: status
-  - isReadyOnly: true
-    description: The list of supported elastic pool DTU levels for the edition.
-    types:
-    - isArray: true
-      uid: ElasticPoolDtuCapability
-    name: supportedElasticPoolDtus
-  - isReadyOnly: true
-    description: Whether or not zone redundancy is supported for the edition.
-    types:
-    - uid: boolean
-    name: zoneRedundant
+    name: performanceLevel.value
 - name: ElasticPoolDtuCapability
   description: The Elastic Pool DTU capability.
   kind: object
@@ -251,8 +203,7 @@ definitions:
   - isReadyOnly: true
     description: The list of supported max sizes.
     types:
-    - isArray: true
-      uid: MaxSizeCapability
+    - uid: MaxSizeCapability
     name: supportedMaxSizes
   - isReadyOnly: true
     description: The included (free) max size for this service level objective.
@@ -262,15 +213,32 @@ definitions:
   - isReadyOnly: true
     description: The list of supported max database sizes.
     types:
-    - isArray: true
-      uid: MaxSizeCapability
+    - uid: MaxSizeCapability
     name: supportedPerDatabaseMaxSizes
   - isReadyOnly: true
     description: The list of supported max database DTUs.
     types:
-    - isArray: true
-      uid: ElasticPoolPerDatabaseMaxDtuCapability
+    - uid: ElasticPoolPerDatabaseMaxDtuCapability
     name: supportedPerDatabaseMaxDtus
+- name: MaxSizeCapability
+  description: The maximum size limits for a database.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The maximum size of the database (see 'unit' for the units).
+    types:
+    - uid: integer
+    name: limit
+  - isReadyOnly: true
+    description: The units that the limit is expressed in.
+    types:
+    - uid: MaxSizeUnits
+    name: unit
+  - isReadyOnly: true
+    description: The status of the maximum size capability.
+    types:
+    - uid: CapabilityStatus
+    name: status
 - name: ElasticPoolPerDatabaseMaxDtuCapability
   description: The max per-database DTU capability.
   kind: object
@@ -288,8 +256,7 @@ definitions:
   - isReadyOnly: true
     description: The list of supported min database DTUs.
     types:
-    - isArray: true
-      uid: ElasticPoolPerDatabaseMinDtuCapability
+    - uid: ElasticPoolPerDatabaseMinDtuCapability
     name: supportedPerDatabaseMinDtus
 - name: ElasticPoolPerDatabaseMinDtuCapability
   description: The minimum per-database DTU capability.

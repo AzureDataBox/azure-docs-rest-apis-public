@@ -71,37 +71,6 @@ definitions:
     - uid: ManagedIntegrationRuntimeStatus
     typesTitle: IntegrationRuntimeStatus
     name: properties
-- name: IntegrationRuntimeState
-  description: The state of integration runtime.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Initial
-  - types:
-    - uid: string
-    name: Stopped
-  - types:
-    - uid: string
-    name: Started
-  - types:
-    - uid: string
-    name: Starting
-  - types:
-    - uid: string
-    name: Stopping
-  - types:
-    - uid: string
-    name: NeedRegistration
-  - types:
-    - uid: string
-    name: Online
-  - types:
-    - uid: string
-    name: Limited
-  - types:
-    - uid: string
-    name: Offline
 - name: ErrorResponse
   description: The object that defines the structure of an Azure Data Factory response.
   kind: object
@@ -120,8 +89,7 @@ definitions:
     name: target
   - description: Array with additional error details.
     types:
-    - isArray: true
-      uid: Details
+    - uid: ErrorResponse
     name: details
 - name: SelfHostedIntegrationRuntimeStatus
   description: Self-hosted integration runtime status.
@@ -131,42 +99,41 @@ definitions:
     description: The time at which the integration runtime was created, in ISO8601 format.
     types:
     - uid: string
-    name: createTime
+    name: typeProperties.createTime
   - isReadyOnly: true
     description: The task queue id of the integration runtime.
     types:
     - uid: string
-    name: taskQueueId
+    name: typeProperties.taskQueueId
   - isReadyOnly: true
     description: It is used to set the encryption mode for node-node communication channel (when more than 2 self-hosted integration runtime nodes exist).
     types:
     - uid: IntegrationRuntimeInternalChannelEncryptionMode
-    name: internalChannelEncryption
+    name: typeProperties.internalChannelEncryption
   - isReadyOnly: true
     description: Version of the integration runtime.
     types:
     - uid: string
-    name: version
+    name: typeProperties.version
   - description: The list of nodes for this integration runtime.
     types:
-    - isArray: true
-      uid: SelfHostedIntegrationRuntimeNode
-    name: nodes
+    - uid: SelfHostedIntegrationRuntimeNode
+    name: typeProperties.nodes
   - isReadyOnly: true
     description: The date at which the integration runtime will be scheduled to update, in ISO8601 format.
     types:
     - uid: string
-    name: scheduledUpdateDate
+    name: typeProperties.scheduledUpdateDate
   - isReadyOnly: true
     description: The time in the date scheduled by service to update the integration runtime, e.g., PT03H is 3 hours
     types:
     - uid: string
-    name: updateDelayOffset
+    name: typeProperties.updateDelayOffset
   - isReadyOnly: true
     description: The local time zone offset in hours.
     types:
     - uid: string
-    name: localTimeZoneOffset
+    name: typeProperties.localTimeZoneOffset
   - isReadyOnly: true
     description: Object with additional information about integration runtime capabilities.
     types:
@@ -175,23 +142,22 @@ definitions:
       - uid: string
       - uid: string
       uid: object
-    name: capabilities
+    name: typeProperties.capabilities
   - isReadyOnly: true
     description: The URLs for the services used in integration runtime backend service.
     types:
-    - isArray: true
-      uid: string
-    name: serviceUrls
+    - uid: string
+    name: typeProperties.serviceUrls
   - isReadyOnly: true
     description: Whether Self-hosted integration runtime auto update has been turned on.
     types:
     - uid: IntegrationRuntimeAutoUpdate
-    name: autoUpdate
+    name: typeProperties.autoUpdate
   - isReadyOnly: true
     description: Status of the integration runtime version.
     types:
     - uid: string
-    name: versionStatus
+    name: typeProperties.versionStatus
   - description: Type of integration runtime.
     types:
     - uid: SelfHosted
@@ -202,19 +168,40 @@ definitions:
     types:
     - uid: IntegrationRuntimeState
     name: state
-- name: IntegrationRuntimeInternalChannelEncryptionMode
-  description: It is used to set the encryption mode for node-node communication channel (when more than 2 self-hosted integration runtime nodes exist).
-  kind: enum
+- name: ManagedIntegrationRuntimeStatus
+  description: Managed integration runtime status.
+  kind: object
   properties:
-  - types:
+  - isReadyOnly: true
+    description: The time at which the integration runtime was created, in ISO8601 format.
+    types:
     - uid: string
-    name: NotSet
-  - types:
-    - uid: string
-    name: SslEncrypted
-  - types:
-    - uid: string
-    name: NotEncrypted
+    name: typeProperties.createTime
+  - isReadyOnly: true
+    description: The list of nodes for managed integration runtime.
+    types:
+    - uid: ManagedIntegrationRuntimeNode
+    name: typeProperties.nodes
+  - isReadyOnly: true
+    description: The errors that occurred on this integration runtime.
+    types:
+    - uid: ManagedIntegrationRuntimeError
+    name: typeProperties.otherErrors
+  - isReadyOnly: true
+    description: The last operation result that occurred on this integration runtime.
+    types:
+    - uid: ManagedIntegrationRuntimeOperationResult
+    name: typeProperties.lastOperation
+  - description: Type of integration runtime.
+    types:
+    - uid: Managed
+    typesTitle: string
+    name: type
+  - isReadyOnly: true
+    description: The state of integration runtime.
+    types:
+    - uid: IntegrationRuntimeState
+    name: state
 - name: SelfHostedIntegrationRuntimeNode
   description: Properties of Self-hosted integration runtime node.
   kind: object
@@ -313,10 +300,45 @@ definitions:
     types:
     - uid: integer
     name: maxConcurrentJobs
-- name: SelfHostedIntegrationRuntimeNodeStatus
-  description: Status of the integration runtime node.
+- name: IntegrationRuntimeAutoUpdate
+  description: The state of integration runtime auto update.
   kind: enum
   properties:
+  - types:
+    - uid: string
+    name: On
+  - types:
+    - uid: string
+    name: Off
+- name: IntegrationRuntimeType
+  description: The type of integration runtime.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Managed
+  - types:
+    - uid: string
+    name: SelfHosted
+- name: IntegrationRuntimeState
+  description: The state of integration runtime.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Initial
+  - types:
+    - uid: string
+    name: Stopped
+  - types:
+    - uid: string
+    name: Started
+  - types:
+    - uid: string
+    name: Starting
+  - types:
+    - uid: string
+    name: Stopping
   - types:
     - uid: string
     name: NeedRegistration
@@ -329,71 +351,6 @@ definitions:
   - types:
     - uid: string
     name: Offline
-  - types:
-    - uid: string
-    name: Upgrading
-  - types:
-    - uid: string
-    name: Initializing
-  - types:
-    - uid: string
-    name: InitializeFailed
-- name: IntegrationRuntimeUpdateResult
-  description: The result of the last integration runtime node update.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Succeed
-  - types:
-    - uid: string
-    name: Fail
-- name: IntegrationRuntimeAutoUpdate
-  description: Whether Self-hosted integration runtime auto update has been turned on.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: On
-  - types:
-    - uid: string
-    name: Off
-- name: ManagedIntegrationRuntimeStatus
-  description: Managed integration runtime status.
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: The time at which the integration runtime was created, in ISO8601 format.
-    types:
-    - uid: string
-    name: createTime
-  - isReadyOnly: true
-    description: The list of nodes for managed integration runtime.
-    types:
-    - isArray: true
-      uid: ManagedIntegrationRuntimeNode
-    name: nodes
-  - isReadyOnly: true
-    description: The errors that occurred on this integration runtime.
-    types:
-    - isArray: true
-      uid: ManagedIntegrationRuntimeError
-    name: otherErrors
-  - isReadyOnly: true
-    description: The last operation result that occurred on this integration runtime.
-    types:
-    - uid: ManagedIntegrationRuntimeOperationResult
-    name: lastOperation
-  - description: Type of integration runtime.
-    types:
-    - uid: Managed
-    typesTitle: string
-    name: type
-  - isReadyOnly: true
-    description: The state of integration runtime.
-    types:
-    - uid: IntegrationRuntimeState
-    name: state
 - name: ManagedIntegrationRuntimeNode
   description: Properties of integration runtime node.
   kind: object
@@ -410,25 +367,8 @@ definitions:
     name: status
   - description: The errors that occurred on this integration runtime node.
     types:
-    - isArray: true
-      uid: ManagedIntegrationRuntimeError
+    - uid: ManagedIntegrationRuntimeError
     name: errors
-- name: ManagedIntegrationRuntimeNodeStatus
-  description: The managed integration runtime node status.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Starting
-  - types:
-    - uid: string
-    name: Available
-  - types:
-    - uid: string
-    name: Recycling
-  - types:
-    - uid: string
-    name: Unavailable
 - name: ManagedIntegrationRuntimeError
   description: Error definition for managed integration runtime.
   kind: object
@@ -446,8 +386,7 @@ definitions:
   - isReadyOnly: true
     description: Managed integration runtime error parameters.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: parameters
   - isReadyOnly: true
     description: Error message.
@@ -455,7 +394,7 @@ definitions:
     - uid: string
     name: message
 - name: ManagedIntegrationRuntimeOperationResult
-  description: The last operation result that occurred on this integration runtime.
+  description: Properties of managed integration runtime operation result.
   kind: object
   properties:
   - isReadyOnly: true
@@ -481,8 +420,7 @@ definitions:
   - isReadyOnly: true
     description: Managed integration runtime error parameters.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: parameters
   - isReadyOnly: true
     description: The activity id for the operation request.

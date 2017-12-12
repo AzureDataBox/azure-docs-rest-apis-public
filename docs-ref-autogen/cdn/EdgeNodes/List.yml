@@ -33,22 +33,32 @@ definitions:
   properties:
   - description: Edge node of CDN service.
     types:
-    - isArray: true
-      uid: EdgeNode
+    - uid: EdgeNode
     name: value
   - description: URL to get the next set of edgenode list results if there are any.
     types:
     - uid: string
     name: nextLink
+- name: ErrorResponse
+  description: Error reponse indicates CDN service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
 - name: EdgeNode
   description: Edge node of CDN service.
   kind: object
   properties:
   - description: List of ip address groups.
     types:
-    - isArray: true
-      uid: IpAddressGroup
-    name: ipAddressGroups
+    - uid: IpAddressGroup
+    name: properties.ipAddressGroups
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -86,13 +96,11 @@ definitions:
     name: deliveryRegion
   - description: The list of ip v4 addresses.
     types:
-    - isArray: true
-      uid: cidrIpAddress
+    - uid: cidrIpAddress
     name: ipv4Addresses
   - description: The list of ip v6 addresses.
     types:
-    - isArray: true
-      uid: cidrIpAddress
+    - uid: cidrIpAddress
     name: ipv6Addresses
 - name: cidrIpAddress
   description: CIDR Ip address
@@ -106,18 +114,6 @@ definitions:
     types:
     - uid: integer
     name: prefixLength
-- name: ErrorResponse
-  description: Error reponse indicates CDN service is not able to process the incoming request. The reason is provided in the error message.
-  kind: object
-  properties:
-  - description: Error code.
-    types:
-    - uid: string
-    name: code
-  - description: Error message indicating why the operation failed.
-    types:
-    - uid: string
-    name: message
 examples: []
 security:
 - type: oauth2

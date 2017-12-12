@@ -68,29 +68,22 @@ requestBody:
     name: hostCaching
 requestHeader: []
 definitions:
-- name: StorageType
-  description: The storage type for the disk (i.e. Standard, Premium).
-  kind: enum
+- name: AttachNewDataDiskOptions
+  description: Properties to attach new disk to the Virtual Machine.
+  kind: object
   properties:
-  - types:
+  - description: Size of the disk to be attached in GibiBytes.
+    types:
+    - uid: integer
+    name: diskSizeGiB
+  - description: The name of the disk to be attached.
+    types:
     - uid: string
-    name: Standard
-  - types:
-    - uid: string
-    name: Premium
-- name: HostCachingOptions
-  description: Caching option for a data disk (i.e. None, ReadOnly, ReadWrite).
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: None
-  - types:
-    - uid: string
-    name: ReadOnly
-  - types:
-    - uid: string
-    name: ReadWrite
+    name: diskName
+  - description: The storage type for the disk (i.e. Standard, Premium).
+    types:
+    - uid: StorageType
+    name: diskType
 - name: CloudError
   description: Error from a REST request.
   kind: object
@@ -114,8 +107,7 @@ definitions:
     name: target
   - description: Inner errors.
     types:
-    - isArray: true
-      uid: Details
+    - uid: CloudErrorBody
     name: details
 examples: []
 security:

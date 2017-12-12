@@ -65,8 +65,7 @@ requestBody:
   - in: body
     description: The parameters of the ARM template.
     types:
-    - isArray: true
-      uid: ParameterInfo
+    - uid: ParameterInfo
     name: parameters
   - in: body
     description: The location of the virtual machine.
@@ -80,16 +79,18 @@ requestBody:
     name: fileUploadOptions
 requestHeader: []
 definitions:
-- name: FileUploadOptions
-  description: Options for uploading the files for the artifact. UploadFilesAndGenerateSasTokens is the default value.
-  kind: enum
+- name: ParameterInfo
+  description: Information about an artifact's parameter.
+  kind: object
   properties:
-  - types:
+  - description: The name of the artifact parameter.
+    types:
     - uid: string
-    name: UploadFilesAndGenerateSasTokens
-  - types:
+    name: name
+  - description: The value of the artifact parameter.
+    types:
     - uid: string
-    name: None
+    name: value
 - name: ArmTemplateInfo
   description: Information about a generated ARM template.
   kind: object
@@ -125,8 +126,7 @@ definitions:
     name: target
   - description: Inner errors.
     types:
-    - isArray: true
-      uid: Details
+    - uid: CloudErrorBody
     name: details
 examples: []
 security:

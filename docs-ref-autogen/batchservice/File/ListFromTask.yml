@@ -95,13 +95,28 @@ definitions:
   properties:
   - description: The list of files.
     types:
-    - isArray: true
-      uid: NodeFile
+    - uid: NodeFile
     name: value
   - description: The URL to get the next set of results.
     types:
     - uid: string
     name: odata.nextLink
+- name: BatchError
+  description: An error response received from the Azure Batch service.
+  kind: object
+  properties:
+  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+    name: code
+  - description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: ErrorMessage
+    name: message
+  - description: A collection of key-value pairs containing additional details about the error.
+    types:
+    - uid: BatchErrorDetail
+    name: values
 - name: NodeFile
   description: Information about a file or directory on a compute node.
   kind: object
@@ -122,49 +137,8 @@ definitions:
     types:
     - uid: FileProperties
     name: properties
-- name: FileProperties
-  description: The file properties.
-  kind: object
-  properties:
-  - description: The creation time is not returned for files on Linux compute nodes.
-    types:
-    - uid: string
-    name: creationTime
-  - description: The time at which the file was last modified.
-    types:
-    - uid: string
-    name: lastModified
-  - description: The length of the file.
-    types:
-    - uid: integer
-    name: contentLength
-  - description: The content type of the file.
-    types:
-    - uid: string
-    name: contentType
-  - description: The file mode is returned only for files on Linux compute nodes.
-    types:
-    - uid: string
-    name: fileMode
-- name: BatchError
-  description: An error response received from the Azure Batch service.
-  kind: object
-  properties:
-  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
-    types:
-    - uid: string
-    name: code
-  - description: A message describing the error, intended to be suitable for display in a user interface.
-    types:
-    - uid: ErrorMessage
-    name: message
-  - description: A collection of key-value pairs containing additional details about the error.
-    types:
-    - isArray: true
-      uid: BatchErrorDetail
-    name: values
 - name: ErrorMessage
-  description: A message describing the error, intended to be suitable for display in a user interface.
+  description: An error message received in an Azure Batch error response.
   kind: object
   properties:
   - description: The language code of the error message
@@ -187,6 +161,30 @@ definitions:
     types:
     - uid: string
     name: value
+- name: FileProperties
+  description: The properties of a file on a compute node.
+  kind: object
+  properties:
+  - description: The creation time is not returned for files on Linux compute nodes.
+    types:
+    - uid: string
+    name: creationTime
+  - description: The time at which the file was last modified.
+    types:
+    - uid: string
+    name: lastModified
+  - description: The length of the file.
+    types:
+    - uid: integer
+    name: contentLength
+  - description: The content type of the file.
+    types:
+    - uid: string
+    name: contentType
+  - description: The file mode is returned only for files on Linux compute nodes.
+    types:
+    - uid: string
+    name: fileMode
 examples:
 - request:
     uri: GET https://batch.core.windows.net/jobs/jobId/tasks/taskId/files?recursive=false&api-version=2017-09-01.6.0

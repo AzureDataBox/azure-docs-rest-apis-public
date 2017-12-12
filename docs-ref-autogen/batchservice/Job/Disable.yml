@@ -97,22 +97,6 @@ requestHeader:
   format: date-time-rfc1123
   name: If-Unmodified-Since
 definitions:
-- name: DisableJobOption
-  description: What to do with active tasks associated with the job.
-  kind: enum
-  properties:
-  - description: Terminate running tasks and requeue them. The tasks will run again when the job is enabled.
-    types:
-    - uid: string
-    name: requeue
-  - description: Terminate running tasks. The tasks will be completed with failureInfo indicating that they were terminated, and will not run again.
-    types:
-    - uid: string
-    name: terminate
-  - description: Allow currently running tasks to complete.
-    types:
-    - uid: string
-    name: wait
 - name: BatchError
   description: An error response received from the Azure Batch service.
   kind: object
@@ -127,11 +111,10 @@ definitions:
     name: message
   - description: A collection of key-value pairs containing additional details about the error.
     types:
-    - isArray: true
-      uid: BatchErrorDetail
+    - uid: BatchErrorDetail
     name: values
 - name: ErrorMessage
-  description: A message describing the error, intended to be suitable for display in a user interface.
+  description: An error message received in an Azure Batch error response.
   kind: object
   properties:
   - description: The language code of the error message

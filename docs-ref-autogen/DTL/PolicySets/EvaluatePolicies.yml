@@ -54,20 +54,42 @@ requestBody:
   - in: body
     description: Policies to evaluate.
     types:
-    - isArray: true
-      uid: EvaluatePoliciesProperties
+    - uid: EvaluatePoliciesProperties
     name: policies
 requestHeader: []
 definitions:
+- name: EvaluatePoliciesProperties
+  description: Properties for evaluating a policy set.
+  kind: object
+  properties:
+  - description: The fact name.
+    types:
+    - uid: string
+    name: factName
+  - description: The fact data.
+    types:
+    - uid: string
+    name: factData
+  - description: The value offset.
+    types:
+    - uid: string
+    name: valueOffset
 - name: EvaluatePoliciesResponse
   description: Response body for evaluating a policy set.
   kind: object
   properties:
   - description: Results of evaluating a policy set.
     types:
-    - isArray: true
-      uid: PolicySetResult
+    - uid: PolicySetResult
     name: results
+- name: CloudError
+  description: Error from a REST request.
+  kind: object
+  properties:
+  - description: Body of an error from a REST request.
+    types:
+    - uid: CloudErrorBody
+    name: error
 - name: PolicySetResult
   description: Result of a policy set evaluation.
   kind: object
@@ -78,29 +100,8 @@ definitions:
     name: hasError
   - description: The list of policy violations.
     types:
-    - isArray: true
-      uid: PolicyViolation
+    - uid: PolicyViolation
     name: policyViolations
-- name: PolicyViolation
-  description: Policy violation.
-  kind: object
-  properties:
-  - description: The code of the policy violation.
-    types:
-    - uid: string
-    name: code
-  - description: The message of the policy violation.
-    types:
-    - uid: string
-    name: message
-- name: CloudError
-  description: Error from a REST request.
-  kind: object
-  properties:
-  - description: Body of an error from a REST request.
-    types:
-    - uid: CloudErrorBody
-    name: error
 - name: CloudErrorBody
   description: Body of an error from a REST request.
   kind: object
@@ -116,9 +117,20 @@ definitions:
     name: target
   - description: Inner errors.
     types:
-    - isArray: true
-      uid: Details
+    - uid: CloudErrorBody
     name: details
+- name: PolicyViolation
+  description: Policy violation.
+  kind: object
+  properties:
+  - description: The code of the policy violation.
+    types:
+    - uid: string
+    name: code
+  - description: The message of the policy violation.
+    types:
+    - uid: string
+    name: message
 examples: []
 security:
 - type: oauth2

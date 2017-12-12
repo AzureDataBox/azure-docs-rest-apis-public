@@ -55,22 +55,22 @@ requestBody:
     description: The identity of the user.
     types:
     - uid: UserIdentityFragment
-    name: identity
+    name: properties.identity
   - in: body
     description: The secret store of the user.
     types:
     - uid: UserSecretStoreFragment
-    name: secretStore
+    name: properties.secretStore
   - in: body
     description: The provisioning status of the resource.
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - in: body
     description: The unique immutable identifier of a resource (Guid).
     types:
     - uid: string
-    name: uniqueIdentifier
+    name: properties.uniqueIdentifier
   - in: body
     description: The location of the resource.
     types:
@@ -87,6 +87,42 @@ requestBody:
     name: tags
 requestHeader: []
 definitions:
+- name: UserIdentityFragment
+  description: Identity attributes of a lab user.
+  kind: object
+  properties:
+  - description: Set to the principal name / UPN of the client JWT making the request.
+    types:
+    - uid: string
+    name: principalName
+  - description: Set to the principal Id of the client JWT making the request. Service principal will not have the principal Id.
+    types:
+    - uid: string
+    name: principalId
+  - description: Set to the tenant ID of the client JWT making the request.
+    types:
+    - uid: string
+    name: tenantId
+  - description: Set to the object Id of the client JWT making the request. Not all users have object Id. For CSP (reseller) scenarios for example, object Id is not available.
+    types:
+    - uid: string
+    name: objectId
+  - description: Set to the app Id of the client JWT making the request.
+    types:
+    - uid: string
+    name: appId
+- name: UserSecretStoreFragment
+  description: Properties of a user's secret store.
+  kind: object
+  properties:
+  - description: The URI of the user's Key vault.
+    types:
+    - uid: string
+    name: keyVaultUri
+  - description: The ID of the user's Key vault.
+    types:
+    - uid: string
+    name: keyVaultId
 - name: User
   description: Profile of a lab user.
   kind: object
@@ -94,24 +130,24 @@ definitions:
   - description: The identity of the user.
     types:
     - uid: UserIdentity
-    name: identity
+    name: properties.identity
   - description: The secret store of the user.
     types:
     - uid: UserSecretStore
-    name: secretStore
+    name: properties.secretStore
   - isReadyOnly: true
     description: The creation date of the user profile.
     types:
     - uid: string
-    name: createdDate
+    name: properties.createdDate
   - description: The provisioning status of the resource.
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - description: The unique immutable identifier of a resource (Guid).
     types:
     - uid: string
-    name: uniqueIdentifier
+    name: properties.uniqueIdentifier
   - isReadyOnly: true
     description: The identifier of the resource.
     types:
@@ -139,8 +175,16 @@ definitions:
       - uid: string
       uid: object
     name: tags
+- name: CloudError
+  description: Error from a REST request.
+  kind: object
+  properties:
+  - description: Body of an error from a REST request.
+    types:
+    - uid: CloudErrorBody
+    name: error
 - name: UserIdentity
-  description: The identity of the user.
+  description: Identity attributes of a lab user.
   kind: object
   properties:
   - description: Set to the principal name / UPN of the client JWT making the request.
@@ -164,7 +208,7 @@ definitions:
     - uid: string
     name: appId
 - name: UserSecretStore
-  description: The secret store of the user.
+  description: Properties of a user's secret store.
   kind: object
   properties:
   - description: The URI of the user's Key vault.
@@ -175,14 +219,6 @@ definitions:
     types:
     - uid: string
     name: keyVaultId
-- name: CloudError
-  description: Error from a REST request.
-  kind: object
-  properties:
-  - description: Body of an error from a REST request.
-    types:
-    - uid: CloudErrorBody
-    name: error
 - name: CloudErrorBody
   description: Body of an error from a REST request.
   kind: object
@@ -198,8 +234,7 @@ definitions:
     name: target
   - description: Inner errors.
     types:
-    - isArray: true
-      uid: Details
+    - uid: CloudErrorBody
     name: details
 examples: []
 security:

@@ -55,19 +55,19 @@ definitions:
   - description: Application logs configuration.
     types:
     - uid: ApplicationLogsConfig
-    name: applicationLogs
+    name: properties.applicationLogs
   - description: HTTP logs configuration.
     types:
     - uid: HttpLogsConfig
-    name: httpLogs
+    name: properties.httpLogs
   - description: Failed requests tracing configuration.
     types:
     - uid: EnabledConfig
-    name: failedRequestsTracing
+    name: properties.failedRequestsTracing
   - description: Detailed error messages configuration.
     types:
     - uid: EnabledConfig
-    name: detailedErrorMessages
+    name: properties.detailedErrorMessages
   - isReadyOnly: true
     description: Resource Id.
     types:
@@ -103,6 +103,26 @@ definitions:
     types:
     - uid: AzureBlobStorageApplicationLogsConfig
     name: azureBlobStorage
+- name: HttpLogsConfig
+  description: Http logs configuration.
+  kind: object
+  properties:
+  - description: Http logs to file system configuration.
+    types:
+    - uid: FileSystemHttpLogsConfig
+    name: fileSystem
+  - description: Http logs to azure blob storage configuration.
+    types:
+    - uid: AzureBlobStorageHttpLogsConfig
+    name: azureBlobStorage
+- name: EnabledConfig
+  description: Enabled configuration.
+  kind: object
+  properties:
+  - description: True if configuration is enabled, false if it is disabled and null if configuration is not set.
+    types:
+    - uid: boolean
+    name: enabled
 - name: FileSystemApplicationLogsConfig
   description: Application logs to file system configuration.
   kind: object
@@ -111,27 +131,8 @@ definitions:
     types:
     - uid: LogLevel
     name: level
-- name: LogLevel
-  description: Log level.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Off
-  - types:
-    - uid: string
-    name: Verbose
-  - types:
-    - uid: string
-    name: Information
-  - types:
-    - uid: string
-    name: Warning
-  - types:
-    - uid: string
-    name: Error
 - name: AzureTableStorageApplicationLogsConfig
-  description: Application logs to azure table storage configuration.
+  description: Application logs to Azure table storage configuration.
   kind: object
   properties:
   - description: Log level.
@@ -143,7 +144,7 @@ definitions:
     - uid: string
     name: sasUrl
 - name: AzureBlobStorageApplicationLogsConfig
-  description: Application logs to blob storage configuration.
+  description: Application logs azure blob storage configuration.
   kind: object
   properties:
   - description: Log level.
@@ -163,18 +164,6 @@ definitions:
     types:
     - uid: integer
     name: retentionInDays
-- name: HttpLogsConfig
-  description: HTTP logs configuration.
-  kind: object
-  properties:
-  - description: Http logs to file system configuration.
-    types:
-    - uid: FileSystemHttpLogsConfig
-    name: fileSystem
-  - description: Http logs to azure blob storage configuration.
-    types:
-    - uid: AzureBlobStorageHttpLogsConfig
-    name: azureBlobStorage
 - name: FileSystemHttpLogsConfig
   description: Http logs to file system configuration.
   kind: object
@@ -218,14 +207,6 @@ definitions:
     types:
     - uid: integer
     name: retentionInDays
-  - description: True if configuration is enabled, false if it is disabled and null if configuration is not set.
-    types:
-    - uid: boolean
-    name: enabled
-- name: EnabledConfig
-  description: Failed requests tracing configuration.
-  kind: object
-  properties:
   - description: True if configuration is enabled, false if it is disabled and null if configuration is not set.
     types:
     - uid: boolean

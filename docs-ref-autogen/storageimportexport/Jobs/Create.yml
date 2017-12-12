@@ -76,62 +76,6 @@ requestHeader:
   - uid: string
   name: x-ms-client-tenant-id
 definitions:
-- name: DriveState
-  description: "The drive's current state. "
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Specified
-  - types:
-    - uid: string
-    name: Received
-  - types:
-    - uid: string
-    name: NeverReceived
-  - types:
-    - uid: string
-    name: Transferring
-  - types:
-    - uid: string
-    name: Completed
-  - types:
-    - uid: string
-    name: CompletedMoreInfo
-  - types:
-    - uid: string
-    name: ShippedBack
-- name: JobResponse
-  description: Contains the job information.
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: Specifies the resource identifier of the job.
-    types:
-    - uid: string
-    name: id
-  - isReadyOnly: true
-    description: Specifies the name of the job.
-    types:
-    - uid: string
-    name: name
-  - isReadyOnly: true
-    description: Specifies the type of the job resource.
-    types:
-    - uid: string
-    name: type
-  - description: Specifies the Azure location where the job is created.
-    types:
-    - uid: string
-    name: location
-  - description: Specifies the tags that are assigned to the job.
-    types:
-    - uid: object
-    name: tags
-  - description: Specifies the job properties
-    types:
-    - uid: JobDetails
-    name: properties
 - name: JobDetails
   description: Specifies the job properties
   kind: object
@@ -194,8 +138,7 @@ definitions:
     name: incompleteBlobListUri
   - description: List of up to ten drives that comprise the job. The drive list is a required element for an import job; it is not specified for export jobs.
     types:
-    - isArray: true
-      uid: DriveStatus
+    - uid: DriveStatus
     name: driveList
   - description: A property containing information about the blobs to be exported for an export job. This property is included for export jobs only.
     types:
@@ -205,8 +148,63 @@ definitions:
     types:
     - uid: string
     name: provisioningState
+- name: JobResponse
+  description: Contains the job information.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Specifies the resource identifier of the job.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Specifies the name of the job.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Specifies the type of the job resource.
+    types:
+    - uid: string
+    name: type
+  - description: Specifies the Azure location where the job is created.
+    types:
+    - uid: string
+    name: location
+  - description: Specifies the tags that are assigned to the job.
+    types:
+    - uid: object
+    name: tags
+  - description: Specifies the job properties
+    types:
+    - uid: JobDetails
+    name: properties
+- name: ErrorResponse
+  description: Response when errors occurred
+  kind: object
+  properties:
+  - description: Provides information about the error code.
+    types:
+    - uid: string
+    name: error.code
+  - description: Provides information about the error message.
+    types:
+    - uid: string
+    name: error.message
+  - description: Provides information about the error target.
+    types:
+    - uid: string
+    name: error.target
+  - description: Describes the error details if present.
+    types:
+    - uid: Details
+    name: error.details
+  - description: Inner error object if present.
+    types:
+    - uid: object
+    name: error.innererror
 - name: ReturnAddress
-  description: 'Specifies the return address information for the job. '
+  description: Specifies the return address information for the job.
   kind: object
   properties:
   - description: 'The name of the recipient who will receive the hard drives when they are returned. '
@@ -246,7 +244,7 @@ definitions:
     - uid: string
     name: email
 - name: ReturnShipping
-  description: "Specifies the return carrier and customer's account with the carrier. "
+  description: Specifies the return carrier and customer's account with the carrier.
   kind: object
   properties:
   - description: The carrier's name.
@@ -258,7 +256,7 @@ definitions:
     - uid: string
     name: carrierAccountNumber
 - name: ShippingInformation
-  description: 'Contains information about the Microsoft datacenter to which the drives should be shipped. '
+  description: Contains information about the Microsoft datacenter to which the drives should be shipped.
   kind: object
   properties:
   - description: 'The name of the recipient who will receive the hard drives when they are returned. '
@@ -294,7 +292,7 @@ definitions:
     - uid: string
     name: phone
 - name: PackageInfomation
-  description: 'Contains information about the package being shipped by the customer to the Microsoft data center. '
+  description: Contains information about the package being shipped by the customer to the Microsoft data center.
   kind: object
   properties:
   - description: The name of the carrier that is used to ship the import or export drives.
@@ -366,7 +364,7 @@ definitions:
     - uid: integer
     name: bytesSucceeded
 - name: Export
-  description: A property containing information about the blobs to be exported for an export job. This property is included for export jobs only.
+  description: A property containing information about the blobs to be exported for an export job. This property is required for export jobs, but must not be specified for import jobs.
   kind: object
   properties:
   - description: 'The relative URI to the block blob that contains the list of blob paths or blob path prefixes as defined above, beginning with the container name. If the blob is in root container, the URI must begin with $root. '
@@ -375,54 +373,12 @@ definitions:
     name: blobListblobPath
   - description: A collection of blob-path strings.
     types:
-    - isArray: true
-      uid: string
-    name: blobPath
+    - uid: string
+    name: blobList.blobPath
   - description: A collection of blob-prefix strings.
     types:
-    - isArray: true
-      uid: string
-    name: blobPathPrefix
-- name: ErrorResponse
-  description: Response when errors occurred
-  kind: object
-  properties:
-  - description: Provides information about the error code.
-    types:
     - uid: string
-    name: code
-  - description: Provides information about the error message.
-    types:
-    - uid: string
-    name: message
-  - description: Provides information about the error target.
-    types:
-    - uid: string
-    name: target
-  - description: Describes the error details if present.
-    types:
-    - isArray: true
-      uid: Details
-    name: details
-  - description: Inner error object if present.
-    types:
-    - uid: object
-    name: innererror
-- name: Details
-  kind: object
-  properties:
-  - description: Provides information about the error code.
-    types:
-    - uid: string
-    name: code
-  - description: Provides information about the error target.
-    types:
-    - uid: string
-    name: target
-  - description: Provides information about the error message.
-    types:
-    - uid: string
-    name: message
+    name: blobList.blobPathPrefix
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/resourceGroups/Default-Storage-WestUS/providers/Microsoft.ImportExport/jobs/test-by1-import?api-version=2016-11-01

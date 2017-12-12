@@ -72,8 +72,7 @@ definitions:
   properties:
   - description: The list of resources.
     types:
-    - isArray: true
-      uid: RecoveryPointResource
+    - uid: RecoveryPointResource
     name: value
   - description: The URI to GET the next page of resources. Call ListNext() gets the next page of resources.
     types:
@@ -154,8 +153,44 @@ definitions:
     - uid: IaasVMRecoveryPoint
     typesTitle: string
     name: objectType
+- name: GenericRecoveryPoint
+  description: Generic backup copy.
+  kind: object
+  properties:
+  - description: Friendly name of the backup copy.
+    types:
+    - uid: string
+    name: friendlyName
+  - description: Type of the backup copy.
+    types:
+    - uid: string
+    name: recoveryPointType
+  - description: The time when this backup copy was created.
+    types:
+    - uid: string
+    name: recoveryPointTime
+  - description: Additional information associated with this backup copy.
+    types:
+    - uid: string
+    name: recoveryPointAdditionalInfo
+  - description: This property is used as the discriminator for deciding the specific types in the polymorhpic chain of types.
+    types:
+    - uid: GenericRecoveryPoint
+    typesTitle: string
+    name: objectType
 - name: KeyAndSecretDetails
-  description: Required details for recovering an encrypted VM. Applicable only when IsSourceVMEncrypted is true.
+  description: >-
+    BEK stands for Bitlocker Encryption Key.
+
+     KEK stands for Key Encryption Key. KEK is the encryption key used to protect the Secret for the BEK
+
+      If the VM is encrypted, then the service stores the following details :
+
+      1. Secret(BEK) - Url + Backup Data + vaultID.
+
+                2. Key(KEK) - Url + Backup Data + vaultID.
+
+       It is possible for the BEK and KEK to have different vaultIDs.
   kind: object
   properties:
   - description: The Key Encryption Key (KEK) is the encryption key for the Bitlocker Encryption Key (BEK).
@@ -198,31 +233,6 @@ definitions:
     types:
     - uid: string
     name: secretData
-- name: GenericRecoveryPoint
-  description: Generic backup copy.
-  kind: object
-  properties:
-  - description: Friendly name of the backup copy.
-    types:
-    - uid: string
-    name: friendlyName
-  - description: Type of the backup copy.
-    types:
-    - uid: string
-    name: recoveryPointType
-  - description: The time when this backup copy was created.
-    types:
-    - uid: string
-    name: recoveryPointTime
-  - description: Additional information associated with this backup copy.
-    types:
-    - uid: string
-    name: recoveryPointAdditionalInfo
-  - description: This property is used as the discriminator for deciding the specific types in the polymorhpic chain of types.
-    types:
-    - uid: GenericRecoveryPoint
-    typesTitle: string
-    name: objectType
 examples: []
 security:
 - type: oauth2

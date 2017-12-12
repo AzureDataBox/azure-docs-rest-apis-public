@@ -48,37 +48,37 @@ definitions:
   - description: The SKU of the Redis cache to deploy.
     types:
     - uid: Sku
-    name: sku
+    name: properties.sku
   - isReadyOnly: true
     description: Redis version.
     types:
     - uid: string
-    name: redisVersion
+    name: properties.redisVersion
   - isReadyOnly: true
     description: Redis instance provisioning status.
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: Redis host name.
     types:
     - uid: string
-    name: hostName
+    name: properties.hostName
   - isReadyOnly: true
     description: Redis non-SSL port.
     types:
     - uid: integer
-    name: port
+    name: properties.port
   - isReadyOnly: true
     description: Redis SSL port.
     types:
     - uid: integer
-    name: sslPort
+    name: properties.sslPort
   - isReadyOnly: true
     description: The keys of the Redis cache - not set if this object is not the response to Create or Update redis cache
     types:
     - uid: RedisAccessKeys
-    name: accessKeys
+    name: properties.accessKeys
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -113,11 +113,11 @@ definitions:
       - uid: string
       - uid: string
       uid: object
-    name: redisConfiguration
+    name: properties.redisConfiguration
   - description: Specifies whether the non-ssl Redis server port (6379) is enabled.
     types:
     - uid: boolean
-    name: enableNonSslPort
+    name: properties.enableNonSslPort
   - description: tenantSettings
     types:
     - isDictionary: true
@@ -125,21 +125,21 @@ definitions:
       - uid: string
       - uid: string
       uid: object
-    name: tenantSettings
+    name: properties.tenantSettings
   - description: The number of shards to be created on a Premium Cluster Cache.
     types:
     - uid: integer
-    name: shardCount
+    name: properties.shardCount
   - description: 'The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format: /subscriptions/{subid}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1'
     types:
     - uid: string
-    name: subnetId
+    name: properties.subnetId
   - description: Static IP address. Required when deploying a Redis cache inside an existing Azure Virtual Network.
     types:
     - uid: string
-    name: staticIP
+    name: properties.staticIP
 - name: Sku
-  description: The SKU of the Redis cache to deploy.
+  description: SKU parameters supplied to the create Redis operation.
   kind: object
   properties:
   - description: 'The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium)'
@@ -154,31 +154,8 @@ definitions:
     types:
     - uid: integer
     name: capacity
-- name: SkuName
-  description: 'The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium)'
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Basic
-  - types:
-    - uid: string
-    name: Standard
-  - types:
-    - uid: string
-    name: Premium
-- name: SkuFamily
-  description: 'The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P = Premium).'
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: C
-  - types:
-    - uid: string
-    name: P
 - name: RedisAccessKeys
-  description: The keys of the Redis cache - not set if this object is not the response to Create or Update redis cache
+  description: Redis cache access keys.
   kind: object
   properties:
   - isReadyOnly: true

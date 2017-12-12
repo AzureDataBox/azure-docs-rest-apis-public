@@ -48,8 +48,7 @@ definitions:
   kind: object
   properties:
   - types:
-    - isArray: true
-      uid: ApplicationGatewayBackendHealthPool
+    - uid: ApplicationGatewayBackendHealthPool
     name: backendAddressPools
 - name: ApplicationGatewayBackendHealthPool
   description: Application gateway BackendHealth pool.
@@ -61,11 +60,10 @@ definitions:
     name: backendAddressPool
   - description: List of ApplicationGatewayBackendHealthHttpSettings resources.
     types:
-    - isArray: true
-      uid: ApplicationGatewayBackendHealthHttpSettings
+    - uid: ApplicationGatewayBackendHealthHttpSettings
     name: backendHttpSettingsCollection
 - name: ApplicationGatewayBackendAddressPool
-  description: Reference of an ApplicationGatewayBackendAddressPool resource.
+  description: Backend Address Pool of an application gateway.
   kind: object
   properties:
   - description: Resource that is unique within a resource group. This name can be used to access the resource.
@@ -82,23 +80,33 @@ definitions:
     name: type
   - description: Collection of references to IPs defined in network interfaces.
     types:
-    - isArray: true
-      uid: SubResource
-    name: backendIPConfigurations
+    - uid: SubResource
+    name: properties.backendIPConfigurations
   - description: Backend addresses
     types:
-    - isArray: true
-      uid: ApplicationGatewayBackendAddress
-    name: backendAddresses
+    - uid: ApplicationGatewayBackendAddress
+    name: properties.backendAddresses
   - description: "Provisioning state of the backend address pool resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: Resource ID
     types:
     - uid: string
     name: id
+- name: ApplicationGatewayBackendHealthHttpSettings
+  description: Application gateway BackendHealthHttp settings.
+  kind: object
+  properties:
+  - description: Reference of an ApplicationGatewayBackendHttpSettings resource.
+    types:
+    - uid: ApplicationGatewayBackendHttpSettings
+    name: backendHttpSettings
+  - description: List of ApplicationGatewayBackendHealthServer resources.
+    types:
+    - uid: ApplicationGatewayBackendHealthServer
+    name: servers
 - name: SubResource
   description: Reference to another subresource.
   kind: object
@@ -119,21 +127,8 @@ definitions:
     types:
     - uid: string
     name: ipAddress
-- name: ApplicationGatewayBackendHealthHttpSettings
-  description: Application gateway BackendHealthHttp settings.
-  kind: object
-  properties:
-  - description: Reference of an ApplicationGatewayBackendHttpSettings resource.
-    types:
-    - uid: ApplicationGatewayBackendHttpSettings
-    name: backendHttpSettings
-  - description: List of ApplicationGatewayBackendHealthServer resources.
-    types:
-    - isArray: true
-      uid: ApplicationGatewayBackendHealthServer
-    name: servers
 - name: ApplicationGatewayBackendHttpSettings
-  description: Reference of an ApplicationGatewayBackendHttpSettings resource.
+  description: Backend address pool settings of an application gateway.
   kind: object
   properties:
   - description: Name of the resource that is unique within a resource group. This name can be used to access the resource.
@@ -151,93 +146,60 @@ definitions:
   - description: Port
     types:
     - uid: integer
-    name: port
+    name: properties.port
   - description: Protocol.
     types:
     - uid: ApplicationGatewayProtocol
-    name: protocol
+    name: properties.protocol
   - description: Cookie based affinity.
     types:
     - uid: ApplicationGatewayCookieBasedAffinity
-    name: cookieBasedAffinity
+    name: properties.cookieBasedAffinity
   - description: Request timeout in seconds. Application Gateway will fail the request if response is not received within RequestTimeout. Acceptable values are from 1 second to 86400 seconds.
     types:
     - uid: integer
-    name: requestTimeout
+    name: properties.requestTimeout
   - description: Probe resource of an application gateway.
     types:
     - uid: SubResource
-    name: probe
+    name: properties.probe
   - description: Array of references to application gateway authentication certificates.
     types:
-    - isArray: true
-      uid: SubResource
-    name: authenticationCertificates
+    - uid: SubResource
+    name: properties.authenticationCertificates
   - description: Connection draining of the backend http settings resource.
     types:
     - uid: ApplicationGatewayConnectionDraining
-    name: connectionDraining
+    name: properties.connectionDraining
   - description: Host header to be sent to the backend servers.
     types:
     - uid: string
-    name: hostName
+    name: properties.hostName
   - description: Whether to pick host header should be picked from the host name of the backend server. Default value is false.
     types:
     - uid: boolean
-    name: pickHostNameFromBackendAddress
+    name: properties.pickHostNameFromBackendAddress
   - description: Cookie name to use for the affinity cookie.
     types:
     - uid: string
-    name: affinityCookieName
+    name: properties.affinityCookieName
   - description: Whether the probe is enabled. Default value is false.
     types:
     - uid: boolean
-    name: probeEnabled
+    name: properties.probeEnabled
   - description: Path which should be used as a prefix for all HTTP requests. Null means no path will be prefixed. Default value is null.
     types:
     - uid: string
-    name: path
+    name: properties.path
   - description: "Provisioning state of the backend http settings resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: Resource ID
     types:
     - uid: string
     name: id
-- name: ApplicationGatewayProtocol
-  description: Protocol.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Http
-  - types:
-    - uid: string
-    name: Https
-- name: ApplicationGatewayCookieBasedAffinity
-  description: Cookie based affinity.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Enabled
-  - types:
-    - uid: string
-    name: Disabled
-- name: ApplicationGatewayConnectionDraining
-  description: Connection draining of the backend http settings resource.
-  kind: object
-  properties:
-  - description: Whether connection draining is enabled or not.
-    types:
-    - uid: boolean
-    name: enabled
-  - description: The number of seconds connection draining is active. Acceptable values are from 1 second to 3600 seconds.
-    types:
-    - uid: integer
-    name: drainTimeoutInSec
 - name: ApplicationGatewayBackendHealthServer
   description: Application gateway backendhealth http settings.
   kind: object
@@ -254,25 +216,18 @@ definitions:
     types:
     - uid: ApplicationGatewayBackendHealthServerHealth
     name: health
-- name: ApplicationGatewayBackendHealthServerHealth
-  description: Health of backend server.
-  kind: enum
+- name: ApplicationGatewayConnectionDraining
+  description: Connection draining allows open connections to a backend server to be active for a specified time after the backend server got removed from the configuration.
+  kind: object
   properties:
-  - types:
-    - uid: string
-    name: Unknown
-  - types:
-    - uid: string
-    name: Up
-  - types:
-    - uid: string
-    name: Down
-  - types:
-    - uid: string
-    name: Partial
-  - types:
-    - uid: string
-    name: Draining
+  - description: Whether connection draining is enabled or not.
+    types:
+    - uid: boolean
+    name: enabled
+  - description: The number of seconds connection draining is active. Acceptable values are from 1 second to 3600 seconds.
+    types:
+    - uid: integer
+    name: drainTimeoutInSec
 examples: []
 security:
 - type: oauth2

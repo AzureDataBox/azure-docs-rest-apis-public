@@ -87,61 +87,12 @@ definitions:
   properties:
   - description: Page values.
     types:
-    - isArray: true
-      uid: GroupContract
+    - uid: GroupContract
     name: value
   - description: Next page link if any.
     types:
     - uid: string
     name: nextLink
-- name: GroupContract
-  description: Contract details.
-  kind: object
-  properties:
-  - description: Group name.
-    types:
-    - uid: string
-    name: displayName
-  - description: Group description. Can contain HTML formatting tags.
-    types:
-    - uid: string
-    name: description
-  - isReadyOnly: true
-    description: true if the group is one of the three system groups (Administrators, Developers, or Guests); otherwise false.
-    types:
-    - uid: boolean
-    name: builtIn
-  - description: Group type.
-    types:
-    - uid: GroupType
-    name: type
-  - description: For external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null.
-    types:
-    - uid: string
-    name: externalId
-  - isReadyOnly: true
-    description: Resource ID.
-    types:
-    - uid: string
-    name: id
-  - isReadyOnly: true
-    description: Resource name.
-    types:
-    - uid: string
-    name: name
-- name: GroupType
-  description: Group type.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: custom
-  - types:
-    - uid: string
-    name: system
-  - types:
-    - uid: string
-    name: external
 - name: ErrorResponse
   description: Error Body contract.
   kind: object
@@ -156,9 +107,48 @@ definitions:
     name: message
   - description: The list of invalid fields send in request, in case of validation error.
     types:
-    - isArray: true
-      uid: ErrorFieldContract
+    - uid: ErrorFieldContract
     name: details
+- name: GroupContract
+  description: Contract details.
+  kind: object
+  properties:
+  - description: Group name.
+    types:
+    - uid: string
+    name: properties.displayName
+  - description: Group description. Can contain HTML formatting tags.
+    types:
+    - uid: string
+    name: properties.description
+  - isReadyOnly: true
+    description: true if the group is one of the three system groups (Administrators, Developers, or Guests); otherwise false.
+    types:
+    - uid: boolean
+    name: properties.builtIn
+  - description: Group type.
+    types:
+    - uid: GroupType
+    name: properties.type
+  - description: For external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null.
+    types:
+    - uid: string
+    name: properties.externalId
+  - isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type for API Management resource.
+    types:
+    - uid: string
+    name: type
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object

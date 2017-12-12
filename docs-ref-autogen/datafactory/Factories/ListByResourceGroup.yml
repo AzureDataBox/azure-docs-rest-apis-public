@@ -46,13 +46,32 @@ definitions:
   properties:
   - description: List of factories.
     types:
-    - isArray: true
-      uid: Factory
+    - uid: Factory
     name: value
   - description: The link to the next page of results, if any remaining results exist.
     types:
     - uid: string
     name: nextLink
+- name: ErrorResponse
+  description: The object that defines the structure of an Azure Data Factory response.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: string
+    name: code
+  - description: Error message.
+    types:
+    - uid: string
+    name: message
+  - description: Property name/path in request associated with error.
+    types:
+    - uid: string
+    name: target
+  - description: Array with additional error details.
+    types:
+    - uid: ErrorResponse
+    name: details
 - name: Factory
   description: Factory resource type.
   kind: object
@@ -65,17 +84,17 @@ definitions:
     description: Factory provisioning state, example Succeeded.
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: Time the factory was created in ISO8601 format.
     types:
     - uid: string
-    name: createTime
+    name: properties.createTime
   - isReadyOnly: true
     description: Version of the factory.
     types:
     - uid: string
-    name: version
+    name: properties.version
   - isReadyOnly: true
     description: The resource identifier.
     types:
@@ -104,7 +123,7 @@ definitions:
       uid: object
     name: tags
 - name: FactoryIdentity
-  description: Managed service identity of the factory.
+  description: Identity properties of the factory resource.
   kind: object
   properties:
   - description: The identity type. Currently the only supported type is 'SystemAssigned'.
@@ -121,34 +140,6 @@ definitions:
     types:
     - uid: string
     name: tenantId
-- name: FactoryIdentityType
-  description: The identity type. Currently the only supported type is 'SystemAssigned'.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: SystemAssigned
-- name: ErrorResponse
-  description: The object that defines the structure of an Azure Data Factory response.
-  kind: object
-  properties:
-  - description: Error code.
-    types:
-    - uid: string
-    name: code
-  - description: Error message.
-    types:
-    - uid: string
-    name: message
-  - description: Property name/path in request associated with error.
-    types:
-    - uid: string
-    name: target
-  - description: Array with additional error details.
-    types:
-    - isArray: true
-      uid: Details
-    name: details
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories?api-version=2017-09-01-preview

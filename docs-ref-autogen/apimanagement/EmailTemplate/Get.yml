@@ -62,29 +62,28 @@ definitions:
   - description: Subject of the Template.
     types:
     - uid: string
-    name: subject
+    name: properties.subject
   - description: Email Template Body. This should be a valid XDocument
     types:
     - uid: string
-    name: body
+    name: properties.body
   - description: Title of the Template.
     types:
     - uid: string
-    name: title
+    name: properties.title
   - description: Description of the Email Template.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - isReadyOnly: true
     description: Whether the template is the default template provided by Api Management or has been edited.
     types:
     - uid: boolean
-    name: isDefault
+    name: properties.isDefault
   - description: Email Template Parameter values.
     types:
-    - isArray: true
-      uid: EmailTemplateParametersContractProperties
-    name: parameters
+    - uid: EmailTemplateParametersContractProperties
+    name: properties.parameters
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -100,6 +99,22 @@ definitions:
     types:
     - uid: string
     name: type
+- name: ErrorResponse
+  description: Error Body contract.
+  kind: object
+  properties:
+  - description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+    name: code
+  - description: Human-readable representation of the error.
+    types:
+    - uid: string
+    name: message
+  - description: The list of invalid fields send in request, in case of validation error.
+    types:
+    - uid: ErrorFieldContract
+    name: details
 - name: EmailTemplateParametersContractProperties
   description: Email Template Parameter contract.
   kind: object
@@ -116,23 +131,6 @@ definitions:
     types:
     - uid: string
     name: description
-- name: ErrorResponse
-  description: Error Body contract.
-  kind: object
-  properties:
-  - description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
-    types:
-    - uid: string
-    name: code
-  - description: Human-readable representation of the error.
-    types:
-    - uid: string
-    name: message
-  - description: The list of invalid fields send in request, in case of validation error.
-    types:
-    - isArray: true
-      uid: ErrorFieldContract
-    name: details
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object

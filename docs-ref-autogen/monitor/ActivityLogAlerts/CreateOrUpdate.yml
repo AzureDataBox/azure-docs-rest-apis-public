@@ -53,31 +53,30 @@ requestBody:
     isRequired: true
     description: A list of resourceIds that will be used as prefixes. The alert will only apply to activityLogs with resourceIds that fall under one of these prefixes. This list must include at least one item.
     types:
-    - isArray: true
-      uid: string
-    name: scopes
+    - uid: string
+    name: properties.scopes
   - in: body
     description: Indicates whether this activity log alert is enabled. If an activity log alert is not enabled, then none of its actions will be activated.
     types:
     - uid: boolean
-    name: enabled
+    name: properties.enabled
   - in: body
     isRequired: true
     description: The condition that will cause this alert to activate.
     types:
     - uid: ActivityLogAlertAllOfCondition
-    name: condition
+    name: properties.condition
   - in: body
     isRequired: true
     description: The actions that will activate when the condition is met.
     types:
     - uid: ActivityLogAlertActionList
-    name: actions
+    name: properties.actions
   - in: body
     description: A description of this activity log alert.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - in: body
     isRequired: true
     description: Resource location
@@ -95,31 +94,46 @@ requestBody:
     name: tags
 requestHeader: []
 definitions:
+- name: ActivityLogAlertAllOfCondition
+  description: An Activity Log alert condition that is met when all its member conditions are met.
+  kind: object
+  properties:
+  - description: The list of activity log alert conditions.
+    types:
+    - uid: ActivityLogAlertLeafCondition
+    name: allOf
+- name: ActivityLogAlertActionList
+  description: A list of activity log alert actions.
+  kind: object
+  properties:
+  - description: The list of activity log alerts.
+    types:
+    - uid: ActivityLogAlertActionGroup
+    name: actionGroups
 - name: ActivityLogAlertResource
   description: An activity log alert resource.
   kind: object
   properties:
   - description: A list of resourceIds that will be used as prefixes. The alert will only apply to activityLogs with resourceIds that fall under one of these prefixes. This list must include at least one item.
     types:
-    - isArray: true
-      uid: string
-    name: scopes
+    - uid: string
+    name: properties.scopes
   - description: Indicates whether this activity log alert is enabled. If an activity log alert is not enabled, then none of its actions will be activated.
     types:
     - uid: boolean
-    name: enabled
+    name: properties.enabled
   - description: The condition that will cause this alert to activate.
     types:
     - uid: ActivityLogAlertAllOfCondition
-    name: condition
+    name: properties.condition
   - description: The actions that will activate when the condition is met.
     types:
     - uid: ActivityLogAlertActionList
-    name: actions
+    name: properties.actions
   - description: A description of this activity log alert.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - isReadyOnly: true
     description: Azure resource Id
     types:
@@ -147,15 +161,18 @@ definitions:
       - uid: string
       uid: object
     name: tags
-- name: ActivityLogAlertAllOfCondition
-  description: The condition that will cause this alert to activate.
+- name: ErrorResponse
+  description: Describes the format of Error response.
   kind: object
   properties:
-  - description: The list of activity log alert conditions.
+  - description: Error code
     types:
-    - isArray: true
-      uid: ActivityLogAlertLeafCondition
-    name: allOf
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
 - name: ActivityLogAlertLeafCondition
   description: An Activity Log alert condition that is met by comparing an activity log field and value.
   kind: object
@@ -168,15 +185,6 @@ definitions:
     types:
     - uid: string
     name: equals
-- name: ActivityLogAlertActionList
-  description: The actions that will activate when the condition is met.
-  kind: object
-  properties:
-  - description: The list of activity log alerts.
-    types:
-    - isArray: true
-      uid: ActivityLogAlertActionGroup
-    name: actionGroups
 - name: ActivityLogAlertActionGroup
   description: A pointer to an Azure Action Group.
   kind: object
@@ -193,18 +201,6 @@ definitions:
       - uid: string
       uid: object
     name: webhookProperties
-- name: ErrorResponse
-  description: Describes the format of Error response.
-  kind: object
-  properties:
-  - description: Error code
-    types:
-    - uid: string
-    name: code
-  - description: Error message indicating why the operation failed.
-    types:
-    - uid: string
-    name: message
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/Default-ActivityLogAlerts/providers/microsoft.insights/activityLogAlerts/SampleActivityLogAlert?api-version=2017-04-01

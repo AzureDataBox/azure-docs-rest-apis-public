@@ -60,7 +60,7 @@ definitions:
     - uid: DeploymentPropertiesExtended
     name: properties
 - name: DeploymentPropertiesExtended
-  description: Deployment properties.
+  description: Deployment properties with additional details.
   kind: object
   properties:
   - isReadyOnly: true
@@ -84,13 +84,11 @@ definitions:
     name: outputs
   - description: The list of resource providers needed for the deployment.
     types:
-    - isArray: true
-      uid: Provider
+    - uid: Provider
     name: providers
   - description: The list of deployment dependencies.
     types:
-    - isArray: true
-      uid: Dependency
+    - uid: Dependency
     name: dependencies
   - description: The template content. Use only one of Template or TemplateLink.
     types:
@@ -137,74 +135,15 @@ definitions:
   - isReadyOnly: true
     description: The collection of provider resource types.
     types:
-    - isArray: true
-      uid: ProviderResourceType
+    - uid: ProviderResourceType
     name: resourceTypes
-- name: ProviderResourceType
-  description: Resource type managed by the resource provider.
-  kind: object
-  properties:
-  - description: The resource type.
-    types:
-    - uid: string
-    name: resourceType
-  - description: The collection of locations where this resource type can be created.
-    types:
-    - isArray: true
-      uid: string
-    name: locations
-  - description: The aliases that are supported by this resource type.
-    types:
-    - isArray: true
-      uid: AliasType
-    name: aliases
-  - description: The API version.
-    types:
-    - isArray: true
-      uid: string
-    name: apiVersions
-  - description: The properties.
-    types:
-    - isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-      uid: object
-    name: properties
-- name: AliasType
-  description: 'The alias type. '
-  kind: object
-  properties:
-  - description: The alias name.
-    types:
-    - uid: string
-    name: name
-  - description: The paths for an alias.
-    types:
-    - isArray: true
-      uid: AliasPathType
-    name: paths
-- name: AliasPathType
-  description: 'The type of the paths for alias. '
-  kind: object
-  properties:
-  - description: The path of an alias.
-    types:
-    - uid: string
-    name: path
-  - description: The API versions.
-    types:
-    - isArray: true
-      uid: string
-    name: apiVersions
 - name: Dependency
   description: Deployment dependency information.
   kind: object
   properties:
   - description: The list of dependencies.
     types:
-    - isArray: true
-      uid: BasicDependency
+    - uid: BasicDependency
     name: dependsOn
   - description: The ID of the dependency.
     types:
@@ -218,6 +157,65 @@ definitions:
     types:
     - uid: string
     name: resourceName
+- name: TemplateLink
+  description: Entity representing the reference to the template.
+  kind: object
+  properties:
+  - description: The URI of the template to deploy.
+    types:
+    - uid: string
+    name: uri
+  - description: If included, must match the ContentVersion in the template.
+    types:
+    - uid: string
+    name: contentVersion
+- name: ParametersLink
+  description: Entity representing the reference to the deployment paramaters.
+  kind: object
+  properties:
+  - description: The URI of the parameters file.
+    types:
+    - uid: string
+    name: uri
+  - description: If included, must match the ContentVersion in the template.
+    types:
+    - uid: string
+    name: contentVersion
+- name: DebugSetting
+  kind: object
+  properties:
+  - description: Specifies the type of information to log for debugging. The permitted values are none, requestContent, responseContent, or both requestContent and responseContent separated by a comma. The default is none. When setting this value, carefully consider the type of information you are passing in during deployment. By logging information about the request or response, you could potentially expose sensitive data that is retrieved through the deployment operations.
+    types:
+    - uid: string
+    name: detailLevel
+- name: ProviderResourceType
+  description: Resource type managed by the resource provider.
+  kind: object
+  properties:
+  - description: The resource type.
+    types:
+    - uid: string
+    name: resourceType
+  - description: The collection of locations where this resource type can be created.
+    types:
+    - uid: string
+    name: locations
+  - description: The aliases that are supported by this resource type.
+    types:
+    - uid: AliasType
+    name: aliases
+  - description: The API version.
+    types:
+    - uid: string
+    name: apiVersions
+  - description: The properties.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: properties
 - name: BasicDependency
   description: Deployment dependency information.
   kind: object
@@ -234,48 +232,30 @@ definitions:
     types:
     - uid: string
     name: resourceName
-- name: TemplateLink
-  description: The URI referencing the template. Use only one of Template or TemplateLink.
+- name: AliasType
+  description: 'The alias type. '
   kind: object
   properties:
-  - description: The URI of the template to deploy.
+  - description: The alias name.
     types:
     - uid: string
-    name: uri
-  - description: If included, must match the ContentVersion in the template.
+    name: name
+  - description: The paths for an alias.
     types:
-    - uid: string
-    name: contentVersion
-- name: ParametersLink
-  description: The URI referencing the parameters. Use only one of Parameters or ParametersLink.
+    - uid: AliasPathType
+    name: paths
+- name: AliasPathType
+  description: 'The type of the paths for alias. '
   kind: object
   properties:
-  - description: The URI of the parameters file.
+  - description: The path of an alias.
     types:
     - uid: string
-    name: uri
-  - description: If included, must match the ContentVersion in the template.
+    name: path
+  - description: The API versions.
     types:
     - uid: string
-    name: contentVersion
-- name: DeploymentMode
-  description: The deployment mode. Possible values are Incremental and Complete.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Incremental
-  - types:
-    - uid: string
-    name: Complete
-- name: DebugSetting
-  description: The debug setting of the deployment.
-  kind: object
-  properties:
-  - description: Specifies the type of information to log for debugging. The permitted values are none, requestContent, responseContent, or both requestContent and responseContent separated by a comma. The default is none. When setting this value, carefully consider the type of information you are passing in during deployment. By logging information about the request or response, you could potentially expose sensitive data that is retrieved through the deployment operations.
-    types:
-    - uid: string
-    name: detailLevel
+    name: apiVersions
 examples: []
 security:
 - type: oauth2

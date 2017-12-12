@@ -41,16 +41,16 @@ definitions:
     description: The start of the date range covered by the invoice.
     types:
     - uid: string
-    name: invoicePeriodStartDate
+    name: properties.invoicePeriodStartDate
   - isReadyOnly: true
     description: The end of the date range covered by the invoice.
     types:
     - uid: string
-    name: invoicePeriodEndDate
+    name: properties.invoicePeriodEndDate
   - description: A secure link to download the PDF version of an invoice. The link will cease to work after its expiry time is reached.
     types:
     - uid: DownloadUrl
-    name: downloadUrl
+    name: properties.downloadUrl
   - isReadyOnly: true
     description: Resource Id
     types:
@@ -66,8 +66,16 @@ definitions:
     types:
     - uid: string
     name: type
+- name: ErrorResponse
+  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - description: The details of the error.
+    types:
+    - uid: ErrorDetails
+    name: error
 - name: DownloadUrl
-  description: A secure link to download the PDF version of an invoice. The link will cease to work after its expiry time is reached.
+  description: A secure URL that can be used to download a PDF invoice until the URL expires.
   kind: object
   properties:
   - isReadyOnly: true
@@ -80,14 +88,6 @@ definitions:
     types:
     - uid: string
     name: url
-- name: ErrorResponse
-  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
-  kind: object
-  properties:
-  - description: The details of the error.
-    types:
-    - uid: ErrorDetails
-    name: error
 - name: ErrorDetails
   description: The details of the error.
   kind: object

@@ -76,6 +76,26 @@ requestBody:
     name: tags
 requestHeader: []
 definitions:
+- name: IdentityProperties
+  description: IdentityProperties
+  kind: object
+  properties:
+  - description: Managed identity.
+    types:
+    - uid: string
+    name: type
+  - description: The principal id of resource identity.
+    types:
+    - uid: string
+    name: principalId
+  - description: The tenant identifier of resource.
+    types:
+    - uid: string
+    name: tenantId
+  - description: The client secret URL of the identity.
+    types:
+    - uid: string
+    name: clientSecretUrl
 - name: ServiceRunner
   description: A container for a managed identity to execute DevTest lab services.
   kind: object
@@ -111,26 +131,6 @@ definitions:
       - uid: string
       uid: object
     name: tags
-- name: IdentityProperties
-  description: The identity of the resource.
-  kind: object
-  properties:
-  - description: Managed identity.
-    types:
-    - uid: string
-    name: type
-  - description: The principal id of resource identity.
-    types:
-    - uid: string
-    name: principalId
-  - description: The tenant identifier of resource.
-    types:
-    - uid: string
-    name: tenantId
-  - description: The client secret URL of the identity.
-    types:
-    - uid: string
-    name: clientSecretUrl
 - name: CloudError
   description: Error from a REST request.
   kind: object
@@ -154,8 +154,7 @@ definitions:
     name: target
   - description: Inner errors.
     types:
-    - isArray: true
-      uid: Details
+    - uid: CloudErrorBody
     name: details
 examples: []
 security:

@@ -49,42 +49,26 @@ requestBody:
     isRequired: true
     description: List of patch schedules for a Redis cache.
     types:
-    - isArray: true
-      uid: ScheduleEntry
-    name: scheduleEntries
+    - uid: ScheduleEntry
+    name: properties.scheduleEntries
 requestHeader: []
 definitions:
-- name: DayOfWeek
-  description: Day of the week when a cache can be patched.
-  kind: enum
+- name: ScheduleEntry
+  description: Patch schedule entry for a Premium Redis Cache.
+  kind: object
   properties:
-  - types:
+  - description: Day of the week when a cache can be patched.
+    types:
+    - uid: DayOfWeek
+    name: dayOfWeek
+  - description: Start hour after which cache patching can start.
+    types:
+    - uid: integer
+    name: startHourUtc
+  - description: 'ISO8601 timespan specifying how much time cache patching can take. '
+    types:
     - uid: string
-    name: Monday
-  - types:
-    - uid: string
-    name: Tuesday
-  - types:
-    - uid: string
-    name: Wednesday
-  - types:
-    - uid: string
-    name: Thursday
-  - types:
-    - uid: string
-    name: Friday
-  - types:
-    - uid: string
-    name: Saturday
-  - types:
-    - uid: string
-    name: Sunday
-  - types:
-    - uid: string
-    name: Everyday
-  - types:
-    - uid: string
-    name: Weekend
+    name: maintenanceWindow
 - name: RedisPatchSchedule
   description: Response to put/get patch schedules for Redis cache.
   kind: object
@@ -111,25 +95,8 @@ definitions:
     name: location
   - description: List of patch schedules for a Redis cache.
     types:
-    - isArray: true
-      uid: ScheduleEntry
-    name: scheduleEntries
-- name: ScheduleEntry
-  description: Patch schedule entry for a Premium Redis Cache.
-  kind: object
-  properties:
-  - description: Day of the week when a cache can be patched.
-    types:
-    - uid: DayOfWeek
-    name: dayOfWeek
-  - description: Start hour after which cache patching can start.
-    types:
-    - uid: integer
-    name: startHourUtc
-  - description: 'ISO8601 timespan specifying how much time cache patching can take. '
-    types:
-    - uid: string
-    name: maintenanceWindow
+    - uid: ScheduleEntry
+    name: properties.scheduleEntries
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/patchSchedules/default?api-version=2016-04-01

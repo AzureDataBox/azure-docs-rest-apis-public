@@ -45,11 +45,27 @@ requestBody:
   - in: body
     description: List of failover policies.
     types:
-    - isArray: true
-      uid: FailoverPolicy
+    - uid: FailoverPolicy
     name: failoverPolicies
 requestHeader: []
-definitions: []
+definitions:
+- name: FailoverPolicy
+  description: The failover policy for a given region of a database account.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: 'The unique identifier of the region in which the database account replicates to. Example: &lt;accountName&gt;-&lt;locationName&gt;.'
+    types:
+    - uid: string
+    name: id
+  - description: The name of the region in which the database account exists.
+    types:
+    - uid: string
+    name: locationName
+  - description: The failover priority of the region. A failover priority of 0 indicates a write region. The maximum value for a failover priority = (total number of regions - 1). Failover priority values must be unique for each of the regions in which the database account exists.
+    types:
+    - uid: integer
+    name: failoverPriority
 examples:
 - request:
     uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1-failover/failoverPriorityChange?api-version=2015-04-08

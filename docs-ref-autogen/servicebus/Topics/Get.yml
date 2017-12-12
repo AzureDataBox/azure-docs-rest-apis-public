@@ -59,72 +59,72 @@ definitions:
     description: Size of the topic, in bytes.
     types:
     - uid: integer
-    name: sizeInBytes
+    name: properties.sizeInBytes
   - isReadyOnly: true
     description: Exact time the message was created.
     types:
     - uid: string
-    name: createdAt
+    name: properties.createdAt
   - isReadyOnly: true
     description: The exact time the message was updated.
     types:
     - uid: string
-    name: updatedAt
+    name: properties.updatedAt
   - isReadyOnly: true
     description: Last time the message was sent, or a request was received, for this topic.
     types:
     - uid: string
-    name: accessedAt
+    name: properties.accessedAt
   - isReadyOnly: true
     description: Number of subscriptions.
     types:
     - uid: integer
-    name: subscriptionCount
+    name: properties.subscriptionCount
   - isReadyOnly: true
     description: Message count deatils
     types:
     - uid: MessageCountDetails
-    name: countDetails
+    name: properties.countDetails
   - description: ISO 8601 Default message timespan to live value. This is the duration after which the message expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not set on a message itself.
     types:
     - uid: string
-    name: defaultMessageTimeToLive
+    name: properties.defaultMessageTimeToLive
   - description: Maximum size of the topic in megabytes, which is the size of the memory allocated for the topic. Default is 1024.
     types:
     - uid: integer
-    name: maxSizeInMegabytes
+    name: properties.maxSizeInMegabytes
   - description: Value indicating if this topic requires duplicate detection.
     types:
     - uid: boolean
-    name: requiresDuplicateDetection
+    name: properties.requiresDuplicateDetection
   - description: ISO8601 timespan structure that defines the duration of the duplicate detection history. The default value is 10 minutes.
     types:
     - uid: string
-    name: duplicateDetectionHistoryTimeWindow
+    name: properties.duplicateDetectionHistoryTimeWindow
   - description: Value that indicates whether server-side batched operations are enabled.
     types:
     - uid: boolean
-    name: enableBatchedOperations
+    name: properties.enableBatchedOperations
   - description: Enumerates the possible values for the status of a messaging entity.
     types:
     - uid: EntityStatus
-    name: status
+    name: properties.status
   - description: Value that indicates whether the topic supports ordering.
     types:
     - uid: boolean
-    name: supportOrdering
+    name: properties.supportOrdering
   - description: ISO 8601 timespan idle interval after which the topic is automatically deleted. The minimum duration is 5 minutes.
     types:
     - uid: string
-    name: autoDeleteOnIdle
+    name: properties.autoDeleteOnIdle
   - description: Value that indicates whether the topic to be partitioned across multiple message brokers is enabled.
     types:
     - uid: boolean
-    name: enablePartitioning
+    name: properties.enablePartitioning
   - description: Value that indicates whether Express Entities are enabled. An express topic holds a message in memory temporarily before writing it to persistent storage.
     types:
     - uid: boolean
-    name: enableExpress
+    name: properties.enableExpress
   - isReadyOnly: true
     description: Resource Id
     types:
@@ -140,8 +140,20 @@ definitions:
     types:
     - uid: string
     name: type
+- name: ErrorResponse
+  description: Error reponse indicates ServiceBus service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
 - name: MessageCountDetails
-  description: Message count deatils
+  description: Message Count Details.
   kind: object
   properties:
   - isReadyOnly: true
@@ -170,7 +182,7 @@ definitions:
     - uid: integer
     name: transferDeadLetterMessageCount
 - name: EntityStatus
-  description: Enumerates the possible values for the status of a messaging entity.
+  description: Entity status.
   kind: enum
   properties:
   - types:
@@ -200,18 +212,6 @@ definitions:
   - types:
     - uid: string
     name: Unknown
-- name: ErrorResponse
-  description: Error reponse indicates ServiceBus service is not able to process the incoming request. The reason is provided in the error message.
-  kind: object
-  properties:
-  - description: Error code.
-    types:
-    - uid: string
-    name: code
-  - description: Error message indicating why the operation failed.
-    types:
-    - uid: string
-    name: message
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-1617/topics/sdk-Topics-5488?api-version=2017-04-01

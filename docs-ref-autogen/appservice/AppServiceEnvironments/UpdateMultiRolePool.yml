@@ -61,22 +61,22 @@ requestBody:
     description: Worker size ID for referencing this worker pool.
     types:
     - uid: integer
-    name: workerSizeId
+    name: properties.workerSizeId
   - in: body
     description: Shared or dedicated app hosting.
     types:
     - uid: ComputeModeOptions
-    name: computeMode
+    name: properties.computeMode
   - in: body
     description: VM size of the worker pool instances.
     types:
     - uid: string
-    name: workerSize
+    name: properties.workerSize
   - in: body
     description: Number of instances in the worker pool.
     types:
     - uid: integer
-    name: workerCount
+    name: properties.workerCount
   - in: body
     description: Kind of resource.
     types:
@@ -84,68 +84,6 @@ requestBody:
     name: kind
 requestHeader: []
 definitions:
-- name: ComputeModeOptions
-  description: Shared or dedicated app hosting.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Shared
-  - types:
-    - uid: string
-    name: Dedicated
-  - types:
-    - uid: string
-    name: Dynamic
-- name: WorkerPoolResource
-  description: Worker pool of an App Service Environment ARM resource.
-  kind: object
-  properties:
-  - description: Description of a SKU for a scalable resource.
-    types:
-    - uid: SkuDescription
-    name: sku
-  - description: Worker size ID for referencing this worker pool.
-    types:
-    - uid: integer
-    name: workerSizeId
-  - description: Shared or dedicated app hosting.
-    types:
-    - uid: ComputeModeOptions
-    name: computeMode
-  - description: VM size of the worker pool instances.
-    types:
-    - uid: string
-    name: workerSize
-  - description: Number of instances in the worker pool.
-    types:
-    - uid: integer
-    name: workerCount
-  - isReadyOnly: true
-    description: Names of all instances in the worker pool (read only).
-    types:
-    - isArray: true
-      uid: string
-    name: instanceNames
-  - isReadyOnly: true
-    description: Resource Id.
-    types:
-    - uid: string
-    name: id
-  - isReadyOnly: true
-    description: Resource Name.
-    types:
-    - uid: string
-    name: name
-  - description: Kind of resource.
-    types:
-    - uid: string
-    name: kind
-  - isReadyOnly: true
-    description: Resource type.
-    types:
-    - uid: string
-    name: type
 - name: SkuDescription
   description: Description of a SKU for a scalable resource.
   kind: object
@@ -176,16 +114,62 @@ definitions:
     name: skuCapacity
   - description: Locations of the SKU.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: locations
   - description: Capabilities of the SKU, e.g., is traffic manager enabled?
     types:
-    - isArray: true
-      uid: Capability
+    - uid: Capability
     name: capabilities
+- name: WorkerPoolResource
+  description: Worker pool of an App Service Environment ARM resource.
+  kind: object
+  properties:
+  - description: Description of a SKU for a scalable resource.
+    types:
+    - uid: SkuDescription
+    name: sku
+  - description: Worker size ID for referencing this worker pool.
+    types:
+    - uid: integer
+    name: properties.workerSizeId
+  - description: Shared or dedicated app hosting.
+    types:
+    - uid: ComputeModeOptions
+    name: properties.computeMode
+  - description: VM size of the worker pool instances.
+    types:
+    - uid: string
+    name: properties.workerSize
+  - description: Number of instances in the worker pool.
+    types:
+    - uid: integer
+    name: properties.workerCount
+  - isReadyOnly: true
+    description: Names of all instances in the worker pool (read only).
+    types:
+    - uid: string
+    name: properties.instanceNames
+  - isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+    name: name
+  - description: Kind of resource.
+    types:
+    - uid: string
+    name: kind
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
 - name: SkuCapacity
-  description: Min, max, and default scale values of the SKU.
+  description: Description of the App Service plan scale options.
   kind: object
   properties:
   - description: Minimum number of workers for this App Service plan SKU.

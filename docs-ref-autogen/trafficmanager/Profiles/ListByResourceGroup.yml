@@ -45,9 +45,16 @@ definitions:
   properties:
   - description: Gets the list of Traffic manager profiles.
     types:
-    - isArray: true
-      uid: Profile
+    - uid: Profile
     name: value
+- name: CloudError
+  description: An error returned by the Azure Resource Manager
+  kind: object
+  properties:
+  - description: The content of the error.
+    types:
+    - uid: CloudErrorBody
+    name: error
 - name: Profile
   description: Class representing a Traffic Manager profile.
   kind: object
@@ -55,24 +62,23 @@ definitions:
   - description: The status of the Traffic Manager profile.
     types:
     - uid: ProfileStatus
-    name: profileStatus
+    name: properties.profileStatus
   - description: The traffic routing method of the Traffic Manager profile.
     types:
     - uid: TrafficRoutingMethod
-    name: trafficRoutingMethod
+    name: properties.trafficRoutingMethod
   - description: The DNS settings of the Traffic Manager profile.
     types:
     - uid: DnsConfig
-    name: dnsConfig
+    name: properties.dnsConfig
   - description: The endpoint monitoring settings of the Traffic Manager profile.
     types:
     - uid: MonitorConfig
-    name: monitorConfig
+    name: properties.monitorConfig
   - description: The list of endpoints in the Traffic Manager profile.
     types:
-    - isArray: true
-      uid: Endpoint
-    name: endpoints
+    - uid: Endpoint
+    name: properties.endpoints
   - description: Resource tags.
     types:
     - isDictionary: true
@@ -100,34 +106,28 @@ definitions:
     types:
     - uid: string
     name: type
-- name: ProfileStatus
-  description: The status of the Traffic Manager profile.
-  kind: enum
+- name: CloudErrorBody
+  description: The content of an error returned by the Azure Resource Manager
+  kind: object
   properties:
-  - types:
+  - description: Error code
+    types:
     - uid: string
-    name: Enabled
-  - types:
+    name: code
+  - description: Error message
+    types:
     - uid: string
-    name: Disabled
-- name: TrafficRoutingMethod
-  description: The traffic routing method of the Traffic Manager profile.
-  kind: enum
-  properties:
-  - types:
+    name: message
+  - description: Error target
+    types:
     - uid: string
-    name: Performance
-  - types:
-    - uid: string
-    name: Priority
-  - types:
-    - uid: string
-    name: Weighted
-  - types:
-    - uid: string
-    name: Geographic
+    name: target
+  - description: Error details
+    types:
+    - uid: CloudErrorBody
+    name: details
 - name: DnsConfig
-  description: The DNS settings of the Traffic Manager profile.
+  description: Class containing DNS settings in a Traffic Manager profile.
   kind: object
   properties:
   - description: The relative DNS name provided by this Traffic Manager profile. This value is combined with the DNS domain name used by Azure Traffic Manager to form the fully-qualified domain name (FQDN) of the profile.
@@ -144,7 +144,7 @@ definitions:
     - uid: integer
     name: ttl
 - name: MonitorConfig
-  description: The endpoint monitoring settings of the Traffic Manager profile.
+  description: Class containing endpoint monitoring settings in a Traffic Manager profile.
   kind: object
   properties:
   - description: The profile-level monitoring status of the Traffic Manager profile.
@@ -175,38 +175,6 @@ definitions:
     types:
     - uid: integer
     name: toleratedNumberOfFailures
-- name: ProfileMonitorStatus
-  description: The profile-level monitoring status of the Traffic Manager profile.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: CheckingEndpoints
-  - types:
-    - uid: string
-    name: Online
-  - types:
-    - uid: string
-    name: Degraded
-  - types:
-    - uid: string
-    name: Disabled
-  - types:
-    - uid: string
-    name: Inactive
-- name: MonitorProtocol
-  description: The protocol (HTTP, HTTPS or TCP) used to probe for endpoint health.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: HTTP
-  - types:
-    - uid: string
-    name: HTTPS
-  - types:
-    - uid: string
-    name: TCP
 - name: Endpoint
   description: Class representing a Traffic Manager endpoint.
   kind: object
@@ -214,40 +182,39 @@ definitions:
   - description: The Azure Resource URI of the of the endpoint. Not applicable to endpoints of type 'ExternalEndpoints'.
     types:
     - uid: string
-    name: targetResourceId
+    name: properties.targetResourceId
   - description: The fully-qualified DNS name of the endpoint. Traffic Manager returns this value in DNS responses to direct traffic to this endpoint.
     types:
     - uid: string
-    name: target
+    name: properties.target
   - description: The status of the endpoint. If the endpoint is Enabled, it is probed for endpoint health and is included in the traffic routing method.
     types:
     - uid: EndpointStatus
-    name: endpointStatus
+    name: properties.endpointStatus
   - description: The weight of this endpoint when using the 'Weighted' traffic routing method. Possible values are from 1 to 1000.
     types:
     - uid: integer
-    name: weight
+    name: properties.weight
   - description: The priority of this endpoint when using the ‘Priority’ traffic routing method. Possible values are from 1 to 1000, lower values represent higher priority. This is an optional parameter.  If specified, it must be specified on all endpoints, and no two endpoints can share the same priority value.
     types:
     - uid: integer
-    name: priority
+    name: properties.priority
   - description: Specifies the location of the external or nested endpoints when using the ‘Performance’ traffic routing method.
     types:
     - uid: string
-    name: endpointLocation
+    name: properties.endpointLocation
   - description: The monitoring status of the endpoint.
     types:
     - uid: EndpointMonitorStatus
-    name: endpointMonitorStatus
+    name: properties.endpointMonitorStatus
   - description: The minimum number of endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type 'NestedEndpoints'.
     types:
     - uid: integer
-    name: minChildEndpoints
+    name: properties.minChildEndpoints
   - description: The list of countries/regions mapped to this endpoint when using the ‘Geographic’ traffic routing method. Please consult Traffic Manager Geographic documentation for a full list of accepted values.
     types:
-    - isArray: true
-      uid: string
-    name: geoMapping
+    - uid: string
+    name: properties.geoMapping
   - isReadyOnly: true
     description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}
     types:
@@ -263,67 +230,6 @@ definitions:
     types:
     - uid: string
     name: type
-- name: EndpointStatus
-  description: The status of the endpoint. If the endpoint is Enabled, it is probed for endpoint health and is included in the traffic routing method.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Enabled
-  - types:
-    - uid: string
-    name: Disabled
-- name: EndpointMonitorStatus
-  description: The monitoring status of the endpoint.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: CheckingEndpoint
-  - types:
-    - uid: string
-    name: Online
-  - types:
-    - uid: string
-    name: Degraded
-  - types:
-    - uid: string
-    name: Disabled
-  - types:
-    - uid: string
-    name: Inactive
-  - types:
-    - uid: string
-    name: Stopped
-- name: CloudError
-  description: An error returned by the Azure Resource Manager
-  kind: object
-  properties:
-  - description: The content of the error.
-    types:
-    - uid: CloudErrorBody
-    name: error
-- name: CloudErrorBody
-  description: The content of the error.
-  kind: object
-  properties:
-  - description: Error code
-    types:
-    - uid: string
-    name: code
-  - description: Error message
-    types:
-    - uid: string
-    name: message
-  - description: Error target
-    types:
-    - uid: string
-    name: target
-  - description: Error details
-    types:
-    - isArray: true
-      uid: Details
-    name: details
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/e68d4145-c9ae-4667-925d-c51c8d88ad73/resourceGroups/azuresdkfornetautoresttrafficmanager3640/providers/Microsoft.Network/trafficmanagerprofiles?api-version=2017-05-01

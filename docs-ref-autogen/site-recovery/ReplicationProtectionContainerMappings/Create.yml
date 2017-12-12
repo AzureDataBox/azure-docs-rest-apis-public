@@ -68,6 +68,22 @@ requestBody:
     name: properties
 requestHeader: []
 definitions:
+- name: CreateProtectionContainerMappingInputProperties
+  description: Configure pairing input properties.
+  kind: object
+  properties:
+  - description: The target unique protection container name.
+    types:
+    - uid: string
+    name: targetProtectionContainerId
+  - description: Applicable policy.
+    types:
+    - uid: string
+    name: PolicyId
+  - description: Provider specific input for pairing.
+    types:
+    - uid: ReplicationProviderSpecificContainerMappingInput
+    name: providerSpecificInput
 - name: ProtectionContainerMapping
   description: Protection container mapping object.
   kind: object
@@ -95,8 +111,16 @@ definitions:
     types:
     - uid: string
     name: location
+- name: ReplicationProviderSpecificContainerMappingInput
+  description: Provider specific input for pairing operations.
+  kind: object
+  properties:
+  - description: The class type.
+    types:
+    - uid: string
+    name: instanceType
 - name: ProtectionContainerMappingProperties
-  description: The custom data.
+  description: Protection container mapping properties.
   kind: object
   properties:
   - description: Paired protection container ARM ID.
@@ -117,8 +141,7 @@ definitions:
     name: health
   - description: Health error.
     types:
-    - isArray: true
-      uid: HealthError
+    - uid: HealthError
     name: healthErrorDetails
   - description: Policy ARM Id.
     types:
@@ -145,7 +168,7 @@ definitions:
     - uid: string
     name: policyFriendlyName
 - name: ProtectionContainerMappingProviderSpecificDetails
-  description: Provider specific provider details.
+  description: Container mapping provider specific details.
   kind: object
   properties:
   - isReadyOnly: true
@@ -199,8 +222,7 @@ definitions:
     name: entityId
   - description: The child health errors.
     types:
-    - isArray: true
-      uid: ChildErrors
+    - uid: HealthError
     name: childErrors
 examples:
 - request:

@@ -51,9 +51,16 @@ definitions:
   properties:
   - description: Result of the List access policies operation.
     types:
-    - isArray: true
-      uid: AccessPolicyResource
+    - uid: AccessPolicyResource
     name: value
+- name: CloudError
+  description: Contains information about an API error.
+  kind: object
+  properties:
+  - description: Describes a particular API error with an error code and a message.
+    types:
+    - uid: CloudErrorBody
+    name: error
 - name: AccessPolicyResource
   description: An access policy is used to grant users and applications access to the environment. Roles are assigned to service principals in Azure Active Directory. These roles define the actions the principal can perform through the Time Series Insights data plane APIs.
   kind: object
@@ -61,16 +68,15 @@ definitions:
   - description: The objectId of the principal in Azure Active Directory.
     types:
     - uid: string
-    name: principalObjectId
+    name: properties.principalObjectId
   - description: An description of the access policy.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - description: The list of roles the principal is assigned on the environment.
     types:
-    - isArray: true
-      uid: string
-    name: roles
+    - uid: string
+    name: properties.roles
   - isReadyOnly: true
     description: Resource Id
     types:
@@ -86,14 +92,6 @@ definitions:
     types:
     - uid: string
     name: type
-- name: CloudError
-  description: Contains information about an API error.
-  kind: object
-  properties:
-  - description: Describes a particular API error with an error code and a message.
-    types:
-    - uid: CloudErrorBody
-    name: error
 - name: CloudErrorBody
   description: Describes a particular API error with an error code and a message.
   kind: object
@@ -112,8 +110,7 @@ definitions:
     name: target
   - description: Contains nested errors that are related to this error.
     types:
-    - isArray: true
-      uid: Details
+    - uid: CloudErrorBody
     name: details
 examples:
 - request:

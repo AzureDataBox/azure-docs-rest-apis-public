@@ -64,85 +64,57 @@ requestBody:
     description: Gets or sets the description of the schedule.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - in: body
     isRequired: true
     description: Gets or sets the start time of the schedule.
     types:
     - uid: string
-    name: startTime
+    name: properties.startTime
   - in: body
     description: Gets or sets the end time of the schedule.
     types:
     - uid: string
-    name: expiryTime
+    name: properties.expiryTime
   - in: body
     description: Gets or sets the interval of the schedule.
     types:
     - {}
-    name: interval
+    name: properties.interval
   - in: body
     isRequired: true
     description: Gets or sets the frequency of the schedule.
     types:
     - uid: ScheduleFrequency
-    name: frequency
+    name: properties.frequency
   - in: body
     description: Gets or sets the time zone of the schedule.
     types:
     - uid: string
-    name: timeZone
+    name: properties.timeZone
   - in: body
     description: Gets or sets the AdvancedSchedule.
     types:
     - uid: AdvancedSchedule
-    name: advancedSchedule
+    name: properties.advancedSchedule
 requestHeader: []
 definitions:
-- name: ScheduleFrequency
-  description: Gets or sets the frequency of the schedule.
-  kind: enum
+- name: AdvancedSchedule
+  description: The properties of the create Advanced Schedule.
+  kind: object
   properties:
-  - types:
+  - description: Days of the week that the job should execute on.
+    types:
     - uid: string
-    name: OneTime
-  - types:
-    - uid: string
-    name: Day
-  - types:
-    - uid: string
-    name: Hour
-  - types:
-    - uid: string
-    name: Week
-  - types:
-    - uid: string
-    name: Month
-- name: ScheduleDay
-  description: Day of the occurrence. Must be one of monday, tuesday, wednesday,thursday, friday, saturday, sunday.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Monday
-  - types:
-    - uid: string
-    name: Tuesday
-  - types:
-    - uid: string
-    name: Wednesday
-  - types:
-    - uid: string
-    name: Thursday
-  - types:
-    - uid: string
-    name: Friday
-  - types:
-    - uid: string
-    name: Saturday
-  - types:
-    - uid: string
-    name: Sunday
+    name: weekDays
+  - description: Days of the month that the job should execute on. Must be between 1 and 31.
+    types:
+    - uid: integer
+    name: monthDays
+  - description: Occurrences of days within a month.
+    types:
+    - uid: AdvancedScheduleMonthlyOccurrence
+    name: monthlyOccurrences
 - name: Schedule
   description: Definition of the schedule.
   kind: object
@@ -158,91 +130,60 @@ definitions:
   - description: Gets or sets the start time of the schedule.
     types:
     - uid: string
-    name: startTime
+    name: properties.startTime
   - isReadyOnly: true
     description: Gets the start time's offset in minutes.
     types:
     - uid: number
-    name: startTimeOffsetMinutes
+    name: properties.startTimeOffsetMinutes
   - description: Gets or sets the end time of the schedule.
     types:
     - uid: string
-    name: expiryTime
+    name: properties.expiryTime
   - description: Gets or sets the expiry time's offset in minutes.
     types:
     - uid: number
-    name: expiryTimeOffsetMinutes
+    name: properties.expiryTimeOffsetMinutes
   - description: Gets or sets a value indicating whether this schedule is enabled.
     types:
     - uid: boolean
-    name: isEnabled
+    name: properties.isEnabled
   - description: Gets or sets the next run time of the schedule.
     types:
     - uid: string
-    name: nextRun
+    name: properties.nextRun
   - description: Gets or sets the next run time's offset in minutes.
     types:
     - uid: number
-    name: nextRunOffsetMinutes
+    name: properties.nextRunOffsetMinutes
   - description: Gets or sets the interval of the schedule.
     types:
     - {}
-    name: interval
+    name: properties.interval
   - description: Gets or sets the frequency of the schedule.
     types:
     - uid: ScheduleFrequency
-    name: frequency
+    name: properties.frequency
   - description: Gets or sets the time zone of the schedule.
     types:
     - uid: string
-    name: timeZone
+    name: properties.timeZone
   - description: Gets or sets the advanced schedule.
     types:
     - uid: AdvancedSchedule
-    name: advancedSchedule
+    name: properties.advancedSchedule
   - description: Gets or sets the creation time.
     types:
     - uid: string
-    name: creationTime
+    name: properties.creationTime
   - description: Gets or sets the last modified time.
     types:
     - uid: string
-    name: lastModifiedTime
+    name: properties.lastModifiedTime
   - description: Gets or sets the description.
     types:
     - uid: string
-    name: description
-- name: AdvancedSchedule
-  description: Gets or sets the advanced schedule.
-  kind: object
-  properties:
-  - description: Days of the week that the job should execute on.
-    types:
-    - isArray: true
-      uid: string
-    name: weekDays
-  - description: Days of the month that the job should execute on. Must be between 1 and 31.
-    types:
-    - isArray: true
-      uid: integer
-    name: monthDays
-  - description: Occurrences of days within a month.
-    types:
-    - isArray: true
-      uid: AdvancedScheduleMonthlyOccurrence
-    name: monthlyOccurrences
-- name: AdvancedScheduleMonthlyOccurrence
-  description: The properties of the create advanced schedule monthly occurrence.
-  kind: object
-  properties:
-  - description: Occurrence of the week within the month. Must be between 1 and 5
-    types:
-    - uid: integer
-    name: occurrence
-  - description: Day of the occurrence. Must be one of monday, tuesday, wednesday,thursday, friday, saturday, sunday.
-    types:
-    - uid: ScheduleDay
-    name: day
+    name: properties.description
 - name: ErrorResponse
   description: Error response of an operation failure
   kind: object
@@ -255,6 +196,18 @@ definitions:
     types:
     - uid: string
     name: message
+- name: AdvancedScheduleMonthlyOccurrence
+  description: The properties of the create advanced schedule monthly occurrence.
+  kind: object
+  properties:
+  - description: Occurrence of the week within the month. Must be between 1 and 5
+    types:
+    - uid: integer
+    name: occurrence
+  - description: Day of the occurrence. Must be one of monday, tuesday, wednesday,thursday, friday, saturday, sunday.
+    types:
+    - uid: ScheduleDay
+    name: day
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/schedules/mySchedule?api-version=2015-10-31

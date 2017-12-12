@@ -43,8 +43,7 @@ definitions:
   properties:
   - description: A list of load balancers in a resource group.
     types:
-    - isArray: true
-      uid: LoadBalancer
+    - uid: LoadBalancer
     name: value
   - isReadyOnly: true
     description: The URL to get the next set of results.
@@ -65,47 +64,40 @@ definitions:
     name: etag
   - description: Object representing the frontend IPs to be used for the load balancer
     types:
-    - isArray: true
-      uid: FrontendIPConfiguration
-    name: frontendIPConfigurations
+    - uid: FrontendIPConfiguration
+    name: properties.frontendIPConfigurations
   - description: Collection of backend address pools used by a load balancer
     types:
-    - isArray: true
-      uid: BackendAddressPool
-    name: backendAddressPools
+    - uid: BackendAddressPool
+    name: properties.backendAddressPools
   - description: 'Object collection representing the load balancing rules Gets the provisioning '
     types:
-    - isArray: true
-      uid: LoadBalancingRule
-    name: loadBalancingRules
+    - uid: LoadBalancingRule
+    name: properties.loadBalancingRules
   - description: Collection of probe objects used in the load balancer
     types:
-    - isArray: true
-      uid: Probe
-    name: probes
+    - uid: Probe
+    name: properties.probes
   - description: Collection of inbound NAT Rules used by a load balancer. Defining inbound NAT rules on your load balancer is mutually exclusive with defining an inbound NAT pool. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an Inbound NAT pool. They have to reference individual inbound NAT rules.
     types:
-    - isArray: true
-      uid: InboundNatRule
-    name: inboundNatRules
+    - uid: InboundNatRule
+    name: properties.inboundNatRules
   - description: Defines an external port range for inbound NAT to a single backend port on NICs associated with a load balancer. Inbound NAT rules are created automatically for each NIC associated with the Load Balancer using an external port from this range. Defining an Inbound NAT pool on your Load Balancer is mutually exclusive with defining inbound Nat rules. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT rules.
     types:
-    - isArray: true
-      uid: InboundNatPool
-    name: inboundNatPools
+    - uid: InboundNatPool
+    name: properties.inboundNatPools
   - description: The outbound NAT rules.
     types:
-    - isArray: true
-      uid: OutboundNatRule
-    name: outboundNatRules
+    - uid: OutboundNatRule
+    name: properties.outboundNatRules
   - description: The resource GUID property of the load balancer resource.
     types:
     - uid: string
-    name: resourceGuid
+    name: properties.resourceGuid
   - description: "Gets the provisioning state of the PublicIP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -134,23 +126,13 @@ definitions:
       uid: object
     name: tags
 - name: LoadBalancerSku
-  description: The load balancer SKU.
+  description: SKU of a load balancer
   kind: object
   properties:
   - description: Name of a load balancer SKU.
     types:
     - uid: LoadBalancerSkuName
     name: name
-- name: LoadBalancerSkuName
-  description: Name of a load balancer SKU.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Basic
-  - types:
-    - uid: string
-    name: Standard
 - name: FrontendIPConfiguration
   description: Frontend IP address of the load balancer.
   kind: object
@@ -165,76 +147,53 @@ definitions:
     name: etag
   - description: A list of availability zones denoting the IP allocated for the resource needs to come from.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: zones
   - isReadyOnly: true
     description: Read only. Inbound rules URIs that use this frontend IP.
     types:
-    - isArray: true
-      uid: SubResource
-    name: inboundNatRules
+    - uid: SubResource
+    name: properties.inboundNatRules
   - isReadyOnly: true
     description: Read only. Inbound pools URIs that use this frontend IP.
     types:
-    - isArray: true
-      uid: SubResource
-    name: inboundNatPools
+    - uid: SubResource
+    name: properties.inboundNatPools
   - isReadyOnly: true
     description: Read only. Outbound rules URIs that use this frontend IP.
     types:
-    - isArray: true
-      uid: SubResource
-    name: outboundNatRules
+    - uid: SubResource
+    name: properties.outboundNatRules
   - isReadyOnly: true
     description: Gets load balancing rules URIs that use this frontend IP.
     types:
-    - isArray: true
-      uid: SubResource
-    name: loadBalancingRules
+    - uid: SubResource
+    name: properties.loadBalancingRules
   - description: The private IP address of the IP configuration.
     types:
     - uid: string
-    name: privateIPAddress
+    name: properties.privateIPAddress
   - description: "The Private IP allocation method. Possible values are: 'Static' and 'Dynamic'."
     types:
     - uid: IPAllocationMethod
-    name: privateIPAllocationMethod
+    name: properties.privateIPAllocationMethod
   - description: The reference of the subnet resource.
     types:
     - uid: SubResource
-    name: subnet
+    name: properties.subnet
   - description: The reference of the Public IP resource.
     types:
     - uid: SubResource
-    name: publicIPAddress
+    name: properties.publicIPAddress
   - description: "Gets the provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: Resource ID
     types:
     - uid: string
     name: id
-- name: SubResource
-  description: Reference to another subresource.
-  kind: object
-  properties:
-  - description: Resource ID.
-    types:
-    - uid: string
-    name: id
-- name: IPAllocationMethod
-  description: "The Private IP allocation method. Possible values are: 'Static' and 'Dynamic'."
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Static
-  - types:
-    - uid: string
-    name: Dynamic
 - name: BackendAddressPool
   description: Pool of backend IP addresses.
   kind: object
@@ -250,24 +209,22 @@ definitions:
   - isReadyOnly: true
     description: Gets collection of references to IP addresses defined in network interfaces.
     types:
-    - isArray: true
-      uid: SubResource
-    name: backendIPConfigurations
+    - uid: SubResource
+    name: properties.backendIPConfigurations
   - isReadyOnly: true
     description: Gets load balancing rules that use this backend address pool.
     types:
-    - isArray: true
-      uid: SubResource
-    name: loadBalancingRules
+    - uid: SubResource
+    name: properties.loadBalancingRules
   - isReadyOnly: true
     description: Gets outbound rules that use this backend address pool.
     types:
     - uid: SubResource
-    name: outboundNatRule
+    name: properties.outboundNatRule
   - description: "Get provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: Resource ID
     types:
@@ -288,78 +245,52 @@ definitions:
   - description: A reference to frontend IP addresses.
     types:
     - uid: SubResource
-    name: frontendIPConfiguration
+    name: properties.frontendIPConfiguration
   - description: A reference to a pool of DIPs. Inbound traffic is randomly load balanced across IPs in the backend IPs.
     types:
     - uid: SubResource
-    name: backendAddressPool
+    name: properties.backendAddressPool
   - description: The reference of the load balancer probe used by the load balancing rule.
     types:
     - uid: SubResource
-    name: probe
+    name: properties.probe
   - description: The transport protocol for the endpoint. Possible values are 'Udp' or 'Tcp' or 'All.'
     types:
     - uid: TransportProtocol
-    name: protocol
+    name: properties.protocol
   - description: The load distribution policy for this rule. Possible values are 'Default', 'SourceIP', and 'SourceIPProtocol'.
     types:
     - uid: LoadDistribution
-    name: loadDistribution
+    name: properties.loadDistribution
   - description: The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer. Acceptable values are between 0 and 65534. Note that value 0 enables "Any Port"
     types:
     - uid: integer
-    name: frontendPort
+    name: properties.frontendPort
   - description: The port used for internal connections on the endpoint. Acceptable values are between 0 and 65535. Note that value 0 enables "Any Port"
     types:
     - uid: integer
-    name: backendPort
+    name: properties.backendPort
   - description: The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The default value is 4 minutes. This element is only used when the protocol is set to TCP.
     types:
     - uid: integer
-    name: idleTimeoutInMinutes
+    name: properties.idleTimeoutInMinutes
   - description: Configures a virtual machine's endpoint for the floating IP capability required to configure a SQL AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server. This setting can't be changed after you create the endpoint.
     types:
     - uid: boolean
-    name: enableFloatingIP
+    name: properties.enableFloatingIP
   - description: Configures SNAT for the VMs in the backend pool to use the publicIP address specified in the frontend of the load balancing rule.
     types:
     - uid: boolean
-    name: disableOutboundSnat
+    name: properties.disableOutboundSnat
   - description: "Gets the provisioning state of the PublicIP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: Resource ID
     types:
     - uid: string
     name: id
-- name: TransportProtocol
-  description: The transport protocol for the endpoint. Possible values are 'Udp' or 'Tcp' or 'All.'
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Udp
-  - types:
-    - uid: string
-    name: Tcp
-  - types:
-    - uid: string
-    name: All
-- name: LoadDistribution
-  description: The load distribution policy for this rule. Possible values are 'Default', 'SourceIP', and 'SourceIPProtocol'.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Default
-  - types:
-    - uid: string
-    name: SourceIP
-  - types:
-    - uid: string
-    name: SourceIPProtocol
 - name: Probe
   description: A load balancer probe.
   kind: object
@@ -375,48 +306,37 @@ definitions:
   - isReadyOnly: true
     description: The load balancer rules that use this probe.
     types:
-    - isArray: true
-      uid: SubResource
-    name: loadBalancingRules
+    - uid: SubResource
+    name: properties.loadBalancingRules
   - description: "The protocol of the end point. Possible values are: 'Http' or 'Tcp'. If 'Tcp' is specified, a received ACK is required for the probe to be successful. If 'Http' is specified, a 200 OK response from the specifies URI is required for the probe to be successful."
     types:
     - uid: ProbeProtocol
-    name: protocol
+    name: properties.protocol
   - description: The port for communicating the probe. Possible values range from 1 to 65535, inclusive.
     types:
     - uid: integer
-    name: port
+    name: properties.port
   - description: The interval, in seconds, for how frequently to probe the endpoint for health status. Typically, the interval is slightly less than half the allocated timeout period (in seconds) which allows two full probes before taking the instance out of rotation. The default value is 15, the minimum value is 5.
     types:
     - uid: integer
-    name: intervalInSeconds
+    name: properties.intervalInSeconds
   - description: The number of probes where if no response, will result in stopping further traffic from being delivered to the endpoint. This values allows endpoints to be taken out of rotation faster or slower than the typical times used in Azure.
     types:
     - uid: integer
-    name: numberOfProbes
+    name: properties.numberOfProbes
   - description: The URI used for requesting health status from the VM. Path is required if a protocol is set to http. Otherwise, it is not allowed. There is no default value.
     types:
     - uid: string
-    name: requestPath
+    name: properties.requestPath
   - description: "Gets the provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: Resource ID
     types:
     - uid: string
     name: id
-- name: ProbeProtocol
-  description: "The protocol of the end point. Possible values are: 'Http' or 'Tcp'. If 'Tcp' is specified, a received ACK is required for the probe to be successful. If 'Http' is specified, a 200 OK response from the specifies URI is required for the probe to be successful."
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Http
-  - types:
-    - uid: string
-    name: Tcp
 - name: InboundNatRule
   description: Inbound NAT rule of the load balancer.
   kind: object
@@ -432,36 +352,36 @@ definitions:
   - description: A reference to frontend IP addresses.
     types:
     - uid: SubResource
-    name: frontendIPConfiguration
+    name: properties.frontendIPConfiguration
   - isReadyOnly: true
     description: A reference to a private IP address defined on a network interface of a VM. Traffic sent to the frontend port of each of the frontend IP configurations is forwarded to the backend IP.
     types:
     - uid: SubResource
-    name: backendIPConfiguration
+    name: properties.backendIPConfiguration
   - description: The transport protocol for the endpoint. Possible values are 'Udp' or 'Tcp' or 'All.'
     types:
     - uid: TransportProtocol
-    name: protocol
+    name: properties.protocol
   - description: The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer. Acceptable values range from 1 to 65534.
     types:
     - uid: integer
-    name: frontendPort
+    name: properties.frontendPort
   - description: The port used for the internal endpoint. Acceptable values range from 1 to 65535.
     types:
     - uid: integer
-    name: backendPort
+    name: properties.backendPort
   - description: The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The default value is 4 minutes. This element is only used when the protocol is set to TCP.
     types:
     - uid: integer
-    name: idleTimeoutInMinutes
+    name: properties.idleTimeoutInMinutes
   - description: Configures a virtual machine's endpoint for the floating IP capability required to configure a SQL AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server. This setting can't be changed after you create the endpoint.
     types:
     - uid: boolean
-    name: enableFloatingIP
+    name: properties.enableFloatingIP
   - description: "Gets the provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: Resource ID
     types:
@@ -482,27 +402,27 @@ definitions:
   - description: A reference to frontend IP addresses.
     types:
     - uid: SubResource
-    name: frontendIPConfiguration
+    name: properties.frontendIPConfiguration
   - description: The transport protocol for the endpoint. Possible values are 'Udp' or 'Tcp' or 'All.'
     types:
     - uid: TransportProtocol
-    name: protocol
+    name: properties.protocol
   - description: The first port number in the range of external ports that will be used to provide Inbound Nat to NICs associated with a load balancer. Acceptable values range between 1 and 65534.
     types:
     - uid: integer
-    name: frontendPortRangeStart
+    name: properties.frontendPortRangeStart
   - description: The last port number in the range of external ports that will be used to provide Inbound Nat to NICs associated with a load balancer. Acceptable values range between 1 and 65535.
     types:
     - uid: integer
-    name: frontendPortRangeEnd
+    name: properties.frontendPortRangeEnd
   - description: The port used for internal connections on the endpoint. Acceptable values are between 1 and 65535.
     types:
     - uid: integer
-    name: backendPort
+    name: properties.backendPort
   - description: "Gets the provisioning state of the PublicIP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: Resource ID
     types:
@@ -523,25 +443,45 @@ definitions:
   - description: The number of outbound ports to be used for NAT.
     types:
     - uid: integer
-    name: allocatedOutboundPorts
+    name: properties.allocatedOutboundPorts
   - description: The Frontend IP addresses of the load balancer.
     types:
-    - isArray: true
-      uid: SubResource
-    name: frontendIPConfigurations
+    - uid: SubResource
+    name: properties.frontendIPConfigurations
   - description: A reference to a pool of DIPs. Outbound traffic is randomly load balanced across IPs in the backend IPs.
     types:
     - uid: SubResource
-    name: backendAddressPool
+    name: properties.backendAddressPool
   - description: "Gets the provisioning state of the PublicIP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: Resource ID
     types:
     - uid: string
     name: id
+- name: SubResource
+  description: Reference to another subresource.
+  kind: object
+  properties:
+  - description: Resource ID.
+    types:
+    - uid: string
+    name: id
+- name: TransportProtocol
+  description: The transport protocol for the endpoint. Possible values are 'Udp' or 'Tcp' or 'All.'
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Udp
+  - types:
+    - uid: string
+    name: Tcp
+  - types:
+    - uid: string
+    name: All
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers?api-version=2017-09-01

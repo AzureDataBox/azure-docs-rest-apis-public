@@ -82,27 +82,8 @@ definitions:
     - uid: OperationStatusJobsExtendedInfo
     typesTitle: OperationStatusExtendedInfo
     name: properties
-- name: OperationStatusValues
-  description: Operation status.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Invalid
-  - types:
-    - uid: string
-    name: InProgress
-  - types:
-    - uid: string
-    name: Succeeded
-  - types:
-    - uid: string
-    name: Failed
-  - types:
-    - uid: string
-    name: Canceled
 - name: OperationStatusError
-  description: Error information related to this operation.
+  description: Error information associated with the operation status call.
   kind: object
   properties:
   - description: The error code for the failed operation.
@@ -139,14 +120,34 @@ definitions:
     - uid: OperationStatusProvisionILRExtendedInfo
     typesTitle: string
     name: objectType
+- name: OperationStatusJobsExtendedInfo
+  description: Operation status extended info for the job list.
+  kind: object
+  properties:
+  - description: IDs of the jobs created for the backup item.
+    types:
+    - uid: string
+    name: jobIds
+  - description: Stores all the failed jobs along with the corresponding error codes.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: failedJobsError
+  - description: This property is used as the discriminator for deciding between types, in the polymorhpic chain of types.
+    types:
+    - uid: OperationStatusJobsExtendedInfo
+    typesTitle: string
+    name: objectType
 - name: InstantItemRecoveryTarget
   description: Target details for the file or folder restore.
   kind: object
   properties:
   - description: List of client scripts.
     types:
-    - isArray: true
-      uid: ClientScriptForConnect
+    - uid: ClientScriptForConnect
     name: clientScripts
 - name: ClientScriptForConnect
   description: Client script details for the file or folder restore.
@@ -164,28 +165,6 @@ definitions:
     types:
     - uid: string
     name: osType
-- name: OperationStatusJobsExtendedInfo
-  description: Operation status extended info for the job list.
-  kind: object
-  properties:
-  - description: IDs of the jobs created for the backup item.
-    types:
-    - isArray: true
-      uid: string
-    name: jobIds
-  - description: Stores all the failed jobs along with the corresponding error codes.
-    types:
-    - isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-      uid: object
-    name: failedJobsError
-  - description: This property is used as the discriminator for deciding between types, in the polymorhpic chain of types.
-    types:
-    - uid: OperationStatusJobsExtendedInfo
-    typesTitle: string
-    name: objectType
 examples: []
 security:
 - type: oauth2

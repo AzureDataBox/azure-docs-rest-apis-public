@@ -74,13 +74,32 @@ definitions:
   properties:
   - description: List of trigger runs.
     types:
-    - isArray: true
-      uid: TriggerRun
+    - uid: TriggerRun
     name: value
   - description: The link to the next page of results, if any remaining results exist.
     types:
     - uid: string
     name: nextLink
+- name: ErrorResponse
+  description: The object that defines the structure of an Azure Data Factory response.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: string
+    name: code
+  - description: Error message.
+    types:
+    - uid: string
+    name: message
+  - description: Property name/path in request associated with error.
+    types:
+    - uid: string
+    name: target
+  - description: Array with additional error details.
+    types:
+    - uid: ErrorResponse
+    name: details
 - name: TriggerRun
   description: Trigger runs.
   kind: object
@@ -133,40 +152,6 @@ definitions:
       - uid: string
       uid: object
     name: triggeredPipelines
-- name: TriggerRunStatus
-  description: Trigger run status.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Succeeded
-  - types:
-    - uid: string
-    name: Failed
-  - types:
-    - uid: string
-    name: Inprogress
-- name: ErrorResponse
-  description: The object that defines the structure of an Azure Data Factory response.
-  kind: object
-  properties:
-  - description: Error code.
-    types:
-    - uid: string
-    name: code
-  - description: Error message.
-    types:
-    - uid: string
-    name: message
-  - description: Property name/path in request associated with error.
-    types:
-    - uid: string
-    name: target
-  - description: Array with additional error details.
-    types:
-    - isArray: true
-      uid: Details
-    name: details
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/triggers/exampleTrigger/triggerruns?api-version=2017-09-01-preview&startTime=2017-09-13T17%3A54%3A24.0440889Z&endTime=2017-09-13T18%3A14%3A24.0440889Z

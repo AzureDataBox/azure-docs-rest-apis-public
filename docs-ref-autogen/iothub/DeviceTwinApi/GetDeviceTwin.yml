@@ -68,7 +68,7 @@ definitions:
     - uid: ProvisioningState
     name: ProvisioningState
 - name: VariantValueDateTime
-  description: The last time the device connected, received or sent a message. In ISO8601 datetime format in UTC, for example, 2015-01-28T16:24:48.789Z. This does not update if the device uses the HTTP/1 protocol to perform messaging operations.
+  description: Type representing DateTime in different time zones.
   kind: object
   properties:
   - isReadyOnly: true
@@ -84,7 +84,7 @@ definitions:
     - uid: boolean
     name: IsNull
 - name: DeviceTwinProperties
-  description: Used in conjunction with reported properties to synchronize device configuration or condition. Desired properties can only be set by the solution back end and can be read by the device app. The device app can also be notified in real time of changes on the desired properties.
+  description: Type representing properties that are part of an IoT Hub device twin.
   kind: object
   properties:
   - description: Version of device twin properties.
@@ -104,7 +104,7 @@ definitions:
     - uid: Metadata
     name: Metadata
 - name: Metadata
-  description: Metadata information for the properties JSON document.
+  description: Metadata
   kind: object
   properties:
   - description: The last time the properties were updated. In ISO8601 datetime format in UTC, for example, 2015-01-28T16:24:48.789Z.
@@ -123,24 +123,12 @@ definitions:
   - isReadyOnly: true
     description: Nested properties.
     types:
-    - {}
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: Metadata
+      uid: object
     name: Nested
-- name: ProvisioningState
-  description: Provisioning state of device twin.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Creating
-  - types:
-    - uid: string
-    name: Deleting
-  - types:
-    - uid: string
-    name: Active
-  - types:
-    - uid: string
-    name: Deleted
 examples: []
 security: []
 name: GetDeviceTwin

@@ -54,109 +54,34 @@ requestBody:
     description: The ID of the targeted resource, only VM is currently supported.
     types:
     - uid: string
-    name: target
+    name: properties.target
   - in: body
     description: Number of bytes captured per packet, the remaining bytes are truncated.
     types:
     - uid: integer
-    name: bytesToCapturePerPacket
+    name: properties.bytesToCapturePerPacket
   - in: body
     description: Maximum size of the capture output.
     types:
     - uid: integer
-    name: totalBytesPerSession
+    name: properties.totalBytesPerSession
   - in: body
     description: Maximum duration of the capture session in seconds.
     types:
     - uid: integer
-    name: timeLimitInSeconds
+    name: properties.timeLimitInSeconds
   - in: body
     isRequired: true
     description: Describes the storage location for a packet capture session.
     types:
     - uid: PacketCaptureStorageLocation
-    name: storageLocation
+    name: properties.storageLocation
   - in: body
     types:
-    - isArray: true
-      uid: PacketCaptureFilter
-    name: filters
+    - uid: PacketCaptureFilter
+    name: properties.filters
 requestHeader: []
 definitions:
-- name: PcProtocol
-  description: Protocol to be filtered on.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: TCP
-  - types:
-    - uid: string
-    name: UDP
-  - types:
-    - uid: string
-    name: Any
-- name: PacketCaptureResult
-  description: Information about packet capture session.
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: Name of the packet capture session.
-    types:
-    - uid: string
-    name: name
-  - isReadyOnly: true
-    description: ID of the packet capture operation.
-    types:
-    - uid: string
-    name: id
-  - types:
-    - uid: string
-    name: etag
-  - description: The provisioning state of the packet capture session.
-    types:
-    - uid: ProvisioningState
-    name: provisioningState
-  - description: The ID of the targeted resource, only VM is currently supported.
-    types:
-    - uid: string
-    name: target
-  - description: Number of bytes captured per packet, the remaining bytes are truncated.
-    types:
-    - uid: integer
-    name: bytesToCapturePerPacket
-  - description: Maximum size of the capture output.
-    types:
-    - uid: integer
-    name: totalBytesPerSession
-  - description: Maximum duration of the capture session in seconds.
-    types:
-    - uid: integer
-    name: timeLimitInSeconds
-  - description: Describes the storage location for a packet capture session.
-    types:
-    - uid: PacketCaptureStorageLocation
-    name: storageLocation
-  - types:
-    - isArray: true
-      uid: PacketCaptureFilter
-    name: filters
-- name: ProvisioningState
-  description: The provisioning state of the packet capture session.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Succeeded
-  - types:
-    - uid: string
-    name: Updating
-  - types:
-    - uid: string
-    name: Deleting
-  - types:
-    - uid: string
-    name: Failed
 - name: PacketCaptureStorageLocation
   description: Describes the storage location for a packet capture session.
   kind: object
@@ -197,6 +122,50 @@ definitions:
     types:
     - uid: string
     name: remotePort
+- name: PacketCaptureResult
+  description: Information about packet capture session.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Name of the packet capture session.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: ID of the packet capture operation.
+    types:
+    - uid: string
+    name: id
+  - types:
+    - uid: string
+    name: etag
+  - description: The provisioning state of the packet capture session.
+    types:
+    - uid: ProvisioningState
+    name: properties.provisioningState
+  - description: The ID of the targeted resource, only VM is currently supported.
+    types:
+    - uid: string
+    name: properties.target
+  - description: Number of bytes captured per packet, the remaining bytes are truncated.
+    types:
+    - uid: integer
+    name: properties.bytesToCapturePerPacket
+  - description: Maximum size of the capture output.
+    types:
+    - uid: integer
+    name: properties.totalBytesPerSession
+  - description: Maximum duration of the capture session in seconds.
+    types:
+    - uid: integer
+    name: properties.timeLimitInSeconds
+  - description: Describes the storage location for a packet capture session.
+    types:
+    - uid: PacketCaptureStorageLocation
+    name: properties.storageLocation
+  - types:
+    - uid: PacketCaptureFilter
+    name: properties.filters
 examples: []
 security:
 - type: oauth2

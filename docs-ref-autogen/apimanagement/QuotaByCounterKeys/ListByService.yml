@@ -58,8 +58,7 @@ definitions:
   properties:
   - description: Quota counter values.
     types:
-    - isArray: true
-      uid: QuotaCounterContract
+    - uid: QuotaCounterContract
     name: value
   - description: Total record count number across all pages.
     types:
@@ -69,6 +68,22 @@ definitions:
     types:
     - uid: string
     name: nextLink
+- name: ErrorResponse
+  description: Error Body contract.
+  kind: object
+  properties:
+  - description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+    name: code
+  - description: Human-readable representation of the error.
+    types:
+    - uid: string
+    name: message
+  - description: The list of invalid fields send in request, in case of validation error.
+    types:
+    - uid: ErrorFieldContract
+    name: details
 - name: QuotaCounterContract
   description: Quota counter details.
   kind: object
@@ -95,35 +110,6 @@ definitions:
     types:
     - uid: QuotaCounterValueContractProperties
     name: Value
-- name: QuotaCounterValueContractProperties
-  description: Quota Value Properties
-  kind: object
-  properties:
-  - description: Number of times Counter was called.
-    types:
-    - uid: integer
-    name: callsCount
-  - description: Data Transferred in KiloBytes.
-    types:
-    - uid: number
-    name: kbTransferred
-- name: ErrorResponse
-  description: Error Body contract.
-  kind: object
-  properties:
-  - description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
-    types:
-    - uid: string
-    name: code
-  - description: Human-readable representation of the error.
-    types:
-    - uid: string
-    name: message
-  - description: The list of invalid fields send in request, in case of validation error.
-    types:
-    - isArray: true
-      uid: ErrorFieldContract
-    name: details
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
@@ -140,6 +126,18 @@ definitions:
     types:
     - uid: string
     name: target
+- name: QuotaCounterValueContractProperties
+  description: Quota counter value details.
+  kind: object
+  properties:
+  - description: Number of times Counter was called.
+    types:
+    - uid: integer
+    name: callsCount
+  - description: Data Transferred in KiloBytes.
+    types:
+    - uid: number
+    name: kbTransferred
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/quotas/ba?api-version=2017-03-01

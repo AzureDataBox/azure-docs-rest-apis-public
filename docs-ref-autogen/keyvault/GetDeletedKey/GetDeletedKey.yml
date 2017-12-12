@@ -78,8 +78,17 @@ definitions:
     types:
     - uid: boolean
     name: managed
+- name: KeyVaultError
+  description: The key vault error exception.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
+    name: error
 - name: JsonWebKey
-  description: The Json web key.
+  description: As of http://tools.ietf.org/html/draft-ietf-jose-json-web-key-18
   kind: object
   properties:
   - description: Key identifier.
@@ -91,8 +100,7 @@ definitions:
     - uid: JsonWebKeyType
     name: kty
   - types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: key_ops
   - description: RSA modulus.
     types:
@@ -146,43 +154,8 @@ definitions:
     types:
     - uid: string
     name: y
-- name: JsonWebKeyType
-  description: JsonWebKey key type (kty).
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: EC
-  - types:
-    - uid: string
-    name: EC-HSM
-  - types:
-    - uid: string
-    name: RSA
-  - types:
-    - uid: string
-    name: RSA-HSM
-  - types:
-    - uid: string
-    name: oct
-- name: JsonWebKeyCurveName
-  description: Elliptic curve name. For valid values, see JsonWebKeyCurveName.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: P-256
-  - types:
-    - uid: string
-    name: P-384
-  - types:
-    - uid: string
-    name: P-521
-  - types:
-    - uid: string
-    name: SECP256K1
 - name: KeyAttributes
-  description: The key management attributes.
+  description: The attributes of a key managed by the key vault service.
   kind: object
   properties:
   - isReadyOnly: true
@@ -212,31 +185,6 @@ definitions:
     types:
     - uid: integer
     name: updated
-- name: DeletionRecoveryLevel
-  description: Reflects the deletion recovery level currently in effect for keys in the current vault. If it contains 'Purgeable' the key can be permanently deleted by a privileged user; otherwise, only the system can purge the key, at the end of the retention interval.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Purgeable
-  - types:
-    - uid: string
-    name: Recoverable+Purgeable
-  - types:
-    - uid: string
-    name: Recoverable
-  - types:
-    - uid: string
-    name: Recoverable+ProtectedSubscription
-- name: KeyVaultError
-  description: The key vault error exception.
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: The key vault server error.
-    types:
-    - uid: Error
-    name: error
 - name: Error
   description: The key vault server error.
   kind: object
@@ -251,8 +199,10 @@ definitions:
     types:
     - uid: string
     name: message
-  - types:
-    - {}
+  - isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
     name: innererror
 examples: []
 security: []

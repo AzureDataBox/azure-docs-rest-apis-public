@@ -56,37 +56,37 @@ requestBody:
     description: The schema type.
     types:
     - uid: SchemaType
-    name: schemaType
+    name: properties.schemaType
   - in: body
     description: The target namespace of the schema.
     types:
     - uid: string
-    name: targetNamespace
+    name: properties.targetNamespace
   - in: body
     description: The document name.
     types:
     - uid: string
-    name: documentName
+    name: properties.documentName
   - in: body
     description: The file name.
     types:
     - uid: string
-    name: fileName
+    name: properties.fileName
   - in: body
     description: The metadata.
     types:
     - uid: Metadata
-    name: metadata
+    name: properties.metadata
   - in: body
     description: The content.
     types:
     - uid: Content
-    name: content
+    name: properties.content
   - in: body
     description: The content type.
     types:
     - uid: string
-    name: contentType
+    name: properties.contentType
   - in: body
     description: The resource location.
     types:
@@ -103,16 +103,30 @@ requestBody:
     name: tags
 requestHeader: []
 definitions:
-- name: SchemaType
-  description: The schema type.
-  kind: enum
+- name: ContentLink
+  description: The content link.
+  kind: object
   properties:
-  - types:
+  - description: The content link URI.
+    types:
     - uid: string
-    name: NotSpecified
-  - types:
+    name: uri
+  - description: The content version.
+    types:
     - uid: string
-    name: Xml
+    name: contentVersion
+  - description: The content size.
+    types:
+    - uid: integer
+    name: contentSize
+  - description: The content hash.
+    types:
+    - uid: ContentHash
+    name: contentHash
+  - description: The metadata.
+    types:
+    - uid: Object
+    name: metadata
 - name: IntegrationAccountSchema
   description: The integration account schema.
   kind: object
@@ -120,46 +134,46 @@ definitions:
   - description: The schema type.
     types:
     - uid: SchemaType
-    name: schemaType
+    name: properties.schemaType
   - description: The target namespace of the schema.
     types:
     - uid: string
-    name: targetNamespace
+    name: properties.targetNamespace
   - description: The document name.
     types:
     - uid: string
-    name: documentName
+    name: properties.documentName
   - description: The file name.
     types:
     - uid: string
-    name: fileName
+    name: properties.fileName
   - isReadyOnly: true
     description: The created time.
     types:
     - uid: string
-    name: createdTime
+    name: properties.createdTime
   - isReadyOnly: true
     description: The changed time.
     types:
     - uid: string
-    name: changedTime
+    name: properties.changedTime
   - description: The metadata.
     types:
     - uid: Metadata
-    name: metadata
+    name: properties.metadata
   - description: The content.
     types:
     - uid: Content
-    name: content
+    name: properties.content
   - description: The content type.
     types:
     - uid: string
-    name: contentType
+    name: properties.contentType
   - isReadyOnly: true
     description: The content link.
     types:
     - uid: ContentLink
-    name: contentLink
+    name: properties.contentLink
   - isReadyOnly: true
     description: The resource id.
     types:
@@ -187,38 +201,6 @@ definitions:
       - uid: string
       uid: object
     name: tags
-- name: Metadata
-  description: The metadata.
-  kind: object
-  properties: []
-- name: Content
-  description: The content.
-  kind: object
-  properties: []
-- name: ContentLink
-  description: The content link.
-  kind: object
-  properties:
-  - description: The content link URI.
-    types:
-    - uid: string
-    name: uri
-  - description: The content version.
-    types:
-    - uid: string
-    name: contentVersion
-  - description: The content size.
-    types:
-    - uid: integer
-    name: contentSize
-  - description: The content hash.
-    types:
-    - uid: ContentHash
-    name: contentHash
-  - description: The metadata.
-    types:
-    - uid: Object
-    name: metadata
 - name: ContentHash
   description: The content hash.
   kind: object
@@ -232,9 +214,17 @@ definitions:
     - uid: string
     name: value
 - name: Object
-  description: The metadata.
   kind: object
   properties: []
+- name: SchemaType
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NotSpecified
+  - types:
+    - uid: string
+    name: Xml
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testResourceGroup/providers/Microsoft.Logic/integrationAccounts/testIntegrationAccount/schemas/testSchema?api-version=2016-06-01

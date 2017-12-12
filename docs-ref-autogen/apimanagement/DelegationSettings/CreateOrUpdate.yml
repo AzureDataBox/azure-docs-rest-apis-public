@@ -50,24 +50,40 @@ requestBody:
     description: A delegation Url.
     types:
     - uid: string
-    name: url
+    name: properties.url
   - in: body
     description: A base64-encoded validation key to validate, that a request is coming from Azure API Management.
     types:
     - uid: string
-    name: validationKey
+    name: properties.validationKey
   - in: body
     description: Subscriptions delegation settings.
     types:
     - uid: SubscriptionsDelegationSettingsProperties
-    name: subscriptions
+    name: properties.subscriptions
   - in: body
     description: User registration delegation settings.
     types:
     - uid: RegistrationDelegationSettingsProperties
-    name: userRegistration
+    name: properties.userRegistration
 requestHeader: []
 definitions:
+- name: SubscriptionsDelegationSettingsProperties
+  description: Subscriptions delegation settings properties.
+  kind: object
+  properties:
+  - description: Enable or disable delegation for subscriptions.
+    types:
+    - uid: boolean
+    name: enabled
+- name: RegistrationDelegationSettingsProperties
+  description: User registration delegation settings properties.
+  kind: object
+  properties:
+  - description: Enable or disable delegation for user registration.
+    types:
+    - uid: boolean
+    name: enabled
 - name: PortalDelegationSettings
   description: Delegation settings for a developer portal.
   kind: object
@@ -75,19 +91,19 @@ definitions:
   - description: A delegation Url.
     types:
     - uid: string
-    name: url
+    name: properties.url
   - description: A base64-encoded validation key to validate, that a request is coming from Azure API Management.
     types:
     - uid: string
-    name: validationKey
+    name: properties.validationKey
   - description: Subscriptions delegation settings.
     types:
     - uid: SubscriptionsDelegationSettingsProperties
-    name: subscriptions
+    name: properties.subscriptions
   - description: User registration delegation settings.
     types:
     - uid: RegistrationDelegationSettingsProperties
-    name: userRegistration
+    name: properties.userRegistration
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -103,22 +119,6 @@ definitions:
     types:
     - uid: string
     name: type
-- name: SubscriptionsDelegationSettingsProperties
-  description: Subscriptions delegation settings.
-  kind: object
-  properties:
-  - description: Enable or disable delegation for subscriptions.
-    types:
-    - uid: boolean
-    name: enabled
-- name: RegistrationDelegationSettingsProperties
-  description: User registration delegation settings.
-  kind: object
-  properties:
-  - description: Enable or disable delegation for user registration.
-    types:
-    - uid: boolean
-    name: enabled
 - name: ErrorResponse
   description: Error Body contract.
   kind: object
@@ -133,8 +133,7 @@ definitions:
     name: message
   - description: The list of invalid fields send in request, in case of validation error.
     types:
-    - isArray: true
-      uid: ErrorFieldContract
+    - uid: ErrorFieldContract
     name: details
 - name: ErrorFieldContract
   description: Error Field contract.

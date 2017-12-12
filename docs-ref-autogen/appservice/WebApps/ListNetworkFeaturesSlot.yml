@@ -64,24 +64,22 @@ definitions:
     description: The Virtual Network name.
     types:
     - uid: string
-    name: virtualNetworkName
+    name: properties.virtualNetworkName
   - isReadyOnly: true
     description: The Virtual Network summary view.
     types:
     - uid: VnetInfo
-    name: virtualNetworkConnection
+    name: properties.virtualNetworkConnection
   - isReadyOnly: true
     description: The Hybrid Connections summary view.
     types:
-    - isArray: true
-      uid: RelayServiceConnectionEntity
-    name: hybridConnections
+    - uid: RelayServiceConnectionEntity
+    name: properties.hybridConnections
   - isReadyOnly: true
     description: The Hybrid Connection V2 (Service Bus) view.
     types:
-    - isArray: true
-      uid: HybridConnection
-    name: hybridConnectionsV2
+    - uid: HybridConnection
+    name: properties.hybridConnectionsV2
   - isReadyOnly: true
     description: Resource Id.
     types:
@@ -102,37 +100,36 @@ definitions:
     - uid: string
     name: type
 - name: VnetInfo
-  description: The Virtual Network summary view.
+  description: Virtual Network information contract.
   kind: object
   properties:
   - description: The Virtual Network's resource ID.
     types:
     - uid: string
-    name: vnetResourceId
+    name: properties.vnetResourceId
   - isReadyOnly: true
     description: The client certificate thumbprint.
     types:
     - uid: string
-    name: certThumbprint
+    name: properties.certThumbprint
   - description: "A certificate file (.cer) blob containing the public key of the private key used to authenticate a \nPoint-To-Site VPN connection."
     types:
     - uid: string
-    name: certBlob
+    name: properties.certBlob
   - isReadyOnly: true
     description: The routes that this Virtual Network connection uses.
     types:
-    - isArray: true
-      uid: VnetRoute
-    name: routes
+    - uid: VnetRoute
+    name: properties.routes
   - isReadyOnly: true
     description: <code>true</code> if a resync is required; otherwise, <code>false</code>.
     types:
     - uid: boolean
-    name: resyncRequired
+    name: properties.resyncRequired
   - description: DNS servers to be used by this Virtual Network. This should be a comma-separated list of IP addresses.
     types:
     - uid: string
-    name: dnsServers
+    name: properties.dnsServers
   - isReadyOnly: true
     description: Resource Id.
     types:
@@ -152,98 +149,31 @@ definitions:
     types:
     - uid: string
     name: type
-- name: VnetRoute
-  description: Virtual Network route contract used to pass routing information for a Virtual Network.
-  kind: object
-  properties:
-  - description: The name of this route. This is only returned by the server and does not need to be set by the client.
-    types:
-    - uid: string
-    name: name
-  - description: The starting address for this route. This may also include a CIDR notation, in which case the end address must not be specified.
-    types:
-    - uid: string
-    name: startAddress
-  - description: The ending address for this route. If the start address is specified in CIDR notation, this must be omitted.
-    types:
-    - uid: string
-    name: endAddress
-  - description: >-
-      The type of route this is:
-
-      DEFAULT - By default, every app has routes to the local address ranges specified by RFC1918
-
-      INHERITED - Routes inherited from the real Virtual Network routes
-
-      STATIC - Static route set on the app only
-
-
-      These values will be used for syncing an app's routes with those from a Virtual Network.
-    types:
-    - uid: RouteType
-    name: routeType
-  - isReadyOnly: true
-    description: Resource Id.
-    types:
-    - uid: string
-    name: id
-  - description: Kind of resource.
-    types:
-    - uid: string
-    name: kind
-  - isReadyOnly: true
-    description: Resource type.
-    types:
-    - uid: string
-    name: type
-- name: RouteType
-  description: >-
-    The type of route this is:
-
-    DEFAULT - By default, every app has routes to the local address ranges specified by RFC1918
-
-    INHERITED - Routes inherited from the real Virtual Network routes
-
-    STATIC - Static route set on the app only
-
-
-    These values will be used for syncing an app's routes with those from a Virtual Network.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: DEFAULT
-  - types:
-    - uid: string
-    name: INHERITED
-  - types:
-    - uid: string
-    name: STATIC
 - name: RelayServiceConnectionEntity
   description: Hybrid Connection for an App Service app.
   kind: object
   properties:
   - types:
     - uid: string
-    name: entityName
+    name: properties.entityName
   - types:
     - uid: string
-    name: entityConnectionString
+    name: properties.entityConnectionString
   - types:
     - uid: string
-    name: resourceType
+    name: properties.resourceType
   - types:
     - uid: string
-    name: resourceConnectionString
+    name: properties.resourceConnectionString
   - types:
     - uid: string
-    name: hostname
+    name: properties.hostname
   - types:
     - uid: integer
-    name: port
+    name: properties.port
   - types:
     - uid: string
-    name: biztalkUri
+    name: properties.biztalkUri
   - isReadyOnly: true
     description: Resource Id.
     types:
@@ -270,38 +200,87 @@ definitions:
   - description: The name of the Service Bus namespace.
     types:
     - uid: string
-    name: serviceBusNamespace
+    name: properties.serviceBusNamespace
   - description: The name of the Service Bus relay.
     types:
     - uid: string
-    name: relayName
+    name: properties.relayName
   - description: The ARM URI to the Service Bus relay.
     types:
     - uid: string
-    name: relayArmUri
+    name: properties.relayArmUri
   - description: The hostname of the endpoint.
     types:
     - uid: string
-    name: hostname
+    name: properties.hostname
   - description: The port of the endpoint.
     types:
     - uid: integer
-    name: port
+    name: properties.port
   - description: The name of the Service Bus key which has Send permissions. This is used to authenticate to Service Bus.
     types:
     - uid: string
-    name: sendKeyName
+    name: properties.sendKeyName
   - description: >-
       The value of the Service Bus key. This is used to authenticate to Service Bus. In ARM this key will not be returned
 
       normally, use the POST /listKeys API instead.
     types:
     - uid: string
-    name: sendKeyValue
+    name: properties.sendKeyValue
   - description: The suffix for the service bus endpoint. By default this is .servicebus.windows.net
     types:
     - uid: string
-    name: serviceBusSuffix
+    name: properties.serviceBusSuffix
+  - isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+    name: name
+  - description: Kind of resource.
+    types:
+    - uid: string
+    name: kind
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+- name: VnetRoute
+  description: Virtual Network route contract used to pass routing information for a Virtual Network.
+  kind: object
+  properties:
+  - description: The name of this route. This is only returned by the server and does not need to be set by the client.
+    types:
+    - uid: string
+    name: properties.name
+  - description: The starting address for this route. This may also include a CIDR notation, in which case the end address must not be specified.
+    types:
+    - uid: string
+    name: properties.startAddress
+  - description: The ending address for this route. If the start address is specified in CIDR notation, this must be omitted.
+    types:
+    - uid: string
+    name: properties.endAddress
+  - description: >-
+      The type of route this is:
+
+      DEFAULT - By default, every app has routes to the local address ranges specified by RFC1918
+
+      INHERITED - Routes inherited from the real Virtual Network routes
+
+      STATIC - Static route set on the app only
+
+
+      These values will be used for syncing an app's routes with those from a Virtual Network.
+    types:
+    - uid: RouteType
+    name: properties.routeType
   - isReadyOnly: true
     description: Resource Id.
     types:

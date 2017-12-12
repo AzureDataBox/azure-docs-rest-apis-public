@@ -60,32 +60,32 @@ requestBody:
     description: Email address. Must not be empty and must be unique within the service instance.
     types:
     - uid: string
-    name: email
+    name: properties.email
   - in: body
     description: User Password.
     types:
     - uid: string
-    name: password
+    name: properties.password
   - in: body
     description: First name.
     types:
     - uid: string
-    name: firstName
+    name: properties.firstName
   - in: body
     description: Last name.
     types:
     - uid: string
-    name: lastName
+    name: properties.lastName
   - in: body
     description: Account state. Specifies whether the user is active or not. Blocked users are unable to sign into the developer portal or call any APIs of subscribed products. Default state is Active.
     types:
     - uid: UserState
-    name: state
+    name: properties.state
   - in: body
     description: Optional note about a user set by the administrator.
     types:
     - uid: string
-    name: note
+    name: properties.note
 requestHeader:
 - in: header
   isRequired: true
@@ -94,16 +94,18 @@ requestHeader:
   - uid: string
   name: If-Match
 definitions:
-- name: UserState
-  description: Account state. Specifies whether the user is active or not. Blocked users are unable to sign into the developer portal or call any APIs of subscribed products. Default state is Active.
-  kind: enum
+- name: UserIdentityContract
+  description: User identity details.
+  kind: object
   properties:
-  - types:
+  - description: Identity provider name.
+    types:
     - uid: string
-    name: active
-  - types:
+    name: provider
+  - description: Identifier value within provider.
+    types:
     - uid: string
-    name: blocked
+    name: id
 - name: ErrorResponse
   description: Error Body contract.
   kind: object
@@ -118,8 +120,7 @@ definitions:
     name: message
   - description: The list of invalid fields send in request, in case of validation error.
     types:
-    - isArray: true
-      uid: ErrorFieldContract
+    - uid: ErrorFieldContract
     name: details
 - name: ErrorFieldContract
   description: Error Field contract.

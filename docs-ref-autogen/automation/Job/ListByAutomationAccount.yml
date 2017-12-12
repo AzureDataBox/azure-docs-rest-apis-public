@@ -59,128 +59,12 @@ definitions:
   properties:
   - description: Gets or sets a list of jobs.
     types:
-    - isArray: true
-      uid: Job
+    - uid: Job
     name: value
   - description: Gets or sets the next link.
     types:
     - uid: string
     name: nextLink
-- name: Job
-  description: Definition of the job.
-  kind: object
-  properties:
-  - description: Gets or sets the id of the resource.
-    types:
-    - uid: string
-    name: id
-  - description: Gets or sets the runbook.
-    types:
-    - uid: RunbookAssociationProperty
-    name: runbook
-  - description: Gets or sets the job started by.
-    types:
-    - uid: string
-    name: startedBy
-  - description: Gets or sets the runOn which specifies the group name where the job is to be executed.
-    types:
-    - uid: string
-    name: runOn
-  - description: Gets or sets the id of the job.
-    types:
-    - uid: string
-    name: jobId
-  - description: Gets or sets the creation time of the job.
-    types:
-    - uid: string
-    name: creationTime
-  - description: Gets or sets the status of the job.
-    types:
-    - uid: JobStatus
-    name: status
-  - description: Gets or sets the status details of the job.
-    types:
-    - uid: string
-    name: statusDetails
-  - description: Gets or sets the start time of the job.
-    types:
-    - uid: string
-    name: startTime
-  - description: Gets or sets the end time of the job.
-    types:
-    - uid: string
-    name: endTime
-  - description: Gets or sets the exception of the job.
-    types:
-    - uid: string
-    name: exception
-  - description: Gets or sets the last modified time of the job.
-    types:
-    - uid: string
-    name: lastModifiedTime
-  - description: Gets or sets the last status modified time of the job.
-    types:
-    - uid: string
-    name: lastStatusModifiedTime
-  - description: Gets or sets the parameters of the job.
-    types:
-    - isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-      uid: object
-    name: parameters
-- name: RunbookAssociationProperty
-  description: Gets or sets the runbook.
-  kind: object
-  properties:
-  - description: Gets or sets the name of the runbook.
-    types:
-    - uid: string
-    name: name
-- name: JobStatus
-  description: Gets or sets the status of the job.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: New
-  - types:
-    - uid: string
-    name: Activating
-  - types:
-    - uid: string
-    name: Running
-  - types:
-    - uid: string
-    name: Completed
-  - types:
-    - uid: string
-    name: Failed
-  - types:
-    - uid: string
-    name: Stopped
-  - types:
-    - uid: string
-    name: Blocked
-  - types:
-    - uid: string
-    name: Suspended
-  - types:
-    - uid: string
-    name: Disconnected
-  - types:
-    - uid: string
-    name: Suspending
-  - types:
-    - uid: string
-    name: Stopping
-  - types:
-    - uid: string
-    name: Resuming
-  - types:
-    - uid: string
-    name: Removing
 - name: ErrorResponse
   description: Error response of an operation failure
   kind: object
@@ -193,6 +77,78 @@ definitions:
     types:
     - uid: string
     name: message
+- name: Job
+  description: Definition of the job.
+  kind: object
+  properties:
+  - description: Gets or sets the id of the resource.
+    types:
+    - uid: string
+    name: id
+  - description: Gets or sets the runbook.
+    types:
+    - uid: RunbookAssociationProperty
+    name: properties.runbook
+  - description: Gets or sets the job started by.
+    types:
+    - uid: string
+    name: properties.startedBy
+  - description: Gets or sets the runOn which specifies the group name where the job is to be executed.
+    types:
+    - uid: string
+    name: properties.runOn
+  - description: Gets or sets the id of the job.
+    types:
+    - uid: string
+    name: properties.jobId
+  - description: Gets or sets the creation time of the job.
+    types:
+    - uid: string
+    name: properties.creationTime
+  - description: Gets or sets the status of the job.
+    types:
+    - uid: JobStatus
+    name: properties.status
+  - description: Gets or sets the status details of the job.
+    types:
+    - uid: string
+    name: properties.statusDetails
+  - description: Gets or sets the start time of the job.
+    types:
+    - uid: string
+    name: properties.startTime
+  - description: Gets or sets the end time of the job.
+    types:
+    - uid: string
+    name: properties.endTime
+  - description: Gets or sets the exception of the job.
+    types:
+    - uid: string
+    name: properties.exception
+  - description: Gets or sets the last modified time of the job.
+    types:
+    - uid: string
+    name: properties.lastModifiedTime
+  - description: Gets or sets the last status modified time of the job.
+    types:
+    - uid: string
+    name: properties.lastStatusModifiedTime
+  - description: Gets or sets the parameters of the job.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: properties.parameters
+- name: RunbookAssociationProperty
+  description: The runbook property associated with the entity.
+  kind: object
+  properties:
+  - description: Gets or sets the name of the runbook.
+    types:
+    - uid: string
+    name: name
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/ContoseAutomationAccount/jobs?api-version=2015-10-31

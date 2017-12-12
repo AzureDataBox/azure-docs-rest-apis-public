@@ -57,32 +57,26 @@ requestBody:
     name: properties
 requestHeader: []
 definitions:
-- name: FailoverDeploymentModel
-  description: The failover deployment model.
-  kind: enum
+- name: CreateRecoveryPlanInputProperties
+  description: Recovery plan creation properties.
+  kind: object
   properties:
-  - types:
+  - description: The primary fabric Id.
+    types:
     - uid: string
-    name: NotApplicable
-  - types:
+    name: primaryFabricId
+  - description: The recovery fabric Id.
+    types:
     - uid: string
-    name: Classic
-  - types:
-    - uid: string
-    name: ResourceManager
-- name: RecoveryPlanGroupType
-  description: The group type.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Shutdown
-  - types:
-    - uid: string
-    name: Boot
-  - types:
-    - uid: string
-    name: Failover
+    name: recoveryFabricId
+  - description: The failover deployment model.
+    types:
+    - uid: FailoverDeploymentModel
+    name: failoverDeploymentModel
+  - description: The recovery plan groups.
+    types:
+    - uid: RecoveryPlanGroup
+    name: groups
 - name: RecoveryPlan
   description: Recovery plan details.
   kind: object
@@ -110,8 +104,28 @@ definitions:
     types:
     - uid: string
     name: location
+- name: RecoveryPlanGroup
+  description: Recovery plan group details.
+  kind: object
+  properties:
+  - description: The group type.
+    types:
+    - uid: RecoveryPlanGroupType
+    name: groupType
+  - description: The list of protected items.
+    types:
+    - uid: RecoveryPlanProtectedItem
+    name: replicationProtectedItems
+  - description: The start group actions.
+    types:
+    - uid: RecoveryPlanAction
+    name: startGroupActions
+  - description: The end group actions.
+    types:
+    - uid: RecoveryPlanAction
+    name: endGroupActions
 - name: RecoveryPlanProperties
-  description: The custom details.
+  description: Recovery plan custom details.
   kind: object
   properties:
   - description: The friendly name.
@@ -140,13 +154,11 @@ definitions:
     name: failoverDeploymentModel
   - description: The list of replication providers.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: replicationProviders
   - description: The list of allowed operations.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: allowedOperations
   - description: The start time of the last planned failover.
     types:
@@ -174,48 +186,8 @@ definitions:
     name: currentScenarioStatusDescription
   - description: The recovery plan groups.
     types:
-    - isArray: true
-      uid: RecoveryPlanGroup
+    - uid: RecoveryPlanGroup
     name: groups
-- name: CurrentScenarioDetails
-  description: The current scenario details.
-  kind: object
-  properties:
-  - description: Scenario name.
-    types:
-    - uid: string
-    name: scenarioName
-  - description: ARM Id of the job being executed.
-    types:
-    - uid: string
-    name: jobId
-  - description: Start time of the workflow.
-    types:
-    - uid: string
-    name: startTime
-- name: RecoveryPlanGroup
-  description: Recovery plan group details.
-  kind: object
-  properties:
-  - description: The group type.
-    types:
-    - uid: RecoveryPlanGroupType
-    name: groupType
-  - description: The list of protected items.
-    types:
-    - isArray: true
-      uid: RecoveryPlanProtectedItem
-    name: replicationProtectedItems
-  - description: The start group actions.
-    types:
-    - isArray: true
-      uid: RecoveryPlanAction
-    name: startGroupActions
-  - description: The end group actions.
-    types:
-    - isArray: true
-      uid: RecoveryPlanAction
-    name: endGroupActions
 - name: RecoveryPlanProtectedItem
   description: Recovery plan protected item.
   kind: object
@@ -238,13 +210,11 @@ definitions:
     name: actionName
   - description: The list of failover types.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: failoverTypes
   - description: The list of failover directions.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: failoverDirections
   - description: The custom details.
     types:
@@ -253,6 +223,22 @@ definitions:
     - uid: RecoveryPlanManualActionDetails
     typesTitle: RecoveryPlanActionDetails
     name: customDetails
+- name: CurrentScenarioDetails
+  description: Current scenario details of the protected entity.
+  kind: object
+  properties:
+  - description: Scenario name.
+    types:
+    - uid: string
+    name: scenarioName
+  - description: ARM Id of the job being executed.
+    types:
+    - uid: string
+    name: jobId
+  - description: Start time of the workflow.
+    types:
+    - uid: string
+    name: startTime
 - name: RecoveryPlanScriptActionDetails
   description: Recovery plan script action details.
   kind: object
@@ -275,16 +261,6 @@ definitions:
     - uid: ScriptActionDetails
     typesTitle: string
     name: instanceType
-- name: RecoveryPlanActionLocation
-  description: The fabric location.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Primary
-  - types:
-    - uid: string
-    name: Recovery
 - name: RecoveryPlanAutomationRunbookActionDetails
   description: Recovery plan Automation runbook action details.
   kind: object

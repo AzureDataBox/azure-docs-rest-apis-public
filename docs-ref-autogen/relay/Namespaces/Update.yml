@@ -65,41 +65,18 @@ requestBody:
     name: tags
 requestHeader: []
 definitions:
-- name: SkuName
-  description: Name of this SKU.
-  kind: enum
+- name: Sku
+  description: SKU of the namespace.
+  kind: object
   properties:
-  - types:
-    - uid: string
-    name: Standard
-- name: SkuTier
-  description: The tier of this SKU.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Standard
-- name: provisioningStateEnum
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Created
-  - types:
-    - uid: string
-    name: Succeeded
-  - types:
-    - uid: string
-    name: Deleted
-  - types:
-    - uid: string
-    name: Failed
-  - types:
-    - uid: string
-    name: Updating
-  - types:
-    - uid: string
-    name: Unknown
+  - description: Name of this SKU.
+    types:
+    - uid: SkuName
+    name: name
+  - description: The tier of this SKU.
+    types:
+    - uid: SkuTier
+    name: tier
 - name: RelayNamespace
   description: Description of a namespace resource.
   kind: object
@@ -111,27 +88,27 @@ definitions:
   - isReadyOnly: true
     types:
     - uid: provisioningStateEnum
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: The time the namespace was created.
     types:
     - uid: string
-    name: createdAt
+    name: properties.createdAt
   - isReadyOnly: true
     description: The time the namespace was updated.
     types:
     - uid: string
-    name: updatedAt
+    name: properties.updatedAt
   - isReadyOnly: true
     description: Endpoint you can use to perform Service Bus operations.
     types:
     - uid: string
-    name: serviceBusEndpoint
+    name: properties.serviceBusEndpoint
   - isReadyOnly: true
     description: Identifier for Azure Insights metrics.
     types:
     - uid: string
-    name: metricId
+    name: properties.metricId
   - description: Resource location.
     types:
     - uid: string
@@ -159,18 +136,6 @@ definitions:
     types:
     - uid: string
     name: type
-- name: Sku
-  description: SKU of the namespace.
-  kind: object
-  properties:
-  - description: Name of this SKU.
-    types:
-    - uid: SkuName
-    name: name
-  - description: The tier of this SKU.
-    types:
-    - uid: SkuTier
-    name: tier
 - name: ErrorResponse
   description: Error reponse indicates Relay service is not able to process the incoming request. The reason is provided in the error message.
   kind: object

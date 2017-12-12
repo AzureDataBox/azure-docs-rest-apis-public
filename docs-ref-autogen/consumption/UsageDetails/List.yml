@@ -62,14 +62,21 @@ definitions:
   - isReadyOnly: true
     description: The list of usage details.
     types:
-    - isArray: true
-      uid: UsageDetail
+    - uid: UsageDetail
     name: value
   - isReadyOnly: true
     description: The link (url) to the next page of results.
     types:
     - uid: string
     name: nextLink
+- name: ErrorResponse
+  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - description: The details of the error.
+    types:
+    - uid: ErrorDetails
+    name: error
 - name: UsageDetail
   description: An usage detail resource.
   kind: object
@@ -78,112 +85,112 @@ definitions:
     description: The id of the billing period resource that the usage belongs to.
     types:
     - uid: string
-    name: billingPeriodId
+    name: properties.billingPeriodId
   - isReadyOnly: true
     description: The id of the invoice resource that the usage belongs to.
     types:
     - uid: string
-    name: invoiceId
+    name: properties.invoiceId
   - isReadyOnly: true
     description: The start of the date time range covered by the usage detail.
     types:
     - uid: string
-    name: usageStart
+    name: properties.usageStart
   - isReadyOnly: true
     description: The end of the date time range covered by the usage detail.
     types:
     - uid: string
-    name: usageEnd
+    name: properties.usageEnd
   - isReadyOnly: true
     description: The name of the resource instance that the usage is about.
     types:
     - uid: string
-    name: instanceName
+    name: properties.instanceName
   - isReadyOnly: true
     description: The uri of the resource instance that the usage is about.
     types:
     - uid: string
-    name: instanceId
+    name: properties.instanceId
   - isReadyOnly: true
     description: The location of the resource instance that the usage is about.
     types:
     - uid: string
-    name: instanceLocation
+    name: properties.instanceLocation
   - isReadyOnly: true
     description: The ISO currency in which the meter is charged, for example, USD.
     types:
     - uid: string
-    name: currency
+    name: properties.currency
   - isReadyOnly: true
     description: The quantity of usage.
     types:
     - uid: number
-    name: usageQuantity
+    name: properties.usageQuantity
   - isReadyOnly: true
     description: The billable usage quantity.
     types:
     - uid: number
-    name: billableQuantity
+    name: properties.billableQuantity
   - isReadyOnly: true
     description: The amount of cost before tax.
     types:
     - uid: number
-    name: pretaxCost
+    name: properties.pretaxCost
   - isReadyOnly: true
     description: The estimated usage is subject to change.
     types:
     - uid: boolean
-    name: isEstimated
+    name: properties.isEstimated
   - isReadyOnly: true
     description: The meter id.
     types:
     - uid: string
-    name: meterId
+    name: properties.meterId
   - isReadyOnly: true
     description: The details about the meter. By default this is not populated, unless it's specified in $expand.
     types:
     - uid: MeterDetails
-    name: meterDetails
+    name: properties.meterDetails
   - isReadyOnly: true
     description: Subscription guid.
     types:
     - uid: string
-    name: subscriptionGuid
+    name: properties.subscriptionGuid
   - isReadyOnly: true
     description: Subscription name.
     types:
     - uid: string
-    name: subscriptionName
+    name: properties.subscriptionName
   - isReadyOnly: true
     description: Account name.
     types:
     - uid: string
-    name: accountName
+    name: properties.accountName
   - isReadyOnly: true
     description: Department name.
     types:
     - uid: string
-    name: departmentName
+    name: properties.departmentName
   - isReadyOnly: true
     description: Product name.
     types:
     - uid: string
-    name: product
+    name: properties.product
   - isReadyOnly: true
     description: Consumed service name.
     types:
     - uid: string
-    name: consumedService
+    name: properties.consumedService
   - isReadyOnly: true
     description: The cost center of this department if it is a department and a costcenter exists
     types:
     - uid: string
-    name: costCenter
+    name: properties.costCenter
   - isReadyOnly: true
     description: Additional details of this usage item. By default this is not populated, unless it's specified in $expand.
     types:
     - uid: string
-    name: additionalProperties
+    name: properties.additionalProperties
   - isReadyOnly: true
     description: Resource Id.
     types:
@@ -208,8 +215,22 @@ definitions:
       - uid: string
       uid: object
     name: tags
+- name: ErrorDetails
+  description: The details of the error.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+    name: code
+  - isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
 - name: MeterDetails
-  description: The details about the meter. By default this is not populated, unless it's specified in $expand.
+  description: The properties of the meter detail.
   kind: object
   properties:
   - isReadyOnly: true
@@ -247,28 +268,6 @@ definitions:
     types:
     - uid: number
     name: pretaxStandardRate
-- name: ErrorResponse
-  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
-  kind: object
-  properties:
-  - description: The details of the error.
-    types:
-    - uid: ErrorDetails
-    name: error
-- name: ErrorDetails
-  description: The details of the error.
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: Error code.
-    types:
-    - uid: string
-    name: code
-  - isReadyOnly: true
-    description: Error message indicating why the operation failed.
-    types:
-    - uid: string
-    name: message
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/usageDetails?api-version=2017-11-30

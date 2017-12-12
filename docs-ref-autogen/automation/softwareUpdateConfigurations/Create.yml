@@ -62,19 +62,19 @@ requestBody:
   - in: body
     isRequired: true
     description: update specific properties for the Software update configuration
-    types: []
-    typesTitle: updateConfiguration
-    name: updateConfiguration
+    types:
+    - uid: updateConfiguration
+    name: properties.updateConfiguration
   - in: body
     description: Schedule information for the Software update configuration
     types:
     - uid: ScheduleProperties
-    name: scheduleInfo
+    name: properties.scheduleInfo
   - in: body
     description: detailes of provisioning error
     types:
     - uid: ErrorResponse
-    name: error
+    name: properties.error
 requestHeader:
 - in: header
   description: Identifies this specific client request.
@@ -82,136 +82,36 @@ requestHeader:
   - uid: string
   name: clientRequestId
 definitions:
-- name: ScheduleFrequency
-  description: Gets or sets the frequency of the schedule.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: OneTime
-  - types:
-    - uid: string
-    name: Day
-  - types:
-    - uid: string
-    name: Hour
-  - types:
-    - uid: string
-    name: Week
-  - types:
-    - uid: string
-    name: Month
-- name: ScheduleDay
-  description: Day of the occurrence. Must be one of monday, tuesday, wednesday,thursday, friday, saturday, sunday.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Monday
-  - types:
-    - uid: string
-    name: Tuesday
-  - types:
-    - uid: string
-    name: Wednesday
-  - types:
-    - uid: string
-    name: Thursday
-  - types:
-    - uid: string
-    name: Friday
-  - types:
-    - uid: string
-    name: Saturday
-  - types:
-    - uid: string
-    name: Sunday
-- name: softwareUpdateConfiguration
-  description: Software update configuration properties.
+- name: updateConfiguration
+  description: Update specifc properties of the software update configuration.
   kind: object
   properties:
-  - isReadyOnly: true
-    description: Resource name.
+  - description: operating system of target machines
+    types:
+    - uid: OperatingSystemType
+    name: operatingSystem
+  - description: Windows specific update configuration.
+    types:
+    - uid: WindowsProperties
+    name: windows
+  - description: Linux specific update configuration.
+    types:
+    - uid: LinuxProperties
+    name: linux
+  - description: Maximum time allowed for the software update configuration run. Duration needs to be specified using the format PT[n]H[n]M[n]S as per ISO8601
     types:
     - uid: string
-    name: name
-  - isReadyOnly: true
-    description: Resource Id.
+    name: duration
+  - description: List of azure resource Ids for azure virtual machines targeted by the software update configuration.
     types:
     - uid: string
-    name: id
-  - isReadyOnly: true
-    description: Resource type
+    name: azureVirtualMachines
+  - description: List of names of non-azure machines targeted by the software update configuration.
     types:
     - uid: string
-    name: type
-  - description: update specific properties for the Software update configuration
-    types: []
-    typesTitle: updateConfiguration
-    name: updateConfiguration
-  - description: Schedule information for the Software update configuration
-    types:
-    - uid: ScheduleProperties
-    name: scheduleInfo
-  - isReadyOnly: true
-    description: Provisioning state for the software update configuration, which only appears in the response.
-    types:
-    - uid: string
-    name: provisioningState
-  - description: detailes of provisioning error
-    types:
-    - uid: ErrorResponse
-    name: error
-  - isReadyOnly: true
-    description: Creation time of theresource, which only appears in the response.
-    types:
-    - uid: string
-    name: creationTime
-  - isReadyOnly: true
-    description: createdBy property, which only appears in the response.
-    types:
-    - uid: string
-    name: createdBy
-  - isReadyOnly: true
-    description: Last time resource was modified, which only appears in the response.
-    types:
-    - uid: string
-    name: lastModifiedTime
-  - isReadyOnly: true
-    description: lastModifiedBy property, which only appears in the response.
-    types:
-    - uid: string
-    name: lastModifiedBy
-- name: WindowsProperties
-  description: Windows specific update configuration.
-  kind: object
-  properties:
-  - description: Update classification included in the software update configuration.
-    types:
-    - isArray: true
-      uid: string
-    name: includedUpdateClassifications
-  - description: KB numbers excluded from the software update configuration.
-    types:
-    - isArray: true
-      uid: string
-    name: excludedKbNumbers
-- name: LinuxProperties
-  description: Linux specific update configuration.
-  kind: object
-  properties:
-  - description: Update classifications included in the software update configuration.
-    types:
-    - isArray: true
-      uid: string
-    name: includedPackageClassifications
-  - description: packages excluded from the software update configuration.
-    types:
-    - isArray: true
-      uid: string
-    name: excludedPackageNameMasks
+    name: nonAzureComputerNames
 - name: ScheduleProperties
-  description: Schedule information for the Software update configuration
+  description: Definition of schedule parameters.
   kind: object
   properties:
   - description: Gets or sets the start time of the schedule.
@@ -271,24 +171,113 @@ definitions:
     types:
     - uid: string
     name: description
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - description: Error code
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
+- name: softwareUpdateConfiguration
+  description: Software update configuration properties.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+    name: type
+  - description: update specific properties for the Software update configuration
+    types:
+    - uid: updateConfiguration
+    name: properties.updateConfiguration
+  - description: Schedule information for the Software update configuration
+    types:
+    - uid: ScheduleProperties
+    name: properties.scheduleInfo
+  - isReadyOnly: true
+    description: Provisioning state for the software update configuration, which only appears in the response.
+    types:
+    - uid: string
+    name: properties.provisioningState
+  - description: detailes of provisioning error
+    types:
+    - uid: ErrorResponse
+    name: properties.error
+  - isReadyOnly: true
+    description: Creation time of theresource, which only appears in the response.
+    types:
+    - uid: string
+    name: properties.creationTime
+  - isReadyOnly: true
+    description: createdBy property, which only appears in the response.
+    types:
+    - uid: string
+    name: properties.createdBy
+  - isReadyOnly: true
+    description: Last time resource was modified, which only appears in the response.
+    types:
+    - uid: string
+    name: properties.lastModifiedTime
+  - isReadyOnly: true
+    description: lastModifiedBy property, which only appears in the response.
+    types:
+    - uid: string
+    name: properties.lastModifiedBy
+- name: WindowsProperties
+  description: Windows specific update configuration.
+  kind: object
+  properties:
+  - description: Update classification included in the software update configuration.
+    types:
+    - uid: string
+    name: includedUpdateClassifications
+  - description: KB numbers excluded from the software update configuration.
+    types:
+    - uid: string
+    name: excludedKbNumbers
+- name: LinuxProperties
+  description: Linux specific update configuration.
+  kind: object
+  properties:
+  - description: Update classifications included in the software update configuration.
+    types:
+    - uid: string
+    name: includedPackageClassifications
+  - description: packages excluded from the software update configuration.
+    types:
+    - uid: string
+    name: excludedPackageNameMasks
 - name: AdvancedSchedule
-  description: Gets or sets the advanced schedule.
+  description: The properties of the create Advanced Schedule.
   kind: object
   properties:
   - description: Days of the week that the job should execute on.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: weekDays
   - description: Days of the month that the job should execute on. Must be between 1 and 31.
     types:
-    - isArray: true
-      uid: integer
+    - uid: integer
     name: monthDays
   - description: Occurrences of days within a month.
     types:
-    - isArray: true
-      uid: AdvancedScheduleMonthlyOccurrence
+    - uid: AdvancedScheduleMonthlyOccurrence
     name: monthlyOccurrences
 - name: AdvancedScheduleMonthlyOccurrence
   description: The properties of the create advanced schedule monthly occurrence.
@@ -302,18 +291,6 @@ definitions:
     types:
     - uid: ScheduleDay
     name: day
-- name: ErrorResponse
-  description: detailes of provisioning error
-  kind: object
-  properties:
-  - description: Error code
-    types:
-    - uid: string
-    name: code
-  - description: Error message indicating why the operation failed.
-    types:
-    - uid: string
-    name: message
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/51766542-3ed7-4a72-a187-0c8ab644ddab/resourceGroups/mygroup/providers/Microsoft.Automation/automationAccounts/myaccount/softwareUpdateConfigurations/testpatch?api-version=2017-05-15-preview

@@ -84,19 +84,6 @@ definitions:
     types:
     - uid: string
     name: etag
-- name: TriggerRuntimeState
-  description: Indicates if trigger is running or not. Updated when Start/Stop APIs are called on the Trigger.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Started
-  - types:
-    - uid: string
-    name: Stopped
-  - types:
-    - uid: string
-    name: Disabled
 - name: ErrorResponse
   description: The object that defines the structure of an Azure Data Factory response.
   kind: object
@@ -115,8 +102,7 @@ definitions:
     name: target
   - description: Array with additional error details.
     types:
-    - isArray: true
-      uid: Details
+    - uid: ErrorResponse
     name: details
 - name: TumblingWindowTrigger
   description: Trigger that schedules pipeline runs for all fixed time interval windows from a start time without gaps and also supports backfill scenarios (when start time is in the past).
@@ -129,35 +115,34 @@ definitions:
   - description: The frequency of the time windows.
     types:
     - uid: TumblingWindowFrequency
-    name: frequency
+    name: typeProperties.frequency
   - description: The interval of the time windows. The minimum interval allowed is 15 Minutes.
     types:
     - uid: integer
-    name: interval
+    name: typeProperties.interval
   - description: The start time for the time period for the trigger during which events are fired for windows that are ready. Only UTC time is currently supported.
     types:
     - uid: string
-    name: startTime
+    name: typeProperties.startTime
   - description: The end time for the time period for the trigger during which events are fired for windows that are ready. Only UTC time is currently supported.
     types:
     - uid: string
-    name: endTime
+    name: typeProperties.endTime
   - description: "Specifies how long the trigger waits past due time before triggering new run. It doesn't alter window start and end time. The default is 0. Type: string (or Expression with resultType string), pattern: ((\\d+)\\.)?(\\d\\d):(60|([0-5][0-9])):(60|([0-5][0-9]))."
     types:
     - uid: object
-    name: delay
+    name: typeProperties.delay
   - description: The max number of parallel time windows (ready for execution) for which a new run is triggered.
     types:
     - uid: integer
-    name: maxConcurrency
+    name: typeProperties.maxConcurrency
   - description: Retry policy that will be applied for failed pipeline runs.
     types:
     - uid: RetryPolicy
-    name: retryPolicy
+    name: typeProperties.retryPolicy
   - description: Trigger type.
     types:
-    - {}
-    typesTitle: string
+    - uid: string
     name: type
   - description: Trigger description.
     types:
@@ -169,7 +154,7 @@ definitions:
     - uid: TriggerRuntimeState
     name: runtimeState
 - name: TriggerPipelineReference
-  description: Pipeline for which runs are created when an event is fired for trigger window that is ready.
+  description: Pipeline that needs to be triggered with the given parameters.
   kind: object
   properties:
   - description: Pipeline reference.
@@ -184,31 +169,8 @@ definitions:
       - uid: object
       uid: object
     name: parameters
-- name: PipelineReference
-  description: Pipeline reference.
-  kind: object
-  properties:
-  - description: Pipeline reference type.
-    types:
-    - uid: PipelineReference
-    typesTitle: enum
-    name: type
-  - description: Reference pipeline name.
-    types:
-    - uid: string
-    name: referenceName
-  - description: Reference name.
-    types:
-    - uid: string
-    name: name
-- description: Pipeline reference type.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: PipelineReference
 - name: TumblingWindowFrequency
-  description: The frequency of the time windows.
+  description: Enumerates possible frequency option for the tumbling window trigger.
   kind: enum
   properties:
   - types:
@@ -218,7 +180,7 @@ definitions:
     - uid: string
     name: Hour
 - name: RetryPolicy
-  description: Retry policy that will be applied for failed pipeline runs.
+  description: Execution policy for an activity.
   kind: object
   properties:
   - description: 'Maximum ordinary retry attempts. Default is 0. Type: integer (or Expression with resultType integer), minimum: 0.'
@@ -229,14 +191,38 @@ definitions:
     types:
     - uid: integer
     name: intervalInSeconds
-- name: MultiplePipelineTrigger
-  description: Base class for all triggers that support one to many model for trigger to pipeline.
+- name: TriggerRuntimeState
+  description: Enumerates possible state of Triggers.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Started
+  - types:
+    - uid: string
+    name: Stopped
+  - types:
+    - uid: string
+    name: Disabled
+- name: BlobTrigger
+  description: Trigger that runs everytime the selected Blob container changes.
   kind: object
   properties:
+  - description: The path of the container/folder that will trigger the pipeline.
+    types:
+    - uid: string
+    name: typeProperties.folderPath
+  - description: The max number of parallel files to handle when it is triggered.
+    types:
+    - uid: integer
+    name: typeProperties.maxConcurrency
+  - description: The Azure Storage linked service reference.
+    types:
+    - uid: LinkedServiceReference
+    name: typeProperties.linkedService
   - description: Pipelines that need to be started.
     types:
-    - isArray: true
-      uid: TriggerPipelineReference
+    - uid: TriggerPipelineReference
     name: pipelines
   - description: Trigger type.
     types:
@@ -252,6 +238,176 @@ definitions:
     types:
     - uid: TriggerRuntimeState
     name: runtimeState
+- name: ScheduleTrigger
+  description: Trigger that creates pipeline runs periodically, on schedule.
+  kind: object
+  properties:
+  - description: Recurrence schedule configuration.
+    types:
+    - uid: ScheduleTriggerRecurrence
+    name: typeProperties.recurrence
+  - description: Pipelines that need to be started.
+    types:
+    - uid: TriggerPipelineReference
+    name: pipelines
+  - description: Trigger type.
+    types:
+    - uid: MultiplePipelineTrigger
+    typesTitle: string
+    name: type
+  - description: Trigger description.
+    types:
+    - uid: string
+    name: description
+  - isReadyOnly: true
+    description: Indicates if trigger is running or not. Updated when Start/Stop APIs are called on the Trigger.
+    types:
+    - uid: TriggerRuntimeState
+    name: runtimeState
+- name: PipelineReference
+  description: Pipeline reference type.
+  kind: object
+  properties:
+  - description: Pipeline reference type.
+    types:
+    - uid: PipelineReference
+    typesTitle: enum
+    name: type
+  - description: Reference pipeline name.
+    types:
+    - uid: string
+    name: referenceName
+  - description: Reference name.
+    types:
+    - uid: string
+    name: name
+- name: LinkedServiceReference
+  description: Linked service reference type.
+  kind: object
+  properties:
+  - description: Linked service reference type.
+    types:
+    - uid: LinkedServiceReference
+    typesTitle: enum
+    name: type
+  - description: Reference LinkedService name.
+    types:
+    - uid: string
+    name: referenceName
+- name: ScheduleTriggerRecurrence
+  description: The workflow trigger recurrence.
+  kind: object
+  properties:
+  - description: The frequency.
+    types:
+    - uid: RecurrenceFrequency
+    name: frequency
+  - description: The interval.
+    types:
+    - uid: integer
+    name: interval
+  - description: The start time.
+    types:
+    - uid: string
+    name: startTime
+  - description: The end time.
+    types:
+    - uid: string
+    name: endTime
+  - description: The time zone.
+    types:
+    - uid: string
+    name: timeZone
+  - description: The recurrence schedule.
+    types:
+    - uid: RecurrenceSchedule
+    name: schedule
+- name: RecurrenceFrequency
+  description: Enumerates possible frequency option for the schedule trigger.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NotSpecified
+  - types:
+    - uid: string
+    name: Minute
+  - types:
+    - uid: string
+    name: Hour
+  - types:
+    - uid: string
+    name: Day
+  - types:
+    - uid: string
+    name: Week
+  - types:
+    - uid: string
+    name: Month
+  - types:
+    - uid: string
+    name: Year
+- name: RecurrenceSchedule
+  description: The recurrence schedule.
+  kind: object
+  properties:
+  - description: The minutes.
+    types:
+    - uid: integer
+    name: minutes
+  - description: The hours.
+    types:
+    - uid: integer
+    name: hours
+  - description: The days of the week.
+    types:
+    - uid: string
+    name: weekDays
+  - description: The month days.
+    types:
+    - uid: integer
+    name: monthDays
+  - description: The monthly occurrences.
+    types:
+    - uid: RecurrenceScheduleOccurrence
+    name: monthlyOccurrences
+- name: RecurrenceScheduleOccurrence
+  description: The recurrence schedule occurence.
+  kind: object
+  properties:
+  - description: The day of the week.
+    types:
+    - uid: DayOfWeek
+    name: day
+  - description: The occurrence.
+    types:
+    - uid: integer
+    name: occurrence
+- name: DayOfWeek
+  description: The days of the week.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Sunday
+  - types:
+    - uid: string
+    name: Monday
+  - types:
+    - uid: string
+    name: Tuesday
+  - types:
+    - uid: string
+    name: Wednesday
+  - types:
+    - uid: string
+    name: Thursday
+  - types:
+    - uid: string
+    name: Friday
+  - types:
+    - uid: string
+    name: Saturday
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/triggers/exampleTrigger?api-version=2017-09-01-preview

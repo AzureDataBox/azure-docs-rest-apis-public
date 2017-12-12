@@ -94,13 +94,28 @@ definitions:
   properties:
   - description: The list of tasks.
     types:
-    - isArray: true
-      uid: CloudTask
+    - uid: CloudTask
     name: value
   - description: The URL to get the next set of results.
     types:
     - uid: string
     name: odata.nextLink
+- name: BatchError
+  description: An error response received from the Azure Batch service.
+  kind: object
+  properties:
+  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+    name: code
+  - description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: ErrorMessage
+    name: message
+  - description: A collection of key-value pairs containing additional details about the error.
+    types:
+    - uid: BatchErrorDetail
+    name: values
 - name: CloudTask
   description: An Azure Batch task.
   kind: object
@@ -159,18 +174,15 @@ definitions:
     name: containerSettings
   - description: For multi-instance tasks, the resource files will only be downloaded to the compute node on which the primary task is executed.
     types:
-    - isArray: true
-      uid: ResourceFile
+    - uid: ResourceFile
     name: resourceFiles
   - description: For multi-instance tasks, the files will only be uploaded from the compute node on which the primary task is executed.
     types:
-    - isArray: true
-      uid: OutputFile
+    - uid: OutputFile
     name: outputFiles
   - description: A list of environment variable settings for the task.
     types:
-    - isArray: true
-      uid: EnvironmentSetting
+    - uid: EnvironmentSetting
     name: environmentSettings
   - description: A locality hint that can be used by the Batch service to select a compute node on which to start the new task.
     types:
@@ -206,26 +218,47 @@ definitions:
     name: dependsOn
   - description: Application packages are downloaded and deployed to a shared directory, not the task working directory. Therefore, if a referenced package is already on the compute node, and is up to date, then it is not re-downloaded; the existing copy on the compute node is used. If a referenced application package cannot be installed, for example because the package has been deleted or because download failed, the task fails.
     types:
-    - isArray: true
-      uid: ApplicationPackageReference
+    - uid: ApplicationPackageReference
     name: applicationPackageReferences
   - description: If this property is set, the Batch service provides the task with an authentication token which can be used to authenticate Batch service operations without requiring an account access key. The token is provided via the AZ_BATCH_AUTHENTICATION_TOKEN environment variable. The operations that the task can carry out using the token depend on the settings. For example, a task can request job permissions in order to add other tasks to the job, or check the status of the job or of other tasks under the job.
     types:
     - uid: AuthenticationTokenSettings
     name: authenticationTokenSettings
+- name: ErrorMessage
+  description: An error message received in an Azure Batch error response.
+  kind: object
+  properties:
+  - description: The language code of the error message
+    types:
+    - uid: string
+    name: lang
+  - description: The text of the message.
+    types:
+    - uid: string
+    name: value
+- name: BatchErrorDetail
+  description: An item of additional information included in an Azure Batch error response.
+  kind: object
+  properties:
+  - description: An identifier specifying the meaning of the Value property.
+    types:
+    - uid: string
+    name: key
+  - description: The additional information included with the error response.
+    types:
+    - uid: string
+    name: value
 - name: ExitConditions
-  description: How the Batch service should respond when the task completes.
+  description: Specifies how the Batch service should respond when the task completes.
   kind: object
   properties:
   - description: A list of individual task exit codes and how the Batch service should respond to them.
     types:
-    - isArray: true
-      uid: ExitCodeMapping
+    - uid: ExitCodeMapping
     name: exitCodes
   - description: A list of task exit code ranges and how the Batch service should respond to them.
     types:
-    - isArray: true
-      uid: ExitCodeRangeMapping
+    - uid: ExitCodeRangeMapping
     name: exitCodeRanges
   - description: How the Batch service should respond if the task fails to start due to an error.
     types:
@@ -239,76 +272,8 @@ definitions:
     types:
     - uid: ExitOptions
     name: default
-- name: ExitCodeMapping
-  description: How the Batch service should respond if a task exits with a particular exit code.
-  kind: object
-  properties:
-  - description: A process exit code.
-    types:
-    - uid: integer
-    name: code
-  - description: How the Batch service should respond if the task exits with this exit code.
-    types:
-    - uid: ExitOptions
-    name: exitOptions
-- name: ExitOptions
-  description: How the Batch service should respond if the task exits with this exit code.
-  kind: object
-  properties:
-  - description: The default is none for exit code 0 and terminate for all other exit conditions. If the job's onTaskFailed property is noaction, then specifying this property returns an error and the add task request fails with an invalid property value error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request).
-    types:
-    - uid: JobAction
-    name: jobAction
-  - description: The default is 'satisfy' for exit code 0, and 'block' for all other exit conditions. If the job's usesTaskDependencies property is set to false, then specifying the dependencyAction property returns an error and the add task request fails with an invalid property value error; if you are calling the REST API directly, the HTTP status code is 400  (Bad Request).
-    types:
-    - uid: DependencyAction
-    name: dependencyAction
-- name: JobAction
-  description: The default is none for exit code 0 and terminate for all other exit conditions. If the job's onTaskFailed property is noaction, then specifying this property returns an error and the add task request fails with an invalid property value error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request).
-  kind: enum
-  properties:
-  - description: Take no action.
-    types:
-    - uid: string
-    name: none
-  - description: Disable the job. This is equivalent to calling the disable job API, with a disableTasks value of requeue.
-    types:
-    - uid: string
-    name: disable
-  - description: Terminate the job. The terminateReason in the job's executionInfo is set to "TaskFailed".
-    types:
-    - uid: string
-    name: terminate
-- name: DependencyAction
-  description: The default is 'satisfy' for exit code 0, and 'block' for all other exit conditions. If the job's usesTaskDependencies property is set to false, then specifying the dependencyAction property returns an error and the add task request fails with an invalid property value error; if you are calling the REST API directly, the HTTP status code is 400  (Bad Request).
-  kind: enum
-  properties:
-  - description: Satisfy the task's dependencies.
-    types:
-    - uid: string
-    name: satisfy
-  - description: Block the task's dependencies.
-    types:
-    - uid: string
-    name: block
-- name: ExitCodeRangeMapping
-  description: A range of exit codes and how the Batch service should respond to exit codes within that range.
-  kind: object
-  properties:
-  - description: The first exit code in the range.
-    types:
-    - uid: integer
-    name: start
-  - description: The last exit code in the range.
-    types:
-    - uid: integer
-    name: end
-  - description: How the Batch service should respond if the task exits with an exit code in the range start to end (inclusive).
-    types:
-    - uid: ExitOptions
-    name: exitOptions
 - name: TaskState
-  description: The current state of the task.
+  description: The state of the task.
   kind: enum
   properties:
   - description: The task is queued and able to run, but is not currently assigned to a compute node. A task enters this state when it is created, when it is enabled after being disabled, or when it is awaiting a retry after a failed run.
@@ -328,7 +293,7 @@ definitions:
     - uid: string
     name: completed
 - name: TaskContainerSettings
-  description: If the pool that will run this task has containerConfiguration set, this must be set as well. If the pool that will run this task doesn't have containerConfiguration set, this must not be set. When this is specified, all directories recursively below the AZ_BATCH_NODE_ROOT_DIR (the root of Azure Batch directories on the node) are mapped into the container, all task environment variables are mapped into the container, and the task command line is executed in the container.
+  description: The container settings for a task.
   kind: object
   properties:
   - description: These additional options are supplied as arguments to the "docker create" command, in addition to those controlled by the Batch Service.
@@ -343,22 +308,6 @@ definitions:
     types:
     - uid: ContainerRegistry
     name: registry
-- name: ContainerRegistry
-  description: This setting can be omitted if was already provided at pool creation.
-  kind: object
-  properties:
-  - description: If omitted, the default is "docker.io".
-    types:
-    - uid: string
-    name: registryServer
-  - description: The user name to log into the registry server.
-    types:
-    - uid: string
-    name: username
-  - description: The password to log into the registry server.
-    types:
-    - uid: string
-    name: password
 - name: ResourceFile
   description: A file to be downloaded from Azure blob storage to a compute node.
   kind: object
@@ -391,50 +340,6 @@ definitions:
     types:
     - uid: OutputFileUploadOptions
     name: uploadOptions
-- name: OutputFileDestination
-  description: The destination for the output file(s).
-  kind: object
-  properties:
-  - description: A location in Azure blob storage to which files are uploaded.
-    types:
-    - uid: OutputFileBlobContainerDestination
-    name: container
-- name: OutputFileBlobContainerDestination
-  description: A location in Azure blob storage to which files are uploaded.
-  kind: object
-  properties:
-  - description: If filePattern refers to a specific file (i.e. contains no wildcards), then path is the name of the blob to which to upload that file. If filePattern contains one or more wildcards (and therefore may match multiple files), then path is the name of the blob virtual directory (which is prepended to each blob name) to which to upload the file(s). If omitted, file(s) are uploaded to the root of the container with a blob name matching their file name.
-    types:
-    - uid: string
-    name: path
-  - description: The URL must include a Shared Access Signature (SAS) granting write permissions to the container.
-    types:
-    - uid: string
-    name: containerUrl
-- name: OutputFileUploadOptions
-  description: Additional options for the upload operation, including under what conditions to perform the upload.
-  kind: object
-  properties:
-  - description: The default is taskcompletion.
-    types:
-    - uid: OutputFileUploadCondition
-    name: uploadCondition
-- name: OutputFileUploadCondition
-  description: The default is taskcompletion.
-  kind: enum
-  properties:
-  - description: Upload the file(s) only after the task process exits with an exit code of 0.
-    types:
-    - uid: string
-    name: tasksuccess
-  - description: Upload the file(s) only after the task process exits with a nonzero exit code.
-    types:
-    - uid: string
-    name: taskfailure
-  - description: Upload the file(s) after the task process exits, no matter what the exit code was.
-    types:
-    - uid: string
-    name: taskcompletion
 - name: EnvironmentSetting
   description: An environment variable to be set on a task process.
   kind: object
@@ -448,7 +353,7 @@ definitions:
     - uid: string
     name: value
 - name: AffinityInformation
-  description: A locality hint that can be used by the Batch service to select a compute node on which to start the new task.
+  description: A locality hint that can be used by the Batch service to select a compute node on which to start a task.
   kind: object
   properties:
   - description: You can pass the affinityId of a compute node to indicate that this task needs to run on that compute node. Note that this is just a soft affinity. If the target node is busy or unavailable at the time the task is scheduled, then the task will be scheduled elsewhere.
@@ -456,7 +361,7 @@ definitions:
     - uid: string
     name: affinityId
 - name: TaskConstraints
-  description: The execution constraints that apply to this task.
+  description: Execution constraints to apply to a task.
   kind: object
   properties:
   - description: If this is not specified, there is no time limit on how long the task may run.
@@ -472,7 +377,7 @@ definitions:
     - uid: integer
     name: maxTaskRetryCount
 - name: UserIdentity
-  description: If omitted, the task runs as a non-administrative user unique to the task.
+  description: Specify either the userName or autoUser property, but not both.
   kind: object
   properties:
   - description: The userName and autoUser properties are mutually exclusive; you must specify one but not both.
@@ -483,44 +388,8 @@ definitions:
     types:
     - uid: AutoUserSpecification
     name: autoUser
-- name: AutoUserSpecification
-  description: The userName and autoUser properties are mutually exclusive; you must specify one but not both.
-  kind: object
-  properties:
-  - description: The default value is task.
-    types:
-    - uid: AutoUserScope
-    name: scope
-  - description: nonAdmin - The auto user is a standard user without elevated access. admin - The auto user is a user with elevated access and operates with full Administrator permissions. The default value is nonAdmin.
-    types:
-    - uid: ElevationLevel
-    name: elevationLevel
-- name: AutoUserScope
-  description: The default value is task.
-  kind: enum
-  properties:
-  - description: Specifies that the service should create a new user for the task.
-    types:
-    - uid: string
-    name: task
-  - description: Specifies that the task runs as the common auto user account which is created on every node in a pool.
-    types:
-    - uid: string
-    name: pool
-- name: ElevationLevel
-  description: nonAdmin - The auto user is a standard user without elevated access. admin - The auto user is a user with elevated access and operates with full Administrator permissions. The default value is nonAdmin.
-  kind: enum
-  properties:
-  - description: The user is a standard user without elevated access.
-    types:
-    - uid: string
-    name: nonadmin
-  - description: The user is a user with elevated access and operates with full Administrator permissions.
-    types:
-    - uid: string
-    name: admin
 - name: TaskExecutionInformation
-  description: Information about the execution of the task.
+  description: Information about the execution of a task.
   kind: object
   properties:
   - description: "'Running' corresponds to the running state, so if the task specifies resource files or application packages, then the start time reflects the time at which the task started downloading or deploying these. If the task has been restarted or retried, this is the most recent time at which the task started running. This property is present only for tasks that are in the running or completed state."
@@ -563,81 +432,8 @@ definitions:
     types:
     - uid: TaskExecutionResult
     name: result
-- name: TaskContainerExecutionInformation
-  description: This property is set only if the task runs in a container context.
-  kind: object
-  properties:
-  - description: The ID of the container.
-    types:
-    - uid: string
-    name: containerId
-  - description: This is the state of the container according to the Docker service. It is equivalent to the status field returned by "docker inspect".
-    types:
-    - uid: string
-    name: state
-  - description: This is the detailed error string from the Docker service, if available. It is equivalent to the error field returned by "docker inspect".
-    types:
-    - uid: string
-    name: error
-- name: TaskFailureInformation
-  description: This property is set only if the task is in the completed state and encountered a failure.
-  kind: object
-  properties:
-  - description: The category of the task error.
-    types:
-    - uid: ErrorCategory
-    name: category
-  - description: An identifier for the task error. Codes are invariant and are intended to be consumed programmatically.
-    types:
-    - uid: string
-    name: code
-  - description: A message describing the task error, intended to be suitable for display in a user interface.
-    types:
-    - uid: string
-    name: message
-  - description: A list of additional details related to the error.
-    types:
-    - isArray: true
-      uid: NameValuePair
-    name: details
-- name: ErrorCategory
-  description: The category of the task error.
-  kind: enum
-  properties:
-  - description: The error is due to a user issue, such as misconfiguration.
-    types:
-    - uid: string
-    name: usererror
-  - description: The error is due to an internal server issue.
-    types:
-    - uid: string
-    name: servererror
-- name: NameValuePair
-  description: Represents a name-value pair.
-  kind: object
-  properties:
-  - description: The name in the name-value pair.
-    types:
-    - uid: string
-    name: name
-  - description: The value in the name-value pair.
-    types:
-    - uid: string
-    name: value
-- name: TaskExecutionResult
-  description: If the value is 'failed', then the details of the failure can be found in the failureInfo property.
-  kind: enum
-  properties:
-  - description: The task ran successfully.
-    types:
-    - uid: string
-    name: success
-  - description: There was an error during processing of the task. The failure may have occurred before the task process was launched, while the task process was executing, or after the task process exited.
-    types:
-    - uid: string
-    name: failure
 - name: ComputeNodeInformation
-  description: Information about the compute node on which the task ran.
+  description: Information about the compute node on which a task ran.
   kind: object
   properties:
   - description: An identifier for the compute node on which the task ran, which can be passed when adding a task to request that the task be scheduled on this compute node.
@@ -678,11 +474,10 @@ definitions:
     name: coordinationCommandLine
   - description: The difference between common resource files and task resource files is that common resource files are downloaded for all subtasks including the primary, whereas task resource files are downloaded only for the primary. Also note that these resource files are not downloaded to the task working directory, but instead are downloaded to the task root directory (one directory above the working directory).
     types:
-    - isArray: true
-      uid: ResourceFile
+    - uid: ResourceFile
     name: commonResourceFiles
 - name: TaskStatistics
-  description: Resource usage statistics for the task.
+  description: Resource usage statistics for a task.
   kind: object
   properties:
   - description: The URL of the statistics.
@@ -730,31 +525,17 @@ definitions:
     - uid: string
     name: waitTime
 - name: TaskDependencies
-  description: This task will not be scheduled until all tasks that it depends on have completed successfully. If any of those tasks fail and exhaust their retry counts, this task will never be scheduled.
+  description: Specifies any dependencies of a task. Any task that is explicitly specified or within a dependency range must complete before the dependant task will be scheduled.
   kind: object
   properties:
   - description: The taskIds collection is limited to 64000 characters total (i.e. the combined length of all task IDs). If the taskIds collection exceeds the maximum length, the Add Task request fails with error code TaskDependencyListTooLong. In this case consider using task ID ranges instead.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: taskIds
   - description: The list of task ID ranges that this task depends on. All tasks in all ranges must complete successfully before the dependent task can be scheduled.
     types:
-    - isArray: true
-      uid: TaskIdRange
+    - uid: TaskIdRange
     name: taskIdRanges
-- name: TaskIdRange
-  description: The start and end of the range are inclusive. For example, if a range has start 9 and end 12, then it represents tasks '9', '10', '11' and '12'.
-  kind: object
-  properties:
-  - description: The first task ID in the range.
-    types:
-    - uid: integer
-    name: start
-  - description: The last task ID in the range.
-    types:
-    - uid: integer
-    name: end
 - name: ApplicationPackageReference
   description: A reference to an application package to be deployed to compute nodes.
   kind: object
@@ -768,52 +549,218 @@ definitions:
     - uid: string
     name: version
 - name: AuthenticationTokenSettings
-  description: If this property is set, the Batch service provides the task with an authentication token which can be used to authenticate Batch service operations without requiring an account access key. The token is provided via the AZ_BATCH_AUTHENTICATION_TOKEN environment variable. The operations that the task can carry out using the token depend on the settings. For example, a task can request job permissions in order to add other tasks to the job, or check the status of the job or of other tasks under the job.
+  description: The settings for an authentication token that the task can use to perform Batch service operations.
   kind: object
   properties:
   - description: The authentication token grants access to a limited set of Batch service operations. Currently the only supported value for the access property is 'job', which grants access to all operations related to the job which contains the task.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: access
-- name: BatchError
-  description: An error response received from the Azure Batch service.
+- name: ExitCodeMapping
+  description: How the Batch service should respond if a task exits with a particular exit code.
   kind: object
   properties:
-  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+  - description: A process exit code.
+    types:
+    - uid: integer
+    name: code
+  - description: How the Batch service should respond if the task exits with this exit code.
+    types:
+    - uid: ExitOptions
+    name: exitOptions
+- name: ExitCodeRangeMapping
+  description: A range of exit codes and how the Batch service should respond to exit codes within that range.
+  kind: object
+  properties:
+  - description: The first exit code in the range.
+    types:
+    - uid: integer
+    name: start
+  - description: The last exit code in the range.
+    types:
+    - uid: integer
+    name: end
+  - description: How the Batch service should respond if the task exits with an exit code in the range start to end (inclusive).
+    types:
+    - uid: ExitOptions
+    name: exitOptions
+- name: ExitOptions
+  description: Specifies how the Batch service responds to a particular exit condition.
+  kind: object
+  properties:
+  - description: The default is none for exit code 0 and terminate for all other exit conditions. If the job's onTaskFailed property is noaction, then specifying this property returns an error and the add task request fails with an invalid property value error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request).
+    types:
+    - uid: JobAction
+    name: jobAction
+  - description: The default is 'satisfy' for exit code 0, and 'block' for all other exit conditions. If the job's usesTaskDependencies property is set to false, then specifying the dependencyAction property returns an error and the add task request fails with an invalid property value error; if you are calling the REST API directly, the HTTP status code is 400  (Bad Request).
+    types:
+    - uid: DependencyAction
+    name: dependencyAction
+- name: ContainerRegistry
+  description: A private container registry.
+  kind: object
+  properties:
+  - description: If omitted, the default is "docker.io".
+    types:
+    - uid: string
+    name: registryServer
+  - description: The user name to log into the registry server.
+    types:
+    - uid: string
+    name: username
+  - description: The password to log into the registry server.
+    types:
+    - uid: string
+    name: password
+- name: OutputFileDestination
+  description: The destination to which a file should be uploaded.
+  kind: object
+  properties:
+  - description: A location in Azure blob storage to which files are uploaded.
+    types:
+    - uid: OutputFileBlobContainerDestination
+    name: container
+- name: OutputFileUploadOptions
+  description: Details about an output file upload operation, including under what conditions to perform the upload.
+  kind: object
+  properties:
+  - description: The default is taskcompletion.
+    types:
+    - uid: OutputFileUploadCondition
+    name: uploadCondition
+- name: AutoUserSpecification
+  description: Specifies the parameters for the auto user that runs a task on the Batch service.
+  kind: object
+  properties:
+  - description: The default value is task.
+    types:
+    - uid: AutoUserScope
+    name: scope
+  - description: nonAdmin - The auto user is a standard user without elevated access. admin - The auto user is a user with elevated access and operates with full Administrator permissions. The default value is nonAdmin.
+    types:
+    - uid: ElevationLevel
+    name: elevationLevel
+- name: TaskContainerExecutionInformation
+  description: Contains information about the container which a task is executing.
+  kind: object
+  properties:
+  - description: The ID of the container.
+    types:
+    - uid: string
+    name: containerId
+  - description: This is the state of the container according to the Docker service. It is equivalent to the status field returned by "docker inspect".
+    types:
+    - uid: string
+    name: state
+  - description: This is the detailed error string from the Docker service, if available. It is equivalent to the error field returned by "docker inspect".
+    types:
+    - uid: string
+    name: error
+- name: TaskFailureInformation
+  description: Information about a task failure.
+  kind: object
+  properties:
+  - description: The category of the task error.
+    types:
+    - uid: ErrorCategory
+    name: category
+  - description: An identifier for the task error. Codes are invariant and are intended to be consumed programmatically.
     types:
     - uid: string
     name: code
-  - description: A message describing the error, intended to be suitable for display in a user interface.
+  - description: A message describing the task error, intended to be suitable for display in a user interface.
     types:
-    - uid: ErrorMessage
+    - uid: string
     name: message
-  - description: A collection of key-value pairs containing additional details about the error.
+  - description: A list of additional details related to the error.
     types:
-    - isArray: true
-      uid: BatchErrorDetail
-    name: values
-- name: ErrorMessage
-  description: A message describing the error, intended to be suitable for display in a user interface.
+    - uid: NameValuePair
+    name: details
+- name: TaskExecutionResult
+  description: The result of task execution.
+  kind: enum
+  properties:
+  - description: The task ran successfully.
+    types:
+    - uid: string
+    name: success
+  - description: There was an error during processing of the task. The failure may have occurred before the task process was launched, while the task process was executing, or after the task process exited.
+    types:
+    - uid: string
+    name: failure
+- name: TaskIdRange
+  description: The start and end of the range are inclusive. For example, if a range has start 9 and end 12, then it represents tasks '9', '10', '11' and '12'.
   kind: object
   properties:
-  - description: The language code of the error message
+  - description: The first task ID in the range.
     types:
-    - uid: string
-    name: lang
-  - description: The text of the message.
+    - uid: integer
+    name: start
+  - description: The last task ID in the range.
     types:
-    - uid: string
-    name: value
-- name: BatchErrorDetail
-  description: An item of additional information included in an Azure Batch error response.
+    - uid: integer
+    name: end
+- name: OutputFileBlobContainerDestination
+  description: Specifies a file upload destination within an Azure blob storage container.
   kind: object
   properties:
-  - description: An identifier specifying the meaning of the Value property.
+  - description: If filePattern refers to a specific file (i.e. contains no wildcards), then path is the name of the blob to which to upload that file. If filePattern contains one or more wildcards (and therefore may match multiple files), then path is the name of the blob virtual directory (which is prepended to each blob name) to which to upload the file(s). If omitted, file(s) are uploaded to the root of the container with a blob name matching their file name.
     types:
     - uid: string
-    name: key
-  - description: The additional information included with the error response.
+    name: path
+  - description: The URL must include a Shared Access Signature (SAS) granting write permissions to the container.
+    types:
+    - uid: string
+    name: containerUrl
+- name: OutputFileUploadCondition
+  description: The conditions under which a task output file or set of files should be uploaded.
+  kind: enum
+  properties:
+  - description: Upload the file(s) only after the task process exits with an exit code of 0.
+    types:
+    - uid: string
+    name: tasksuccess
+  - description: Upload the file(s) only after the task process exits with a nonzero exit code.
+    types:
+    - uid: string
+    name: taskfailure
+  - description: Upload the file(s) after the task process exits, no matter what the exit code was.
+    types:
+    - uid: string
+    name: taskcompletion
+- name: ElevationLevel
+  description: The elevation level of the user.
+  kind: enum
+  properties:
+  - description: The user is a standard user without elevated access.
+    types:
+    - uid: string
+    name: nonadmin
+  - description: The user is a user with elevated access and operates with full Administrator permissions.
+    types:
+    - uid: string
+    name: admin
+- name: ErrorCategory
+  description: The category of the error.
+  kind: enum
+  properties:
+  - description: The error is due to a user issue, such as misconfiguration.
+    types:
+    - uid: string
+    name: usererror
+  - description: The error is due to an internal server issue.
+    types:
+    - uid: string
+    name: servererror
+- name: NameValuePair
+  description: Represents a name-value pair.
+  kind: object
+  properties:
+  - description: The name in the name-value pair.
+    types:
+    - uid: string
+    name: name
+  - description: The value in the name-value pair.
     types:
     - uid: string
     name: value

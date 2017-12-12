@@ -59,28 +59,27 @@ requestBody:
     description: The webhook URL to send notifications to.
     types:
     - uid: string
-    name: webHookUrl
+    name: properties.webHookUrl
   - in: body
     description: Description of notification.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - in: body
     description: The list of event for which this notification is enabled.
     types:
-    - isArray: true
-      uid: Event
-    name: events
+    - uid: Event
+    name: properties.events
   - in: body
     description: The provisioning status of the resource.
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - in: body
     description: The unique immutable identifier of a resource (Guid).
     types:
     - uid: string
-    name: uniqueIdentifier
+    name: properties.uniqueIdentifier
   - in: body
     description: The location of the resource.
     types:
@@ -97,16 +96,14 @@ requestBody:
     name: tags
 requestHeader: []
 definitions:
-- name: NotificationChannelEventType
-  description: The event type for which this notification is enabled (i.e. AutoShutdown, Cost)
-  kind: enum
+- name: Event
+  description: An event to be notified for.
+  kind: object
   properties:
-  - types:
-    - uid: string
-    name: AutoShutdown
-  - types:
-    - uid: string
-    name: Cost
+  - description: The event type for which this notification is enabled (i.e. AutoShutdown, Cost)
+    types:
+    - uid: NotificationChannelEventType
+    name: eventName
 - name: NotificationChannel
   description: A notification.
   kind: object
@@ -114,29 +111,28 @@ definitions:
   - description: The webhook URL to send notifications to.
     types:
     - uid: string
-    name: webHookUrl
+    name: properties.webHookUrl
   - description: Description of notification.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - description: The list of event for which this notification is enabled.
     types:
-    - isArray: true
-      uid: Event
-    name: events
+    - uid: Event
+    name: properties.events
   - isReadyOnly: true
     description: The creation date of the notification channel.
     types:
     - uid: string
-    name: createdDate
+    name: properties.createdDate
   - description: The provisioning status of the resource.
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - description: The unique immutable identifier of a resource (Guid).
     types:
     - uid: string
-    name: uniqueIdentifier
+    name: properties.uniqueIdentifier
   - isReadyOnly: true
     description: The identifier of the resource.
     types:
@@ -164,14 +160,6 @@ definitions:
       - uid: string
       uid: object
     name: tags
-- name: Event
-  description: An event to be notified for.
-  kind: object
-  properties:
-  - description: The event type for which this notification is enabled (i.e. AutoShutdown, Cost)
-    types:
-    - uid: NotificationChannelEventType
-    name: eventName
 - name: CloudError
   description: Error from a REST request.
   kind: object
@@ -195,8 +183,7 @@ definitions:
     name: target
   - description: Inner errors.
     types:
-    - isArray: true
-      uid: Details
+    - uid: CloudErrorBody
     name: details
 examples: []
 security:

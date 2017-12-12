@@ -62,12 +62,12 @@ requestBody:
     description: Logger type.
     types:
     - uid: LoggerType
-    name: loggerType
+    name: properties.loggerType
   - in: body
     description: Logger description.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - in: body
     isRequired: true
     description: The name and SendRule connection string of the event hub.
@@ -77,22 +77,14 @@ requestBody:
       - uid: string
       - uid: string
       uid: object
-    name: credentials
+    name: properties.credentials
   - in: body
     description: Whether records are buffered in the logger before publishing. Default is assumed to be true.
     types:
     - uid: boolean
-    name: isBuffered
+    name: properties.isBuffered
 requestHeader: []
 definitions:
-- name: LoggerType
-  description: Logger type.
-  kind: enum
-  properties:
-  - description: Azure Event Hub as log destination.
-    types:
-    - uid: string
-    name: azureEventHub
 - name: LoggerContract
   description: Logger details.
   kind: object
@@ -100,11 +92,11 @@ definitions:
   - description: Logger type.
     types:
     - uid: LoggerType
-    name: loggerType
+    name: properties.loggerType
   - description: Logger description.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - description: The name and SendRule connection string of the event hub.
     types:
     - isDictionary: true
@@ -112,11 +104,11 @@ definitions:
       - uid: string
       - uid: string
       uid: object
-    name: credentials
+    name: properties.credentials
   - description: Whether records are buffered in the logger before publishing. Default is assumed to be true.
     types:
     - uid: boolean
-    name: isBuffered
+    name: properties.isBuffered
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -146,8 +138,7 @@ definitions:
     name: message
   - description: The list of invalid fields send in request, in case of validation error.
     types:
-    - isArray: true
-      uid: ErrorFieldContract
+    - uid: ErrorFieldContract
     name: details
 - name: ErrorFieldContract
   description: Error Field contract.

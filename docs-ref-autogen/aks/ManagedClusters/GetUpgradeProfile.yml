@@ -65,7 +65,7 @@ definitions:
     - uid: ManagedClusterUpgradeProfileProperties
     name: properties
 - name: ManagedClusterUpgradeProfileProperties
-  description: Properties of upgrade profile.
+  description: Control plane and agent pool upgrade profiles.
   kind: object
   properties:
   - description: The list of available upgrade versions for the control plane.
@@ -74,11 +74,10 @@ definitions:
     name: controlPlaneProfile
   - description: The list of available upgrade versions for agent pools.
     types:
-    - isArray: true
-      uid: ManagedClusterPoolUpgradeProfile
+    - uid: ManagedClusterPoolUpgradeProfile
     name: agentPoolProfiles
 - name: ManagedClusterPoolUpgradeProfile
-  description: The list of available upgrade versions for the control plane.
+  description: The list of available upgrade versions.
   kind: object
   properties:
   - description: Kubernetes version (major, minor, patch).
@@ -95,19 +94,8 @@ definitions:
     name: osType
   - description: List of orchestrator types and versions available for upgrade.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: upgrades
-- name: ContainerServiceOSTypes
-  description: OsType to be used to specify os type. Choose from Linux and Windows. Default to Linux.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Linux
-  - types:
-    - uid: string
-    name: Windows
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/upgradeProfiles/default?api-version=2017-08-31

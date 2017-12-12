@@ -40,9 +40,8 @@ requestBody:
   - in: body
     description: Format of the resource id should be /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}
     types:
-    - isArray: true
-      uid: string
-    name: sources
+    - uid: string
+    name: properties.sources
 requestHeader: []
 definitions:
 - name: ReservationResponse
@@ -80,6 +79,12 @@ definitions:
     types:
     - uid: string
     name: type
+- name: Error
+  kind: object
+  properties:
+  - types:
+    - uid: ExtendedErrorInfo
+    name: error
 - name: Location
   description: Location in which the Resources needs to be reserved. It cannot be changed after the resource has been created.
   kind: enum
@@ -156,13 +161,6 @@ definitions:
   - types:
     - uid: string
     name: ukwest
-- name: Kind
-  description: Resource Provider type to be reserved.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Microsoft.Compute
 - name: SkuName
   kind: object
   properties:
@@ -178,8 +176,7 @@ definitions:
     name: displayName
   - description: List of the subscriptions that the benefit will be applied. Do not specify if AppliedScopeType is Shared.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: appliedScopes
   - description: Type of the Applied Scope.
     types:
@@ -215,6 +212,15 @@ definitions:
   - types:
     - uid: ReservationMergeProperties
     name: mergeProperties
+- name: ExtendedErrorInfo
+  kind: object
+  properties:
+  - types:
+    - uid: ErrorResponseCode
+    name: code
+  - types:
+    - uid: string
+    name: message
 - name: AppliedScopeType
   description: Type of the Applied Scope.
   kind: enum
@@ -278,43 +284,12 @@ definitions:
     types:
     - uid: string
     name: message
-- name: ReservationStatusCode
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: None
-  - types:
-    - uid: string
-    name: Pending
-  - types:
-    - uid: string
-    name: Active
-  - types:
-    - uid: string
-    name: PurchaseError
-  - types:
-    - uid: string
-    name: PaymentInstrumentError
-  - types:
-    - uid: string
-    name: Split
-  - types:
-    - uid: string
-    name: Merged
-  - types:
-    - uid: string
-    name: Expired
-  - types:
-    - uid: string
-    name: Succeeded
 - name: ReservationSplitProperties
   kind: object
   properties:
   - description: List of destination Resource Id that are created due to split. Format of the resource Id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: splitDestinations
   - description: Resource Id of the Reservation from which this is split. Format of the resource Id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}
     types:
@@ -329,24 +304,8 @@ definitions:
     name: mergeDestination
   - description: Resource Ids of the Source Reservation's merged to form this Reservation. Format of the resource Id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}
     types:
-    - isArray: true
-      uid: string
-    name: mergeSources
-- name: Error
-  kind: object
-  properties:
-  - types:
-    - uid: ExtendedErrorInfo
-    name: error
-- name: ExtendedErrorInfo
-  kind: object
-  properties:
-  - types:
-    - uid: ErrorResponseCode
-    name: code
-  - types:
     - uid: string
-    name: message
+    name: mergeSources
 - name: ErrorResponseCode
   kind: enum
   properties:
@@ -515,6 +474,36 @@ definitions:
   - types:
     - uid: string
     name: CalculatePriceFailed
+- name: ReservationStatusCode
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: None
+  - types:
+    - uid: string
+    name: Pending
+  - types:
+    - uid: string
+    name: Active
+  - types:
+    - uid: string
+    name: PurchaseError
+  - types:
+    - uid: string
+    name: PaymentInstrumentError
+  - types:
+    - uid: string
+    name: Split
+  - types:
+    - uid: string
+    name: Merged
+  - types:
+    - uid: string
+    name: Expired
+  - types:
+    - uid: string
+    name: Succeeded
 examples:
 - request:
     uri: POST https://management.azure.com/providers/Microsoft.Capacity/reservationOrders/276e7ae4-84d0-4da6-ab4b-d6b94f3557da/merge?api-version=2017-11-01

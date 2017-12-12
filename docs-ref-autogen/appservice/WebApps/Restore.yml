@@ -53,59 +53,58 @@ requestBody:
     description: SAS URL to the container.
     types:
     - uid: string
-    name: storageAccountUrl
+    name: properties.storageAccountUrl
   - in: body
     description: Name of a blob which contains the backup.
     types:
     - uid: string
-    name: blobName
+    name: properties.blobName
   - in: body
     isRequired: true
     description: <code>true</code> if the restore operation can overwrite target app; otherwise, <code>false</code>. <code>true</code> is needed if trying to restore over an existing app.
     types:
     - uid: boolean
-    name: overwrite
+    name: properties.overwrite
   - in: body
     description: Name of an app.
     types:
     - uid: string
-    name: siteName
+    name: properties.siteName
   - in: body
     description: Collection of databases which should be restored. This list has to match the list of databases included in the backup.
     types:
-    - isArray: true
-      uid: DatabaseBackupSetting
-    name: databases
+    - uid: DatabaseBackupSetting
+    name: properties.databases
   - in: body
     description: "Changes a logic when restoring an app with custom domains. <code>true</code> to remove custom domains automatically. If <code>false</code>, custom domains are added to \nthe app's object when it is being restored, but that might fail due to conflicts during the operation."
     types:
     - uid: boolean
-    name: ignoreConflictingHostNames
+    name: properties.ignoreConflictingHostNames
   - in: body
     description: Ignore the databases and only restore the site content
     types:
     - uid: boolean
-    name: ignoreDatabases
+    name: properties.ignoreDatabases
   - in: body
     description: Specify app service plan that will own restored site.
     types:
     - uid: string
-    name: appServicePlan
+    name: properties.appServicePlan
   - in: body
     description: Operation type.
     types:
     - uid: BackupRestoreOperationType
-    name: operationType
+    name: properties.operationType
   - in: body
     description: <code>true</code> if SiteConfig.ConnectionStrings should be set in new app; otherwise, <code>false</code>.
     types:
     - uid: boolean
-    name: adjustConnectionStrings
+    name: properties.adjustConnectionStrings
   - in: body
     description: App Service Environment name, if needed (only when restoring an app to an App Service Environment).
     types:
     - uid: string
-    name: hostingEnvironment
+    name: properties.hostingEnvironment
   - in: body
     description: Kind of resource.
     types:
@@ -113,38 +112,28 @@ requestBody:
     name: kind
 requestHeader: []
 definitions:
-- name: DatabaseType
-  description: Database type (e.g. SqlAzure / MySql).
-  kind: enum
+- name: DatabaseBackupSetting
+  description: Database backup settings.
+  kind: object
   properties:
+  - description: Database type (e.g. SqlAzure / MySql).
+    types:
+    - uid: DatabaseType
+    name: databaseType
   - types:
     - uid: string
-    name: SqlAzure
-  - types:
+    name: name
+  - description: >-
+      Contains a connection string name that is linked to the SiteConfig.ConnectionStrings.
+
+      This is used during restore with overwrite connection strings options.
+    types:
     - uid: string
-    name: MySql
-  - types:
+    name: connectionStringName
+  - description: Contains a connection string to a database which is being backed up or restored. If the restore should happen to a new database, the database name inside is the new one.
+    types:
     - uid: string
-    name: LocalMySql
-  - types:
-    - uid: string
-    name: PostgreSql
-- name: BackupRestoreOperationType
-  description: Operation type.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Default
-  - types:
-    - uid: string
-    name: Clone
-  - types:
-    - uid: string
-    name: Relocation
-  - types:
-    - uid: string
-    name: Snapshot
+    name: connectionString
 - name: RestoreResponse
   description: Response for an app restore request.
   kind: object
@@ -153,7 +142,7 @@ definitions:
     description: When server starts the restore process, it will return an operation ID identifying that particular restore operation.
     types:
     - uid: string
-    name: operationId
+    name: properties.operationId
   - isReadyOnly: true
     description: Resource Id.
     types:

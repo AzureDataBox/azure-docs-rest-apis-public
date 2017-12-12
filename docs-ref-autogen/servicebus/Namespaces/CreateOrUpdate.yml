@@ -73,32 +73,22 @@ requestBody:
     name: tags
 requestHeader: []
 definitions:
-- name: SkuName
-  description: Name of this SKU.
-  kind: enum
+- name: SBSku
+  description: SKU of the namespace.
+  kind: object
   properties:
-  - types:
-    - uid: string
-    name: Basic
-  - types:
-    - uid: string
-    name: Standard
-  - types:
-    - uid: string
-    name: Premium
-- name: SkuTier
-  description: The billing tier of this particular SKU.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Basic
-  - types:
-    - uid: string
-    name: Standard
-  - types:
-    - uid: string
-    name: Premium
+  - description: Name of this SKU.
+    types:
+    - uid: SkuName
+    name: name
+  - description: The billing tier of this particular SKU.
+    types:
+    - uid: SkuTier
+    name: tier
+  - description: The specified messaging units for the tier. For Premium tier, capacity are 1,2 and 4.
+    types:
+    - uid: integer
+    name: capacity
 - name: SBNamespace
   description: Description of a namespace resource.
   kind: object
@@ -111,27 +101,27 @@ definitions:
     description: Provisioning state of the namespace.
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: The time the namespace was created.
     types:
     - uid: string
-    name: createdAt
+    name: properties.createdAt
   - isReadyOnly: true
     description: The time the namespace was updated.
     types:
     - uid: string
-    name: updatedAt
+    name: properties.updatedAt
   - isReadyOnly: true
     description: Endpoint you can use to perform Service Bus operations.
     types:
     - uid: string
-    name: serviceBusEndpoint
+    name: properties.serviceBusEndpoint
   - isReadyOnly: true
     description: Identifier for Azure Insights metrics
     types:
     - uid: string
-    name: metricId
+    name: properties.metricId
   - description: The Geo-location where the resource lives
     types:
     - uid: string
@@ -159,22 +149,6 @@ definitions:
     types:
     - uid: string
     name: type
-- name: SBSku
-  description: Porperties of Sku
-  kind: object
-  properties:
-  - description: Name of this SKU.
-    types:
-    - uid: SkuName
-    name: name
-  - description: The billing tier of this particular SKU.
-    types:
-    - uid: SkuTier
-    name: tier
-  - description: The specified messaging units for the tier. For Premium tier, capacity are 1,2 and 4.
-    types:
-    - uid: integer
-    name: capacity
 - name: ErrorResponse
   description: Error reponse indicates ServiceBus service is not able to process the incoming request. The reason is provided in the error message.
   kind: object

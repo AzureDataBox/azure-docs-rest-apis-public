@@ -55,8 +55,7 @@ definitions:
   properties:
   - description: The list of events. Since this list may be incomplete, the nextLink field should be used to request the next list of events.
     types:
-    - isArray: true
-      uid: Event
+    - uid: Event
     name: value
   - description: The URI that can be used to request the next list of events.
     types:
@@ -102,6 +101,34 @@ definitions:
     types:
     - uid: string
     name: requestUri
+  - description: The HTTP message version.
+    types:
+    - uid: string
+    name: version
+- name: EventResponseMessage
+  description: The event response message received from the service URI.
+  kind: object
+  properties:
+  - description: The content of the event response message.
+    types:
+    - uid: string
+    name: content
+  - description: The headers of the event response message.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: headers
+  - description: The reason phrase of the event response message.
+    types:
+    - uid: string
+    name: reasonPhrase
+  - description: The status code of the event response message.
+    types:
+    - uid: string
+    name: statusCode
   - description: The HTTP message version.
     types:
     - uid: string
@@ -214,34 +241,6 @@ definitions:
     types:
     - uid: string
     name: instanceID
-- name: EventResponseMessage
-  description: The event response message received from the service URI.
-  kind: object
-  properties:
-  - description: The content of the event response message.
-    types:
-    - uid: string
-    name: content
-  - description: The headers of the event response message.
-    types:
-    - isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-      uid: object
-    name: headers
-  - description: The reason phrase of the event response message.
-    types:
-    - uid: string
-    name: reasonPhrase
-  - description: The status code of the event response message.
-    types:
-    - uid: string
-    name: statusCode
-  - description: The HTTP message version.
-    types:
-    - uid: string
-    name: version
 examples:
 - request:
     uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/webhooks/myWebhook/listEvents?api-version=2017-10-01

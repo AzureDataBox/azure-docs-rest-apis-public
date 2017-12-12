@@ -52,34 +52,44 @@ requestBody:
     description: the resource id of the storage account to which you would like to send the Activity Log.
     types:
     - uid: string
-    name: storageAccountId
+    name: properties.storageAccountId
   - in: body
     description: "The service bus rule ID of the service bus namespace in which you would like to have Event Hubs created for streaming the Activity Log. The rule ID is of the format: '{service bus resource ID}/authorizationrules/{key name}'."
     types:
     - uid: string
-    name: serviceBusRuleId
+    name: properties.serviceBusRuleId
   - in: body
     isRequired: true
     description: List of regions for which Activity Log events should be stored or streamed. It is a comma separated list of valid ARM locations including the 'global' location.
     types:
-    - isArray: true
-      uid: string
-    name: locations
+    - uid: string
+    name: properties.locations
   - in: body
     isRequired: true
     description: "the categories of the logs. These categories are created as is convenient to the user. Some values are: 'Write', 'Delete', and/or 'Action.'"
     types:
-    - isArray: true
-      uid: string
-    name: categories
+    - uid: string
+    name: properties.categories
   - in: body
     isRequired: true
     description: the retention policy for the events in the log.
     types:
     - uid: RetentionPolicy
-    name: retentionPolicy
+    name: properties.retentionPolicy
 requestHeader: []
 definitions:
+- name: RetentionPolicy
+  description: Specifies the retention policy for the log.
+  kind: object
+  properties:
+  - description: a value indicating whether the retention policy is enabled.
+    types:
+    - uid: boolean
+    name: enabled
+  - description: the number of days for the retention in days. A value of 0 will retain the events indefinitely.
+    types:
+    - uid: integer
+    name: days
 - name: ErrorResponse
   description: Describes the format of Error response.
   kind: object
@@ -99,25 +109,23 @@ definitions:
   - description: the resource id of the storage account to which you would like to send the Activity Log.
     types:
     - uid: string
-    name: storageAccountId
+    name: properties.storageAccountId
   - description: "The service bus rule ID of the service bus namespace in which you would like to have Event Hubs created for streaming the Activity Log. The rule ID is of the format: '{service bus resource ID}/authorizationrules/{key name}'."
     types:
     - uid: string
-    name: serviceBusRuleId
+    name: properties.serviceBusRuleId
   - description: List of regions for which Activity Log events should be stored or streamed. It is a comma separated list of valid ARM locations including the 'global' location.
     types:
-    - isArray: true
-      uid: string
-    name: locations
+    - uid: string
+    name: properties.locations
   - description: "the categories of the logs. These categories are created as is convenient to the user. Some values are: 'Write', 'Delete', and/or 'Action.'"
     types:
-    - isArray: true
-      uid: string
-    name: categories
+    - uid: string
+    name: properties.categories
   - description: the retention policy for the events in the log.
     types:
     - uid: RetentionPolicy
-    name: retentionPolicy
+    name: properties.retentionPolicy
   - isReadyOnly: true
     description: Azure resource Id
     types:
@@ -145,18 +153,6 @@ definitions:
       - uid: string
       uid: object
     name: tags
-- name: RetentionPolicy
-  description: the retention policy for the events in the log.
-  kind: object
-  properties:
-  - description: a value indicating whether the retention policy is enabled.
-    types:
-    - uid: boolean
-    name: enabled
-  - description: the number of days for the retention in days. A value of 0 will retain the events indefinitely.
-    types:
-    - uid: integer
-    name: days
 examples:
 - request:
     uri: PATCH https://management.azure.com/subscriptions/df602c9c-7aa0-407d-a6fb-eb20c8bd1192/providers/microsoft.insights/logprofiles/Rac46PostSwapRG?api-version=2016-03-01

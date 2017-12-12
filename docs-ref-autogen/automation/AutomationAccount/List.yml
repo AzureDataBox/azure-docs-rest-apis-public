@@ -39,13 +39,24 @@ definitions:
   properties:
   - description: Gets or sets list of accounts.
     types:
-    - isArray: true
-      uid: AutomationAccount
+    - uid: AutomationAccount
     name: value
   - description: Gets or sets the next link.
     types:
     - uid: string
     name: nextLink
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - description: Error code
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
 - name: AutomationAccount
   description: Definition of the automation account type.
   kind: object
@@ -57,30 +68,30 @@ definitions:
   - description: Gets or sets the SKU of account.
     types:
     - uid: Sku
-    name: sku
+    name: properties.sku
   - description: Gets or sets the last modified by.
     types:
     - uid: string
-    name: lastModifiedBy
+    name: properties.lastModifiedBy
   - isReadyOnly: true
     description: Gets status of account.
     types:
     - uid: AutomationAccountState
-    name: state
+    name: properties.state
   - isReadyOnly: true
     description: Gets the creation time.
     types:
     - uid: string
-    name: creationTime
+    name: properties.creationTime
   - isReadyOnly: true
     description: Gets the last modified time.
     types:
     - uid: string
-    name: lastModifiedTime
+    name: properties.lastModifiedTime
   - description: Gets or sets the description.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - isReadyOnly: true
     description: Resource Id
     types:
@@ -109,7 +120,7 @@ definitions:
       uid: object
     name: tags
 - name: Sku
-  description: Gets or sets the SKU of account.
+  description: The account SKU.
   kind: object
   properties:
   - description: Gets or sets the SKU name of the account.
@@ -124,41 +135,6 @@ definitions:
     types:
     - uid: integer
     name: capacity
-- name: SkuNameEnum
-  description: Gets or sets the SKU name of the account.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Free
-  - types:
-    - uid: string
-    name: Basic
-- name: AutomationAccountState
-  description: Gets status of account.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Ok
-  - types:
-    - uid: string
-    name: Unavailable
-  - types:
-    - uid: string
-    name: Suspended
-- name: ErrorResponse
-  description: Error response of an operation failure
-  kind: object
-  properties:
-  - description: Error code
-    types:
-    - uid: string
-    name: code
-  - description: Error message indicating why the operation failed.
-    types:
-    - uid: string
-    name: message
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Automation/automationAccounts?api-version=2015-10-31

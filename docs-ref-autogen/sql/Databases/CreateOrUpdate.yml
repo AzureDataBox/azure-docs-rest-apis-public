@@ -57,7 +57,7 @@ requestBody:
     description: The collation of the database. If createMode is not Default, this value is ignored.
     types:
     - uid: string
-    name: collation
+    name: properties.collation
   - in: body
     description: >-
       Specifies the mode of database creation.
@@ -87,67 +87,67 @@ requestBody:
       Copy, NonReadableSecondary, OnlineSecondary and RestoreLongTermRetentionBackup are not supported for DataWarehouse edition.
     types:
     - uid: CreateMode
-    name: createMode
+    name: properties.createMode
   - in: body
     description: Conditional. If createMode is Copy, NonReadableSecondary, OnlineSecondary, PointInTimeRestore, Recovery, or Restore, then this value is required. Specifies the resource ID of the source database. If createMode is NonReadableSecondary or OnlineSecondary, the name of the source database must be the same as the new database being created.
     types:
     - uid: string
-    name: sourceDatabaseId
+    name: properties.sourceDatabaseId
   - in: body
     description: Conditional. If createMode is Restore and sourceDatabaseId is the deleted database's original resource id when it existed (as opposed to its current restorable dropped database id), then this value is required. Specifies the time that the database was deleted.
     types:
     - uid: string
-    name: sourceDatabaseDeletionDate
+    name: properties.sourceDatabaseDeletionDate
   - in: body
     description: Conditional. If createMode is PointInTimeRestore, this value is required. If createMode is Restore, this value is optional. Specifies the point in time (ISO8601 format) of the source database that will be restored to create the new database. Must be greater than or equal to the source database's earliestRestoreDate value.
     types:
     - uid: string
-    name: restorePointInTime
+    name: properties.restorePointInTime
   - in: body
     description: Conditional. If createMode is RestoreLongTermRetentionBackup, then this value is required. Specifies the resource ID of the recovery point to restore from.
     types:
     - uid: string
-    name: recoveryServicesRecoveryPointResourceId
+    name: properties.recoveryServicesRecoveryPointResourceId
   - in: body
     description: 'The edition of the database. The DatabaseEditions enumeration contains all the valid editions. If createMode is NonReadableSecondary or OnlineSecondary, this value is ignored. To see possible values, query the capabilities API (/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationID}/capabilities) referred to by operationId: "Capabilities_ListByLocation."'
     types:
     - uid: DatabaseEdition
-    name: edition
+    name: properties.edition
   - in: body
     description: 'The max size of the database expressed in bytes. If createMode is not Default, this value is ignored. To see possible values, query the capabilities API (/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationID}/capabilities) referred to by operationId: "Capabilities_ListByLocation."'
     types:
     - uid: string
-    name: maxSizeBytes
+    name: properties.maxSizeBytes
   - in: body
     description: 'The configured service level objective ID of the database. This is the service level objective that is in the process of being applied to the database. Once successfully updated, it will match the value of currentServiceObjectiveId property. If requestedServiceObjectiveId and requestedServiceObjectiveName are both updated, the value of requestedServiceObjectiveId overrides the value of requestedServiceObjectiveName. To see possible values, query the capabilities API (/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationID}/capabilities) referred to by operationId: "Capabilities_ListByLocation."'
     types:
     - uid: string
-    name: requestedServiceObjectiveId
+    name: properties.requestedServiceObjectiveId
   - in: body
     description: 'The name of the configured service level objective of the database. This is the service level objective that is in the process of being applied to the database. Once successfully updated, it will match the value of serviceLevelObjective property. To see possible values, query the capabilities API (/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationID}/capabilities) referred to by operationId: "Capabilities_ListByLocation."'
     types:
     - uid: ServiceObjectiveName
-    name: requestedServiceObjectiveName
+    name: properties.requestedServiceObjectiveName
   - in: body
     description: The name of the elastic pool the database is in. If elasticPoolName and requestedServiceObjectiveName are both updated, the value of requestedServiceObjectiveName is ignored. Not supported for DataWarehouse edition.
     types:
     - uid: string
-    name: elasticPoolName
+    name: properties.elasticPoolName
   - in: body
     description: Conditional. If the database is a geo-secondary, readScale indicates whether read-only connections are allowed to this database or not. Not supported for DataWarehouse edition.
     types:
     - uid: ReadScale
-    name: readScale
+    name: properties.readScale
   - in: body
     description: Indicates the name of the sample schema to apply when creating this database. If createMode is not Default, this value is ignored. Not supported for DataWarehouse edition.
     types:
     - uid: SampleName
-    name: sampleName
+    name: properties.sampleName
   - in: body
     description: Whether or not this database is zone redundant, which means the replicas of this database will be spread across multiple availability zones.
     types:
     - uid: boolean
-    name: zoneRedundant
+    name: properties.zoneRedundant
   - in: body
     description: Resource tags.
     types:
@@ -165,235 +165,227 @@ requestBody:
     name: location
 requestHeader: []
 definitions:
-- name: CreateMode
-  description: >-
-    Specifies the mode of database creation.
-
-
-    Default: regular database creation.
-
-
-    Copy: creates a database as a copy of an existing database. sourceDatabaseId must be specified as the resource ID of the source database.
-
-
-    OnlineSecondary/NonReadableSecondary: creates a database as a (readable or nonreadable) secondary replica of an existing database. sourceDatabaseId must be specified as the resource ID of the existing primary database.
-
-
-    PointInTimeRestore: Creates a database by restoring a point in time backup of an existing database. sourceDatabaseId must be specified as the resource ID of the existing database, and restorePointInTime must be specified.
-
-
-    Recovery: Creates a database by restoring a geo-replicated backup. sourceDatabaseId must be specified as the recoverable database resource ID to restore.
-
-
-    Restore: Creates a database by restoring a backup of a deleted database. sourceDatabaseId must be specified. If sourceDatabaseId is the database's original resource ID, then sourceDatabaseDeletionDate must be specified. Otherwise sourceDatabaseId must be the restorable dropped database resource ID and sourceDatabaseDeletionDate is ignored. restorePointInTime may also be specified to restore from an earlier point in time.
-
-
-    RestoreLongTermRetentionBackup: Creates a database by restoring from a long term retention vault. recoveryServicesRecoveryPointResourceId must be specified as the recovery point resource ID.
-
-
-    Copy, NonReadableSecondary, OnlineSecondary and RestoreLongTermRetentionBackup are not supported for DataWarehouse edition.
-  kind: enum
+- name: ServiceTierAdvisor
+  description: Represents a Service Tier Advisor.
+  kind: object
   properties:
-  - types:
+  - isReadyOnly: true
+    description: The observation period start (ISO8601 format).
+    types:
     - uid: string
-    name: Copy
-  - types:
+    name: properties.observationPeriodStart
+  - isReadyOnly: true
+    description: The observation period start (ISO8601 format).
+    types:
     - uid: string
-    name: Default
-  - types:
+    name: properties.observationPeriodEnd
+  - isReadyOnly: true
+    description: The activeTimeRatio for service tier advisor.
+    types:
+    - uid: number
+    name: properties.activeTimeRatio
+  - isReadyOnly: true
+    description: Gets or sets minDtu for service tier advisor.
+    types:
+    - uid: number
+    name: properties.minDtu
+  - isReadyOnly: true
+    description: Gets or sets avgDtu for service tier advisor.
+    types:
+    - uid: number
+    name: properties.avgDtu
+  - isReadyOnly: true
+    description: Gets or sets maxDtu for service tier advisor.
+    types:
+    - uid: number
+    name: properties.maxDtu
+  - isReadyOnly: true
+    description: Gets or sets maxSizeInGB for service tier advisor.
+    types:
+    - uid: number
+    name: properties.maxSizeInGB
+  - isReadyOnly: true
+    description: Gets or sets serviceLevelObjectiveUsageMetrics for the service tier advisor.
+    types:
+    - uid: SloUsageMetric
+    name: properties.serviceLevelObjectiveUsageMetrics
+  - isReadyOnly: true
+    description: Gets or sets currentServiceLevelObjective for service tier advisor.
+    types:
     - uid: string
-    name: NonReadableSecondary
-  - types:
+    name: properties.currentServiceLevelObjective
+  - isReadyOnly: true
+    description: Gets or sets currentServiceLevelObjectiveId for service tier advisor.
+    types:
     - uid: string
-    name: OnlineSecondary
-  - types:
+    name: properties.currentServiceLevelObjectiveId
+  - isReadyOnly: true
+    description: Gets or sets usageBasedRecommendationServiceLevelObjective for service tier advisor.
+    types:
     - uid: string
-    name: PointInTimeRestore
-  - types:
+    name: properties.usageBasedRecommendationServiceLevelObjective
+  - isReadyOnly: true
+    description: Gets or sets usageBasedRecommendationServiceLevelObjectiveId for service tier advisor.
+    types:
     - uid: string
-    name: Recovery
-  - types:
+    name: properties.usageBasedRecommendationServiceLevelObjectiveId
+  - isReadyOnly: true
+    description: Gets or sets databaseSizeBasedRecommendationServiceLevelObjective for service tier advisor.
+    types:
     - uid: string
-    name: Restore
-  - types:
+    name: properties.databaseSizeBasedRecommendationServiceLevelObjective
+  - isReadyOnly: true
+    description: Gets or sets databaseSizeBasedRecommendationServiceLevelObjectiveId for service tier advisor.
+    types:
     - uid: string
-    name: RestoreLongTermRetentionBackup
-- name: DatabaseEdition
-  description: 'The edition of the database. The DatabaseEditions enumeration contains all the valid editions. If createMode is NonReadableSecondary or OnlineSecondary, this value is ignored. To see possible values, query the capabilities API (/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationID}/capabilities) referred to by operationId: "Capabilities_ListByLocation."'
-  kind: enum
+    name: properties.databaseSizeBasedRecommendationServiceLevelObjectiveId
+  - isReadyOnly: true
+    description: Gets or sets disasterPlanBasedRecommendationServiceLevelObjective for service tier advisor.
+    types:
+    - uid: string
+    name: properties.disasterPlanBasedRecommendationServiceLevelObjective
+  - isReadyOnly: true
+    description: Gets or sets disasterPlanBasedRecommendationServiceLevelObjectiveId for service tier advisor.
+    types:
+    - uid: string
+    name: properties.disasterPlanBasedRecommendationServiceLevelObjectiveId
+  - isReadyOnly: true
+    description: Gets or sets overallRecommendationServiceLevelObjective for service tier advisor.
+    types:
+    - uid: string
+    name: properties.overallRecommendationServiceLevelObjective
+  - isReadyOnly: true
+    description: Gets or sets overallRecommendationServiceLevelObjectiveId for service tier advisor.
+    types:
+    - uid: string
+    name: properties.overallRecommendationServiceLevelObjectiveId
+  - isReadyOnly: true
+    description: Gets or sets confidence for service tier advisor.
+    types:
+    - uid: number
+    name: properties.confidence
+  - isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+- name: TransparentDataEncryption
+  description: Represents a database transparent data encryption configuration.
+  kind: object
   properties:
-  - types:
+  - isReadyOnly: true
+    description: Resource location.
+    types:
     - uid: string
-    name: Web
-  - types:
+    name: location
+  - description: The status of the database transparent data encryption.
+    types:
+    - uid: TransparentDataEncryptionStatus
+    name: properties.status
+  - isReadyOnly: true
+    description: Resource ID.
+    types:
     - uid: string
-    name: Business
-  - types:
+    name: id
+  - isReadyOnly: true
+    description: Resource name.
+    types:
     - uid: string
-    name: Basic
-  - types:
+    name: name
+  - isReadyOnly: true
+    description: Resource type.
+    types:
     - uid: string
-    name: Standard
-  - types:
-    - uid: string
-    name: Premium
-  - types:
-    - uid: string
-    name: Free
-  - types:
-    - uid: string
-    name: Stretch
-  - types:
-    - uid: string
-    name: DataWarehouse
-  - types:
-    - uid: string
-    name: System
-  - types:
-    - uid: string
-    name: System2
-- name: ServiceObjectiveName
-  description: 'The name of the configured service level objective of the database. This is the service level objective that is in the process of being applied to the database. Once successfully updated, it will match the value of serviceLevelObjective property. To see possible values, query the capabilities API (/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationID}/capabilities) referred to by operationId: "Capabilities_ListByLocation."'
-  kind: enum
+    name: type
+- name: RecommendedIndex
+  description: Represents a database recommended index.
+  kind: object
   properties:
-  - types:
+  - isReadyOnly: true
+    description: The proposed index action. You can create a missing index, drop an unused index, or rebuild an existing index to improve its performance.
+    types:
+    - uid: RecommendedIndexAction
+    name: properties.action
+  - isReadyOnly: true
+    description: The current recommendation state.
+    types:
+    - uid: RecommendedIndexState
+    name: properties.state
+  - isReadyOnly: true
+    description: The UTC datetime showing when this resource was created (ISO8601 format).
+    types:
     - uid: string
-    name: Basic
-  - types:
+    name: properties.created
+  - isReadyOnly: true
+    description: The UTC datetime of when was this resource last changed (ISO8601 format).
+    types:
     - uid: string
-    name: S0
-  - types:
+    name: properties.lastModified
+  - isReadyOnly: true
+    description: The type of index (CLUSTERED, NONCLUSTERED, COLUMNSTORE, CLUSTERED COLUMNSTORE)
+    types:
+    - uid: RecommendedIndexType
+    name: properties.indexType
+  - isReadyOnly: true
+    description: The schema where table to build index over resides
+    types:
     - uid: string
-    name: S1
-  - types:
+    name: properties.schema
+  - isReadyOnly: true
+    description: The table on which to build index.
+    types:
     - uid: string
-    name: S2
-  - types:
+    name: properties.table
+  - isReadyOnly: true
+    description: Columns over which to build index
+    types:
     - uid: string
-    name: S3
-  - types:
+    name: properties.columns
+  - isReadyOnly: true
+    description: The list of column names to be included in the index
+    types:
     - uid: string
-    name: P1
-  - types:
+    name: properties.includedColumns
+  - isReadyOnly: true
+    description: The full build index script
+    types:
     - uid: string
-    name: P2
-  - types:
+    name: properties.indexScript
+  - isReadyOnly: true
+    description: The estimated impact of doing recommended index action.
+    types:
+    - uid: OperationImpact
+    name: properties.estimatedImpact
+  - isReadyOnly: true
+    description: The values reported after index action is complete.
+    types:
+    - uid: OperationImpact
+    name: properties.reportedImpact
+  - isReadyOnly: true
+    description: Resource ID.
+    types:
     - uid: string
-    name: P3
-  - types:
+    name: id
+  - isReadyOnly: true
+    description: Resource name.
+    types:
     - uid: string
-    name: P4
-  - types:
+    name: name
+  - isReadyOnly: true
+    description: Resource type.
+    types:
     - uid: string
-    name: P6
-  - types:
-    - uid: string
-    name: P11
-  - types:
-    - uid: string
-    name: P15
-  - types:
-    - uid: string
-    name: System
-  - types:
-    - uid: string
-    name: System2
-  - types:
-    - uid: string
-    name: ElasticPool
-- name: TransparentDataEncryptionStatus
-  description: The status of the database transparent data encryption.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Enabled
-  - types:
-    - uid: string
-    name: Disabled
-- name: RecommendedIndexAction
-  description: The proposed index action. You can create a missing index, drop an unused index, or rebuild an existing index to improve its performance.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Create
-  - types:
-    - uid: string
-    name: Drop
-  - types:
-    - uid: string
-    name: Rebuild
-- name: RecommendedIndexState
-  description: The current recommendation state.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Active
-  - types:
-    - uid: string
-    name: Pending
-  - types:
-    - uid: string
-    name: Executing
-  - types:
-    - uid: string
-    name: Verifying
-  - types:
-    - uid: string
-    name: Pending Revert
-  - types:
-    - uid: string
-    name: Reverting
-  - types:
-    - uid: string
-    name: Reverted
-  - types:
-    - uid: string
-    name: Ignored
-  - types:
-    - uid: string
-    name: Expired
-  - types:
-    - uid: string
-    name: Blocked
-  - types:
-    - uid: string
-    name: Success
-- name: RecommendedIndexType
-  description: The type of index (CLUSTERED, NONCLUSTERED, COLUMNSTORE, CLUSTERED COLUMNSTORE)
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: CLUSTERED
-  - types:
-    - uid: string
-    name: NONCLUSTERED
-  - types:
-    - uid: string
-    name: COLUMNSTORE
-  - types:
-    - uid: string
-    name: CLUSTERED COLUMNSTORE
-- name: ReadScale
-  description: Conditional. If the database is a geo-secondary, readScale indicates whether read-only connections are allowed to this database or not. Not supported for DataWarehouse edition.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Enabled
-  - types:
-    - uid: string
-    name: Disabled
-- name: SampleName
-  description: Indicates the name of the sample schema to apply when creating this database. If createMode is not Default, this value is ignored. Not supported for DataWarehouse edition.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: AdventureWorksLT
+    name: type
 - name: Database
   description: Represents a database.
   kind: object
@@ -406,32 +398,32 @@ definitions:
   - description: The collation of the database. If createMode is not Default, this value is ignored.
     types:
     - uid: string
-    name: collation
+    name: properties.collation
   - isReadyOnly: true
     description: The creation date of the database (ISO8601 format).
     types:
     - uid: string
-    name: creationDate
+    name: properties.creationDate
   - isReadyOnly: true
     description: The containment state of the database.
     types:
     - uid: integer
-    name: containmentState
+    name: properties.containmentState
   - isReadyOnly: true
     description: The current service level objective ID of the database. This is the ID of the service level objective that is currently active.
     types:
     - uid: string
-    name: currentServiceObjectiveId
+    name: properties.currentServiceObjectiveId
   - isReadyOnly: true
     description: The ID of the database.
     types:
     - uid: string
-    name: databaseId
+    name: properties.databaseId
   - isReadyOnly: true
     description: This records the earliest start date and time that restore is available for this database (ISO8601 format).
     types:
     - uid: string
-    name: earliestRestoreDate
+    name: properties.earliestRestoreDate
   - description: >-
       Specifies the mode of database creation.
 
@@ -460,93 +452,90 @@ definitions:
       Copy, NonReadableSecondary, OnlineSecondary and RestoreLongTermRetentionBackup are not supported for DataWarehouse edition.
     types:
     - uid: CreateMode
-    name: createMode
+    name: properties.createMode
   - description: Conditional. If createMode is Copy, NonReadableSecondary, OnlineSecondary, PointInTimeRestore, Recovery, or Restore, then this value is required. Specifies the resource ID of the source database. If createMode is NonReadableSecondary or OnlineSecondary, the name of the source database must be the same as the new database being created.
     types:
     - uid: string
-    name: sourceDatabaseId
+    name: properties.sourceDatabaseId
   - description: Conditional. If createMode is Restore and sourceDatabaseId is the deleted database's original resource id when it existed (as opposed to its current restorable dropped database id), then this value is required. Specifies the time that the database was deleted.
     types:
     - uid: string
-    name: sourceDatabaseDeletionDate
+    name: properties.sourceDatabaseDeletionDate
   - description: Conditional. If createMode is PointInTimeRestore, this value is required. If createMode is Restore, this value is optional. Specifies the point in time (ISO8601 format) of the source database that will be restored to create the new database. Must be greater than or equal to the source database's earliestRestoreDate value.
     types:
     - uid: string
-    name: restorePointInTime
+    name: properties.restorePointInTime
   - description: Conditional. If createMode is RestoreLongTermRetentionBackup, then this value is required. Specifies the resource ID of the recovery point to restore from.
     types:
     - uid: string
-    name: recoveryServicesRecoveryPointResourceId
+    name: properties.recoveryServicesRecoveryPointResourceId
   - description: 'The edition of the database. The DatabaseEditions enumeration contains all the valid editions. If createMode is NonReadableSecondary or OnlineSecondary, this value is ignored. To see possible values, query the capabilities API (/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationID}/capabilities) referred to by operationId: "Capabilities_ListByLocation."'
     types:
     - uid: DatabaseEdition
-    name: edition
+    name: properties.edition
   - description: 'The max size of the database expressed in bytes. If createMode is not Default, this value is ignored. To see possible values, query the capabilities API (/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationID}/capabilities) referred to by operationId: "Capabilities_ListByLocation."'
     types:
     - uid: string
-    name: maxSizeBytes
+    name: properties.maxSizeBytes
   - description: 'The configured service level objective ID of the database. This is the service level objective that is in the process of being applied to the database. Once successfully updated, it will match the value of currentServiceObjectiveId property. If requestedServiceObjectiveId and requestedServiceObjectiveName are both updated, the value of requestedServiceObjectiveId overrides the value of requestedServiceObjectiveName. To see possible values, query the capabilities API (/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationID}/capabilities) referred to by operationId: "Capabilities_ListByLocation."'
     types:
     - uid: string
-    name: requestedServiceObjectiveId
+    name: properties.requestedServiceObjectiveId
   - description: 'The name of the configured service level objective of the database. This is the service level objective that is in the process of being applied to the database. Once successfully updated, it will match the value of serviceLevelObjective property. To see possible values, query the capabilities API (/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationID}/capabilities) referred to by operationId: "Capabilities_ListByLocation."'
     types:
     - uid: ServiceObjectiveName
-    name: requestedServiceObjectiveName
+    name: properties.requestedServiceObjectiveName
   - isReadyOnly: true
     description: The current service level objective of the database.
     types:
     - uid: ServiceObjectiveName
-    name: serviceLevelObjective
+    name: properties.serviceLevelObjective
   - isReadyOnly: true
     description: The status of the database.
     types:
     - uid: string
-    name: status
+    name: properties.status
   - description: The name of the elastic pool the database is in. If elasticPoolName and requestedServiceObjectiveName are both updated, the value of requestedServiceObjectiveName is ignored. Not supported for DataWarehouse edition.
     types:
     - uid: string
-    name: elasticPoolName
+    name: properties.elasticPoolName
   - isReadyOnly: true
     description: The default secondary region for this database.
     types:
     - uid: string
-    name: defaultSecondaryLocation
+    name: properties.defaultSecondaryLocation
   - isReadyOnly: true
     description: The list of service tier advisors for this database. Expanded property
     types:
-    - isArray: true
-      uid: ServiceTierAdvisor
-    name: serviceTierAdvisors
+    - uid: ServiceTierAdvisor
+    name: properties.serviceTierAdvisors
   - isReadyOnly: true
     description: The transparent data encryption info for this database.
     types:
-    - isArray: true
-      uid: TransparentDataEncryption
-    name: transparentDataEncryption
+    - uid: TransparentDataEncryption
+    name: properties.transparentDataEncryption
   - isReadyOnly: true
     description: The recommended indices for this database.
     types:
-    - isArray: true
-      uid: RecommendedIndex
-    name: recommendedIndex
+    - uid: RecommendedIndex
+    name: properties.recommendedIndex
   - isReadyOnly: true
     description: The resource identifier of the failover group containing this database.
     types:
     - uid: string
-    name: failoverGroupId
+    name: properties.failoverGroupId
   - description: Conditional. If the database is a geo-secondary, readScale indicates whether read-only connections are allowed to this database or not. Not supported for DataWarehouse edition.
     types:
     - uid: ReadScale
-    name: readScale
+    name: properties.readScale
   - description: Indicates the name of the sample schema to apply when creating this database. If createMode is not Default, this value is ignored. Not supported for DataWarehouse edition.
     types:
     - uid: SampleName
-    name: sampleName
+    name: properties.sampleName
   - description: Whether or not this database is zone redundant, which means the replicas of this database will be spread across multiple availability zones.
     types:
     - uid: boolean
-    name: zoneRedundant
+    name: properties.zoneRedundant
   - description: Resource tags.
     types:
     - isDictionary: true
@@ -559,121 +548,6 @@ definitions:
     types:
     - uid: string
     name: location
-  - isReadyOnly: true
-    description: Resource ID.
-    types:
-    - uid: string
-    name: id
-  - isReadyOnly: true
-    description: Resource name.
-    types:
-    - uid: string
-    name: name
-  - isReadyOnly: true
-    description: Resource type.
-    types:
-    - uid: string
-    name: type
-- name: ServiceTierAdvisor
-  description: Represents a Service Tier Advisor.
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: The observation period start (ISO8601 format).
-    types:
-    - uid: string
-    name: observationPeriodStart
-  - isReadyOnly: true
-    description: The observation period start (ISO8601 format).
-    types:
-    - uid: string
-    name: observationPeriodEnd
-  - isReadyOnly: true
-    description: The activeTimeRatio for service tier advisor.
-    types:
-    - uid: number
-    name: activeTimeRatio
-  - isReadyOnly: true
-    description: Gets or sets minDtu for service tier advisor.
-    types:
-    - uid: number
-    name: minDtu
-  - isReadyOnly: true
-    description: Gets or sets avgDtu for service tier advisor.
-    types:
-    - uid: number
-    name: avgDtu
-  - isReadyOnly: true
-    description: Gets or sets maxDtu for service tier advisor.
-    types:
-    - uid: number
-    name: maxDtu
-  - isReadyOnly: true
-    description: Gets or sets maxSizeInGB for service tier advisor.
-    types:
-    - uid: number
-    name: maxSizeInGB
-  - isReadyOnly: true
-    description: Gets or sets serviceLevelObjectiveUsageMetrics for the service tier advisor.
-    types:
-    - isArray: true
-      uid: SloUsageMetric
-    name: serviceLevelObjectiveUsageMetrics
-  - isReadyOnly: true
-    description: Gets or sets currentServiceLevelObjective for service tier advisor.
-    types:
-    - uid: string
-    name: currentServiceLevelObjective
-  - isReadyOnly: true
-    description: Gets or sets currentServiceLevelObjectiveId for service tier advisor.
-    types:
-    - uid: string
-    name: currentServiceLevelObjectiveId
-  - isReadyOnly: true
-    description: Gets or sets usageBasedRecommendationServiceLevelObjective for service tier advisor.
-    types:
-    - uid: string
-    name: usageBasedRecommendationServiceLevelObjective
-  - isReadyOnly: true
-    description: Gets or sets usageBasedRecommendationServiceLevelObjectiveId for service tier advisor.
-    types:
-    - uid: string
-    name: usageBasedRecommendationServiceLevelObjectiveId
-  - isReadyOnly: true
-    description: Gets or sets databaseSizeBasedRecommendationServiceLevelObjective for service tier advisor.
-    types:
-    - uid: string
-    name: databaseSizeBasedRecommendationServiceLevelObjective
-  - isReadyOnly: true
-    description: Gets or sets databaseSizeBasedRecommendationServiceLevelObjectiveId for service tier advisor.
-    types:
-    - uid: string
-    name: databaseSizeBasedRecommendationServiceLevelObjectiveId
-  - isReadyOnly: true
-    description: Gets or sets disasterPlanBasedRecommendationServiceLevelObjective for service tier advisor.
-    types:
-    - uid: string
-    name: disasterPlanBasedRecommendationServiceLevelObjective
-  - isReadyOnly: true
-    description: Gets or sets disasterPlanBasedRecommendationServiceLevelObjectiveId for service tier advisor.
-    types:
-    - uid: string
-    name: disasterPlanBasedRecommendationServiceLevelObjectiveId
-  - isReadyOnly: true
-    description: Gets or sets overallRecommendationServiceLevelObjective for service tier advisor.
-    types:
-    - uid: string
-    name: overallRecommendationServiceLevelObjective
-  - isReadyOnly: true
-    description: Gets or sets overallRecommendationServiceLevelObjectiveId for service tier advisor.
-    types:
-    - uid: string
-    name: overallRecommendationServiceLevelObjectiveId
-  - isReadyOnly: true
-    description: Gets or sets confidence for service tier advisor.
-    types:
-    - uid: number
-    name: confidence
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -708,117 +582,6 @@ definitions:
     types:
     - uid: number
     name: inRangeTimeRatio
-- name: TransparentDataEncryption
-  description: Represents a database transparent data encryption configuration.
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: Resource location.
-    types:
-    - uid: string
-    name: location
-  - description: The status of the database transparent data encryption.
-    types:
-    - uid: TransparentDataEncryptionStatus
-    name: status
-  - isReadyOnly: true
-    description: Resource ID.
-    types:
-    - uid: string
-    name: id
-  - isReadyOnly: true
-    description: Resource name.
-    types:
-    - uid: string
-    name: name
-  - isReadyOnly: true
-    description: Resource type.
-    types:
-    - uid: string
-    name: type
-- name: RecommendedIndex
-  description: Represents a database recommended index.
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: The proposed index action. You can create a missing index, drop an unused index, or rebuild an existing index to improve its performance.
-    types:
-    - uid: RecommendedIndexAction
-    name: action
-  - isReadyOnly: true
-    description: The current recommendation state.
-    types:
-    - uid: RecommendedIndexState
-    name: state
-  - isReadyOnly: true
-    description: The UTC datetime showing when this resource was created (ISO8601 format).
-    types:
-    - uid: string
-    name: created
-  - isReadyOnly: true
-    description: The UTC datetime of when was this resource last changed (ISO8601 format).
-    types:
-    - uid: string
-    name: lastModified
-  - isReadyOnly: true
-    description: The type of index (CLUSTERED, NONCLUSTERED, COLUMNSTORE, CLUSTERED COLUMNSTORE)
-    types:
-    - uid: RecommendedIndexType
-    name: indexType
-  - isReadyOnly: true
-    description: The schema where table to build index over resides
-    types:
-    - uid: string
-    name: schema
-  - isReadyOnly: true
-    description: The table on which to build index.
-    types:
-    - uid: string
-    name: table
-  - isReadyOnly: true
-    description: Columns over which to build index
-    types:
-    - isArray: true
-      uid: string
-    name: columns
-  - isReadyOnly: true
-    description: The list of column names to be included in the index
-    types:
-    - isArray: true
-      uid: string
-    name: includedColumns
-  - isReadyOnly: true
-    description: The full build index script
-    types:
-    - uid: string
-    name: indexScript
-  - isReadyOnly: true
-    description: The estimated impact of doing recommended index action.
-    types:
-    - isArray: true
-      uid: OperationImpact
-    name: estimatedImpact
-  - isReadyOnly: true
-    description: The values reported after index action is complete.
-    types:
-    - isArray: true
-      uid: OperationImpact
-    name: reportedImpact
-  - isReadyOnly: true
-    description: Resource ID.
-    types:
-    - uid: string
-    name: id
-  - isReadyOnly: true
-    description: Resource name.
-    types:
-    - uid: string
-    name: name
-  - isReadyOnly: true
-    description: Resource type.
-    types:
-    - uid: string
-    name: type
 - name: OperationImpact
   description: The impact of an operation, both in absolute and relative terms.
   kind: object

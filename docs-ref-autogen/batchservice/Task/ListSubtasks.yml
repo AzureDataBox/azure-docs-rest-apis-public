@@ -84,9 +84,24 @@ definitions:
   properties:
   - description: The list of subtasks.
     types:
-    - isArray: true
-      uid: SubtaskInformation
+    - uid: SubtaskInformation
     name: value
+- name: BatchError
+  description: An error response received from the Azure Batch service.
+  kind: object
+  properties:
+  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+    name: code
+  - description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: ErrorMessage
+    name: message
+  - description: A collection of key-value pairs containing additional details about the error.
+    types:
+    - uid: BatchErrorDetail
+    name: values
 - name: SubtaskInformation
   description: Information about an Azure Batch subtask.
   kind: object
@@ -139,8 +154,32 @@ definitions:
     types:
     - uid: TaskExecutionResult
     name: result
+- name: ErrorMessage
+  description: An error message received in an Azure Batch error response.
+  kind: object
+  properties:
+  - description: The language code of the error message
+    types:
+    - uid: string
+    name: lang
+  - description: The text of the message.
+    types:
+    - uid: string
+    name: value
+- name: BatchErrorDetail
+  description: An item of additional information included in an Azure Batch error response.
+  kind: object
+  properties:
+  - description: An identifier specifying the meaning of the Value property.
+    types:
+    - uid: string
+    name: key
+  - description: The additional information included with the error response.
+    types:
+    - uid: string
+    name: value
 - name: ComputeNodeInformation
-  description: Information about the compute node on which the subtask ran.
+  description: Information about the compute node on which a task ran.
   kind: object
   properties:
   - description: An identifier for the compute node on which the task ran, which can be passed when adding a task to request that the task be scheduled on this compute node.
@@ -168,7 +207,7 @@ definitions:
     - uid: string
     name: taskRootDirectoryUrl
 - name: TaskContainerExecutionInformation
-  description: This property is set only if the task runs in a container context.
+  description: Contains information about the container which a task is executing.
   kind: object
   properties:
   - description: The ID of the container.
@@ -184,7 +223,7 @@ definitions:
     - uid: string
     name: error
 - name: TaskFailureInformation
-  description: This property is set only if the task is in the completed state and encountered a failure.
+  description: Information about a task failure.
   kind: object
   properties:
   - description: The category of the task error.
@@ -201,11 +240,38 @@ definitions:
     name: message
   - description: A list of additional details related to the error.
     types:
-    - isArray: true
-      uid: NameValuePair
+    - uid: NameValuePair
     name: details
+- name: SubtaskState
+  description: The state of the subtask.
+  kind: enum
+  properties:
+  - description: The task has been assigned to a compute node, but is waiting for a required Job Preparation task to complete on the node. If the Job Preparation task succeeds, the task will move to running. If the Job Preparation task fails, the task will return to active and will be eligible to be assigned to a different node.
+    types:
+    - uid: string
+    name: preparing
+  - description: The task is running on a compute node. This includes task-level preparation such as downloading resource files or deploying application packages specified on the task - it does not necessarily mean that the task command line has started executing.
+    types:
+    - uid: string
+    name: running
+  - description: The task is no longer eligible to run, usually because the task has finished successfully, or the task has finished unsuccessfully and has exhausted its retry limit. A task is also marked as completed if an error occurred launching the task, or when the task has been terminated.
+    types:
+    - uid: string
+    name: completed
+- name: TaskExecutionResult
+  description: The result of task execution.
+  kind: enum
+  properties:
+  - description: The task ran successfully.
+    types:
+    - uid: string
+    name: success
+  - description: There was an error during processing of the task. The failure may have occurred before the task process was launched, while the task process was executing, or after the task process exited.
+    types:
+    - uid: string
+    name: failure
 - name: ErrorCategory
-  description: The category of the task error.
+  description: The category of the error.
   kind: enum
   properties:
   - description: The error is due to a user issue, such as misconfiguration.
@@ -225,75 +291,6 @@ definitions:
     - uid: string
     name: name
   - description: The value in the name-value pair.
-    types:
-    - uid: string
-    name: value
-- name: SubtaskState
-  description: The current state of the subtask.
-  kind: enum
-  properties:
-  - description: The task has been assigned to a compute node, but is waiting for a required Job Preparation task to complete on the node. If the Job Preparation task succeeds, the task will move to running. If the Job Preparation task fails, the task will return to active and will be eligible to be assigned to a different node.
-    types:
-    - uid: string
-    name: preparing
-  - description: The task is running on a compute node. This includes task-level preparation such as downloading resource files or deploying application packages specified on the task - it does not necessarily mean that the task command line has started executing.
-    types:
-    - uid: string
-    name: running
-  - description: The task is no longer eligible to run, usually because the task has finished successfully, or the task has finished unsuccessfully and has exhausted its retry limit. A task is also marked as completed if an error occurred launching the task, or when the task has been terminated.
-    types:
-    - uid: string
-    name: completed
-- name: TaskExecutionResult
-  description: If the value is 'failed', then the details of the failure can be found in the failureInfo property.
-  kind: enum
-  properties:
-  - description: The task ran successfully.
-    types:
-    - uid: string
-    name: success
-  - description: There was an error during processing of the task. The failure may have occurred before the task process was launched, while the task process was executing, or after the task process exited.
-    types:
-    - uid: string
-    name: failure
-- name: BatchError
-  description: An error response received from the Azure Batch service.
-  kind: object
-  properties:
-  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
-    types:
-    - uid: string
-    name: code
-  - description: A message describing the error, intended to be suitable for display in a user interface.
-    types:
-    - uid: ErrorMessage
-    name: message
-  - description: A collection of key-value pairs containing additional details about the error.
-    types:
-    - isArray: true
-      uid: BatchErrorDetail
-    name: values
-- name: ErrorMessage
-  description: A message describing the error, intended to be suitable for display in a user interface.
-  kind: object
-  properties:
-  - description: The language code of the error message
-    types:
-    - uid: string
-    name: lang
-  - description: The text of the message.
-    types:
-    - uid: string
-    name: value
-- name: BatchErrorDetail
-  description: An item of additional information included in an Azure Batch error response.
-  kind: object
-  properties:
-  - description: An identifier specifying the meaning of the Value property.
-    types:
-    - uid: string
-    name: key
-  - description: The additional information included with the error response.
     types:
     - uid: string
     name: value

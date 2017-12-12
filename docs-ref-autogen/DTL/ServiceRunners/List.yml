@@ -69,13 +69,20 @@ definitions:
   properties:
   - description: Results of the list operation.
     types:
-    - isArray: true
-      uid: ServiceRunner
+    - uid: ServiceRunner
     name: value
   - description: Link for next set of results.
     types:
     - uid: string
     name: nextLink
+- name: CloudError
+  description: Error from a REST request.
+  kind: object
+  properties:
+  - description: Body of an error from a REST request.
+    types:
+    - uid: CloudErrorBody
+    name: error
 - name: ServiceRunner
   description: A container for a managed identity to execute DevTest lab services.
   kind: object
@@ -111,8 +118,25 @@ definitions:
       - uid: string
       uid: object
     name: tags
+- name: CloudErrorBody
+  description: Body of an error from a REST request.
+  kind: object
+  properties:
+  - types:
+    - uid: string
+    name: code
+  - types:
+    - uid: string
+    name: message
+  - types:
+    - uid: string
+    name: target
+  - description: Inner errors.
+    types:
+    - uid: CloudErrorBody
+    name: details
 - name: IdentityProperties
-  description: The identity of the resource.
+  description: IdentityProperties
   kind: object
   properties:
   - description: Managed identity.
@@ -131,32 +155,6 @@ definitions:
     types:
     - uid: string
     name: clientSecretUrl
-- name: CloudError
-  description: Error from a REST request.
-  kind: object
-  properties:
-  - description: Body of an error from a REST request.
-    types:
-    - uid: CloudErrorBody
-    name: error
-- name: CloudErrorBody
-  description: Body of an error from a REST request.
-  kind: object
-  properties:
-  - types:
-    - uid: string
-    name: code
-  - types:
-    - uid: string
-    name: message
-  - types:
-    - uid: string
-    name: target
-  - description: Inner errors.
-    types:
-    - isArray: true
-      uid: Details
-    name: details
 examples: []
 security:
 - type: oauth2

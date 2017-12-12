@@ -91,13 +91,28 @@ definitions:
   properties:
   - description: Page values.
     types:
-    - isArray: true
-      uid: ApiContract
+    - uid: ApiContract
     name: value
   - description: Next page link if any.
     types:
     - uid: string
     name: nextLink
+- name: ErrorResponse
+  description: Error Body contract.
+  kind: object
+  properties:
+  - description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+    name: code
+  - description: Human-readable representation of the error.
+    types:
+    - uid: string
+    name: message
+  - description: The list of invalid fields send in request, in case of validation error.
+    types:
+    - uid: ErrorFieldContract
+    name: details
 - name: ApiContract
   description: API details.
   kind: object
@@ -105,20 +120,19 @@ definitions:
   - description: API name.
     types:
     - uid: string
-    name: displayName
+    name: properties.displayName
   - description: Absolute URL of the backend service implementing this API.
     types:
     - uid: string
-    name: serviceUrl
+    name: properties.serviceUrl
   - description: Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance. It is appended to the API endpoint base URL specified during the service instance creation to form a public URL for this API.
     types:
     - uid: string
-    name: path
+    name: properties.path
   - description: Describes on which protocols the operations in this API can be invoked.
     types:
-    - isArray: true
-      uid: string
-    name: protocols
+    - uid: string
+    name: properties.protocols
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -137,86 +151,31 @@ definitions:
   - description: Description of the API. May include HTML formatting tags.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - description: Collection of authentication settings included into this API.
     types:
     - uid: AuthenticationSettingsContract
-    name: authenticationSettings
+    name: properties.authenticationSettings
   - description: Protocols over which API is made available.
     types:
     - uid: SubscriptionKeyParameterNamesContract
-    name: subscriptionKeyParameterNames
+    name: properties.subscriptionKeyParameterNames
+  - description: Type of API.
+    types:
+    - uid: ApiType
+    name: properties.type
   - description: Describes the Revision of the Api. If no value is provided, default revision 1 is created
     types:
     - uid: string
-    name: apiRevision
+    name: properties.apiRevision
   - description: Indicates if API revision is current api revision.
     types:
     - uid: boolean
-    name: isCurrent
+    name: properties.isCurrent
   - description: Indicates if API revision is accessible via the gateway.
     types:
     - uid: boolean
-    name: isOnline
-- name: AuthenticationSettingsContract
-  description: Collection of authentication settings included into this API.
-  kind: object
-  properties:
-  - description: OAuth2 Authentication settings
-    types:
-    - uid: OAuth2AuthenticationSettingsContract
-    name: oAuth2
-- name: OAuth2AuthenticationSettingsContract
-  description: OAuth2 Authentication settings
-  kind: object
-  properties:
-  - description: OAuth authorization server identifier.
-    types:
-    - uid: string
-    name: authorizationServerId
-  - description: operations scope.
-    types:
-    - uid: string
-    name: scope
-- name: SubscriptionKeyParameterNamesContract
-  description: Protocols over which API is made available.
-  kind: object
-  properties:
-  - description: Subscription key header name.
-    types:
-    - uid: string
-    name: header
-  - description: Subscription key query string parameter name.
-    types:
-    - uid: string
-    name: query
-- name: ApiType
-  description: Type of API.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: http
-  - types:
-    - uid: string
-    name: soap
-- name: ErrorResponse
-  description: Error Body contract.
-  kind: object
-  properties:
-  - description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
-    types:
-    - uid: string
-    name: code
-  - description: Human-readable representation of the error.
-    types:
-    - uid: string
-    name: message
-  - description: The list of invalid fields send in request, in case of validation error.
-    types:
-    - isArray: true
-      uid: ErrorFieldContract
-    name: details
+    name: properties.isOnline
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
@@ -233,6 +192,38 @@ definitions:
     types:
     - uid: string
     name: target
+- name: AuthenticationSettingsContract
+  description: API Authentication Settings.
+  kind: object
+  properties:
+  - description: OAuth2 Authentication settings
+    types:
+    - uid: OAuth2AuthenticationSettingsContract
+    name: oAuth2
+- name: SubscriptionKeyParameterNamesContract
+  description: Subscription key parameter names details.
+  kind: object
+  properties:
+  - description: Subscription key header name.
+    types:
+    - uid: string
+    name: header
+  - description: Subscription key query string parameter name.
+    types:
+    - uid: string
+    name: query
+- name: OAuth2AuthenticationSettingsContract
+  description: API OAuth2 Authentication settings details.
+  kind: object
+  properties:
+  - description: OAuth authorization server identifier.
+    types:
+    - uid: string
+    name: authorizationServerId
+  - description: operations scope.
+    types:
+    - uid: string
+    name: scope
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/5768181ea40f7eb6c49f6ac7/apis?api-version=2017-03-01

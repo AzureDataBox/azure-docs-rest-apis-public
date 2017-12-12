@@ -61,13 +61,25 @@ definitions:
   properties:
   - description: Collection of PowerShell session resources.
     types:
-    - isArray: true
-      uid: PowerShellSessionResource
+    - uid: PowerShellSessionResource
     name: value
   - description: The URL to the next set of resources.
     types:
     - uid: string
     name: nextLink
+- name: Error
+  description: Error message.
+  kind: object
+  properties:
+  - types:
+    - uid: integer
+    name: code
+  - types:
+    - uid: string
+    name: message
+  - types:
+    - uid: string
+    name: fields
 - name: PowerShellSessionResource
   description: A PowerShell session resource (practically equivalent to a runspace instance).
   kind: object
@@ -75,31 +87,31 @@ definitions:
   - description: The PowerShell Session ID.
     types:
     - uid: string
-    name: sessionId
+    name: properties.sessionId
   - description: The runspace state.
     types:
     - uid: string
-    name: state
+    name: properties.state
   - description: The availability of the runspace.
     types:
     - uid: string
-    name: runspaceAvailability
+    name: properties.runspaceAvailability
   - description: Timestamp of last time the service disconnected from the runspace.
     types:
     - uid: string
-    name: disconnectedOn
+    name: properties.disconnectedOn
   - description: Timestamp when the runspace expires.
     types:
     - uid: string
-    name: expiresOn
+    name: properties.expiresOn
   - description: A multipart-numeric version number.
     types:
     - uid: Version
-    name: version
+    name: properties.version
   - description: Name of the runspace.
     types:
     - uid: string
-    name: name
+    name: properties.name
   - isReadyOnly: true
     description: Resource Manager Resource ID.
     types:
@@ -110,6 +122,11 @@ definitions:
     types:
     - uid: string
     name: type
+  - isReadyOnly: true
+    description: Resource Manager Resource Name.
+    types:
+    - uid: string
+    name: name
   - isReadyOnly: true
     description: Resource Manager Resource Location.
     types:
@@ -154,19 +171,6 @@ definitions:
     types:
     - uid: integer
     name: minorRevision
-- name: Error
-  description: Error message.
-  kind: object
-  properties:
-  - types:
-    - uid: integer
-    name: code
-  - types:
-    - uid: string
-    name: message
-  - types:
-    - uid: string
-    name: fields
 examples: []
 security:
 - type: oauth2

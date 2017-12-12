@@ -62,37 +62,24 @@ requestBody:
     description: Group name.
     types:
     - uid: string
-    name: displayName
+    name: properties.displayName
   - in: body
     description: Group description.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - in: body
     description: Group type.
     types:
     - uid: GroupType
-    name: type
+    name: properties.type
   - in: body
     description: Identifier of the external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null.
     types:
     - uid: string
-    name: externalId
+    name: properties.externalId
 requestHeader: []
 definitions:
-- name: GroupType
-  description: Group type.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: custom
-  - types:
-    - uid: string
-    name: system
-  - types:
-    - uid: string
-    name: external
 - name: GroupContract
   description: Contract details.
   kind: object
@@ -100,24 +87,24 @@ definitions:
   - description: Group name.
     types:
     - uid: string
-    name: displayName
+    name: properties.displayName
   - description: Group description. Can contain HTML formatting tags.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - isReadyOnly: true
     description: true if the group is one of the three system groups (Administrators, Developers, or Guests); otherwise false.
     types:
     - uid: boolean
-    name: builtIn
+    name: properties.builtIn
   - description: Group type.
     types:
     - uid: GroupType
-    name: type
+    name: properties.type
   - description: For external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null.
     types:
     - uid: string
-    name: externalId
+    name: properties.externalId
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -128,6 +115,11 @@ definitions:
     types:
     - uid: string
     name: name
+  - isReadyOnly: true
+    description: Resource type for API Management resource.
+    types:
+    - uid: string
+    name: type
 - name: ErrorResponse
   description: Error Body contract.
   kind: object
@@ -142,8 +134,7 @@ definitions:
     name: message
   - description: The list of invalid fields send in request, in case of validation error.
     types:
-    - isArray: true
-      uid: ErrorFieldContract
+    - uid: ErrorFieldContract
     name: details
 - name: ErrorFieldContract
   description: Error Field contract.

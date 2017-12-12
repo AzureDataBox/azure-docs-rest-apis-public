@@ -65,8 +65,7 @@ definitions:
   properties:
   - description: Gets or sets all jobs under job collection.
     types:
-    - isArray: true
-      uid: JobDefinition
+    - uid: JobDefinition
     name: value
   - description: Gets or sets the URL to get the next set of jobs.
     types:
@@ -95,7 +94,6 @@ definitions:
     - uid: JobProperties
     name: properties
 - name: JobProperties
-  description: Gets or sets the job properties.
   kind: object
   properties:
   - description: Gets or sets the job start time.
@@ -120,7 +118,6 @@ definitions:
     - uid: JobStatus
     name: status
 - name: JobAction
-  description: Gets or sets the job action.
   kind: object
   properties:
   - description: Gets or sets the job action type.
@@ -151,27 +148,73 @@ definitions:
     types:
     - uid: JobErrorAction
     name: errorAction
-- name: JobActionType
-  description: Gets or sets the job action type.
+- name: JobRecurrence
+  kind: object
+  properties:
+  - description: Gets or sets the frequency of recurrence (second, minute, hour, day, week, month).
+    types:
+    - uid: RecurrenceFrequency
+    name: frequency
+  - description: Gets or sets the interval between retries.
+    types:
+    - uid: integer
+    name: interval
+  - description: Gets or sets the maximum number of times that the job should run.
+    types:
+    - uid: integer
+    name: count
+  - description: Gets or sets the time at which the job will complete.
+    types:
+    - uid: string
+    name: endTime
+  - types:
+    - uid: JobRecurrenceSchedule
+    name: schedule
+- name: JobState
+  description: Gets or set the job state.
   kind: enum
   properties:
   - types:
     - uid: string
-    name: Http
+    name: Enabled
   - types:
     - uid: string
-    name: Https
+    name: Disabled
   - types:
     - uid: string
-    name: StorageQueue
+    name: Faulted
   - types:
     - uid: string
-    name: ServiceBusQueue
-  - types:
+    name: Completed
+- name: JobStatus
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Gets the number of times this job has executed.
+    types:
+    - uid: integer
+    name: executionCount
+  - isReadyOnly: true
+    description: Gets the number of times this job has failed.
+    types:
+    - uid: integer
+    name: failureCount
+  - isReadyOnly: true
+    description: Gets the number of faulted occurrences (occurrences that were retried and failed as many times as the retry policy states).
+    types:
+    - uid: integer
+    name: faultedCount
+  - isReadyOnly: true
+    description: Gets the time the last occurrence executed in ISO-8601 format.  Could be empty if job has not run yet.
+    types:
     - uid: string
-    name: ServiceBusTopic
+    name: lastExecutionTime
+  - isReadyOnly: true
+    description: Gets the time of the next occurrence in ISO-8601 format. Could be empty if the job is completed.
+    types:
+    - uid: string
+    name: nextExecutionTime
 - name: HttpRequest
-  description: Gets or sets the http requests.
   kind: object
   properties:
   - description: Gets or sets the authentication method of the request.
@@ -202,7 +245,6 @@ definitions:
       uid: object
     name: headers
 - name: StorageQueueMessage
-  description: Gets or sets the storage queue message.
   kind: object
   properties:
   - description: Gets or sets the storage account name.
@@ -222,7 +264,6 @@ definitions:
     - uid: string
     name: message
 - name: ServiceBusQueueMessage
-  description: Gets or sets the service bus queue message.
   kind: object
   properties:
   - description: Gets or sets the queue name.
@@ -257,8 +298,126 @@ definitions:
     types:
     - uid: ServiceBusTransportType
     name: transportType
+- name: ServiceBusTopicMessage
+  kind: object
+  properties:
+  - description: Gets or sets the topic path.
+    types:
+    - uid: string
+    name: topicPath
+  - description: Gets or sets the Service Bus authentication.
+    types:
+    - uid: ServiceBusAuthentication
+    name: authentication
+  - description: Gets or sets the brokered message properties.
+    types:
+    - uid: ServiceBusBrokeredMessageProperties
+    name: brokeredMessageProperties
+  - description: Gets or sets the custom message properties.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: customMessageProperties
+  - description: Gets or sets the message.
+    types:
+    - uid: string
+    name: message
+  - description: Gets or sets the namespace.
+    types:
+    - uid: string
+    name: namespace
+  - description: Gets or sets the transport type.
+    types:
+    - uid: ServiceBusTransportType
+    name: transportType
+- name: RetryPolicy
+  kind: object
+  properties:
+  - description: Gets or sets the retry strategy to be used.
+    types:
+    - uid: RetryType
+    name: retryType
+  - description: Gets or sets the retry interval between retries, specify duration in ISO 8601 format.
+    types:
+    - uid: string
+    name: retryInterval
+  - description: Gets or sets the number of times a retry should be attempted.
+    types:
+    - uid: integer
+    name: retryCount
+- name: JobErrorAction
+  kind: object
+  properties:
+  - description: Gets or sets the job error action type.
+    types:
+    - uid: JobActionType
+    name: type
+  - description: Gets or sets the http requests.
+    types:
+    - uid: HttpRequest
+    name: request
+  - description: Gets or sets the storage queue message.
+    types:
+    - uid: StorageQueueMessage
+    name: queueMessage
+  - description: Gets or sets the service bus queue message.
+    types:
+    - uid: ServiceBusQueueMessage
+    name: serviceBusQueueMessage
+  - description: Gets or sets the service bus topic message.
+    types:
+    - uid: ServiceBusTopicMessage
+    name: serviceBusTopicMessage
+  - description: Gets or sets the retry policy.
+    types:
+    - uid: RetryPolicy
+    name: retryPolicy
+- name: RecurrenceFrequency
+  description: Gets or sets the frequency of recurrence (minute, hour, day, week, month).
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Minute
+  - types:
+    - uid: string
+    name: Hour
+  - types:
+    - uid: string
+    name: Day
+  - types:
+    - uid: string
+    name: Week
+  - types:
+    - uid: string
+    name: Month
+- name: JobRecurrenceSchedule
+  kind: object
+  properties:
+  - description: Gets or sets the days of the week that the job should execute on.
+    types:
+    - uid: string
+    name: weekDays
+  - description: Gets or sets the hours of the day that the job should execute at.
+    types:
+    - uid: integer
+    name: hours
+  - description: Gets or sets the minutes of the hour that the job should execute at.
+    types:
+    - uid: integer
+    name: minutes
+  - description: Gets or sets the days of the month that the job should execute on. Must be between 1 and 31.
+    types:
+    - uid: integer
+    name: monthDays
+  - description: Gets or sets the occurrences of days within a month.
+    types:
+    - uid: JobRecurrenceScheduleMonthlyOccurrence
+    name: monthlyOccurrences
 - name: ServiceBusAuthentication
-  description: Gets or sets the Service Bus authentication.
   kind: object
   properties:
   - description: Gets or sets the SAS key.
@@ -273,18 +432,7 @@ definitions:
     types:
     - uid: ServiceBusAuthenticationType
     name: type
-- name: ServiceBusAuthenticationType
-  description: Gets or sets the authentication type.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: NotSpecified
-  - types:
-    - uid: string
-    name: SharedAccessKey
 - name: ServiceBusBrokeredMessageProperties
-  description: Gets or sets the brokered message properties.
   kind: object
   properties:
   - description: Gets or sets the content type.
@@ -339,179 +487,6 @@ definitions:
     types:
     - uid: string
     name: viaPartitionKey
-- name: ServiceBusTransportType
-  description: Gets or sets the transport type.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: NotSpecified
-  - types:
-    - uid: string
-    name: NetMessaging
-  - types:
-    - uid: string
-    name: AMQP
-- name: ServiceBusTopicMessage
-  description: Gets or sets the service bus topic message.
-  kind: object
-  properties:
-  - description: Gets or sets the topic path.
-    types:
-    - uid: string
-    name: topicPath
-  - description: Gets or sets the Service Bus authentication.
-    types:
-    - uid: ServiceBusAuthentication
-    name: authentication
-  - description: Gets or sets the brokered message properties.
-    types:
-    - uid: ServiceBusBrokeredMessageProperties
-    name: brokeredMessageProperties
-  - description: Gets or sets the custom message properties.
-    types:
-    - isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-      uid: object
-    name: customMessageProperties
-  - description: Gets or sets the message.
-    types:
-    - uid: string
-    name: message
-  - description: Gets or sets the namespace.
-    types:
-    - uid: string
-    name: namespace
-  - description: Gets or sets the transport type.
-    types:
-    - uid: ServiceBusTransportType
-    name: transportType
-- name: RetryPolicy
-  description: Gets or sets the retry policy.
-  kind: object
-  properties:
-  - description: Gets or sets the retry strategy to be used.
-    types:
-    - uid: RetryType
-    name: retryType
-  - description: Gets or sets the retry interval between retries, specify duration in ISO 8601 format.
-    types:
-    - uid: string
-    name: retryInterval
-  - description: Gets or sets the number of times a retry should be attempted.
-    types:
-    - uid: integer
-    name: retryCount
-- name: RetryType
-  description: Gets or sets the retry strategy to be used.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: None
-  - types:
-    - uid: string
-    name: Fixed
-- name: JobErrorAction
-  description: Gets or sets the error action.
-  kind: object
-  properties:
-  - description: Gets or sets the job error action type.
-    types:
-    - uid: JobActionType
-    name: type
-  - description: Gets or sets the http requests.
-    types:
-    - uid: HttpRequest
-    name: request
-  - description: Gets or sets the storage queue message.
-    types:
-    - uid: StorageQueueMessage
-    name: queueMessage
-  - description: Gets or sets the service bus queue message.
-    types:
-    - uid: ServiceBusQueueMessage
-    name: serviceBusQueueMessage
-  - description: Gets or sets the service bus topic message.
-    types:
-    - uid: ServiceBusTopicMessage
-    name: serviceBusTopicMessage
-  - description: Gets or sets the retry policy.
-    types:
-    - uid: RetryPolicy
-    name: retryPolicy
-- name: JobRecurrence
-  description: Gets or sets the job recurrence.
-  kind: object
-  properties:
-  - description: Gets or sets the frequency of recurrence (second, minute, hour, day, week, month).
-    types:
-    - uid: RecurrenceFrequency
-    name: frequency
-  - description: Gets or sets the interval between retries.
-    types:
-    - uid: integer
-    name: interval
-  - description: Gets or sets the maximum number of times that the job should run.
-    types:
-    - uid: integer
-    name: count
-  - description: Gets or sets the time at which the job will complete.
-    types:
-    - uid: string
-    name: endTime
-  - types:
-    - uid: JobRecurrenceSchedule
-    name: schedule
-- name: RecurrenceFrequency
-  description: Gets or sets the frequency of recurrence (second, minute, hour, day, week, month).
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Minute
-  - types:
-    - uid: string
-    name: Hour
-  - types:
-    - uid: string
-    name: Day
-  - types:
-    - uid: string
-    name: Week
-  - types:
-    - uid: string
-    name: Month
-- name: JobRecurrenceSchedule
-  kind: object
-  properties:
-  - description: Gets or sets the days of the week that the job should execute on.
-    types:
-    - isArray: true
-      uid: string
-    name: weekDays
-  - description: Gets or sets the hours of the day that the job should execute at.
-    types:
-    - isArray: true
-      uid: integer
-    name: hours
-  - description: Gets or sets the minutes of the hour that the job should execute at.
-    types:
-    - isArray: true
-      uid: integer
-    name: minutes
-  - description: Gets or sets the days of the month that the job should execute on. Must be between 1 and 31.
-    types:
-    - isArray: true
-      uid: integer
-    name: monthDays
-  - description: Gets or sets the occurrences of days within a month.
-    types:
-    - isArray: true
-      uid: JobRecurrenceScheduleMonthlyOccurrence
-    name: monthlyOccurrences
 - name: JobRecurrenceScheduleMonthlyOccurrence
   kind: object
   properties:
@@ -523,76 +498,6 @@ definitions:
     types:
     - uid: integer
     name: Occurrence
-- name: JobScheduleDay
-  description: Gets or sets the day. Must be one of monday, tuesday, wednesday, thursday, friday, saturday, sunday.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Monday
-  - types:
-    - uid: string
-    name: Tuesday
-  - types:
-    - uid: string
-    name: Wednesday
-  - types:
-    - uid: string
-    name: Thursday
-  - types:
-    - uid: string
-    name: Friday
-  - types:
-    - uid: string
-    name: Saturday
-  - types:
-    - uid: string
-    name: Sunday
-- name: JobState
-  description: Gets or set the job state.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Enabled
-  - types:
-    - uid: string
-    name: Disabled
-  - types:
-    - uid: string
-    name: Faulted
-  - types:
-    - uid: string
-    name: Completed
-- name: JobStatus
-  description: Gets the job status.
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: Gets the number of times this job has executed.
-    types:
-    - uid: integer
-    name: executionCount
-  - isReadyOnly: true
-    description: Gets the number of times this job has failed.
-    types:
-    - uid: integer
-    name: failureCount
-  - isReadyOnly: true
-    description: Gets the number of faulted occurrences (occurrences that were retried and failed as many times as the retry policy states).
-    types:
-    - uid: integer
-    name: faultedCount
-  - isReadyOnly: true
-    description: Gets the time the last occurrence executed in ISO-8601 format.  Could be empty if job has not run yet.
-    types:
-    - uid: string
-    name: lastExecutionTime
-  - isReadyOnly: true
-    description: Gets the time of the next occurrence in ISO-8601 format. Could be empty if the job is completed.
-    types:
-    - uid: string
-    name: nextExecutionTime
 - name: ClientCertAuthentication
   kind: object
   properties:

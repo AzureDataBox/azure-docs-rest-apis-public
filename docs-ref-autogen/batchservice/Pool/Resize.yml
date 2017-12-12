@@ -111,26 +111,6 @@ requestHeader:
   format: date-time-rfc1123
   name: If-Unmodified-Since
 definitions:
-- name: ComputeNodeDeallocationOption
-  description: The default value is requeue.
-  kind: enum
-  properties:
-  - description: Terminate running task processes and requeue the tasks. The tasks will run again when a node is available. Remove nodes as soon as tasks have been terminated.
-    types:
-    - uid: string
-    name: requeue
-  - description: Terminate running tasks. The tasks will be completed with failureInfo indicating that they were terminated, and will not run again. Remove nodes as soon as tasks have been terminated.
-    types:
-    - uid: string
-    name: terminate
-  - description: Allow currently running tasks to complete. Schedule no new tasks while waiting. Remove nodes when all tasks have completed.
-    types:
-    - uid: string
-    name: taskcompletion
-  - description: Allow currently running tasks to complete, then wait for all task data retention periods to expire. Schedule no new tasks while waiting. Remove nodes when all task retention periods have expired.
-    types:
-    - uid: string
-    name: retaineddata
 - name: BatchError
   description: An error response received from the Azure Batch service.
   kind: object
@@ -145,11 +125,10 @@ definitions:
     name: message
   - description: A collection of key-value pairs containing additional details about the error.
     types:
-    - isArray: true
-      uid: BatchErrorDetail
+    - uid: BatchErrorDetail
     name: values
 - name: ErrorMessage
-  description: A message describing the error, intended to be suitable for display in a user interface.
+  description: An error message received in an Azure Batch error response.
   kind: object
   properties:
   - description: The language code of the error message

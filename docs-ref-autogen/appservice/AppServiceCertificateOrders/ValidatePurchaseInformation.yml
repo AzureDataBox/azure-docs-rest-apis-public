@@ -35,38 +35,38 @@ requestBody:
       - uid: string
       - uid: AppServiceCertificate
       uid: object
-    name: certificates
+    name: properties.certificates
   - in: body
     description: Certificate distinguished name.
     types:
     - uid: string
-    name: distinguishedName
+    name: properties.distinguishedName
   - in: body
     description: Duration in years (must be between 1 and 3).
     types:
     - uid: integer
-    name: validityInYears
+    name: properties.validityInYears
   - in: body
     description: Certificate key size.
     types:
     - uid: integer
-    name: keySize
+    name: properties.keySize
   - in: body
     isRequired: true
     description: Certificate product type.
     types:
     - uid: CertificateProductType
-    name: productType
+    name: properties.productType
   - in: body
     description: <code>true</code> if the certificate should be automatically renewed when it expires; otherwise, <code>false</code>.
     types:
     - uid: boolean
-    name: autoRenew
+    name: properties.autoRenew
   - in: body
     description: Last CSR that was created for this order.
     types:
     - uid: string
-    name: csr
+    name: properties.csr
   - in: body
     description: Kind of resource.
     types:
@@ -89,114 +89,55 @@ requestBody:
     name: tags
 requestHeader: []
 definitions:
-- name: Certificates
-  description: State of the Key Vault secret.
+- name: CertificateDetails
+  description: SSL certificate details.
   kind: object
   properties:
-  - description: Key Vault container for a certificate that is purchased through Azure.
+  - isReadyOnly: true
+    description: Certificate Version.
     types:
-    - uid: AppServiceCertificate
-    name: ''
-- name: KeyVaultSecretStatus
-  description: Status of the Key Vault secret.
-  kind: enum
-  properties:
-  - types:
+    - uid: integer
+    name: version
+  - isReadyOnly: true
+    description: Certificate Serial Number.
+    types:
     - uid: string
-    name: Initialized
-  - types:
+    name: serialNumber
+  - isReadyOnly: true
+    description: Certificate Thumbprint.
+    types:
     - uid: string
-    name: WaitingOnCertificateOrder
-  - types:
+    name: thumbprint
+  - isReadyOnly: true
+    description: Certificate Subject.
+    types:
     - uid: string
-    name: Succeeded
-  - types:
+    name: subject
+  - isReadyOnly: true
+    description: Date Certificate is valid from.
+    types:
     - uid: string
-    name: CertificateOrderFailed
-  - types:
+    name: notBefore
+  - isReadyOnly: true
+    description: Date Certificate is valid to.
+    types:
     - uid: string
-    name: OperationNotPermittedOnKeyVault
-  - types:
+    name: notAfter
+  - isReadyOnly: true
+    description: Certificate Signature algorithm.
+    types:
     - uid: string
-    name: AzureServiceUnauthorizedToAccessKeyVault
-  - types:
+    name: signatureAlgorithm
+  - isReadyOnly: true
+    description: Certificate Issuer.
+    types:
     - uid: string
-    name: KeyVaultDoesNotExist
-  - types:
+    name: issuer
+  - isReadyOnly: true
+    description: Raw certificate data.
+    types:
     - uid: string
-    name: KeyVaultSecretDoesNotExist
-  - types:
-    - uid: string
-    name: UnknownError
-  - types:
-    - uid: string
-    name: ExternalPrivateKey
-  - types:
-    - uid: string
-    name: Unknown
-- name: CertificateProductType
-  description: Certificate product type.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: StandardDomainValidatedSsl
-  - types:
-    - uid: string
-    name: StandardDomainValidatedWildCardSsl
-- name: ProvisioningState
-  description: Status of certificate order.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Succeeded
-  - types:
-    - uid: string
-    name: Failed
-  - types:
-    - uid: string
-    name: Canceled
-  - types:
-    - uid: string
-    name: InProgress
-  - types:
-    - uid: string
-    name: Deleting
-- name: CertificateOrderStatus
-  description: Current order status.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Pendingissuance
-  - types:
-    - uid: string
-    name: Issued
-  - types:
-    - uid: string
-    name: Revoked
-  - types:
-    - uid: string
-    name: Canceled
-  - types:
-    - uid: string
-    name: Denied
-  - types:
-    - uid: string
-    name: Pendingrevocation
-  - types:
-    - uid: string
-    name: PendingRekey
-  - types:
-    - uid: string
-    name: Unused
-  - types:
-    - uid: string
-    name: Expired
-  - types:
-    - uid: string
-    name: NotSubmitted
+    name: rawData
 examples: []
 security:
 - type: oauth2

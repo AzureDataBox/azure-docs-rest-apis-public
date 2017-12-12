@@ -62,6 +62,48 @@ requestBody:
     name: attributes
 requestHeader: []
 definitions:
+- name: IssuerCredentials
+  description: The credentials to be used for the certificate issuer.
+  kind: object
+  properties:
+  - description: The user name/account name/account id.
+    types:
+    - uid: string
+    name: account_id
+  - description: The password/secret/account key.
+    types:
+    - uid: string
+    name: pwd
+- name: OrganizationDetails
+  description: Details of the organization of the certificate issuer.
+  kind: object
+  properties:
+  - description: Id of the organization.
+    types:
+    - uid: string
+    name: id
+  - description: Details of the organization administrator.
+    types:
+    - uid: AdministratorDetails
+    name: admin_details
+- name: IssuerAttributes
+  description: The attributes of an issuer managed by the Key Vault service.
+  kind: object
+  properties:
+  - description: Determines whether the issuer is enabled.
+    types:
+    - uid: boolean
+    name: enabled
+  - isReadyOnly: true
+    description: Creation time in UTC.
+    types:
+    - uid: integer
+    name: created
+  - isReadyOnly: true
+    description: Last updated time in UTC.
+    types:
+    - uid: integer
+    name: updated
 - name: IssuerBundle
   description: The issuer for Key Vault certificate.
   kind: object
@@ -87,31 +129,15 @@ definitions:
     types:
     - uid: IssuerAttributes
     name: attributes
-- name: IssuerCredentials
-  description: The credentials to be used for the issuer.
+- name: KeyVaultError
+  description: The key vault error exception.
   kind: object
   properties:
-  - description: The user name/account name/account id.
+  - isReadyOnly: true
+    description: The key vault server error.
     types:
-    - uid: string
-    name: account_id
-  - description: The password/secret/account key.
-    types:
-    - uid: string
-    name: pwd
-- name: OrganizationDetails
-  description: Details of the organization as provided to the issuer.
-  kind: object
-  properties:
-  - description: Id of the organization.
-    types:
-    - uid: string
-    name: id
-  - description: Details of the organization administrator.
-    types:
-    - isArray: true
-      uid: AdministratorDetails
-    name: admin_details
+    - uid: Error
+    name: error
 - name: AdministratorDetails
   description: Details of the organization administrator of the certificate issuer.
   kind: object
@@ -132,33 +158,6 @@ definitions:
     types:
     - uid: string
     name: phone
-- name: IssuerAttributes
-  description: Attributes of the issuer object.
-  kind: object
-  properties:
-  - description: Determines whether the issuer is enabled.
-    types:
-    - uid: boolean
-    name: enabled
-  - isReadyOnly: true
-    description: Creation time in UTC.
-    types:
-    - uid: integer
-    name: created
-  - isReadyOnly: true
-    description: Last updated time in UTC.
-    types:
-    - uid: integer
-    name: updated
-- name: KeyVaultError
-  description: The key vault error exception.
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: The key vault server error.
-    types:
-    - uid: Error
-    name: error
 - name: Error
   description: The key vault server error.
   kind: object
@@ -173,8 +172,10 @@ definitions:
     types:
     - uid: string
     name: message
-  - types:
-    - {}
+  - isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
     name: innererror
 examples: []
 security: []

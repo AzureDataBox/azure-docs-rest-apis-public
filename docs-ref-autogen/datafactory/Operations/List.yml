@@ -33,13 +33,32 @@ definitions:
   properties:
   - description: List of Data Factory operations supported by the Data Factory resource provider.
     types:
-    - isArray: true
-      uid: Operation
+    - uid: Operation
     name: value
   - description: The link to the next page of results, if any remaining results exist.
     types:
     - uid: string
     name: nextLink
+- name: ErrorResponse
+  description: The object that defines the structure of an Azure Data Factory response.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: string
+    name: code
+  - description: Error message.
+    types:
+    - uid: string
+    name: message
+  - description: Property name/path in request associated with error.
+    types:
+    - uid: string
+    name: target
+  - description: Array with additional error details.
+    types:
+    - uid: ErrorResponse
+    name: details
 - name: Operation
   description: Azure Data Factory API operation definition.
   kind: object
@@ -59,40 +78,18 @@ definitions:
   - description: Details about a service operation.
     types:
     - uid: OperationServiceSpecification
-    name: serviceSpecification
-- name: Display
-  description: Metadata associated with the operation.
-  kind: object
-  properties:
-  - description: The description of the operation.
-    types:
-    - uid: string
-    name: description
-  - description: The name of the provider.
-    types:
-    - uid: string
-    name: provider
-  - description: The name of the resource type on which the operation is performed.
-    types:
-    - uid: string
-    name: resource
-  - description: 'The type of operation: get, read, delete, etc.'
-    types:
-    - uid: string
-    name: operation
+    name: properties.serviceSpecification
 - name: OperationServiceSpecification
   description: Details about a service operation.
   kind: object
   properties:
   - description: Details about operations related to logs.
     types:
-    - isArray: true
-      uid: OperationLogSpecification
+    - uid: OperationLogSpecification
     name: logSpecifications
   - description: Details about operations related to metrics.
     types:
-    - isArray: true
-      uid: OperationMetricSpecification
+    - uid: OperationMetricSpecification
     name: metricSpecifications
 - name: OperationLogSpecification
   description: Details about an operation related to logs.
@@ -148,8 +145,7 @@ definitions:
     name: sourceMdmNamespace
   - description: Defines how often data for metrics becomes available.
     types:
-    - isArray: true
-      uid: OperationMetricAvailability
+    - uid: OperationMetricAvailability
     name: availabilities
 - name: OperationMetricAvailability
   description: Defines how often data for a metric becomes available.
@@ -163,27 +159,6 @@ definitions:
     types:
     - uid: string
     name: blobDuration
-- name: ErrorResponse
-  description: The object that defines the structure of an Azure Data Factory response.
-  kind: object
-  properties:
-  - description: Error code.
-    types:
-    - uid: string
-    name: code
-  - description: Error message.
-    types:
-    - uid: string
-    name: message
-  - description: Property name/path in request associated with error.
-    types:
-    - uid: string
-    name: target
-  - description: Array with additional error details.
-    types:
-    - isArray: true
-      uid: Details
-    name: details
 examples:
 - request:
     uri: GET https://management.azure.com/providers/Microsoft.DataFactory/operations?api-version=2017-09-01-preview

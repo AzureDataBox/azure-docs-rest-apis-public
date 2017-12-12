@@ -52,13 +52,24 @@ definitions:
   properties:
   - description: Gets or sets a list of runbooks.
     types:
-    - isArray: true
-      uid: Runbook
+    - uid: Runbook
     name: value
   - description: Gets or sets the next link.
     types:
     - uid: string
     name: nextLink
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - description: Error code
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
 - name: Runbook
   description: Definition of the runbook type.
   kind: object
@@ -70,64 +81,63 @@ definitions:
   - description: Gets or sets the type of the runbook.
     types:
     - uid: RunbookTypeEnum
-    name: runbookType
+    name: properties.runbookType
   - description: Gets or sets the published runbook content link.
     types:
     - uid: ContentLink
-    name: publishContentLink
+    name: properties.publishContentLink
   - description: Gets or sets the state of the runbook.
     types:
     - uid: RunbookState
-    name: state
+    name: properties.state
   - description: Gets or sets verbose log option.
     types:
     - uid: boolean
-    name: logVerbose
+    name: properties.logVerbose
   - description: Gets or sets progress log option.
     types:
     - uid: boolean
-    name: logProgress
+    name: properties.logProgress
   - description: Gets or sets the option to log activity trace of the runbook.
     types:
     - uid: integer
-    name: logActivityTrace
+    name: properties.logActivityTrace
   - description: Gets or sets the job count of the runbook.
     types:
     - uid: integer
-    name: jobCount
+    name: properties.jobCount
   - description: Gets or sets the runbook parameters.
     types:
     - {}
-    name: parameters
+    name: properties.parameters
   - description: Gets or sets the runbook output types.
     types:
-    - isArray: true
-      uid: string
-    name: outputTypes
+    - uid: string
+    name: properties.outputTypes
   - description: Gets or sets the draft runbook properties.
     types:
     - uid: RunbookDraft
-    name: draft
+    name: properties.draft
   - description: Gets or sets the provisioning state of the runbook.
     types:
     - uid: RunbookProvisioningState
-    name: provisioningState
+    name: properties.provisioningState
   - description: Gets or sets the last modified by.
     types:
     - uid: string
-    name: lastModifiedBy
+    name: properties.lastModifiedBy
   - description: Gets or sets the creation time.
     types:
     - uid: string
-    name: creationTime
+    name: properties.creationTime
   - description: Gets or sets the last modified time.
     types:
     - uid: string
-    name: lastModifiedTime
+    name: properties.lastModifiedTime
   - description: Gets or sets the description.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - isReadyOnly: true
     description: Resource Id
     types:
@@ -155,30 +165,8 @@ definitions:
       - uid: string
       uid: object
     name: tags
-- name: RunbookTypeEnum
-  description: Gets or sets the type of the runbook.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Script
-  - types:
-    - uid: string
-    name: Graph
-  - types:
-    - uid: string
-    name: PowerShellWorkflow
-  - types:
-    - uid: string
-    name: PowerShell
-  - types:
-    - uid: string
-    name: GraphPowerShellWorkflow
-  - types:
-    - uid: string
-    name: GraphPowerShell
 - name: ContentLink
-  description: Gets or sets the published runbook content link.
+  description: Definition of the content link.
   kind: object
   properties:
   - description: Gets or sets the uri of the runbook content.
@@ -193,33 +181,8 @@ definitions:
     types:
     - uid: string
     name: version
-- name: ContentHash
-  description: Gets or sets the hash.
-  kind: object
-  properties:
-  - description: Gets or sets the content hash algorithm used to hash the content.
-    types:
-    - uid: string
-    name: algorithm
-  - description: Gets or sets expected hash value of the content.
-    types:
-    - uid: string
-    name: value
-- name: RunbookState
-  description: Gets or sets the state of the runbook.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: New
-  - types:
-    - uid: string
-    name: Edit
-  - types:
-    - uid: string
-    name: Published
 - name: RunbookDraft
-  description: Gets or sets the draft runbook properties.
+  description: Definition of the runbook type.
   kind: object
   properties:
   - description: Gets or sets whether runbook is in edit mode.
@@ -244,28 +207,20 @@ definitions:
     name: parameters
   - description: Gets or sets the runbook output types.
     types:
-    - isArray: true
-      uid: string
-    name: outputTypes
-- name: RunbookProvisioningState
-  description: Gets or sets the provisioning state of the runbook.
-  kind: enum
-  properties:
-  - types:
     - uid: string
-    name: Succeeded
-- name: ErrorResponse
-  description: Error response of an operation failure
+    name: outputTypes
+- name: ContentHash
+  description: Definition of the runbook property type.
   kind: object
   properties:
-  - description: Error code
+  - description: Gets or sets the content hash algorithm used to hash the content.
     types:
     - uid: string
-    name: code
-  - description: Error message indicating why the operation failed.
+    name: algorithm
+  - description: Gets or sets expected hash value of the content.
     types:
     - uid: string
-    name: message
+    name: value
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/ContoseAutomationAccount/runbooks?api-version=2015-10-31

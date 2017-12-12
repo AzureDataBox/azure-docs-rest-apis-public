@@ -54,31 +54,28 @@ requestBody:
     description: The short name of the action group. This will be used in SMS messages.
     types:
     - uid: string
-    name: groupShortName
+    name: properties.groupShortName
   - in: body
     isRequired: true
     description: Indicates whether this action group is enabled. If an action group is not enabled, then none of its receivers will receive communications.
     types:
     - uid: boolean
-    name: enabled
+    name: properties.enabled
   - in: body
     description: The list of email receivers that are part of this action group.
     types:
-    - isArray: true
-      uid: EmailReceiver
-    name: emailReceivers
+    - uid: EmailReceiver
+    name: properties.emailReceivers
   - in: body
     description: The list of SMS receivers that are part of this action group.
     types:
-    - isArray: true
-      uid: SmsReceiver
-    name: smsReceivers
+    - uid: SmsReceiver
+    name: properties.smsReceivers
   - in: body
     description: The list of webhook receivers that are part of this action group.
     types:
-    - isArray: true
-      uid: WebhookReceiver
-    name: webhookReceivers
+    - uid: WebhookReceiver
+    name: properties.webhookReceivers
   - in: body
     isRequired: true
     description: Resource location
@@ -96,73 +93,6 @@ requestBody:
     name: tags
 requestHeader: []
 definitions:
-- name: ReceiverStatus
-  description: The receiver status of the e-mail.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: NotSpecified
-  - types:
-    - uid: string
-    name: Enabled
-  - types:
-    - uid: string
-    name: Disabled
-- name: ActionGroupResource
-  description: An action group resource.
-  kind: object
-  properties:
-  - description: The short name of the action group. This will be used in SMS messages.
-    types:
-    - uid: string
-    name: groupShortName
-  - description: Indicates whether this action group is enabled. If an action group is not enabled, then none of its receivers will receive communications.
-    types:
-    - uid: boolean
-    name: enabled
-  - description: The list of email receivers that are part of this action group.
-    types:
-    - isArray: true
-      uid: EmailReceiver
-    name: emailReceivers
-  - description: The list of SMS receivers that are part of this action group.
-    types:
-    - isArray: true
-      uid: SmsReceiver
-    name: smsReceivers
-  - description: The list of webhook receivers that are part of this action group.
-    types:
-    - isArray: true
-      uid: WebhookReceiver
-    name: webhookReceivers
-  - isReadyOnly: true
-    description: Azure resource Id
-    types:
-    - uid: string
-    name: id
-  - isReadyOnly: true
-    description: Azure resource name
-    types:
-    - uid: string
-    name: name
-  - isReadyOnly: true
-    description: Azure resource type
-    types:
-    - uid: string
-    name: type
-  - description: Resource location
-    types:
-    - uid: string
-    name: location
-  - description: Resource tags
-    types:
-    - isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-      uid: object
-    name: tags
 - name: EmailReceiver
   description: An email receiver.
   kind: object
@@ -213,6 +143,57 @@ definitions:
     types:
     - uid: string
     name: serviceUri
+- name: ActionGroupResource
+  description: An action group resource.
+  kind: object
+  properties:
+  - description: The short name of the action group. This will be used in SMS messages.
+    types:
+    - uid: string
+    name: properties.groupShortName
+  - description: Indicates whether this action group is enabled. If an action group is not enabled, then none of its receivers will receive communications.
+    types:
+    - uid: boolean
+    name: properties.enabled
+  - description: The list of email receivers that are part of this action group.
+    types:
+    - uid: EmailReceiver
+    name: properties.emailReceivers
+  - description: The list of SMS receivers that are part of this action group.
+    types:
+    - uid: SmsReceiver
+    name: properties.smsReceivers
+  - description: The list of webhook receivers that are part of this action group.
+    types:
+    - uid: WebhookReceiver
+    name: properties.webhookReceivers
+  - isReadyOnly: true
+    description: Azure resource Id
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Azure resource name
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Azure resource type
+    types:
+    - uid: string
+    name: type
+  - description: Resource location
+    types:
+    - uid: string
+    name: location
+  - description: Resource tags
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
 - name: ErrorResponse
   description: Describes the format of Error response.
   kind: object
@@ -225,6 +206,19 @@ definitions:
     types:
     - uid: string
     name: message
+- name: ReceiverStatus
+  description: Indicates the status of the receiver. Receivers that are not Enabled will not receive any communications.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NotSpecified
+  - types:
+    - uid: string
+    name: Enabled
+  - types:
+    - uid: string
+    name: Disabled
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/Default-NotificationRules/providers/microsoft.insights/actionGroups/SampleActionGroup?api-version=2017-04-01

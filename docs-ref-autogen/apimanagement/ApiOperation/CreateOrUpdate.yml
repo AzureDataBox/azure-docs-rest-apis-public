@@ -69,101 +69,46 @@ requestBody:
     description: Operation Name.
     types:
     - uid: string
-    name: displayName
+    name: properties.displayName
   - in: body
     isRequired: true
     description: A Valid HTTP Operation Method. Typical Http Methods like GET, PUT, POST but not limited by only them.
     types:
     - uid: string
-    name: method
+    name: properties.method
   - in: body
     isRequired: true
     description: 'Relative URL template identifying the target resource for this operation. May include parameters. Example: /customers/{cid}/orders/{oid}/?date={date}'
     types:
     - uid: string
-    name: urlTemplate
+    name: properties.urlTemplate
   - in: body
     description: Collection of URL template parameters.
     types:
-    - isArray: true
-      uid: ParameterContract
-    name: templateParameters
+    - uid: ParameterContract
+    name: properties.templateParameters
   - in: body
     description: Description of the operation. May include HTML formatting tags.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - in: body
     description: An entity containing request details.
     types:
     - uid: RequestContract
-    name: request
+    name: properties.request
   - in: body
     description: Array of Operation responses.
     types:
-    - isArray: true
-      uid: ResponseContract
-    name: responses
+    - uid: ResponseContract
+    name: properties.responses
   - in: body
     description: Operation Policies
     types:
     - uid: string
-    name: policies
+    name: properties.policies
 requestHeader: []
 definitions:
-- name: OperationContract
-  description: Api Operation details.
-  kind: object
-  properties:
-  - description: Operation Name.
-    types:
-    - uid: string
-    name: displayName
-  - description: A Valid HTTP Operation Method. Typical Http Methods like GET, PUT, POST but not limited by only them.
-    types:
-    - uid: string
-    name: method
-  - description: 'Relative URL template identifying the target resource for this operation. May include parameters. Example: /customers/{cid}/orders/{oid}/?date={date}'
-    types:
-    - uid: string
-    name: urlTemplate
-  - isReadyOnly: true
-    description: Resource ID.
-    types:
-    - uid: string
-    name: id
-  - isReadyOnly: true
-    description: Resource name.
-    types:
-    - uid: string
-    name: name
-  - isReadyOnly: true
-    description: Resource type for API Management resource.
-    types:
-    - uid: string
-    name: type
-  - description: Collection of URL template parameters.
-    types:
-    - isArray: true
-      uid: ParameterContract
-    name: templateParameters
-  - description: Description of the operation. May include HTML formatting tags.
-    types:
-    - uid: string
-    name: description
-  - description: An entity containing request details.
-    types:
-    - uid: RequestContract
-    name: request
-  - description: Array of Operation responses.
-    types:
-    - isArray: true
-      uid: ResponseContract
-    name: responses
-  - description: Operation Policies
-    types:
-    - uid: string
-    name: policies
 - name: ParameterContract
   description: Operation parameters details.
   kind: object
@@ -190,11 +135,10 @@ definitions:
     name: required
   - description: Parameter values.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: values
 - name: RequestContract
-  description: An entity containing request details.
+  description: Operation request details.
   kind: object
   properties:
   - description: Operation request description.
@@ -203,19 +147,103 @@ definitions:
     name: description
   - description: Collection of operation request query parameters.
     types:
-    - isArray: true
-      uid: ParameterContract
+    - uid: ParameterContract
     name: queryParameters
   - description: Collection of operation request headers.
     types:
-    - isArray: true
-      uid: ParameterContract
+    - uid: ParameterContract
     name: headers
   - description: Collection of operation request representations.
     types:
-    - isArray: true
-      uid: RepresentationContract
+    - uid: RepresentationContract
     name: representations
+- name: ResponseContract
+  description: Operation response details.
+  kind: object
+  properties:
+  - description: Operation response HTTP status code.
+    types:
+    - uid: integer
+    name: statusCode
+  - description: Operation response description.
+    types:
+    - uid: string
+    name: description
+  - description: Collection of operation response representations.
+    types:
+    - uid: RepresentationContract
+    name: representations
+  - description: Collection of operation response headers.
+    types:
+    - uid: ParameterContract
+    name: headers
+- name: OperationContract
+  description: Api Operation details.
+  kind: object
+  properties:
+  - description: Operation Name.
+    types:
+    - uid: string
+    name: properties.displayName
+  - description: A Valid HTTP Operation Method. Typical Http Methods like GET, PUT, POST but not limited by only them.
+    types:
+    - uid: string
+    name: properties.method
+  - description: 'Relative URL template identifying the target resource for this operation. May include parameters. Example: /customers/{cid}/orders/{oid}/?date={date}'
+    types:
+    - uid: string
+    name: properties.urlTemplate
+  - isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type for API Management resource.
+    types:
+    - uid: string
+    name: type
+  - description: Collection of URL template parameters.
+    types:
+    - uid: ParameterContract
+    name: properties.templateParameters
+  - description: Description of the operation. May include HTML formatting tags.
+    types:
+    - uid: string
+    name: properties.description
+  - description: An entity containing request details.
+    types:
+    - uid: RequestContract
+    name: properties.request
+  - description: Array of Operation responses.
+    types:
+    - uid: ResponseContract
+    name: properties.responses
+  - description: Operation Policies
+    types:
+    - uid: string
+    name: properties.policies
+- name: ErrorResponse
+  description: Error Body contract.
+  kind: object
+  properties:
+  - description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+    name: code
+  - description: Human-readable representation of the error.
+    types:
+    - uid: string
+    name: message
+  - description: The list of invalid fields send in request, in case of validation error.
+    types:
+    - uid: ErrorFieldContract
+    name: details
 - name: RepresentationContract
   description: Operation request/response representation details.
   kind: object
@@ -238,48 +266,8 @@ definitions:
     name: typeName
   - description: Collection of form parameters. Required if 'contentType' value is either 'application/x-www-form-urlencoded' or 'multipart/form-data'..
     types:
-    - isArray: true
-      uid: ParameterContract
+    - uid: ParameterContract
     name: formParameters
-- name: ResponseContract
-  description: Operation response details.
-  kind: object
-  properties:
-  - description: Operation response HTTP status code.
-    types:
-    - uid: integer
-    name: statusCode
-  - description: Operation response description.
-    types:
-    - uid: string
-    name: description
-  - description: Collection of operation response representations.
-    types:
-    - isArray: true
-      uid: RepresentationContract
-    name: representations
-  - description: Collection of operation response headers.
-    types:
-    - isArray: true
-      uid: ParameterContract
-    name: headers
-- name: ErrorResponse
-  description: Error Body contract.
-  kind: object
-  properties:
-  - description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
-    types:
-    - uid: string
-    name: code
-  - description: Human-readable representation of the error.
-    types:
-    - uid: string
-    name: message
-  - description: The list of invalid fields send in request, in case of validation error.
-    types:
-    - isArray: true
-      uid: ErrorFieldContract
-    name: details
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object

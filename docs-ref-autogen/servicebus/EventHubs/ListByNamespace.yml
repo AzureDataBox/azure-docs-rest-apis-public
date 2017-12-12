@@ -51,14 +51,25 @@ definitions:
   properties:
   - description: Result of the List EventHubs operation.
     types:
-    - isArray: true
-      uid: Eventhub
+    - uid: Eventhub
     name: value
   - isReadyOnly: true
     description: Link to the next set of results. Not empty if Value contains incomplete list of EventHubs.
     types:
     - uid: string
     name: nextLink
+- name: ErrorResponse
+  description: Error reponse indicates ServiceBus service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
 - name: Eventhub
   description: Single item in List or Get Event Hub operation
   kind: object
@@ -66,35 +77,34 @@ definitions:
   - isReadyOnly: true
     description: Current number of shards on the Event Hub.
     types:
-    - isArray: true
-      uid: string
-    name: partitionIds
+    - uid: string
+    name: properties.partitionIds
   - isReadyOnly: true
     description: Exact time the Event Hub was created.
     types:
     - uid: string
-    name: createdAt
+    name: properties.createdAt
   - isReadyOnly: true
     description: The exact time the message was updated.
     types:
     - uid: string
-    name: updatedAt
+    name: properties.updatedAt
   - description: Number of days to retain the events for this Event Hub, value should be 1 to 7 days
     types:
     - uid: integer
-    name: messageRetentionInDays
+    name: properties.messageRetentionInDays
   - description: Number of partitions created for the Event Hub, allowed values are from 1 to 32 partitions.
     types:
     - uid: integer
-    name: partitionCount
+    name: properties.partitionCount
   - description: Enumerates the possible values for the status of the Event Hub.
     types:
     - uid: EntityStatus
-    name: status
+    name: properties.status
   - description: Properties of capture description
     types:
     - uid: CaptureDescription
-    name: captureDescription
+    name: properties.captureDescription
   - isReadyOnly: true
     description: Resource Id
     types:
@@ -111,7 +121,7 @@ definitions:
     - uid: string
     name: type
 - name: EntityStatus
-  description: Enumerates the possible values for the status of the Event Hub.
+  description: Entity status.
   kind: enum
   properties:
   - types:
@@ -142,7 +152,7 @@ definitions:
     - uid: string
     name: Unknown
 - name: CaptureDescription
-  description: Properties of capture description
+  description: Properties to configure capture description for eventhub
   kind: object
   properties:
   - description: 'A value that indicates whether capture description is enabled. '
@@ -165,18 +175,8 @@ definitions:
     types:
     - uid: Destination
     name: destination
-- name: EncodingCaptureDescription
-  description: Enumerates the possible values for the encoding format of capture description.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Avro
-  - types:
-    - uid: string
-    name: AvroDeflate
 - name: Destination
-  description: Properties of Destination where capture will be stored. (Storage Account, Blob Names)
+  description: Capture storage details for capture description
   kind: object
   properties:
   - description: Name for capture destination
@@ -186,27 +186,15 @@ definitions:
   - description: Resource id of the storage account to be used to create the blobs
     types:
     - uid: string
-    name: storageAccountResourceId
+    name: properties.storageAccountResourceId
   - description: Blob container Name
     types:
     - uid: string
-    name: blobContainer
+    name: properties.blobContainer
   - description: Blob naming convention for archive, e.g. {Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}. Here all the parameters (Namespace,EventHub .. etc) are mandatory irrespective of order
     types:
     - uid: string
-    name: archiveNameFormat
-- name: ErrorResponse
-  description: Error reponse indicates ServiceBus service is not able to process the incoming request. The reason is provided in the error message.
-  kind: object
-  properties:
-  - description: Error code.
-    types:
-    - uid: string
-    name: code
-  - description: Error message indicating why the operation failed.
-    types:
-    - uid: string
-    name: message
+    name: properties.archiveNameFormat
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-3174/eventhubs?api-version=2017-04-01

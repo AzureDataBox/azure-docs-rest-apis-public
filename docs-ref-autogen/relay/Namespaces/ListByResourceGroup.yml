@@ -45,13 +45,24 @@ definitions:
   properties:
   - description: Result of the list namespace operation.
     types:
-    - isArray: true
-      uid: RelayNamespace
+    - uid: RelayNamespace
     name: value
   - description: Link to the next set of results. Not empty if value contains incomplete list of namespaces.
     types:
     - uid: string
     name: nextLink
+- name: ErrorResponse
+  description: Error reponse indicates Relay service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
 - name: RelayNamespace
   description: Description of a namespace resource.
   kind: object
@@ -63,27 +74,27 @@ definitions:
   - isReadyOnly: true
     types:
     - uid: provisioningStateEnum
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: The time the namespace was created.
     types:
     - uid: string
-    name: createdAt
+    name: properties.createdAt
   - isReadyOnly: true
     description: The time the namespace was updated.
     types:
     - uid: string
-    name: updatedAt
+    name: properties.updatedAt
   - isReadyOnly: true
     description: Endpoint you can use to perform Service Bus operations.
     types:
     - uid: string
-    name: serviceBusEndpoint
+    name: properties.serviceBusEndpoint
   - isReadyOnly: true
     description: Identifier for Azure Insights metrics.
     types:
     - uid: string
-    name: metricId
+    name: properties.metricId
   - description: Resource location.
     types:
     - uid: string
@@ -123,53 +134,6 @@ definitions:
     types:
     - uid: SkuTier
     name: tier
-- name: SkuName
-  description: Name of this SKU.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Standard
-- name: SkuTier
-  description: The tier of this SKU.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Standard
-- name: provisioningStateEnum
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Created
-  - types:
-    - uid: string
-    name: Succeeded
-  - types:
-    - uid: string
-    name: Deleted
-  - types:
-    - uid: string
-    name: Failed
-  - types:
-    - uid: string
-    name: Updating
-  - types:
-    - uid: string
-    name: Unknown
-- name: ErrorResponse
-  description: Error reponse indicates Relay service is not able to process the incoming request. The reason is provided in the error message.
-  kind: object
-  properties:
-  - description: Error code.
-    types:
-    - uid: string
-    name: code
-  - description: Error message indicating why the operation failed.
-    types:
-    - uid: string
-    name: message
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/8c246e6a-cbc6-4a87-aff1-d6a886f376ef/resourceGroups/RG-eg/providers/Microsoft.Relay/namespaces?api-version=2017-04-01

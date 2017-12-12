@@ -45,14 +45,25 @@ definitions:
   properties:
   - description: Result of the List PremiumMessagingRegions type.
     types:
-    - isArray: true
-      uid: PremiumMessagingRegions
+    - uid: PremiumMessagingRegions
     name: value
   - isReadyOnly: true
     description: Link to the next set of results. Not empty if Value contains incomplete list of PremiumMessagingRegions.
     types:
     - uid: string
     name: nextLink
+- name: ErrorResponse
+  description: Error reponse indicates ServiceBus service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
 - name: PremiumMessagingRegions
   description: Premium Messaging Region
   kind: object
@@ -87,31 +98,6 @@ definitions:
     types:
     - uid: string
     name: type
-- name: Properties
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: Region code
-    types:
-    - uid: string
-    name: code
-  - isReadyOnly: true
-    description: Full name of the region
-    types:
-    - uid: string
-    name: fullName
-- name: ErrorResponse
-  description: Error reponse indicates ServiceBus service is not able to process the incoming request. The reason is provided in the error message.
-  kind: object
-  properties:
-  - description: Error code.
-    types:
-    - uid: string
-    name: code
-  - description: Error message indicating why the operation failed.
-    types:
-    - uid: string
-    name: message
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/providers/Microsoft.ServiceBus/sku/Basic/regions?api-version=2017-04-01

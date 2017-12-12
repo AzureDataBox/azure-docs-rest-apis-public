@@ -80,13 +80,20 @@ definitions:
   properties:
   - description: Results of the list operation.
     types:
-    - isArray: true
-      uid: Policy
+    - uid: Policy
     name: value
   - description: Link for next set of results.
     types:
     - uid: string
     name: nextLink
+- name: CloudError
+  description: Error from a REST request.
+  kind: object
+  properties:
+  - description: Body of an error from a REST request.
+    types:
+    - uid: CloudErrorBody
+    name: error
 - name: Policy
   description: A Policy.
   kind: object
@@ -94,40 +101,40 @@ definitions:
   - description: The description of the policy.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - description: The status of the policy.
     types:
     - uid: PolicyStatus
-    name: status
+    name: properties.status
   - description: The fact name of the policy (e.g. LabVmCount, LabVmSize, MaxVmsAllowedPerLab, etc.
     types:
     - uid: PolicyFactName
-    name: factName
+    name: properties.factName
   - description: The fact data of the policy.
     types:
     - uid: string
-    name: factData
+    name: properties.factData
   - description: The threshold of the policy (i.e. a number for MaxValuePolicy, and a JSON array of values for AllowedValuesPolicy).
     types:
     - uid: string
-    name: threshold
+    name: properties.threshold
   - description: The evaluator type of the policy (i.e. AllowedValuesPolicy, MaxValuePolicy).
     types:
     - uid: PolicyEvaluatorType
-    name: evaluatorType
+    name: properties.evaluatorType
   - isReadyOnly: true
     description: The creation date of the policy.
     types:
     - uid: string
-    name: createdDate
+    name: properties.createdDate
   - description: The provisioning status of the resource.
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - description: The unique immutable identifier of a resource (Guid).
     types:
     - uid: string
-    name: uniqueIdentifier
+    name: properties.uniqueIdentifier
   - isReadyOnly: true
     description: The identifier of the resource.
     types:
@@ -155,62 +162,6 @@ definitions:
       - uid: string
       uid: object
     name: tags
-- name: PolicyStatus
-  description: The status of the policy.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Enabled
-  - types:
-    - uid: string
-    name: Disabled
-- name: PolicyFactName
-  description: The fact name of the policy (e.g. LabVmCount, LabVmSize, MaxVmsAllowedPerLab, etc.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: UserOwnedLabVmCount
-  - types:
-    - uid: string
-    name: UserOwnedLabPremiumVmCount
-  - types:
-    - uid: string
-    name: LabVmCount
-  - types:
-    - uid: string
-    name: LabPremiumVmCount
-  - types:
-    - uid: string
-    name: LabVmSize
-  - types:
-    - uid: string
-    name: GalleryImage
-  - types:
-    - uid: string
-    name: UserOwnedLabVmCountInSubnet
-  - types:
-    - uid: string
-    name: LabTargetCost
-- name: PolicyEvaluatorType
-  description: The evaluator type of the policy (i.e. AllowedValuesPolicy, MaxValuePolicy).
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: AllowedValuesPolicy
-  - types:
-    - uid: string
-    name: MaxValuePolicy
-- name: CloudError
-  description: Error from a REST request.
-  kind: object
-  properties:
-  - description: Body of an error from a REST request.
-    types:
-    - uid: CloudErrorBody
-    name: error
 - name: CloudErrorBody
   description: Body of an error from a REST request.
   kind: object
@@ -226,8 +177,7 @@ definitions:
     name: target
   - description: Inner errors.
     types:
-    - isArray: true
-      uid: Details
+    - uid: CloudErrorBody
     name: details
 examples: []
 security:

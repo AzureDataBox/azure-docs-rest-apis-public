@@ -77,41 +77,14 @@ requestBody:
     name: tags
 requestHeader: []
 definitions:
-- name: SkuName
-  description: Name of the pricing tier.
-  kind: enum
+- name: Sku
+  description: The pricing tier (defines a CDN provider, feature list and rate) of the CDN profile.
+  kind: object
   properties:
-  - types:
-    - uid: string
-    name: Standard_Verizon
-  - types:
-    - uid: string
-    name: Premium_Verizon
-  - types:
-    - uid: string
-    name: Custom_Verizon
-  - types:
-    - uid: string
-    name: Standard_Akamai
-  - types:
-    - uid: string
-    name: Standard_ChinaCdn
-- name: ProfileResourceState
-  description: Resource status of the profile.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Creating
-  - types:
-    - uid: string
-    name: Active
-  - types:
-    - uid: string
-    name: Deleting
-  - types:
-    - uid: string
-    name: Disabled
+  - description: Name of the pricing tier.
+    types:
+    - uid: SkuName
+    name: name
 - name: Profile
   description: CDN profile represents the top level resource and the entry point into the CDN API. This allows users to set up a logical grouping of endpoints in addition to creating shared configuration settings and selecting pricing tiers and providers.
   kind: object
@@ -124,12 +97,12 @@ definitions:
     description: Resource status of the profile.
     types:
     - uid: ProfileResourceState
-    name: resourceState
+    name: properties.resourceState
   - isReadyOnly: true
     description: Provisioning status of the profile.
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -157,14 +130,6 @@ definitions:
       - uid: string
       uid: object
     name: tags
-- name: Sku
-  description: The pricing tier (defines a CDN provider, feature list and rate) of the CDN profile.
-  kind: object
-  properties:
-  - description: Name of the pricing tier.
-    types:
-    - uid: SkuName
-    name: name
 - name: ErrorResponse
   description: Error reponse indicates CDN service is not able to process the incoming request. The reason is provided in the error message.
   kind: object
