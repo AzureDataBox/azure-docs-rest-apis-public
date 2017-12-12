@@ -103,17 +103,45 @@ definitions:
 examples:
 - request:
     uri: POST https://management.azure.com/subscriptions/subid/providers/Microsoft.Batch/locations/japaneast/checkNameAvailability?api-version=2017-09-01
-    requestBody: '{"name":"newaccountname","type":"Microsoft.Batch/batchAccounts"}'
+    requestBody: >-
+      {
+
+        "name": "newaccountname",
+
+        "type": "Microsoft.Batch/batchAccounts"
+
+      }
   responses:
   - statusCode: "200"
-    body: '{"nameAvailable":true}'
+    body: >-
+      {
+
+        "nameAvailable": true
+
+      }
   name: LocationCheckNameAvailability_Available
 - request:
     uri: POST https://management.azure.com/subscriptions/subid/providers/Microsoft.Batch/locations/japaneast/checkNameAvailability?api-version=2017-09-01
-    requestBody: '{"name":"existingaccountname","type":"Microsoft.Batch/batchAccounts"}'
+    requestBody: >-
+      {
+
+        "name": "existingaccountname",
+
+        "type": "Microsoft.Batch/batchAccounts"
+
+      }
   responses:
   - statusCode: "200"
-    body: "{\"nameAvailable\":false,\"reason\":\"AlreadyExists\",\"message\":\"An account named 'existingaccountname' is already in use.\"}"
+    body: >-
+      {
+
+        "nameAvailable": false,
+
+        "reason": "AlreadyExists",
+
+        "message": "An account named 'existingaccountname' is already in use."
+
+      }
   name: LocationCheckNameAvailability_AlreadyExists
 security:
 - type: oauth2

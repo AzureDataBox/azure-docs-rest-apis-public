@@ -518,23 +518,207 @@ definitions:
 examples:
 - request:
     uri: POST https://batch.core.windows.net/jobs/jobId/addtaskcollection?api-version=2017-09-01.6.0
-    requestBody: '{"value":[{"id":"simple1","commandLine":"cmd /c dir /s"},{"id":"simple2","commandLine":"cmd /c dir /s"}]}'
+    requestBody: >-
+      {
+
+        "value": [
+
+          {
+
+            "id": "simple1",
+
+            "commandLine": "cmd /c dir /s"
+
+          },
+
+          {
+
+            "id": "simple2",
+
+            "commandLine": "cmd /c dir /s"
+
+          }
+
+        ]
+
+      }
     headers:
     - value: 00000000-0000-0000-0000-000000000000
       name: client-request-id
   responses:
   - statusCode: "200"
-    body: '{"value":[{"status":"success","taskId":"simple1","eTag":"0x8D3D623CD661246","lastModified":"2016-09-06T07:02:44.7589958Z","location":"https://account.region.batch.azure.com/jobs/jobId/tasks/simple1"},{"status":"success","taskId":"simple2","eTag":"0x8D3D623CD7072CC","lastModified":"2016-09-06T07:02:44.8270028Z","location":"https://account.region.batch.azure.com/jobs/jobId/tasks/simple2"}]}'
+    body: >-
+      {
+
+        "value": [
+
+          {
+
+            "status": "success",
+
+            "taskId": "simple1",
+
+            "eTag": "0x8D3D623CD661246",
+
+            "lastModified": "2016-09-06T07:02:44.7589958Z",
+
+            "location": "https://account.region.batch.azure.com/jobs/jobId/tasks/simple1"
+
+          },
+
+          {
+
+            "status": "success",
+
+            "taskId": "simple2",
+
+            "eTag": "0x8D3D623CD7072CC",
+
+            "lastModified": "2016-09-06T07:02:44.8270028Z",
+
+            "location": "https://account.region.batch.azure.com/jobs/jobId/tasks/simple2"
+
+          }
+
+        ]
+
+      }
   name: Add a basic collection of tasks
 - request:
     uri: POST https://batch.core.windows.net/jobs/jobId/addtaskcollection?api-version=2017-09-01.6.0
-    requestBody: '{"value":[{"id":"complex1","commandLine":"cmd /c dir /s","resourceFiles":[{"blobSource":"https://account.blob.core.windows.net/","filePath":"file1"}],"environmentSettings":[{"name":"env1","value":"value1"},{"name":"env2","value":"value2"}],"affinityInfo":{"affinityId":"affinityId"},"constraints":{"maxWallClockTime":"P1D","retentionTime":"P2D","maxTaskRetryCount":5},"multiInstanceSettings":{"numberOfInstances":3,"coordinationCommandLine":"cmd /c echo coordinating","commonResourceFiles":[{"blobSource":"https://common.blob.core.windows.net/","filePath":"common.exe"}]}},{"id":"simple3","commandLine":"cmd /c dir /s"}]}'
+    requestBody: >-
+      {
+
+        "value": [
+
+          {
+
+            "id": "complex1",
+
+            "commandLine": "cmd /c dir /s",
+
+            "resourceFiles": [
+
+              {
+
+                "blobSource": "https://account.blob.core.windows.net/",
+
+                "filePath": "file1"
+
+              }
+
+            ],
+
+            "environmentSettings": [
+
+              {
+
+                "name": "env1",
+
+                "value": "value1"
+
+              },
+
+              {
+
+                "name": "env2",
+
+                "value": "value2"
+
+              }
+
+            ],
+
+            "affinityInfo": {
+
+              "affinityId": "affinityId"
+
+            },
+
+            "constraints": {
+
+              "maxWallClockTime": "P1D",
+
+              "retentionTime": "P2D",
+
+              "maxTaskRetryCount": 5
+
+            },
+
+            "multiInstanceSettings": {
+
+              "numberOfInstances": 3,
+
+              "coordinationCommandLine": "cmd /c echo coordinating",
+
+              "commonResourceFiles": [
+
+                {
+
+                  "blobSource": "https://common.blob.core.windows.net/",
+
+                  "filePath": "common.exe"
+
+                }
+
+              ]
+
+            }
+
+          },
+
+          {
+
+            "id": "simple3",
+
+            "commandLine": "cmd /c dir /s"
+
+          }
+
+        ]
+
+      }
     headers:
     - value: 00000000-0000-0000-0000-000000000000
       name: client-request-id
   responses:
   - statusCode: "200"
-    body: '{"value":[{"taskId":"simple3","status":"success","eTag":"0x8D3D623CE295629","lastModified":"2016-09-06T07:02:46.0386857Z","location":"https://account.region.batch.azure.com/jobs/jobId/tasks/simple3"},{"taskId":"complex1","status":"success","eTag":"0x8D3D623CE29A412","lastModified":"2016-09-06T07:02:46.0406802Z","location":"https://account.region.batch.azure.com/jobs/jobId/tasks/complex1"}]}'
+    body: >-
+      {
+
+        "value": [
+
+          {
+
+            "taskId": "simple3",
+
+            "status": "success",
+
+            "eTag": "0x8D3D623CE295629",
+
+            "lastModified": "2016-09-06T07:02:46.0386857Z",
+
+            "location": "https://account.region.batch.azure.com/jobs/jobId/tasks/simple3"
+
+          },
+
+          {
+
+            "taskId": "complex1",
+
+            "status": "success",
+
+            "eTag": "0x8D3D623CE29A412",
+
+            "lastModified": "2016-09-06T07:02:46.0406802Z",
+
+            "location": "https://account.region.batch.azure.com/jobs/jobId/tasks/complex1"
+
+          }
+
+        ]
+
+      }
   name: Add a complex collection of tasks
 security: []
 name: AddCollection
