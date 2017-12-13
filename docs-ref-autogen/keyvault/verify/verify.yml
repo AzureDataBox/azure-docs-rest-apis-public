@@ -83,8 +83,24 @@ definitions:
     types:
     - uid: Error
     name: error
+- name: KeyVerifyParameters
+  description: The key verify parameters.
+  kind: object
+  properties:
+  - description: The signing/verification algorithm. For more information on possible algorithm types, see JsonWebKeySignatureAlgorithm.
+    types:
+    - uid: JsonWebKeySignatureAlgorithm
+    name: alg
+  - description: The digest used for signing.
+    types:
+    - uid: string
+    name: digest
+  - description: The signature to be verified.
+    types:
+    - uid: string
+    name: value
 - name: Error
-  description: The key vault server error.
+  description: Error encountered, if any, during the certificate operation.
   kind: object
   properties:
   - isReadyOnly: true
@@ -97,12 +113,47 @@ definitions:
     types:
     - uid: string
     name: message
-  - isReadyOnly: true
-    description: The key vault server error.
-    types:
-    - uid: Error
+  - types:
+    - {}
     name: innererror
+- name: JsonWebKeySignatureAlgorithm
+  description: The signing/verification algorithm identifier. For more information on possible algorithm types, see JsonWebKeySignatureAlgorithm.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: PS256
+  - types:
+    - uid: string
+    name: PS384
+  - types:
+    - uid: string
+    name: PS512
+  - types:
+    - uid: string
+    name: RS256
+  - types:
+    - uid: string
+    name: RS384
+  - types:
+    - uid: string
+    name: RS512
+  - types:
+    - uid: string
+    name: RSNULL
+  - types:
+    - uid: string
+    name: ES256
+  - types:
+    - uid: string
+    name: ES384
+  - types:
+    - uid: string
+    name: ES512
+  - types:
+    - uid: string
+    name: ECDSA256
 examples: []
 security: []
 name: verify
-uid: .keyvault.verify.verify
+uid: keyvault.verify.verify

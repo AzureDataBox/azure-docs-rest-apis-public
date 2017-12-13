@@ -57,7 +57,7 @@ definitions:
     - uid: string
     name: nextLink
 - name: LoadBalancer
-  description: LoadBalancer resource
+  description: A list of load balancers.
   kind: object
   properties:
   - description: The load balancer SKU.
@@ -132,7 +132,7 @@ definitions:
       uid: object
     name: tags
 - name: LoadBalancerSku
-  description: SKU of a load balancer
+  description: The load balancer SKU.
   kind: object
   properties:
   - description: Name of a load balancer SKU.
@@ -140,7 +140,7 @@ definitions:
     - uid: LoadBalancerSkuName
     name: name
 - name: FrontendIPConfiguration
-  description: Frontend IP address of the load balancer.
+  description: Object representing the frontend IPs to be used for the load balancer
   kind: object
   properties:
   - description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
@@ -201,7 +201,7 @@ definitions:
     - uid: string
     name: id
 - name: BackendAddressPool
-  description: Pool of backend IP addresses.
+  description: Collection of backend address pools used by a load balancer
   kind: object
   properties:
   - description: Gets name of the resource that is unique within a resource group. This name can be used to access the resource.
@@ -237,7 +237,7 @@ definitions:
     - uid: string
     name: id
 - name: LoadBalancingRule
-  description: A load balancing rule for a load balancer.
+  description: 'Object collection representing the load balancing rules Gets the provisioning '
   kind: object
   properties:
   - description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
@@ -298,7 +298,7 @@ definitions:
     - uid: string
     name: id
 - name: Probe
-  description: A load balancer probe.
+  description: Collection of probe objects used in the load balancer
   kind: object
   properties:
   - description: Gets name of the resource that is unique within a resource group. This name can be used to access the resource.
@@ -344,7 +344,7 @@ definitions:
     - uid: string
     name: id
 - name: InboundNatRule
-  description: Inbound NAT rule of the load balancer.
+  description: Collection of inbound NAT Rules used by a load balancer. Defining inbound NAT rules on your load balancer is mutually exclusive with defining an inbound NAT pool. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an Inbound NAT pool. They have to reference individual inbound NAT rules.
   kind: object
   properties:
   - description: Gets name of the resource that is unique within a resource group. This name can be used to access the resource.
@@ -394,7 +394,7 @@ definitions:
     - uid: string
     name: id
 - name: InboundNatPool
-  description: Inbound NAT pool of the load balancer.
+  description: Defines an external port range for inbound NAT to a single backend port on NICs associated with a load balancer. Inbound NAT rules are created automatically for each NIC associated with the Load Balancer using an external port from this range. Defining an Inbound NAT pool on your Load Balancer is mutually exclusive with defining inbound Nat rules. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT rules.
   kind: object
   properties:
   - description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
@@ -435,7 +435,7 @@ definitions:
     - uid: string
     name: id
 - name: OutboundNatRule
-  description: Outbound NAT pool of the load balancer.
+  description: The outbound NAT rules.
   kind: object
   properties:
   - description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
@@ -467,14 +467,34 @@ definitions:
     types:
     - uid: string
     name: id
+- name: LoadBalancerSkuName
+  description: Name of a load balancer SKU.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Basic
+  - types:
+    - uid: string
+    name: Standard
 - name: SubResource
-  description: Reference to another subresource.
+  description: The reference of ApplicationGatewayBackendAddressPool resource.
   kind: object
   properties:
   - description: Resource ID.
     types:
     - uid: string
     name: id
+- name: IPAllocationMethod
+  description: "Defines how a private IP address is assigned. Possible values are: 'Static' and 'Dynamic'."
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Static
+  - types:
+    - uid: string
+    name: Dynamic
 - name: TransportProtocol
   description: The transport protocol for the endpoint. Possible values are 'Udp' or 'Tcp' or 'All.'
   kind: enum
@@ -488,6 +508,29 @@ definitions:
   - types:
     - uid: string
     name: All
+- name: LoadDistribution
+  description: The load distribution policy for this rule. Possible values are 'Default', 'SourceIP', and 'SourceIPProtocol'.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Default
+  - types:
+    - uid: string
+    name: SourceIP
+  - types:
+    - uid: string
+    name: SourceIPProtocol
+- name: ProbeProtocol
+  description: "The protocol of the end point. Possible values are: 'Http' or 'Tcp'. If 'Tcp' is specified, a received ACK is required for the probe to be successful. If 'Http' is specified, a 200 OK response from the specifies URI is required for the probe to be successful."
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Http
+  - types:
+    - uid: string
+    name: Tcp
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/networkInterfaces/nic1/loadBalancers?api-version=2017-09-01

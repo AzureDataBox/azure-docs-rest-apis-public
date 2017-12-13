@@ -80,7 +80,7 @@ definitions:
     - uid: ErrorResponse
     name: details
 - name: PipelineResource
-  description: Pipeline resource type.
+  description: List of pipelines.
   kind: object
   properties:
   - description: The description of the pipeline.
@@ -128,7 +128,7 @@ definitions:
     - uid: string
     name: etag
 - name: ParameterDefinitionSpecification
-  description: Definition of all parameters for an entity.
+  description: Parameters for dataset.
   kind: object
   properties:
   - description: Definition of a single parameter for an entity.
@@ -1260,8 +1260,30 @@ definitions:
     types:
     - uid: ActivityDependency
     name: dependsOn
+- name: ParameterType
+  description: Parameter type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Object
+  - types:
+    - uid: string
+    name: String
+  - types:
+    - uid: string
+    name: Int
+  - types:
+    - uid: string
+    name: Float
+  - types:
+    - uid: string
+    name: Bool
+  - types:
+    - uid: string
+    name: Array
 - name: LinkedServiceReference
-  description: Linked service reference type.
+  description: The Azure Key Vault linked service reference.
   kind: object
   properties:
   - description: Linked service reference type.
@@ -1290,7 +1312,7 @@ definitions:
     - uid: integer
     name: retryIntervalInSeconds
 - name: ActivityDependency
-  description: Activity dependency information.
+  description: Activity depends on condition.
   kind: object
   properties:
   - description: Activity name.
@@ -1301,6 +1323,22 @@ definitions:
     types:
     - uid: string
     name: dependencyConditions
+- name: WebServiceOutputs
+  description: Key,Value pairs, mapping the names of Azure ML endpoint's Web Service Outputs to AzureMLWebServiceFile objects specifying the output Blob locations. This information will be passed in the WebServiceOutputs property of the Azure ML batch execution request.
+  kind: object
+  properties:
+  - description: Azure ML WebService Input/Output file
+    types:
+    - uid: AzureMLWebServiceFile
+    name: ''
+- name: WebServiceInputs
+  description: Key,Value pairs, mapping the names of Azure ML endpoint's Web Service Inputs to AzureMLWebServiceFile objects specifying the input Blob locations.. This information will be passed in the WebServiceInputs property of the Azure ML batch execution request.
+  kind: object
+  properties:
+  - description: Azure ML WebService Input/Output file
+    types:
+    - uid: AzureMLWebServiceFile
+    name: ''
 - name: DatasetReference
   description: Dataset reference type.
   kind: object
@@ -1355,6 +1393,14 @@ definitions:
     types:
     - uid: SecureString
     name: password
+- name: StoredProcedureParameters
+  description: 'Value and type setting for stored procedure parameters. Example: "{Parameter1: {value: "1", type: "int"}}".'
+  kind: object
+  properties:
+  - description: SQL stored procedure parameter.
+    types:
+    - uid: StoredProcedureParameter
+    name: ''
 - name: CustomActivityReferenceObject
   description: Reference objects for custom activity
   kind: object
@@ -1375,6 +1421,16 @@ definitions:
     types:
     - uid: string
     name: packagePath
+- name: SSISExecutionRuntime
+  description: Specifies the runtime to execute SSIS package.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: x64
+  - types:
+    - uid: string
+    name: x86
 - name: IntegrationRuntimeReference
   description: Integration runtime reference type.
   kind: object
@@ -1467,6 +1523,18 @@ definitions:
     types:
     - uid: string
     name: name
+- name: AzureMLWebServiceFile
+  description: Azure ML WebService Input/Output file
+  kind: object
+  properties:
+  - description: 'The relative file path, including container name, in the Azure Blob Storage specified by the LinkedService. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+    name: filePath
+  - description: Reference to an Azure Storage LinkedService, where Azure ML WebService Input/Output file located.
+    types:
+    - uid: LinkedServiceReference
+    name: linkedServiceName
 - name: SecureString
   description: Azure Data Factory secure string definition. The string value will be masked with asterisks '*' during Get or List API calls.
   kind: object
@@ -2432,6 +2500,18 @@ definitions:
     types:
     - uid: object
     name: sourceRetryWait
+- name: StoredProcedureParameter
+  description: SQL stored procedure parameter.
+  kind: object
+  properties:
+  - description: 'Stored procedure parameter value. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+    name: value
+  - description: Stored procedure parameter type.
+    types:
+    - uid: StoredProcedureParameterType
+    name: type
 - name: SalesforceSink
   description: A copy activity Salesforce sink.
   kind: object
@@ -2904,6 +2984,40 @@ definitions:
     types:
     - uid: object
     name: bucketName
+- name: CassandraSourceReadConsistencyLevels
+  description: The consistency level specifies how many Cassandra servers must respond to a read request before returning data to the client application. Cassandra checks the specified number of Cassandra servers for data to satisfy the read request. Must be one of cassandraSourceReadConsistencyLevels. The default value is 'ONE'. It is case-insensitive.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: ALL
+  - types:
+    - uid: string
+    name: EACH_QUORUM
+  - types:
+    - uid: string
+    name: QUORUM
+  - types:
+    - uid: string
+    name: LOCAL_QUORUM
+  - types:
+    - uid: string
+    name: ONE
+  - types:
+    - uid: string
+    name: TWO
+  - types:
+    - uid: string
+    name: THREE
+  - types:
+    - uid: string
+    name: LOCAL_ONE
+  - types:
+    - uid: string
+    name: SERIAL
+  - types:
+    - uid: string
+    name: LOCAL_SERIAL
 - name: DistcpSettings
   description: Distcp settings.
   kind: object
@@ -2920,6 +3034,65 @@ definitions:
     types:
     - uid: object
     name: distcpOptions
+- name: SalesforceSourceReadBehavior
+  description: The read behavior for the operation. Default is Query.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Query
+  - types:
+    - uid: string
+    name: QueryAll
+- name: StoredProcedureParameterType
+  description: Stored procedure parameter type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: String
+  - types:
+    - uid: string
+    name: Int
+  - types:
+    - uid: string
+    name: Decimal
+  - types:
+    - uid: string
+    name: Guid
+  - types:
+    - uid: string
+    name: Boolean
+  - types:
+    - uid: string
+    name: Date
+- name: SalesforceSinkWriteBehavior
+  description: The write behavior for the operation. Default is Insert.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Insert
+  - types:
+    - uid: string
+    name: Upsert
+- name: DynamicsSinkWriteBehavior
+  description: The write behavior for the operation.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Upsert
+- name: AzureSearchIndexWriteBehaviorType
+  description: Specify the write behavior when upserting documents into Azure Search Index.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Merge
+  - types:
+    - uid: string
+    name: Upload
 - name: CopyBehaviorType
   description: All available types of copy behavior.
   kind: enum
@@ -2953,6 +3126,16 @@ definitions:
     types:
     - uid: object
     name: useTypeDefault
+- name: SapCloudForCustomerSinkWriteBehavior
+  description: The write behavior for the operation. Default is 'Insert'.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Insert
+  - types:
+    - uid: string
+    name: Update
 - name: PolybaseSettingsRejectType
   description: Indicates whether the RejectValue property is specified as a literal value or a percentage.
   kind: enum

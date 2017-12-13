@@ -72,7 +72,7 @@ requestBody:
 requestHeader: []
 definitions:
 - name: ComputePolicy
-  description: The parameters used to create a new compute policy.
+  description: the list of existing compute policies to update in this account.
   kind: object
   properties:
   - isReadyOnly: true
@@ -98,6 +98,39 @@ definitions:
     types:
     - uid: integer
     name: properties.minPriorityPerJob
+- name: ComputePolicyCreateOrUpdateParameters
+  description: The parameters used to create a new compute policy.
+  kind: object
+  properties:
+  - description: The AAD object identifier for the entity to create a policy for.
+    types:
+    - uid: string
+    name: properties.objectId
+  - description: The type of AAD object the object identifier refers to.
+    types:
+    - uid: AADObjectType
+    name: properties.objectType
+  - description: The maximum degree of parallelism per job this user can use to submit jobs. This property, the min priority per job property, or both must be passed.
+    types:
+    - uid: integer
+    name: properties.maxDegreeOfParallelismPerJob
+  - description: The minimum priority per job this user can use to submit jobs. This property, the max degree of parallelism per job property, or both must be passed.
+    types:
+    - uid: integer
+    name: properties.minPriorityPerJob
+- name: AADObjectType
+  description: The type of AAD object the object identifier refers to.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: User
+  - types:
+    - uid: string
+    name: Group
+  - types:
+    - uid: string
+    name: ServicePrincipal
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/contosorg/providers/Microsoft.DataLakeAnalytics/accounts/contosoadla/computePolicies/test_policy?api-version=2016-11-01

@@ -110,7 +110,7 @@ definitions:
     - uid: string
     name: id
 - name: SubResource
-  description: Reference to another subresource.
+  description: A collection of references to express route circuit peerings.
   kind: object
   properties:
   - description: Resource ID.
@@ -166,6 +166,68 @@ definitions:
       - uid: string
       uid: object
     name: tags
+- name: PatchRouteFilter
+  description: Route Filter Resource.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+    name: etag
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+  - description: Resource tags.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+  - description: Collection of RouteFilterRules contained within a route filter.
+    types:
+    - uid: RouteFilterRule
+    name: properties.rules
+  - description: A collection of references to express route circuit peerings.
+    types:
+    - uid: SubResource
+    name: properties.peerings
+  - isReadyOnly: true
+    description: "The provisioning state of the resource. Possible values are: 'Updating', 'Deleting', 'Succeeded' and 'Failed'."
+    types:
+    - uid: string
+    name: properties.provisioningState
+  - isReadyOnly: true
+    description: Resource ID
+    types:
+    - uid: string
+    name: id
+- name: Access
+  description: "The access type of the rule. Valid values are: 'Allow', 'Deny'"
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Allow
+  - types:
+    - uid: string
+    name: Deny
+- name: RouteFilterRuleType
+  description: "The rule type of the rule. Valid value is: 'Community'"
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Community
 examples:
 - request:
     uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/routeFilters/filterName?api-version=2017-09-01

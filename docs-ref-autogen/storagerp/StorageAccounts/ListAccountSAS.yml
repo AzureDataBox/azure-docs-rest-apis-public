@@ -98,6 +98,109 @@ definitions:
     types:
     - uid: string
     name: accountSasToken
+- name: AccountSasParameters
+  description: The parameters to list SAS credentials of a storage account.
+  kind: object
+  properties:
+  - description: 'The signed services accessible with the account SAS. Possible values include: Blob (b), Queue (q), Table (t), File (f).'
+    types:
+    - uid: Services
+    name: signedServices
+  - description: 'The signed resource types that are accessible with the account SAS. Service (s): Access to service-level APIs; Container (c): Access to container-level APIs; Object (o): Access to object-level APIs for blobs, queue messages, table entities, and files.'
+    types:
+    - uid: SignedResourceTypes
+    name: signedResourceTypes
+  - description: 'The signed permissions for the account SAS. Possible values include: Read (r), Write (w), Delete (d), List (l), Add (a), Create (c), Update (u) and Process (p).'
+    types:
+    - uid: Permissions
+    name: signedPermission
+  - description: An IP address or a range of IP addresses from which to accept requests.
+    types:
+    - uid: string
+    name: signedIp
+  - description: The protocol permitted for a request made with the account SAS.
+    types:
+    - uid: HttpProtocol
+    name: signedProtocol
+  - description: The time at which the SAS becomes valid.
+    types:
+    - uid: string
+    name: signedStart
+  - description: The time at which the shared access signature becomes invalid.
+    types:
+    - uid: string
+    name: signedExpiry
+  - description: The key to sign the account SAS token with.
+    types:
+    - uid: string
+    name: keyToSign
+- name: Services
+  description: 'The signed services accessible with the account SAS. Possible values include: Blob (b), Queue (q), Table (t), File (f).'
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: b
+  - types:
+    - uid: string
+    name: q
+  - types:
+    - uid: string
+    name: t
+  - types:
+    - uid: string
+    name: f
+- name: SignedResourceTypes
+  description: 'The signed resource types that are accessible with the account SAS. Service (s): Access to service-level APIs; Container (c): Access to container-level APIs; Object (o): Access to object-level APIs for blobs, queue messages, table entities, and files.'
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: s
+  - types:
+    - uid: string
+    name: c
+  - types:
+    - uid: string
+    name: o
+- name: Permissions
+  description: 'The signed permissions for the account SAS. Possible values include: Read (r), Write (w), Delete (d), List (l), Add (a), Create (c), Update (u) and Process (p).'
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: r
+  - types:
+    - uid: string
+    name: d
+  - types:
+    - uid: string
+    name: w
+  - types:
+    - uid: string
+    name: l
+  - types:
+    - uid: string
+    name: a
+  - types:
+    - uid: string
+    name: c
+  - types:
+    - uid: string
+    name: u
+  - types:
+    - uid: string
+    name: p
+- name: HttpProtocol
+  description: The protocol permitted for a request made with the account SAS.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: https,http
+  - types:
+    - uid: string
+    name: https
 examples:
 - request:
     uri: POST https://management.azure.com/subscriptions/27de630f-e1ee-42de-8849-90def4986454/resourceGroups/res7985/providers/Microsoft.Storage/storageAccounts/sto8588/ListAccountSas?api-version=2017-06-01

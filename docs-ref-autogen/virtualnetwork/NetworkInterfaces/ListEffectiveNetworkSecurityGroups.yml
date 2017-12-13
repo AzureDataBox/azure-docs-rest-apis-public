@@ -83,7 +83,7 @@ definitions:
       uid: object
     name: tagMap
 - name: SubResource
-  description: Reference to another subresource.
+  description: The reference of ApplicationGatewayBackendAddressPool resource.
   kind: object
   properties:
   - description: Resource ID.
@@ -91,7 +91,7 @@ definitions:
     - uid: string
     name: id
 - name: EffectiveNetworkSecurityGroupAssociation
-  description: The effective network security group association.
+  description: Associated resources.
   kind: object
   properties:
   - description: The ID of the subnet if assigned.
@@ -103,7 +103,7 @@ definitions:
     - uid: SubResource
     name: networkInterface
 - name: EffectiveNetworkSecurityRule
-  description: Effective network security rules.
+  description: A collection of effective security rules.
   kind: object
   properties:
   - description: The name of the security rule specified by the user (if created by the user).
@@ -166,6 +166,39 @@ definitions:
     types:
     - uid: SecurityRuleDirection
     name: direction
+- name: EffectiveSecurityRuleProtocol
+  description: "The network protocol this rule applies to. Possible values are: 'Tcp', 'Udp', and 'All'."
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Tcp
+  - types:
+    - uid: string
+    name: Udp
+  - types:
+    - uid: string
+    name: All
+- name: SecurityRuleAccess
+  description: "Whether network traffic is allowed or denied. Possible values are: 'Allow' and 'Deny'."
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Allow
+  - types:
+    - uid: string
+    name: Deny
+- name: SecurityRuleDirection
+  description: "The direction of the rule. Possible values are: 'Inbound and Outbound'."
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Inbound
+  - types:
+    - uid: string
+    name: Outbound
 examples:
 - request:
     uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/nic1/effectiveNetworkSecurityGroups?api-version=2017-09-01

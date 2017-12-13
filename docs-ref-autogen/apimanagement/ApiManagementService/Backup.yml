@@ -199,8 +199,28 @@ definitions:
     types:
     - uid: VirtualNetworkType
     name: properties.virtualNetworkType
+- name: ApiManagementServiceBackupRestoreParameters
+  description: Parameters supplied to the Backup/Restore of an API Management service operation.
+  kind: object
+  properties:
+  - description: Azure Cloud Storage account (used to place/retrieve the backup) name.
+    types:
+    - uid: string
+    name: storageAccount
+  - description: Azure Cloud Storage account (used to place/retrieve the backup) access key.
+    types:
+    - uid: string
+    name: accessKey
+  - description: Azure Cloud Storage blob container name used to place/retrieve the backup.
+    types:
+    - uid: string
+    name: containerName
+  - description: The name of the backup file to create.
+    types:
+    - uid: string
+    name: backupName
 - name: ApiManagementServiceSkuProperties
-  description: API Management service resource SKU properties.
+  description: SKU properties of the API Management service.
   kind: object
   properties:
   - description: Name of the Sku.
@@ -212,7 +232,7 @@ definitions:
     - uid: integer
     name: capacity
 - name: ApiManagementServiceIdentity
-  description: Identity properties of the Api Management service resource.
+  description: Managed service identity of the Api Management service.
   kind: object
   properties:
   - description: The identity type. Currently the only supported type is 'SystemAssigned'.
@@ -333,6 +353,65 @@ definitions:
     types:
     - uid: CertificateInformation
     name: certificate
+- name: VirtualNetworkType
+  description: The type of VPN in which API Managemet service needs to be configured in. None (Default Value) means the API Management service is not part of any Virtual Network, External means the API Management deployment is set up inside a Virtual Network having an Internet Facing Endpoint, and Internal means that API Management deployment is setup inside a Virtual Network having an Intranet Facing Endpoint only.
+  kind: enum
+  properties:
+  - description: The service is not part of any Virtual Network.
+    types:
+    - uid: string
+    name: None
+  - description: The service is part of Virtual Network and it is accessible from Internet.
+    types:
+    - uid: string
+    name: External
+  - description: The service is part of Virtual Network and it is only accessible from within the virtual network.
+    types:
+    - uid: string
+    name: Internal
+- name: SkuType
+  description: Name of the Sku.
+  kind: enum
+  properties:
+  - description: Developer SKU of Api Management.
+    types:
+    - uid: string
+    name: Developer
+  - description: Standard SKU of Api Management.
+    types:
+    - uid: string
+    name: Standard
+  - description: Premium SKU of Api Management.
+    types:
+    - uid: string
+    name: Premium
+  - description: Basic SKU of Api Management.
+    types:
+    - uid: string
+    name: Basic
+- name: ApimIdentityType
+  description: The identity type. Currently the only supported type is 'SystemAssigned'.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: SystemAssigned
+- name: HostnameType
+  description: Hostname type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Proxy
+  - types:
+    - uid: string
+    name: Portal
+  - types:
+    - uid: string
+    name: Management
+  - types:
+    - uid: string
+    name: Scm
 - name: CertificateInformation
   description: SSL certificate information.
   kind: object

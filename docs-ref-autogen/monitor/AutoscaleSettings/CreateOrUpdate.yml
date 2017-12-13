@@ -251,6 +251,13 @@ definitions:
     types:
     - uid: RecurrentSchedule
     name: schedule
+- name: OperationType
+  description: the operation associated with the notification and its value must be "scale"
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Scale
 - name: EmailNotification
   description: Email notification of an autoscale event.
   kind: object
@@ -339,6 +346,34 @@ definitions:
     types:
     - uid: string
     name: cooldown
+- name: RecurrenceFrequency
+  description: the recurrence frequency. How often the schedule profile should take effect. This value must be Week, meaning each week will have the same set of profiles.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: None
+  - types:
+    - uid: string
+    name: Second
+  - types:
+    - uid: string
+    name: Minute
+  - types:
+    - uid: string
+    name: Hour
+  - types:
+    - uid: string
+    name: Day
+  - types:
+    - uid: string
+    name: Week
+  - types:
+    - uid: string
+    name: Month
+  - types:
+    - uid: string
+    name: Year
 - name: RecurrentSchedule
   description: The scheduling constraints for when the profile begins.
   kind: object
@@ -359,6 +394,89 @@ definitions:
     types:
     - uid: integer
     name: minutes
+- name: MetricStatisticType
+  description: the metric statistic type. How the metrics from multiple instances are combined.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Average
+  - types:
+    - uid: string
+    name: Min
+  - types:
+    - uid: string
+    name: Max
+  - types:
+    - uid: string
+    name: Sum
+- name: TimeAggregationType
+  description: time aggregation type. How the data that is collected should be combined over time. The default value is Average.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Average
+  - types:
+    - uid: string
+    name: Minimum
+  - types:
+    - uid: string
+    name: Maximum
+  - types:
+    - uid: string
+    name: Total
+  - types:
+    - uid: string
+    name: Count
+- name: ComparisonOperationType
+  description: the operator that is used to compare the metric data and the threshold.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Equals
+  - types:
+    - uid: string
+    name: NotEquals
+  - types:
+    - uid: string
+    name: GreaterThan
+  - types:
+    - uid: string
+    name: GreaterThanOrEqual
+  - types:
+    - uid: string
+    name: LessThan
+  - types:
+    - uid: string
+    name: LessThanOrEqual
+- name: ScaleDirection
+  description: the scale direction. Whether the scaling action increases or decreases the number of instances.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: None
+  - types:
+    - uid: string
+    name: Increase
+  - types:
+    - uid: string
+    name: Decrease
+- name: ScaleType
+  description: the type of action that should occur when the scale rule fires.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: ChangeCount
+  - types:
+    - uid: string
+    name: PercentChangeCount
+  - types:
+    - uid: string
+    name: ExactCount
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourcegroups/TestingMetricsScaleSet/providers/microsoft.insights/autoscalesettings/MySetting?api-version=2015-04-01

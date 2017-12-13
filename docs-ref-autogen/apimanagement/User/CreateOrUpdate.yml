@@ -93,7 +93,7 @@ requestBody:
 requestHeader: []
 definitions:
 - name: UserIdentityContract
-  description: User identity details.
+  description: Collection of user identities.
   kind: object
   properties:
   - description: Identity provider name.
@@ -105,7 +105,7 @@ definitions:
     - uid: string
     name: id
 - name: UserContract
-  description: User details.
+  description: Page values.
   kind: object
   properties:
   - description: First name.
@@ -174,8 +174,41 @@ definitions:
     types:
     - uid: ErrorFieldContract
     name: details
+- name: UserCreateParameters
+  description: User create details.
+  kind: object
+  properties:
+  - description: Email address. Must not be empty and must be unique within the service instance.
+    types:
+    - uid: string
+    name: properties.email
+  - description: First name.
+    types:
+    - uid: string
+    name: properties.firstName
+  - description: Last name.
+    types:
+    - uid: string
+    name: properties.lastName
+  - description: User Password. If no value is provided, a default password is generated.
+    types:
+    - uid: string
+    name: properties.password
+  - description: Account state. Specifies whether the user is active or not. Blocked users are unable to sign into the developer portal or call any APIs of subscribed products. Default state is Active.
+    types:
+    - uid: UserState
+    name: properties.state
+  - description: Optional note about a user set by the administrator.
+    types:
+    - uid: string
+    name: properties.note
+  - isReadyOnly: true
+    description: Collection of user identities.
+    types:
+    - uid: UserIdentityContract
+    name: properties.identities
 - name: GroupContract
-  description: Contract details.
+  description: Collection of groups user is part of.
   kind: object
   properties:
   - description: Group name.
@@ -214,6 +247,16 @@ definitions:
     types:
     - uid: string
     name: type
+- name: UserState
+  description: Account state. Specifies whether the user is active or not. Blocked users are unable to sign into the developer portal or call any APIs of subscribed products. Default state is Active.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: active
+  - types:
+    - uid: string
+    name: blocked
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
@@ -230,6 +273,19 @@ definitions:
     types:
     - uid: string
     name: target
+- name: GroupType
+  description: Group type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: custom
+  - types:
+    - uid: string
+    name: system
+  - types:
+    - uid: string
+    name: external
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/5931a75ae4bbd512288c680b?api-version=2017-03-01

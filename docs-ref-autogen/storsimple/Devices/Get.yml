@@ -186,6 +186,92 @@ definitions:
     types:
     - uid: Kind
     name: kind
+- name: DeviceConfigurationStatus
+  description: The current configuration status of the device.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Complete
+  - types:
+    - uid: string
+    name: Pending
+- name: DeviceStatus
+  description: The current status of the device.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Unknown
+  - types:
+    - uid: string
+    name: Online
+  - types:
+    - uid: string
+    name: Offline
+  - types:
+    - uid: string
+    name: Deactivated
+  - types:
+    - uid: string
+    name: RequiresAttention
+  - types:
+    - uid: string
+    name: MaintenanceMode
+  - types:
+    - uid: string
+    name: Creating
+  - types:
+    - uid: string
+    name: Provisioning
+  - types:
+    - uid: string
+    name: Deactivating
+  - types:
+    - uid: string
+    name: Deleted
+  - types:
+    - uid: string
+    name: ReadyToSetup
+- name: DeviceType
+  description: The type of the device.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Invalid
+  - types:
+    - uid: string
+    name: Series8000VirtualAppliance
+  - types:
+    - uid: string
+    name: Series8000PhysicalAppliance
+- name: ControllerId
+  description: The active controller that the request is expecting on the device.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Unknown
+  - types:
+    - uid: string
+    name: None
+  - types:
+    - uid: string
+    name: Controller0
+  - types:
+    - uid: string
+    name: Controller1
+- name: VirtualMachineApiType
+  description: The virtual machine API type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Classic
+  - types:
+    - uid: string
+    name: Arm
 - name: DeviceDetails
   description: The additional device details regarding the end point count and volume container count.
   kind: object
@@ -214,6 +300,46 @@ definitions:
     types:
     - uid: InEligibilityCategory
     name: inEligibilityReason
+- name: Kind
+  description: The Kind of the object. Currently only Series8000 is supported
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Series8000
+- name: AuthorizationEligibility
+  description: The eligibility status of device for service data encryption key rollover.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: InEligible
+  - types:
+    - uid: string
+    name: Eligible
+- name: AuthorizationStatus
+  description: The authorization status of the device for service data encryption key rollover.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Disabled
+  - types:
+    - uid: string
+    name: Enabled
+- name: InEligibilityCategory
+  description: The reason for inEligibility of device, in case it's not eligible for service data encryption key rollover.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: DeviceNotOnline
+  - types:
+    - uid: string
+    name: NotSupportedAppliance
+  - types:
+    - uid: string
+    name: RolloverPending
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device001ForSDKTest?api-version=2017-06-01&$expand=details

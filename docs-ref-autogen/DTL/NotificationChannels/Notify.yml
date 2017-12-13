@@ -69,6 +69,18 @@ definitions:
     types:
     - uid: CloudErrorBody
     name: error
+- name: NotifyParameters
+  description: Properties for generating a Notification.
+  kind: object
+  properties:
+  - description: The type of event (i.e. AutoShutdown, Cost)
+    types:
+    - uid: NotificationChannelEventType
+    name: eventName
+  - description: Properties for the notification in json format.
+    types:
+    - uid: string
+    name: jsonPayload
 - name: CloudErrorBody
   description: Body of an error from a REST request.
   kind: object
@@ -84,8 +96,18 @@ definitions:
     name: target
   - description: Inner errors.
     types:
-    - uid: CloudErrorBody
+    - uid: Details
     name: details
+- name: NotificationChannelEventType
+  description: The event type for which this notification is enabled (i.e. AutoShutdown, Cost)
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: AutoShutdown
+  - types:
+    - uid: string
+    name: Cost
 examples: []
 security:
 - type: oauth2

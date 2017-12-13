@@ -77,7 +77,7 @@ requestBody:
 requestHeader: []
 definitions:
 - name: PipelineRunQueryFilter
-  description: Query filter option for listing pipeline runs.
+  description: List of filters.
   kind: object
   properties:
   - description: Parameter name to be used for filter.
@@ -93,7 +93,7 @@ definitions:
     - uid: string
     name: values
 - name: PipelineRunQueryOrderBy
-  description: An object to provide order by options for listing pipeline runs.
+  description: List of OrderBy option.
   kind: object
   properties:
   - description: Parameter name to be used for order by.
@@ -136,8 +136,84 @@ definitions:
     types:
     - uid: ErrorResponse
     name: details
+- name: PipelineRunFilterParameters
+  description: Query parameters for listing pipeline runs.
+  kind: object
+  properties:
+  - description: The continuation token for getting the next page of results. Null for first page.
+    types:
+    - uid: string
+    name: continuationToken
+  - description: The time at or after which the pipeline run event was updated in 'ISO 8601' format.
+    types:
+    - uid: string
+    name: lastUpdatedAfter
+  - description: The time at or before which the pipeline run event was updated in 'ISO 8601' format.
+    types:
+    - uid: string
+    name: lastUpdatedBefore
+  - description: List of filters.
+    types:
+    - uid: PipelineRunQueryFilter
+    name: filters
+  - description: List of OrderBy option.
+    types:
+    - uid: PipelineRunQueryOrderBy
+    name: orderBy
+- name: PipelineRunQueryFilterOperand
+  description: Parameter name to be used for filter.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: PipelineName
+  - types:
+    - uid: string
+    name: Status
+  - types:
+    - uid: string
+    name: RunStart
+  - types:
+    - uid: string
+    name: RunEnd
+- name: PipelineRunQueryFilterOperator
+  description: Operator to be used for filter.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Equals
+  - types:
+    - uid: string
+    name: NotEquals
+  - types:
+    - uid: string
+    name: In
+  - types:
+    - uid: string
+    name: NotIn
+- name: PipelineRunQueryOrderByField
+  description: Parameter name to be used for order by.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: RunStart
+  - types:
+    - uid: string
+    name: RunEnd
+- name: PipelineRunQueryOrder
+  description: Sorting order of the parameter.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: ASC
+  - types:
+    - uid: string
+    name: DESC
 - name: PipelineRun
-  description: Information about a pipeline run.
+  description: List of pipeline runs.
   kind: object
   properties:
   - isReadyOnly: true
@@ -195,7 +271,7 @@ definitions:
     - uid: string
     name: message
 - name: PipelineRunInvokedBy
-  description: Provides entity name and id that started the pipeline run.
+  description: Entity that started the pipeline run.
   kind: object
   properties:
   - isReadyOnly: true

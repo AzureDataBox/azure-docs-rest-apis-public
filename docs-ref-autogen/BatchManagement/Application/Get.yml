@@ -85,7 +85,7 @@ definitions:
     - uid: CloudErrorBody
     name: error
 - name: ApplicationPackage
-  description: An application package which represents a particular version of an application.
+  description: The list of packages under this application.
   kind: object
   properties:
   - isReadyOnly: true
@@ -141,8 +141,21 @@ definitions:
     name: target
   - description: A list of additional details about the error.
     types:
-    - uid: CloudErrorBody
+    - uid: Details
     name: details
+- name: PackageState
+  description: The current state of the application package.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Pending
+  - types:
+    - uid: string
+    name: Active
+  - types:
+    - uid: string
+    name: Unmapped
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/applications/app1?api-version=2017-09-01

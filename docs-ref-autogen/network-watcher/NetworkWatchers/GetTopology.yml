@@ -73,8 +73,15 @@ definitions:
   - types:
     - uid: TopologyResource
     name: resources
+- name: TopologyParameters
+  description: Parameters that define the representation of topology.
+  kind: object
+  properties:
+  - description: The name of the target resource group to perform topology on.
+    types:
+    - uid: string
+    name: targetResourceGroupName
 - name: TopologyResource
-  description: The network resource topology information for the given resource group.
   kind: object
   properties:
   - description: Name of the resource.
@@ -94,7 +101,7 @@ definitions:
     - uid: TopologyAssociation
     name: associations
 - name: TopologyAssociation
-  description: Resources that have an association with the parent resource.
+  description: Holds the associations the resource has with other resources in the resource group.
   kind: object
   properties:
   - description: The name of the resource that is associated with the parent resource.
@@ -109,6 +116,16 @@ definitions:
     types:
     - uid: AssociationType
     name: associationType
+- name: AssociationType
+  description: The association type of the child resource to the parent resource.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Associated
+  - types:
+    - uid: string
+    name: Contains
 examples: []
 security:
 - type: oauth2

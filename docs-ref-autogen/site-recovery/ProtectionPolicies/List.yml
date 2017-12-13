@@ -61,7 +61,7 @@ definitions:
     - uid: string
     name: nextLink
 - name: ProtectionPolicyResource
-  description: The base class for backup policy. Workload-specific backup policies are derived from this class.
+  description: The list of resources.
   kind: object
   properties:
   - description: The base class for a backup policy. Workload-specific backup policies are derived from this class.
@@ -239,8 +239,21 @@ definitions:
     - uid: LongTermRetentionPolicy
     typesTitle: string
     name: retentionPolicyType
+- name: ScheduleRunType
+  description: Defines the frequency interval (daily or weekly) for the schedule policy.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Invalid
+  - types:
+    - uid: string
+    name: Daily
+  - types:
+    - uid: string
+    name: Weekly
 - name: RetentionDuration
-  description: Retention duration.
+  description: Retention duration of the protection policy.
   kind: object
   properties:
   - description: "Count of the duration types. Retention duration is determined by the combining the Count times and durationType. \r\n   For example, if Count = 3 and durationType = Weeks, then the retention duration is three weeks."
@@ -252,7 +265,7 @@ definitions:
     - uid: RetentionDurationType
     name: durationType
 - name: DailyRetentionSchedule
-  description: Daily retention schedule.
+  description: Daily retention schedule of the backup policy.
   kind: object
   properties:
   - description: The retention times of retention policy.
@@ -264,7 +277,7 @@ definitions:
     - uid: RetentionDuration
     name: retentionDuration
 - name: WeeklyRetentionSchedule
-  description: Weekly retention schedule.
+  description: Weekly retention schedule of the backup policy.
   kind: object
   properties:
   - description: List of the days of the week for the weekly retention policy.
@@ -280,7 +293,7 @@ definitions:
     - uid: RetentionDuration
     name: retentionDuration
 - name: MonthlyRetentionSchedule
-  description: The monthly retention schedule.
+  description: Monthly retention schedule of the backup policy.
   kind: object
   properties:
   - description: Retention schedule format type for monthly retention policy.
@@ -304,7 +317,7 @@ definitions:
     - uid: RetentionDuration
     name: retentionDuration
 - name: YearlyRetentionSchedule
-  description: Yearly retention schedule.
+  description: Yearly retention schedule of the backup policy.
   kind: object
   properties:
   - description: Retention schedule format for the yearly retention policy.
@@ -331,8 +344,40 @@ definitions:
     types:
     - uid: RetentionDuration
     name: retentionDuration
+- name: RetentionDurationType
+  description: The retention duration type of the retention policy.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Invalid
+  - types:
+    - uid: string
+    name: Days
+  - types:
+    - uid: string
+    name: Weeks
+  - types:
+    - uid: string
+    name: Months
+  - types:
+    - uid: string
+    name: Years
+- name: RetentionScheduleFormat
+  description: Retention schedule format type for monthly retention policy.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Invalid
+  - types:
+    - uid: string
+    name: Daily
+  - types:
+    - uid: string
+    name: Weekly
 - name: DailyRetentionFormat
-  description: Daily retention format.
+  description: Daily retention format for the monthly retention policy.
   kind: object
   properties:
   - description: List of days of the month.
@@ -340,7 +385,7 @@ definitions:
     - uid: Day
     name: daysOfTheMonth
 - name: WeeklyRetentionFormat
-  description: Weekly retention format.
+  description: Weekly retention format for the monthly retention policy.
   kind: object
   properties:
   - description: List of days of the week.
@@ -352,7 +397,7 @@ definitions:
     - uid: string
     name: weeksOfTheMonth
 - name: Day
-  description: Day of the week.
+  description: List of days of the month.
   kind: object
   properties:
   - types:

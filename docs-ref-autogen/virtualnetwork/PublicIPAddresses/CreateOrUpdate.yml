@@ -124,7 +124,7 @@ definitions:
     - uid: PublicIPAddressSkuName
     name: name
 - name: SubResource
-  description: Reference to another subresource.
+  description: The IP configuration associated with the public IP address.
   kind: object
   properties:
   - description: Resource ID.
@@ -132,7 +132,7 @@ definitions:
     - uid: string
     name: id
 - name: PublicIPAddressDnsSettings
-  description: Contains FQDN of the DNS record associated with the public IP address
+  description: The FQDN of the DNS record associated with the public IP address.
   kind: object
   properties:
   - description: Gets or sets the Domain name label.The concatenation of the domain name label and the regionalized DNS zone make up the fully qualified domain name associated with the public IP address. If a domain name label is specified, an A DNS record is created for the public IP in the Microsoft Azure DNS system.
@@ -223,6 +223,36 @@ definitions:
       - uid: string
       uid: object
     name: tags
+- name: PublicIPAddressSkuName
+  description: Name of a public IP address SKU.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Basic
+  - types:
+    - uid: string
+    name: Standard
+- name: IPAllocationMethod
+  description: "The public IP allocation method. Possible values are: 'Static' and 'Dynamic'."
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Static
+  - types:
+    - uid: string
+    name: Dynamic
+- name: IPVersion
+  description: "The public IP address version. Possible values are: 'IPv4' and 'IPv6'."
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: IPv4
+  - types:
+    - uid: string
+    name: IPv6
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip?api-version=2017-09-01

@@ -157,7 +157,7 @@ definitions:
     - uid: GeoFilter
     name: properties.geoFilters
 - name: DeepCreatedOrigin
-  description: Origin to be added when creating a CDN endpoint.
+  description: The source of the content being delivered via CDN.
   kind: object
   properties:
   - description: Origin name
@@ -176,8 +176,30 @@ definitions:
     types:
     - uid: integer
     name: properties.httpsPort
+- name: EndpointResourceState
+  description: Resource status of the endpoint.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Creating
+  - types:
+    - uid: string
+    name: Deleting
+  - types:
+    - uid: string
+    name: Running
+  - types:
+    - uid: string
+    name: Starting
+  - types:
+    - uid: string
+    name: Stopped
+  - types:
+    - uid: string
+    name: Stopping
 - name: QueryStringCachingBehavior
-  description: Defines the query string caching behavior.
+  description: Defines the query string caching behavior
   kind: enum
   properties:
   - types:
@@ -212,7 +234,7 @@ definitions:
     - uid: string
     name: DynamicSiteAcceleration
 - name: GeoFilter
-  description: Rules defining user geo access within a CDN endpoint.
+  description: List of rules defining user geo access within a CDN endpoint. Each geo filter defines an acess rule to a specified path or content, e.g. block APAC for path /pictures/
   kind: object
   properties:
   - description: Relative path applicable to geo filter. (e.g. '/mypictures', '/mypicture/kitty.jpg', and etc.)
@@ -227,6 +249,16 @@ definitions:
     types:
     - uid: string
     name: countryCodes
+- name: GeoFilterActions
+  description: Action of the geo filter, i.e. allow or block access.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Block
+  - types:
+    - uid: string
+    name: Allow
 examples: []
 security:
 - type: oauth2

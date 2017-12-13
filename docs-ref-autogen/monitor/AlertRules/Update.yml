@@ -170,6 +170,50 @@ definitions:
       - uid: string
       uid: object
     name: tags
+- name: AlertRuleResourcePatch
+  description: The alert rule object for patch operations.
+  kind: object
+  properties:
+  - description: Resource tags
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+  - description: the name of the alert rule.
+    types:
+    - uid: string
+    name: properties.name
+  - description: the description of the alert rule that will be included in the alert email.
+    types:
+    - uid: string
+    name: properties.description
+  - description: the flag that indicates whether the alert rule is enabled.
+    types:
+    - uid: boolean
+    name: properties.isEnabled
+  - description: the condition that results in the alert rule being activated.
+    types:
+    - uid: ThresholdRuleCondition
+    - uid: LocationThresholdRuleCondition
+    - uid: ManagementEventRuleCondition
+    typesTitle: RuleCondition
+    name: properties.condition
+  - description: the array of actions that are performed when the alert rule becomes active, and when an alert condition is resolved.
+    types:
+    - isArray: true
+      uid: RuleEmailAction
+    - isArray: true
+      uid: RuleWebhookAction
+    typesTitle: RuleAction[]
+    name: properties.actions
+  - isReadyOnly: true
+    description: Last time the rule was updated in ISO8601 format.
+    types:
+    - uid: string
+    name: properties.lastUpdatedTime
 - name: ThresholdRuleCondition
   description: A rule condition based on a metric crossing a threshold.
   kind: object

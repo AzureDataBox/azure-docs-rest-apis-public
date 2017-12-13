@@ -79,10 +79,14 @@ definitions:
     types:
     - uid: ProvisioningStateDR
     name: properties.provisioningState
-  - description: Primary/Secondary eventhub namespace name, which is part of GEO DR pairning
+  - description: ARM Id of the Primary/Secondary eventhub namespace name, which is part of GEO DR pairning
     types:
     - uid: string
     name: properties.partnerNamespace
+  - description: Alternate name specified when alias and namespace names are same.
+    types:
+    - uid: string
+    name: properties.alternateName
   - isReadyOnly: true
     description: role of namespace in GEO DR - possible values 'Primary' or 'PrimaryNotReplicating' or 'Secondary'
     types:
@@ -103,9 +107,35 @@ definitions:
     types:
     - uid: string
     name: type
+- name: ProvisioningStateDR
+  description: Provisioning state of the Alias(Disaster Recovery configuration) - possible values 'Accepted' or 'Succeeded' or 'Failed'
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Accepted
+  - types:
+    - uid: string
+    name: Succeeded
+  - types:
+    - uid: string
+    name: Failed
+- name: RoleDisasterRecovery
+  description: role of namespace in GEO DR - possible values 'Primary' or 'PrimaryNotReplicating' or 'Secondary'
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Primary
+  - types:
+    - uid: string
+    name: PrimaryNotReplicating
+  - types:
+    - uid: string
+    name: Secondary
 examples:
 - request:
-    uri: GET https://management.azure.com/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ardsouzatestRG/providers/Microsoft.EventHub/namespaces/sdk-Namespace-8859/disasterRecoveryConfigs?api-version=2017-04-01
+    uri: GET https://management.azure.com/subscriptions/exampleSubscriptionId/resourceGroups/exampleResourceGroup/providers/Microsoft.EventHub/namespaces/sdk-Namespace-8859/disasterRecoveryConfigs?api-version=2017-04-01
   responses:
   - statusCode: "200"
     body: >-
@@ -115,7 +145,7 @@ examples:
 
           {
 
-            "id": "/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ardsouzatestRG/providers/Microsoft.EventHub/namespaces/sdk-Namespace-8859/disasterRecoveryConfig/sdk-DisasterRecovery-3814",
+            "id": "/subscriptions/exampleSubscriptionId/resourceGroups/exampleResourceGroup/providers/Microsoft.EventHub/namespaces/sdk-Namespace-8859/disasterRecoveryConfig/sdk-DisasterRecovery-3814",
 
             "name": "sdk-DisasterRecovery-3814",
 

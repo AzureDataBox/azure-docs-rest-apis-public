@@ -39,7 +39,7 @@ definitions:
     - uid: DatabaseAccount
     name: value
 - name: DatabaseAccount
-  description: An Azure Cosmos DB database account.
+  description: List of database account and their properties.
   kind: object
   properties:
   - description: Indicates the type of database account. This can only be set at database account creation.
@@ -115,8 +115,21 @@ definitions:
       - uid: string
       uid: object
     name: tags
+- name: DatabaseAccountKind
+  description: Indicates the type of database account. This can only be set at database account creation.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: GlobalDocumentDB
+  - types:
+    - uid: string
+    name: MongoDB
+  - types:
+    - uid: string
+    name: Parse
 - name: DatabaseAccountOfferType
-  description: The offer type for the Cosmos DB database account.
+  description: 'The offer type for the Cosmos DB database account. Default value: Standard.'
   kind: enum
   properties:
   - types:
@@ -139,7 +152,7 @@ definitions:
     - uid: integer
     name: maxIntervalInSeconds
 - name: Location
-  description: A region in which the Azure Cosmos DB database account is deployed.
+  description: An array that contains the write location for the Cosmos DB account.
   kind: object
   properties:
   - isReadyOnly: true
@@ -166,7 +179,7 @@ definitions:
     - uid: integer
     name: failoverPriority
 - name: FailoverPolicy
-  description: The failover policy for a given region of a database account.
+  description: An array that contains the regions ordered by their failover priorities.
   kind: object
   properties:
   - isReadyOnly: true
@@ -182,6 +195,25 @@ definitions:
     types:
     - uid: integer
     name: failoverPriority
+- name: DefaultConsistencyLevel
+  description: The default consistency level and configuration settings of the Cosmos DB account.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Eventual
+  - types:
+    - uid: string
+    name: Session
+  - types:
+    - uid: string
+    name: BoundedStaleness
+  - types:
+    - uid: string
+    name: Strong
+  - types:
+    - uid: string
+    name: ConsistentPrefix
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.DocumentDB/databaseAccounts?api-version=2015-04-08

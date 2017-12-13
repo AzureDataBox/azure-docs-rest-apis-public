@@ -455,14 +455,34 @@ definitions:
     types:
     - uid: string
     name: id
+- name: LoadBalancerSkuName
+  description: Name of a load balancer SKU.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Basic
+  - types:
+    - uid: string
+    name: Standard
 - name: SubResource
-  description: Reference to another subresource.
+  description: Read only. Inbound rules URIs that use this frontend IP.
   kind: object
   properties:
   - description: Resource ID.
     types:
     - uid: string
     name: id
+- name: IPAllocationMethod
+  description: "The Private IP allocation method. Possible values are: 'Static' and 'Dynamic'."
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Static
+  - types:
+    - uid: string
+    name: Dynamic
 - name: TransportProtocol
   description: The transport protocol for the endpoint. Possible values are 'Udp' or 'Tcp' or 'All.'
   kind: enum
@@ -476,6 +496,29 @@ definitions:
   - types:
     - uid: string
     name: All
+- name: LoadDistribution
+  description: The load distribution policy for this rule. Possible values are 'Default', 'SourceIP', and 'SourceIPProtocol'.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Default
+  - types:
+    - uid: string
+    name: SourceIP
+  - types:
+    - uid: string
+    name: SourceIPProtocol
+- name: ProbeProtocol
+  description: "The protocol of the end point. Possible values are: 'Http' or 'Tcp'. If 'Tcp' is specified, a received ACK is required for the probe to be successful. If 'Http' is specified, a 200 OK response from the specifies URI is required for the probe to be successful."
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Http
+  - types:
+    - uid: string
+    name: Tcp
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/loadBalancers?api-version=2017-09-01

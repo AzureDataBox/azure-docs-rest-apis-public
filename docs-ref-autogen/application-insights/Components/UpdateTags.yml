@@ -142,6 +142,42 @@ definitions:
       - uid: string
       uid: object
     name: tags
+- name: TagsResource
+  description: A container holding only the Tags for a resource, allowing the user to update the tags on a WebTest instance.
+  kind: object
+  properties:
+  - description: Resource tags
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+- name: ApplicationType
+  description: Type of application being monitored.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: web
+  - types:
+    - uid: string
+    name: other
+- name: FlowType
+  description: Used by the Application Insights system to determine what kind of flow this component was created by. This is to be set to 'Bluefield' when creating/updating a component via the REST API.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Bluefield
+- name: RequestSource
+  description: Describes what tool created this Application Insights component. Customers using this API should set this to the default 'rest'.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: rest
 examples:
 - request:
     uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/my-resource-group/providers/microsoft.insights/components/my-component?api-version=2015-05-01

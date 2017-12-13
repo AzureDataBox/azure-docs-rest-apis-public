@@ -99,6 +99,30 @@ definitions:
     types:
     - uid: ErrorFieldContract
     name: details
+- name: LoggerUpdateContract
+  description: Logger update contract.
+  kind: object
+  properties:
+  - description: Logger type.
+    types:
+    - uid: LoggerType
+    name: properties.loggerType
+  - description: Logger description.
+    types:
+    - uid: string
+    name: properties.description
+  - description: Logger credentials.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: properties.credentials
+  - description: Whether records are buffered in the logger before publishing. Default is assumed to be true.
+    types:
+    - uid: boolean
+    name: properties.isBuffered
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
@@ -115,6 +139,14 @@ definitions:
     types:
     - uid: string
     name: target
+- name: LoggerType
+  description: Logger type.
+  kind: enum
+  properties:
+  - description: Azure Event Hub as log destination.
+    types:
+    - uid: string
+    name: azureEventHub
 examples:
 - request:
     uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/loggers/loggerId?api-version=2017-03-01

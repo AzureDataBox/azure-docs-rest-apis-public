@@ -97,8 +97,58 @@ definitions:
     types:
     - uid: string
     name: geoMasterOperationId
+- name: MigrateMySqlRequest
+  description: MySQL migration request.
+  kind: object
+  properties:
+  - description: Connection string to the remote MySQL database.
+    types:
+    - uid: string
+    name: properties.connectionString
+  - description: The type of migration operation to be done
+    types:
+    - uid: MySqlMigrationType
+    name: properties.migrationType
+  - isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+    name: name
+  - description: Kind of resource.
+    types:
+    - uid: string
+    name: kind
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+- name: OperationStatus
+  description: Status of the migration task.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: InProgress
+  - types:
+    - uid: string
+    name: Failed
+  - types:
+    - uid: string
+    name: Succeeded
+  - types:
+    - uid: string
+    name: TimedOut
+  - types:
+    - uid: string
+    name: Created
 - name: ErrorEntity
-  description: Body of the error response returned from the API.
+  description: Raw failure information if DNS verification fails.
   kind: object
   properties:
   - description: Type of error.
@@ -115,7 +165,7 @@ definitions:
     name: parameters
   - description: Inner errors.
     types:
-    - uid: ErrorEntity
+    - uid: InnerErrors
     name: innerErrors
   - description: Basic error code.
     types:
@@ -125,6 +175,16 @@ definitions:
     types:
     - uid: string
     name: message
+- name: MySqlMigrationType
+  description: The type of migration operation to be done
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: LocalToRemote
+  - types:
+    - uid: string
+    name: RemoteToLocal
 examples: []
 security:
 - type: oauth2

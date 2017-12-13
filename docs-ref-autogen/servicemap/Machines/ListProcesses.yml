@@ -183,7 +183,7 @@ definitions:
     - uid: string
     name: name
 - name: Error
-  description: Error details.
+  description: Error information.
   kind: object
   properties:
   - description: Error code identifying the specific error.
@@ -195,7 +195,7 @@ definitions:
     - uid: string
     name: message
 - name: MonitoringState
-  description: Used to specify if a resources is monitored or discovered.
+  description: Specifies whether the machine is actively monitored or discovered.
   kind: enum
   properties:
   - types:
@@ -204,8 +204,27 @@ definitions:
   - types:
     - uid: string
     name: discovered
+- name: ProcessRole
+  description: The inferred role of this process based on its name, command line, etc.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: webServer
+  - types:
+    - uid: string
+    name: appServer
+  - types:
+    - uid: string
+    name: databaseServer
+  - types:
+    - uid: string
+    name: ldapServer
+  - types:
+    - uid: string
+    name: smbServer
 - name: ProcessDetails
-  description: Describes process metadata.
+  description: Process metadata (command line, product name, etc.).
   kind: object
   properties:
   - description: A unique indentifier for a process, generally resilient to process restart, computed by Service Map.
@@ -257,7 +276,7 @@ definitions:
     - uid: string
     name: workingDirectory
 - name: ProcessUser
-  description: Describes the user under which a process is running.
+  description: Information about the account under which the process is executing.
   kind: object
   properties:
   - description: User name under which the process is running.
@@ -390,7 +409,7 @@ definitions:
     typesTitle: string
     name: kind
 - name: OperatingSystemFamily
-  description: Specifies the operating system family, e.g., Linux, Windows, etc.
+  description: Last known operating system family.
   kind: enum
   properties:
   - types:

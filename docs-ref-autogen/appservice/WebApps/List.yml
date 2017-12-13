@@ -254,8 +254,31 @@ definitions:
     types:
     - uid: string
     name: principalId
+- name: UsageState
+  description: State indicating whether the app has exceeded its quota usage. Read-only.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Normal
+  - types:
+    - uid: string
+    name: Exceeded
+- name: SiteAvailabilityState
+  description: Management information availability state for the app.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Normal
+  - types:
+    - uid: string
+    name: Limited
+  - types:
+    - uid: string
+    name: DisasterRecoveryMode
 - name: HostNameSslState
-  description: SSL-enabled hostname.
+  description: Hostname SSL states are used to manage the SSL bindings for app's hostnames.
   kind: object
   properties:
   - description: Hostname.
@@ -283,7 +306,7 @@ definitions:
     - uid: HostType
     name: hostType
 - name: SiteConfig
-  description: Configuration of an App Service app.
+  description: Configuration of the app.
   kind: object
   properties:
   - description: Number of workers.
@@ -460,7 +483,7 @@ definitions:
     - uid: IpSecurityRestriction
     name: ipSecurityRestrictions
 - name: HostingEnvironmentProfile
-  description: Specification for an App Service Environment to use for this resource.
+  description: App Service Environment to use for the app.
   kind: object
   properties:
   - description: Resource ID of the App Service Environment.
@@ -478,7 +501,7 @@ definitions:
     - uid: string
     name: type
 - name: CloningInfo
-  description: Information needed for cloning operation.
+  description: If specified during app creation, the app is cloned from a source app.
   kind: object
   properties:
   - description: >-
@@ -533,7 +556,7 @@ definitions:
     - uid: boolean
     name: ignoreQuotas
 - name: SnapshotRecoveryRequest
-  description: Details about app recovery operation.
+  description: If specified during app creation, the app is created from a previous snapshot.
   kind: object
   properties:
   - description: Point in time in which the app recovery should be attempted, formatted as a DateTime string.
@@ -579,7 +602,7 @@ definitions:
     - uid: string
     name: type
 - name: SlotSwapStatus
-  description: The status of the last successfull slot swap operation.
+  description: Status of the last deployment slot swap operation.
   kind: object
   properties:
   - isReadyOnly: true
@@ -597,8 +620,38 @@ definitions:
     types:
     - uid: string
     name: destinationSlotName
+- name: ManagedServiceIdentityType
+  description: Type of managed service identity.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: SystemAssigned
+- name: SslState
+  description: SSL type
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Disabled
+  - types:
+    - uid: string
+    name: SniEnabled
+  - types:
+    - uid: string
+    name: IpBasedEnabled
+- name: HostType
+  description: Indicates whether the hostname is a standard or repository hostname.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Standard
+  - types:
+    - uid: string
+    name: Repository
 - name: NameValuePair
-  description: Name value pair.
+  description: Application settings.
   kind: object
   properties:
   - description: Pair name.
@@ -610,7 +663,7 @@ definitions:
     - uid: string
     name: value
 - name: ConnStringInfo
-  description: Database connection string information.
+  description: Connection strings.
   kind: object
   properties:
   - description: Name of connection string.
@@ -626,7 +679,7 @@ definitions:
     - uid: ConnectionStringType
     name: type
 - name: SiteMachineKey
-  description: MachineKey of an app.
+  description: Site MachineKey.
   kind: object
   properties:
   - description: MachineKey validation.
@@ -646,7 +699,7 @@ definitions:
     - uid: string
     name: decryptionKey
 - name: HandlerMapping
-  description: "The IIS handler mappings used to define which handler processes HTTP requests with certain extension. \nFor example, it is used to configure php-cgi.exe process to handle all HTTP requests with *.php extension."
+  description: Handler mappings.
   kind: object
   properties:
   - description: Requests with this extension will be handled using the specified FastCGI application.
@@ -661,8 +714,61 @@ definitions:
     types:
     - uid: string
     name: arguments
+- name: ScmType
+  description: SCM type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: None
+  - types:
+    - uid: string
+    name: Dropbox
+  - types:
+    - uid: string
+    name: Tfs
+  - types:
+    - uid: string
+    name: LocalGit
+  - types:
+    - uid: string
+    name: GitHub
+  - types:
+    - uid: string
+    name: CodePlexGit
+  - types:
+    - uid: string
+    name: CodePlexHg
+  - types:
+    - uid: string
+    name: BitbucketGit
+  - types:
+    - uid: string
+    name: BitbucketHg
+  - types:
+    - uid: string
+    name: ExternalGit
+  - types:
+    - uid: string
+    name: ExternalHg
+  - types:
+    - uid: string
+    name: OneDrive
+  - types:
+    - uid: string
+    name: VSO
+- name: ManagedPipelineMode
+  description: Managed pipeline mode.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Integrated
+  - types:
+    - uid: string
+    name: Classic
 - name: VirtualApplication
-  description: Virtual application in an app.
+  description: Virtual applications.
   kind: object
   properties:
   - description: Virtual path.
@@ -681,8 +787,27 @@ definitions:
     types:
     - uid: VirtualDirectory
     name: virtualDirectories
+- name: SiteLoadBalancing
+  description: Site load balancing.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: WeightedRoundRobin
+  - types:
+    - uid: string
+    name: LeastRequests
+  - types:
+    - uid: string
+    name: LeastResponseTime
+  - types:
+    - uid: string
+    name: WeightedTotalTraffic
+  - types:
+    - uid: string
+    name: RequestHash
 - name: Experiments
-  description: Routing rules in production experiments.
+  description: This is work around for polymophic types.
   kind: object
   properties:
   - description: List of ramp-up rules.
@@ -690,7 +815,7 @@ definitions:
     - uid: RampUpRule
     name: rampUpRules
 - name: SiteLimits
-  description: Metric limits set on an app.
+  description: Site limits.
   kind: object
   properties:
   - description: Maximum allowed CPU usage percentage.
@@ -706,7 +831,7 @@ definitions:
     - uid: integer
     name: maxDiskSizeInMb
 - name: AutoHealRules
-  description: Rules that can be defined for auto-heal.
+  description: Auto Heal rules.
   kind: object
   properties:
   - description: Conditions that describe when to execute the auto-heal actions.
@@ -718,7 +843,7 @@ definitions:
     - uid: AutoHealActions
     name: actions
 - name: CorsSettings
-  description: Cross-Origin Resource Sharing (CORS) settings for the app.
+  description: Cross-Origin Resource Sharing (CORS) settings.
   kind: object
   properties:
   - description: >-
@@ -729,7 +854,7 @@ definitions:
     - uid: string
     name: allowedOrigins
 - name: PushSettings
-  description: Push settings for the App.
+  description: Push endpoint settings.
   kind: object
   properties:
   - description: Gets or sets a flag indicating whether the Push endpoint is enabled.
@@ -776,7 +901,7 @@ definitions:
     - uid: string
     name: url
 - name: IpSecurityRestriction
-  description: IP security restriction on an app.
+  description: IP security restrictions.
   kind: object
   properties:
   - description: IP address the security restriction is valid for.
@@ -799,8 +924,45 @@ definitions:
     types:
     - uid: string
     name: id
+- name: ConnectionStringType
+  description: Type of database.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: MySql
+  - types:
+    - uid: string
+    name: SQLServer
+  - types:
+    - uid: string
+    name: SQLAzure
+  - types:
+    - uid: string
+    name: Custom
+  - types:
+    - uid: string
+    name: NotificationHub
+  - types:
+    - uid: string
+    name: ServiceBus
+  - types:
+    - uid: string
+    name: EventHub
+  - types:
+    - uid: string
+    name: ApiHub
+  - types:
+    - uid: string
+    name: DocDb
+  - types:
+    - uid: string
+    name: RedisCache
+  - types:
+    - uid: string
+    name: PostgreSQL
 - name: VirtualDirectory
-  description: Directory for virtual application.
+  description: Virtual directories for virtual application.
   kind: object
   properties:
   - description: Path to virtual application.
@@ -812,7 +974,7 @@ definitions:
     - uid: string
     name: physicalPath
 - name: RampUpRule
-  description: Routing rules for ramp up testing. This rule allows to redirect static traffic % to a slot or to gradually change routing % based on performance.
+  description: List of ramp-up rules.
   kind: object
   properties:
   - description: Hostname of a slot to which the traffic will be redirected if decided to. E.g. myapp-stage.azurewebsites.net.
@@ -851,7 +1013,7 @@ definitions:
     - uid: string
     name: name
 - name: AutoHealTriggers
-  description: Triggers for auto-heal.
+  description: Conditions that describe when to execute the auto-heal actions.
   kind: object
   properties:
   - description: A rule based on total requests.
@@ -871,7 +1033,7 @@ definitions:
     - uid: SlowRequestsBasedTrigger
     name: slowRequests
 - name: AutoHealActions
-  description: Actions which to take by the auto-heal module when a rule is triggered.
+  description: Actions to be executed when a rule is triggered.
   kind: object
   properties:
   - description: Predefined action to be taken.
@@ -890,7 +1052,7 @@ definitions:
     - uid: string
     name: minProcessExecutionTime
 - name: RequestsBasedTrigger
-  description: Trigger based on total requests.
+  description: A rule based on total requests.
   kind: object
   properties:
   - description: Request Count.
@@ -902,7 +1064,7 @@ definitions:
     - uid: string
     name: timeInterval
 - name: StatusCodesBasedTrigger
-  description: Trigger based on status code.
+  description: A rule based on status codes.
   kind: object
   properties:
   - description: HTTP status code.
@@ -926,7 +1088,7 @@ definitions:
     - uid: string
     name: timeInterval
 - name: SlowRequestsBasedTrigger
-  description: Trigger based on request execution time.
+  description: A rule based on request execution time.
   kind: object
   properties:
   - description: Time taken.
@@ -941,11 +1103,21 @@ definitions:
     types:
     - uid: string
     name: timeInterval
+- name: AutoHealActionType
+  description: Predefined action to be taken.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Recycle
+  - types:
+    - uid: string
+    name: LogEvent
+  - types:
+    - uid: string
+    name: CustomAction
 - name: AutoHealCustomAction
-  description: >-
-    Custom action to be executed
-
-    when an auto heal rule is triggered.
+  description: Custom action to be taken.
   kind: object
   properties:
   - description: Executable to be run.

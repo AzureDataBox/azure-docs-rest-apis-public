@@ -200,6 +200,19 @@ definitions:
     types:
     - uid: IntegrationRuntimeState
     name: state
+- name: IntegrationRuntimeInternalChannelEncryptionMode
+  description: It is used to set the encryption mode for node-node communication channel (when more than 2 self-hosted integration runtime nodes exist).
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NotSet
+  - types:
+    - uid: string
+    name: SslEncrypted
+  - types:
+    - uid: string
+    name: NotEncrypted
 - name: SelfHostedIntegrationRuntimeNode
   description: Properties of Self-hosted integration runtime node.
   kind: object
@@ -299,7 +312,7 @@ definitions:
     - uid: integer
     name: maxConcurrentJobs
 - name: IntegrationRuntimeAutoUpdate
-  description: The state of integration runtime auto update.
+  description: Enables or disables the auto-update feature of the self-hosted integration runtime. See https://go.microsoft.com/fwlink/?linkid=854189.
   kind: enum
   properties:
   - types:
@@ -425,6 +438,57 @@ definitions:
     types:
     - uid: string
     name: activityId
+- name: SelfHostedIntegrationRuntimeNodeStatus
+  description: Status of the integration runtime node.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NeedRegistration
+  - types:
+    - uid: string
+    name: Online
+  - types:
+    - uid: string
+    name: Limited
+  - types:
+    - uid: string
+    name: Offline
+  - types:
+    - uid: string
+    name: Upgrading
+  - types:
+    - uid: string
+    name: Initializing
+  - types:
+    - uid: string
+    name: InitializeFailed
+- name: IntegrationRuntimeUpdateResult
+  description: The result of the last integration runtime node update.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Succeed
+  - types:
+    - uid: string
+    name: Fail
+- name: ManagedIntegrationRuntimeNodeStatus
+  description: The managed integration runtime node status.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Starting
+  - types:
+    - uid: string
+    name: Available
+  - types:
+    - uid: string
+    name: Recycling
+  - types:
+    - uid: string
+    name: Unavailable
 examples:
 - request:
     uri: POST https://management.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/integrationRuntimes/exampleIntegrationRuntime/getStatus?api-version=2017-09-01-preview

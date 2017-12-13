@@ -153,6 +153,38 @@ definitions:
       - uid: string
       uid: object
     name: tags
+- name: LogProfileResourcePatch
+  description: The log profile resource for patch operations.
+  kind: object
+  properties:
+  - description: Resource tags
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+  - description: the resource id of the storage account to which you would like to send the Activity Log.
+    types:
+    - uid: string
+    name: properties.storageAccountId
+  - description: "The service bus rule ID of the service bus namespace in which you would like to have Event Hubs created for streaming the Activity Log. The rule ID is of the format: '{service bus resource ID}/authorizationrules/{key name}'."
+    types:
+    - uid: string
+    name: properties.serviceBusRuleId
+  - description: List of regions for which Activity Log events should be stored or streamed. It is a comma separated list of valid ARM locations including the 'global' location.
+    types:
+    - uid: string
+    name: properties.locations
+  - description: "the categories of the logs. These categories are created as is convenient to the user. Some values are: 'Write', 'Delete', and/or 'Action.'"
+    types:
+    - uid: string
+    name: properties.categories
+  - description: the retention policy for the events in the log.
+    types:
+    - uid: RetentionPolicy
+    name: properties.retentionPolicy
 examples:
 - request:
     uri: PATCH https://management.azure.com/subscriptions/df602c9c-7aa0-407d-a6fb-eb20c8bd1192/providers/microsoft.insights/logprofiles/Rac46PostSwapRG?api-version=2016-03-01

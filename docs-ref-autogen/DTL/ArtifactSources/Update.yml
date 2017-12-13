@@ -201,6 +201,97 @@ definitions:
     types:
     - uid: CloudErrorBody
     name: error
+- name: ArtifactSourceFragment
+  description: Properties of an artifact source.
+  kind: object
+  properties:
+  - description: The artifact source's display name.
+    types:
+    - uid: string
+    name: properties.displayName
+  - description: The artifact source's URI.
+    types:
+    - uid: string
+    name: properties.uri
+  - description: The artifact source's type.
+    types:
+    - uid: SourceControlType
+    name: properties.sourceType
+  - description: The folder containing artifacts.
+    types:
+    - uid: string
+    name: properties.folderPath
+  - description: The folder containing Azure Resource Manager templates.
+    types:
+    - uid: string
+    name: properties.armTemplateFolderPath
+  - description: The artifact source's branch reference.
+    types:
+    - uid: string
+    name: properties.branchRef
+  - description: The security token to authenticate to the artifact source.
+    types:
+    - uid: string
+    name: properties.securityToken
+  - description: 'Indicates if the artifact source is enabled (values: Enabled, Disabled).'
+    types:
+    - uid: EnableStatus
+    name: properties.status
+  - description: The provisioning status of the resource.
+    types:
+    - uid: string
+    name: properties.provisioningState
+  - description: The unique immutable identifier of a resource (Guid).
+    types:
+    - uid: string
+    name: properties.uniqueIdentifier
+  - isReadyOnly: true
+    description: The identifier of the resource.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+    name: type
+  - description: The location of the resource.
+    types:
+    - uid: string
+    name: location
+  - description: The tags of the resource.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+- name: SourceControlType
+  description: The artifact source's type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: VsoGit
+  - types:
+    - uid: string
+    name: GitHub
+- name: EnableStatus
+  description: The status of the schedule (i.e. Enabled, Disabled)
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Enabled
+  - types:
+    - uid: string
+    name: Disabled
 - name: CloudErrorBody
   description: Body of an error from a REST request.
   kind: object
@@ -216,7 +307,7 @@ definitions:
     name: target
   - description: Inner errors.
     types:
-    - uid: CloudErrorBody
+    - uid: Details
     name: details
 examples: []
 security:

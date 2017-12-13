@@ -137,6 +137,7 @@ definitions:
       uid: object
     name: tags
 - name: WorkflowState
+  description: The state.
   kind: enum
   properties:
   - types:
@@ -158,7 +159,7 @@ definitions:
     - uid: string
     name: Suspended
 - name: Sku
-  description: The sku type.
+  description: The sku.
   kind: object
   properties:
   - description: The name.
@@ -191,8 +192,17 @@ definitions:
 - name: Object
   kind: object
   properties: []
+- name: Parameters
+  description: The parameters.
+  kind: object
+  properties:
+  - description: The workflow parameters.
+    types:
+    - uid: WorkflowOutputParameter
+    typesTitle: WorkflowParameter
+    name: ''
 - name: SkuName
-  description: The sku name.
+  description: The name.
   kind: enum
   properties:
   - types:
@@ -213,6 +223,62 @@ definitions:
   - types:
     - uid: string
     name: Premium
+- name: WorkflowOutputParameter
+  description: The workflow output parameter.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Gets the error.
+    types:
+    - uid: Object
+    name: error
+  - description: The type.
+    types:
+    - uid: ParameterType
+    name: type
+  - description: The value.
+    types:
+    - uid: Object
+    name: value
+  - description: The metadata.
+    types:
+    - uid: Object
+    name: metadata
+  - description: The description.
+    types:
+    - uid: string
+    name: description
+- name: ParameterType
+  description: The type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NotSpecified
+  - types:
+    - uid: string
+    name: String
+  - types:
+    - uid: string
+    name: SecureString
+  - types:
+    - uid: string
+    name: Int
+  - types:
+    - uid: string
+    name: Float
+  - types:
+    - uid: string
+    name: Bool
+  - types:
+    - uid: string
+    name: Array
+  - types:
+    - uid: string
+    name: Object
+  - types:
+    - uid: string
+    name: SecureObject
 examples: []
 security:
 - type: oauth2

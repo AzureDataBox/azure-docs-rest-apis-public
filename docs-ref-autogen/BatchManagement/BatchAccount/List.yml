@@ -149,10 +149,32 @@ definitions:
     name: target
   - description: A list of additional details about the error.
     types:
-    - uid: CloudErrorBody
+    - uid: Details
     name: details
+- name: ProvisioningState
+  description: The provisioned state of the resource
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Invalid
+  - types:
+    - uid: string
+    name: Creating
+  - types:
+    - uid: string
+    name: Deleting
+  - types:
+    - uid: string
+    name: Succeeded
+  - types:
+    - uid: string
+    name: Failed
+  - types:
+    - uid: string
+    name: Cancelled
 - name: PoolAllocationMode
-  description: The allocation mode for creating pools in the Batch account.
+  description: The pool allocation mode also affects how clients may authenticate to the Batch Service API. If the mode is BatchService, clients may authenticate using access keys or Azure Active Directory. If the mode is UserSubscription, clients must use Azure Active Directory. The default is BatchService.
   kind: enum
   properties:
   - types:
@@ -162,7 +184,7 @@ definitions:
     - uid: string
     name: UserSubscription
 - name: KeyVaultReference
-  description: Identifies the Azure key vault associated with a Batch account.
+  description: A reference to the Azure key vault associated with the Batch account.
   kind: object
   properties:
   - description: The resource ID of the Azure key vault associated with the Batch account.

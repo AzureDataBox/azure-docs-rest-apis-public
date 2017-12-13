@@ -88,7 +88,7 @@ requestBody:
 requestHeader: []
 definitions:
 - name: UserIdentityFragment
-  description: Identity attributes of a lab user.
+  description: The identity of the user.
   kind: object
   properties:
   - description: Set to the principal name / UPN of the client JWT making the request.
@@ -112,7 +112,7 @@ definitions:
     - uid: string
     name: appId
 - name: UserSecretStoreFragment
-  description: Properties of a user's secret store.
+  description: The secret store of the user.
   kind: object
   properties:
   - description: The URI of the user's Key vault.
@@ -124,7 +124,7 @@ definitions:
     - uid: string
     name: keyVaultId
 - name: User
-  description: Profile of a lab user.
+  description: Results of the list operation.
   kind: object
   properties:
   - description: The identity of the user.
@@ -183,8 +183,55 @@ definitions:
     types:
     - uid: CloudErrorBody
     name: error
+- name: UserFragment
+  description: Profile of a lab user.
+  kind: object
+  properties:
+  - description: The identity of the user.
+    types:
+    - uid: UserIdentityFragment
+    name: properties.identity
+  - description: The secret store of the user.
+    types:
+    - uid: UserSecretStoreFragment
+    name: properties.secretStore
+  - description: The provisioning status of the resource.
+    types:
+    - uid: string
+    name: properties.provisioningState
+  - description: The unique immutable identifier of a resource (Guid).
+    types:
+    - uid: string
+    name: properties.uniqueIdentifier
+  - isReadyOnly: true
+    description: The identifier of the resource.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+    name: type
+  - description: The location of the resource.
+    types:
+    - uid: string
+    name: location
+  - description: The tags of the resource.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
 - name: UserIdentity
-  description: Identity attributes of a lab user.
+  description: The identity of the user.
   kind: object
   properties:
   - description: Set to the principal name / UPN of the client JWT making the request.
@@ -208,7 +255,7 @@ definitions:
     - uid: string
     name: appId
 - name: UserSecretStore
-  description: Properties of a user's secret store.
+  description: The secret store of the user.
   kind: object
   properties:
   - description: The URI of the user's Key vault.
@@ -234,7 +281,7 @@ definitions:
     name: target
   - description: Inner errors.
     types:
-    - uid: CloudErrorBody
+    - uid: Details
     name: details
 examples: []
 security:

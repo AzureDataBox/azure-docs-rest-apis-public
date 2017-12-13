@@ -128,8 +128,20 @@ definitions:
     types:
     - uid: integer
     name: probesFailed
+- name: ConnectivityParameters
+  description: Parameters that determine how the connectivity check will be performed.
+  kind: object
+  properties:
+  - description: Parameters that define the source of the connection.
+    types:
+    - uid: ConnectivitySource
+    name: source
+  - description: Parameters that define destination of connection.
+    types:
+    - uid: ConnectivityDestination
+    name: destination
 - name: ConnectivityHop
-  description: Information about a hop between the source and the destination.
+  description: List of hops between the source and the destination.
   kind: object
   properties:
   - isReadyOnly: true
@@ -162,8 +174,24 @@ definitions:
     types:
     - uid: ConnectivityIssue
     name: issues
+- name: ConnectionStatus
+  description: The connection status.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Unknown
+  - types:
+    - uid: string
+    name: Connected
+  - types:
+    - uid: string
+    name: Disconnected
+  - types:
+    - uid: string
+    name: Degraded
 - name: ConnectivityIssue
-  description: Information about an issue encountered in the process of checking for connectivity.
+  description: List of issues.
   kind: object
   properties:
   - isReadyOnly: true
@@ -186,6 +214,60 @@ definitions:
     types:
     - uid: object
     name: context
+- name: Origin
+  description: The origin of the issue.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Local
+  - types:
+    - uid: string
+    name: Inbound
+  - types:
+    - uid: string
+    name: Outbound
+- name: Severity
+  description: The severity of the issue.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Error
+  - types:
+    - uid: string
+    name: Warning
+- name: IssueType
+  description: The type of issue.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Unknown
+  - types:
+    - uid: string
+    name: AgentStopped
+  - types:
+    - uid: string
+    name: GuestFirewall
+  - types:
+    - uid: string
+    name: DnsResolution
+  - types:
+    - uid: string
+    name: SocketBind
+  - types:
+    - uid: string
+    name: NetworkSecurityRule
+  - types:
+    - uid: string
+    name: UserDefinedRoute
+  - types:
+    - uid: string
+    name: PortThrottled
+  - types:
+    - uid: string
+    name: Platform
 examples: []
 security:
 - type: oauth2

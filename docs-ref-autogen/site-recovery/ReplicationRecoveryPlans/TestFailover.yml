@@ -58,7 +58,7 @@ requestBody:
 requestHeader: []
 definitions:
 - name: RecoveryPlanTestFailoverInputProperties
-  description: Recovery plan test failover input properties.
+  description: The recovery plan test failover input properties.
   kind: object
   properties:
   - description: The failover direction.
@@ -92,7 +92,7 @@ definitions:
     typesTitle: RecoveryPlanProviderSpecificFailoverInput[]
     name: providerSpecificDetails
 - name: RecoveryPlan
-  description: Recovery plan details.
+  description: The list of recovery plans.
   kind: object
   properties:
   - description: The custom details.
@@ -118,8 +118,26 @@ definitions:
     types:
     - uid: string
     name: location
+- name: RecoveryPlanTestFailoverInput
+  description: Recovery plan test failover input.
+  kind: object
+  properties:
+  - description: The recovery plan test failover input properties.
+    types:
+    - uid: RecoveryPlanTestFailoverInputProperties
+    name: properties
+- name: PossibleOperationsDirections
+  description: The failover direction.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: PrimaryToRecovery
+  - types:
+    - uid: string
+    name: RecoveryToPrimary
 - name: RecoveryPlanProperties
-  description: Recovery plan custom details.
+  description: The custom details.
   kind: object
   properties:
   - description: The friendly name.
@@ -276,7 +294,7 @@ definitions:
     typesTitle: string
     name: instanceType
 - name: CurrentScenarioDetails
-  description: Current scenario details of the protected entity.
+  description: The current scenario details.
   kind: object
   properties:
   - description: Scenario name.
@@ -292,7 +310,7 @@ definitions:
     - uid: string
     name: startTime
 - name: RecoveryPlanGroup
-  description: Recovery plan group details.
+  description: The recovery plan groups.
   kind: object
   properties:
   - description: The group type.
@@ -311,8 +329,99 @@ definitions:
     types:
     - uid: RecoveryPlanAction
     name: endGroupActions
+- name: HyperVReplicaAzureRpRecoveryPointType
+  description: The recovery point type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Latest
+  - types:
+    - uid: string
+    name: LatestApplicationConsistent
+  - types:
+    - uid: string
+    name: LatestProcessed
+- name: DataSyncStatus
+  description: The data sync option.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: ForDownTime
+  - types:
+    - uid: string
+    name: ForSynchronization
+- name: AlternateLocationRecoveryOption
+  description: The ALR option.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: CreateVmIfNotFound
+  - types:
+    - uid: string
+    name: NoAction
+- name: InMageV2RpRecoveryPointType
+  description: The recovery point type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Latest
+  - types:
+    - uid: string
+    name: LatestApplicationConsistent
+  - types:
+    - uid: string
+    name: LatestCrashConsistent
+  - types:
+    - uid: string
+    name: LatestProcessed
+- name: RpInMageRecoveryPointType
+  description: The recovery point type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: LatestTime
+  - types:
+    - uid: string
+    name: LatestTag
+  - types:
+    - uid: string
+    name: Custom
+- name: A2ARpRecoveryPointType
+  description: The recovery point type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Latest
+  - types:
+    - uid: string
+    name: LatestApplicationConsistent
+  - types:
+    - uid: string
+    name: LatestCrashConsistent
+  - types:
+    - uid: string
+    name: LatestProcessed
+- name: RecoveryPlanGroupType
+  description: The group type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Shutdown
+  - types:
+    - uid: string
+    name: Boot
+  - types:
+    - uid: string
+    name: Failover
 - name: RecoveryPlanProtectedItem
-  description: Recovery plan protected item.
+  description: The list of protected items.
   kind: object
   properties:
   - description: The ARM Id of the recovery plan protected item.
@@ -324,7 +433,7 @@ definitions:
     - uid: string
     name: virtualMachineId
 - name: RecoveryPlanAction
-  description: Recovery plan action details.
+  description: The start group actions.
   kind: object
   properties:
   - description: The action name.
@@ -404,6 +513,16 @@ definitions:
     - uid: ManualActionDetails
     typesTitle: string
     name: instanceType
+- name: RecoveryPlanActionLocation
+  description: The fabric location.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Primary
+  - types:
+    - uid: string
+    name: Recovery
 examples:
 - request:
     uri: POST https://management.azure.com/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationRecoveryPlans/RPtest1/testFailover?api-version=2016-08-10

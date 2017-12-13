@@ -144,6 +144,7 @@ definitions:
     - uid: string
     name: id
 - name: WorkflowStatus
+  description: Gets the status.
   kind: enum
   properties:
   - types:
@@ -189,7 +190,7 @@ definitions:
   kind: object
   properties: []
 - name: Correlation
-  description: The correlation property.
+  description: The run correlation.
   kind: object
   properties:
   - description: The client tracking id.
@@ -216,7 +217,7 @@ definitions:
     - uid: string
     name: type
 - name: WorkflowRunTrigger
-  description: The workflow run trigger.
+  description: Gets the fired trigger.
   kind: object
   properties:
   - isReadyOnly: true
@@ -283,8 +284,16 @@ definitions:
     types:
     - uid: Object
     name: trackedProperties
+- name: Outputs
+  description: Gets the outputs.
+  kind: object
+  properties:
+  - description: The workflow output parameter.
+    types:
+    - uid: WorkflowOutputParameter
+    name: ''
 - name: ContentLink
-  description: The content link.
+  description: Gets the link to input parameters.
   kind: object
   properties:
   - description: The content link URI.
@@ -307,6 +316,31 @@ definitions:
     types:
     - uid: Object
     name: metadata
+- name: WorkflowOutputParameter
+  description: The workflow output parameter.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Gets the error.
+    types:
+    - uid: Object
+    name: error
+  - description: The type.
+    types:
+    - uid: ParameterType
+    name: type
+  - description: The value.
+    types:
+    - uid: Object
+    name: value
+  - description: The metadata.
+    types:
+    - uid: Object
+    name: metadata
+  - description: The description.
+    types:
+    - uid: string
+    name: description
 - name: ContentHash
   description: The content hash.
   kind: object
@@ -319,6 +353,37 @@ definitions:
     types:
     - uid: string
     name: value
+- name: ParameterType
+  description: The type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NotSpecified
+  - types:
+    - uid: string
+    name: String
+  - types:
+    - uid: string
+    name: SecureString
+  - types:
+    - uid: string
+    name: Int
+  - types:
+    - uid: string
+    name: Float
+  - types:
+    - uid: string
+    name: Bool
+  - types:
+    - uid: string
+    name: Array
+  - types:
+    - uid: string
+    name: Object
+  - types:
+    - uid: string
+    name: SecureObject
 examples: []
 security:
 - type: oauth2

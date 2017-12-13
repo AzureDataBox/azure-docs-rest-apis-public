@@ -164,6 +164,67 @@ definitions:
     types:
     - uid: CloudErrorBody
     name: error
+- name: NotificationChannelFragment
+  description: A notification.
+  kind: object
+  properties:
+  - description: The webhook URL to send notifications to.
+    types:
+    - uid: string
+    name: properties.webHookUrl
+  - description: Description of notification.
+    types:
+    - uid: string
+    name: properties.description
+  - description: The list of event for which this notification is enabled.
+    types:
+    - uid: EventFragment
+    name: properties.events
+  - description: The provisioning status of the resource.
+    types:
+    - uid: string
+    name: properties.provisioningState
+  - description: The unique immutable identifier of a resource (Guid).
+    types:
+    - uid: string
+    name: properties.uniqueIdentifier
+  - isReadyOnly: true
+    description: The identifier of the resource.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+    name: type
+  - description: The location of the resource.
+    types:
+    - uid: string
+    name: location
+  - description: The tags of the resource.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+- name: NotificationChannelEventType
+  description: The event type for which this notification is enabled (i.e. AutoShutdown, Cost)
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: AutoShutdown
+  - types:
+    - uid: string
+    name: Cost
 - name: Event
   description: An event to be notified for.
   kind: object
@@ -187,7 +248,7 @@ definitions:
     name: target
   - description: Inner errors.
     types:
-    - uid: CloudErrorBody
+    - uid: Details
     name: details
 examples: []
 security:

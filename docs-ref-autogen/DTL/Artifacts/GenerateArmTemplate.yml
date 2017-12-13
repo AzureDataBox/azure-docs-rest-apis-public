@@ -80,7 +80,7 @@ requestBody:
 requestHeader: []
 definitions:
 - name: ParameterInfo
-  description: Information about an artifact's parameter.
+  description: The parameters of the ARM template.
   kind: object
   properties:
   - description: The name of the artifact parameter.
@@ -111,6 +111,26 @@ definitions:
     types:
     - uid: CloudErrorBody
     name: error
+- name: GenerateArmTemplateRequest
+  description: Parameters for generating an ARM template for deploying artifacts.
+  kind: object
+  properties:
+  - description: The resource name of the virtual machine.
+    types:
+    - uid: string
+    name: virtualMachineName
+  - description: The parameters of the ARM template.
+    types:
+    - uid: ParameterInfo
+    name: parameters
+  - description: The location of the virtual machine.
+    types:
+    - uid: string
+    name: location
+  - description: Options for uploading the files for the artifact. UploadFilesAndGenerateSasTokens is the default value.
+    types:
+    - uid: FileUploadOptions
+    name: fileUploadOptions
 - name: CloudErrorBody
   description: Body of an error from a REST request.
   kind: object
@@ -126,8 +146,18 @@ definitions:
     name: target
   - description: Inner errors.
     types:
-    - uid: CloudErrorBody
+    - uid: Details
     name: details
+- name: FileUploadOptions
+  description: Options for uploading the files for the artifact. UploadFilesAndGenerateSasTokens is the default value.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: UploadFilesAndGenerateSasTokens
+  - types:
+    - uid: string
+    name: None
 examples: []
 security:
 - type: oauth2

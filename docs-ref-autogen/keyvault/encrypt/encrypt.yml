@@ -80,8 +80,19 @@ definitions:
     types:
     - uid: Error
     name: error
+- name: KeyOperationsParameters
+  description: The key operations parameters.
+  kind: object
+  properties:
+  - description: algorithm identifier
+    types:
+    - uid: JsonWebKeyEncryptionAlgorithm
+    name: alg
+  - types:
+    - uid: string
+    name: value
 - name: Error
-  description: The key vault server error.
+  description: Error encountered, if any, during the certificate operation.
   kind: object
   properties:
   - isReadyOnly: true
@@ -94,12 +105,23 @@ definitions:
     types:
     - uid: string
     name: message
-  - isReadyOnly: true
-    description: The key vault server error.
-    types:
-    - uid: Error
+  - types:
+    - {}
     name: innererror
+- name: JsonWebKeyEncryptionAlgorithm
+  description: algorithm identifier
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: RSA-OAEP
+  - types:
+    - uid: string
+    name: RSA-OAEP-256
+  - types:
+    - uid: string
+    name: RSA1_5
 examples: []
 security: []
 name: encrypt
-uid: .keyvault.encrypt.encrypt
+uid: keyvault.encrypt.encrypt

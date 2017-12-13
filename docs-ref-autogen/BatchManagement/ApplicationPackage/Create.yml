@@ -59,7 +59,7 @@ responses:
 requestHeader: []
 definitions:
 - name: ApplicationPackage
-  description: An application package which represents a particular version of an application.
+  description: The list of packages under this application.
   kind: object
   properties:
   - isReadyOnly: true
@@ -105,6 +105,19 @@ definitions:
     types:
     - uid: CloudErrorBody
     name: error
+- name: PackageState
+  description: The current state of the application package.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Pending
+  - types:
+    - uid: string
+    name: Active
+  - types:
+    - uid: string
+    name: Unmapped
 - name: CloudErrorBody
   description: An error response from the Batch service.
   kind: object
@@ -123,7 +136,7 @@ definitions:
     name: target
   - description: A list of additional details about the error.
     types:
-    - uid: CloudErrorBody
+    - uid: Details
     name: details
 examples:
 - request:

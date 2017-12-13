@@ -67,7 +67,7 @@ definitions:
     - uid: Error
     name: error
 - name: Error
-  description: The key vault server error.
+  description: Error encountered, if any, during the certificate operation.
   kind: object
   properties:
   - isReadyOnly: true
@@ -80,10 +80,8 @@ definitions:
     types:
     - uid: string
     name: message
-  - isReadyOnly: true
-    description: The key vault server error.
-    types:
-    - uid: Error
+  - types:
+    - {}
     name: innererror
 - name: DeletedCertificateItem
   description: The deleted certificate item containing metadata about the deleted certificate.
@@ -154,7 +152,23 @@ definitions:
     types:
     - uid: integer
     name: updated
+- name: DeletionRecoveryLevel
+  description: Reflects the deletion recovery level currently in effect for keys in the current vault. If it contains 'Purgeable' the key can be permanently deleted by a privileged user; otherwise, only the system can purge the key, at the end of the retention interval.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Purgeable
+  - types:
+    - uid: string
+    name: Recoverable+Purgeable
+  - types:
+    - uid: string
+    name: Recoverable
+  - types:
+    - uid: string
+    name: Recoverable+ProtectedSubscription
 examples: []
 security: []
 name: GetCertificates
-uid: .keyvault.getcertificates.getcertificates
+uid: keyvault.getcertificates.getcertificates

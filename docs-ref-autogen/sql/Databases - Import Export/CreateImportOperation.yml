@@ -172,6 +172,73 @@ definitions:
     types:
     - uid: string
     name: type
+- name: ImportExtensionRequest
+  description: Import database parameters.
+  kind: object
+  properties:
+  - description: The name of the extension.
+    types:
+    - uid: string
+    name: name
+  - description: The type of the extension.
+    types:
+    - uid: string
+    name: type
+  - description: The type of import operation being performed. This is always Import.
+    types:
+    - uid: ImportOperationMode
+    name: properties.operationMode
+  - description: The type of the storage key to use.
+    types:
+    - uid: StorageKeyType
+    name: properties.storageKeyType
+  - description: The storage key to use.  If storage key type is SharedAccessKey, it must be preceded with a "?."
+    types:
+    - uid: string
+    name: properties.storageKey
+  - description: The storage uri to use.
+    types:
+    - uid: string
+    name: properties.storageUri
+  - description: The name of the SQL administrator.
+    types:
+    - uid: string
+    name: properties.administratorLogin
+  - description: The password of the SQL administrator.
+    types:
+    - uid: string
+    name: properties.administratorLoginPassword
+  - description: The authentication type.
+    types:
+    - uid: AuthenticationType
+    name: properties.authenticationType
+- name: ImportOperationMode
+  description: The type of import operation being performed. This is always Import.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Import
+- name: StorageKeyType
+  description: The type of the storage key to use.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: StorageAccessKey
+  - types:
+    - uid: string
+    name: SharedAccessKey
+- name: AuthenticationType
+  description: The authentication type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: SQL
+  - types:
+    - uid: string
+    name: ADPassword
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-5961/databases/testdb/extensions/import?api-version=2014-04-01

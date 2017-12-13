@@ -108,7 +108,7 @@ requestHeader:
   name: If-Unmodified-Since
 definitions:
 - name: BatchError
-  description: An error response received from the Azure Batch service.
+  description: The error encountered while attempting to add the task.
   kind: object
   properties:
   - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
@@ -123,8 +123,24 @@ definitions:
     types:
     - uid: BatchErrorDetail
     name: values
+- name: NodeRemoveParameter
+  description: Options for removing compute nodes from a pool.
+  kind: object
+  properties:
+  - description: A list containing the IDs of the compute nodes to be removed from the specified pool.
+    types:
+    - uid: string
+    name: nodeList
+  - description: The default value is 15 minutes. The minimum value is 5 minutes. If you specify a value less than 5 minutes, the Batch service returns an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request).
+    types:
+    - uid: string
+    name: resizeTimeout
+  - description: The default value is requeue.
+    types:
+    - uid: ComputeNodeDeallocationOption
+    name: nodeDeallocationOption
 - name: ErrorMessage
-  description: An error message received in an Azure Batch error response.
+  description: A message describing the error, intended to be suitable for display in a user interface.
   kind: object
   properties:
   - description: The language code of the error message
@@ -136,7 +152,7 @@ definitions:
     - uid: string
     name: value
 - name: BatchErrorDetail
-  description: An item of additional information included in an Azure Batch error response.
+  description: A collection of key-value pairs containing additional details about the error.
   kind: object
   properties:
   - description: An identifier specifying the meaning of the Value property.
@@ -147,6 +163,26 @@ definitions:
     types:
     - uid: string
     name: value
+- name: ComputeNodeDeallocationOption
+  description: The default value is requeue.
+  kind: enum
+  properties:
+  - description: Terminate running task processes and requeue the tasks. The tasks will run again when a node is available. Remove nodes as soon as tasks have been terminated.
+    types:
+    - uid: string
+    name: requeue
+  - description: Terminate running tasks. The tasks will be completed with failureInfo indicating that they were terminated, and will not run again. Remove nodes as soon as tasks have been terminated.
+    types:
+    - uid: string
+    name: terminate
+  - description: Allow currently running tasks to complete. Schedule no new tasks while waiting. Remove nodes when all tasks have completed.
+    types:
+    - uid: string
+    name: taskcompletion
+  - description: Allow currently running tasks to complete, then wait for all task data retention periods to expire. Schedule no new tasks while waiting. Remove nodes when all task retention periods have expired.
+    types:
+    - uid: string
+    name: retaineddata
 examples:
 - request:
     uri: POST https://batch.core.windows.net/pools/poolId/removenodes?api-version=2017-09-01.6.0

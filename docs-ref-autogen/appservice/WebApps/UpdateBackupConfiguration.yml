@@ -82,7 +82,7 @@ requestBody:
 requestHeader: []
 definitions:
 - name: BackupSchedule
-  description: Description of a backup schedule. Describes how often should be the backup performed and what should be the retention policy.
+  description: Schedule for the backup if it is executed periodically.
   kind: object
   properties:
   - description: How often the backup should be executed (e.g. for weekly backup, this should be set to 7 and FrequencyUnit should be set to Day)
@@ -111,7 +111,7 @@ definitions:
     - uid: string
     name: lastExecutionTime
 - name: DatabaseBackupSetting
-  description: Database backup settings.
+  description: List of databases included in the backup.
   kind: object
   properties:
   - description: Database type (e.g. SqlAzure / MySql).
@@ -179,6 +179,48 @@ definitions:
     types:
     - uid: string
     name: type
+- name: FrequencyUnit
+  description: The unit of time for how often the backup should be executed (e.g. for weekly backup, this should be set to Day and FrequencyInterval should be set to 7)
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Day
+  - types:
+    - uid: string
+    name: Hour
+- name: DatabaseType
+  description: Database type (e.g. SqlAzure / MySql).
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: SqlAzure
+  - types:
+    - uid: string
+    name: MySql
+  - types:
+    - uid: string
+    name: LocalMySql
+  - types:
+    - uid: string
+    name: PostgreSql
+- name: BackupRestoreOperationType
+  description: Type of the backup.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Default
+  - types:
+    - uid: string
+    name: Clone
+  - types:
+    - uid: string
+    name: Relocation
+  - types:
+    - uid: string
+    name: Snapshot
 examples: []
 security:
 - type: oauth2

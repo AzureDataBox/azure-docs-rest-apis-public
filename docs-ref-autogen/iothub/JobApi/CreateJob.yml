@@ -66,7 +66,7 @@ requestBody:
 requestHeader: []
 definitions:
 - name: CloudToDeviceMethod
-  description: Parameters to execute a direct method on the device.
+  description: Required if jobType is scheduleDeviceMethod.
   kind: object
   properties:
   - description: Name of the direct method.
@@ -86,7 +86,7 @@ definitions:
     - uid: integer
     name: connectTimeoutInSeconds
 - name: DeviceTwinInfo
-  description: Container of IoT Hub device twin properties and their accessors.
+  description: Required if jobType is scheduleUpdateTwin.
   kind: object
   properties:
   - description: The deviceId uniquely identifies the device in the IoT hub's identity registry. A case-sensitive string (up to 128 char long) of ASCII 7-bit alphanumeric chars + {'-', ':', '.', '+', '%', '_', '#', '*', '?', '!', '(', ')', ',', '=', '@', ';', '$', '''}.
@@ -183,8 +183,42 @@ definitions:
     types:
     - uid: DeviceJobStatistics
     name: deviceJobStatistics
+- name: JobRequest
+  description: Container of parameters for a job request.
+  kind: object
+  properties:
+  - description: Application provided ID for the job.
+    types:
+    - uid: string
+    name: jobId
+  - description: The type of job to execute.
+    types:
+    - uid: scheduleDeviceMethod
+    - uid: scheduleUpdateTwin
+    typesTitle: enum
+    name: type
+  - description: Required if jobType is scheduleDeviceMethod.
+    types:
+    - uid: CloudToDeviceMethod
+    name: cloudToDeviceMethod
+  - description: Required if jobType is scheduleUpdateTwin.
+    types:
+    - uid: DeviceTwinInfo
+    name: updateTwin
+  - description: Condition for device query to get devices to execute the job on. Required if jobType is scheduleUpdateTwin or scheduleDeviceMethod.
+    types:
+    - uid: string
+    name: queryCondition
+  - description: Application provided start time (ISO-8601) for the job.
+    types:
+    - uid: string
+    name: startTime
+  - description: Maximum execution time in seconds (ttl duration).
+    types:
+    - uid: integer
+    name: maxExecutionTimeInSeconds
 - name: VariantValueDateTime
-  description: Type representing DateTime in different time zones.
+  description: The last time the device connected, received or sent a message. In ISO8601 datetime format in UTC, for example, 2015-01-28T16:24:48.789Z. This does not update if the device uses the HTTP/1 protocol to perform messaging operations.
   kind: object
   properties:
   - isReadyOnly: true
@@ -200,7 +234,7 @@ definitions:
     - uid: boolean
     name: IsNull
 - name: DeviceTwinProperties
-  description: Type representing properties that are part of an IoT Hub device twin.
+  description: Used in conjunction with reported properties to synchronize device configuration or condition. Desired properties can only be set by the solution back end and can be read by the device app. The device app can also be notified in real time of changes on the desired properties.
   kind: object
   properties:
   - description: Version of device twin properties.
@@ -219,6 +253,56 @@ definitions:
     types:
     - uid: Metadata
     name: Metadata
+- name: ProvisioningState
+  description: Provisioning state of device twin.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Creating
+  - types:
+    - uid: string
+    name: Deleting
+  - types:
+    - uid: string
+    name: Active
+  - types:
+    - uid: string
+    name: Deleted
+- name: JobType
+  description: The type of job to execute.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: scheduleDeviceMethod
+  - types:
+    - uid: string
+    name: scheduleUpdateTwin
+- name: JobStatus
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: unknown
+  - types:
+    - uid: string
+    name: running
+  - types:
+    - uid: string
+    name: completed
+  - types:
+    - uid: string
+    name: failed
+  - types:
+    - uid: string
+    name: cancelled
+  - types:
+    - uid: string
+    name: scheduled
+  - types:
+    - uid: string
+    name: queued
 - name: DeviceJobStatistics
   description: Statistics about a job's execution.
   kind: object
@@ -244,7 +328,7 @@ definitions:
     - uid: integer
     name: pendingCount
 - name: Metadata
-  description: Metadata
+  description: Metadata information for the properties JSON document.
   kind: object
   properties:
   - description: The last time the properties were updated. In ISO8601 datetime format in UTC, for example, 2015-01-28T16:24:48.789Z.
@@ -263,11 +347,7 @@ definitions:
   - isReadyOnly: true
     description: Nested properties.
     types:
-    - isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: Metadata
-      uid: object
+    - {}
     name: Nested
 examples: []
 security: []

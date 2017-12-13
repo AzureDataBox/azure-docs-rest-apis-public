@@ -55,7 +55,6 @@ responses:
 requestBody:
 - parameters:
   - in: body
-    isRequired: true
     description: Integration runtime properties.
     types:
     - uid: SelfHostedIntegrationRuntime
@@ -70,7 +69,7 @@ requestHeader:
   name: If-Match
 definitions:
 - name: IntegrationRuntimeResource
-  description: Integration runtime resource type.
+  description: List of integration runtimes.
   kind: object
   properties:
   - description: Integration runtime properties.
@@ -267,6 +266,16 @@ definitions:
     types:
     - uid: IntegrationRuntimeSsisCatalogPricingTier
     name: catalogPricingTier
+- name: IntegrationRuntimeLicenseType
+  description: License type for bringing your own license scenario.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: BasePrice
+  - types:
+    - uid: string
+    name: LicenseIncluded
 - name: SecureString
   description: Azure Data Factory secure string definition. The string value will be masked with asterisks '*' during Get or List API calls.
   kind: object
@@ -280,6 +289,22 @@ definitions:
     - uid: SecureString
     typesTitle: string
     name: type
+- name: IntegrationRuntimeSsisCatalogPricingTier
+  description: The pricing tier for the catalog database. The valid values could be found in https://azure.microsoft.com/en-us/pricing/details/sql-database/
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Basic
+  - types:
+    - uid: string
+    name: Standard
+  - types:
+    - uid: string
+    name: Premium
+  - types:
+    - uid: string
+    name: PremiumRS
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/integrationRuntimes/exampleIntegrationRuntime?api-version=2017-09-01-preview

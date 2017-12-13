@@ -57,6 +57,7 @@ requestBody:
 requestHeader: []
 definitions:
 - name: JobProperties
+  description: Gets or sets the job properties.
   kind: object
   properties:
   - description: Gets or sets the job start time.
@@ -81,6 +82,7 @@ definitions:
     - uid: JobStatus
     name: status
 - name: JobDefinition
+  description: Gets or sets all jobs under job collection.
   kind: object
   properties:
   - isReadyOnly: true
@@ -103,6 +105,7 @@ definitions:
     - uid: JobProperties
     name: properties
 - name: JobAction
+  description: Gets or sets the job action.
   kind: object
   properties:
   - description: Gets or sets the job action type.
@@ -134,6 +137,7 @@ definitions:
     - uid: JobErrorAction
     name: errorAction
 - name: JobRecurrence
+  description: Gets or sets the job recurrence.
   kind: object
   properties:
   - description: Gets or sets the frequency of recurrence (second, minute, hour, day, week, month).
@@ -172,6 +176,7 @@ definitions:
     - uid: string
     name: Completed
 - name: JobStatus
+  description: Gets the job status.
   kind: object
   properties:
   - isReadyOnly: true
@@ -199,7 +204,27 @@ definitions:
     types:
     - uid: string
     name: nextExecutionTime
+- name: JobActionType
+  description: Gets or sets the job action type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Http
+  - types:
+    - uid: string
+    name: Https
+  - types:
+    - uid: string
+    name: StorageQueue
+  - types:
+    - uid: string
+    name: ServiceBusQueue
+  - types:
+    - uid: string
+    name: ServiceBusTopic
 - name: HttpRequest
+  description: Gets or sets the http requests.
   kind: object
   properties:
   - description: Gets or sets the authentication method of the request.
@@ -230,6 +255,7 @@ definitions:
       uid: object
     name: headers
 - name: StorageQueueMessage
+  description: Gets or sets the storage queue message.
   kind: object
   properties:
   - description: Gets or sets the storage account name.
@@ -249,6 +275,7 @@ definitions:
     - uid: string
     name: message
 - name: ServiceBusQueueMessage
+  description: Gets or sets the service bus queue message.
   kind: object
   properties:
   - description: Gets or sets the queue name.
@@ -284,6 +311,7 @@ definitions:
     - uid: ServiceBusTransportType
     name: transportType
 - name: ServiceBusTopicMessage
+  description: Gets or sets the service bus topic message.
   kind: object
   properties:
   - description: Gets or sets the topic path.
@@ -319,6 +347,7 @@ definitions:
     - uid: ServiceBusTransportType
     name: transportType
 - name: RetryPolicy
+  description: Gets or sets the retry policy.
   kind: object
   properties:
   - description: Gets or sets the retry strategy to be used.
@@ -334,6 +363,7 @@ definitions:
     - uid: integer
     name: retryCount
 - name: JobErrorAction
+  description: Gets or sets the error action.
   kind: object
   properties:
   - description: Gets or sets the job error action type.
@@ -361,7 +391,7 @@ definitions:
     - uid: RetryPolicy
     name: retryPolicy
 - name: RecurrenceFrequency
-  description: Gets or sets the frequency of recurrence (minute, hour, day, week, month).
+  description: Gets or sets the frequency of recurrence (second, minute, hour, day, week, month).
   kind: enum
   properties:
   - types:
@@ -403,6 +433,7 @@ definitions:
     - uid: JobRecurrenceScheduleMonthlyOccurrence
     name: monthlyOccurrences
 - name: ServiceBusAuthentication
+  description: Gets or sets the Service Bus authentication.
   kind: object
   properties:
   - description: Gets or sets the SAS key.
@@ -418,6 +449,7 @@ definitions:
     - uid: ServiceBusAuthenticationType
     name: type
 - name: ServiceBusBrokeredMessageProperties
+  description: Gets or sets the brokered message properties.
   kind: object
   properties:
   - description: Gets or sets the content type.
@@ -472,7 +504,31 @@ definitions:
     types:
     - uid: string
     name: viaPartitionKey
+- name: ServiceBusTransportType
+  description: Gets or sets the transport type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NotSpecified
+  - types:
+    - uid: string
+    name: NetMessaging
+  - types:
+    - uid: string
+    name: AMQP
+- name: RetryType
+  description: Gets or sets the retry strategy to be used.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: None
+  - types:
+    - uid: string
+    name: Fixed
 - name: JobRecurrenceScheduleMonthlyOccurrence
+  description: Gets or sets the occurrences of days within a month.
   kind: object
   properties:
   - description: Gets or sets the day. Must be one of monday, tuesday, wednesday, thursday, friday, saturday, sunday.
@@ -551,6 +607,41 @@ definitions:
     - uid: ActiveDirectoryOAuth
     typesTitle: string
     name: type
+- name: ServiceBusAuthenticationType
+  description: Gets or sets the authentication type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NotSpecified
+  - types:
+    - uid: string
+    name: SharedAccessKey
+- name: JobScheduleDay
+  description: Gets or sets the day. Must be one of monday, tuesday, wednesday, thursday, friday, saturday, sunday.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Monday
+  - types:
+    - uid: string
+    name: Tuesday
+  - types:
+    - uid: string
+    name: Wednesday
+  - types:
+    - uid: string
+    name: Thursday
+  - types:
+    - uid: string
+    name: Friday
+  - types:
+    - uid: string
+    name: Saturday
+  - types:
+    - uid: string
+    name: Sunday
 examples: []
 security: []
 name: Patch

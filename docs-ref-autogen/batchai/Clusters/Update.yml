@@ -183,6 +183,22 @@ definitions:
     types:
     - uid: CloudErrorBody
     name: error
+- name: ClusterUpdateParameters
+  description: Parameters supplied to the Update operation.
+  kind: object
+  properties:
+  - description: The user specified tags associated with the Cluster.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+  - description: At least one of manual or autoScale settings must be specified. Only one of manual or autoScale settings can be specified. If autoScale settings are specified, the system automatically scales the cluster up and down (within the supplied limits) based on the pending jobs on the cluster.
+    types:
+    - uid: ScaleSettings
+    name: properties.scaleSettings
 - name: ManualScaleSettings
   description: Manual scale settings for the cluster.
   kind: object
@@ -211,6 +227,16 @@ definitions:
     types:
     - uid: integer
     name: initialNodeCount
+- name: VmPriority
+  description: Default is dedicated.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: dedicated
+  - types:
+    - uid: string
+    name: lowpriority
 - name: VirtualMachineConfiguration
   description: Settings for OS image.
   kind: object
@@ -255,8 +281,34 @@ definitions:
     types:
     - uid: string
     name: id
+- name: ProvisioningState
+  description: 'Possible value are: creating - Specifies that the cluster is being created. succeeded - Specifies that the cluster has been created successfully. failed - Specifies that the cluster creation has failed. deleting - Specifies that the cluster is being deleted.'
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: creating
+  - types:
+    - uid: string
+    name: succeeded
+  - types:
+    - uid: string
+    name: failed
+  - types:
+    - uid: string
+    name: deleting
+- name: AllocationState
+  description: 'Possible values are: steady and resizing. steady state indicates that the cluster is not resizing. There are no changes to the number of compute nodes in the cluster in progress. A cluster enters this state when it is created and when no operations are being performed on the cluster to change the number of compute nodes. resizing state indicates that the cluster is resizing; that is, compute nodes are being added to or removed from the cluster.'
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: steady
+  - types:
+    - uid: string
+    name: resizing
 - name: BatchAIError
-  description: An error response from the Batch AI service.
+  description: This element contains all the errors encountered by various compute nodes during node setup.
   kind: object
   properties:
   - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
@@ -313,10 +365,10 @@ definitions:
     name: target
   - description: A list of additional details about the error.
     types:
-    - uid: CloudErrorBody
+    - uid: Details
     name: details
 - name: DeallocationOption
-  description: 'Possible values are: requeue - Terminate running jobs and requeue them. The jobs will run again. Remove compute nodes as soon as jobs have been terminated. terminate - Terminate running jobs. The jobs will not run again. Remove compute nodes as soon as jobs have been terminated. jobcompletion - Allow currently running jobs to complete. Schedule no new jobs while waiting. Remove compute nodes when all jobs have completed. The default value is requeue.'
+  description: The default value is requeue.
   kind: enum
   properties:
   - types:
@@ -392,7 +444,7 @@ definitions:
     - uid: UnmanagedFileSystemReference
     name: unmanagedFileSystems
 - name: NameValuePair
-  description: Represents a name-value pair.
+  description: A list of additional details about the error.
   kind: object
   properties:
   - description: The name in the name-value pair.
@@ -404,7 +456,7 @@ definitions:
     - uid: string
     name: value
 - name: EnvironmentSetting
-  description: A collection of environment variables to set.
+  description: Collection of environment settings.
   kind: object
   properties:
   - description: The name of the environment variable.
@@ -416,7 +468,7 @@ definitions:
     - uid: string
     name: value
 - name: AzureFileShareReference
-  description: Details of the Azure File Share to mount on the cluster.
+  description: References to Azure File Shares that are to be mounted to the cluster nodes.
   kind: object
   properties:
   - description: Name of the storage account.
@@ -444,7 +496,7 @@ definitions:
     - uid: string
     name: directoryMode
 - name: AzureBlobFileSystemReference
-  description: Provides required information, for the service to be able to mount Azure Blob Storage container on the cluster nodes.
+  description: References to Azure Blob FUSE that are to be mounted to the cluster nodes.
   kind: object
   properties:
   - description: Name of the Azure Blob Storage account.
@@ -468,7 +520,7 @@ definitions:
     - uid: string
     name: mountOptions
 - name: FileServerReference
-  description: Provides required information, for the service to be able to mount Azure FileShare on the cluster nodes.
+  description: References to a list of file servers that are mounted to the cluster node.
   kind: object
   properties:
   - description: Represents a resource ID. For example, for a subnet, it is the resource URL for the subnet.
@@ -488,7 +540,7 @@ definitions:
     - uid: string
     name: mountOptions
 - name: UnmanagedFileSystemReference
-  description: Details of the file system to mount on the compute cluster nodes.
+  description: References to a list of file servers that are mounted to the cluster node.
   kind: object
   properties:
   - description: Command used to mount the unmanaged file system.

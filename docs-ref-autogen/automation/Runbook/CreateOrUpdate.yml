@@ -167,6 +167,54 @@ definitions:
     types:
     - uid: string
     name: message
+- name: RunbookCreateOrUpdateParameters
+  description: The parameters supplied to the create or update runbook operation.
+  kind: object
+  properties:
+  - description: Gets or sets the name of the resource.
+    types:
+    - uid: string
+    name: name
+  - description: Gets or sets the location of the resource.
+    types:
+    - uid: string
+    name: location
+  - description: Gets or sets the tags attached to the resource.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+  - description: Gets or sets verbose log option.
+    types:
+    - uid: boolean
+    name: properties.logVerbose
+  - description: Gets or sets progress log option.
+    types:
+    - uid: boolean
+    name: properties.logProgress
+  - description: Gets or sets the type of the runbook.
+    types:
+    - uid: RunbookTypeEnum
+    name: properties.runbookType
+  - description: Gets or sets the draft runbook properties.
+    types:
+    - uid: RunbookDraft
+    name: properties.draft
+  - description: Gets or sets the published runbook content link.
+    types:
+    - uid: ContentLink
+    name: properties.publishContentLink
+  - description: Gets or sets the description of the runbook.
+    types:
+    - uid: string
+    name: properties.description
+  - description: Gets or sets the activity-level tracing options of the runbook.
+    types:
+    - uid: integer
+    name: properties.logActivityTrace
 - name: ContentHash
   description: Definition of the runbook property type.
   kind: object
@@ -179,6 +227,28 @@ definitions:
     types:
     - uid: string
     name: value
+- name: RunbookTypeEnum
+  description: Gets or sets the type of the runbook.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Script
+  - types:
+    - uid: string
+    name: Graph
+  - types:
+    - uid: string
+    name: PowerShellWorkflow
+  - types:
+    - uid: string
+    name: PowerShell
+  - types:
+    - uid: string
+    name: GraphPowerShellWorkflow
+  - types:
+    - uid: string
+    name: GraphPowerShell
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/ContoseAutomationAccount/runbooks/Get-AzureVMTutorial?api-version=2015-10-31

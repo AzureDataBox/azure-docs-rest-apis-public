@@ -73,7 +73,7 @@ requestBody:
 requestHeader: []
 definitions:
 - name: Sku
-  description: The SKU of the Location Based Services Account.
+  description: The SKU of this account.
   kind: object
   properties:
   - description: The name of the SKU, in standard format (such as S0).
@@ -147,6 +147,45 @@ definitions:
     types:
     - uid: Details
     name: details
+- name: LocationBasedServicesAccountCreateParameters
+  description: Parameters used to create a new Location Based Services Account.
+  kind: object
+  properties:
+  - description: The location of the resource.
+    types:
+    - uid: string
+    name: location
+  - description: Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+  - description: The SKU of this account.
+    types:
+    - uid: Sku
+    name: sku
+- name: Details
+  description: If available, a list of additional details about the error.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+    name: code
+  - isReadyOnly: true
+    description: If available, a human readable description of the error.
+    types:
+    - uid: string
+    name: message
+  - isReadyOnly: true
+    description: If available, the component generating the error.
+    types:
+    - uid: string
+    name: target
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.LocationBasedServices/accounts/myLBSAccount?api-version=2017-01-01-preview

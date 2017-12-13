@@ -95,7 +95,7 @@ requestHeader:
   name: If-Match
 definitions:
 - name: UserIdentityContract
-  description: User identity details.
+  description: Collection of user identities.
   kind: object
   properties:
   - description: Identity provider name.
@@ -122,6 +122,39 @@ definitions:
     types:
     - uid: ErrorFieldContract
     name: details
+- name: UserUpdateParameters
+  description: User update parameters.
+  kind: object
+  properties:
+  - description: Email address. Must not be empty and must be unique within the service instance.
+    types:
+    - uid: string
+    name: properties.email
+  - description: User Password.
+    types:
+    - uid: string
+    name: properties.password
+  - description: First name.
+    types:
+    - uid: string
+    name: properties.firstName
+  - description: Last name.
+    types:
+    - uid: string
+    name: properties.lastName
+  - description: Account state. Specifies whether the user is active or not. Blocked users are unable to sign into the developer portal or call any APIs of subscribed products. Default state is Active.
+    types:
+    - uid: UserState
+    name: properties.state
+  - description: Optional note about a user set by the administrator.
+    types:
+    - uid: string
+    name: properties.note
+  - isReadyOnly: true
+    description: Collection of user identities.
+    types:
+    - uid: UserIdentityContract
+    name: properties.identities
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
@@ -138,6 +171,16 @@ definitions:
     types:
     - uid: string
     name: target
+- name: UserState
+  description: Account state. Specifies whether the user is active or not. Blocked users are unable to sign into the developer portal or call any APIs of subscribed products. Default state is Active.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: active
+  - types:
+    - uid: string
+    name: blocked
 examples:
 - request:
     uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/5931a75ae4bbd512288c680b?api-version=2017-03-01

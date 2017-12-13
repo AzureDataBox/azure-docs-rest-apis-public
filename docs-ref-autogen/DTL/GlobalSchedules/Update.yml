@@ -112,7 +112,7 @@ requestBody:
 requestHeader: []
 definitions:
 - name: WeekDetailsFragment
-  description: Properties of a weekly schedule.
+  description: If the schedule will occur only some days of the week, specify the weekly recurrence.
   kind: object
   properties:
   - description: The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).
@@ -124,7 +124,7 @@ definitions:
     - uid: string
     name: time
 - name: DayDetailsFragment
-  description: Properties of a daily schedule.
+  description: If the schedule will occur once each day of the week, specify the daily recurrence.
   kind: object
   properties:
   - description: The time of day the schedule will occur.
@@ -132,7 +132,7 @@ definitions:
     - uid: string
     name: time
 - name: HourDetailsFragment
-  description: Properties of an hourly schedule.
+  description: If the schedule will occur multiple times a day, specify the hourly recurrence.
   kind: object
   properties:
   - description: Minutes of the hour the schedule will run.
@@ -140,7 +140,7 @@ definitions:
     - uid: integer
     name: minute
 - name: NotificationSettingsFragment
-  description: Notification settings for a schedule.
+  description: Notification settings.
   kind: object
   properties:
   - description: If notifications are enabled for this schedule (i.e. Enabled, Disabled).
@@ -156,7 +156,7 @@ definitions:
     - uid: string
     name: webhookUrl
 - name: Schedule
-  description: A schedule.
+  description: The auto-shutdown schedule, if one has been set at the lab or lab resource level.
   kind: object
   properties:
   - description: The status of the schedule (i.e. Enabled, Disabled)
@@ -239,8 +239,99 @@ definitions:
     types:
     - uid: CloudErrorBody
     name: error
+- name: ScheduleFragment
+  description: The auto-shutdown schedule, if one has been set at the lab or lab resource level.
+  kind: object
+  properties:
+  - description: The status of the schedule (i.e. Enabled, Disabled)
+    types:
+    - uid: EnableStatus
+    name: properties.status
+  - description: The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
+    types:
+    - uid: string
+    name: properties.taskType
+  - description: If the schedule will occur only some days of the week, specify the weekly recurrence.
+    types:
+    - uid: WeekDetailsFragment
+    name: properties.weeklyRecurrence
+  - description: If the schedule will occur once each day of the week, specify the daily recurrence.
+    types:
+    - uid: DayDetailsFragment
+    name: properties.dailyRecurrence
+  - description: If the schedule will occur multiple times a day, specify the hourly recurrence.
+    types:
+    - uid: HourDetailsFragment
+    name: properties.hourlyRecurrence
+  - description: The time zone ID (e.g. Pacific Standard time).
+    types:
+    - uid: string
+    name: properties.timeZoneId
+  - description: Notification settings.
+    types:
+    - uid: NotificationSettingsFragment
+    name: properties.notificationSettings
+  - description: The resource ID to which the schedule belongs
+    types:
+    - uid: string
+    name: properties.targetResourceId
+  - description: The provisioning status of the resource.
+    types:
+    - uid: string
+    name: properties.provisioningState
+  - description: The unique immutable identifier of a resource (Guid).
+    types:
+    - uid: string
+    name: properties.uniqueIdentifier
+  - isReadyOnly: true
+    description: The identifier of the resource.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+    name: type
+  - description: The location of the resource.
+    types:
+    - uid: string
+    name: location
+  - description: The tags of the resource.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+- name: NotificationStatus
+  description: If notifications are enabled for this schedule (i.e. Enabled, Disabled).
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Disabled
+  - types:
+    - uid: string
+    name: Enabled
+- name: EnableStatus
+  description: The status of the schedule (i.e. Enabled, Disabled)
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Enabled
+  - types:
+    - uid: string
+    name: Disabled
 - name: WeekDetails
-  description: Properties of a weekly schedule.
+  description: If the schedule will occur only some days of the week, specify the weekly recurrence.
   kind: object
   properties:
   - description: The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).
@@ -252,7 +343,7 @@ definitions:
     - uid: string
     name: time
 - name: DayDetails
-  description: Properties of a daily schedule.
+  description: If the schedule will occur once each day of the week, specify the daily recurrence.
   kind: object
   properties:
   - description: The time of day the schedule will occur.
@@ -260,7 +351,7 @@ definitions:
     - uid: string
     name: time
 - name: HourDetails
-  description: Properties of an hourly schedule.
+  description: If the schedule will occur multiple times a day, specify the hourly recurrence.
   kind: object
   properties:
   - description: Minutes of the hour the schedule will run.
@@ -268,7 +359,7 @@ definitions:
     - uid: integer
     name: minute
 - name: NotificationSettings
-  description: Notification settings for a schedule.
+  description: Notification settings.
   kind: object
   properties:
   - description: If notifications are enabled for this schedule (i.e. Enabled, Disabled).
@@ -298,7 +389,7 @@ definitions:
     name: target
   - description: Inner errors.
     types:
-    - uid: CloudErrorBody
+    - uid: Details
     name: details
 examples: []
 security:

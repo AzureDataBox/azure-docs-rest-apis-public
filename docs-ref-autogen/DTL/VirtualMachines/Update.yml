@@ -318,7 +318,7 @@ definitions:
     - uid: ComputeDataDiskFragment
     name: dataDisks
 - name: NetworkInterfacePropertiesFragment
-  description: Properties of a network interface.
+  description: The network interface properties.
   kind: object
   properties:
   - description: The resource ID of the virtual network.
@@ -560,8 +560,159 @@ definitions:
     types:
     - uid: CloudErrorBody
     name: error
+- name: LabVirtualMachineFragment
+  description: A virtual machine.
+  kind: object
+  properties:
+  - description: The notes of the virtual machine.
+    types:
+    - uid: string
+    name: properties.notes
+  - description: The object identifier of the owner of the virtual machine.
+    types:
+    - uid: string
+    name: properties.ownerObjectId
+  - description: The user principal name of the virtual machine owner.
+    types:
+    - uid: string
+    name: properties.ownerUserPrincipalName
+  - description: The object identifier of the creator of the virtual machine.
+    types:
+    - uid: string
+    name: properties.createdByUserId
+  - description: The email address of creator of the virtual machine.
+    types:
+    - uid: string
+    name: properties.createdByUser
+  - description: The creation date of the virtual machine.
+    types:
+    - uid: string
+    name: properties.createdDate
+  - description: The custom image identifier of the virtual machine.
+    types:
+    - uid: string
+    name: properties.customImageId
+  - description: The OS type of the virtual machine.
+    types:
+    - uid: string
+    name: properties.osType
+  - description: The size of the virtual machine.
+    types:
+    - uid: string
+    name: properties.size
+  - description: The user name of the virtual machine.
+    types:
+    - uid: string
+    name: properties.userName
+  - description: The password of the virtual machine administrator.
+    types:
+    - uid: string
+    name: properties.password
+  - description: The SSH key of the virtual machine administrator.
+    types:
+    - uid: string
+    name: properties.sshKey
+  - description: Indicates whether this virtual machine uses an SSH key for authentication.
+    types:
+    - uid: boolean
+    name: properties.isAuthenticationWithSshKey
+  - description: The fully-qualified domain name of the virtual machine.
+    types:
+    - uid: string
+    name: properties.fqdn
+  - description: The lab subnet name of the virtual machine.
+    types:
+    - uid: string
+    name: properties.labSubnetName
+  - description: The lab virtual network identifier of the virtual machine.
+    types:
+    - uid: string
+    name: properties.labVirtualNetworkId
+  - description: Indicates whether the virtual machine is to be created without a public IP address.
+    types:
+    - uid: boolean
+    name: properties.disallowPublicIpAddress
+  - description: The artifacts to be installed on the virtual machine.
+    types:
+    - uid: ArtifactInstallPropertiesFragment
+    name: properties.artifacts
+  - description: The artifact deployment status for the virtual machine.
+    types:
+    - uid: ArtifactDeploymentStatusPropertiesFragment
+    name: properties.artifactDeploymentStatus
+  - description: The Microsoft Azure Marketplace image reference of the virtual machine.
+    types:
+    - uid: GalleryImageReferenceFragment
+    name: properties.galleryImageReference
+  - description: The compute virtual machine properties.
+    types:
+    - uid: ComputeVmPropertiesFragment
+    name: properties.computeVm
+  - description: The network interface properties.
+    types:
+    - uid: NetworkInterfacePropertiesFragment
+    name: properties.networkInterface
+  - description: The applicable schedule for the virtual machine.
+    types:
+    - uid: ApplicableScheduleFragment
+    name: properties.applicableSchedule
+  - description: The expiration date for VM.
+    types:
+    - uid: string
+    name: properties.expirationDate
+  - description: Indicates whether another user can take ownership of the virtual machine
+    types:
+    - uid: boolean
+    name: properties.allowClaim
+  - description: Storage type to use for virtual machine (i.e. Standard, Premium).
+    types:
+    - uid: string
+    name: properties.storageType
+  - description: Tells source of creation of lab virtual machine. Output property only.
+    types:
+    - uid: VirtualMachineCreationSource
+    name: properties.virtualMachineCreationSource
+  - description: The resource ID of the environment that contains this virtual machine, if any.
+    types:
+    - uid: string
+    name: properties.environmentId
+  - description: The provisioning status of the resource.
+    types:
+    - uid: string
+    name: properties.provisioningState
+  - description: The unique immutable identifier of a resource (Guid).
+    types:
+    - uid: string
+    name: properties.uniqueIdentifier
+  - isReadyOnly: true
+    description: The identifier of the resource.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+    name: type
+  - description: The location of the resource.
+    types:
+    - uid: string
+    name: location
+  - description: The tags of the resource.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
 - name: ArtifactParameterPropertiesFragment
-  description: Properties of an artifact parameter.
+  description: The parameters of the artifact.
   kind: object
   properties:
   - description: The name of the artifact parameter.
@@ -609,7 +760,7 @@ definitions:
     - uid: integer
     name: diskSizeGiB
 - name: SharedPublicIpAddressConfigurationFragment
-  description: Properties of a virtual machine that determine how it is connected to a load balancer.
+  description: The configuration for sharing a public IP address across multiple virtual machines.
   kind: object
   properties:
   - description: The incoming NAT rules
@@ -617,7 +768,7 @@ definitions:
     - uid: InboundNatRuleFragment
     name: inboundNatRules
 - name: ScheduleFragment
-  description: A schedule.
+  description: The auto-shutdown schedule, if one has been set at the lab or lab resource level.
   kind: object
   properties:
   - description: The status of the schedule (i.e. Enabled, Disabled)
@@ -688,7 +839,7 @@ definitions:
       uid: object
     name: tags
 - name: ArtifactInstallProperties
-  description: Properties of an artifact.
+  description: The list of artifacts to apply.
   kind: object
   properties:
   - description: The artifact's identifier.
@@ -732,7 +883,7 @@ definitions:
     - uid: integer
     name: totalArtifacts
 - name: GalleryImageReference
-  description: The reference information for an Azure Marketplace image.
+  description: The Microsoft Azure Marketplace image reference of the virtual machine.
   kind: object
   properties:
   - description: The offer of the gallery image.
@@ -788,7 +939,7 @@ definitions:
     - uid: ComputeDataDisk
     name: dataDisks
 - name: NetworkInterfaceProperties
-  description: Properties of a network interface.
+  description: The network interface properties.
   kind: object
   properties:
   - description: The resource ID of the virtual network.
@@ -866,6 +1017,16 @@ definitions:
       - uid: string
       uid: object
     name: tags
+- name: VirtualMachineCreationSource
+  description: Tells source of creation of lab virtual machine. Output property only.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: FromCustomImage
+  - types:
+    - uid: string
+    name: FromGalleryImage
 - name: CloudErrorBody
   description: Body of an error from a REST request.
   kind: object
@@ -881,7 +1042,7 @@ definitions:
     name: target
   - description: Inner errors.
     types:
-    - uid: CloudErrorBody
+    - uid: Details
     name: details
 - name: InboundNatRuleFragment
   description: A rule for NAT - exposing a VM's port (backendPort) on the public IP address using a load balancer.
@@ -899,8 +1060,18 @@ definitions:
     types:
     - uid: integer
     name: backendPort
+- name: EnableStatus
+  description: The status of the schedule (i.e. Enabled, Disabled)
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Enabled
+  - types:
+    - uid: string
+    name: Disabled
 - name: WeekDetailsFragment
-  description: Properties of a weekly schedule.
+  description: If the schedule will occur only some days of the week, specify the weekly recurrence.
   kind: object
   properties:
   - description: The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).
@@ -912,7 +1083,7 @@ definitions:
     - uid: string
     name: time
 - name: DayDetailsFragment
-  description: Properties of a daily schedule.
+  description: If the schedule will occur once each day of the week, specify the daily recurrence.
   kind: object
   properties:
   - description: The time of day the schedule will occur.
@@ -920,7 +1091,7 @@ definitions:
     - uid: string
     name: time
 - name: HourDetailsFragment
-  description: Properties of an hourly schedule.
+  description: If the schedule will occur multiple times a day, specify the hourly recurrence.
   kind: object
   properties:
   - description: Minutes of the hour the schedule will run.
@@ -928,7 +1099,7 @@ definitions:
     - uid: integer
     name: minute
 - name: NotificationSettingsFragment
-  description: Notification settings for a schedule.
+  description: Notification settings.
   kind: object
   properties:
   - description: If notifications are enabled for this schedule (i.e. Enabled, Disabled).
@@ -944,7 +1115,7 @@ definitions:
     - uid: string
     name: webhookUrl
 - name: ArtifactParameterProperties
-  description: Properties of an artifact parameter.
+  description: The parameters of the artifact.
   kind: object
   properties:
   - description: The name of the artifact parameter.
@@ -992,7 +1163,7 @@ definitions:
     - uid: integer
     name: diskSizeGiB
 - name: SharedPublicIpAddressConfiguration
-  description: Properties of a virtual machine that determine how it is connected to a load balancer.
+  description: The configuration for sharing a public IP address across multiple virtual machines.
   kind: object
   properties:
   - description: The incoming NAT rules
@@ -1000,7 +1171,7 @@ definitions:
     - uid: InboundNatRule
     name: inboundNatRules
 - name: Schedule
-  description: A schedule.
+  description: The auto-shutdown schedule, if one has been set at the lab or lab resource level.
   kind: object
   properties:
   - description: The status of the schedule (i.e. Enabled, Disabled)
@@ -1075,8 +1246,28 @@ definitions:
       - uid: string
       uid: object
     name: tags
+- name: TransportProtocol
+  description: The transport protocol for the endpoint.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Tcp
+  - types:
+    - uid: string
+    name: Udp
+- name: NotificationStatus
+  description: If notifications are enabled for this schedule (i.e. Enabled, Disabled).
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Disabled
+  - types:
+    - uid: string
+    name: Enabled
 - name: InboundNatRule
-  description: A rule for NAT - exposing a VM's port (backendPort) on the public IP address using a load balancer.
+  description: The incoming NAT rules
   kind: object
   properties:
   - description: The transport protocol for the endpoint.
@@ -1092,7 +1283,7 @@ definitions:
     - uid: integer
     name: backendPort
 - name: WeekDetails
-  description: Properties of a weekly schedule.
+  description: If the schedule will occur only some days of the week, specify the weekly recurrence.
   kind: object
   properties:
   - description: The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).
@@ -1104,7 +1295,7 @@ definitions:
     - uid: string
     name: time
 - name: DayDetails
-  description: Properties of a daily schedule.
+  description: If the schedule will occur once each day of the week, specify the daily recurrence.
   kind: object
   properties:
   - description: The time of day the schedule will occur.
@@ -1112,7 +1303,7 @@ definitions:
     - uid: string
     name: time
 - name: HourDetails
-  description: Properties of an hourly schedule.
+  description: If the schedule will occur multiple times a day, specify the hourly recurrence.
   kind: object
   properties:
   - description: Minutes of the hour the schedule will run.
@@ -1120,7 +1311,7 @@ definitions:
     - uid: integer
     name: minute
 - name: NotificationSettings
-  description: Notification settings for a schedule.
+  description: Notification settings.
   kind: object
   properties:
   - description: If notifications are enabled for this schedule (i.e. Enabled, Disabled).

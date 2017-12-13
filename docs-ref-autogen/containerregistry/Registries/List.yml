@@ -105,7 +105,7 @@ definitions:
       uid: object
     name: tags
 - name: Sku
-  description: The SKU of a container registry.
+  description: The SKU of the container registry.
   kind: object
   properties:
   - description: The SKU name of the container registry. Required for registry creation.
@@ -117,8 +117,30 @@ definitions:
     types:
     - uid: SkuTier
     name: tier
+- name: ProvisioningState
+  description: The provisioning state of the container registry at the time the operation was called.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Creating
+  - types:
+    - uid: string
+    name: Updating
+  - types:
+    - uid: string
+    name: Deleting
+  - types:
+    - uid: string
+    name: Succeeded
+  - types:
+    - uid: string
+    name: Failed
+  - types:
+    - uid: string
+    name: Canceled
 - name: Status
-  description: The status of an Azure resource at the time the operation was called.
+  description: The status of the container registry at the time the operation was called.
   kind: object
   properties:
   - isReadyOnly: true
@@ -137,13 +159,45 @@ definitions:
     - uid: string
     name: timestamp
 - name: StorageAccountProperties
-  description: The properties of a storage account for a container registry. Only applicable to Classic SKU.
+  description: The properties of the storage account for the container registry. Only applicable to Classic SKU.
   kind: object
   properties:
   - description: The resource ID of the storage account.
     types:
     - uid: string
     name: id
+- name: SkuName
+  description: The SKU name of the container registry. Required for registry creation.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Classic
+  - types:
+    - uid: string
+    name: Basic
+  - types:
+    - uid: string
+    name: Standard
+  - types:
+    - uid: string
+    name: Premium
+- name: SkuTier
+  description: The SKU tier based on the SKU name.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Classic
+  - types:
+    - uid: string
+    name: Basic
+  - types:
+    - uid: string
+    name: Standard
+  - types:
+    - uid: string
+    name: Premium
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerRegistry/registries?api-version=2017-10-01

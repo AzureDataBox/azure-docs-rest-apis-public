@@ -50,7 +50,7 @@ requestBody:
 requestHeader: []
 definitions:
 - name: FailoverPolicy
-  description: The failover policy for a given region of a database account.
+  description: An array that contains the regions ordered by their failover priorities.
   kind: object
   properties:
   - isReadyOnly: true
@@ -66,6 +66,14 @@ definitions:
     types:
     - uid: integer
     name: failoverPriority
+- name: FailoverPolicies
+  description: The list of new failover policies for the failover priority change.
+  kind: object
+  properties:
+  - description: List of failover policies.
+    types:
+    - uid: FailoverPolicy
+    name: failoverPolicies
 examples:
 - request:
     uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1-failover/failoverPriorityChange?api-version=2015-04-08

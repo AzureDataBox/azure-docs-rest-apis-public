@@ -232,7 +232,7 @@ definitions:
       uid: object
     name: tags
 - name: LocalNetworkGateway
-  description: A common class for general resource information
+  description: The reference to local network gateway resource.
   kind: object
   properties:
   - description: A unique read-only string that changes whenever the resource is updated.
@@ -287,6 +287,38 @@ definitions:
       - uid: string
       uid: object
     name: tags
+- name: VirtualNetworkGatewayConnectionType
+  description: "Gateway connection type. Possible values are: 'Ipsec','Vnet2Vnet','ExpressRoute', and 'VPNClient."
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: IPsec
+  - types:
+    - uid: string
+    name: Vnet2Vnet
+  - types:
+    - uid: string
+    name: ExpressRoute
+  - types:
+    - uid: string
+    name: VPNClient
+- name: VirtualNetworkGatewayConnectionStatus
+  description: Virtual network Gateway connection status
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Unknown
+  - types:
+    - uid: string
+    name: Connecting
+  - types:
+    - uid: string
+    name: Connected
+  - types:
+    - uid: string
+    name: NotConnected
 - name: TunnelConnectionHealth
   description: VirtualNetworkGatewayConnection properties
   kind: object
@@ -317,7 +349,7 @@ definitions:
     - uid: string
     name: lastConnectionEstablishedUtcTime
 - name: SubResource
-  description: Reference to another subresource.
+  description: The reference of the subnet resource.
   kind: object
   properties:
   - description: Resource ID.
@@ -325,7 +357,7 @@ definitions:
     - uid: string
     name: id
 - name: IpsecPolicy
-  description: An IPSec Policy configuration for a virtual network gateway connection
+  description: The IPSec Policies to be considered by this connection.
   kind: object
   properties:
   - description: The IPSec Security Association (also called Quick Mode or Phase 2 SA) lifetime in seconds for a site to site VPN tunnel.
@@ -394,8 +426,28 @@ definitions:
     types:
     - uid: string
     name: id
+- name: VirtualNetworkGatewayType
+  description: "The type of this virtual network gateway. Possible values are: 'Vpn' and 'ExpressRoute'."
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Vpn
+  - types:
+    - uid: string
+    name: ExpressRoute
+- name: VpnType
+  description: "The type of this virtual network gateway. Possible values are: 'PolicyBased' and 'RouteBased'."
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: PolicyBased
+  - types:
+    - uid: string
+    name: RouteBased
 - name: VirtualNetworkGatewaySku
-  description: VirtualNetworkGatewaySku details
+  description: The reference of the VirtualNetworkGatewaySku resource which represents the SKU selected for Virtual network gateway.
   kind: object
   properties:
   - description: Gateway SKU name.
@@ -411,7 +463,7 @@ definitions:
     - uid: integer
     name: capacity
 - name: VpnClientConfiguration
-  description: VpnClientConfiguration for P2S client.
+  description: The reference of the VpnClientConfiguration resource which represents the P2S VpnClient configurations.
   kind: object
   properties:
   - description: The reference of the address space resource which represents Address space for P2S VpnClient.
@@ -439,7 +491,7 @@ definitions:
     - uid: string
     name: radiusServerSecret
 - name: BgpSettings
-  description: BGP settings details
+  description: Virtual network gateway's BGP speaker settings.
   kind: object
   properties:
   - description: The BGP speaker's ASN.
@@ -455,15 +507,216 @@ definitions:
     - uid: integer
     name: peerWeight
 - name: AddressSpace
-  description: AddressSpace contains an array of IP address ranges that can be used by subnets of the virtual network.
+  description: The reference of the address space resource which represents Address space for P2S VpnClient.
   kind: object
   properties:
   - description: A list of address blocks reserved for this virtual network in CIDR notation.
     types:
     - uid: string
     name: addressPrefixes
+- name: IpsecEncryption
+  description: The IPSec encryption algorithm (IKE phase 1).
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: None
+  - types:
+    - uid: string
+    name: DES
+  - types:
+    - uid: string
+    name: DES3
+  - types:
+    - uid: string
+    name: AES128
+  - types:
+    - uid: string
+    name: AES192
+  - types:
+    - uid: string
+    name: AES256
+  - types:
+    - uid: string
+    name: GCMAES128
+  - types:
+    - uid: string
+    name: GCMAES192
+  - types:
+    - uid: string
+    name: GCMAES256
+- name: IpsecIntegrity
+  description: The IPSec integrity algorithm (IKE phase 1).
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: MD5
+  - types:
+    - uid: string
+    name: SHA1
+  - types:
+    - uid: string
+    name: SHA256
+  - types:
+    - uid: string
+    name: GCMAES128
+  - types:
+    - uid: string
+    name: GCMAES192
+  - types:
+    - uid: string
+    name: GCMAES256
+- name: IkeEncryption
+  description: The IKE encryption algorithm (IKE phase 2).
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: DES
+  - types:
+    - uid: string
+    name: DES3
+  - types:
+    - uid: string
+    name: AES128
+  - types:
+    - uid: string
+    name: AES192
+  - types:
+    - uid: string
+    name: AES256
+- name: IkeIntegrity
+  description: The IKE integrity algorithm (IKE phase 2).
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: MD5
+  - types:
+    - uid: string
+    name: SHA1
+  - types:
+    - uid: string
+    name: SHA256
+  - types:
+    - uid: string
+    name: SHA384
+- name: DhGroup
+  description: The DH Groups used in IKE Phase 1 for initial SA.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: None
+  - types:
+    - uid: string
+    name: DHGroup1
+  - types:
+    - uid: string
+    name: DHGroup2
+  - types:
+    - uid: string
+    name: DHGroup14
+  - types:
+    - uid: string
+    name: DHGroup2048
+  - types:
+    - uid: string
+    name: ECP256
+  - types:
+    - uid: string
+    name: ECP384
+  - types:
+    - uid: string
+    name: DHGroup24
+- name: PfsGroup
+  description: The DH Groups used in IKE Phase 2 for new child SA.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: None
+  - types:
+    - uid: string
+    name: PFS1
+  - types:
+    - uid: string
+    name: PFS2
+  - types:
+    - uid: string
+    name: PFS2048
+  - types:
+    - uid: string
+    name: ECP256
+  - types:
+    - uid: string
+    name: ECP384
+  - types:
+    - uid: string
+    name: PFS24
+- name: IPAllocationMethod
+  description: "The private IP allocation method. Possible values are: 'Static' and 'Dynamic'."
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Static
+  - types:
+    - uid: string
+    name: Dynamic
+- name: VirtualNetworkGatewaySkuName
+  description: Gateway SKU name.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Basic
+  - types:
+    - uid: string
+    name: HighPerformance
+  - types:
+    - uid: string
+    name: Standard
+  - types:
+    - uid: string
+    name: UltraPerformance
+  - types:
+    - uid: string
+    name: VpnGw1
+  - types:
+    - uid: string
+    name: VpnGw2
+  - types:
+    - uid: string
+    name: VpnGw3
+- name: VirtualNetworkGatewaySkuTier
+  description: Gateway SKU tier.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Basic
+  - types:
+    - uid: string
+    name: HighPerformance
+  - types:
+    - uid: string
+    name: Standard
+  - types:
+    - uid: string
+    name: UltraPerformance
+  - types:
+    - uid: string
+    name: VpnGw1
+  - types:
+    - uid: string
+    name: VpnGw2
+  - types:
+    - uid: string
+    name: VpnGw3
 - name: VpnClientRootCertificate
-  description: VPN client root certificate of virtual network gateway
+  description: VpnClientRootCertificate for virtual network gateway.
   kind: object
   properties:
   - description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
@@ -489,7 +742,7 @@ definitions:
     - uid: string
     name: id
 - name: VpnClientRevokedCertificate
-  description: VPN client revoked certificate of virtual network gateway.
+  description: VpnClientRevokedCertificate for Virtual network gateway.
   kind: object
   properties:
   - description: The name of the resource that is unique within a resource group. This name can be used to access the resource.

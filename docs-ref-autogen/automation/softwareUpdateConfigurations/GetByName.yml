@@ -112,34 +112,6 @@ definitions:
     types:
     - uid: string
     name: properties.lastModifiedBy
-- name: updateConfiguration
-  description: Update specifc properties of the software update configuration.
-  kind: object
-  properties:
-  - description: operating system of target machines
-    types:
-    - uid: OperatingSystemType
-    name: operatingSystem
-  - description: Windows specific update configuration.
-    types:
-    - uid: WindowsProperties
-    name: windows
-  - description: Linux specific update configuration.
-    types:
-    - uid: LinuxProperties
-    name: linux
-  - description: Maximum time allowed for the software update configuration run. Duration needs to be specified using the format PT[n]H[n]M[n]S as per ISO8601
-    types:
-    - uid: string
-    name: duration
-  - description: List of azure resource Ids for azure virtual machines targeted by the software update configuration.
-    types:
-    - uid: string
-    name: azureVirtualMachines
-  - description: List of names of non-azure machines targeted by the software update configuration.
-    types:
-    - uid: string
-    name: nonAzureComputerNames
 - name: ScheduleProperties
   description: Definition of schedule parameters.
   kind: object
@@ -213,30 +185,25 @@ definitions:
     types:
     - uid: string
     name: message
-- name: WindowsProperties
-  description: Windows specific update configuration.
-  kind: object
+- name: ScheduleFrequency
+  description: execution frequency of the schedule associated with the software update configuration
+  kind: enum
   properties:
-  - description: Update classification included in the software update configuration.
-    types:
+  - types:
     - uid: string
-    name: includedUpdateClassifications
-  - description: KB numbers excluded from the software update configuration.
-    types:
+    name: OneTime
+  - types:
     - uid: string
-    name: excludedKbNumbers
-- name: LinuxProperties
-  description: Linux specific update configuration.
-  kind: object
-  properties:
-  - description: Update classifications included in the software update configuration.
-    types:
+    name: Day
+  - types:
     - uid: string
-    name: includedPackageClassifications
-  - description: packages excluded from the software update configuration.
-    types:
+    name: Hour
+  - types:
     - uid: string
-    name: excludedPackageNameMasks
+    name: Week
+  - types:
+    - uid: string
+    name: Month
 - name: AdvancedSchedule
   description: The properties of the create Advanced Schedule.
   kind: object
@@ -265,6 +232,31 @@ definitions:
     types:
     - uid: ScheduleDay
     name: day
+- name: ScheduleDay
+  description: Day of the occurrence. Must be one of monday, tuesday, wednesday,thursday, friday, saturday, sunday.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Monday
+  - types:
+    - uid: string
+    name: Tuesday
+  - types:
+    - uid: string
+    name: Wednesday
+  - types:
+    - uid: string
+    name: Thursday
+  - types:
+    - uid: string
+    name: Friday
+  - types:
+    - uid: string
+    name: Saturday
+  - types:
+    - uid: string
+    name: Sunday
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/51766542-3ed7-4a72-a187-0c8ab644ddab/resourceGroups/mygroup/providers/Microsoft.Automation/automationAccounts/myaccount/softwareUpdateConfigurations/mypatch?api-version=2017-05-15-preview

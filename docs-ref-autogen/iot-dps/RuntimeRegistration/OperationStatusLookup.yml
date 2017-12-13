@@ -7,7 +7,7 @@ consumes: []
 produces:
 - application/json
 paths:
-- content: GET https://global.azure-devices-provisioning.net/{idScope}/registrations/{registrationId}/operations/{operationId}
+- content: GET https://global.azure-devices-provisioning.net/{idScope}/registrations/{registrationId}/operations/{operationId}?api-version=2017-11-15
 uriParameters:
 - in: path
   isRequired: true
@@ -26,6 +26,12 @@ uriParameters:
   types:
   - uid: string
   name: operationId
+- in: query
+  isRequired: true
+  description: 'The API version to use for the request. Supported versions include: 2017-11-15'
+  types:
+  - uid: string
+  name: api-version
 responses:
 - description: Success
   types:
@@ -64,7 +70,7 @@ definitions:
     - uid: DeviceRegistrationResult
     name: registrationState
 - name: DeviceRegistrationResult
-  description: Device registration result.
+  description: Device registration status.
   kind: object
   properties:
   - description: TPM registration result.

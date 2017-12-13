@@ -113,7 +113,7 @@ requestBody:
 requestHeader: []
 definitions:
 - name: DatabaseBackupSetting
-  description: Database backup settings.
+  description: List of databases included in the backup.
   kind: object
   properties:
   - description: Database type (e.g. SqlAzure / MySql).
@@ -162,6 +162,105 @@ definitions:
     types:
     - uid: string
     name: type
+- name: RestoreRequest
+  description: Description of a restore request.
+  kind: object
+  properties:
+  - description: SAS URL to the container.
+    types:
+    - uid: string
+    name: properties.storageAccountUrl
+  - description: Name of a blob which contains the backup.
+    types:
+    - uid: string
+    name: properties.blobName
+  - description: <code>true</code> if the restore operation can overwrite target app; otherwise, <code>false</code>. <code>true</code> is needed if trying to restore over an existing app.
+    types:
+    - uid: boolean
+    name: properties.overwrite
+  - description: Name of an app.
+    types:
+    - uid: string
+    name: properties.siteName
+  - description: Collection of databases which should be restored. This list has to match the list of databases included in the backup.
+    types:
+    - uid: DatabaseBackupSetting
+    name: properties.databases
+  - description: "Changes a logic when restoring an app with custom domains. <code>true</code> to remove custom domains automatically. If <code>false</code>, custom domains are added to \nthe app's object when it is being restored, but that might fail due to conflicts during the operation."
+    types:
+    - uid: boolean
+    name: properties.ignoreConflictingHostNames
+  - description: Ignore the databases and only restore the site content
+    types:
+    - uid: boolean
+    name: properties.ignoreDatabases
+  - description: Specify app service plan that will own restored site.
+    types:
+    - uid: string
+    name: properties.appServicePlan
+  - description: Operation type.
+    types:
+    - uid: BackupRestoreOperationType
+    name: properties.operationType
+  - description: <code>true</code> if SiteConfig.ConnectionStrings should be set in new app; otherwise, <code>false</code>.
+    types:
+    - uid: boolean
+    name: properties.adjustConnectionStrings
+  - description: App Service Environment name, if needed (only when restoring an app to an App Service Environment).
+    types:
+    - uid: string
+    name: properties.hostingEnvironment
+  - isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+    name: name
+  - description: Kind of resource.
+    types:
+    - uid: string
+    name: kind
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+- name: DatabaseType
+  description: Database type (e.g. SqlAzure / MySql).
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: SqlAzure
+  - types:
+    - uid: string
+    name: MySql
+  - types:
+    - uid: string
+    name: LocalMySql
+  - types:
+    - uid: string
+    name: PostgreSql
+- name: BackupRestoreOperationType
+  description: Type of the backup.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Default
+  - types:
+    - uid: string
+    name: Clone
+  - types:
+    - uid: string
+    name: Relocation
+  - types:
+    - uid: string
+    name: Snapshot
 examples: []
 security:
 - type: oauth2

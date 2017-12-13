@@ -81,6 +81,14 @@ definitions:
     types:
     - uid: CloudErrorBody
     name: error
+- name: BatchAccountRegenerateKeyParameters
+  description: Parameters supplied to the RegenerateKey operation.
+  kind: object
+  properties:
+  - description: The type of account key to regenerate.
+    types:
+    - uid: AccountKeyType
+    name: keyName
 - name: CloudErrorBody
   description: An error response from the Batch service.
   kind: object
@@ -99,8 +107,18 @@ definitions:
     name: target
   - description: A list of additional details about the error.
     types:
-    - uid: CloudErrorBody
+    - uid: Details
     name: details
+- name: AccountKeyType
+  description: The type of account key to regenerate.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Primary
+  - types:
+    - uid: string
+    name: Secondary
 examples:
 - request:
     uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/regenerateKeys?api-version=2017-09-01

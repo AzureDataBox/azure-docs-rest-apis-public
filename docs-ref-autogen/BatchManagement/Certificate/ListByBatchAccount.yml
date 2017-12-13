@@ -173,10 +173,28 @@ definitions:
     name: target
   - description: A list of additional details about the error.
     types:
-    - uid: CloudErrorBody
+    - uid: Details
     name: details
+- name: CertificateProvisioningState
+  description: >-
+    Values are:
+
+     Succeeded - The certificate is available for use in pools.
+     Deleting - The user has requested that the certificate be deleted, but the delete operation has not yet completed. You may not reference the certificate when creating or updating pools.
+     Failed - The user requested that the certificate be deleted, but there are pools that still have references to the certificate, or it is still installed on one or more compute nodes. (The latter can occur if the certificate has been removed from the pool, but the node has not yet restarted. Nodes refresh their certificates only when they restart.) You may use the cancel certificate delete operation to cancel the delete, or the delete certificate operation to retry the delete.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Succeeded
+  - types:
+    - uid: string
+    name: Deleting
+  - types:
+    - uid: string
+    name: Failed
 - name: DeleteCertificateError
-  description: An error response from the Batch service.
+  description: This is only returned when the certificate provisioningState is 'Failed'.
   kind: object
   properties:
   - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
@@ -193,8 +211,18 @@ definitions:
     name: target
   - description: A list of additional details about the error.
     types:
-    - uid: DeleteCertificateError
+    - uid: Details
     name: details
+- name: CertificateFormat
+  description: The format of the certificate - either Pfx or Cer. If omitted, the default is Pfx.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Pfx
+  - types:
+    - uid: string
+    name: Cer
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/certificates?api-version=2017-09-01

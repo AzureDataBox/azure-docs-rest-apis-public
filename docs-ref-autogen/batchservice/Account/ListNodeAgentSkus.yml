@@ -85,7 +85,7 @@ definitions:
     - uid: string
     name: odata.nextLink
 - name: BatchError
-  description: An error response received from the Azure Batch service.
+  description: The error encountered while attempting to add the task.
   kind: object
   properties:
   - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
@@ -117,7 +117,7 @@ definitions:
     - uid: OSType
     name: osType
 - name: ErrorMessage
-  description: An error message received in an Azure Batch error response.
+  description: A message describing the error, intended to be suitable for display in a user interface.
   kind: object
   properties:
   - description: The language code of the error message
@@ -129,7 +129,7 @@ definitions:
     - uid: string
     name: value
 - name: BatchErrorDetail
-  description: An item of additional information included in an Azure Batch error response.
+  description: A collection of key-value pairs containing additional details about the error.
   kind: object
   properties:
   - description: An identifier specifying the meaning of the Value property.
@@ -141,7 +141,7 @@ definitions:
     - uid: string
     name: value
 - name: ImageReference
-  description: A reference to an Azure Virtual Machines Marketplace image or a custom Azure Virtual Machine image. To get the list of all Azure Marketplace image references verified by Azure Batch, see the 'List node agent SKUs' operation.
+  description: This collection is not exhaustive (the node agent may be compatible with other images).
   kind: object
   properties:
   - description: For example, Canonical or MicrosoftWindowsServer.
@@ -164,6 +164,18 @@ definitions:
     types:
     - uid: string
     name: virtualMachineImageId
+- name: OSType
+  description: The type of operating system (e.g. Windows or Linux) compatible with the node agent SKU.
+  kind: enum
+  properties:
+  - description: The Linux operating system.
+    types:
+    - uid: string
+    name: linux
+  - description: The Windows operating system.
+    types:
+    - uid: string
+    name: windows
 examples:
 - request:
     uri: GET https://batch.core.windows.net/nodeagentskus?api-version=2017-09-01.6.0

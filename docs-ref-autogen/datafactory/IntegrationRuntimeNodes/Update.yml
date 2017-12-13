@@ -186,6 +186,49 @@ definitions:
     types:
     - uid: ErrorResponse
     name: details
+- name: UpdateIntegrationRuntimeNodeRequest
+  description: Update integration runtime node request.
+  kind: object
+  properties:
+  - description: The number of concurrent jobs permitted to run on the integration runtime node. Values between 1 and maxConcurrentJobs(inclusive) are allowed.
+    types:
+    - uid: integer
+    name: concurrentJobsLimit
+- name: SelfHostedIntegrationRuntimeNodeStatus
+  description: Status of the integration runtime node.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NeedRegistration
+  - types:
+    - uid: string
+    name: Online
+  - types:
+    - uid: string
+    name: Limited
+  - types:
+    - uid: string
+    name: Offline
+  - types:
+    - uid: string
+    name: Upgrading
+  - types:
+    - uid: string
+    name: Initializing
+  - types:
+    - uid: string
+    name: InitializeFailed
+- name: IntegrationRuntimeUpdateResult
+  description: The result of the last integration runtime node update.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Succeed
+  - types:
+    - uid: string
+    name: Fail
 examples:
 - request:
     uri: PATCH https://management.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/integrationRuntimes/exampleIntegrationRuntime/nodes/Node_1?api-version=2017-09-01-preview

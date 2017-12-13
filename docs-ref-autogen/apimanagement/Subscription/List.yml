@@ -109,7 +109,7 @@ definitions:
     - uid: ErrorFieldContract
     name: details
 - name: SubscriptionContract
-  description: Subscription details.
+  description: Page values.
   kind: object
   properties:
   - description: The user resource identifier of the subscription owner. The value is a valid relative URL in the format of /users/{uid} where {uid} is a user identifier.
@@ -197,6 +197,28 @@ definitions:
     types:
     - uid: string
     name: target
+- name: SubscriptionState
+  description: Subscription state. Possible states are * active – the subscription is active, * suspended – the subscription is blocked, and the subscriber cannot call any APIs of the product, * submitted – the subscription request has been made by the developer, but has not yet been approved or rejected, * rejected – the subscription request has been denied by an administrator, * cancelled – the subscription has been cancelled by the developer or administrator, * expired – the subscription reached its expiration date and was deactivated.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: suspended
+  - types:
+    - uid: string
+    name: active
+  - types:
+    - uid: string
+    name: expired
+  - types:
+    - uid: string
+    name: submitted
+  - types:
+    - uid: string
+    name: rejected
+  - types:
+    - uid: string
+    name: cancelled
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/subscriptions?api-version=2017-03-01

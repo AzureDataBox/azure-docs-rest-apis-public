@@ -44,7 +44,7 @@ responses:
 requestHeader: []
 definitions:
 - name: availabilityStatus
-  description: availabilityStatus of a resource.
+  description: The list of availabilityStatuses.
   kind: object
   properties:
   - description: Azure Resource Manager Identity for the availabilityStatuses resource.
@@ -86,6 +86,165 @@ definitions:
     types:
     - uid: string
     name: details
+- name: Properties
+  description: Properties of availability state.
+  kind: object
+  properties:
+  - description: Availability status of the resource.
+    types:
+    - uid: AvailabilityStateValues
+    name: availabilityState
+  - description: Summary description of the availability state.
+    types:
+    - uid: string
+    name: summary
+  - description: Details of the availability status.
+    types:
+    - uid: string
+    name: detailedStatus
+  - description: When the resource's availabilityState is Unavailable, it describes where the health impacting event was originated. Examples are planned, unplanned, user initiated or an outage etc.
+    types:
+    - uid: string
+    name: reasonType
+  - description: When the resource's availabilityState is Unavailable, it provides the Timestamp for when the health impacting event was received.
+    types:
+    - uid: string
+    name: rootCauseAttributionTime
+  - description: When the resource's availabilityState is Unavailable and the reasonType is not User Initiated, it provides the date and time for when the issue is expected to be resolved.
+    types:
+    - uid: string
+    name: resolutionETA
+  - description: Timestamp for when last change in health status occurred.
+    types:
+    - uid: string
+    name: occuredTime
+  - description: Chronicity of the availability transition.
+    types:
+    - uid: reasonChronicityTypes
+    name: reasonChronicity
+  - description: 'Timestamp for when the health was last checked. '
+    types:
+    - uid: string
+    name: reportedTime
+  - description: An annotation describing a change in the availabilityState to Available from Unavailable with a reasonType of type Unplanned
+    types:
+    - uid: RecentlyResolvedState
+    name: recentlyResolvedState
+  - description: Lists actions the user can take based on the current availabilityState of the resource.
+    types:
+    - uid: recommendedAction
+    name: recommendedActions
+  - description: Lists the service impacting events that may be affecting the health of the resource.
+    types:
+    - uid: serviceImpactingEvent
+    name: serviceImpactingEvents
+- name: AvailabilityStateValues
+  description: Availability status of the resource.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Available
+  - types:
+    - uid: string
+    name: Unavailable
+  - types:
+    - uid: string
+    name: Unknown
+- name: reasonChronicityTypes
+  description: Chronicity of the availability transition.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Transient
+  - types:
+    - uid: string
+    name: Persistent
+- name: RecentlyResolvedState
+  description: An annotation describing a change in the availabilityState to Available from Unavailable with a reasonType of type Unplanned
+  kind: object
+  properties:
+  - description: Timestamp for when the availabilityState changed to Unavailable
+    types:
+    - uid: string
+    name: unavailableOccurredTime
+  - description: Timestamp when the availabilityState changes to Available.
+    types:
+    - uid: string
+    name: resolvedTime
+  - description: Brief description of cause of the resource becoming unavailable.
+    types:
+    - uid: string
+    name: unavailabilitySummary
+- name: recommendedAction
+  description: Lists actions the user can take based on the current availabilityState of the resource.
+  kind: object
+  properties:
+  - description: Recommended action.
+    types:
+    - uid: string
+    name: action
+  - description: Link to the action
+    types:
+    - uid: string
+    name: actionUrl
+  - description: Substring of action, it describes which text should host the action url.
+    types:
+    - uid: string
+    name: actionUrlText
+- name: serviceImpactingEvent
+  description: Lists the service impacting events that may be affecting the health of the resource.
+  kind: object
+  properties:
+  - description: Timestamp for when the event started.
+    types:
+    - uid: string
+    name: eventStartTime
+  - description: Timestamp for when event was submitted/detected.
+    types:
+    - uid: string
+    name: eventStatusLastModifiedTime
+  - description: Correlation id for the event
+    types:
+    - uid: string
+    name: correlationId
+  - description: Status of the service impacting event.
+    types:
+    - uid: Status
+    name: status
+  - description: Properties of the service impacting event.
+    types:
+    - uid: IncidentProperties
+    name: incidentProperties
+- name: Status
+  description: Status of the service impacting event.
+  kind: object
+  properties:
+  - description: Current status of the event
+    types:
+    - uid: string
+    name: value
+- name: IncidentProperties
+  description: Properties of the service impacting event.
+  kind: object
+  properties:
+  - description: Title of the incident.
+    types:
+    - uid: string
+    name: title
+  - description: Service impacted by the event.
+    types:
+    - uid: string
+    name: service
+  - description: Region impacted by the event.
+    types:
+    - uid: string
+    name: region
+  - description: Type of Event.
+    types:
+    - uid: string
+    name: incidentType
 examples:
 - request:
     uri: GET https://management.azure.com/resourceUri/providers/Microsoft.ResourceHealth/availabilityStatuses/current?api-version=2015-01-01&$expand=recommendedactions

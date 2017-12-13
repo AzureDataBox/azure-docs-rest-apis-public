@@ -8,8 +8,8 @@ consumes:
 produces:
 - application/json
 paths:
-- content: PUT https://global.azure-devices-provisioning.net/{idScope}/registrations/{registrationId}/register
-- content: PUT https://global.azure-devices-provisioning.net/{idScope}/registrations/{registrationId}/register?forceRegistration={forceRegistration}
+- content: PUT https://global.azure-devices-provisioning.net/{idScope}/registrations/{registrationId}/register?api-version=2017-11-15
+- content: PUT https://global.azure-devices-provisioning.net/{idScope}/registrations/{registrationId}/register?forceRegistration={forceRegistration}&api-version=2017-11-15
   isOptional: true
 uriParameters:
 - in: path
@@ -28,6 +28,12 @@ uriParameters:
   types:
   - uid: boolean
   name: forceRegistration
+- in: query
+  isRequired: true
+  description: 'The API version to use for the request. Supported versions include: 2017-11-15'
+  types:
+  - uid: string
+  name: api-version
 responses:
 - headers:
   - value: string
@@ -80,8 +86,19 @@ definitions:
     types:
     - uid: DeviceRegistrationResult
     name: registrationState
+- name: DeviceRegistration
+  description: Device registration.
+  kind: object
+  properties:
+  - types:
+    - uid: string
+    name: registrationId
+  - description: Attestation via TPM.
+    types:
+    - uid: TpmAttestation
+    name: tpm
 - name: DeviceRegistrationResult
-  description: Device registration result.
+  description: Device registration status.
   kind: object
   properties:
   - description: TPM registration result.

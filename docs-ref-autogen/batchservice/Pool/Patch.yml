@@ -192,7 +192,7 @@ definitions:
     - uid: string
     name: value
 - name: BatchError
-  description: An error response received from the Azure Batch service.
+  description: The error encountered while attempting to add the task.
   kind: object
   properties:
   - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
@@ -207,6 +207,26 @@ definitions:
     types:
     - uid: BatchErrorDetail
     name: values
+- name: PoolPatchParameter
+  description: The set of changes to be made to a pool.
+  kind: object
+  properties:
+  - description: If this element is present, it overwrites any existing start task. If omitted, any existing start task is left unchanged.
+    types:
+    - uid: StartTask
+    name: startTask
+  - description: If this element is present, it replaces any existing certificate references configured on the pool. If omitted, any existing certificate references are left unchanged. For Windows compute nodes, the Batch service installs the certificates to the specified certificate store and location. For Linux compute nodes, the certificates are stored in a directory inside the task working directory and an environment variable AZ_BATCH_CERTIFICATES_DIR is supplied to the task to query for this location. For certificates with visibility of 'remoteUser', a 'certs' directory is created in the user's home directory (e.g., /home/{user-name}/certs) and certificates are placed in that directory.
+    types:
+    - uid: CertificateReference
+    name: certificateReferences
+  - description: Changes to application package references affect all new compute nodes joining the pool, but do not affect compute nodes that are already in the pool until they are rebooted or reimaged. If this element is present, it replaces any existing application package references. If you specify an empty collection, then all application package references are removed from the pool. If omitted, any existing application package references are left unchanged.
+    types:
+    - uid: ApplicationPackageReference
+    name: applicationPackageReferences
+  - description: If this element is present, it replaces any existing metadata configured on the pool. If you specify an empty collection, any metadata is removed from the pool. If omitted, any existing metadata is left unchanged.
+    types:
+    - uid: MetadataItem
+    name: metadata
 - name: TaskContainerSettings
   description: The container settings for a task.
   kind: object
@@ -263,8 +283,20 @@ definitions:
     types:
     - uid: AutoUserSpecification
     name: autoUser
+- name: CertificateStoreLocation
+  description: The default value is currentuser. This property is applicable only for pools configured with Windows nodes (that is, created with cloudServiceConfiguration, or with virtualMachineConfiguration using a Windows image reference). For Linux compute nodes, the certificates are stored in a directory inside the task working directory and an environment variable AZ_BATCH_CERTIFICATES_DIR is supplied to the task to query for this location. For certificates with visibility of 'remoteUser', a 'certs' directory is created in the user's home directory (e.g., /home/{user-name}/certs) and certificates are placed in that directory.
+  kind: enum
+  properties:
+  - description: Certificates should be installed to the CurrentUser certificate store.
+    types:
+    - uid: string
+    name: currentuser
+  - description: Certificates should be installed to the LocalMachine certificate store.
+    types:
+    - uid: string
+    name: localmachine
 - name: ErrorMessage
-  description: An error message received in an Azure Batch error response.
+  description: A message describing the error, intended to be suitable for display in a user interface.
   kind: object
   properties:
   - description: The language code of the error message
@@ -276,7 +308,7 @@ definitions:
     - uid: string
     name: value
 - name: BatchErrorDetail
-  description: An item of additional information included in an Azure Batch error response.
+  description: A collection of key-value pairs containing additional details about the error.
   kind: object
   properties:
   - description: An identifier specifying the meaning of the Value property.
@@ -288,7 +320,7 @@ definitions:
     - uid: string
     name: value
 - name: ContainerRegistry
-  description: A private container registry.
+  description: This setting can be omitted if was already provided at pool creation.
   kind: object
   properties:
   - description: If omitted, the default is "docker.io".
@@ -315,8 +347,20 @@ definitions:
     types:
     - uid: ElevationLevel
     name: elevationLevel
+- name: AutoUserScope
+  description: The default value is task.
+  kind: enum
+  properties:
+  - description: Specifies that the service should create a new user for the task.
+    types:
+    - uid: string
+    name: task
+  - description: Specifies that the task runs as the common auto user account which is created on every node in a pool.
+    types:
+    - uid: string
+    name: pool
 - name: ElevationLevel
-  description: The elevation level of the user.
+  description: nonAdmin - The auto user is a standard user without elevated access. admin - The auto user is a user with elevated access and operates with full Administrator permissions. The default value is nonAdmin.
   kind: enum
   properties:
   - description: The user is a standard user without elevated access.

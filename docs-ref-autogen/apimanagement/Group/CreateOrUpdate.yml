@@ -81,7 +81,7 @@ requestBody:
 requestHeader: []
 definitions:
 - name: GroupContract
-  description: Contract details.
+  description: Page values.
   kind: object
   properties:
   - description: Group name.
@@ -136,6 +136,39 @@ definitions:
     types:
     - uid: ErrorFieldContract
     name: details
+- name: GroupCreateParameters
+  description: Parameters supplied to the Create Group operation.
+  kind: object
+  properties:
+  - description: Group name.
+    types:
+    - uid: string
+    name: properties.displayName
+  - description: Group description.
+    types:
+    - uid: string
+    name: properties.description
+  - description: Group type.
+    types:
+    - uid: GroupType
+    name: properties.type
+  - description: Identifier of the external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null.
+    types:
+    - uid: string
+    name: properties.externalId
+- name: GroupType
+  description: Group type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: custom
+  - types:
+    - uid: string
+    name: system
+  - types:
+    - uid: string
+    name: external
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object

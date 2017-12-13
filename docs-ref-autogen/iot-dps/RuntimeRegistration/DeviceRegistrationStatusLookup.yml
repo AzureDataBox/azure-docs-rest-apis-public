@@ -8,7 +8,7 @@ consumes:
 produces:
 - application/json
 paths:
-- content: POST https://global.azure-devices-provisioning.net/{idScope}/registrations/{registrationId}
+- content: POST https://global.azure-devices-provisioning.net/{idScope}/registrations/{registrationId}?api-version=2017-11-15
 uriParameters:
 - in: path
   isRequired: true
@@ -21,6 +21,12 @@ uriParameters:
   types:
   - uid: string
   name: registrationId
+- in: query
+  isRequired: true
+  description: 'The API version to use for the request. Supported versions include: 2017-11-15'
+  types:
+  - uid: string
+  name: api-version
 responses:
 - description: Success
   types:
@@ -50,7 +56,7 @@ definitions:
     - uid: string
     name: storageRootKey
 - name: DeviceRegistrationResult
-  description: Device registration result.
+  description: Device registration status.
   kind: object
   properties:
   - description: TPM registration result.
@@ -102,6 +108,17 @@ definitions:
     types:
     - uid: string
     name: etag
+- name: DeviceRegistration
+  description: Device registration.
+  kind: object
+  properties:
+  - types:
+    - uid: string
+    name: registrationId
+  - description: Attestation via TPM.
+    types:
+    - uid: TpmAttestation
+    name: tpm
 - name: TpmRegistrationResult
   description: TPM registration result.
   kind: object

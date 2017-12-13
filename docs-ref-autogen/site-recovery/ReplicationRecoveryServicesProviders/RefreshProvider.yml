@@ -56,7 +56,7 @@ responses:
 requestHeader: []
 definitions:
 - name: RecoveryServicesProvider
-  description: Provider details.
+  description: The Servers details.
   kind: object
   properties:
   - description: Provider properties.
@@ -83,7 +83,7 @@ definitions:
     - uid: string
     name: location
 - name: RecoveryServicesProviderProperties
-  description: Recovery services provider properties.
+  description: Provider properties.
   kind: object
   properties:
   - description: Type of the site.
@@ -143,7 +143,7 @@ definitions:
     - uid: IdentityInformation
     name: identityDetails
 - name: HealthError
-  description: Health Error
+  description: The list of errors / warnings capturing details associated with the issue(s).
   kind: object
   properties:
   - description: Source of error.
@@ -188,10 +188,10 @@ definitions:
     name: entityId
   - description: The child health errors.
     types:
-    - uid: HealthError
+    - uid: ChildErrors
     name: childErrors
 - name: IdentityInformation
-  description: Identity details.
+  description: The identity details.
   kind: object
   properties:
   - description: The identity provider type. Value is the ToString() of a IdentityProviderType value.
@@ -222,6 +222,16 @@ definitions:
     types:
     - uid: string
     name: certificateThumbprint
+- name: IdentityProviderType
+  description: The identity provider type. Value is the ToString() of a IdentityProviderType value.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: RecoveryServicesActiveDirectory
+  - types:
+    - uid: string
+    name: CustomerActiveDirectory
 examples:
 - request:
     uri: POST https://management.azure.com/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1/replicationRecoveryServicesProviders/241641e6-ee7b-4ee4-8141-821fadda43fa/refreshProvider?api-version=2016-08-10

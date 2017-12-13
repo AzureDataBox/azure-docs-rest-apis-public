@@ -103,7 +103,7 @@ definitions:
     - uid: OperationResultLogItemContract
     name: actionLog
 - name: ErrorResponse
-  description: Error Body contract.
+  description: Error Body Contract
   kind: object
   properties:
   - description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
@@ -118,8 +118,36 @@ definitions:
     types:
     - uid: ErrorFieldContract
     name: details
+- name: DeployConfigurationParameters
+  description: Parameters supplied to the Deploy Configuration operation.
+  kind: object
+  properties:
+  - description: The name of the Git branch from which the configuration is to be deployed to the configuration database.
+    types:
+    - uid: string
+    name: branch
+  - description: The value enforcing deleting subscriptions to products that are deleted in this update.
+    types:
+    - uid: boolean
+    name: force
+- name: AsyncOperationStatus
+  description: Status of an async operation.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Started
+  - types:
+    - uid: string
+    name: InProgress
+  - types:
+    - uid: string
+    name: Succeeded
+  - types:
+    - uid: string
+    name: Failed
 - name: OperationResultLogItemContract
-  description: Log of the entity being created, updated or deleted.
+  description: This property if only provided as part of the TenantConfiguration_Validate operation. It contains the log the entities which will be updated/created/deleted as part of the TenantConfiguration_Deploy operation.
   kind: object
   properties:
   - description: The type of entity contract.
@@ -135,7 +163,7 @@ definitions:
     - uid: string
     name: objectKey
 - name: ErrorFieldContract
-  description: Error Field contract.
+  description: The list of invalid fields send in request, in case of validation error.
   kind: object
   properties:
   - description: Property level error code.

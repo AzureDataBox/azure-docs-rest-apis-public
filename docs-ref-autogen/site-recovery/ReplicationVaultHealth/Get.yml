@@ -69,7 +69,7 @@ definitions:
     - uid: string
     name: location
 - name: VaultHealthProperties
-  description: class to define the health summary of the Vault.
+  description: The vault health related data.
   kind: object
   properties:
   - description: The list of errors on the vault.
@@ -85,7 +85,7 @@ definitions:
     - uid: ResourceHealthSummary
     name: fabricsHealth
 - name: HealthError
-  description: Health Error
+  description: The list of errors / warnings capturing details associated with the issue(s).
   kind: object
   properties:
   - description: Source of error.
@@ -130,10 +130,10 @@ definitions:
     name: entityId
   - description: The child health errors.
     types:
-    - uid: HealthError
+    - uid: ChildErrors
     name: childErrors
 - name: ResourceHealthSummary
-  description: Base class to define the health summary of the resources contained under an Arm resource.
+  description: The list of the health detail of the protected items in the vault.
   kind: object
   properties:
   - description: The count of total resources umder the container.
@@ -145,7 +145,7 @@ definitions:
     - uid: HealthErrorSummary
     name: issues
 - name: HealthErrorSummary
-  description: class to define the summary of the health error details.
+  description: The list of summary of health errors across the resources under the container.
   kind: object
   properties:
   - description: The code of the health error.
@@ -176,6 +176,35 @@ definitions:
     types:
     - uid: string
     name: affectedResourceCorrelationIds
+- name: HealthErrorCategory
+  description: The category of the health error.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Replication
+  - types:
+    - uid: string
+    name: TestFailover
+  - types:
+    - uid: string
+    name: Configuration
+- name: Severity
+  description: Severity of error.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NONE
+  - types:
+    - uid: string
+    name: Warning
+  - types:
+    - uid: string
+    name: Error
+  - types:
+    - uid: string
+    name: Info
 examples:
 - request:
     uri: GET https://management.azure.com/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationVaultHealth?api-version=2016-08-10

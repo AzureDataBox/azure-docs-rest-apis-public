@@ -55,43 +55,6 @@ responses:
   name: Other Status Codes
 requestHeader: []
 definitions:
-- name: EventSourceResource
-  description: An environment receives data from one or more event sources. Each event source has associated connection info that allows the Time Series Insights ingress pipeline to connect to and pull data from the event source
-  kind: object
-  properties:
-  - description: The kind of the event source.
-    types:
-    - uid: Microsoft.EventHub
-    - uid: Microsoft.IoTHub
-    typesTitle: enum
-    name: kind
-  - description: Resource location
-    types:
-    - uid: string
-    name: location
-  - description: Resource tags
-    types:
-    - isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-      uid: object
-    name: tags
-  - isReadyOnly: true
-    description: Resource Id
-    types:
-    - uid: string
-    name: id
-  - isReadyOnly: true
-    description: Resource name
-    types:
-    - uid: string
-    name: name
-  - isReadyOnly: true
-    description: Resource type
-    types:
-    - uid: string
-    name: type
 - name: CloudError
   description: Contains information about an API error.
   kind: object
@@ -254,8 +217,30 @@ definitions:
     name: target
   - description: Contains nested errors that are related to this error.
     types:
-    - uid: CloudErrorBody
+    - uid: Details
     name: details
+- name: ProvisioningState
+  description: Provisioning state of the resource.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Accepted
+  - types:
+    - uid: string
+    name: Creating
+  - types:
+    - uid: string
+    name: Updating
+  - types:
+    - uid: string
+    name: Succeeded
+  - types:
+    - uid: string
+    name: Failed
+  - types:
+    - uid: string
+    name: Deleting
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.TimeSeriesInsights/environments/env1/eventSources/es1?api-version=2017-11-15

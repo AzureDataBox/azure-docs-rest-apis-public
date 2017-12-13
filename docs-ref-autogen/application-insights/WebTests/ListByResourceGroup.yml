@@ -48,7 +48,7 @@ definitions:
     - uid: string
     name: nextLink
 - name: WebTest
-  description: An Application Insights web test definition.
+  description: Set of Application Insights web test definitions.
   kind: object
   properties:
   - description: The kind of web test that this web test watches. Choices are ping and multistep.
@@ -127,14 +127,32 @@ definitions:
       - uid: string
       uid: object
     name: tags
+- name: WebTestKind
+  description: The kind of web test that this web test watches. Choices are ping and multistep.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: ping
+  - types:
+    - uid: string
+    name: multistep
 - name: WebTestGeolocation
-  description: Geo-physical location to run a web test from. You must specify one or more locations for the test to run from.
+  description: A list of where to physically run the tests from to give global coverage for accessibility of your application.
   kind: object
   properties:
   - description: Location ID for the webtest to run from.
     types:
     - uid: string
     name: Id
+- name: Configuration
+  description: An XML configuration specification for a WebTest.
+  kind: object
+  properties:
+  - description: The XML specification of a WebTest to run against an application.
+    types:
+    - uid: string
+    name: WebTest
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/my-resource-group/providers/microsoft.insights/webtests?api-version=2015-05-01

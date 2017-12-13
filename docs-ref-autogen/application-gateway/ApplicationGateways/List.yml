@@ -195,6 +195,22 @@ definitions:
     types:
     - uid: ApplicationGatewaySslProtocol
     name: minProtocolVersion
+- name: ApplicationGatewayOperationalState
+  description: Operational state of the application gateway resource.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Stopped
+  - types:
+    - uid: string
+    name: Starting
+  - types:
+    - uid: string
+    name: Running
+  - types:
+    - uid: string
+    name: Stopping
 - name: ApplicationGatewayIPConfiguration
   description: IP configuration of an application gateway. Currently 1 public and 1 private IP configuration is allowed.
   kind: object
@@ -422,7 +438,7 @@ definitions:
     - uid: string
     name: id
 - name: ApplicationGatewayBackendAddressPool
-  description: Backend Address Pool of an application gateway.
+  description: Reference of an ApplicationGatewayBackendAddressPool resource.
   kind: object
   properties:
   - description: Resource that is unique within a resource group. This name can be used to access the resource.
@@ -455,7 +471,7 @@ definitions:
     - uid: string
     name: id
 - name: ApplicationGatewayBackendHttpSettings
-  description: Backend address pool settings of an application gateway.
+  description: Reference of an ApplicationGatewayBackendHttpSettings resource.
   kind: object
   properties:
   - description: Name of the resource that is unique within a resource group. This name can be used to access the resource.
@@ -577,7 +593,7 @@ definitions:
     - uid: string
     name: id
 - name: ApplicationGatewayUrlPathMap
-  description: UrlPathMaps give a url path to the backend mapping information for PathBasedRouting.
+  description: URL path map of the application gateway resource.
   kind: object
   properties:
   - description: Name of the resource that is unique within a resource group. This name can be used to access the resource.
@@ -720,7 +736,7 @@ definitions:
     - uid: string
     name: id
 - name: ApplicationGatewayWebApplicationFirewallConfiguration
-  description: Application gateway web application firewall configuration.
+  description: Web application firewall configuration.
   kind: object
   properties:
   - description: Whether the web application firewall is enabled or not.
@@ -743,16 +759,101 @@ definitions:
     types:
     - uid: ApplicationGatewayFirewallDisabledRuleGroup
     name: disabledRuleGroups
+- name: ApplicationGatewaySkuName
+  description: Name of an application gateway SKU.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Standard_Small
+  - types:
+    - uid: string
+    name: Standard_Medium
+  - types:
+    - uid: string
+    name: Standard_Large
+  - types:
+    - uid: string
+    name: WAF_Medium
+  - types:
+    - uid: string
+    name: WAF_Large
+- name: ApplicationGatewayTier
+  description: Tier of an application gateway.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Standard
+  - types:
+    - uid: string
+    name: WAF
+- name: ApplicationGatewaySslPolicyType
+  description: Type of Ssl Policy
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Predefined
+  - types:
+    - uid: string
+    name: Custom
+- name: ApplicationGatewaySslPolicyName
+  description: Name of Ssl predefined policy
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: AppGwSslPolicy20150501
+  - types:
+    - uid: string
+    name: AppGwSslPolicy20170401
+  - types:
+    - uid: string
+    name: AppGwSslPolicy20170401S
+- name: ApplicationGatewaySslProtocol
+  description: Minimum version of Ssl protocol to be supported on application gateway.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: TLSv1_0
+  - types:
+    - uid: string
+    name: TLSv1_1
+  - types:
+    - uid: string
+    name: TLSv1_2
 - name: SubResource
-  description: Reference to another subresource.
+  description: Collection of references to IPs defined in network interfaces.
   kind: object
   properties:
   - description: Resource ID.
     types:
     - uid: string
     name: id
+- name: IPAllocationMethod
+  description: PrivateIP allocation method.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Static
+  - types:
+    - uid: string
+    name: Dynamic
+- name: ApplicationGatewayProtocol
+  description: Protocol.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Http
+  - types:
+    - uid: string
+    name: Https
 - name: ApplicationGatewayProbeHealthResponseMatch
-  description: Application gateway probe health response match
+  description: Criterion for classifying a healthy probe response.
   kind: object
   properties:
   - description: Body that must be contained in the health response. Default value is empty.
@@ -764,7 +865,7 @@ definitions:
     - uid: string
     name: statusCodes
 - name: ApplicationGatewayBackendAddress
-  description: Backend address of an application gateway.
+  description: Backend addresses
   kind: object
   properties:
   - description: Fully qualified domain name (FQDN).
@@ -775,8 +876,18 @@ definitions:
     types:
     - uid: string
     name: ipAddress
+- name: ApplicationGatewayCookieBasedAffinity
+  description: Cookie based affinity.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Enabled
+  - types:
+    - uid: string
+    name: Disabled
 - name: ApplicationGatewayConnectionDraining
-  description: Connection draining allows open connections to a backend server to be active for a specified time after the backend server got removed from the configuration.
+  description: Connection draining of the backend http settings resource.
   kind: object
   properties:
   - description: Whether connection draining is enabled or not.
@@ -828,8 +939,44 @@ definitions:
     types:
     - uid: string
     name: id
+- name: ApplicationGatewayRequestRoutingRuleType
+  description: Rule type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Basic
+  - types:
+    - uid: string
+    name: PathBasedRouting
+- name: ApplicationGatewayRedirectType
+  description: Supported http redirection types - Permanent, Temporary, Found, SeeOther.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Permanent
+  - types:
+    - uid: string
+    name: Found
+  - types:
+    - uid: string
+    name: SeeOther
+  - types:
+    - uid: string
+    name: Temporary
+- name: ApplicationGatewayFirewallMode
+  description: Web application firewall mode.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Detection
+  - types:
+    - uid: string
+    name: Prevention
 - name: ApplicationGatewayFirewallDisabledRuleGroup
-  description: Allows to disable rules within a rule group or an entire rule group.
+  description: The disabled rule groups.
   kind: object
   properties:
   - description: The name of the rule group that will be disabled.

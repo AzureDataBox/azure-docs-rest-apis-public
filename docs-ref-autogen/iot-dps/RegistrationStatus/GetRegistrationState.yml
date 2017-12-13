@@ -7,7 +7,7 @@ consumes: []
 produces:
 - application/json
 paths:
-- content: GET https://contoso.azure-devices-provisioning.net/registrations/{id}
+- content: GET https://contoso.azure-devices-provisioning.net/registrations/{id}?api-version=2017-11-15
 uriParameters:
 - in: path
   isRequired: true
@@ -15,6 +15,12 @@ uriParameters:
   types:
   - uid: string
   name: id
+- in: query
+  isRequired: true
+  description: 'The API version to use for the request. Supported versions include: 2017-11-15'
+  types:
+  - uid: string
+  name: api-version
 responses:
 - description: Success
   types:
@@ -23,7 +29,7 @@ responses:
 requestHeader: []
 definitions:
 - name: DeviceRegistrationState
-  description: Device registration state.
+  description: Current registration status.
   kind: object
   properties:
   - description: Registration ID.

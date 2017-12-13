@@ -78,7 +78,7 @@ definitions:
     - uid: SkuTier
     name: tier
 - name: RelayNamespace
-  description: Description of a namespace resource.
+  description: Result of the list namespace operation.
   kind: object
   properties:
   - description: SKU of the namespace.
@@ -148,6 +148,96 @@ definitions:
     types:
     - uid: string
     name: message
+- name: RelayUpdateParameters
+  description: Description of a namespace resource.
+  kind: object
+  properties:
+  - description: SKU of the namespace.
+    types:
+    - uid: Sku
+    name: sku
+  - isReadyOnly: true
+    types:
+    - uid: provisioningStateEnum
+    name: properties.provisioningState
+  - isReadyOnly: true
+    description: The time the namespace was created.
+    types:
+    - uid: string
+    name: properties.createdAt
+  - isReadyOnly: true
+    description: The time the namespace was updated.
+    types:
+    - uid: string
+    name: properties.updatedAt
+  - isReadyOnly: true
+    description: Endpoint you can use to perform Service Bus operations.
+    types:
+    - uid: string
+    name: properties.serviceBusEndpoint
+  - isReadyOnly: true
+    description: Identifier for Azure Insights metrics.
+    types:
+    - uid: string
+    name: properties.metricId
+  - description: Resource tags.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+  - isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+- name: SkuName
+  description: Name of this SKU.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Standard
+- name: SkuTier
+  description: The tier of this SKU.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Standard
+- name: provisioningStateEnum
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Created
+  - types:
+    - uid: string
+    name: Succeeded
+  - types:
+    - uid: string
+    name: Deleted
+  - types:
+    - uid: string
+    name: Failed
+  - types:
+    - uid: string
+    name: Updating
+  - types:
+    - uid: string
+    name: Unknown
 examples:
 - request:
     uri: PATCH https://management.azure.com/subscriptions/8c246e6a-cbc6-4a87-aff1-d6a886f376ef/resourceGroups/RG-eg/providers/Microsoft.Relay/namespaces/sdk-RelayNamespace-01?api-version=2017-04-01

@@ -92,7 +92,7 @@ definitions:
     - uid: TaskCountValidationStatus
     name: validationStatus
 - name: BatchError
-  description: An error response received from the Azure Batch service.
+  description: The error encountered while attempting to add the task.
   kind: object
   properties:
   - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
@@ -107,8 +107,20 @@ definitions:
     types:
     - uid: BatchErrorDetail
     name: values
+- name: TaskCountValidationStatus
+  description: Whether the task counts have been validated.
+  kind: enum
+  properties:
+  - description: The Batch service has validated the state counts against the task states as reported in the List Tasks API.
+    types:
+    - uid: string
+    name: validated
+  - description: The Batch service has not been able to check state counts against the task states as reported in the List Tasks API. The validationStatus may be unvalidated if the job contains more than 200,000 tasks.
+    types:
+    - uid: string
+    name: unvalidated
 - name: ErrorMessage
-  description: An error message received in an Azure Batch error response.
+  description: A message describing the error, intended to be suitable for display in a user interface.
   kind: object
   properties:
   - description: The language code of the error message
@@ -120,7 +132,7 @@ definitions:
     - uid: string
     name: value
 - name: BatchErrorDetail
-  description: An item of additional information included in an Azure Batch error response.
+  description: A collection of key-value pairs containing additional details about the error.
   kind: object
   properties:
   - description: An identifier specifying the meaning of the Value property.

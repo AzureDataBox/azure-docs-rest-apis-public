@@ -97,7 +97,7 @@ requestHeader:
   name: If-Unmodified-Since
 definitions:
 - name: BatchError
-  description: An error response received from the Azure Batch service.
+  description: The error encountered while attempting to add the task.
   kind: object
   properties:
   - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
@@ -112,8 +112,16 @@ definitions:
     types:
     - uid: BatchErrorDetail
     name: values
+- name: JobTerminateParameter
+  description: Options when terminating a job.
+  kind: object
+  properties:
+  - description: The text you want to appear as the job's TerminateReason. The default is 'UserTerminate'.
+    types:
+    - uid: string
+    name: terminateReason
 - name: ErrorMessage
-  description: An error message received in an Azure Batch error response.
+  description: A message describing the error, intended to be suitable for display in a user interface.
   kind: object
   properties:
   - description: The language code of the error message
@@ -125,7 +133,7 @@ definitions:
     - uid: string
     name: value
 - name: BatchErrorDetail
-  description: An item of additional information included in an Azure Batch error response.
+  description: A collection of key-value pairs containing additional details about the error.
   kind: object
   properties:
   - description: An identifier specifying the meaning of the Value property.

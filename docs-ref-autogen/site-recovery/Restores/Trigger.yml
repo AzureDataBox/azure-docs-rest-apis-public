@@ -105,6 +105,43 @@ requestBody:
     name: eTag
 requestHeader: []
 definitions:
+- name: RestoreRequestResource
+  description: The base class for a restore request. Workload-specific restore requests are derived from this class.
+  kind: object
+  properties:
+  - description: The base class for restore requests. Workload-specific restore requests are derived from this class.
+    types:
+    - uid: IaasVMRestoreRequest
+    typesTitle: RestoreRequest
+    name: properties
+  - description: Resource ID represents the complete path to the resource.
+    types:
+    - uid: string
+    name: id
+  - description: Resource name associated with the resource.
+    types:
+    - uid: string
+    name: name
+  - description: Resource type represents the complete path of the form Namespace/ResourceType/ResourceType/...
+    types:
+    - uid: string
+    name: type
+  - description: Resource location.
+    types:
+    - uid: string
+    name: location
+  - description: Resource tags.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+  - description: Optional ETag.
+    types:
+    - uid: string
+    name: eTag
 - name: IaasVMRestoreRequest
   description: IaaS VM workload-specific restore.
   kind: object
@@ -175,8 +212,24 @@ definitions:
     - uid: IaasVMRestoreRequest
     typesTitle: string
     name: objectType
+- name: RecoveryType
+  description: The type of this recovery.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Invalid
+  - types:
+    - uid: string
+    name: OriginalLocation
+  - types:
+    - uid: string
+    name: AlternateLocation
+  - types:
+    - uid: string
+    name: RestoreDisks
 - name: EncryptionDetails
-  description: Details needed if the VM was encrypted at the time of backup.
+  description: If the VM was encrypted at the time of backup, these details are needed.
   kind: object
   properties:
   - description: Identifies whether the backup copy represents an encrypted VM at the time of backup.

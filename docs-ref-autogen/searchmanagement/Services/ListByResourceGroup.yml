@@ -144,7 +144,7 @@ definitions:
     name: target
   - description: Contains nested errors that are related to this error.
     types:
-    - uid: CloudErrorBody
+    - uid: Details
     name: details
 - name: Sku
   description: Defines the SKU of an Azure Search Service, which determines price tier and capacity limits.
@@ -154,6 +154,70 @@ definitions:
     types:
     - uid: SkuName
     name: name
+- name: HostingMode
+  description: Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density partitions that allow up to 1000 indexes, which is much higher than the maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either 'default' or 'highDensity'. For all other SKUs, this value must be 'default'.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: default
+  - types:
+    - uid: string
+    name: highDensity
+- name: SearchServiceStatus
+  description: "The status of the Search service. Possible values include: 'running': The Search service is running and no provisioning operations are underway. 'provisioning': The Search service is being provisioned or scaled up or down. 'deleting': The Search service is being deleted. 'degraded': The Search service is degraded. This can occur when the underlying search units are not healthy. The Search service is most likely operational, but performance might be slow and some requests might be dropped. 'disabled': The Search service is disabled. In this state, the service will reject all API requests. 'error': The Search service is in an error state. If your service is in the degraded, disabled, or error states, it means the Azure Search team is actively investigating the underlying issue. Dedicated services in these states are still chargeable based on the number of search units provisioned."
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: running
+  - types:
+    - uid: string
+    name: provisioning
+  - types:
+    - uid: string
+    name: deleting
+  - types:
+    - uid: string
+    name: degraded
+  - types:
+    - uid: string
+    name: disabled
+  - types:
+    - uid: string
+    name: error
+- name: ProvisioningState
+  description: The state of the last provisioning operation performed on the Search service. Provisioning is an intermediate state that occurs while service capacity is being established. After capacity is set up, provisioningState changes to either 'succeeded' or 'failed'. Client applications can poll provisioning status (the recommended polling interval is from 30 seconds to one minute) by using the Get Search Service operation to see when an operation is completed. If you are using the free service, this value tends to come back as 'succeeded' directly in the call to Create Search service. This is because the free service uses capacity that is already set up.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: succeeded
+  - types:
+    - uid: string
+    name: provisioning
+  - types:
+    - uid: string
+    name: failed
+- name: SkuName
+  description: "The SKU of the Search service. Valid values include: 'free': Shared service. 'basic': Dedicated service with up to 3 replicas. 'standard': Dedicated service with up to 12 partitions and 12 replicas. 'standard2': Similar to standard, but with more capacity per search unit. 'standard3': Offers maximum capacity per search unit with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity')."
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: free
+  - types:
+    - uid: string
+    name: basic
+  - types:
+    - uid: string
+    name: standard
+  - types:
+    - uid: string
+    name: standard2
+  - types:
+    - uid: string
+    name: standard3
 examples: []
 security:
 - type: oauth2

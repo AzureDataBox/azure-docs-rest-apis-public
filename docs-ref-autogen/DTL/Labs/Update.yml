@@ -176,6 +176,83 @@ definitions:
     types:
     - uid: CloudErrorBody
     name: error
+- name: LabFragment
+  description: A lab.
+  kind: object
+  properties:
+  - description: Type of storage used by the lab. It can be either Premium or Standard. Default is Premium.
+    types:
+    - uid: StorageType
+    name: properties.labStorageType
+  - description: >-
+      The setting to enable usage of premium data disks.
+
+      When its value is 'Enabled', creation of standard or premium data disks is allowed.
+
+      When its value is 'Disabled', only creation of standard data disks is allowed.
+    types:
+    - uid: PremiumDataDisk
+    name: properties.premiumDataDisks
+  - description: The provisioning status of the resource.
+    types:
+    - uid: string
+    name: properties.provisioningState
+  - description: The unique immutable identifier of a resource (Guid).
+    types:
+    - uid: string
+    name: properties.uniqueIdentifier
+  - isReadyOnly: true
+    description: The identifier of the resource.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+    name: type
+  - description: The location of the resource.
+    types:
+    - uid: string
+    name: location
+  - description: The tags of the resource.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+- name: StorageType
+  description: The storage type for the disk (i.e. Standard, Premium).
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Standard
+  - types:
+    - uid: string
+    name: Premium
+- name: PremiumDataDisk
+  description: >-
+    The setting to enable usage of premium data disks.
+
+    When its value is 'Enabled', creation of standard or premium data disks is allowed.
+
+    When its value is 'Disabled', only creation of standard data disks is allowed.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Disabled
+  - types:
+    - uid: string
+    name: Enabled
 - name: CloudErrorBody
   description: Body of an error from a REST request.
   kind: object
@@ -191,7 +268,7 @@ definitions:
     name: target
   - description: Inner errors.
     types:
-    - uid: CloudErrorBody
+    - uid: Details
     name: details
 examples: []
 security:

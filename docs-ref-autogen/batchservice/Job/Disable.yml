@@ -98,7 +98,7 @@ requestHeader:
   name: If-Unmodified-Since
 definitions:
 - name: BatchError
-  description: An error response received from the Azure Batch service.
+  description: The error encountered while attempting to add the task.
   kind: object
   properties:
   - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
@@ -113,8 +113,16 @@ definitions:
     types:
     - uid: BatchErrorDetail
     name: values
+- name: JobDisableParameter
+  description: Options when disabling a job.
+  kind: object
+  properties:
+  - description: What to do with active tasks associated with the job.
+    types:
+    - uid: DisableJobOption
+    name: disableTasks
 - name: ErrorMessage
-  description: An error message received in an Azure Batch error response.
+  description: A message describing the error, intended to be suitable for display in a user interface.
   kind: object
   properties:
   - description: The language code of the error message
@@ -126,7 +134,7 @@ definitions:
     - uid: string
     name: value
 - name: BatchErrorDetail
-  description: An item of additional information included in an Azure Batch error response.
+  description: A collection of key-value pairs containing additional details about the error.
   kind: object
   properties:
   - description: An identifier specifying the meaning of the Value property.
@@ -137,6 +145,22 @@ definitions:
     types:
     - uid: string
     name: value
+- name: DisableJobOption
+  description: What to do with active tasks associated with the job.
+  kind: enum
+  properties:
+  - description: Terminate running tasks and requeue them. The tasks will run again when the job is enabled.
+    types:
+    - uid: string
+    name: requeue
+  - description: Terminate running tasks. The tasks will be completed with failureInfo indicating that they were terminated, and will not run again.
+    types:
+    - uid: string
+    name: terminate
+  - description: Allow currently running tasks to complete.
+    types:
+    - uid: string
+    name: wait
 examples:
 - request:
     uri: POST https://batch.core.windows.net/jobs/jobId/disable?api-version=2017-09-01.6.0

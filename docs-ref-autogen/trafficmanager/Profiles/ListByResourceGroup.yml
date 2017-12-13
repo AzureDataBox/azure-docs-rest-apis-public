@@ -107,7 +107,7 @@ definitions:
     - uid: string
     name: type
 - name: CloudErrorBody
-  description: The content of an error returned by the Azure Resource Manager
+  description: The content of the error.
   kind: object
   properties:
   - description: Error code
@@ -124,8 +124,34 @@ definitions:
     name: target
   - description: Error details
     types:
-    - uid: CloudErrorBody
+    - uid: Details
     name: details
+- name: ProfileStatus
+  description: The status of the Traffic Manager profile.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Enabled
+  - types:
+    - uid: string
+    name: Disabled
+- name: TrafficRoutingMethod
+  description: The traffic routing method of the Traffic Manager profile.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Performance
+  - types:
+    - uid: string
+    name: Priority
+  - types:
+    - uid: string
+    name: Weighted
+  - types:
+    - uid: string
+    name: Geographic
 - name: DnsConfig
   description: Class containing DNS settings in a Traffic Manager profile.
   kind: object
@@ -230,6 +256,70 @@ definitions:
     types:
     - uid: string
     name: type
+- name: ProfileMonitorStatus
+  description: The profile-level monitoring status of the Traffic Manager profile.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: CheckingEndpoints
+  - types:
+    - uid: string
+    name: Online
+  - types:
+    - uid: string
+    name: Degraded
+  - types:
+    - uid: string
+    name: Disabled
+  - types:
+    - uid: string
+    name: Inactive
+- name: MonitorProtocol
+  description: The protocol (HTTP, HTTPS or TCP) used to probe for endpoint health.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: HTTP
+  - types:
+    - uid: string
+    name: HTTPS
+  - types:
+    - uid: string
+    name: TCP
+- name: EndpointStatus
+  description: The status of the endpoint. If the endpoint is Enabled, it is probed for endpoint health and is included in the traffic routing method.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Enabled
+  - types:
+    - uid: string
+    name: Disabled
+- name: EndpointMonitorStatus
+  description: The monitoring status of the endpoint.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: CheckingEndpoint
+  - types:
+    - uid: string
+    name: Online
+  - types:
+    - uid: string
+    name: Degraded
+  - types:
+    - uid: string
+    name: Disabled
+  - types:
+    - uid: string
+    name: Inactive
+  - types:
+    - uid: string
+    name: Stopped
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/e68d4145-c9ae-4667-925d-c51c8d88ad73/resourceGroups/azuresdkfornetautoresttrafficmanager3640/providers/Microsoft.Network/trafficmanagerprofiles?api-version=2017-05-01

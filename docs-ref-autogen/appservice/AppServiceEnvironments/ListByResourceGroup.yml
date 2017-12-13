@@ -49,7 +49,7 @@ definitions:
     - uid: string
     name: nextLink
 - name: AppServiceEnvironmentResource
-  description: App Service Environment ARM resource.
+  description: Collection of resources.
   kind: object
   properties:
   - description: Name of the App Service Environment.
@@ -249,8 +249,43 @@ definitions:
       - uid: string
       uid: object
     name: tags
+- name: ProvisioningState
+  description: Provisioning state of the App Service Environment.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Succeeded
+  - types:
+    - uid: string
+    name: Failed
+  - types:
+    - uid: string
+    name: Canceled
+  - types:
+    - uid: string
+    name: InProgress
+  - types:
+    - uid: string
+    name: Deleting
+- name: HostingEnvironmentStatus
+  description: Current status of the App Service Environment.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Preparing
+  - types:
+    - uid: string
+    name: Ready
+  - types:
+    - uid: string
+    name: Scaling
+  - types:
+    - uid: string
+    name: Deleting
 - name: VirtualNetworkProfile
-  description: Specification for using a Virtual Network.
+  description: Description of the Virtual Network.
   kind: object
   properties:
   - description: Resource id of the Virtual Network.
@@ -271,8 +306,21 @@ definitions:
     types:
     - uid: string
     name: subnet
+- name: InternalLoadBalancingMode
+  description: Specifies which endpoints to serve internally in the Virtual Network for the App Service Environment.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: None
+  - types:
+    - uid: string
+    name: Web
+  - types:
+    - uid: string
+    name: Publishing
 - name: WorkerPool
-  description: Worker pool of an App Service Environment.
+  description: Description of worker pools with worker size IDs, VM sizes, and number of workers in each pool.
   kind: object
   properties:
   - description: Worker size ID for referencing this worker pool.
@@ -297,7 +345,7 @@ definitions:
     - uid: string
     name: instanceNames
 - name: VirtualIPMapping
-  description: Virtual IP mapping.
+  description: Additional virtual IPs.
   kind: object
   properties:
   - description: Virtual IP address.
@@ -317,7 +365,7 @@ definitions:
     - uid: boolean
     name: inUse
 - name: StampCapacity
-  description: Stamp capacity information.
+  description: Current total, used, and available worker capacities.
   kind: object
   properties:
   - description: Name of the stamp.
@@ -364,7 +412,7 @@ definitions:
     - uid: string
     name: siteMode
 - name: NetworkAccessControlEntry
-  description: Network access control entry.
+  description: Access control list for controlling traffic to the App Service Environment.
   kind: object
   properties:
   - description: Action object.
@@ -384,7 +432,7 @@ definitions:
     - uid: string
     name: remoteSubnet
 - name: NameValuePair
-  description: Name value pair.
+  description: Custom settings for changing the behavior of the App Service Environment.
   kind: object
   properties:
   - description: Pair name.
@@ -395,6 +443,54 @@ definitions:
     types:
     - uid: string
     name: value
+- name: ComputeModeOptions
+  description: Shared or dedicated app hosting.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Shared
+  - types:
+    - uid: string
+    name: Dedicated
+  - types:
+    - uid: string
+    name: Dynamic
+- name: WorkerSizeOptions
+  description: Size of the machines.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Default
+  - types:
+    - uid: string
+    name: Small
+  - types:
+    - uid: string
+    name: Medium
+  - types:
+    - uid: string
+    name: Large
+  - types:
+    - uid: string
+    name: D1
+  - types:
+    - uid: string
+    name: D2
+  - types:
+    - uid: string
+    name: D3
+- name: AccessControlEntryAction
+  description: Action object.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Permit
+  - types:
+    - uid: string
+    name: Deny
 examples: []
 security:
 - type: oauth2

@@ -186,7 +186,7 @@ definitions:
     - uid: integer
     name: updated
 - name: Error
-  description: The key vault server error.
+  description: Error encountered, if any, during the certificate operation.
   kind: object
   properties:
   - isReadyOnly: true
@@ -199,12 +199,61 @@ definitions:
     types:
     - uid: string
     name: message
-  - isReadyOnly: true
-    description: The key vault server error.
-    types:
-    - uid: Error
+  - types:
+    - {}
     name: innererror
+- name: JsonWebKeyType
+  description: JsonWebKey key type (kty).
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: EC
+  - types:
+    - uid: string
+    name: EC-HSM
+  - types:
+    - uid: string
+    name: RSA
+  - types:
+    - uid: string
+    name: RSA-HSM
+  - types:
+    - uid: string
+    name: oct
+- name: JsonWebKeyCurveName
+  description: Elliptic curve name. For valid values, see JsonWebKeyCurveName.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: P-256
+  - types:
+    - uid: string
+    name: P-384
+  - types:
+    - uid: string
+    name: P-521
+  - types:
+    - uid: string
+    name: SECP256K1
+- name: DeletionRecoveryLevel
+  description: Reflects the deletion recovery level currently in effect for keys in the current vault. If it contains 'Purgeable' the key can be permanently deleted by a privileged user; otherwise, only the system can purge the key, at the end of the retention interval.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Purgeable
+  - types:
+    - uid: string
+    name: Recoverable+Purgeable
+  - types:
+    - uid: string
+    name: Recoverable
+  - types:
+    - uid: string
+    name: Recoverable+ProtectedSubscription
 examples: []
 security: []
 name: GetDeletedKey
-uid: .keyvault.getdeletedkey.getdeletedkey
+uid: keyvault.getdeletedkey.getdeletedkey

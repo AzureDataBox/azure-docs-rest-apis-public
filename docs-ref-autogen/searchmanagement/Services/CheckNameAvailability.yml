@@ -82,6 +82,28 @@ definitions:
     types:
     - uid: CloudErrorBody
     name: error
+- name: CheckNameAvailabilityInput
+  description: Input of check name availability API.
+  kind: object
+  properties:
+  - description: The Search service name to validate. Search service names must only contain lowercase letters, digits or dashes, cannot use dash as the first two or last one characters, cannot contain consecutive dashes, and must be between 2 and 60 characters in length.
+    types:
+    - uid: string
+    name: name
+  - description: The type of the resource whose name is to be validated. This value must always be 'searchServices'.
+    types:
+    - uid: ResourceType
+    name: type
+- name: UnavailableNameReason
+  description: The reason why the name is not available. 'Invalid' indicates the name provided does not match the naming requirements (incorrect length, unsupported characters, etc.). 'AlreadyExists' indicates that the name is already in use and is therefore unavailable.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Invalid
+  - types:
+    - uid: string
+    name: AlreadyExists
 - name: CloudErrorBody
   description: Describes a particular API error with an error code and a message.
   kind: object
@@ -100,8 +122,15 @@ definitions:
     name: target
   - description: Contains nested errors that are related to this error.
     types:
-    - uid: CloudErrorBody
+    - uid: Details
     name: details
+- name: ResourceType
+  description: The type of the resource whose name is to be validated. This value must always be 'searchServices'.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: searchServices
 examples: []
 security:
 - type: oauth2

@@ -50,7 +50,7 @@ responses:
 requestHeader: []
 definitions:
 - name: RecoveryPlan
-  description: Recovery plan details.
+  description: The list of recovery plans.
   kind: object
   properties:
   - description: The custom details.
@@ -77,7 +77,7 @@ definitions:
     - uid: string
     name: location
 - name: RecoveryPlanProperties
-  description: Recovery plan custom details.
+  description: The custom details.
   kind: object
   properties:
   - description: The friendly name.
@@ -141,7 +141,7 @@ definitions:
     - uid: RecoveryPlanGroup
     name: groups
 - name: CurrentScenarioDetails
-  description: Current scenario details of the protected entity.
+  description: The current scenario details.
   kind: object
   properties:
   - description: Scenario name.
@@ -157,7 +157,7 @@ definitions:
     - uid: string
     name: startTime
 - name: RecoveryPlanGroup
-  description: Recovery plan group details.
+  description: The recovery plan groups.
   kind: object
   properties:
   - description: The group type.
@@ -176,8 +176,21 @@ definitions:
     types:
     - uid: RecoveryPlanAction
     name: endGroupActions
+- name: RecoveryPlanGroupType
+  description: The group type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Shutdown
+  - types:
+    - uid: string
+    name: Boot
+  - types:
+    - uid: string
+    name: Failover
 - name: RecoveryPlanProtectedItem
-  description: Recovery plan protected item.
+  description: The list of protected items.
   kind: object
   properties:
   - description: The ARM Id of the recovery plan protected item.
@@ -189,7 +202,7 @@ definitions:
     - uid: string
     name: virtualMachineId
 - name: RecoveryPlanAction
-  description: Recovery plan action details.
+  description: The start group actions.
   kind: object
   properties:
   - description: The action name.
@@ -269,6 +282,16 @@ definitions:
     - uid: ManualActionDetails
     typesTitle: string
     name: instanceType
+- name: RecoveryPlanActionLocation
+  description: The fabric location.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Primary
+  - types:
+    - uid: string
+    name: Recovery
 examples:
 - request:
     uri: POST https://management.azure.com/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationRecoveryPlans/RPtest1/reProtect?api-version=2016-08-10

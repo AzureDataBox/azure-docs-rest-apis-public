@@ -99,7 +99,6 @@ definitions:
     - uid: string
     name: filePath
 - name: PacketCaptureFilter
-  description: Filter that is applied to packet capture request. Multiple filters can be applied.
   kind: object
   properties:
   - description: Protocol to be filtered on.
@@ -123,7 +122,7 @@ definitions:
     - uid: string
     name: remotePort
 - name: PacketCaptureResult
-  description: Information about packet capture session.
+  description: Information about packet capture sessions.
   kind: object
   properties:
   - isReadyOnly: true
@@ -166,6 +165,62 @@ definitions:
   - types:
     - uid: PacketCaptureFilter
     name: properties.filters
+- name: PacketCapture
+  description: Parameters that define the create packet capture operation.
+  kind: object
+  properties:
+  - description: The ID of the targeted resource, only VM is currently supported.
+    types:
+    - uid: string
+    name: properties.target
+  - description: Number of bytes captured per packet, the remaining bytes are truncated.
+    types:
+    - uid: integer
+    name: properties.bytesToCapturePerPacket
+  - description: Maximum size of the capture output.
+    types:
+    - uid: integer
+    name: properties.totalBytesPerSession
+  - description: Maximum duration of the capture session in seconds.
+    types:
+    - uid: integer
+    name: properties.timeLimitInSeconds
+  - description: Describes the storage location for a packet capture session.
+    types:
+    - uid: PacketCaptureStorageLocation
+    name: properties.storageLocation
+  - types:
+    - uid: PacketCaptureFilter
+    name: properties.filters
+- name: PcProtocol
+  description: Protocol to be filtered on.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: TCP
+  - types:
+    - uid: string
+    name: UDP
+  - types:
+    - uid: string
+    name: Any
+- name: ProvisioningState
+  description: The provisioning state of the resource.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Succeeded
+  - types:
+    - uid: string
+    name: Updating
+  - types:
+    - uid: string
+    name: Deleting
+  - types:
+    - uid: string
+    name: Failed
 examples: []
 security:
 - type: oauth2

@@ -264,8 +264,18 @@ definitions:
     types:
     - uid: ReadOnlyEndpointFailoverPolicy
     name: failoverPolicy
+- name: FailoverGroupReplicationRole
+  description: Local replication role of the failover group instance.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Primary
+  - types:
+    - uid: string
+    name: Secondary
 - name: PartnerInfo
-  description: Partner server information for the failover group.
+  description: List of partner server information for the failover group.
   kind: object
   properties:
   - description: Resource identifier of the partner server.
@@ -282,6 +292,26 @@ definitions:
     types:
     - uid: FailoverGroupReplicationRole
     name: replicationRole
+- name: ReadWriteEndpointFailoverPolicy
+  description: Failover policy of the read-write endpoint for the failover group. If failoverPolicy is Automatic then failoverWithDataLossGracePeriodMinutes is required.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Manual
+  - types:
+    - uid: string
+    name: Automatic
+- name: ReadOnlyEndpointFailoverPolicy
+  description: Failover policy of the read-only endpoint for the failover group.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Disabled
+  - types:
+    - uid: string
+    name: Enabled
 examples:
 - request:
     uri: POST https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/failover-group-secondary-server/failoverGroups/failover-group-test-3/failover?api-version=2015-05-01-preview

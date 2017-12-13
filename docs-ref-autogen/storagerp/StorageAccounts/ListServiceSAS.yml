@@ -146,6 +146,136 @@ definitions:
     types:
     - uid: string
     name: serviceSasToken
+- name: ServiceSasParameters
+  description: The parameters to list service SAS credentials of a speicific resource.
+  kind: object
+  properties:
+  - description: The canonical path to the signed resource.
+    types:
+    - uid: string
+    name: canonicalizedResource
+  - description: 'The signed services accessible with the service SAS. Possible values include: Blob (b), Container (c), File (f), Share (s).'
+    types:
+    - uid: signedResource
+    name: signedResource
+  - description: 'The signed permissions for the service SAS. Possible values include: Read (r), Write (w), Delete (d), List (l), Add (a), Create (c), Update (u) and Process (p).'
+    types:
+    - uid: Permissions
+    name: signedPermission
+  - description: An IP address or a range of IP addresses from which to accept requests.
+    types:
+    - uid: string
+    name: signedIp
+  - description: The protocol permitted for a request made with the account SAS.
+    types:
+    - uid: HttpProtocol
+    name: signedProtocol
+  - description: The time at which the SAS becomes valid.
+    types:
+    - uid: string
+    name: signedStart
+  - description: The time at which the shared access signature becomes invalid.
+    types:
+    - uid: string
+    name: signedExpiry
+  - description: A unique value up to 64 characters in length that correlates to an access policy specified for the container, queue, or table.
+    types:
+    - uid: string
+    name: signedIdentifier
+  - description: The start of partition key.
+    types:
+    - uid: string
+    name: startPk
+  - description: The end of partition key.
+    types:
+    - uid: string
+    name: endPk
+  - description: The start of row key.
+    types:
+    - uid: string
+    name: startRk
+  - description: The end of row key.
+    types:
+    - uid: string
+    name: endRk
+  - description: The key to sign the account SAS token with.
+    types:
+    - uid: string
+    name: keyToSign
+  - description: The response header override for cache control.
+    types:
+    - uid: string
+    name: rscc
+  - description: The response header override for content disposition.
+    types:
+    - uid: string
+    name: rscd
+  - description: The response header override for content encoding.
+    types:
+    - uid: string
+    name: rsce
+  - description: The response header override for content language.
+    types:
+    - uid: string
+    name: rscl
+  - description: The response header override for content type.
+    types:
+    - uid: string
+    name: rsct
+- name: signedResource
+  description: 'The signed services accessible with the service SAS. Possible values include: Blob (b), Container (c), File (f), Share (s).'
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: b
+  - types:
+    - uid: string
+    name: c
+  - types:
+    - uid: string
+    name: f
+  - types:
+    - uid: string
+    name: s
+- name: Permissions
+  description: 'The signed permissions for the account SAS. Possible values include: Read (r), Write (w), Delete (d), List (l), Add (a), Create (c), Update (u) and Process (p).'
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: r
+  - types:
+    - uid: string
+    name: d
+  - types:
+    - uid: string
+    name: w
+  - types:
+    - uid: string
+    name: l
+  - types:
+    - uid: string
+    name: a
+  - types:
+    - uid: string
+    name: c
+  - types:
+    - uid: string
+    name: u
+  - types:
+    - uid: string
+    name: p
+- name: HttpProtocol
+  description: The protocol permitted for a request made with the account SAS.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: https,http
+  - types:
+    - uid: string
+    name: https
 examples:
 - request:
     uri: POST https://management.azure.com/subscriptions/27de630f-e1ee-42de-8849-90def4986454/resourceGroups/res7439/providers/Microsoft.Storage/storageAccounts/sto1299/ListServiceSas?api-version=2017-06-01

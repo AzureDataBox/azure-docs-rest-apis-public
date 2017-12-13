@@ -87,7 +87,7 @@ definitions:
     - uid: SubtaskInformation
     name: value
 - name: BatchError
-  description: An error response received from the Azure Batch service.
+  description: The error encountered while attempting to add the task.
   kind: object
   properties:
   - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
@@ -155,7 +155,7 @@ definitions:
     - uid: TaskExecutionResult
     name: result
 - name: ErrorMessage
-  description: An error message received in an Azure Batch error response.
+  description: A message describing the error, intended to be suitable for display in a user interface.
   kind: object
   properties:
   - description: The language code of the error message
@@ -167,7 +167,7 @@ definitions:
     - uid: string
     name: value
 - name: BatchErrorDetail
-  description: An item of additional information included in an Azure Batch error response.
+  description: A collection of key-value pairs containing additional details about the error.
   kind: object
   properties:
   - description: An identifier specifying the meaning of the Value property.
@@ -243,7 +243,7 @@ definitions:
     - uid: NameValuePair
     name: details
 - name: SubtaskState
-  description: The state of the subtask.
+  description: The current state of the subtask.
   kind: enum
   properties:
   - description: The task has been assigned to a compute node, but is waiting for a required Job Preparation task to complete on the node. If the Job Preparation task succeeds, the task will move to running. If the Job Preparation task fails, the task will return to active and will be eligible to be assigned to a different node.
@@ -259,7 +259,7 @@ definitions:
     - uid: string
     name: completed
 - name: TaskExecutionResult
-  description: The result of task execution.
+  description: If the value is 'failed', then the details of the failure can be found in the failureInfo property.
   kind: enum
   properties:
   - description: The task ran successfully.
@@ -271,7 +271,7 @@ definitions:
     - uid: string
     name: failure
 - name: ErrorCategory
-  description: The category of the error.
+  description: The category of the job scheduling error.
   kind: enum
   properties:
   - description: The error is due to a user issue, such as misconfiguration.

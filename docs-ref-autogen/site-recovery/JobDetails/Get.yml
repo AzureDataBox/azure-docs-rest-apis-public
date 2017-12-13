@@ -48,7 +48,7 @@ responses:
 requestHeader: []
 definitions:
 - name: JobResource
-  description: Defines the workload-agnostic properties for a job.
+  description: List of resources.
   kind: object
   properties:
   - description: Defines workload-agnostic properties for a job.
@@ -278,7 +278,7 @@ definitions:
     typesTitle: string
     name: jobType
 - name: AzureIaaSVMErrorInfo
-  description: Azure IaaS VM workload-specific error information.
+  description: Error details about this job.
   kind: object
   properties:
   - description: Error code.
@@ -298,7 +298,7 @@ definitions:
     - uid: string
     name: recommendations
 - name: AzureIaaSVMJobExtendedInfo
-  description: Additional information for the Azure IaaS VM workload-specific job.
+  description: Additional information for this job.
   kind: object
   properties:
   - description: List of tasks associated with this job.
@@ -321,8 +321,30 @@ definitions:
     types:
     - uid: string
     name: dynamicErrorMessage
+- name: BackupManagementType
+  description: The backup management type for the current job.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Invalid
+  - types:
+    - uid: string
+    name: AzureIaasVM
+  - types:
+    - uid: string
+    name: MAB
+  - types:
+    - uid: string
+    name: DPM
+  - types:
+    - uid: string
+    name: AzureBackupServer
+  - types:
+    - uid: string
+    name: AzureSql
 - name: DpmErrorInfo
-  description: DPM workload-specific error information.
+  description: The errors.
   kind: object
   properties:
   - description: Localized error string.
@@ -334,7 +356,7 @@ definitions:
     - uid: string
     name: recommendations
 - name: DpmJobExtendedInfo
-  description: Additional information on the DPM workload-specific job.
+  description: Additional information for this job.
   kind: object
   properties:
   - description: List of tasks associated with this job.
@@ -353,8 +375,73 @@ definitions:
     types:
     - uid: string
     name: dynamicErrorMessage
+- name: MabServerType
+  description: Server type of the Azure Backup Server container.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Invalid
+  - types:
+    - uid: string
+    name: Unknown
+  - types:
+    - uid: string
+    name: IaasVMContainer
+  - types:
+    - uid: string
+    name: IaasVMServiceContainer
+  - types:
+    - uid: string
+    name: DPMContainer
+  - types:
+    - uid: string
+    name: DPMVenusContainer
+  - types:
+    - uid: string
+    name: MABContainer
+  - types:
+    - uid: string
+    name: ClusterResource
+  - types:
+    - uid: string
+    name: AzureSqlContainer
+  - types:
+    - uid: string
+    name: WindowsServer
+  - types:
+    - uid: string
+    name: Windows
+- name: WorkloadType
+  description: Workload type of backup item.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Invalid
+  - types:
+    - uid: string
+    name: VM
+  - types:
+    - uid: string
+    name: FileFolder
+  - types:
+    - uid: string
+    name: AzureSqlDb
+  - types:
+    - uid: string
+    name: SQLDB
+  - types:
+    - uid: string
+    name: Exchange
+  - types:
+    - uid: string
+    name: Sharepoint
+  - types:
+    - uid: string
+    name: DPMUnknown
 - name: MabErrorInfo
-  description: Azure Backup Server workload-specific error information.
+  description: The errors.
   kind: object
   properties:
   - description: Localized error string.
@@ -366,7 +453,7 @@ definitions:
     - uid: string
     name: recommendations
 - name: MabJobExtendedInfo
-  description: Additional information for the Azure Backup Server workload-specific job.
+  description: Additional information on the job.
   kind: object
   properties:
   - description: List of tasks for this job.
@@ -386,7 +473,7 @@ definitions:
     - uid: string
     name: dynamicErrorMessage
 - name: AzureIaaSVMJobTaskDetails
-  description: Azure IaaS VM workload-specific job task details.
+  description: List of tasks associated with this job.
   kind: object
   properties:
   - description: The task display name.
@@ -418,7 +505,7 @@ definitions:
     - uid: number
     name: progressPercentage
 - name: DpmJobTaskDetails
-  description: DPM workload-specific job task details.
+  description: List of tasks associated with this job.
   kind: object
   properties:
   - description: The task display name.
@@ -442,7 +529,7 @@ definitions:
     - uid: string
     name: status
 - name: MabJobTaskDetails
-  description: Azure Backup Server workload-specific job task details.
+  description: List of tasks for this job.
   kind: object
   properties:
   - description: The task display name.

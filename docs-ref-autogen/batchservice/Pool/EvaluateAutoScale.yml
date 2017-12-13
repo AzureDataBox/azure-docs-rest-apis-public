@@ -94,7 +94,7 @@ definitions:
     - uid: AutoScaleRunError
     name: error
 - name: BatchError
-  description: An error response received from the Azure Batch service.
+  description: The error encountered while attempting to add the task.
   kind: object
   properties:
   - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
@@ -109,6 +109,14 @@ definitions:
     types:
     - uid: BatchErrorDetail
     name: values
+- name: PoolEvaluateAutoScaleParameter
+  description: Options for evaluating an automatic scaling formula on a pool.
+  kind: object
+  properties:
+  - description: The formula is validated and its results calculated, but it is not applied to the pool. To apply the formula to the pool, 'Enable automatic scaling on a pool'. For more information about specifying this formula, see Automatically scale compute nodes in an Azure Batch pool (https://azure.microsoft.com/en-us/documentation/articles/batch-automatic-scaling).
+    types:
+    - uid: string
+    name: autoScaleFormula
 - name: AutoScaleRunError
   description: An error that occurred when executing or evaluating a pool autoscale formula.
   kind: object
@@ -126,7 +134,7 @@ definitions:
     - uid: NameValuePair
     name: values
 - name: ErrorMessage
-  description: An error message received in an Azure Batch error response.
+  description: A message describing the error, intended to be suitable for display in a user interface.
   kind: object
   properties:
   - description: The language code of the error message
@@ -138,7 +146,7 @@ definitions:
     - uid: string
     name: value
 - name: BatchErrorDetail
-  description: An item of additional information included in an Azure Batch error response.
+  description: A collection of key-value pairs containing additional details about the error.
   kind: object
   properties:
   - description: An identifier specifying the meaning of the Value property.

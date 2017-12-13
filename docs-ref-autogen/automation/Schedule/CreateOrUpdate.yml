@@ -196,6 +196,42 @@ definitions:
     types:
     - uid: string
     name: message
+- name: ScheduleCreateOrUpdateParameters
+  description: The parameters supplied to the create or update schedule operation.
+  kind: object
+  properties:
+  - description: Gets or sets the name of the schedule.
+    types:
+    - uid: string
+    name: name
+  - description: Gets or sets the description of the schedule.
+    types:
+    - uid: string
+    name: properties.description
+  - description: Gets or sets the start time of the schedule.
+    types:
+    - uid: string
+    name: properties.startTime
+  - description: Gets or sets the end time of the schedule.
+    types:
+    - uid: string
+    name: properties.expiryTime
+  - description: Gets or sets the interval of the schedule.
+    types:
+    - {}
+    name: properties.interval
+  - description: Gets or sets the frequency of the schedule.
+    types:
+    - uid: ScheduleFrequency
+    name: properties.frequency
+  - description: Gets or sets the time zone of the schedule.
+    types:
+    - uid: string
+    name: properties.timeZone
+  - description: Gets or sets the AdvancedSchedule.
+    types:
+    - uid: AdvancedSchedule
+    name: properties.advancedSchedule
 - name: AdvancedScheduleMonthlyOccurrence
   description: The properties of the create advanced schedule monthly occurrence.
   kind: object
@@ -208,6 +244,50 @@ definitions:
     types:
     - uid: ScheduleDay
     name: day
+- name: ScheduleFrequency
+  description: Gets or sets the frequency of the schedule.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: OneTime
+  - types:
+    - uid: string
+    name: Day
+  - types:
+    - uid: string
+    name: Hour
+  - types:
+    - uid: string
+    name: Week
+  - types:
+    - uid: string
+    name: Month
+- name: ScheduleDay
+  description: Day of the occurrence. Must be one of monday, tuesday, wednesday,thursday, friday, saturday, sunday.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Monday
+  - types:
+    - uid: string
+    name: Tuesday
+  - types:
+    - uid: string
+    name: Wednesday
+  - types:
+    - uid: string
+    name: Thursday
+  - types:
+    - uid: string
+    name: Friday
+  - types:
+    - uid: string
+    name: Saturday
+  - types:
+    - uid: string
+    name: Sunday
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/schedules/mySchedule?api-version=2015-10-31

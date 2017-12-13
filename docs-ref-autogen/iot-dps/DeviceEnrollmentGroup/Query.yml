@@ -8,8 +8,14 @@ consumes:
 produces:
 - application/json
 paths:
-- content: POST https://contoso.azure-devices-provisioning.net/enrollmentGroups/query
-uriParameters: []
+- content: POST https://contoso.azure-devices-provisioning.net/enrollmentGroups/query?api-version=2017-11-15
+uriParameters:
+- in: query
+  isRequired: true
+  description: 'The API version to use for the request. Supported versions include: 2017-11-15'
+  types:
+  - uid: string
+  name: api-version
 responses:
 - headers:
   - value: string
@@ -71,8 +77,16 @@ definitions:
     types:
     - uid: string
     name: lastUpdatedDateTimeUtc
+- name: QuerySpecification
+  description: A Json query request
+  kind: object
+  properties:
+  - description: The query.
+    types:
+    - uid: string
+    name: query
 - name: AttestationMechanism
-  description: Device attestation method.
+  description: Attestation method used by the device.
   kind: object
   properties:
   - types:
@@ -90,7 +104,7 @@ definitions:
     - uid: X509Attestation
     name: x509
 - name: InitialTwin
-  description: Initial device twin. Contains a subset of the properties of Twin.
+  description: Initial device twin.
   kind: object
   properties:
   - description: Twin tags.
@@ -128,6 +142,7 @@ definitions:
     - uid: X509CAReferences
     name: caReferences
 - name: TwinCollection
+  description: Twin tags.
   kind: object
   properties:
   - types:
@@ -140,6 +155,7 @@ definitions:
     - uid: Metadata
     name: metadata
 - name: InitialTwinProperties
+  description: Twin desired properties.
   kind: object
   properties:
   - description: Gets and sets the InitialTwin desired properties.

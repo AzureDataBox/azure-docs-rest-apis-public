@@ -95,6 +95,26 @@ definitions:
     types:
     - uid: ErrorFieldContract
     name: details
+- name: GroupUpdateParameters
+  description: Parameters supplied to the Update Group operation.
+  kind: object
+  properties:
+  - description: Group name.
+    types:
+    - uid: string
+    name: properties.displayName
+  - description: Group description.
+    types:
+    - uid: string
+    name: properties.description
+  - description: Group type.
+    types:
+    - uid: GroupType
+    name: properties.type
+  - description: Identifier of the external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null.
+    types:
+    - uid: string
+    name: properties.externalId
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
@@ -111,6 +131,19 @@ definitions:
     types:
     - uid: string
     name: target
+- name: GroupType
+  description: Group type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: custom
+  - types:
+    - uid: string
+    name: system
+  - types:
+    - uid: string
+    name: external
 examples:
 - request:
     uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/groups/tempgroup?api-version=2017-03-01

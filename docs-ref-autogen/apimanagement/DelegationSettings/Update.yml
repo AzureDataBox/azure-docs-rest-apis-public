@@ -73,7 +73,7 @@ requestHeader:
   name: If-Match
 definitions:
 - name: SubscriptionsDelegationSettingsProperties
-  description: Subscriptions delegation settings properties.
+  description: Subscriptions delegation settings.
   kind: object
   properties:
   - description: Enable or disable delegation for subscriptions.
@@ -81,7 +81,7 @@ definitions:
     - uid: boolean
     name: enabled
 - name: RegistrationDelegationSettingsProperties
-  description: User registration delegation settings properties.
+  description: User registration delegation settings.
   kind: object
   properties:
   - description: Enable or disable delegation for user registration.
@@ -104,6 +104,41 @@ definitions:
     types:
     - uid: ErrorFieldContract
     name: details
+- name: PortalDelegationSettings
+  description: Delegation settings for a developer portal.
+  kind: object
+  properties:
+  - description: A delegation Url.
+    types:
+    - uid: string
+    name: properties.url
+  - description: A base64-encoded validation key to validate, that a request is coming from Azure API Management.
+    types:
+    - uid: string
+    name: properties.validationKey
+  - description: Subscriptions delegation settings.
+    types:
+    - uid: SubscriptionsDelegationSettingsProperties
+    name: properties.subscriptions
+  - description: User registration delegation settings.
+    types:
+    - uid: RegistrationDelegationSettingsProperties
+    name: properties.userRegistration
+  - isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type for API Management resource.
+    types:
+    - uid: string
+    name: type
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object

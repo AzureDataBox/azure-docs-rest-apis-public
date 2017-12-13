@@ -160,6 +160,42 @@ definitions:
     types:
     - uid: string
     name: type
+- name: ServerForCreate
+  description: Represents a server to be created.
+  kind: object
+  properties:
+  - description: The SKU (pricing tier) of the server.
+    types:
+    - uid: Sku
+    name: sku
+  - description: Properties of the server.
+    types:
+    - uid: ServerPropertiesForDefaultCreate
+    - uid: ServerPropertiesForRestore
+    typesTitle: ServerPropertiesForCreate
+    name: properties
+  - description: The location the resource resides in.
+    types:
+    - uid: string
+    name: location
+  - description: Application-specific metadata in the form of key-value pairs.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+- name: SkuTier
+  description: The tier of the particular SKU, e.g. Basic.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Basic
+  - types:
+    - uid: string
+    name: Standard
 - name: ServerPropertiesForDefaultCreate
   description: The properties used to create a new server.
   kind: object
@@ -228,6 +264,29 @@ definitions:
   - types:
     - uid: string
     name: "9.6"
+- name: SslEnforcementEnum
+  description: Enable ssl enforcement or not when connect to server.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Enabled
+  - types:
+    - uid: string
+    name: Disabled
+- name: ServerState
+  description: A state of a server that is visible to user.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Ready
+  - types:
+    - uid: string
+    name: Dropping
+  - types:
+    - uid: string
+    name: Disabled
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforPostgreSQL/servers/testserver?api-version=2017-04-30-preview

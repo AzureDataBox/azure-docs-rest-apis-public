@@ -77,7 +77,7 @@ definitions:
     - uid: CloudErrorBody
     name: error
 - name: Schedule
-  description: A schedule.
+  description: The auto-shutdown schedule, if one has been set at the lab or lab resource level.
   kind: object
   properties:
   - description: The status of the schedule (i.e. Enabled, Disabled)
@@ -167,10 +167,20 @@ definitions:
     name: target
   - description: Inner errors.
     types:
-    - uid: CloudErrorBody
+    - uid: Details
     name: details
+- name: EnableStatus
+  description: The status of the schedule (i.e. Enabled, Disabled)
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Enabled
+  - types:
+    - uid: string
+    name: Disabled
 - name: WeekDetails
-  description: Properties of a weekly schedule.
+  description: If the schedule will occur only some days of the week, specify the weekly recurrence.
   kind: object
   properties:
   - description: The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).
@@ -182,7 +192,7 @@ definitions:
     - uid: string
     name: time
 - name: DayDetails
-  description: Properties of a daily schedule.
+  description: If the schedule will occur once each day of the week, specify the daily recurrence.
   kind: object
   properties:
   - description: The time of day the schedule will occur.
@@ -190,7 +200,7 @@ definitions:
     - uid: string
     name: time
 - name: HourDetails
-  description: Properties of an hourly schedule.
+  description: If the schedule will occur multiple times a day, specify the hourly recurrence.
   kind: object
   properties:
   - description: Minutes of the hour the schedule will run.
@@ -198,7 +208,7 @@ definitions:
     - uid: integer
     name: minute
 - name: NotificationSettings
-  description: Notification settings for a schedule.
+  description: Notification settings.
   kind: object
   properties:
   - description: If notifications are enabled for this schedule (i.e. Enabled, Disabled).
@@ -213,6 +223,16 @@ definitions:
     types:
     - uid: string
     name: webhookUrl
+- name: NotificationStatus
+  description: If notifications are enabled for this schedule (i.e. Enabled, Disabled).
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Disabled
+  - types:
+    - uid: string
+    name: Enabled
 examples: []
 security:
 - type: oauth2

@@ -117,8 +117,24 @@ definitions:
       - uid: string
       uid: object
     name: tags
+- name: CommitmentPlanPatchPayload
+  description: The properties of a commitment plan which may be updated via PATCH.
+  kind: object
+  properties:
+  - description: User-defined tags for the commitment plan.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+  - description: The commitment plan SKU.
+    types:
+    - uid: ResourceSku
+    name: sku
 - name: CommitmentPlanProperties
-  description: Properties of an Azure ML commitment plan.
+  description: The commitment plan properties.
   kind: object
   properties:
   - isReadyOnly: true
@@ -175,6 +191,38 @@ definitions:
     types:
     - uid: boolean
     name: suspendPlanOnOverage
+- name: IncludedQuantities
+  description: The included resource quantities this plan gives you.
+  kind: object
+  properties:
+  - description: Represents the quantity a commitment plan provides of a metered resource.
+    types:
+    - uid: PlanQuantity
+    name: ''
+- name: PlanQuantity
+  description: Represents the quantity a commitment plan provides of a metered resource.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The quantity added to the commitment plan at an interval specified by its allowance frequency.
+    types:
+    - uid: number
+    name: allowance
+  - isReadyOnly: true
+    description: The quantity available to the plan the last time usage was calculated.
+    types:
+    - uid: number
+    name: amount
+  - isReadyOnly: true
+    description: The Azure meter for usage against included quantities.
+    types:
+    - uid: string
+    name: includedQuantityMeter
+  - isReadyOnly: true
+    description: The Azure meter for usage which exceeds included quantities.
+    types:
+    - uid: string
+    name: overageMeter
 examples: []
 security: []
 name: Patch

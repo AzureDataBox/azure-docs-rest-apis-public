@@ -49,7 +49,31 @@ requestBody:
     - uid: KeyKind
     name: keyKind
 requestHeader: []
-definitions: []
+definitions:
+- name: DatabaseAccountRegenerateKeyParameters
+  description: Parameters to regenerate the keys within the database account.
+  kind: object
+  properties:
+  - description: The access key to regenerate.
+    types:
+    - uid: KeyKind
+    name: keyKind
+- name: KeyKind
+  description: The access key to regenerate.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: primary
+  - types:
+    - uid: string
+    name: secondary
+  - types:
+    - uid: string
+    name: primaryReadonly
+  - types:
+    - uid: string
+    name: secondaryReadonly
 examples:
 - request:
     uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1/regenerateKey?api-version=2015-04-08

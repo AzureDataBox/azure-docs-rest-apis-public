@@ -105,7 +105,7 @@ requestHeader:
   name: If-Match
 definitions:
 - name: BackendProperties
-  description: Properties specific to the Backend Type.
+  description: Backend Properties contract
   kind: object
   properties:
   - description: Backend Service Fabric Cluster Properties
@@ -113,7 +113,7 @@ definitions:
     - uid: BackendServiceFabricClusterProperties
     name: serviceFabricCluster
 - name: BackendCredentialsContract
-  description: Details of the Credentials used to connect to Backend.
+  description: Backend Credentials Contract Properties
   kind: object
   properties:
   - description: List of Client Certificate Thumbprint.
@@ -141,7 +141,7 @@ definitions:
     - uid: BackendAuthorizationHeaderCredentials
     name: authorization
 - name: BackendProxyContract
-  description: Details of the Backend WebProxy Server to use in the Request to Backend.
+  description: Backend Proxy Contract Properties
   kind: object
   properties:
   - description: WebProxy Server AbsoluteUri property which includes the entire URI stored in the Uri instance, including all fragments and query strings.
@@ -157,7 +157,7 @@ definitions:
     - uid: string
     name: password
 - name: BackendTlsProperties
-  description: Properties controlling TLS Certificate Validation.
+  description: Backend TLS Properties
   kind: object
   properties:
   - description: Flag indicating whether SSL certificate chain validation should be done when using self-signed certificates for this backend host.
@@ -184,8 +184,48 @@ definitions:
     types:
     - uid: ErrorFieldContract
     name: details
+- name: BackendUpdateParameters
+  description: Backend update parameters.
+  kind: object
+  properties:
+  - description: Runtime Url of the Backend.
+    types:
+    - uid: string
+    name: properties.url
+  - description: Backend communication protocol.
+    types:
+    - uid: BackendProtocol
+    name: properties.protocol
+  - description: Backend Title.
+    types:
+    - uid: string
+    name: properties.title
+  - description: Backend Description.
+    types:
+    - uid: string
+    name: properties.description
+  - description: Management Uri of the Resource in External System. This url can be the Arm Resource Id of Logic Apps, Function Apps or Api Apps.
+    types:
+    - uid: string
+    name: properties.resourceId
+  - description: Backend Properties contract
+    types:
+    - uid: BackendProperties
+    name: properties.properties
+  - description: Backend Credentials Contract Properties
+    types:
+    - uid: BackendCredentialsContract
+    name: properties.credentials
+  - description: Backend Proxy Contract Properties
+    types:
+    - uid: BackendProxyContract
+    name: properties.proxy
+  - description: Backend TLS Properties
+    types:
+    - uid: BackendTlsProperties
+    name: properties.tls
 - name: BackendServiceFabricClusterProperties
-  description: Properties of the Service Fabric Type Backend.
+  description: Backend Service Fabric Cluster Properties
   kind: object
   properties:
   - description: The client certificate thumbprint for the management endpoint.
@@ -236,8 +276,20 @@ definitions:
     types:
     - uid: string
     name: target
+- name: BackendProtocol
+  description: Backend communication protocol.
+  kind: enum
+  properties:
+  - description: The Backend is a RESTful service.
+    types:
+    - uid: string
+    name: http
+  - description: The Backend is a SOAP service.
+    types:
+    - uid: string
+    name: soap
 - name: X509CertificateName
-  description: Properties of server X509Names.
+  description: Server X509 Certificate Names Collection
   kind: object
   properties:
   - description: Common Name of the Certificate.

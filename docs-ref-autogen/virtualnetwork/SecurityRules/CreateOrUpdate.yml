@@ -154,7 +154,7 @@ requestBody:
 requestHeader: []
 definitions:
 - name: ApplicationSecurityGroup
-  description: An application security group in a resource group.
+  description: The application security group specified as source.
   kind: object
   properties:
   - isReadyOnly: true
@@ -280,6 +280,39 @@ definitions:
     types:
     - uid: string
     name: id
+- name: SecurityRuleProtocol
+  description: Network protocol this rule applies to. Possible values are 'Tcp', 'Udp', and '*'.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Tcp
+  - types:
+    - uid: string
+    name: Udp
+  - types:
+    - uid: string
+    name: '*'
+- name: SecurityRuleAccess
+  description: "The network traffic is allowed or denied. Possible values are: 'Allow' and 'Deny'."
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Allow
+  - types:
+    - uid: string
+    name: Deny
+- name: SecurityRuleDirection
+  description: "The direction of the rule. The direction specifies if rule will be evaluated on incoming or outcoming traffic. Possible values are: 'Inbound' and 'Outbound'."
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Inbound
+  - types:
+    - uid: string
+    name: Outbound
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/testnsg/securityRules/rule1?api-version=2017-09-01

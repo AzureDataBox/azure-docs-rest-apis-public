@@ -51,7 +51,6 @@ definitions:
     - uid: ApplicationGatewayBackendHealthPool
     name: backendAddressPools
 - name: ApplicationGatewayBackendHealthPool
-  description: Application gateway BackendHealth pool.
   kind: object
   properties:
   - description: Reference of an ApplicationGatewayBackendAddressPool resource.
@@ -63,7 +62,7 @@ definitions:
     - uid: ApplicationGatewayBackendHealthHttpSettings
     name: backendHttpSettingsCollection
 - name: ApplicationGatewayBackendAddressPool
-  description: Backend Address Pool of an application gateway.
+  description: Reference of an ApplicationGatewayBackendAddressPool resource.
   kind: object
   properties:
   - description: Resource that is unique within a resource group. This name can be used to access the resource.
@@ -96,7 +95,7 @@ definitions:
     - uid: string
     name: id
 - name: ApplicationGatewayBackendHealthHttpSettings
-  description: Application gateway BackendHealthHttp settings.
+  description: List of ApplicationGatewayBackendHealthHttpSettings resources.
   kind: object
   properties:
   - description: Reference of an ApplicationGatewayBackendHttpSettings resource.
@@ -108,7 +107,7 @@ definitions:
     - uid: ApplicationGatewayBackendHealthServer
     name: servers
 - name: SubResource
-  description: Reference to another subresource.
+  description: Collection of references to IPs defined in network interfaces.
   kind: object
   properties:
   - description: Resource ID.
@@ -116,7 +115,7 @@ definitions:
     - uid: string
     name: id
 - name: ApplicationGatewayBackendAddress
-  description: Backend address of an application gateway.
+  description: Backend addresses
   kind: object
   properties:
   - description: Fully qualified domain name (FQDN).
@@ -128,7 +127,7 @@ definitions:
     - uid: string
     name: ipAddress
 - name: ApplicationGatewayBackendHttpSettings
-  description: Backend address pool settings of an application gateway.
+  description: Reference of an ApplicationGatewayBackendHttpSettings resource.
   kind: object
   properties:
   - description: Name of the resource that is unique within a resource group. This name can be used to access the resource.
@@ -201,7 +200,7 @@ definitions:
     - uid: string
     name: id
 - name: ApplicationGatewayBackendHealthServer
-  description: Application gateway backendhealth http settings.
+  description: List of ApplicationGatewayBackendHealthServer resources.
   kind: object
   properties:
   - description: IP address or FQDN of backend server.
@@ -216,8 +215,28 @@ definitions:
     types:
     - uid: ApplicationGatewayBackendHealthServerHealth
     name: health
+- name: ApplicationGatewayProtocol
+  description: Protocol.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Http
+  - types:
+    - uid: string
+    name: Https
+- name: ApplicationGatewayCookieBasedAffinity
+  description: Cookie based affinity.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Enabled
+  - types:
+    - uid: string
+    name: Disabled
 - name: ApplicationGatewayConnectionDraining
-  description: Connection draining allows open connections to a backend server to be active for a specified time after the backend server got removed from the configuration.
+  description: Connection draining of the backend http settings resource.
   kind: object
   properties:
   - description: Whether connection draining is enabled or not.
@@ -228,6 +247,25 @@ definitions:
     types:
     - uid: integer
     name: drainTimeoutInSec
+- name: ApplicationGatewayBackendHealthServerHealth
+  description: Health of backend server.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Unknown
+  - types:
+    - uid: string
+    name: Up
+  - types:
+    - uid: string
+    name: Down
+  - types:
+    - uid: string
+    name: Partial
+  - types:
+    - uid: string
+    name: Draining
 examples: []
 security:
 - type: oauth2

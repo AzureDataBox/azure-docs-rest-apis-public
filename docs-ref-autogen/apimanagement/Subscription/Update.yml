@@ -115,6 +115,42 @@ definitions:
     types:
     - uid: ErrorFieldContract
     name: details
+- name: SubscriptionUpdateParameters
+  description: Subscription update details.
+  kind: object
+  properties:
+  - description: 'User identifier path: /users/{uid}'
+    types:
+    - uid: string
+    name: properties.userId
+  - description: 'Product identifier path: /products/{productId}'
+    types:
+    - uid: string
+    name: properties.productId
+  - description: 'Subscription expiration date. The setting is for audit purposes only and the subscription is not automatically expired. The subscription lifecycle can be managed by using the `state` property. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.'
+    types:
+    - uid: string
+    name: properties.expirationDate
+  - description: Subscription name.
+    types:
+    - uid: string
+    name: properties.displayName
+  - description: Primary subscription key.
+    types:
+    - uid: string
+    name: properties.primaryKey
+  - description: Secondary subscription key.
+    types:
+    - uid: string
+    name: properties.secondaryKey
+  - description: Subscription state. Possible states are * active – the subscription is active, * suspended – the subscription is blocked, and the subscriber cannot call any APIs of the product, * submitted – the subscription request has been made by the developer, but has not yet been approved or rejected, * rejected – the subscription request has been denied by an administrator, * cancelled – the subscription has been cancelled by the developer or administrator, * expired – the subscription reached its expiration date and was deactivated.
+    types:
+    - uid: SubscriptionState
+    name: properties.state
+  - description: Comments describing subscription state change by the administrator.
+    types:
+    - uid: string
+    name: properties.stateComment
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
@@ -131,6 +167,28 @@ definitions:
     types:
     - uid: string
     name: target
+- name: SubscriptionState
+  description: Subscription state. Possible states are * active – the subscription is active, * suspended – the subscription is blocked, and the subscriber cannot call any APIs of the product, * submitted – the subscription request has been made by the developer, but has not yet been approved or rejected, * rejected – the subscription request has been denied by an administrator, * cancelled – the subscription has been cancelled by the developer or administrator, * expired – the subscription reached its expiration date and was deactivated.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: suspended
+  - types:
+    - uid: string
+    name: active
+  - types:
+    - uid: string
+    name: expired
+  - types:
+    - uid: string
+    name: submitted
+  - types:
+    - uid: string
+    name: rejected
+  - types:
+    - uid: string
+    name: cancelled
 examples:
 - request:
     uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/subscriptions/testsub?api-version=2017-03-01

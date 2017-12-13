@@ -117,8 +117,21 @@ definitions:
     types:
     - uid: string
     name: type
+- name: ElasticPoolEdition
+  description: The edition of the recommended elastic pool. The ElasticPoolEdition enumeration contains all the valid editions.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Basic
+  - types:
+    - uid: string
+    name: Standard
+  - types:
+    - uid: string
+    name: Premium
 - name: Database
-  description: Represents a database.
+  description: The list of databases in this pool. Expanded property
   kind: object
   properties:
   - isReadyOnly: true
@@ -310,8 +323,144 @@ definitions:
     types:
     - uid: number
     name: sizeGB
+- name: CreateMode
+  description: >-
+    Specifies the mode of database creation.
+
+
+    Default: regular database creation.
+
+
+    Copy: creates a database as a copy of an existing database. sourceDatabaseId must be specified as the resource ID of the source database.
+
+
+    OnlineSecondary/NonReadableSecondary: creates a database as a (readable or nonreadable) secondary replica of an existing database. sourceDatabaseId must be specified as the resource ID of the existing primary database.
+
+
+    PointInTimeRestore: Creates a database by restoring a point in time backup of an existing database. sourceDatabaseId must be specified as the resource ID of the existing database, and restorePointInTime must be specified.
+
+
+    Recovery: Creates a database by restoring a geo-replicated backup. sourceDatabaseId must be specified as the recoverable database resource ID to restore.
+
+
+    Restore: Creates a database by restoring a backup of a deleted database. sourceDatabaseId must be specified. If sourceDatabaseId is the database's original resource ID, then sourceDatabaseDeletionDate must be specified. Otherwise sourceDatabaseId must be the restorable dropped database resource ID and sourceDatabaseDeletionDate is ignored. restorePointInTime may also be specified to restore from an earlier point in time.
+
+
+    RestoreLongTermRetentionBackup: Creates a database by restoring from a long term retention vault. recoveryServicesRecoveryPointResourceId must be specified as the recovery point resource ID.
+
+
+    Copy, NonReadableSecondary, OnlineSecondary and RestoreLongTermRetentionBackup are not supported for DataWarehouse edition.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Copy
+  - types:
+    - uid: string
+    name: Default
+  - types:
+    - uid: string
+    name: NonReadableSecondary
+  - types:
+    - uid: string
+    name: OnlineSecondary
+  - types:
+    - uid: string
+    name: PointInTimeRestore
+  - types:
+    - uid: string
+    name: Recovery
+  - types:
+    - uid: string
+    name: Restore
+  - types:
+    - uid: string
+    name: RestoreLongTermRetentionBackup
+- name: DatabaseEdition
+  description: 'The edition of the database. The DatabaseEditions enumeration contains all the valid editions. If createMode is NonReadableSecondary or OnlineSecondary, this value is ignored. To see possible values, query the capabilities API (/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationID}/capabilities) referred to by operationId: "Capabilities_ListByLocation."'
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Web
+  - types:
+    - uid: string
+    name: Business
+  - types:
+    - uid: string
+    name: Basic
+  - types:
+    - uid: string
+    name: Standard
+  - types:
+    - uid: string
+    name: Premium
+  - types:
+    - uid: string
+    name: Free
+  - types:
+    - uid: string
+    name: Stretch
+  - types:
+    - uid: string
+    name: DataWarehouse
+  - types:
+    - uid: string
+    name: System
+  - types:
+    - uid: string
+    name: System2
+- name: ServiceObjectiveName
+  description: 'The name of the configured service level objective of the database. This is the service level objective that is in the process of being applied to the database. Once successfully updated, it will match the value of serviceLevelObjective property. To see possible values, query the capabilities API (/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationID}/capabilities) referred to by operationId: "Capabilities_ListByLocation."'
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Basic
+  - types:
+    - uid: string
+    name: S0
+  - types:
+    - uid: string
+    name: S1
+  - types:
+    - uid: string
+    name: S2
+  - types:
+    - uid: string
+    name: S3
+  - types:
+    - uid: string
+    name: P1
+  - types:
+    - uid: string
+    name: P2
+  - types:
+    - uid: string
+    name: P3
+  - types:
+    - uid: string
+    name: P4
+  - types:
+    - uid: string
+    name: P6
+  - types:
+    - uid: string
+    name: P11
+  - types:
+    - uid: string
+    name: P15
+  - types:
+    - uid: string
+    name: System
+  - types:
+    - uid: string
+    name: System2
+  - types:
+    - uid: string
+    name: ElasticPool
 - name: ServiceTierAdvisor
-  description: Represents a Service Tier Advisor.
+  description: The list of service tier advisors for this database. Expanded property
   kind: object
   properties:
   - isReadyOnly: true
@@ -425,7 +574,7 @@ definitions:
     - uid: string
     name: type
 - name: TransparentDataEncryption
-  description: Represents a database transparent data encryption configuration.
+  description: The transparent data encryption info for this database.
   kind: object
   properties:
   - isReadyOnly: true
@@ -453,7 +602,7 @@ definitions:
     - uid: string
     name: type
 - name: RecommendedIndex
-  description: Represents a database recommended index.
+  description: The recommended indices for this database.
   kind: object
   properties:
   - isReadyOnly: true
@@ -531,8 +680,25 @@ definitions:
     types:
     - uid: string
     name: type
+- name: ReadScale
+  description: Conditional. If the database is a geo-secondary, readScale indicates whether read-only connections are allowed to this database or not. Not supported for DataWarehouse edition.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Enabled
+  - types:
+    - uid: string
+    name: Disabled
+- name: SampleName
+  description: Indicates the name of the sample schema to apply when creating this database. If createMode is not Default, this value is ignored. Not supported for DataWarehouse edition.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: AdventureWorksLT
 - name: SloUsageMetric
-  description: A Slo Usage Metric.
+  description: Gets or sets serviceLevelObjectiveUsageMetrics for the service tier advisor.
   kind: object
   properties:
   - isReadyOnly: true
@@ -550,8 +716,84 @@ definitions:
     types:
     - uid: number
     name: inRangeTimeRatio
+- name: TransparentDataEncryptionStatus
+  description: The status of the database transparent data encryption.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Enabled
+  - types:
+    - uid: string
+    name: Disabled
+- name: RecommendedIndexAction
+  description: The proposed index action. You can create a missing index, drop an unused index, or rebuild an existing index to improve its performance.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Create
+  - types:
+    - uid: string
+    name: Drop
+  - types:
+    - uid: string
+    name: Rebuild
+- name: RecommendedIndexState
+  description: The current recommendation state.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Active
+  - types:
+    - uid: string
+    name: Pending
+  - types:
+    - uid: string
+    name: Executing
+  - types:
+    - uid: string
+    name: Verifying
+  - types:
+    - uid: string
+    name: Pending Revert
+  - types:
+    - uid: string
+    name: Reverting
+  - types:
+    - uid: string
+    name: Reverted
+  - types:
+    - uid: string
+    name: Ignored
+  - types:
+    - uid: string
+    name: Expired
+  - types:
+    - uid: string
+    name: Blocked
+  - types:
+    - uid: string
+    name: Success
+- name: RecommendedIndexType
+  description: The type of index (CLUSTERED, NONCLUSTERED, COLUMNSTORE, CLUSTERED COLUMNSTORE)
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: CLUSTERED
+  - types:
+    - uid: string
+    name: NONCLUSTERED
+  - types:
+    - uid: string
+    name: COLUMNSTORE
+  - types:
+    - uid: string
+    name: CLUSTERED COLUMNSTORE
 - name: OperationImpact
-  description: The impact of an operation, both in absolute and relative terms.
+  description: The estimated impact of doing recommended index action.
   kind: object
   properties:
   - isReadyOnly: true

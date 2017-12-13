@@ -206,6 +206,46 @@ definitions:
     types:
     - uid: string
     name: message
+- name: DscConfigurationCreateOrUpdateParameters
+  description: The parameters supplied to the create or update configuration operation.
+  kind: object
+  properties:
+  - description: Gets or sets name of the resource.
+    types:
+    - uid: string
+    name: name
+  - description: Gets or sets the location of the resource.
+    types:
+    - uid: string
+    name: location
+  - description: Gets or sets the tags attached to the resource.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+  - description: Gets or sets verbose log option.
+    types:
+    - uid: boolean
+    name: properties.logVerbose
+  - description: Gets or sets progress log option.
+    types:
+    - uid: boolean
+    name: properties.logProgress
+  - description: Gets or sets the source.
+    types:
+    - uid: ContentSource
+    name: properties.source
+  - description: Gets or sets the configuration parameters.
+    types:
+    - {}
+    name: properties.parameters
+  - description: Gets or sets the description of the configuration.
+    types:
+    - uid: string
+    name: properties.description
 - name: ContentHash
   description: Definition of the runbook property type.
   kind: object
@@ -218,6 +258,36 @@ definitions:
     types:
     - uid: string
     name: value
+- name: ContentSourceType
+  description: Gets or sets the content source type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: embeddedContent
+  - types:
+    - uid: string
+    name: uri
+- name: DscConfigurationProvisioningState
+  description: Gets or sets the provisioning state of the configuration.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Succeeded
+- name: DscConfigurationState
+  description: Gets or sets the state of the configuration.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: New
+  - types:
+    - uid: string
+    name: Edit
+  - types:
+    - uid: string
+    name: Published
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount18/configurations/SetupServer?api-version=2015-10-31

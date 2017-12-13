@@ -149,8 +149,40 @@ definitions:
     types:
     - uid: Error
     name: error
+- name: StorageAccountCreateParameters
+  description: The storage account create parameters.
+  kind: object
+  properties:
+  - description: Storage account resource id.
+    types:
+    - uid: string
+    name: resourceId
+  - description: Current active storage account key name.
+    types:
+    - uid: string
+    name: activeKeyName
+  - description: whether keyvault should manage the storage account for the user.
+    types:
+    - uid: boolean
+    name: autoRegenerateKey
+  - description: The key regeneration time duration specified in ISO-8601 format.
+    types:
+    - uid: string
+    name: regenerationPeriod
+  - description: The attributes of the storage account.
+    types:
+    - uid: StorageAccountAttributes
+    name: attributes
+  - description: Application specific metadata in the form of key-value pairs.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
 - name: Error
-  description: The key vault server error.
+  description: Error encountered, if any, during the certificate operation.
   kind: object
   properties:
   - isReadyOnly: true
@@ -163,10 +195,8 @@ definitions:
     types:
     - uid: string
     name: message
-  - isReadyOnly: true
-    description: The key vault server error.
-    types:
-    - uid: Error
+  - types:
+    - {}
     name: innererror
 examples:
 - request:
@@ -234,4 +264,4 @@ examples:
   name: Set Storage account
 security: []
 name: SetStorageAccount
-uid: .keyvault.setstorageaccount.setstorageaccount
+uid: keyvault.setstorageaccount.setstorageaccount

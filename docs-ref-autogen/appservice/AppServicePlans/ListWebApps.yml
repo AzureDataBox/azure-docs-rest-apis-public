@@ -284,6 +284,29 @@ definitions:
     types:
     - uid: string
     name: principalId
+- name: UsageState
+  description: State indicating whether the app has exceeded its quota usage. Read-only.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Normal
+  - types:
+    - uid: string
+    name: Exceeded
+- name: SiteAvailabilityState
+  description: Management information availability state for the app.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Normal
+  - types:
+    - uid: string
+    name: Limited
+  - types:
+    - uid: string
+    name: DisasterRecoveryMode
 - name: HostNameSslState
   description: SSL-enabled hostname.
   kind: object
@@ -490,7 +513,7 @@ definitions:
     - uid: IpSecurityRestriction
     name: ipSecurityRestrictions
 - name: HostingEnvironmentProfile
-  description: Specification for an App Service Environment to use for this resource.
+  description: Specification for the App Service Environment to use for the App Service plan.
   kind: object
   properties:
   - description: Resource ID of the App Service Environment.
@@ -627,6 +650,36 @@ definitions:
     types:
     - uid: string
     name: destinationSlotName
+- name: ManagedServiceIdentityType
+  description: Type of managed service identity.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: SystemAssigned
+- name: SslState
+  description: SSL type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Disabled
+  - types:
+    - uid: string
+    name: SniEnabled
+  - types:
+    - uid: string
+    name: IpBasedEnabled
+- name: HostType
+  description: Indicates whether the hostname is a standard or repository hostname.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Standard
+  - types:
+    - uid: string
+    name: Repository
 - name: NameValuePair
   description: Name value pair.
   kind: object
@@ -691,6 +744,59 @@ definitions:
     types:
     - uid: string
     name: arguments
+- name: ScmType
+  description: SCM type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: None
+  - types:
+    - uid: string
+    name: Dropbox
+  - types:
+    - uid: string
+    name: Tfs
+  - types:
+    - uid: string
+    name: LocalGit
+  - types:
+    - uid: string
+    name: GitHub
+  - types:
+    - uid: string
+    name: CodePlexGit
+  - types:
+    - uid: string
+    name: CodePlexHg
+  - types:
+    - uid: string
+    name: BitbucketGit
+  - types:
+    - uid: string
+    name: BitbucketHg
+  - types:
+    - uid: string
+    name: ExternalGit
+  - types:
+    - uid: string
+    name: ExternalHg
+  - types:
+    - uid: string
+    name: OneDrive
+  - types:
+    - uid: string
+    name: VSO
+- name: ManagedPipelineMode
+  description: Managed pipeline mode.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Integrated
+  - types:
+    - uid: string
+    name: Classic
 - name: VirtualApplication
   description: Virtual application in an app.
   kind: object
@@ -711,6 +817,25 @@ definitions:
     types:
     - uid: VirtualDirectory
     name: virtualDirectories
+- name: SiteLoadBalancing
+  description: Site load balancing.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: WeightedRoundRobin
+  - types:
+    - uid: string
+    name: LeastRequests
+  - types:
+    - uid: string
+    name: LeastResponseTime
+  - types:
+    - uid: string
+    name: WeightedTotalTraffic
+  - types:
+    - uid: string
+    name: RequestHash
 - name: Experiments
   description: Routing rules in production experiments.
   kind: object
@@ -829,6 +954,43 @@ definitions:
     types:
     - uid: string
     name: id
+- name: ConnectionStringType
+  description: Type of database.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: MySql
+  - types:
+    - uid: string
+    name: SQLServer
+  - types:
+    - uid: string
+    name: SQLAzure
+  - types:
+    - uid: string
+    name: Custom
+  - types:
+    - uid: string
+    name: NotificationHub
+  - types:
+    - uid: string
+    name: ServiceBus
+  - types:
+    - uid: string
+    name: EventHub
+  - types:
+    - uid: string
+    name: ApiHub
+  - types:
+    - uid: string
+    name: DocDb
+  - types:
+    - uid: string
+    name: RedisCache
+  - types:
+    - uid: string
+    name: PostgreSQL
 - name: VirtualDirectory
   description: Directory for virtual application.
   kind: object
@@ -971,6 +1133,19 @@ definitions:
     types:
     - uid: string
     name: timeInterval
+- name: AutoHealActionType
+  description: Predefined action to be taken.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Recycle
+  - types:
+    - uid: string
+    name: LogEvent
+  - types:
+    - uid: string
+    name: CustomAction
 - name: AutoHealCustomAction
   description: >-
     Custom action to be executed

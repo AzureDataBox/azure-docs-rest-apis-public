@@ -96,7 +96,7 @@ definitions:
     - uid: string
     name: odata.nextLink
 - name: BatchError
-  description: An error response received from the Azure Batch service.
+  description: The error encountered while attempting to add the task.
   kind: object
   properties:
   - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
@@ -196,7 +196,7 @@ definitions:
     - uid: ComputeNodeEndpointConfiguration
     name: endpointConfiguration
 - name: ErrorMessage
-  description: An error message received in an Azure Batch error response.
+  description: A message describing the error, intended to be suitable for display in a user interface.
   kind: object
   properties:
   - description: The language code of the error message
@@ -208,7 +208,7 @@ definitions:
     - uid: string
     name: value
 - name: BatchErrorDetail
-  description: An item of additional information included in an Azure Batch error response.
+  description: A collection of key-value pairs containing additional details about the error.
   kind: object
   properties:
   - description: An identifier specifying the meaning of the Value property.
@@ -219,6 +219,74 @@ definitions:
     types:
     - uid: string
     name: value
+- name: ComputeNodeState
+  description: The low-priority node has been preempted. Tasks which were running on the node when it was pre-empted will be rescheduled when another node becomes available.
+  kind: enum
+  properties:
+  - description: The node is not currently running a task.
+    types:
+    - uid: string
+    name: idle
+  - description: The node is rebooting.
+    types:
+    - uid: string
+    name: rebooting
+  - description: The node is reimaging.
+    types:
+    - uid: string
+    name: reimaging
+  - description: The node is running one or more tasks (other than a start task).
+    types:
+    - uid: string
+    name: running
+  - description: The node cannot be used for task execution due to errors.
+    types:
+    - uid: string
+    name: unusable
+  - description: The Batch service has obtained the underlying virtual machine from Azure Compute, but it has not yet started to join the pool.
+    types:
+    - uid: string
+    name: creating
+  - description: The Batch service is starting on the underlying virtual machine.
+    types:
+    - uid: string
+    name: starting
+  - description: The start task has started running on the compute node, but waitForSuccess is set and the start task has not yet completed.
+    types:
+    - uid: string
+    name: waitingforstarttask
+  - description: The start task has failed on the compute node (and exhausted all retries), and waitForSuccess is set. The node is not usable for running tasks.
+    types:
+    - uid: string
+    name: starttaskfailed
+  - description: The Batch service has lost contact with the node, and does not know its true state.
+    types:
+    - uid: string
+    name: unknown
+  - description: The node is leaving the pool, either because the user explicitly removed it or because the pool is resizing or autoscaling down.
+    types:
+    - uid: string
+    name: leavingpool
+  - description: The node is not currently running a task, and scheduling of new tasks to the node is disabled.
+    types:
+    - uid: string
+    name: offline
+  - description: The low-priority node has been preempted. Tasks which were running on the node when it was pre-empted will be rescheduled when another node becomes available.
+    types:
+    - uid: string
+    name: preempted
+- name: SchedulingState
+  description: Whether the compute node is available for task scheduling.
+  kind: enum
+  properties:
+  - description: Tasks can be scheduled on the node.
+    types:
+    - uid: string
+    name: enabled
+  - description: No new tasks will be scheduled on the node. Tasks already running on the node may still run to completion. All nodes start with scheduling enabled.
+    types:
+    - uid: string
+    name: disabled
 - name: TaskInformation
   description: Information about a task running on a compute node.
   kind: object
@@ -368,7 +436,7 @@ definitions:
     - uid: InboundEndpoint
     name: inboundEndpoints
 - name: TaskState
-  description: The state of the task.
+  description: The current state of the task.
   kind: enum
   properties:
   - description: The task is queued and able to run, but is not currently assigned to a compute node. A task enters this state when it is created, when it is enabled after being disabled, or when it is awaiting a retry after a failed run.
@@ -487,6 +555,18 @@ definitions:
     types:
     - uid: AutoUserSpecification
     name: autoUser
+- name: StartTaskState
+  description: The state of the start task on the compute node.
+  kind: enum
+  properties:
+  - description: The start task is currently running.
+    types:
+    - uid: string
+    name: running
+  - description: The start task has exited with exit code 0, or the start task has failed and the retry limit has reached, or the start task process did not run due to task preparation errors (such as resource file download failures).
+    types:
+    - uid: string
+    name: completed
 - name: TaskContainerExecutionInformation
   description: Contains information about the container which a task is executing.
   kind: object
@@ -524,7 +604,7 @@ definitions:
     - uid: NameValuePair
     name: details
 - name: TaskExecutionResult
-  description: The result of task execution.
+  description: If the value is 'failed', then the details of the failure can be found in the failureInfo property.
   kind: enum
   properties:
   - description: The task ran successfully.
@@ -535,6 +615,18 @@ definitions:
     types:
     - uid: string
     name: failure
+- name: CertificateStoreLocation
+  description: The default value is currentuser. This property is applicable only for pools configured with Windows nodes (that is, created with cloudServiceConfiguration, or with virtualMachineConfiguration using a Windows image reference). For Linux compute nodes, the certificates are stored in a directory inside the task working directory and an environment variable AZ_BATCH_CERTIFICATES_DIR is supplied to the task to query for this location. For certificates with visibility of 'remoteUser', a 'certs' directory is created in the user's home directory (e.g., /home/{user-name}/certs) and certificates are placed in that directory.
+  kind: enum
+  properties:
+  - description: Certificates should be installed to the CurrentUser certificate store.
+    types:
+    - uid: string
+    name: currentuser
+  - description: Certificates should be installed to the LocalMachine certificate store.
+    types:
+    - uid: string
+    name: localmachine
 - name: NameValuePair
   description: Represents a name-value pair.
   kind: object
@@ -548,7 +640,7 @@ definitions:
     - uid: string
     name: value
 - name: InboundEndpoint
-  description: An inbound endpoint on a compute node.
+  description: The list of inbound endpoints that are accessible on the compute node.
   kind: object
   properties:
   - description: The name of the endpoint.
@@ -576,7 +668,7 @@ definitions:
     - uid: integer
     name: backendPort
 - name: ContainerRegistry
-  description: A private container registry.
+  description: This setting can be omitted if was already provided at pool creation.
   kind: object
   properties:
   - description: If omitted, the default is "docker.io".
@@ -604,7 +696,7 @@ definitions:
     - uid: ElevationLevel
     name: elevationLevel
 - name: ErrorCategory
-  description: The category of the error.
+  description: The category of the job scheduling error.
   kind: enum
   properties:
   - description: The error is due to a user issue, such as misconfiguration.
@@ -627,8 +719,20 @@ definitions:
     types:
     - uid: string
     name: udp
+- name: AutoUserScope
+  description: The default value is task.
+  kind: enum
+  properties:
+  - description: Specifies that the service should create a new user for the task.
+    types:
+    - uid: string
+    name: task
+  - description: Specifies that the task runs as the common auto user account which is created on every node in a pool.
+    types:
+    - uid: string
+    name: pool
 - name: ElevationLevel
-  description: The elevation level of the user.
+  description: nonAdmin - The auto user is a standard user without elevated access. admin - The auto user is a user with elevated access and operates with full Administrator permissions. The default value is nonAdmin.
   kind: enum
   properties:
   - description: The user is a standard user without elevated access.

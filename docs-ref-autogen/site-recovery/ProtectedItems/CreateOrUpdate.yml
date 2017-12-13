@@ -101,6 +101,45 @@ requestBody:
     name: eTag
 requestHeader: []
 definitions:
+- name: ProtectedItemResource
+  description: The base class for backup items.
+  kind: object
+  properties:
+  - description: The base class for backup items.
+    types:
+    - uid: AzureIaaSVMProtectedItem
+    - uid: MabFileFolderProtectedItem
+    - uid: AzureSqlProtectedItem
+    typesTitle: ProtectedItem
+    name: properties
+  - description: Resource ID represents the complete path to the resource.
+    types:
+    - uid: string
+    name: id
+  - description: Resource name associated with the resource.
+    types:
+    - uid: string
+    name: name
+  - description: Resource type represents the complete path of the form Namespace/ResourceType/ResourceType/...
+    types:
+    - uid: string
+    name: type
+  - description: Resource location.
+    types:
+    - uid: string
+    name: location
+  - description: Resource tags.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+  - description: Optional ETag.
+    types:
+    - uid: string
+    name: eTag
 - name: MabFileFolderProtectedItem
   description: This is a file or folder workload-specific backup item.
   kind: object
@@ -309,7 +348,7 @@ definitions:
     - uid: string
     name: lastRecoveryPoint
 - name: MabFileFolderProtectedItemExtendedInfo
-  description: Additional information for the backup item.
+  description: Additional information for this backup item.
   kind: object
   properties:
   - description: The last day and time the agent synced with the service.
@@ -324,8 +363,80 @@ definitions:
     types:
     - uid: integer
     name: recoveryPointCount
+- name: BackupManagementType
+  description: The backup management type for the current job.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Invalid
+  - types:
+    - uid: string
+    name: AzureIaasVM
+  - types:
+    - uid: string
+    name: MAB
+  - types:
+    - uid: string
+    name: DPM
+  - types:
+    - uid: string
+    name: AzureBackupServer
+  - types:
+    - uid: string
+    name: AzureSql
+- name: DataSourceType
+  description: The workload type for this item.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Invalid
+  - types:
+    - uid: string
+    name: VM
+  - types:
+    - uid: string
+    name: FileFolder
+  - types:
+    - uid: string
+    name: AzureSqlDb
+  - types:
+    - uid: string
+    name: SQLDB
+  - types:
+    - uid: string
+    name: Exchange
+  - types:
+    - uid: string
+    name: Sharepoint
+  - types:
+    - uid: string
+    name: DPMUnknown
+- name: ProtectedItemState
+  description: The backup state of the backup item.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Invalid
+  - types:
+    - uid: string
+    name: IRPending
+  - types:
+    - uid: string
+    name: Protected
+  - types:
+    - uid: string
+    name: ProtectionError
+  - types:
+    - uid: string
+    name: ProtectionStopped
+  - types:
+    - uid: string
+    name: ProtectionPaused
 - name: AzureSqlProtectedItemExtendedInfo
-  description: Additional information for the Azure SQL specific backup item.
+  description: Additional information for this backup item.
   kind: object
   properties:
   - description: The oldest backup copy available for this item in the service.
@@ -340,8 +451,30 @@ definitions:
     types:
     - uid: string
     name: policyState
+- name: ProtectionState
+  description: The backup state of this backup item.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Invalid
+  - types:
+    - uid: string
+    name: IRPending
+  - types:
+    - uid: string
+    name: Protected
+  - types:
+    - uid: string
+    name: ProtectionError
+  - types:
+    - uid: string
+    name: ProtectionStopped
+  - types:
+    - uid: string
+    name: ProtectionPaused
 - name: AzureIaaSVMProtectedItemExtendedInfo
-  description: Additional information for the Azure VM (also known as IaaS VM)-specific backup item.
+  description: Additional information for this backup item.
   kind: object
   properties:
   - description: The oldest backup copy available for this backup item.

@@ -107,7 +107,7 @@ requestHeader:
   name: If-Match
 definitions:
 - name: ParameterContract
-  description: Operation parameters details.
+  description: Collection of URL template parameters.
   kind: object
   properties:
   - description: Parameter name.
@@ -135,7 +135,7 @@ definitions:
     - uid: string
     name: values
 - name: RequestContract
-  description: Operation request details.
+  description: An entity containing request details.
   kind: object
   properties:
   - description: Operation request description.
@@ -155,7 +155,7 @@ definitions:
     - uid: RepresentationContract
     name: representations
 - name: ResponseContract
-  description: Operation response details.
+  description: Array of Operation responses.
   kind: object
   properties:
   - description: Operation response HTTP status code.
@@ -190,8 +190,44 @@ definitions:
     types:
     - uid: ErrorFieldContract
     name: details
+- name: OperationUpdateContract
+  description: Api Operation Update Contract details.
+  kind: object
+  properties:
+  - description: Operation Name.
+    types:
+    - uid: string
+    name: properties.displayName
+  - description: A Valid HTTP Operation Method. Typical Http Methods like GET, PUT, POST but not limited by only them.
+    types:
+    - uid: string
+    name: properties.method
+  - description: 'Relative URL template identifying the target resource for this operation. May include parameters. Example: /customers/{cid}/orders/{oid}/?date={date}'
+    types:
+    - uid: string
+    name: properties.urlTemplate
+  - description: Collection of URL template parameters.
+    types:
+    - uid: ParameterContract
+    name: properties.templateParameters
+  - description: Description of the operation. May include HTML formatting tags.
+    types:
+    - uid: string
+    name: properties.description
+  - description: An entity containing request details.
+    types:
+    - uid: RequestContract
+    name: properties.request
+  - description: Array of Operation responses.
+    types:
+    - uid: ResponseContract
+    name: properties.responses
+  - description: Operation Policies
+    types:
+    - uid: string
+    name: properties.policies
 - name: RepresentationContract
-  description: Operation request/response representation details.
+  description: Collection of operation request representations.
   kind: object
   properties:
   - description: Specifies a registered or custom content type for this representation, e.g. application/xml.

@@ -59,7 +59,7 @@ responses:
 requestHeader: []
 definitions:
 - name: VirtualNetwork
-  description: A virtual network.
+  description: Results of the list operation.
   kind: object
   properties:
   - description: The allowed subnets of the virtual network.
@@ -131,7 +131,7 @@ definitions:
     - uid: CloudErrorBody
     name: error
 - name: Subnet
-  description: Subnet information.
+  description: The allowed subnets of the virtual network.
   kind: object
   properties:
   - description: The resource ID of the subnet.
@@ -159,7 +159,7 @@ definitions:
     - uid: string
     name: name
 - name: SubnetOverride
-  description: Property overrides on a subnet of a virtual network.
+  description: The subnet overrides of the virtual network.
   kind: object
   properties:
   - description: The resource ID of the subnet.
@@ -201,10 +201,23 @@ definitions:
     name: target
   - description: Inner errors.
     types:
-    - uid: CloudErrorBody
+    - uid: Details
     name: details
+- name: UsagePermissionType
+  description: The permission policy of the subnet for allowing public IP addresses (i.e. Allow, Deny)).
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Default
+  - types:
+    - uid: string
+    name: Deny
+  - types:
+    - uid: string
+    name: Allow
 - name: SubnetSharedPublicIpAddressConfiguration
-  description: Configuration for public IP address sharing.
+  description: Properties that virtual machines on this subnet will share.
   kind: object
   properties:
   - description: Backend ports that virtual machines on this subnet are allowed to expose
@@ -223,6 +236,16 @@ definitions:
     types:
     - uid: integer
     name: backendPort
+- name: TransportProtocol
+  description: The transport protocol for the endpoint.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Tcp
+  - types:
+    - uid: string
+    name: Udp
 examples: []
 security:
 - type: oauth2

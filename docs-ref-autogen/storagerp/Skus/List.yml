@@ -40,7 +40,7 @@ definitions:
     - uid: Sku
     name: value
 - name: Sku
-  description: The SKU of the storage account.
+  description: Get the list result of storage SKUs and their properties.
   kind: object
   properties:
   - description: Gets or sets the sku name. Required for account creation; optional for update. Note that in older versions, sku name was called accountType.
@@ -76,6 +76,45 @@ definitions:
     types:
     - uid: Restriction
     name: restrictions
+- name: SkuName
+  description: Gets or sets the sku name. Required for account creation; optional for update. Note that in older versions, sku name was called accountType.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Standard_LRS
+  - types:
+    - uid: string
+    name: Standard_GRS
+  - types:
+    - uid: string
+    name: Standard_RAGRS
+  - types:
+    - uid: string
+    name: Standard_ZRS
+  - types:
+    - uid: string
+    name: Premium_LRS
+- name: SkuTier
+  description: Gets the sku tier. This is based on the SKU name.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Standard
+  - types:
+    - uid: string
+    name: Premium
+- name: Kind
+  description: Indicates the type of storage account.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Storage
+  - types:
+    - uid: string
+    name: BlobStorage
 - name: SKUCapability
   description: The capability information in the specified sku, including file encryption, network acls, change notification, etc.
   kind: object
@@ -108,6 +147,16 @@ definitions:
     types:
     - uid: ReasonCode
     name: reasonCode
+- name: ReasonCode
+  description: The reason for the restriction. As of now this can be “QuotaId” or “NotAvailableForSubscription”. Quota Id is set when the SKU has requiredQuotas parameter as the subscription does not belong to that quota. The “NotAvailableForSubscription” is related to capacity at DC.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: QuotaId
+  - types:
+    - uid: string
+    name: NotAvailableForSubscription
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/27de630f-e1ee-42de-8849-90def4986454/providers/Microsoft.Storage/skus?api-version=2017-06-01

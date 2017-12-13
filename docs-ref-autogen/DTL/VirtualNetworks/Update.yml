@@ -159,7 +159,7 @@ definitions:
     - uid: string
     name: virtualNetworkPoolName
 - name: VirtualNetwork
-  description: A virtual network.
+  description: Results of the list operation.
   kind: object
   properties:
   - description: The allowed subnets of the virtual network.
@@ -230,8 +230,80 @@ definitions:
     types:
     - uid: CloudErrorBody
     name: error
+- name: VirtualNetworkFragment
+  description: A virtual network.
+  kind: object
+  properties:
+  - description: The allowed subnets of the virtual network.
+    types:
+    - uid: SubnetFragment
+    name: properties.allowedSubnets
+  - description: The description of the virtual network.
+    types:
+    - uid: string
+    name: properties.description
+  - description: The Microsoft.Network resource identifier of the virtual network.
+    types:
+    - uid: string
+    name: properties.externalProviderResourceId
+  - description: The external subnet properties.
+    types:
+    - uid: ExternalSubnetFragment
+    name: properties.externalSubnets
+  - description: The subnet overrides of the virtual network.
+    types:
+    - uid: SubnetOverrideFragment
+    name: properties.subnetOverrides
+  - description: The provisioning status of the resource.
+    types:
+    - uid: string
+    name: properties.provisioningState
+  - description: The unique immutable identifier of a resource (Guid).
+    types:
+    - uid: string
+    name: properties.uniqueIdentifier
+  - isReadyOnly: true
+    description: The identifier of the resource.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+    name: type
+  - description: The location of the resource.
+    types:
+    - uid: string
+    name: location
+  - description: The tags of the resource.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+- name: UsagePermissionType
+  description: The permission policy of the subnet for allowing public IP addresses (i.e. Allow, Deny)).
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Default
+  - types:
+    - uid: string
+    name: Deny
+  - types:
+    - uid: string
+    name: Allow
 - name: SubnetSharedPublicIpAddressConfigurationFragment
-  description: Configuration for public IP address sharing.
+  description: Properties that virtual machines on this subnet will share.
   kind: object
   properties:
   - description: Backend ports that virtual machines on this subnet are allowed to expose
@@ -239,7 +311,7 @@ definitions:
     - uid: PortFragment
     name: allowedPorts
 - name: Subnet
-  description: Subnet information.
+  description: The allowed subnets of the virtual network.
   kind: object
   properties:
   - description: The resource ID of the subnet.
@@ -267,7 +339,7 @@ definitions:
     - uid: string
     name: name
 - name: SubnetOverride
-  description: Property overrides on a subnet of a virtual network.
+  description: The subnet overrides of the virtual network.
   kind: object
   properties:
   - description: The resource ID of the subnet.
@@ -309,7 +381,7 @@ definitions:
     name: target
   - description: Inner errors.
     types:
-    - uid: CloudErrorBody
+    - uid: Details
     name: details
 - name: PortFragment
   description: Properties of a network port.
@@ -324,13 +396,23 @@ definitions:
     - uid: integer
     name: backendPort
 - name: SubnetSharedPublicIpAddressConfiguration
-  description: Configuration for public IP address sharing.
+  description: Properties that virtual machines on this subnet will share.
   kind: object
   properties:
   - description: Backend ports that virtual machines on this subnet are allowed to expose
     types:
     - uid: Port
     name: allowedPorts
+- name: TransportProtocol
+  description: The transport protocol for the endpoint.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Tcp
+  - types:
+    - uid: string
+    name: Udp
 - name: Port
   description: Properties of a network port.
   kind: object

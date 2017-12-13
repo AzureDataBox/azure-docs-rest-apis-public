@@ -79,7 +79,7 @@ definitions:
     - uid: CloudErrorBody
     name: error
 - name: FileServer
-  description: Contains information about the File Server.
+  description: The collection of File Servers.
   kind: object
   properties:
   - description: For information about available VM sizes for File Server from the Virtual Machines Marketplace, see Sizes for Virtual Machines (Linux).
@@ -165,7 +165,7 @@ definitions:
     name: target
   - description: A list of additional details about the error.
     types:
-    - uid: CloudErrorBody
+    - uid: Details
     name: details
 - name: SshConfiguration
   description: SSH configuration settings for the VM
@@ -228,6 +228,25 @@ definitions:
     types:
     - uid: FileServerType
     name: fileServerType
+- name: FileServerProvisioningState
+  description: 'Possible values: creating - The File Server is getting created. updating - The File Server creation has been accepted and it is getting updated. deleting - The user has requested that the File Server be deleted, and it is in the process of being deleted. failed - The File Server creation has failed with the specified errorCode. Details about the error code are specified in the message field. succeeded - The File Server creation has succeeded.'
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: creating
+  - types:
+    - uid: string
+    name: updating
+  - types:
+    - uid: string
+    name: deleting
+  - types:
+    - uid: string
+    name: succeeded
+  - types:
+    - uid: string
+    name: failed
 - name: UserAccountSettings
   description: Settings for user account that gets created on each on the nodes of a cluster.
   kind: object
@@ -244,6 +263,39 @@ definitions:
     types:
     - uid: string
     name: adminUserPassword
+- name: CachingType
+  description: None, ReadOnly, ReadWrite. Default value is None. This property is not patchable.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: none
+  - types:
+    - uid: string
+    name: readonly
+  - types:
+    - uid: string
+    name: readwrite
+- name: StorageAccountType
+  description: 'Specifies the type of storage account to be used on the disk. Possible values are: Standard_LRS or Premium_LRS.'
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Standard_LRS
+  - types:
+    - uid: string
+    name: Premium_LRS
+- name: FileServerType
+  description: Type of the fileserver e.g. nfs, glusterfs etc.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: nfs
+  - types:
+    - uid: string
+    name: glusterfs
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/demo_resource_group/providers/Microsoft.BatchAI/fileServers?api-version=2017-09-01-preview

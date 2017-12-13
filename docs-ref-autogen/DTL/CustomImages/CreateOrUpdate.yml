@@ -107,7 +107,7 @@ requestBody:
 requestHeader: []
 definitions:
 - name: CustomImagePropertiesFromVm
-  description: Properties for creating a custom image from a virtual machine.
+  description: The virtual machine from which the image is to be created.
   kind: object
   properties:
   - description: The source vm identifier.
@@ -123,7 +123,7 @@ definitions:
     - uid: LinuxOsInfo
     name: linuxOsInfo
 - name: CustomImagePropertiesCustom
-  description: Properties for creating a custom image from a VHD.
+  description: The VHD from which the image is to be created.
   kind: object
   properties:
   - description: The image name.
@@ -211,7 +211,7 @@ definitions:
     - uid: CloudErrorBody
     name: error
 - name: WindowsOsInfo
-  description: Information about a Windows OS.
+  description: The Windows OS information of the VM.
   kind: object
   properties:
   - description: The state of the Windows OS (i.e. NonSysprepped, SysprepRequested, SysprepApplied).
@@ -219,13 +219,26 @@ definitions:
     - uid: WindowsOsState
     name: windowsOsState
 - name: LinuxOsInfo
-  description: Information about a Linux OS.
+  description: The Linux OS information of the VM.
   kind: object
   properties:
   - description: The state of the Linux OS (i.e. NonDeprovisioned, DeprovisionRequested, DeprovisionApplied).
     types:
     - uid: LinuxOsState
     name: linuxOsState
+- name: CustomImageOsType
+  description: The OS type of the custom image (i.e. Windows, Linux)
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Windows
+  - types:
+    - uid: string
+    name: Linux
+  - types:
+    - uid: string
+    name: None
 - name: CloudErrorBody
   description: Body of an error from a REST request.
   kind: object
@@ -241,8 +254,34 @@ definitions:
     name: target
   - description: Inner errors.
     types:
-    - uid: CloudErrorBody
+    - uid: Details
     name: details
+- name: WindowsOsState
+  description: The state of the Windows OS (i.e. NonSysprepped, SysprepRequested, SysprepApplied).
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NonSysprepped
+  - types:
+    - uid: string
+    name: SysprepRequested
+  - types:
+    - uid: string
+    name: SysprepApplied
+- name: LinuxOsState
+  description: The state of the Linux OS (i.e. NonDeprovisioned, DeprovisionRequested, DeprovisionApplied).
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NonDeprovisioned
+  - types:
+    - uid: string
+    name: DeprovisionRequested
+  - types:
+    - uid: string
+    name: DeprovisionApplied
 examples: []
 security:
 - type: oauth2
