@@ -1,8 +1,5 @@
 ---
 uid: management.azure.com.keyvault.vaults.createorupdate
-uriParameters:
-    - name: api-version
-      description: Use the latest version of 2015-06-01.
 summary: *content
 ---
 
