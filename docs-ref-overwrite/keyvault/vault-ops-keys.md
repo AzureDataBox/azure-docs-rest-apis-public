@@ -1,5 +1,5 @@
 ---
-uid: KeyVaultClient/2016-10-01/CreateKey
+uid: keyvault.createkey.createkey
 authorization: The operation requires the keys/create permission.
 parameters:
     - name: api-version
@@ -19,7 +19,7 @@ For more information, see [About keys, secrets, and certificates](~/docs-ref-con
 
 ---
 
-uid: KeyVaultClient/2016-10-01/ImportKey
+uid: keyvault.importkey.importkey
 authorization: The operation requires the keys/import permission.
 parameters:
     - name: api-version
@@ -44,7 +44,7 @@ For more information, see [About keys, secrets, and certificates](~/docs-ref-con
 
 ---
 
-uid: KeyVaultClient/2016-10-01/DeleteKey
+uid: keyvault.deletekey.deletekey
 authorization: The operation requires the keys/delete permission.
 parameters:
     - name: api-version
@@ -67,7 +67,7 @@ For more information, see [About keys, secrets, and certificates](~/docs-ref-con
 
 ---
 
-uid: KeyVaultClient/2016-10-01/UpdateKey
+uid: keyvault.updatekey.updatekey
 Authorization: The operation requires the keys/update permission.
 parameters:
     - name: api-version
@@ -92,7 +92,7 @@ For more information, see [About keys, secrets, and certificates](~/docs-ref-con
 
 ---
 
-uid: KeyVaultClient/2016-10-01/GetKey
+uid: keyvault.getkey.getkey
 Authorization: The operation requires the keys/get permission.
 parameters:
     - name: api-version
@@ -116,7 +116,7 @@ For more information, see [About keys, secrets, and certificates](~/docs-ref-con
 
 ---
 
-uid: KeyVaultClient/2016-10-01/GetKeyVersions
+uid: keyvault.getkeyversions.getkeyversions
 Authorization: The operation requires the keys/list permission.
 parameters:
     - name: api-version
@@ -139,7 +139,7 @@ For more information, see [About keys, secrets, and certificates](~/docs-ref-con
 
 ---
 
-uid: KeyVaultClient/2016-10-01/GetKeys
+uid: keyvault.getkeys.getkeys
 Authorization: The operation requires the keys/list permission.
 parameters:
     - name: api-version
@@ -163,7 +163,7 @@ For more information, see [About keys, secrets, and certificates](~/docs-ref-con
 
 ---
 
-uid: KeyVaultClient/2016-10-01/BackupKey
+uid: keyvault.backupkey.backupkey
 Authorization: The operation requires the keys/backup permission.
 parameters:
     - name: api-version
@@ -188,7 +188,7 @@ For more information, see [About keys, secrets, and certificates](~/docs-ref-con
 
 ---
 
-uid: KeyVaultClient/2016-10-01/RestoreKey
+uid: keyvault.restorekey.restorekey
 Authorization: The operation requires the keys/restore permission.
 parameters:
     - name: api-version
@@ -218,7 +218,7 @@ For more information, see [About keys, secrets, and certificates](~/docs-ref-con
 
 ---
 
-uid: KeyVaultClient/2016-10-01/encrypt
+uid: keyvault.encrypt.encrypt
 Authorization: The operation requires the keys/encrypt permission.
 parameters:
     - name: api-version
@@ -242,7 +242,7 @@ For more information, see [About keys, secrets, and certificates](~/docs-ref-con
 
 ---
 
-uid: KeyVaultClient/2016-10-01/decrypt
+uid: keyvault.decrypt.decrypt
 Authorization: The operation requires the keys/decrypt permission.
 parameters:
     - name: api-version
@@ -268,7 +268,7 @@ For more information, see [About keys, secrets, and certificates](~/docs-ref-con
 
 ---
 
-uid: KeyVaultClient/2016-10-01/sign
+uid: keyvault.sign.sign
 Authorization: The operation requires the keys/sign permission.
 parameters:
     - name: api-version
@@ -290,7 +290,7 @@ For more information, see [About keys, secrets, and certificates](~/docs-ref-con
 
 ---
 
-uid: KeyVaultClient/2016-10-01/verify
+uid: keyvault.verify.verify
 Authorization: The operation requires the keys/verify permission.
 parameters:
     - name: api-version
@@ -312,7 +312,7 @@ For more information, see [About keys, secrets, and certificates](~/docs-ref-con
 
 ---
 
-uid: KeyVaultClient/2016-10-01/wrapKey
+uid: keyvault.wrapkey.wrapkey
 Authorization: The operation requires the keys/wrap permission.
 parameters:
     - name: api-version
@@ -338,7 +338,7 @@ For more information, see [About keys, secrets, and certificates](~/docs-ref-con
 
 ---
 
-uid: KeyVaultClient/2016-10-01/unwrapKey
+uid: keyvault.unwrapkey.unwrapkey
 Authorization: The operation requires the keys/backup permission.
 parameters:
     - name: api-version
