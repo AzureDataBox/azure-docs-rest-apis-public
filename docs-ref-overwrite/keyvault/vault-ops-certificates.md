@@ -1,5 +1,5 @@
 ---
-uid: keyvault.getcertificates.getcertificates
+uid: KeyVaultClient/2016-10-01/GetCertificates
 authorization: Requires the certificates/list permission.
 parameters:
     - name: api-version
@@ -20,7 +20,7 @@ Request body: An HTTP GET has no request body.
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 ---
-uid: keyvault.deletecertificate.deletecertificate
+uid: KeyVaultClient/2016-10-01/DeleteCertificate
 authorization: Requires the certificates/delete permission.
 parameters:
     - name: api-version
@@ -35,7 +35,7 @@ See [Common parameters and headers](~/docs-ref-conceptual/keyvault/common-parame
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 ---
-uid: keyvault.setcertificatecontacts.setcertificatecontacts
+uid: KeyVaultClient/2016-10-01/SetCertificateContacts
 authorization: Requires the certificates/managecontacts permission.
 parameters:
     - name: api-version
@@ -50,7 +50,7 @@ See [Common parameters and headers](~/docs-ref-conceptual/keyvault/common-parame
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 ---
-uid: keyvault.getcertificatecontacts.getcertificatecontacts
+uid: KeyVaultClient/2016-10-01/GetCertificateContacts
 authorization: Requires the certificates/managecontacts permission.
 parameters:
     - name: api-version
@@ -65,7 +65,7 @@ See [Common parameters and headers](~/docs-ref-conceptual/keyvault/common-parame
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 ---
-uid: keyvault.deletecertificatecontacts.deletecertificatecontacts
+uid: KeyVaultClient/2016-10-01/DeleteCertificateContacts
 authorization: Requires the certificates/managecontacts permission.
 parameters:
     - name: api-version
@@ -80,7 +80,7 @@ See [Common parameters and headers](~/docs-ref-conceptual/keyvault/common-parame
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 ---
-uid: keyvault.getcertificateissuers.getcertificateissuers
+uid: KeyVaultClient/2016-10-01/GetCertificateIssuers
 authorization: Requires the certificates/listissuers permission.
 parameters:
     - name: api-version
@@ -101,7 +101,7 @@ You may use the `nextLink` field via an HTTP GET to retrieve the next set of res
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 ---
-uid: keyvault.setcertificateissuer.setcertificateissuer
+uid: KeyVaultClient/2016-10-01/SetCertificateIssuer
 authorization: Requires the certificates/setissuers permission.
 parameters:
     - name: api-version
@@ -118,7 +118,7 @@ Alternate Method: An alternative to using PUT is to use PATCH for update only be
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 ---
-uid: keyvault.updatecertificateissuer.updatecertificateissuer
+uid: KeyVaultClient/2016-10-01/UpdateCertificateIssuer
 authorization: Requires the certificates/setissuers permission.
 parameters:
     - name: api-version
@@ -135,7 +135,7 @@ Alternate Method: An alternative to using PUT is to use PATCH for update only be
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 ---
-uid: keyvault.getcertificateissuer.getcertificateissuer
+uid: KeyVaultClient/2016-10-01/GetCertificateIssuer
 authorization: Requires the certificates/getissuers permission.
 parameters:
     - name: api-version
@@ -156,7 +156,7 @@ The *pwd* field is never returned in response message.
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 ---
-uid: keyvault.deletecertificateissuer.deletecertificateissuer
+uid: KeyVaultClient/2016-10-01/DeleteCertificateIssuer
 authorization: Requires the certificates/deleteissuers permission.
 parameters:
     - name: api-version
@@ -175,7 +175,7 @@ In your request:
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 ---
-uid: keyvault.createcertificate.createcertificate
+uid: KeyVaultClient/2016-10-01/CreateCertificate
 authorization: Requires the certificates/create permission.
 parameters:
     - name: api-version
@@ -196,7 +196,7 @@ For more information about creating certificates, see [Get started with Key Vaul
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 ---
-uid: keyvault.importcertificate.importcertificate
+uid: KeyVaultClient/2016-10-01/ImportCertificate
 authorization: Requires the certificates/import permission.
 parameters:
     - name: api-version
@@ -252,7 +252,7 @@ In your request:
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 ---
-uid: keyvault.getcertificateversions.getcertificateversions
+uid: KeyVaultClient/2016-10-01/GetCertificateVersions
 authorization: Requires the certificates/list permission.
 parameters:
     - name: api-version
@@ -274,7 +274,7 @@ Request body: None, this is an HTTP GET operation.
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 ---
-uid: keyvault.getcertificatepolicy.getcertificatepolicy
+uid: KeyVaultClient/2016-10-01/GetCertificatePolicy
 authorization: Requires the certificates/get permission.
 parameters:
     - name: api-version
@@ -293,7 +293,7 @@ Request body: None, this is an HTTP GET operation.
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 ---
-uid: keyvault.updatecertificatepolicy.updatecertificatepolicy
+uid: KeyVaultClient/2016-10-01/UpdateCertificatePolicy
 authorization: Requires the certificates/update permission.
 parameters:
     - name: api-version
@@ -314,7 +314,7 @@ Alternate Method: An alternative to using PATCH is to use PUT so, you effect a s
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 ---
-uid: keyvault.updatecertificate.updatecertificate
+uid: KeyVaultClient/2016-10-01/UpdateCertificate
 authorization: Requires the certificates/update permission.
 parameters:
     - name: api-version
@@ -337,7 +337,7 @@ PATCH.
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 ---
-uid: keyvault.getcertificate.getcertificate
+uid: KeyVaultClient/2016-10-01/GetCertificate
 authorization: Requires the certificates/get permission.
 parameters:
     - name: api-version

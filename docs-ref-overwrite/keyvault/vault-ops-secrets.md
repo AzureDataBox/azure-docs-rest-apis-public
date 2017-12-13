@@ -1,5 +1,5 @@
 ---
-uid: keyvault.setsecret.setsecret
+uid: KeyVaultClient/2016-10-01/SetSecret
 authorization: Requires the secrets/set permission.
 parameters:
     - name: api-version
@@ -18,7 +18,7 @@ In your request:
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 ---
-uid: keyvault.getsecret.getsecret
+uid: KeyVaultClient/2016-10-01/GetSecret
 authorization: Requires the secrets/get permission.
 parameters:
     - name: api-version
@@ -39,7 +39,7 @@ Request Body - None, this is an HTTP GET operation.
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests, and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 ---
-uid: keyvault.getsecrets.getsecrets
+uid: KeyVaultClient/2016-10-01/GetSecrets
 authorization: Requires the secrets/list permission.
 parameters:
     - name: api-version
@@ -62,7 +62,7 @@ You may use the `nextLink` field via an HTTP GET to retrieve the next set of res
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests, and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 ---
-uid: keyvault.getsecretversions.getsecretversions
+uid: KeyVaultClient/2016-10-01/GetSecretVersions
 authorization: Requires the secrets/list permission.
 parameters:
     - name: api-version
@@ -87,7 +87,7 @@ You may use the `nextLink` field via an HTTP GET to retrieve the next set of res
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests, and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 ---
-uid: keyvault.deletesecret.deletesecret
+uid: KeyVaultClient/2016-10-01/DeleteSecret
 authorization: Requires the secrets/delete permission.
 parameters:
     - name: api-version
@@ -110,7 +110,7 @@ Request Body - None, this is an HTTP GET operation.
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests, and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 ---
-uid: keyvault.updatesecret.updatesecret
+uid: KeyVaultClient/2016-10-01/UpdateSecret
 authorization: Requires the secrets/set permission.
 parameters:
     - name: api-version
