@@ -1,10 +1,10 @@
 ---
-uid: KeyVaultClient/2016-10-01/SetSecret
+uid: keyvault.setsecret.setsecret
 authorization: Requires the secrets/set permission.
-parameters:
+uriParameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
-description: *content
+summary: *content
 ---
 
 The CREATE operation adds a secret to the Azure Key Vault. If the named secret already exists, Azure Key Vault creates a new version of that secret.
@@ -18,12 +18,12 @@ In your request:
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 ---
-uid: KeyVaultClient/2016-10-01/GetSecret
+uid: keyvault.getsecret.getsecret
 authorization: Requires the secrets/get permission.
-parameters:
+uriParameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
-description: *content
+summary: *content
 ---
 
 The GET operation is applicable to any secret stored in Azure Key Vault.
@@ -39,12 +39,12 @@ Request Body - None, this is an HTTP GET operation.
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests, and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 ---
-uid: KeyVaultClient/2016-10-01/GetSecrets
+uid: keyvault.getsecrets.getsecrets
 authorization: Requires the secrets/list permission.
-parameters:
+uriParameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
-description: *content
+summary: *content
 ---
 
 The LIST operation is applicable to the entire vault, however only the base secret identifier and attributes are provided in the response. Individual secret versions are not listed in the response.
@@ -62,12 +62,12 @@ You may use the `nextLink` field via an HTTP GET to retrieve the next set of res
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests, and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 ---
-uid: KeyVaultClient/2016-10-01/GetSecretVersions
+uid: keyvault.getsecretversions.getsecretversions
 authorization: Requires the secrets/list permission.
-parameters:
+uriParameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
-description: *content
+summary: *content
 ---
 
 The LIST VERSIONS operation can be applied to all versions having the same secret name in the same key vault. The full secret identifier and attributes are provided in the response.
@@ -87,12 +87,12 @@ You may use the `nextLink` field via an HTTP GET to retrieve the next set of res
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests, and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 ---
-uid: KeyVaultClient/2016-10-01/DeleteSecret
+uid: keyvault.deletesecret.deletesecret
 authorization: Requires the secrets/delete permission.
-parameters:
+uriParameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
-description: *content
+summary: *content
 ---
 
 The DELETE operation applies to any secret stored in Azure Key Vault. DELETE cannot be applied to an individual version of a secret.
@@ -110,12 +110,12 @@ Request Body - None, this is an HTTP GET operation.
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests, and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 ---
-uid: KeyVaultClient/2016-10-01/UpdateSecret
+uid: keyvault.updatesecret.updatesecret
 authorization: Requires the secrets/set permission.
-parameters:
+uriParameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
-description: *content
+summary: *content
 ---
 
 The UPDATE operation changes specified attributes of an existing stored secret. Attributes that are not specified in the request are left unchanged. The value of a secret itself cannot be changed.

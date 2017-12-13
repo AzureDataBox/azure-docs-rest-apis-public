@@ -1,10 +1,10 @@
 ---
-uid: KeyVaultClient/2016-10-01/GetCertificates
+uid: keyvault.getcertificates.getcertificates
 authorization: Requires the certificates/list permission.
-parameters:
+uriParameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
-description: *content
+summary: *content
 ---
 
 LIST current certificates.
@@ -20,12 +20,12 @@ Request body: An HTTP GET has no request body.
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 ---
-uid: KeyVaultClient/2016-10-01/DeleteCertificate
+uid: keyvault.deletecertificate.deletecertificate
 authorization: Requires the certificates/delete permission.
-parameters:
+uriParameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
-description: *content
+summary: *content
 ---
 
 Deletes all versions of a certificate object along with its associated policy. Delete certificate cannot be used to remove individual versions of a certificate object.
@@ -35,12 +35,12 @@ See [Common parameters and headers](~/docs-ref-conceptual/keyvault/common-parame
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 ---
-uid: KeyVaultClient/2016-10-01/SetCertificateContacts
+uid: keyvault.setcertificatecontacts.setcertificatecontacts
 authorization: Requires the certificates/managecontacts permission.
-parameters:
+uriParameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
-description: *content
+summary: *content
 ---
 
 Set the contacts for a given certificate.
@@ -50,12 +50,12 @@ See [Common parameters and headers](~/docs-ref-conceptual/keyvault/common-parame
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 ---
-uid: KeyVaultClient/2016-10-01/GetCertificateContacts
+uid: keyvault.getcertificatecontacts.getcertificatecontacts
 authorization: Requires the certificates/managecontacts permission.
-parameters:
+uriParameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
-description: *content
+summary: *content
 ---
 
 Gets all of the contacts for a given certificate.
@@ -65,12 +65,12 @@ See [Common parameters and headers](~/docs-ref-conceptual/keyvault/common-parame
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 ---
-uid: KeyVaultClient/2016-10-01/DeleteCertificateContacts
+uid: keyvault.deletecertificatecontacts.deletecertificatecontacts
 authorization: Requires the certificates/managecontacts permission.
-parameters:
+uriParameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
-description: *content
+summary: *content
 ---
 
 Delete all the contacts for a given certificate.
@@ -80,12 +80,12 @@ See [Common parameters and headers](~/docs-ref-conceptual/keyvault/common-parame
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 ---
-uid: KeyVaultClient/2016-10-01/GetCertificateIssuers
+uid: keyvault.getcertificateissuers.getcertificateissuers
 authorization: Requires the certificates/listissuers permission.
-parameters:
+uriParameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
-description: *content
+summary: *content
 ---
 
 List all certificate issuers for a given key vault.
@@ -101,12 +101,12 @@ You may use the `nextLink` field via an HTTP GET to retrieve the next set of res
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 ---
-uid: KeyVaultClient/2016-10-01/SetCertificateIssuer
+uid: keyvault.setcertificateissuer.setcertificateissuer
 authorization: Requires the certificates/setissuers permission.
-parameters:
+uriParameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
-description: *content
+summary: *content
 ---
 
 Create/set a certificate issuer in a given key vault.
@@ -118,12 +118,12 @@ Alternate Method: An alternative to using PUT is to use PATCH for update only be
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 ---
-uid: KeyVaultClient/2016-10-01/UpdateCertificateIssuer
+uid: keyvault.updatecertificateissuer.updatecertificateissuer
 authorization: Requires the certificates/setissuers permission.
-parameters:
+uriParameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
-description: *content
+summary: *content
 ---
 
 Update a certificate issuer in a given key vault.
@@ -135,12 +135,12 @@ Alternate Method: An alternative to using PUT is to use PATCH for update only be
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 ---
-uid: KeyVaultClient/2016-10-01/GetCertificateIssuer
+uid: keyvault.getcertificateissuer.getcertificateissuer
 authorization: Requires the certificates/getissuers permission.
-parameters:
+uriParameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
-description: *content
+summary: *content
 ---
 
 Get a certificate issuer from a given key vault.
@@ -156,12 +156,12 @@ The *pwd* field is never returned in response message.
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 ---
-uid: KeyVaultClient/2016-10-01/DeleteCertificateIssuer
+uid: keyvault.deletecertificateissuer.deletecertificateissuer
 authorization: Requires the certificates/deleteissuers permission.
-parameters:
+uriParameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
-description: *content
+summary: *content
 ---
 
 Delete a certificate issuer from the key vault.
@@ -175,12 +175,12 @@ In your request:
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 ---
-uid: KeyVaultClient/2016-10-01/CreateCertificate
+uid: keyvault.createcertificate.createcertificate
 authorization: Requires the certificates/create permission.
-parameters:
+uriParameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
-description: *content
+summary: *content
 ---
 
 If this is the first version, the certificate resource is created.
@@ -196,12 +196,12 @@ For more information about creating certificates, see [Get started with Key Vaul
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 ---
-uid: KeyVaultClient/2016-10-01/ImportCertificate
+uid: keyvault.importcertificate.importcertificate
 authorization: Requires the certificates/import permission.
-parameters:
+uriParameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
-description: *content
+summary: *content
 ---
 
 Imports an existing valid certificate, containing a private key, into Azure Key Vault. The certificate to be imported can be in either PFX or PEM format. If the certificate is in PEM format the PEM file must contain the key as well as x509 certificates.
@@ -252,12 +252,12 @@ In your request:
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 ---
-uid: KeyVaultClient/2016-10-01/GetCertificateVersions
+uid: keyvault.getcertificateversions.getcertificateversions
 authorization: Requires the certificates/list permission.
-parameters:
+uriParameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
-description: *content
+summary: *content
 ---
 
 List all versions of a given certificate.
@@ -274,12 +274,12 @@ Request body: None, this is an HTTP GET operation.
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 ---
-uid: KeyVaultClient/2016-10-01/GetCertificatePolicy
+uid: keyvault.getcertificatepolicy.getcertificatepolicy
 authorization: Requires the certificates/get permission.
-parameters:
+uriParameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
-description: *content
+summary: *content
 ---
 
 See [Common parameters and headers](~/docs-ref-conceptual/keyvault/common-parameters-and-headers.md) for headers and parameters that are used by all requests.
@@ -293,12 +293,12 @@ Request body: None, this is an HTTP GET operation.
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 ---
-uid: KeyVaultClient/2016-10-01/UpdateCertificatePolicy
+uid: keyvault.updatecertificatepolicy.updatecertificatepolicy
 authorization: Requires the certificates/update permission.
-parameters:
+uriParameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
-description: *content
+summary: *content
 ---
 
 Set specified members in the certificate policy. Leave others as null.
@@ -314,12 +314,12 @@ Alternate Method: An alternative to using PATCH is to use PUT so, you effect a s
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 ---
-uid: KeyVaultClient/2016-10-01/UpdateCertificate
+uid: keyvault.updatecertificate.updatecertificate
 authorization: Requires the certificates/update permission.
-parameters:
+uriParameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
-description: *content
+summary: *content
 ---
 
 The update operation changes non-read-only properties in the attributes or tags of current or specified version of a key vault certificate.
@@ -337,12 +337,12 @@ PATCH.
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 ---
-uid: KeyVaultClient/2016-10-01/GetCertificate
+uid: keyvault.getcertificate.getcertificate
 authorization: Requires the certificates/get permission.
-parameters:
+uriParameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
-description: *content
+summary: *content
 ---
 
 Get the current or a particular verion of a key vault certificate.
