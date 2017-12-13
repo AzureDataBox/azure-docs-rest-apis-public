@@ -30,6 +30,7 @@ responses:
 requestBody:
 - parameters:
   - in: body
+    isRequired: true
     description: The deviceId uniquely identifies the device in the IoT hub's identity registry. A case-sensitive string (up to 128 char long) of ASCII 7-bit alphanumeric chars + {'-', ':', '.', '+', '%', '_', '#', '*', '?', '!', '(', ')', ',', '=', '@', ';', '$', '''}.
     types:
     - uid: string
@@ -44,6 +45,7 @@ requestBody:
     - uid: ImportMode
     name: importMode
   - in: body
+    isRequired: true
     description: Represents the current status of a device. A disabled device is not allowed to perform any messaging operation. An IoT hub administrator can choose to enable or disable a device.
     types:
     - uid: DeviceStatus
@@ -74,6 +76,131 @@ requestBody:
     name: properties
 requestHeader: []
 definitions:
+- name: AuthenticationMechanism
+  description: Used to specify the authentication mechanism used by a device. Two mutually-exclusive options are supported - shared access signature keys and device X.509 client certificates.
+  kind: object
+  properties:
+  - description: Primary and secondary shared access signature symmetric keys of a device. If specified, both primary key and secondary key are required. The keys must be in valid base-64 format with a key length between 16 bytes and 64 bytes. They can be identical. If they are not specified, the Iot Hub generates both keys for the device with a default key length of 32 bytes.
+    types:
+    - uid: SymmetricKey
+    name: symmetricKey
+  - description: If the device is using X.509 client certificates for authentication, at least one of primaryThumbprint or secondaryThumbprint must be specified. They can be identical.
+    types:
+    - uid: X509Thumbprint
+    name: x509Thumbprint
+- name: PropertyContainer
+  description: Container of desired and reported IoT Hub device twin properties.
+  kind: object
+  properties:
+  - description: Type representing properties that are part of IoT Hub device twin.
+    types:
+    - uid: DeviceTwinProperties
+    name: desired
+  - description: Type representing properties that are part of IoT Hub device twin.
+    types:
+    - uid: DeviceTwinProperties
+    name: reported
+- name: BulkRegistryOperationResult
+  description: Encapsulates the result of a bulk device identity operation. The "errors" array contains an entry for each error encountered during the bulk device identity operation.
+  kind: object
+  properties:
+  - types:
+    - uid: boolean
+    name: isSuccessful
+  - types:
+    - uid: DeviceRegistryOperationError
+    name: errors
+- name: ExportImportDevice
+  description: Container of IoT Hub device properties and their accessors for import and export scenarios
+  kind: object
+  properties:
+  - description: The deviceId uniquely identifies the device in the IoT hub's identity registry. A case-sensitive string (up to 128 char long) of ASCII 7-bit alphanumeric chars + {'-', ':', '.', '+', '%', '_', '#', '*', '?', '!', '(', ')', ',', '=', '@', ';', '$', '''}.
+    types:
+    - uid: string
+    name: id
+  - types:
+    - uid: string
+    name: eTag
+  - description: Identifies the behavior when merging a device to the registry during import actions.
+    types:
+    - uid: ImportMode
+    name: importMode
+  - description: Represents the current status of a device. A disabled device is not allowed to perform any messaging operation. An IoT hub administrator can choose to enable or disable a device.
+    types:
+    - uid: DeviceStatus
+    name: status
+  - description: A string of user metadata. Reason, if any, for the device to be in specified status. Not interpreted or used by Iot Hub.
+    types:
+    - uid: string
+    name: statusReason
+  - description: Used to specify the authentication mechanism used by a device. Two mutually-exclusive options are supported - shared access signature keys and device X.509 client certificates.
+    types:
+    - uid: AuthenticationMechanism
+    name: authentication
+  - description: A set of key-value pair tags. You can use tags to select devices when you query the identity registry.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+      uid: object
+    name: tags
+  - description: Container of desired and reported IoT Hub device twin properties.
+    types:
+    - uid: PropertyContainer
+    name: properties
+- name: SymmetricKey
+  description: Primary and secondary shared access signature symmetric keys of a device. If specified, both primary key and secondary key are required. The keys must be in valid base-64 format with a key length between 16 bytes and 64 bytes. They can be identical. If they are not specified, the Iot Hub generates both keys for the device with a default key length of 32 bytes.
+  kind: object
+  properties:
+  - types:
+    - uid: string
+    name: primaryKey
+  - types:
+    - uid: string
+    name: secondaryKey
+- name: X509Thumbprint
+  description: If the device is using X.509 client certificates for authentication, at least one of primaryThumbprint or secondaryThumbprint must be specified. They can be identical.
+  kind: object
+  properties:
+  - description: Represents the SHA-1 hash of the X.509 client certificate used by the device when connecting to an IoT hub. Thumbprint values other than 40 hex chars are not accepted.
+    types:
+    - uid: string
+    name: primaryThumbprint
+  - description: Represents the SHA-1 hash of the X.509 client certificate used by the device when connecting to an IoT hub. Thumbprint values other than 40 hex chars are not accepted.
+    types:
+    - uid: string
+    name: secondaryThumbprint
+- name: DeviceTwinProperties
+  description: Type representing properties that are part of IoT Hub device twin.
+  kind: object
+  properties:
+  - types:
+    - uid: integer
+    name: Version
+  - types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+      uid: object
+    name: Properties
+  - description: Metadata
+    types:
+    - uid: Metadata
+    name: Metadata
+- name: DeviceRegistryOperationError
+  kind: object
+  properties:
+  - types:
+    - uid: string
+    name: deviceId
+  - types:
+    - uid: ErrorCode
+    name: errorCode
+  - types:
+    - uid: string
+    name: errorStatus
 - name: ImportMode
   description: Identifies the behavior when merging a device to the registry during import actions.
   kind: enum
@@ -109,30 +236,28 @@ definitions:
   - types:
     - uid: string
     name: disabled
-- name: BulkRegistryOperationResult
-  description: Encapsulates the result of a bulk device identity operation. The "errors" array contains an entry for each error encountered during the bulk device identity operation.
+- name: Metadata
+  description: Metadata
   kind: object
   properties:
-  - types:
+  - description: The last time the properties were updated. In ISO8601 datetime format in UTC, for example, 2015-01-28T16:24:48.789Z.
+    types:
+    - uid: VariantValueDateTime
+    name: LastUpdatedUtc
+  - description: This SHOULD be null for Reported properties metadata and MUST not be null for Desired properties metadata.
+    types:
+    - uid: integer
+    name: LastUpdatedVersion
+  - isReadyOnly: true
+    description: True if nested properies are present.
+    types:
     - uid: boolean
-    name: isSuccessful
-  - types:
-    - isArray: true
-      uid: DeviceRegistryOperationError
-    name: errors
-- name: DeviceRegistryOperationError
-  description: Encapsulated device identity operation error details.
-  kind: object
-  properties:
-  - types:
-    - uid: string
-    name: deviceId
-  - types:
-    - uid: ErrorCode
-    name: errorCode
-  - types:
-    - uid: string
-    name: errorStatus
+    name: HasChildren
+  - isReadyOnly: true
+    description: Nested properties.
+    types:
+    - {}
+    name: Nested
 - name: ErrorCode
   kind: enum
   properties:
@@ -385,6 +510,22 @@ definitions:
   - types:
     - uid: string
     name: GatewayTimeout
+- name: VariantValueDateTime
+  description: The last time the properties were updated. In ISO8601 datetime format in UTC, for example, 2015-01-28T16:24:48.789Z.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    types:
+    - uid: string
+    name: Value
+  - isReadyOnly: true
+    types:
+    - uid: object
+    name: ObjectValue
+  - isReadyOnly: true
+    types:
+    - uid: boolean
+    name: IsNull
 examples: []
 security: []
 name: BulkDeviceOperation

@@ -55,7 +55,7 @@ responses:
 requestHeader: []
 definitions:
 - name: DatasetResource
-  description: Dataset resource type.
+  description: List of datasets.
   kind: object
   properties:
   - description: Dataset properties.
@@ -130,67 +130,6 @@ definitions:
     types:
     - uid: string
     name: etag
-- name: LinkedServiceReference
-  description: Linked service reference.
-  kind: object
-  properties:
-  - description: Linked service reference type.
-    types:
-    - uid: LinkedServiceReference
-    typesTitle: enum
-    name: type
-  - description: Reference LinkedService name.
-    types:
-    - uid: string
-    name: referenceName
-- description: Linked service reference type.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: LinkedServiceReference
-- name: ParameterDefinitionSpecification
-  description: Parameters for dataset.
-  kind: object
-  properties:
-  - description: Definition of a single parameter for an entity.
-    types:
-    - uid: ParameterSpecification
-    name: ''
-- name: ParameterSpecification
-  description: Definition of a single parameter for an entity.
-  kind: object
-  properties:
-  - description: Parameter type.
-    types:
-    - uid: ParameterType
-    name: type
-  - description: Default value of parameter.
-    types:
-    - uid: object
-    name: defaultValue
-- name: ParameterType
-  description: Parameter type.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Object
-  - types:
-    - uid: string
-    name: String
-  - types:
-    - uid: string
-    name: Int
-  - types:
-    - uid: string
-    name: Float
-  - types:
-    - uid: string
-    name: Bool
-  - types:
-    - uid: string
-    name: Array
 - name: ErrorResponse
   description: The object that defines the structure of an Azure Data Factory response.
   kind: object
@@ -209,8 +148,7 @@ definitions:
     name: target
   - description: Array with additional error details.
     types:
-    - isArray: true
-      uid: Details
+    - uid: ErrorResponse
     name: details
 - name: ZohoObjectDataset
   description: Zoho server dataset.
@@ -973,15 +911,15 @@ definitions:
   - description: 'The relative URL based on the URL in the HttpLinkedService refers to an HTTP file Type: string (or Expression with resultType string).'
     types:
     - uid: object
-    name: relativeUrl
+    name: typeProperties.relativeUrl
   - description: 'The HTTP method for the HTTP request. Type: string (or Expression with resultType string).'
     types:
     - uid: object
-    name: requestMethod
+    name: typeProperties.requestMethod
   - description: 'The body for the HTTP request. Type: string (or Expression with resultType string).'
     types:
     - uid: object
-    name: requestBody
+    name: typeProperties.requestBody
   - description: >-
       The headers for the HTTP Request. e.g. request-header-name-1:request-header-value-1
 
@@ -990,7 +928,7 @@ definitions:
       request-header-name-n:request-header-value-n Type: string (or Expression with resultType string).
     types:
     - uid: object
-    name: additionalHeaders
+    name: typeProperties.additionalHeaders
   - description: The format of files.
     types:
     - uid: ParquetFormat
@@ -999,7 +937,7 @@ definitions:
     - uid: JsonFormat
     - uid: TextFormat
     typesTitle: DatasetStorageFormat
-    name: format
+    name: typeProperties.format
   - description: The data compression method used on files.
     types:
     - uid: DatasetZipDeflateCompression
@@ -1007,7 +945,7 @@ definitions:
     - uid: DatasetGZipCompression
     - uid: DatasetBZip2Compression
     typesTitle: DatasetCompression
-    name: compression
+    name: typeProperties.compression
   - description: Type of dataset.
     types:
     - uid: HttpFile
@@ -1040,7 +978,7 @@ definitions:
   - description: 'The name of the Azure Search Index. Type: string (or Expression with resultType string).'
     types:
     - uid: object
-    name: indexName
+    name: typeProperties.indexName
   - description: Type of dataset.
     types:
     - uid: AzureSearchIndex
@@ -1073,11 +1011,11 @@ definitions:
   - description: 'The zero-based index of the table in the web page. Type: integer (or Expression with resultType integer), minimum: 0.'
     types:
     - uid: object
-    name: index
+    name: typeProperties.index
   - description: 'The relative URL to the web page from the linked service URL. Type: string (or Expression with resultType string).'
     types:
     - uid: object
-    name: path
+    name: typeProperties.path
   - description: Type of dataset.
     types:
     - uid: WebTable
@@ -1110,7 +1048,7 @@ definitions:
   - description: 'The table name of the SQL Server dataset. Type: string (or Expression with resultType string).'
     types:
     - uid: object
-    name: tableName
+    name: typeProperties.tableName
   - description: Type of dataset.
     types:
     - uid: SqlServerTable
@@ -1143,7 +1081,7 @@ definitions:
   - description: 'The path of the SAP Cloud for Customer OData entity. Type: string (or Expression with resultType string).'
     types:
     - uid: object
-    name: path
+    name: typeProperties.path
   - description: Type of dataset.
     types:
     - uid: SapCloudForCustomerResource
@@ -1176,7 +1114,7 @@ definitions:
   - description: 'The Salesforce object API name. Type: string (or Expression with resultType string).'
     types:
     - uid: object
-    name: objectApiName
+    name: typeProperties.objectApiName
   - description: Type of dataset.
     types:
     - uid: SalesforceObject
@@ -1209,7 +1147,7 @@ definitions:
   - description: 'The relational table name. Type: string (or Expression with resultType string).'
     types:
     - uid: object
-    name: tableName
+    name: typeProperties.tableName
   - description: Type of dataset.
     types:
     - uid: RelationalTable
@@ -1242,7 +1180,7 @@ definitions:
   - description: 'The Azure MySQL database table name. Type: string (or Expression with resultType string).'
     types:
     - uid: object
-    name: tableName
+    name: typeProperties.tableName
   - description: Type of dataset.
     types:
     - uid: AzureMySqlTable
@@ -1275,7 +1213,7 @@ definitions:
   - description: 'The table name of the on-premises Oracle database. Type: string (or Expression with resultType string).'
     types:
     - uid: object
-    name: tableName
+    name: typeProperties.tableName
   - description: Type of dataset.
     types:
     - uid: OracleTable
@@ -1308,7 +1246,7 @@ definitions:
   - description: 'The OData resource path. Type: string (or Expression with resultType string).'
     types:
     - uid: object
-    name: path
+    name: typeProperties.path
   - description: Type of dataset.
     types:
     - uid: ODataResource
@@ -1341,7 +1279,7 @@ definitions:
   - description: 'The table name of the MongoDB database. Type: string (or Expression with resultType string).'
     types:
     - uid: object
-    name: collectionName
+    name: typeProperties.collectionName
   - description: Type of dataset.
     types:
     - uid: MongoDbCollection
@@ -1374,11 +1312,11 @@ definitions:
   - description: 'The path of the on-premises file system. Type: string (or Expression with resultType string).'
     types:
     - uid: object
-    name: folderPath
+    name: typeProperties.folderPath
   - description: 'The name of the on-premises file system. Type: string (or Expression with resultType string).'
     types:
     - uid: object
-    name: fileName
+    name: typeProperties.fileName
   - description: The format of the files.
     types:
     - uid: ParquetFormat
@@ -1387,11 +1325,11 @@ definitions:
     - uid: JsonFormat
     - uid: TextFormat
     typesTitle: DatasetStorageFormat
-    name: format
+    name: typeProperties.format
   - description: 'Specify a filter to be used to select a subset of files in the folderPath rather than all files. Type: string (or Expression with resultType string).'
     types:
     - uid: object
-    name: fileFilter
+    name: typeProperties.fileFilter
   - description: The data compression method used for the file system.
     types:
     - uid: DatasetZipDeflateCompression
@@ -1399,7 +1337,7 @@ definitions:
     - uid: DatasetGZipCompression
     - uid: DatasetBZip2Compression
     typesTitle: DatasetCompression
-    name: compression
+    name: typeProperties.compression
   - description: Type of dataset.
     types:
     - uid: FileShare
@@ -1432,11 +1370,11 @@ definitions:
   - description: 'Path to the folder in the Azure Data Lake Store. Type: string (or Expression with resultType string).'
     types:
     - uid: object
-    name: folderPath
+    name: typeProperties.folderPath
   - description: 'The name of the file in the Azure Data Lake Store. Type: string (or Expression with resultType string).'
     types:
     - uid: object
-    name: fileName
+    name: typeProperties.fileName
   - description: The format of the Data Lake Store.
     types:
     - uid: ParquetFormat
@@ -1445,7 +1383,7 @@ definitions:
     - uid: JsonFormat
     - uid: TextFormat
     typesTitle: DatasetStorageFormat
-    name: format
+    name: typeProperties.format
   - description: The data compression method used for the item(s) in the Azure Data Lake Store.
     types:
     - uid: DatasetZipDeflateCompression
@@ -1453,7 +1391,7 @@ definitions:
     - uid: DatasetGZipCompression
     - uid: DatasetBZip2Compression
     typesTitle: DatasetCompression
-    name: compression
+    name: typeProperties.compression
   - description: Type of dataset.
     types:
     - uid: AzureDataLakeStoreFile
@@ -1486,7 +1424,7 @@ definitions:
   - description: 'The logical name of the entity. Type: string (or Expression with resultType string).'
     types:
     - uid: object
-    name: entityName
+    name: typeProperties.entityName
   - description: Type of dataset.
     types:
     - uid: DynamicsEntity
@@ -1519,7 +1457,7 @@ definitions:
   - description: 'Document Database collection name. Type: string (or Expression with resultType string).'
     types:
     - uid: object
-    name: collectionName
+    name: typeProperties.collectionName
   - description: Type of dataset.
     types:
     - uid: DocumentDbCollection
@@ -1551,8 +1489,7 @@ definitions:
   properties:
   - description: Type of dataset.
     types:
-    - {}
-    typesTitle: string
+    - uid: string
     name: type
   - description: Dataset description.
     types:
@@ -1581,11 +1518,11 @@ definitions:
   - description: 'The table name of the Cassandra database. Type: string (or Expression with resultType string).'
     types:
     - uid: object
-    name: tableName
+    name: typeProperties.tableName
   - description: 'The keyspace of the Cassandra database. Type: string (or Expression with resultType string).'
     types:
     - uid: object
-    name: keyspace
+    name: typeProperties.keyspace
   - description: Type of dataset.
     types:
     - uid: CassandraTable
@@ -1618,7 +1555,7 @@ definitions:
   - description: 'The table name of the Azure SQL Data Warehouse. Type: string (or Expression with resultType string).'
     types:
     - uid: object
-    name: tableName
+    name: typeProperties.tableName
   - description: Type of dataset.
     types:
     - uid: AzureSqlDWTable
@@ -1651,7 +1588,7 @@ definitions:
   - description: 'The table name of the Azure SQL database. Type: string (or Expression with resultType string).'
     types:
     - uid: object
-    name: tableName
+    name: typeProperties.tableName
   - description: Type of dataset.
     types:
     - uid: AzureSqlTable
@@ -1684,7 +1621,7 @@ definitions:
   - description: 'The table name of the Azure Table storage. Type: string (or Expression with resultType string).'
     types:
     - uid: object
-    name: tableName
+    name: typeProperties.tableName
   - description: Type of dataset.
     types:
     - uid: AzureTable
@@ -1717,15 +1654,15 @@ definitions:
   - description: 'The path of the Azure Blob storage. Type: string (or Expression with resultType string).'
     types:
     - uid: object
-    name: folderPath
+    name: typeProperties.folderPath
   - description: 'The root of blob path. Type: string (or Expression with resultType string).'
     types:
     - uid: object
-    name: tableRootLocation
+    name: typeProperties.tableRootLocation
   - description: 'The name of the Azure Blob. Type: string (or Expression with resultType string).'
     types:
     - uid: object
-    name: fileName
+    name: typeProperties.fileName
   - description: The format of the Azure Blob storage.
     types:
     - uid: ParquetFormat
@@ -1734,7 +1671,7 @@ definitions:
     - uid: JsonFormat
     - uid: TextFormat
     typesTitle: DatasetStorageFormat
-    name: format
+    name: typeProperties.format
   - description: The data compression method used for the blob storage.
     types:
     - uid: DatasetZipDeflateCompression
@@ -1742,7 +1679,7 @@ definitions:
     - uid: DatasetGZipCompression
     - uid: DatasetBZip2Compression
     typesTitle: DatasetCompression
-    name: compression
+    name: typeProperties.compression
   - description: Type of dataset.
     types:
     - uid: AzureBlob
@@ -1775,19 +1712,19 @@ definitions:
   - description: 'The name of the Amazon S3 bucket. Type: string (or Expression with resultType string).'
     types:
     - uid: object
-    name: bucketName
+    name: typeProperties.bucketName
   - description: 'The key of the Amazon S3 object. Type: string (or Expression with resultType string).'
     types:
     - uid: object
-    name: key
+    name: typeProperties.key
   - description: 'The prefix filter for the S3 object name. Type: string (or Expression with resultType string).'
     types:
     - uid: object
-    name: prefix
+    name: typeProperties.prefix
   - description: 'The version for the S3 object. Type: string (or Expression with resultType string).'
     types:
     - uid: object
-    name: version
+    name: typeProperties.version
   - description: The format of files.
     types:
     - uid: ParquetFormat
@@ -1796,7 +1733,7 @@ definitions:
     - uid: JsonFormat
     - uid: TextFormat
     typesTitle: DatasetStorageFormat
-    name: format
+    name: typeProperties.format
   - description: The data compression method used for the Amazon S3 object.
     types:
     - uid: DatasetZipDeflateCompression
@@ -1804,7 +1741,7 @@ definitions:
     - uid: DatasetGZipCompression
     - uid: DatasetBZip2Compression
     typesTitle: DatasetCompression
-    name: compression
+    name: typeProperties.compression
   - description: Type of dataset.
     types:
     - uid: AmazonS3Object
@@ -1830,14 +1767,46 @@ definitions:
       - uid: ParameterSpecification
       uid: object
     name: parameters
+- name: LinkedServiceReference
+  description: The Azure Key Vault linked service reference.
+  kind: object
+  properties:
+  - description: Linked service reference type.
+    types:
+    - uid: LinkedServiceReference
+    typesTitle: enum
+    name: type
+  - description: Reference LinkedService name.
+    types:
+    - uid: string
+    name: referenceName
+- name: ParameterDefinitionSpecification
+  description: Parameters for dataset.
+  kind: object
+  properties:
+  - description: Definition of a single parameter for an entity.
+    types:
+    - uid: ParameterSpecification
+    name: ''
+- name: ParameterSpecification
+  description: Definition of a single parameter for an entity.
+  kind: object
+  properties:
+  - description: Parameter type.
+    types:
+    - uid: ParameterType
+    name: type
+  - description: Default value of parameter.
+    types:
+    - uid: object
+    name: defaultValue
 - name: ParquetFormat
   description: The data stored in Parquet format.
   kind: object
   properties:
   - description: Type of dataset storage format.
     types:
-    - {}
-    typesTitle: string
+    - uid: string
     name: type
   - description: 'Serializer. Type: string (or Expression with resultType string).'
     types:
@@ -1853,8 +1822,7 @@ definitions:
   properties:
   - description: Type of dataset storage format.
     types:
-    - {}
-    typesTitle: string
+    - uid: string
     name: type
   - description: 'Serializer. Type: string (or Expression with resultType string).'
     types:
@@ -1870,8 +1838,7 @@ definitions:
   properties:
   - description: Type of dataset storage format.
     types:
-    - {}
-    typesTitle: string
+    - uid: string
     name: type
   - description: 'Serializer. Type: string (or Expression with resultType string).'
     types:
@@ -1907,8 +1874,7 @@ definitions:
     name: jsonPathDefinition
   - description: Type of dataset storage format.
     types:
-    - {}
-    typesTitle: string
+    - uid: string
     name: type
   - description: 'Serializer. Type: string (or Expression with resultType string).'
     types:
@@ -1918,16 +1884,6 @@ definitions:
     types:
     - uid: object
     name: deserializer
-- name: JsonFormatFilePattern
-  description: File pattern of JSON. To be more specific, the way of separating a collection of JSON objects. The default value is 'setOfObjects'. It is case-sensitive.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: setOfObjects
-  - types:
-    - uid: string
-    name: arrayOfObjects
 - name: TextFormat
   description: The data stored in text format.
   kind: object
@@ -1970,8 +1926,7 @@ definitions:
     name: firstRowAsHeader
   - description: Type of dataset storage format.
     types:
-    - {}
-    typesTitle: string
+    - uid: string
     name: type
   - description: 'Serializer. Type: string (or Expression with resultType string).'
     types:
@@ -1994,16 +1949,6 @@ definitions:
     - uid: ZipDeflate
     typesTitle: string
     name: type
-- name: DatasetCompressionLevel
-  description: The ZipDeflate compression level.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Optimal
-  - types:
-    - uid: string
-    name: Fastest
 - name: DatasetDeflateCompression
   description: The Deflate compression method used on a dataset.
   kind: object
@@ -2039,6 +1984,48 @@ definitions:
     - uid: BZip2
     typesTitle: string
     name: type
+- name: ParameterType
+  description: Parameter type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Object
+  - types:
+    - uid: string
+    name: String
+  - types:
+    - uid: string
+    name: Int
+  - types:
+    - uid: string
+    name: Float
+  - types:
+    - uid: string
+    name: Bool
+  - types:
+    - uid: string
+    name: Array
+- name: JsonFormatFilePattern
+  description: JSON format file pattern. A property of JsonFormat.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: setOfObjects
+  - types:
+    - uid: string
+    name: arrayOfObjects
+- name: DatasetCompressionLevel
+  description: The ZipDeflate compression level.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Optimal
+  - types:
+    - uid: string
+    name: Fastest
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/datasets/exampleDataset?api-version=2017-09-01-preview
@@ -2055,7 +2042,41 @@ examples:
       name: x-ms-ratelimit-remaining-subscription-reads
     - value: 949f7936-4ad4-49bc-8d2a-5f56a8938fba
       name: x-ms-correlation-request-id
-    body: '{"id":"/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/datasets/exampleDataset","name":"exampleDataset","properties":{"type":"AzureBlob","typeProperties":{"folderPath":{"value":"@dataset().MyFolderPath","type":"Expression"},"fileName":{"value":"@dataset().MyFileName","type":"Expression"},"format":{"type":"TextFormat"}},"description":"Example description","linkedServiceName":{"referenceName":"exampleLinkedService","type":"LinkedServiceReference"},"parameters":{"MyFolderPath":{"type":"String"},"MyFileName":{"type":"String"}}},"etag":"280320a7-0000-0000-0000-59b9712a0000"}'
+    body: >-
+      {
+        "id": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/datasets/exampleDataset",
+        "name": "exampleDataset",
+        "properties": {
+          "type": "AzureBlob",
+          "typeProperties": {
+            "folderPath": {
+              "value": "@dataset().MyFolderPath",
+              "type": "Expression"
+            },
+            "fileName": {
+              "value": "@dataset().MyFileName",
+              "type": "Expression"
+            },
+            "format": {
+              "type": "TextFormat"
+            }
+          },
+          "description": "Example description",
+          "linkedServiceName": {
+            "referenceName": "exampleLinkedService",
+            "type": "LinkedServiceReference"
+          },
+          "parameters": {
+            "MyFolderPath": {
+              "type": "String"
+            },
+            "MyFileName": {
+              "type": "String"
+            }
+          }
+        },
+        "etag": "280320a7-0000-0000-0000-59b9712a0000"
+      }
   name: Datasets_Get
 security:
 - type: oauth2

@@ -59,7 +59,7 @@ responses:
 requestHeader: []
 definitions:
 - name: QuotaCounterContract
-  description: Quota counter details.
+  description: Quota counter values.
   kind: object
   properties:
   - description: The Key value of the Counter. Must not be empty.
@@ -84,18 +84,6 @@ definitions:
     types:
     - uid: QuotaCounterValueContractProperties
     name: Value
-- name: QuotaCounterValueContractProperties
-  description: Quota Value Properties
-  kind: object
-  properties:
-  - description: Number of times Counter was called.
-    types:
-    - uid: integer
-    name: callsCount
-  - description: Data Transferred in KiloBytes.
-    types:
-    - uid: number
-    name: kbTransferred
 - name: ErrorResponse
   description: Error Body contract.
   kind: object
@@ -110,9 +98,20 @@ definitions:
     name: message
   - description: The list of invalid fields send in request, in case of validation error.
     types:
-    - isArray: true
-      uid: ErrorFieldContract
+    - uid: ErrorFieldContract
     name: details
+- name: QuotaCounterValueContractProperties
+  description: Quota Value Properties
+  kind: object
+  properties:
+  - description: Number of times Counter was called.
+    types:
+    - uid: integer
+    name: callsCount
+  - description: Data Transferred in KiloBytes.
+    types:
+    - uid: number
+    name: kbTransferred
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
@@ -134,7 +133,17 @@ examples:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/quotas/ba/0_P3Y6M4DT12H30M5S?api-version=2017-03-01
   responses:
   - statusCode: "200"
-    body: '{"counterKey":"ba","periodKey":"0_P3Y6M4DT12H30M5S","periodStartTime":"2014-08-04T04:24:35Z","periodEndTime":"2018-02-08T16:54:40Z","Value":{"callsCount":0,"kbTransferred":2.5625}}'
+    body: >-
+      {
+        "counterKey": "ba",
+        "periodKey": "0_P3Y6M4DT12H30M5S",
+        "periodStartTime": "2014-08-04T04:24:35Z",
+        "periodEndTime": "2018-02-08T16:54:40Z",
+        "Value": {
+          "callsCount": 0,
+          "kbTransferred": 2.5625
+        }
+      }
   name: ApiManagementGetQuotaCounteryKeysByQuotaPeriod
 security:
 - type: oauth2

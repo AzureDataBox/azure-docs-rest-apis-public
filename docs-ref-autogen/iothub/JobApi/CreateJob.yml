@@ -65,31 +65,70 @@ requestBody:
     name: maxExecutionTimeInSeconds
 requestHeader: []
 definitions:
-- description: The type of job to execute.
-  kind: enum
+- name: CloudToDeviceMethod
+  description: Required if jobType is scheduleDeviceMethod.
+  kind: object
   properties:
-  - types:
+  - description: Name of the direct method.
+    types:
     - uid: string
-    name: scheduleDeviceMethod
-  - types:
-    - uid: string
-    name: scheduleUpdateTwin
-- name: ProvisioningState
-  description: Provisioning state of device twin.
-  kind: enum
+    name: methodName
+  - description: Payload of the direct method request.
+    types:
+    - uid: object
+    name: payload
+  - description: Maximum time allowed between the device app receiving the direct method request and sending the corresponding response.
+    types:
+    - uid: integer
+    name: responseTimeoutInSeconds
+  - description: Maximum time allowed to deliver a direct method request if a device is offline.
+    types:
+    - uid: integer
+    name: connectTimeoutInSeconds
+- name: DeviceTwinInfo
+  description: Required if jobType is scheduleUpdateTwin.
+  kind: object
   properties:
-  - types:
+  - description: The deviceId uniquely identifies the device in the IoT hub's identity registry. A case-sensitive string (up to 128 char long) of ASCII 7-bit alphanumeric chars + {'-', ':', '.', '+', '%', '_', '#', '*', '?', '!', '(', ')', ',', '=', '@', ';', '$', '''}.
+    types:
     - uid: string
-    name: Creating
-  - types:
-    - uid: string
-    name: Deleting
-  - types:
-    - uid: string
-    name: Active
-  - types:
-    - uid: string
-    name: Deleted
+    name: DeviceId
+  - description: The last time the device connected, received or sent a message. In ISO8601 datetime format in UTC, for example, 2015-01-28T16:24:48.789Z. This does not update if the device uses the HTTP/1 protocol to perform messaging operations.
+    types:
+    - uid: VariantValueDateTime
+    name: LastActivityTimeUtc
+  - description: Indicates if the device is currently connected to the IoT hub or not.
+    types:
+    - uid: boolean
+    name: IsConnected
+  - description: The last time the device connected to the IoT hub. In ISO8601 datetime format in UTC, for example, 2015-01-28T16:24:48.789Z. This does not update if the device uses the HTTP/1 protocol to perform messaging operations.
+    types:
+    - uid: VariantValueDateTime
+    name: LastConnectedTimeUtc
+  - description: Version for device twin, including tags and desired properties
+    types:
+    - uid: integer
+    name: Version
+  - description: A JSON document read and written by the solution back end. Tags are not visible to device apps.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+      uid: object
+    name: Tags
+  - description: Used in conjunction with reported properties to synchronize device configuration or condition. Desired properties can only be set by the solution back end and can be read by the device app. The device app can also be notified in real time of changes on the desired properties.
+    types:
+    - uid: DeviceTwinProperties
+    name: DesiredProperties
+  - description: Used in conjunction with desired properties to synchronize device configuration or condition. Reported properties can only be set by the device app and can be read and queried by the solution back end.
+    types:
+    - uid: DeviceTwinProperties
+    name: ReportedProperties
+  - description: Provisioning state of device twin.
+    types:
+    - uid: ProvisioningState
+    name: ProvisioningState
 - name: JobResponse
   description: Container of parameters for a job response.
   kind: object
@@ -144,80 +183,40 @@ definitions:
     types:
     - uid: DeviceJobStatistics
     name: deviceJobStatistics
-- name: JobType
-  description: The type of job to execute.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: scheduleDeviceMethod
-  - types:
-    - uid: string
-    name: scheduleUpdateTwin
-- name: CloudToDeviceMethod
-  description: Parameters to execute a direct method on the device.
+- name: JobRequest
+  description: Container of parameters for a job request.
   kind: object
   properties:
-  - description: Name of the direct method.
+  - description: Application provided ID for the job.
     types:
     - uid: string
-    name: methodName
-  - description: Payload of the direct method request.
+    name: jobId
+  - description: The type of job to execute.
     types:
-    - uid: object
-    name: payload
-  - description: Maximum time allowed between the device app receiving the direct method request and sending the corresponding response.
+    - uid: scheduleDeviceMethod
+    - uid: scheduleUpdateTwin
+    typesTitle: enum
+    name: type
+  - description: Required if jobType is scheduleDeviceMethod.
     types:
-    - uid: integer
-    name: responseTimeoutInSeconds
-  - description: Maximum time allowed to deliver a direct method request if a device is offline.
+    - uid: CloudToDeviceMethod
+    name: cloudToDeviceMethod
+  - description: Required if jobType is scheduleUpdateTwin.
     types:
-    - uid: integer
-    name: connectTimeoutInSeconds
-- name: DeviceTwinInfo
-  description: Container of IoT Hub device twin properties and their accessors.
-  kind: object
-  properties:
-  - description: The deviceId uniquely identifies the device in the IoT hub's identity registry. A case-sensitive string (up to 128 char long) of ASCII 7-bit alphanumeric chars + {'-', ':', '.', '+', '%', '_', '#', '*', '?', '!', '(', ')', ',', '=', '@', ';', '$', '''}.
+    - uid: DeviceTwinInfo
+    name: updateTwin
+  - description: Condition for device query to get devices to execute the job on. Required if jobType is scheduleUpdateTwin or scheduleDeviceMethod.
     types:
     - uid: string
-    name: DeviceId
-  - description: The last time the device connected, received or sent a message. In ISO8601 datetime format in UTC, for example, 2015-01-28T16:24:48.789Z. This does not update if the device uses the HTTP/1 protocol to perform messaging operations.
+    name: queryCondition
+  - description: Application provided start time (ISO-8601) for the job.
     types:
-    - uid: VariantValueDateTime
-    name: LastActivityTimeUtc
-  - description: Indicates if the device is currently connected to the IoT hub or not.
-    types:
-    - uid: boolean
-    name: IsConnected
-  - description: The last time the device connected to the IoT hub. In ISO8601 datetime format in UTC, for example, 2015-01-28T16:24:48.789Z. This does not update if the device uses the HTTP/1 protocol to perform messaging operations.
-    types:
-    - uid: VariantValueDateTime
-    name: LastConnectedTimeUtc
-  - description: Version for device twin, including tags and desired properties
+    - uid: string
+    name: startTime
+  - description: Maximum execution time in seconds (ttl duration).
     types:
     - uid: integer
-    name: Version
-  - description: A JSON document read and written by the solution back end. Tags are not visible to device apps.
-    types:
-    - isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: object
-      uid: object
-    name: Tags
-  - description: Used in conjunction with reported properties to synchronize device configuration or condition. Desired properties can only be set by the solution back end and can be read by the device app. The device app can also be notified in real time of changes on the desired properties.
-    types:
-    - uid: DeviceTwinProperties
-    name: DesiredProperties
-  - description: Used in conjunction with desired properties to synchronize device configuration or condition. Reported properties can only be set by the device app and can be read and queried by the solution back end.
-    types:
-    - uid: DeviceTwinProperties
-    name: ReportedProperties
-  - description: Provisioning state of device twin.
-    types:
-    - uid: ProvisioningState
-    name: ProvisioningState
+    name: maxExecutionTimeInSeconds
 - name: VariantValueDateTime
   description: The last time the device connected, received or sent a message. In ISO8601 datetime format in UTC, for example, 2015-01-28T16:24:48.789Z. This does not update if the device uses the HTTP/1 protocol to perform messaging operations.
   kind: object
@@ -254,28 +253,32 @@ definitions:
     types:
     - uid: Metadata
     name: Metadata
-- name: Metadata
-  description: Metadata information for the properties JSON document.
-  kind: object
+- name: ProvisioningState
+  description: Provisioning state of device twin.
+  kind: enum
   properties:
-  - description: The last time the properties were updated. In ISO8601 datetime format in UTC, for example, 2015-01-28T16:24:48.789Z.
-    types:
-    - uid: VariantValueDateTime
-    name: LastUpdatedUtc
-  - description: This SHOULD be null for Reported properties metadata and MUST not be null for Desired properties metadata.
-    types:
-    - uid: integer
-    name: LastUpdatedVersion
-  - isReadyOnly: true
-    description: True if nested properies are present.
-    types:
-    - uid: boolean
-    name: HasChildren
-  - isReadyOnly: true
-    description: Nested properties.
-    types:
-    - {}
-    name: Nested
+  - types:
+    - uid: string
+    name: Creating
+  - types:
+    - uid: string
+    name: Deleting
+  - types:
+    - uid: string
+    name: Active
+  - types:
+    - uid: string
+    name: Deleted
+- name: JobType
+  description: The type of job to execute.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: scheduleDeviceMethod
+  - types:
+    - uid: string
+    name: scheduleUpdateTwin
 - name: JobStatus
   kind: enum
   properties:
@@ -324,6 +327,28 @@ definitions:
     types:
     - uid: integer
     name: pendingCount
+- name: Metadata
+  description: Metadata information for the properties JSON document.
+  kind: object
+  properties:
+  - description: The last time the properties were updated. In ISO8601 datetime format in UTC, for example, 2015-01-28T16:24:48.789Z.
+    types:
+    - uid: VariantValueDateTime
+    name: LastUpdatedUtc
+  - description: This SHOULD be null for Reported properties metadata and MUST not be null for Desired properties metadata.
+    types:
+    - uid: integer
+    name: LastUpdatedVersion
+  - isReadyOnly: true
+    description: True if nested properies are present.
+    types:
+    - uid: boolean
+    name: HasChildren
+  - isReadyOnly: true
+    description: Nested properties.
+    types:
+    - {}
+    name: Nested
 examples: []
 security: []
 name: CreateJob

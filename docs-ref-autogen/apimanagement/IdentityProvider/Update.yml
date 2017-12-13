@@ -54,43 +54,42 @@ requestBody:
     description: Client Id of the Application in the external Identity Provider. It is App ID for Facebook login, Client ID for Google login, App ID for Microsoft.
     types:
     - uid: string
-    name: clientId
+    name: properties.clientId
   - in: body
     description: Client secret of the Application in external Identity Provider, used to authenticate login request. For example, it is App Secret for Facebook login, API Key for Google login, Public Key for Microsoft.
     types:
     - uid: string
-    name: clientSecret
+    name: properties.clientSecret
   - in: body
     description: Identity Provider Type identifier.
     types:
     - uid: IdentityProviderType
-    name: type
+    name: properties.type
   - in: body
     description: List of Allowed Tenants when configuring Azure Active Directory login.
     types:
-    - isArray: true
-      uid: string
-    name: allowedTenants
+    - uid: string
+    name: properties.allowedTenants
   - in: body
     description: Signup Policy Name. Only applies to AAD B2C Identity Provider.
     types:
     - uid: string
-    name: signupPolicyName
+    name: properties.signupPolicyName
   - in: body
     description: Signin Policy Name. Only applies to AAD B2C Identity Provider.
     types:
     - uid: string
-    name: signinPolicyName
+    name: properties.signinPolicyName
   - in: body
     description: Profile Editing Policy Name. Only applies to AAD B2C Identity Provider.
     types:
     - uid: string
-    name: profileEditingPolicyName
+    name: properties.profileEditingPolicyName
   - in: body
     description: Password Reset Policy Name. Only applies to AAD B2C Identity Provider.
     types:
     - uid: string
-    name: passwordResetPolicyName
+    name: properties.passwordResetPolicyName
 requestHeader:
 - in: header
   isRequired: true
@@ -99,6 +98,74 @@ requestHeader:
   - uid: string
   name: If-Match
 definitions:
+- name: ErrorResponse
+  description: Error Body contract.
+  kind: object
+  properties:
+  - description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+    name: code
+  - description: Human-readable representation of the error.
+    types:
+    - uid: string
+    name: message
+  - description: The list of invalid fields send in request, in case of validation error.
+    types:
+    - uid: ErrorFieldContract
+    name: details
+- name: IdentityProviderUpdateParameters
+  description: Parameters supplied to update Identity Provider
+  kind: object
+  properties:
+  - description: Client Id of the Application in the external Identity Provider. It is App ID for Facebook login, Client ID for Google login, App ID for Microsoft.
+    types:
+    - uid: string
+    name: properties.clientId
+  - description: Client secret of the Application in external Identity Provider, used to authenticate login request. For example, it is App Secret for Facebook login, API Key for Google login, Public Key for Microsoft.
+    types:
+    - uid: string
+    name: properties.clientSecret
+  - description: Identity Provider Type identifier.
+    types:
+    - uid: IdentityProviderType
+    name: properties.type
+  - description: List of Allowed Tenants when configuring Azure Active Directory login.
+    types:
+    - uid: string
+    name: properties.allowedTenants
+  - description: Signup Policy Name. Only applies to AAD B2C Identity Provider.
+    types:
+    - uid: string
+    name: properties.signupPolicyName
+  - description: Signin Policy Name. Only applies to AAD B2C Identity Provider.
+    types:
+    - uid: string
+    name: properties.signinPolicyName
+  - description: Profile Editing Policy Name. Only applies to AAD B2C Identity Provider.
+    types:
+    - uid: string
+    name: properties.profileEditingPolicyName
+  - description: Password Reset Policy Name. Only applies to AAD B2C Identity Provider.
+    types:
+    - uid: string
+    name: properties.passwordResetPolicyName
+- name: ErrorFieldContract
+  description: Error Field contract.
+  kind: object
+  properties:
+  - description: Property level error code.
+    types:
+    - uid: string
+    name: code
+  - description: Human-readable representation of property-level error.
+    types:
+    - uid: string
+    name: message
+  - description: Property name.
+    types:
+    - uid: string
+    name: target
 - name: IdentityProviderType
   description: Identity Provider Type identifier.
   kind: enum
@@ -127,43 +194,16 @@ definitions:
     types:
     - uid: string
     name: aadB2C
-- name: ErrorResponse
-  description: Error Body contract.
-  kind: object
-  properties:
-  - description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
-    types:
-    - uid: string
-    name: code
-  - description: Human-readable representation of the error.
-    types:
-    - uid: string
-    name: message
-  - description: The list of invalid fields send in request, in case of validation error.
-    types:
-    - isArray: true
-      uid: ErrorFieldContract
-    name: details
-- name: ErrorFieldContract
-  description: Error Field contract.
-  kind: object
-  properties:
-  - description: Property level error code.
-    types:
-    - uid: string
-    name: code
-  - description: Human-readable representation of property-level error.
-    types:
-    - uid: string
-    name: message
-  - description: Property name.
-    types:
-    - uid: string
-    name: target
 examples:
 - request:
     uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/identityProviders/facebook?api-version=2017-03-01
-    requestBody: '{"properties":{"clientId":"updatedfacebookid","clientSecret":"updatedfacebooksecret"}}'
+    body: >-
+      {
+        "properties": {
+          "clientId": "updatedfacebookid",
+          "clientSecret": "updatedfacebooksecret"
+        }
+      }
     headers:
     - value: '*'
       name: If-Match

@@ -44,6 +44,18 @@ requestBody:
     name: properties
 requestHeader: []
 definitions:
+- name: RoleAssignmentProperties
+  description: Role assignment properties.
+  kind: object
+  properties:
+  - description: The role definition ID used in the role assignment.
+    types:
+    - uid: string
+    name: roleDefinitionId
+  - description: The principal ID assigned to the role. This maps to the ID inside the Active Directory. It can point to a user, service principal, or security group.
+    types:
+    - uid: string
+    name: principalId
 - name: RoleAssignment
   description: Role Assignments
   kind: object
@@ -67,8 +79,16 @@ definitions:
     types:
     - uid: RoleAssignmentPropertiesWithScope
     name: properties
+- name: RoleAssignmentCreateParameters
+  description: Role assignment create parameters.
+  kind: object
+  properties:
+  - description: Role assignment properties.
+    types:
+    - uid: RoleAssignmentProperties
+    name: properties
 - name: RoleAssignmentPropertiesWithScope
-  description: Role assignment properties.
+  description: Role assignment properties with scope.
   kind: object
   properties:
   - description: The role assignment scope.
@@ -86,10 +106,26 @@ definitions:
 examples:
 - request:
     uri: PUT https://management.azure.com/scope/providers/Microsoft.Authorization/roleAssignments/roleAssignmentName?api-version=2015-07-01
-    requestBody: '{"properties":{"roleDefinitionId":"/subscriptions/4004a9fd-d58e-48dc-aeb2-4a4aec58606f/providers/Microsoft.Authorization/roleDefinitions/de139f84-1756-47ae-9be6-808fbbe84772","principalId":"d93a38bc-d029-4160-bfb0-fbda779ac214"}}'
+    body: >-
+      {
+        "properties": {
+          "roleDefinitionId": "/subscriptions/4004a9fd-d58e-48dc-aeb2-4a4aec58606f/providers/Microsoft.Authorization/roleDefinitions/de139f84-1756-47ae-9be6-808fbbe84772",
+          "principalId": "d93a38bc-d029-4160-bfb0-fbda779ac214"
+        }
+      }
   responses:
   - statusCode: "201"
-    body: '{"properties":{"roleDefinitionId":"/subscriptions/subId/providers/Microsoft.Authorization/roleDefinitions/roledefinitionId","principalId":"Pid","scope":"/subscriptions/subId/resourcegroups/rgname"},"id":"/subscriptions/subId/resourcegroups/rgname/providers/Microsoft.Authorization/roleAssignments/roleassignmentId","type":"Microsoft.Authorization/roleAssignments","name":"roleassignmentId"}'
+    body: >-
+      {
+        "properties": {
+          "roleDefinitionId": "/subscriptions/subId/providers/Microsoft.Authorization/roleDefinitions/roledefinitionId",
+          "principalId": "Pid",
+          "scope": "/subscriptions/subId/resourcegroups/rgname"
+        },
+        "id": "/subscriptions/subId/resourcegroups/rgname/providers/Microsoft.Authorization/roleAssignments/roleassignmentId",
+        "type": "Microsoft.Authorization/roleAssignments",
+        "name": "roleassignmentId"
+      }
   name: GetConfigurations
 security:
 - type: oauth2

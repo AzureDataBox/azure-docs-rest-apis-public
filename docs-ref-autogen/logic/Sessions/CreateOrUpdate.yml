@@ -59,7 +59,7 @@ requestBody:
     description: The session content.
     types:
     - uid: Object
-    name: content
+    name: properties.content
   - in: body
     description: The resource location.
     types:
@@ -76,24 +76,27 @@ requestBody:
     name: tags
 requestHeader: []
 definitions:
+- name: Object
+  kind: object
+  properties: []
 - name: IntegrationAccountSession
-  description: The integration account session.
+  description: The list of integration account sessions.
   kind: object
   properties:
   - isReadyOnly: true
     description: The created time.
     types:
     - uid: string
-    name: createdTime
+    name: properties.createdTime
   - isReadyOnly: true
     description: The changed time.
     types:
     - uid: string
-    name: changedTime
+    name: properties.changedTime
   - description: The session content.
     types:
     - uid: Object
-    name: content
+    name: properties.content
   - isReadyOnly: true
     description: The resource id.
     types:
@@ -121,12 +124,8 @@ definitions:
       - uid: string
       uid: object
     name: tags
-- name: Object
-  description: The session content.
-  kind: object
-  properties: []
 - name: ErrorResponse
-  description: Error reponse indicates Logic service is not able to process the incoming request. The error property contains the error details.
+  description: Gets the error response.
   kind: object
   properties:
   - description: The error properties.
@@ -148,7 +147,15 @@ definitions:
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Logic/integrationAccounts/testia123/sessions/testsession123-ICN?api-version=2016-06-01
-    requestBody: '{"properties":{"content":{"controlNumber":"1234","controlNumberChangedTime":"2017-02-21T22:30:11.9923759Z"}}}'
+    body: >-
+      {
+        "properties": {
+          "content": {
+            "controlNumber": "1234",
+            "controlNumberChangedTime": "2017-02-21T22:30:11.9923759Z"
+          }
+        }
+      }
   responses:
   - statusCode: "200"
     headers:
@@ -164,7 +171,20 @@ examples:
       name: Vary
     - value: Tue, 21 Feb 2017 20:43:03 GMT
       name: Date
-    body: '{"properties":{"createdTime":"2017-02-21T20:41:35.9789189Z","changedTime":"2017-02-21T20:41:35.9796534Z","content":{"controlNumber":"1234","controlNumberChangedTime":"2017-02-21T22:30:11.9923759Z"}},"id":"/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Logic/integrationAccounts/testia123/sessions/testsession123-ICN","name":"testsession123-ICN","type":"Microsoft.Logic/integrationAccounts/sessions"}'
+    body: >-
+      {
+        "properties": {
+          "createdTime": "2017-02-21T20:41:35.9789189Z",
+          "changedTime": "2017-02-21T20:41:35.9796534Z",
+          "content": {
+            "controlNumber": "1234",
+            "controlNumberChangedTime": "2017-02-21T22:30:11.9923759Z"
+          }
+        },
+        "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Logic/integrationAccounts/testia123/sessions/testsession123-ICN",
+        "name": "testsession123-ICN",
+        "type": "Microsoft.Logic/integrationAccounts/sessions"
+      }
   - statusCode: "201"
     headers:
     - value: no-cache
@@ -177,7 +197,20 @@ examples:
       name: Expires
     - value: Tue, 21 Feb 2017 20:43:03 GMT
       name: Date
-    body: '{"properties":{"createdTime":"2017-02-21T20:41:35.9789189Z","changedTime":"2017-02-21T20:41:35.9796534Z","content":{"controlNumber":"1234","controlNumberChangedTime":"2017-02-21T22:30:11.9923759Z"}},"id":"/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Logic/integrationAccounts/testia123/sessions/testsession123-ICN","name":"testsession123-ICN","type":"Microsoft.Logic/integrationAccounts/sessions"}'
+    body: >-
+      {
+        "properties": {
+          "createdTime": "2017-02-21T20:41:35.9789189Z",
+          "changedTime": "2017-02-21T20:41:35.9796534Z",
+          "content": {
+            "controlNumber": "1234",
+            "controlNumberChangedTime": "2017-02-21T22:30:11.9923759Z"
+          }
+        },
+        "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Logic/integrationAccounts/testia123/sessions/testsession123-ICN",
+        "name": "testsession123-ICN",
+        "type": "Microsoft.Logic/integrationAccounts/sessions"
+      }
   name: SessionsCreateOrUpdate
 security:
 - type: oauth2

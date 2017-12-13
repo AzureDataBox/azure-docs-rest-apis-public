@@ -102,7 +102,7 @@ requestHeader:
   name: If-Unmodified-Since
 definitions:
 - name: BatchError
-  description: An error response received from the Azure Batch service.
+  description: The error encountered while attempting to add the task.
   kind: object
   properties:
   - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
@@ -115,9 +115,20 @@ definitions:
     name: message
   - description: A collection of key-value pairs containing additional details about the error.
     types:
-    - isArray: true
-      uid: BatchErrorDetail
+    - uid: BatchErrorDetail
     name: values
+- name: PoolEnableAutoScaleParameter
+  description: Options for enabling automatic scaling on a pool.
+  kind: object
+  properties:
+  - description: The formula is checked for validity before it is applied to the pool. If the formula is not valid, the Batch service rejects the request with detailed error information. For more information about specifying this formula, see Automatically scale compute nodes in an Azure Batch pool (https://azure.microsoft.com/en-us/documentation/articles/batch-automatic-scaling).
+    types:
+    - uid: string
+    name: autoScaleFormula
+  - description: The default value is 15 minutes. The minimum and maximum value are 5 minutes and 168 hours respectively. If you specify a value less than 5 minutes or greater than 168 hours, the Batch service rejects the request with an invalid property value error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request). If you specify a new interval, then the existing autoscale evaluation schedule will be stopped and a new autoscale evaluation schedule will be started, with its starting time being the time when this request was issued.
+    types:
+    - uid: string
+    name: autoScaleEvaluationInterval
 - name: ErrorMessage
   description: A message describing the error, intended to be suitable for display in a user interface.
   kind: object
@@ -131,7 +142,7 @@ definitions:
     - uid: string
     name: value
 - name: BatchErrorDetail
-  description: An item of additional information included in an Azure Batch error response.
+  description: A collection of key-value pairs containing additional details about the error.
   kind: object
   properties:
   - description: An identifier specifying the meaning of the Value property.
@@ -145,7 +156,11 @@ definitions:
 examples:
 - request:
     uri: POST https://batch.core.windows.net/pools/poolId/enableautoscale?api-version=2017-09-01.6.0
-    requestBody: '{"autoScaleFormula":"$TargetDedicated=0","autoScaleEvaluationInterval":"PT8M"}'
+    body: >-
+      {
+        "autoScaleFormula": "$TargetDedicated=0",
+        "autoScaleEvaluationInterval": "PT8M"
+      }
     headers:
     - value: 00000000-0000-0000-0000-000000000000
       name: client-request-id

@@ -48,22 +48,22 @@ definitions:
   - description: the name of the alert rule.
     types:
     - uid: string
-    name: name
+    name: properties.name
   - description: the description of the alert rule that will be included in the alert email.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - description: the flag that indicates whether the alert rule is enabled.
     types:
     - uid: boolean
-    name: isEnabled
+    name: properties.isEnabled
   - description: the condition that results in the alert rule being activated.
     types:
     - uid: ThresholdRuleCondition
     - uid: LocationThresholdRuleCondition
     - uid: ManagementEventRuleCondition
     typesTitle: RuleCondition
-    name: condition
+    name: properties.condition
   - description: the array of actions that are performed when the alert rule becomes active, and when an alert condition is resolved.
     types:
     - isArray: true
@@ -71,17 +71,22 @@ definitions:
     - isArray: true
       uid: RuleWebhookAction
     typesTitle: RuleAction[]
-    name: actions
+    name: properties.actions
   - isReadyOnly: true
     description: Last time the rule was updated in ISO8601 format.
     types:
     - uid: string
-    name: lastUpdatedTime
+    name: properties.lastUpdatedTime
   - isReadyOnly: true
     description: Azure resource Id
     types:
     - uid: string
     name: id
+  - isReadyOnly: true
+    description: Azure resource name
+    types:
+    - uid: string
+    name: name
   - isReadyOnly: true
     description: Azure resource type
     types:
@@ -130,41 +135,6 @@ definitions:
     - uid: RuleManagementEventDataSource
     typesTitle: RuleDataSource
     name: dataSource
-- name: ConditionOperator
-  description: the operator used to compare the data and the threshold.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: GreaterThan
-  - types:
-    - uid: string
-    name: GreaterThanOrEqual
-  - types:
-    - uid: string
-    name: LessThan
-  - types:
-    - uid: string
-    name: LessThanOrEqual
-- name: TimeAggregationOperator
-  description: the time aggregation operator. How the data that are collected should be combined over time. The default value is the PrimaryAggregationType of the Metric.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Average
-  - types:
-    - uid: string
-    name: Minimum
-  - types:
-    - uid: string
-    name: Maximum
-  - types:
-    - uid: string
-    name: Total
-  - types:
-    - uid: string
-    name: Last
 - name: LocationThresholdRuleCondition
   description: A rule condition based on a certain number of locations failing.
   kind: object
@@ -207,22 +177,6 @@ definitions:
     - uid: RuleManagementEventDataSource
     typesTitle: RuleDataSource
     name: dataSource
-- name: ManagementEventAggregationCondition
-  description: How the data that is collected should be combined over time and when the alert is activated. Note that for management event alerts aggregation is optional – if it is not provided then any event will cause the alert to activate.
-  kind: object
-  properties:
-  - description: the condition operator.
-    types:
-    - uid: ConditionOperator
-    name: operator
-  - description: The threshold value that activates the alert.
-    types:
-    - uid: number
-    name: threshold
-  - description: the period of time (in ISO 8601 duration format) that is used to monitor alert activity based on the threshold. If specified then it must be between 5 minutes and 1 day.
-    types:
-    - uid: string
-    name: windowSize
 - name: RuleEmailAction
   description: Specifies the action to send email when the rule condition is evaluated. The discriminator is always RuleEmailAction in this case.
   kind: object
@@ -233,8 +187,7 @@ definitions:
     name: sendToServiceOwners
   - description: the list of administrator's custom email addresses to notify of the activation of the alert.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: customEmails
   - description: 'specifies the type of the action. There are two types of actions: RuleEmailAction and RuleWebhookAction.'
     types:
@@ -262,6 +215,57 @@ definitions:
     - uid: Microsoft.Azure.Management.Insights.Models.RuleWebhookAction
     typesTitle: string
     name: odata.type
+- name: ConditionOperator
+  description: Operators allowed in the rule condition.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: GreaterThan
+  - types:
+    - uid: string
+    name: GreaterThanOrEqual
+  - types:
+    - uid: string
+    name: LessThan
+  - types:
+    - uid: string
+    name: LessThanOrEqual
+- name: TimeAggregationOperator
+  description: Aggregation operators allowed in a rule.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Average
+  - types:
+    - uid: string
+    name: Minimum
+  - types:
+    - uid: string
+    name: Maximum
+  - types:
+    - uid: string
+    name: Total
+  - types:
+    - uid: string
+    name: Last
+- name: ManagementEventAggregationCondition
+  description: How the data that is collected should be combined over time.
+  kind: object
+  properties:
+  - description: the condition operator.
+    types:
+    - uid: ConditionOperator
+    name: operator
+  - description: The threshold value that activates the alert.
+    types:
+    - uid: number
+    name: threshold
+  - description: the period of time (in ISO 8601 duration format) that is used to monitor alert activity based on the threshold. If specified then it must be between 5 minutes and 1 day.
+    types:
+    - uid: string
+    name: windowSize
 - name: RuleMetricDataSource
   description: A rule metric data source. The discriminator value is always RuleMetricDataSource in this case.
   kind: object
@@ -329,7 +333,7 @@ definitions:
     - uid: string
     name: resourceUri
 - name: RuleManagementEventClaimsDataSource
-  description: the claims.
+  description: The claims for a rule management event data source.
   kind: object
   properties:
   - description: the email address.
@@ -341,7 +345,36 @@ examples:
     uri: GET https://management.azure.com/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourcegroups/Rac46PostSwapRG/providers/microsoft.insights/alertrules/chiricutin?api-version=2016-03-01
   responses:
   - statusCode: "200"
-    body: '{"id":"/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/microsoft.insights/alertrules/chiricutin","name":"chiricutin","type":"Microsoft.Insights/alertRules","location":"West US","tags":{"$type":"Microsoft.WindowsAzure.Management.Common.Storage.CasePreservedDictionary, Microsoft.WindowsAzure.Management.Common.Storage","hidden-link:/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/leoalerttest":"Resource"},"properties":{"name":"chiricutin","description":"Pura Vida","isEnabled":true,"condition":{"odata.type":"Microsoft.Azure.Management.Insights.Models.ThresholdRuleCondition","dataSource":{"odata.type":"Microsoft.Azure.Management.Insights.Models.RuleMetricDataSource","resourceUri":"/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/leoalerttest","metricName":"Requests"},"operator":"GreaterThan","threshold":3,"windowSize":"PT5M","timeAggregation":"Total"},"lastUpdatedTime":"2016-11-23T21:23:52.0221265Z","actions":[]}}'
+    body: >-
+      {
+        "id": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/microsoft.insights/alertrules/chiricutin",
+        "name": "chiricutin",
+        "type": "Microsoft.Insights/alertRules",
+        "location": "West US",
+        "tags": {
+          "$type": "Microsoft.WindowsAzure.Management.Common.Storage.CasePreservedDictionary, Microsoft.WindowsAzure.Management.Common.Storage",
+          "hidden-link:/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/leoalerttest": "Resource"
+        },
+        "properties": {
+          "name": "chiricutin",
+          "description": "Pura Vida",
+          "isEnabled": true,
+          "condition": {
+            "odata.type": "Microsoft.Azure.Management.Insights.Models.ThresholdRuleCondition",
+            "dataSource": {
+              "odata.type": "Microsoft.Azure.Management.Insights.Models.RuleMetricDataSource",
+              "resourceUri": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/leoalerttest",
+              "metricName": "Requests"
+            },
+            "operator": "GreaterThan",
+            "threshold": 3,
+            "windowSize": "PT5M",
+            "timeAggregation": "Total"
+          },
+          "lastUpdatedTime": "2016-11-23T21:23:52.0221265Z",
+          "actions": []
+        }
+      }
   name: Get an alert rule
 security:
 - type: oauth2

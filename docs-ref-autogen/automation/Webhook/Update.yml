@@ -62,12 +62,12 @@ requestBody:
     description: Gets or sets the value of the enabled flag of webhook.
     types:
     - uid: boolean
-    name: isEnabled
+    name: properties.isEnabled
   - in: body
     description: Gets or sets the name of the hybrid worker group the webhook job will run on.
     types:
     - uid: string
-    name: runOn
+    name: properties.runOn
   - in: body
     description: Gets or sets the parameters of the job.
     types:
@@ -76,12 +76,12 @@ requestBody:
       - uid: string
       - uid: string
       uid: object
-    name: parameters
+    name: properties.parameters
   - in: body
     description: Gets or sets the description of the webhook.
     types:
     - uid: string
-    name: description
+    name: properties.description
 requestHeader: []
 definitions:
 - name: Webhook
@@ -99,19 +99,19 @@ definitions:
   - description: Gets or sets the value of the enabled flag of the webhook.
     types:
     - uid: boolean
-    name: isEnabled
+    name: properties.isEnabled
   - description: Gets or sets the webhook uri.
     types:
     - uid: string
-    name: uri
+    name: properties.uri
   - description: Gets or sets the expiry time.
     types:
     - uid: string
-    name: expiryTime
+    name: properties.expiryTime
   - description: Gets or sets the last invoked time.
     types:
     - uid: string
-    name: lastInvokedTime
+    name: properties.lastInvokedTime
   - description: Gets or sets the parameters of the job that is created when the webhook calls the runbook it is associated with.
     types:
     - isDictionary: true
@@ -119,35 +119,27 @@ definitions:
       - uid: string
       - uid: string
       uid: object
-    name: parameters
+    name: properties.parameters
   - description: Gets or sets the runbook the webhook is associated with.
     types:
     - uid: RunbookAssociationProperty
-    name: runbook
+    name: properties.runbook
   - description: Gets or sets the name of the hybrid worker group the webhook job will run on.
     types:
     - uid: string
-    name: runOn
+    name: properties.runOn
   - description: Gets or sets the creation time.
     types:
     - uid: string
-    name: creationTime
+    name: properties.creationTime
   - description: Gets or sets the last modified time.
     types:
     - uid: string
-    name: lastModifiedTime
+    name: properties.lastModifiedTime
   - description: Gets or sets the description.
     types:
     - uid: string
-    name: description
-- name: RunbookAssociationProperty
-  description: Gets or sets the runbook the webhook is associated with.
-  kind: object
-  properties:
-  - description: Gets or sets the name of the runbook.
-    types:
-    - uid: string
-    name: name
+    name: properties.description
 - name: ErrorResponse
   description: Error response of an operation failure
   kind: object
@@ -160,13 +152,74 @@ definitions:
     types:
     - uid: string
     name: message
+- name: WebhookUpdateParameters
+  description: The parameters supplied to the update webhook operation.
+  kind: object
+  properties:
+  - description: Gets or sets the name of the webhook.
+    types:
+    - uid: string
+    name: name
+  - description: Gets or sets the value of the enabled flag of webhook.
+    types:
+    - uid: boolean
+    name: properties.isEnabled
+  - description: Gets or sets the name of the hybrid worker group the webhook job will run on.
+    types:
+    - uid: string
+    name: properties.runOn
+  - description: Gets or sets the parameters of the job.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: properties.parameters
+  - description: Gets or sets the description of the webhook.
+    types:
+    - uid: string
+    name: properties.description
+- name: RunbookAssociationProperty
+  description: The runbook property associated with the entity.
+  kind: object
+  properties:
+  - description: Gets or sets the name of the runbook.
+    types:
+    - uid: string
+    name: name
 examples:
 - request:
     uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/webhooks/TestWebhook?api-version=2015-10-31
-    requestBody: '{"name":"TestWebhook","properties":{"isEnabled":false,"description":"updated webhook"}}'
+    body: >-
+      {
+        "name": "TestWebhook",
+        "properties": {
+          "isEnabled": false,
+          "description": "updated webhook"
+        }
+      }
   responses:
   - statusCode: "200"
-    body: '{"id":"/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/webhooks/TestWebhook","name":"TestWebhook","properties":{"isEnabled":false,"expiryTime":"2018-03-30T23:03:14.5752078+00:00","runbook":{"name":"TestRunbook"},"lastInvokedTime":null,"runOn":null,"parameters":null,"uri":"","creationTime":"2017-03-30T21:52:01.272378+00:00","lastModifiedBy":"","lastModifiedTime":"2017-03-30T23:03:14.9069441+00:00"}}'
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/webhooks/TestWebhook",
+        "name": "TestWebhook",
+        "properties": {
+          "isEnabled": false,
+          "expiryTime": "2018-03-30T23:03:14.5752078+00:00",
+          "runbook": {
+            "name": "TestRunbook"
+          },
+          "lastInvokedTime": null,
+          "runOn": null,
+          "parameters": null,
+          "uri": "",
+          "creationTime": "2017-03-30T21:52:01.272378+00:00",
+          "lastModifiedBy": "",
+          "lastModifiedTime": "2017-03-30T23:03:14.9069441+00:00"
+        }
+      }
   name: Update webhook
 security: []
 name: Update

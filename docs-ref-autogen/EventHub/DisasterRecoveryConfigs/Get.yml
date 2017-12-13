@@ -59,16 +59,20 @@ definitions:
     description: Provisioning state of the Alias(Disaster Recovery configuration) - possible values 'Accepted' or 'Succeeded' or 'Failed'
     types:
     - uid: ProvisioningStateDR
-    name: provisioningState
-  - description: Primary/Secondary eventhub namespace name, which is part of GEO DR pairning
+    name: properties.provisioningState
+  - description: ARM Id of the Primary/Secondary eventhub namespace name, which is part of GEO DR pairning
     types:
     - uid: string
-    name: partnerNamespace
+    name: properties.partnerNamespace
+  - description: Alternate name specified when alias and namespace names are same.
+    types:
+    - uid: string
+    name: properties.alternateName
   - isReadyOnly: true
     description: role of namespace in GEO DR - possible values 'Primary' or 'PrimaryNotReplicating' or 'Secondary'
     types:
     - uid: RoleDisasterRecovery
-    name: role
+    name: properties.role
   - isReadyOnly: true
     description: Resource Id
     types:
@@ -84,6 +88,18 @@ definitions:
     types:
     - uid: string
     name: type
+- name: ErrorResponse
+  description: Error reponse indicates EventHub service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
 - name: ProvisioningStateDR
   description: Provisioning state of the Alias(Disaster Recovery configuration) - possible values 'Accepted' or 'Succeeded' or 'Failed'
   kind: enum
@@ -110,24 +126,23 @@ definitions:
   - types:
     - uid: string
     name: Secondary
-- name: ErrorResponse
-  description: Error reponse indicates EventHub service is not able to process the incoming request. The reason is provided in the error message.
-  kind: object
-  properties:
-  - description: Error code.
-    types:
-    - uid: string
-    name: code
-  - description: Error message indicating why the operation failed.
-    types:
-    - uid: string
-    name: message
 examples:
 - request:
-    uri: GET https://management.azure.com/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ardsouzatestRG/providers/Microsoft.EventHub/namespaces/sdk-Namespace-8859/disasterRecoveryConfigs/sdk-DisasterRecovery-3814?api-version=2017-04-01
+    uri: GET https://management.azure.com/subscriptions/exampleSubscriptionId/resourceGroups/exampleResourceGroup/providers/Microsoft.EventHub/namespaces/sdk-Namespace-8859/disasterRecoveryConfigs/sdk-DisasterRecovery-3814?api-version=2017-04-01
   responses:
   - statusCode: "200"
-    body: '{"id":"/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ardsouzatestRG/providers/Microsoft.EventHub/namespaces/sdk-Namespace-37/disasterRecoveryConfig/sdk-DisasterRecovery-3814","name":"sdk-DisasterRecovery-3814","type":"Microsoft.EventHub/Namespaces/DisasterRecoveryConfig","properties":{"provisioningState":"Accepted","partnerNamespace":"sdk-Namespace-8859","role":"Secondary","type":"MetadataReplication"}}'
+    body: >-
+      {
+        "id": "/subscriptions/exampleSubscriptionId/resourceGroups/exampleResourceGroup/providers/Microsoft.EventHub/namespaces/sdk-Namespace-37/disasterRecoveryConfig/sdk-DisasterRecovery-3814",
+        "name": "sdk-DisasterRecovery-3814",
+        "type": "Microsoft.EventHub/Namespaces/DisasterRecoveryConfig",
+        "properties": {
+          "provisioningState": "Accepted",
+          "partnerNamespace": "sdk-Namespace-8859",
+          "role": "Secondary",
+          "type": "MetadataReplication"
+        }
+      }
   name: EHAliasGet
 security:
 - type: oauth2

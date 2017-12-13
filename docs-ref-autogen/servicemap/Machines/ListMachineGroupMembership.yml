@@ -59,13 +59,20 @@ definitions:
   properties:
   - description: Collection of Machine Group resources.
     types:
-    - isArray: true
-      uid: MachineGroup
+    - uid: MachineGroup
     name: value
   - description: The URL to the next set of resources.
     types:
     - uid: string
     name: nextLink
+- name: ErrorResponse
+  description: An error response from the API.
+  kind: object
+  properties:
+  - description: Error information.
+    types:
+    - uid: Error
+    name: error
 - name: MachineGroup
   description: A user-defined logical grouping of machines.
   kind: object
@@ -77,12 +84,11 @@ definitions:
   - description: User defined name for the group
     types:
     - uid: string
-    name: displayName
+    name: properties.displayName
   - description: References of the machines in this group. The hints within each reference do not represent the current value of  the corresponding fields. They are a snapshot created during the last time the machine group was updated.
     types:
-    - isArray: true
-      uid: MachineReferenceWithHints
-    name: machines
+    - uid: MachineReferenceWithHints
+    name: properties.machines
   - description: Additional resource type qualifier.
     types:
     - uid: machineGroup
@@ -103,6 +109,18 @@ definitions:
     types:
     - uid: string
     name: name
+- name: Error
+  description: Error information.
+  kind: object
+  properties:
+  - description: Error code identifying the specific error.
+    types:
+    - uid: string
+    name: code
+  - description: Error message in the caller's locale.
+    types:
+    - uid: string
+    name: message
 - name: MachineReferenceWithHints
   description: A machine reference with a hint of the machine's name and operating system.
   kind: object
@@ -111,12 +129,12 @@ definitions:
     description: Last known display name.
     types:
     - uid: string
-    name: displayNameHint
+    name: properties.displayNameHint
   - isReadyOnly: true
     description: Last known operating system family.
     types:
     - uid: OperatingSystemFamily
-    name: osFamilyHint
+    name: properties.osFamilyHint
   - description: Resource URI.
     types:
     - uid: string
@@ -155,26 +173,6 @@ definitions:
   - types:
     - uid: string
     name: aix
-- name: ErrorResponse
-  description: An error response from the API.
-  kind: object
-  properties:
-  - description: Error information.
-    types:
-    - uid: Error
-    name: error
-- name: Error
-  description: Error information.
-  kind: object
-  properties:
-  - description: Error code identifying the specific error.
-    types:
-    - uid: string
-    name: code
-  - description: Error message in the caller's locale.
-    types:
-    - uid: string
-    name: message
 examples: []
 security:
 - type: oauth2

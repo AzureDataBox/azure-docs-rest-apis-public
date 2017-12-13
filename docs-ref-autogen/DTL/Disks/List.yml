@@ -80,13 +80,20 @@ definitions:
   properties:
   - description: Results of the list operation.
     types:
-    - isArray: true
-      uid: Disk
+    - uid: Disk
     name: value
   - description: Link for next set of results.
     types:
     - uid: string
     name: nextLink
+- name: CloudError
+  description: Error from a REST request.
+  kind: object
+  properties:
+  - description: Body of an error from a REST request.
+    types:
+    - uid: CloudErrorBody
+    name: error
 - name: Disk
   description: A Disk.
   kind: object
@@ -94,44 +101,44 @@ definitions:
   - description: The storage type for the disk (i.e. Standard, Premium).
     types:
     - uid: StorageType
-    name: diskType
+    name: properties.diskType
   - description: The size of the disk in GibiBytes.
     types:
     - uid: integer
-    name: diskSizeGiB
+    name: properties.diskSizeGiB
   - description: The resource ID of the VM to which this disk is leased.
     types:
     - uid: string
-    name: leasedByLabVmId
+    name: properties.leasedByLabVmId
   - description: When backed by a blob, the name of the VHD blob without extension.
     types:
     - uid: string
-    name: diskBlobName
+    name: properties.diskBlobName
   - description: When backed by a blob, the URI of underlying blob.
     types:
     - uid: string
-    name: diskUri
+    name: properties.diskUri
   - isReadyOnly: true
     description: The creation date of the disk.
     types:
     - uid: string
-    name: createdDate
+    name: properties.createdDate
   - description: The host caching policy of the disk (i.e. None, ReadOnly, ReadWrite).
     types:
     - uid: string
-    name: hostCaching
+    name: properties.hostCaching
   - description: When backed by managed disk, this is the ID of the compute disk resource.
     types:
     - uid: string
-    name: managedDiskId
+    name: properties.managedDiskId
   - description: The provisioning status of the resource.
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - description: The unique immutable identifier of a resource (Guid).
     types:
     - uid: string
-    name: uniqueIdentifier
+    name: properties.uniqueIdentifier
   - isReadyOnly: true
     description: The identifier of the resource.
     types:
@@ -159,24 +166,6 @@ definitions:
       - uid: string
       uid: object
     name: tags
-- name: StorageType
-  description: The storage type for the disk (i.e. Standard, Premium).
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Standard
-  - types:
-    - uid: string
-    name: Premium
-- name: CloudError
-  description: Error from a REST request.
-  kind: object
-  properties:
-  - description: Body of an error from a REST request.
-    types:
-    - uid: CloudErrorBody
-    name: error
 - name: CloudErrorBody
   description: Body of an error from a REST request.
   kind: object
@@ -192,9 +181,18 @@ definitions:
     name: target
   - description: Inner errors.
     types:
-    - isArray: true
-      uid: Details
+    - uid: Details
     name: details
+- name: StorageType
+  description: The storage type for the disk (i.e. Standard, Premium).
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Standard
+  - types:
+    - uid: string
+    name: Premium
 examples: []
 security:
 - type: oauth2

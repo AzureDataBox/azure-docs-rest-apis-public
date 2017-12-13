@@ -59,15 +59,14 @@ definitions:
   properties:
   - description: The Protectable item details.
     types:
-    - isArray: true
-      uid: ProtectableItem
+    - uid: ProtectableItem
     name: value
   - description: The value of next link.
     types:
     - uid: string
     name: nextLink
 - name: ProtectableItem
-  description: Replication protected item
+  description: The Protectable item details.
   kind: object
   properties:
   - description: The custom data.
@@ -115,13 +114,11 @@ definitions:
     name: recoveryServicesProviderId
   - description: The Current protection readiness errors.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: protectionReadinessErrors
   - description: The list of replication providers supported for the protectable item.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: supportedReplicationProviders
   - description: The Replication provider custom settings.
     types:
@@ -148,8 +145,7 @@ definitions:
     name: osDetails
   - description: The Last successful failover time.
     types:
-    - isArray: true
-      uid: DiskDetails
+    - uid: DiskDetails
     name: diskDetails
   - isReadyOnly: true
     description: Gets the class type. Overriden in derived classes.
@@ -157,54 +153,6 @@ definitions:
     - uid: HyperVVirtualMachine
     typesTitle: string
     name: instanceType
-- name: OSDetails
-  description: The Last replication time.
-  kind: object
-  properties:
-  - description: VM Disk details.
-    types:
-    - uid: string
-    name: osType
-  - description: Product type.
-    types:
-    - uid: string
-    name: productType
-  - description: The OSEdition.
-    types:
-    - uid: string
-    name: osEdition
-  - description: The OS Version.
-    types:
-    - uid: string
-    name: oSVersion
-  - description: The OS Major Version.
-    types:
-    - uid: string
-    name: oSMajorVersion
-  - description: The OS Minor Version.
-    types:
-    - uid: string
-    name: oSMinorVersion
-- name: DiskDetails
-  description: Onprem disk details data.
-  kind: object
-  properties:
-  - description: The hard disk max size in MB.
-    types:
-    - uid: integer
-    name: maxSizeMB
-  - description: The type of the volume.
-    types:
-    - uid: string
-    name: vhdType
-  - description: The VHD Id.
-    types:
-    - uid: string
-    name: vhdId
-  - description: The VHD name.
-    types:
-    - uid: string
-    name: vhdName
 - name: VMwareVirtualMachineDetails
   description: VMware provider specific settings
   kind: object
@@ -243,13 +191,11 @@ definitions:
     name: discoveryType
   - description: The disk details.
     types:
-    - isArray: true
-      uid: InMageDiskDetails
+    - uid: InMageDiskDetails
     name: diskDetails
   - description: The validation errors.
     types:
-    - isArray: true
-      uid: HealthError
+    - uid: HealthError
     name: validationErrors
   - isReadyOnly: true
     description: Gets the class type. Overriden in derived classes.
@@ -257,8 +203,66 @@ definitions:
     - uid: VMwareVirtualMachine
     typesTitle: string
     name: instanceType
+- name: ReplicationGroupDetails
+  description: Replication group details. This will be used in case of San and Wvr.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Gets the class type. Overriden in derived classes.
+    types:
+    - uid: ReplicationGroupDetails
+    typesTitle: string
+    name: instanceType
+- name: OSDetails
+  description: The operating system info.
+  kind: object
+  properties:
+  - description: VM Disk details.
+    types:
+    - uid: string
+    name: osType
+  - description: Product type.
+    types:
+    - uid: string
+    name: productType
+  - description: The OSEdition.
+    types:
+    - uid: string
+    name: osEdition
+  - description: The OS Version.
+    types:
+    - uid: string
+    name: oSVersion
+  - description: The OS Major Version.
+    types:
+    - uid: string
+    name: oSMajorVersion
+  - description: The OS Minor Version.
+    types:
+    - uid: string
+    name: oSMinorVersion
+- name: DiskDetails
+  description: VM disk details.
+  kind: object
+  properties:
+  - description: The hard disk max size in MB.
+    types:
+    - uid: integer
+    name: maxSizeMB
+  - description: The type of the volume.
+    types:
+    - uid: string
+    name: vhdType
+  - description: The VHD Id.
+    types:
+    - uid: string
+    name: vhdId
+  - description: The VHD name.
+    types:
+    - uid: string
+    name: vhdName
 - name: InMageDiskDetails
-  description: VMware/Physical specific Disk Details
+  description: The disk details.
   kind: object
   properties:
   - description: The disk Id.
@@ -283,23 +287,10 @@ definitions:
     name: diskConfiguration
   - description: Volumes of the disk.
     types:
-    - isArray: true
-      uid: DiskVolumeDetails
+    - uid: DiskVolumeDetails
     name: volumeList
-- name: DiskVolumeDetails
-  description: Volume details.
-  kind: object
-  properties:
-  - description: The volume label.
-    types:
-    - uid: string
-    name: label
-  - description: The volume name.
-    types:
-    - uid: string
-    name: name
 - name: HealthError
-  description: Health Error
+  description: The list of errors / warnings capturing details associated with the issue(s).
   kind: object
   properties:
   - description: Source of error.
@@ -344,25 +335,65 @@ definitions:
     name: entityId
   - description: The child health errors.
     types:
-    - isArray: true
-      uid: ChildErrors
+    - uid: ChildErrors
     name: childErrors
-- name: ReplicationGroupDetails
-  description: Replication group details. This will be used in case of San and Wvr.
+- name: DiskVolumeDetails
+  description: Volumes of the disk.
   kind: object
   properties:
-  - isReadyOnly: true
-    description: Gets the class type. Overriden in derived classes.
+  - description: The volume label.
     types:
-    - uid: ReplicationGroupDetails
-    typesTitle: string
-    name: instanceType
+    - uid: string
+    name: label
+  - description: The volume name.
+    types:
+    - uid: string
+    name: name
 examples:
 - request:
     uri: GET https://management.azure.com/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1/replicationProtectionContainers/cloud_6d224fc6-f326-5d35-96de-fbf51efb3179/replicationProtectableItems?api-version=2016-08-10
   responses:
   - statusCode: "200"
-    body: '{"value":[{"id":"/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1/replicationProtectionContainers/cloud_6d224fc6-f326-5d35-96de-fbf51efb3179/replicationProtectableItems/c0c14913-3d7a-48ea-9531-cc99e0e686e6","name":"c0c14913-3d7a-48ea-9531-cc99e0e686e6","type":"Microsoft.RecoveryServices/vaults/replicationFabrics/replicationProtectionContainers/replicationProtectableItems","properties":{"friendlyName":"vm2","protectionStatus":"Unprotected","recoveryServicesProviderId":"/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1/replicationRecoveryServicesProviders/241641e6-ee7b-4ee4-8141-821fadda43fa","protectionReadinessErrors":[],"supportedReplicationProviders":["HyperVReplicaAzure"],"customDetails":{"instanceType":"HyperVVirtualMachine"}}},{"id":"/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1/replicationProtectionContainers/cloud_6d224fc6-f326-5d35-96de-fbf51efb3179/replicationProtectableItems/f8491e4f-817a-40dd-a90c-af773978c75b","name":"f8491e4f-817a-40dd-a90c-af773978c75b","type":"Microsoft.RecoveryServices/vaults/replicationFabrics/replicationProtectionContainers/replicationProtectableItems","properties":{"friendlyName":"vm1","protectionStatus":"Unprotected","recoveryServicesProviderId":"/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1/replicationRecoveryServicesProviders/241641e6-ee7b-4ee4-8141-821fadda43fa","protectionReadinessErrors":[],"supportedReplicationProviders":["HyperVReplicaAzure"],"customDetails":{"instanceType":"HyperVVirtualMachine"}}}],"nextLink":"https://management.azure.com/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1/replicationProtectionContainers/cloud_6d224fc6-f326-5d35-96de-fbf51efb3179/replicationProtectableItems?api-version=2016-08-10&%24skipToken=ReplicationGroup%3aBegin"}'
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1/replicationProtectionContainers/cloud_6d224fc6-f326-5d35-96de-fbf51efb3179/replicationProtectableItems/c0c14913-3d7a-48ea-9531-cc99e0e686e6",
+            "name": "c0c14913-3d7a-48ea-9531-cc99e0e686e6",
+            "type": "Microsoft.RecoveryServices/vaults/replicationFabrics/replicationProtectionContainers/replicationProtectableItems",
+            "properties": {
+              "friendlyName": "vm2",
+              "protectionStatus": "Unprotected",
+              "recoveryServicesProviderId": "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1/replicationRecoveryServicesProviders/241641e6-ee7b-4ee4-8141-821fadda43fa",
+              "protectionReadinessErrors": [],
+              "supportedReplicationProviders": [
+                "HyperVReplicaAzure"
+              ],
+              "customDetails": {
+                "instanceType": "HyperVVirtualMachine"
+              }
+            }
+          },
+          {
+            "id": "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1/replicationProtectionContainers/cloud_6d224fc6-f326-5d35-96de-fbf51efb3179/replicationProtectableItems/f8491e4f-817a-40dd-a90c-af773978c75b",
+            "name": "f8491e4f-817a-40dd-a90c-af773978c75b",
+            "type": "Microsoft.RecoveryServices/vaults/replicationFabrics/replicationProtectionContainers/replicationProtectableItems",
+            "properties": {
+              "friendlyName": "vm1",
+              "protectionStatus": "Unprotected",
+              "recoveryServicesProviderId": "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1/replicationRecoveryServicesProviders/241641e6-ee7b-4ee4-8141-821fadda43fa",
+              "protectionReadinessErrors": [],
+              "supportedReplicationProviders": [
+                "HyperVReplicaAzure"
+              ],
+              "customDetails": {
+                "instanceType": "HyperVVirtualMachine"
+              }
+            }
+          }
+        ],
+        "nextLink": "https://management.azure.com/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1/replicationProtectionContainers/cloud_6d224fc6-f326-5d35-96de-fbf51efb3179/replicationProtectableItems?api-version=2016-08-10&%24skipToken=ReplicationGroup%3aBegin"
+      }
   name: Gets the list of protectable items.
 security:
 - type: oauth2

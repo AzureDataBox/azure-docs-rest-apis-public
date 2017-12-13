@@ -208,27 +208,121 @@ requestBody:
     description: Read-write endpoint of the failover group instance.
     types:
     - uid: FailoverGroupReadWriteEndpoint
-    name: readWriteEndpoint
+    name: properties.readWriteEndpoint
   - in: body
     description: Read-only endpoint of the failover group instance.
     types:
     - uid: FailoverGroupReadOnlyEndpoint
-    name: readOnlyEndpoint
+    name: properties.readOnlyEndpoint
   - in: body
     isRequired: true
     description: List of partner server information for the failover group.
     types:
-    - isArray: true
-      uid: PartnerInfo
-    name: partnerServers
+    - uid: PartnerInfo
+    name: properties.partnerServers
   - in: body
     description: List of databases in the failover group.
     types:
-    - isArray: true
-      uid: string
-    name: databases
+    - uid: string
+    name: properties.databases
 requestHeader: []
 definitions:
+- name: FailoverGroupReadWriteEndpoint
+  description: Read-write endpoint of the failover group instance.
+  kind: object
+  properties:
+  - description: Failover policy of the read-write endpoint for the failover group. If failoverPolicy is Automatic then failoverWithDataLossGracePeriodMinutes is required.
+    types:
+    - uid: ReadWriteEndpointFailoverPolicy
+    name: failoverPolicy
+  - description: Grace period before failover with data loss is attempted for the read-write endpoint. If failoverPolicy is Automatic then failoverWithDataLossGracePeriodMinutes is required.
+    types:
+    - uid: integer
+    name: failoverWithDataLossGracePeriodMinutes
+- name: FailoverGroupReadOnlyEndpoint
+  description: Read-only endpoint of the failover group instance.
+  kind: object
+  properties:
+  - description: Failover policy of the read-only endpoint for the failover group.
+    types:
+    - uid: ReadOnlyEndpointFailoverPolicy
+    name: failoverPolicy
+- name: PartnerInfo
+  description: List of partner server information for the failover group.
+  kind: object
+  properties:
+  - description: Resource identifier of the partner server.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Geo location of the partner server.
+    types:
+    - uid: string
+    name: location
+  - isReadyOnly: true
+    description: Replication role of the partner server.
+    types:
+    - uid: FailoverGroupReplicationRole
+    name: replicationRole
+- name: FailoverGroup
+  description: A failover group.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Resource location.
+    types:
+    - uid: string
+    name: location
+  - description: Resource tags.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+  - description: Read-write endpoint of the failover group instance.
+    types:
+    - uid: FailoverGroupReadWriteEndpoint
+    name: properties.readWriteEndpoint
+  - description: Read-only endpoint of the failover group instance.
+    types:
+    - uid: FailoverGroupReadOnlyEndpoint
+    name: properties.readOnlyEndpoint
+  - isReadyOnly: true
+    description: Local replication role of the failover group instance.
+    types:
+    - uid: FailoverGroupReplicationRole
+    name: properties.replicationRole
+  - isReadyOnly: true
+    description: Replication state of the failover group instance.
+    types:
+    - uid: string
+    name: properties.replicationState
+  - description: List of partner server information for the failover group.
+    types:
+    - uid: PartnerInfo
+    name: properties.partnerServers
+  - description: List of databases in the failover group.
+    types:
+    - uid: string
+    name: properties.databases
+  - isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
 - name: ReadWriteEndpointFailoverPolicy
   description: Failover policy of the read-write endpoint for the failover group. If failoverPolicy is Automatic then failoverWithDataLossGracePeriodMinutes is required.
   kind: enum
@@ -259,113 +353,91 @@ definitions:
   - types:
     - uid: string
     name: Secondary
-- name: FailoverGroup
-  description: A failover group.
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: Resource location.
-    types:
-    - uid: string
-    name: location
-  - description: Resource tags.
-    types:
-    - isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-      uid: object
-    name: tags
-  - description: Read-write endpoint of the failover group instance.
-    types:
-    - uid: FailoverGroupReadWriteEndpoint
-    name: readWriteEndpoint
-  - description: Read-only endpoint of the failover group instance.
-    types:
-    - uid: FailoverGroupReadOnlyEndpoint
-    name: readOnlyEndpoint
-  - isReadyOnly: true
-    description: Local replication role of the failover group instance.
-    types:
-    - uid: FailoverGroupReplicationRole
-    name: replicationRole
-  - isReadyOnly: true
-    description: Replication state of the failover group instance.
-    types:
-    - uid: string
-    name: replicationState
-  - description: List of partner server information for the failover group.
-    types:
-    - isArray: true
-      uid: PartnerInfo
-    name: partnerServers
-  - description: List of databases in the failover group.
-    types:
-    - isArray: true
-      uid: string
-    name: databases
-  - isReadyOnly: true
-    description: Resource ID.
-    types:
-    - uid: string
-    name: id
-  - isReadyOnly: true
-    description: Resource name.
-    types:
-    - uid: string
-    name: name
-  - isReadyOnly: true
-    description: Resource type.
-    types:
-    - uid: string
-    name: type
-- name: FailoverGroupReadWriteEndpoint
-  description: Read-write endpoint of the failover group instance.
-  kind: object
-  properties:
-  - description: Failover policy of the read-write endpoint for the failover group. If failoverPolicy is Automatic then failoverWithDataLossGracePeriodMinutes is required.
-    types:
-    - uid: ReadWriteEndpointFailoverPolicy
-    name: failoverPolicy
-  - description: Grace period before failover with data loss is attempted for the read-write endpoint. If failoverPolicy is Automatic then failoverWithDataLossGracePeriodMinutes is required.
-    types:
-    - uid: integer
-    name: failoverWithDataLossGracePeriodMinutes
-- name: FailoverGroupReadOnlyEndpoint
-  description: Read-only endpoint of the failover group instance.
-  kind: object
-  properties:
-  - description: Failover policy of the read-only endpoint for the failover group.
-    types:
-    - uid: ReadOnlyEndpointFailoverPolicy
-    name: failoverPolicy
-- name: PartnerInfo
-  description: Partner server information for the failover group.
-  kind: object
-  properties:
-  - description: Resource identifier of the partner server.
-    types:
-    - uid: string
-    name: id
-  - isReadyOnly: true
-    description: Geo location of the partner server.
-    types:
-    - uid: string
-    name: location
-  - isReadyOnly: true
-    description: Replication role of the partner server.
-    types:
-    - uid: FailoverGroupReplicationRole
-    name: replicationRole
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/failover-group-primary-server/failoverGroups/failover-group-test-3?api-version=2015-05-01-preview
-    requestBody: '{"properties":{"readWriteEndpoint":{"failoverPolicy":"Automatic","failoverWithDataLossGracePeriodMinutes":480},"readOnlyEndpoint":{"failoverPolicy":"Disabled"},"partnerServers":[{"id":"/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/failover-group-secondary-server"}],"databases":["/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/failover-group-primary-server/databases/testdb-1","/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/failover-group-primary-server/databases/testdb-2"]}}'
+    body: >-
+      {
+        "properties": {
+          "readWriteEndpoint": {
+            "failoverPolicy": "Automatic",
+            "failoverWithDataLossGracePeriodMinutes": 480
+          },
+          "readOnlyEndpoint": {
+            "failoverPolicy": "Disabled"
+          },
+          "partnerServers": [
+            {
+              "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/failover-group-secondary-server"
+            }
+          ],
+          "databases": [
+            "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/failover-group-primary-server/databases/testdb-1",
+            "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/failover-group-primary-server/databases/testdb-2"
+          ]
+        }
+      }
   responses:
   - statusCode: "200"
-    body: '{"id":"/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/failover-group-primary-server/failoverGroups/failover-group-test-3","name":"failover-group-test-3","type":"Microsoft.Sql/servers/failoverGroups","location":"Japan East","properties":{"readWriteEndpoint":{"failoverPolicy":"Automatic","failoverWithDataLossGracePeriodMinutes":480},"readOnlyEndpoint":{"failoverPolicy":"Disabled"},"replicationRole":"Primary","replicationState":"CATCH_UP","partnerServers":[{"id":"/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/failover-group-secondary-server","location":"Japan West","replicationRole":"Secondary"}],"databases":["/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/failover-group-primary-server/databases/testdb-1","/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/failover-group-primary-server/databases/testdb-2"]}}'
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/failover-group-primary-server/failoverGroups/failover-group-test-3",
+        "name": "failover-group-test-3",
+        "type": "Microsoft.Sql/servers/failoverGroups",
+        "location": "Japan East",
+        "properties": {
+          "readWriteEndpoint": {
+            "failoverPolicy": "Automatic",
+            "failoverWithDataLossGracePeriodMinutes": 480
+          },
+          "readOnlyEndpoint": {
+            "failoverPolicy": "Disabled"
+          },
+          "replicationRole": "Primary",
+          "replicationState": "CATCH_UP",
+          "partnerServers": [
+            {
+              "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/failover-group-secondary-server",
+              "location": "Japan West",
+              "replicationRole": "Secondary"
+            }
+          ],
+          "databases": [
+            "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/failover-group-primary-server/databases/testdb-1",
+            "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/failover-group-primary-server/databases/testdb-2"
+          ]
+        }
+      }
   - statusCode: "201"
-    body: '{"id":"/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/failover-group-primary-server/failoverGroups/failover-group-test-3","name":"failover-group-test-3","type":"Microsoft.Sql/servers/failoverGroups","location":"Japan East","properties":{"readWriteEndpoint":{"failoverPolicy":"Automatic","failoverWithDataLossGracePeriodMinutes":480},"readOnlyEndpoint":{"failoverPolicy":"Disabled"},"replicationRole":"Primary","replicationState":"CATCH_UP","partnerServers":[{"id":"/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/failover-group-secondary-server","location":"Japan West","replicationRole":"Secondary"}],"databases":["/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/failover-group-primary-server/databases/testdb-1","/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/failover-group-primary-server/databases/testdb-2"]}}'
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/failover-group-primary-server/failoverGroups/failover-group-test-3",
+        "name": "failover-group-test-3",
+        "type": "Microsoft.Sql/servers/failoverGroups",
+        "location": "Japan East",
+        "properties": {
+          "readWriteEndpoint": {
+            "failoverPolicy": "Automatic",
+            "failoverWithDataLossGracePeriodMinutes": 480
+          },
+          "readOnlyEndpoint": {
+            "failoverPolicy": "Disabled"
+          },
+          "replicationRole": "Primary",
+          "replicationState": "CATCH_UP",
+          "partnerServers": [
+            {
+              "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/failover-group-secondary-server",
+              "location": "Japan West",
+              "replicationRole": "Secondary"
+            }
+          ],
+          "databases": [
+            "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/failover-group-primary-server/databases/testdb-1",
+            "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/failover-group-primary-server/databases/testdb-2"
+          ]
+        }
+      }
   - statusCode: "202"
   name: Create failover group
 security: []

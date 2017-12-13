@@ -130,9 +130,22 @@ definitions:
   - isReadyOnly: true
     description: Results array
     types:
-    - isArray: true
-      uid: Results
+    - uid: Results
     name: results
+- name: Error
+  description: This object is returned when an error occurs in the Location Based Service API
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+    name: statuscode
+  - isReadyOnly: true
+    description: If available, a human readable description of the error.
+    types:
+    - uid: string
+    name: message
 - name: Summary
   description: Summary object
   kind: object
@@ -173,6 +186,7 @@ definitions:
     - uid: integer
     name: fuzzyLevel
 - name: Results
+  description: Results array
   kind: object
   properties:
   - isReadyOnly: true
@@ -190,6 +204,20 @@ definitions:
     types:
     - uid: number
     name: score
+  - isReadyOnly: true
+    description: Info property
+    types:
+    - uid: string
+    name: info
+  - isReadyOnly: true
+    description: Entity Type property
+    types:
+    - uid: string
+    name: entityType
+  - description: POI property
+    types:
+    - uid: poi
+    name: poi
   - description: The address of the result
     types:
     - uid: address
@@ -202,11 +230,39 @@ definitions:
     types:
     - uid: viewport
     name: viewport
-  - description: Entry Points array
+  - description: Bounding box of the result
     types:
-    - isArray: true
-      uid: entrypoints
-    name: entryPoints
+    - uid: BoundingBox
+    name: boundingBox
+- name: poi
+  description: POI property
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Name property
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Phone property
+    types:
+    - uid: string
+    name: phone
+  - isReadyOnly: true
+    description: URL property
+    types:
+    - uid: string
+    name: url
+  - isReadyOnly: true
+    description: Categories array
+    types:
+    - uid: string
+    name: categories
+  - isReadyOnly: true
+    description: Classification array
+    types:
+    - uid: Classifications
+    name: classifications
 - name: address
   description: The address of the result
   kind: object
@@ -305,20 +361,6 @@ definitions:
     types:
     - uid: BoundingBox
     name: boundingBox
-- name: BoundingBox
-  description: Bounding Box for the address
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: The North East coordinates for the Bounding Box
-    types:
-    - uid: string
-    name: northEast
-  - isReadyOnly: true
-    description: The South West coordinates for the Bounding Box
-    types:
-    - uid: string
-    name: southWest
 - name: position
   description: Coordinates of the result
   kind: object
@@ -345,6 +387,34 @@ definitions:
     types:
     - uid: BtmRightPoint
     name: btmRightPoint
+- name: BoundingBox
+  description: Bounding Box for the address
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The North East coordinates for the Bounding Box
+    types:
+    - uid: string
+    name: northEast
+  - isReadyOnly: true
+    description: The South West coordinates for the Bounding Box
+    types:
+    - uid: string
+    name: southWest
+- name: Classifications
+  description: Classification array
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Code property
+    types:
+    - uid: string
+    name: code
+  - isReadyOnly: true
+    description: Names array
+    types:
+    - uid: Names
+    name: names
 - name: TopLeftPoint
   description: Top left of the viewport
   kind: object
@@ -373,63 +443,113 @@ definitions:
     types:
     - uid: number
     name: lon
-- name: entrypoints
+- name: Names
+  description: Names array
   kind: object
   properties:
   - isReadyOnly: true
     description: Name Locale property
     types:
     - uid: string
-    name: type
+    name: nameLocale
   - isReadyOnly: true
     description: Name property
     types:
-    - uid: Position
-    name: position
-- name: Position
-  description: Name property
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: Latitude property
-    types:
-    - uid: number
-    name: lat
-  - isReadyOnly: true
-    description: Longitude property
-    types:
-    - uid: number
-    name: lon
-- name: Error
-  description: This object is returned when an error occurs in the Location Based Service API
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: Error code.
-    types:
     - uid: string
-    name: statuscode
-  - isReadyOnly: true
-    description: If available, a human readable description of the error.
-    types:
-    - uid: string
-    name: message
+    name: name
 examples:
 - request:
     uri: GET https://atlas.microsoft.com/search/address/json?api-version=1.0&query=15127 NE 24th Street, Redmond, WA 98052
   responses:
   - statusCode: "200"
-    body: '{"summary":{"query":"15127 NE 24th Street, Redmond, WA 98052","queryType":"NON_NEAR","queryTime":58,"numResults":1,"offset":0,"totalResults":1,"fuzzyLevel":1},"results":[{"type":"Point Address","id":"US/PAD/p0/19173426","score":14.51,"address":{"streetNumber":"15127","streetName":"NE 24th St","municipalitySubdivision":"Redmond","municipality":"Redmond, Adelaide, Ames Lake, Avondale, Earlmount","countrySecondarySubdivision":"King","countryTertiarySubdivision":"Seattle East","countrySubdivision":"WA","postalCode":"98052","extendedPostalCode":"980525544","countryCode":"US","country":"United States Of America","countryCodeISO3":"USA","freeformAddress":"15127 NE 24th St, Redmond, WA 980525544","countrySubdivisionName":"Washington"},"position":{"lat":47.6308,"lon":-122.1385},"viewport":{"topLeftPoint":{"lat":47.6317,"lon":-122.13983},"btmRightPoint":{"lat":47.6299,"lon":-122.13717}},"entryPoints":[{"type":"main","position":{"lat":47.6315,"lon":-122.13852}}]}]}'
+    body: >-
+      {
+        "summary": {
+          "query": "15127 NE 24th Street, Redmond, WA 98052",
+          "queryType": "NON_NEAR",
+          "queryTime": 58,
+          "numResults": 1,
+          "offset": 0,
+          "totalResults": 1,
+          "fuzzyLevel": 1
+        },
+        "results": [
+          {
+            "type": "Point Address",
+            "id": "US/PAD/p0/19173426",
+            "score": 14.51,
+            "address": {
+              "streetNumber": "15127",
+              "streetName": "NE 24th St",
+              "municipalitySubdivision": "Redmond",
+              "municipality": "Redmond, Adelaide, Ames Lake, Avondale, Earlmount",
+              "countrySecondarySubdivision": "King",
+              "countryTertiarySubdivision": "Seattle East",
+              "countrySubdivision": "WA",
+              "postalCode": "98052",
+              "extendedPostalCode": "980525544",
+              "countryCode": "US",
+              "country": "United States Of America",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "15127 NE 24th St, Redmond, WA 980525544",
+              "countrySubdivisionName": "Washington"
+            },
+            "position": {
+              "lat": 47.6308,
+              "lon": -122.1385
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 47.6317,
+                "lon": -122.13983
+              },
+              "btmRightPoint": {
+                "lat": 47.6299,
+                "lon": -122.13717
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": 47.6315,
+                  "lon": -122.13852
+                }
+              }
+            ]
+          }
+        ]
+      }
   - statusCode: "400"
-    body: '{"statuscode":"400","message":"Bad request: one or more parameters were incorrectly specified or are mutually exclusive."}'
+    body: >-
+      {
+        "statuscode": "400",
+        "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
+      }
   - statusCode: "401"
-    body: '{"statuscode":"401","message":"Unauthorized: Access is denied due to invalid credentials."}'
+    body: >-
+      {
+        "statuscode": "401",
+        "message": "Unauthorized: Access is denied due to invalid credentials."
+      }
   - statusCode: "403"
-    body: '{"statuscode":"403","message":"Permission, capacity, or authentication issues."}'
+    body: >-
+      {
+        "statuscode": "403",
+        "message": "Permission, capacity, or authentication issues."
+      }
   - statusCode: "404"
-    body: '{"statuscode":"404","message":"Not Found: the requested resource could not be found, but it may be available again in the future."}'
+    body: >-
+      {
+        "statuscode": "404",
+        "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
+      }
   - statusCode: "500"
-    body: '{"statuscode":"500","message":"An error occurred while processing the request. Please try again later."}'
+    body: >-
+      {
+        "statuscode": "500",
+        "message": "An error occurred while processing the request. Please try again later."
+      }
   name: GetSearchAddress
 security:
 - type: apiKey

@@ -47,13 +47,6 @@ requestBody:
     name: type
 requestHeader: []
 definitions:
-- name: ResourceType
-  description: The type of the resource - mediaservices.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: mediaservices
 - name: CheckNameAvailabilityOutput
   description: The response body for CheckNameAvailability API.
   kind: object
@@ -70,6 +63,30 @@ definitions:
     types:
     - uid: string
     name: message
+- name: ApiError
+  description: The error returned from a failed Media Services REST API call.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: string
+    name: code
+  - description: Error message.
+    types:
+    - uid: string
+    name: message
+- name: CheckNameAvailabilityInput
+  description: The request body for CheckNameAvailability API.
+  kind: object
+  properties:
+  - description: The name of the resource. A name must be globally unique.
+    types:
+    - uid: string
+    name: name
+  - description: The type of the resource - mediaservices.
+    types:
+    - uid: ResourceType
+    name: type
 - name: EntityNameUnavailabilityReason
   description: Specifies the reason if the name is not available.
   kind: enum
@@ -83,25 +100,29 @@ definitions:
   - types:
     - uid: string
     name: AlreadyExists
-- name: ApiError
-  description: The error returned from a failed Media Services REST API call.
-  kind: object
+- name: ResourceType
+  description: The type of the resource - mediaservices.
+  kind: enum
   properties:
-  - description: Error code.
-    types:
+  - types:
     - uid: string
-    name: code
-  - description: Error message.
-    types:
-    - uid: string
-    name: message
+    name: mediaservices
 examples:
 - request:
     uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Media/CheckNameAvailability?api-version=2015-10-01
-    requestBody: '{"name":"contosomedia","type":"mediaservices"}'
+    body: >-
+      {
+        "name": "contosomedia",
+        "type": "mediaservices"
+      }
   responses:
   - statusCode: "200"
-    body: '{"nameAvailable":true,"reason":"None","message":""}'
+    body: >-
+      {
+        "nameAvailable": true,
+        "reason": "None",
+        "message": ""
+      }
   name: MediaServiceCheckNameAvailability
 security:
 - type: oauth2

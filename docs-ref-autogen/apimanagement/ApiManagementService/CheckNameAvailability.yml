@@ -55,6 +55,14 @@ definitions:
     types:
     - uid: NameAvailabilityReason
     name: reason
+- name: ApiManagementServiceCheckNameAvailabilityParameters
+  description: Parameters supplied to the CheckNameAvailability operation.
+  kind: object
+  properties:
+  - description: The name to check for availability.
+    types:
+    - uid: string
+    name: name
 - name: NameAvailabilityReason
   description: Invalid indicates the name provided does not match the resource provider’s naming requirements (incorrect length, unsupported characters, etc.)  AlreadyExists indicates that the name is already in use and is therefore unavailable.
   kind: enum
@@ -71,10 +79,18 @@ definitions:
 examples:
 - request:
     uri: POST https://management.azure.com/subscriptions/subid/providers/Microsoft.ApiManagement/checkNameAvailability?api-version=2017-03-01
-    requestBody: '{"name":"apimService1"}'
+    body: >-
+      {
+        "name": "apimService1"
+      }
   responses:
   - statusCode: "200"
-    body: '{"nameAvailable":true,"reason":"Valid","message":""}'
+    body: >-
+      {
+        "nameAvailable": true,
+        "reason": "Valid",
+        "message": ""
+      }
   name: ApiManagementServiceCheckNameAvailability
 security:
 - type: oauth2

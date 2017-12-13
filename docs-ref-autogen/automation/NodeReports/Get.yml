@@ -108,13 +108,11 @@ definitions:
     name: id
   - description: Gets or sets the errors for the node report.
     types:
-    - isArray: true
-      uid: DscReportError
+    - uid: DscReportError
     name: errors
   - description: Gets or sets the resource for the node report.
     types:
-    - isArray: true
-      uid: DscReportResource
+    - uid: DscReportResource
     name: resources
   - description: Gets or sets the metaConfiguration of the node at the time of the report.
     types:
@@ -126,13 +124,11 @@ definitions:
     name: hostName
   - description: Gets or sets the IPv4 address of the node that sent the report.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: iPV4Addresses
   - description: Gets or sets the IPv6 address of the node that sent the report.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: iPV6Addresses
   - description: Gets or sets the number of resource in the node report.
     types:
@@ -142,6 +138,18 @@ definitions:
     types:
     - uid: string
     name: rawErrors
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - description: Error code
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
 - name: DscReportError
   description: Definition of the dsc node report error type.
   kind: object
@@ -184,8 +192,7 @@ definitions:
     name: sourceInfo
   - description: Gets or sets the Resource Navigation values for resources the resource depends on.
     types:
-    - isArray: true
-      uid: DscReportResourceNavigation
+    - uid: DscReportResourceNavigation
     name: dependsOn
   - description: Gets or sets the module name of the resource.
     types:
@@ -215,16 +222,8 @@ definitions:
     types:
     - uid: string
     name: startDate
-- name: DscReportResourceNavigation
-  description: Navigation for DSC Report Resource.
-  kind: object
-  properties:
-  - description: Gets or sets the ID of the resource to navigate to.
-    types:
-    - uid: string
-    name: resourceId
 - name: DscMetaConfiguration
-  description: Gets or sets the metaConfiguration of the node at the time of the report.
+  description: Definition of the DSC Meta Configuration.
   kind: object
   properties:
   - description: Gets or sets the ConfigurationModeFrequencyMins value of the meta configuration.
@@ -255,24 +254,72 @@ definitions:
     types:
     - uid: boolean
     name: allowModuleOverwrite
-- name: ErrorResponse
-  description: Error response of an operation failure
+- name: DscReportResourceNavigation
+  description: Navigation for DSC Report Resource.
   kind: object
   properties:
-  - description: Error code
+  - description: Gets or sets the ID of the resource to navigate to.
     types:
     - uid: string
-    name: code
-  - description: Error message indicating why the operation failed.
-    types:
-    - uid: string
-    name: message
+    name: resourceId
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodes/nodeId/reports/903a5ead-140c-11e7-a943-000d3a6140c9?api-version=2015-10-31
   responses:
   - statusCode: "200"
-    body: '{"id":"/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodes/nodeId/reports/903a5ead-140c-11e7-a943-000d3a6140c9","reportId":"903a5ead-140c-11e7-a943-000d3a6140c9","type":"Consistency","startTime":"2017-03-28T23:16:27.587+00:00","endTime":"2017-03-28T23:16:27.587+00:00","lastModifiedTime":"2017-03-28T23:16:29.4440401+00:00","status":"Compliant","refreshMode":"Pull","rebootRequested":"False","reportFormatVersion":"2.0","configurationVersion":"2.0.0","errors":[],"resources":[{"resourceId":"[WindowsFeature]IIS","sourceInfo":"::4::32::WindowsFeature","dependsOn":[],"moduleName":"PsDesiredStateConfiguration","moduleVersion":"1.1","resourceName":"WindowsFeature","error":null,"status":"Compliant","durationInSeconds":0.25,"startDate":"2017-03-28T23:16:28.181+00:00"}],"metaConfiguration":{"configurationModeFrequencyMins":15,"rebootNodeIfNeeded":false,"configurationMode":"ApplyAndMonitor","actionAfterReboot":"ContinueConfiguration","certificateId":"certId","refreshFrequencyMins":30,"allowModuleOverwrite":false},"hostName":"DSCCOMP","iPV4Addresses":["172.16.2.5","127.0.0.1"],"iPV6Addresses":["fe80::4c51:9518:aa3c:256a%5","::2000:0:0:0","::1","::2000:0:0:0","2001:0:9d38:78cf:106b:130a:53ef:fdfa","fe80::106b:130a:53ef:fdfa%7"],"numberOfResources":1,"rawErrors":null}'
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodes/nodeId/reports/903a5ead-140c-11e7-a943-000d3a6140c9",
+        "reportId": "903a5ead-140c-11e7-a943-000d3a6140c9",
+        "type": "Consistency",
+        "startTime": "2017-03-28T23:16:27.587+00:00",
+        "endTime": "2017-03-28T23:16:27.587+00:00",
+        "lastModifiedTime": "2017-03-28T23:16:29.4440401+00:00",
+        "status": "Compliant",
+        "refreshMode": "Pull",
+        "rebootRequested": "False",
+        "reportFormatVersion": "2.0",
+        "configurationVersion": "2.0.0",
+        "errors": [],
+        "resources": [
+          {
+            "resourceId": "[WindowsFeature]IIS",
+            "sourceInfo": "::4::32::WindowsFeature",
+            "dependsOn": [],
+            "moduleName": "PsDesiredStateConfiguration",
+            "moduleVersion": "1.1",
+            "resourceName": "WindowsFeature",
+            "error": null,
+            "status": "Compliant",
+            "durationInSeconds": 0.25,
+            "startDate": "2017-03-28T23:16:28.181+00:00"
+          }
+        ],
+        "metaConfiguration": {
+          "configurationModeFrequencyMins": 15,
+          "rebootNodeIfNeeded": false,
+          "configurationMode": "ApplyAndMonitor",
+          "actionAfterReboot": "ContinueConfiguration",
+          "certificateId": "certId",
+          "refreshFrequencyMins": 30,
+          "allowModuleOverwrite": false
+        },
+        "hostName": "DSCCOMP",
+        "iPV4Addresses": [
+          "172.16.2.5",
+          "127.0.0.1"
+        ],
+        "iPV6Addresses": [
+          "fe80::4c51:9518:aa3c:256a%5",
+          "::2000:0:0:0",
+          "::1",
+          "::2000:0:0:0",
+          "2001:0:9d38:78cf:106b:130a:53ef:fdfa",
+          "fe80::106b:130a:53ef:fdfa%7"
+        ],
+        "numberOfResources": 1,
+        "rawErrors": null
+      }
   name: 'Get Dsc node report data by node id and report id. '
 security: []
 name: Get

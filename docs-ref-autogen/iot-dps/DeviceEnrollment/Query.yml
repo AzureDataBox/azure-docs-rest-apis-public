@@ -8,8 +8,14 @@ consumes:
 produces:
 - application/json
 paths:
-- content: POST https://contoso.azure-devices-provisioning.net/enrollments/query
-uriParameters: []
+- content: POST https://contoso.azure-devices-provisioning.net/enrollments/query?api-version=2017-11-15
+uriParameters:
+- in: query
+  isRequired: true
+  description: 'The API version to use for the request. Supported versions include: 2017-11-15'
+  types:
+  - uid: string
+  name: api-version
 responses:
 - headers:
   - value: string
@@ -79,6 +85,14 @@ definitions:
     types:
     - uid: string
     name: lastUpdatedDateTimeUtc
+- name: QuerySpecification
+  description: A Json query request
+  kind: object
+  properties:
+  - description: The query.
+    types:
+    - uid: string
+    name: query
 - name: DeviceRegistrationState
   description: Current registration status.
   kind: object
@@ -124,24 +138,6 @@ definitions:
     types:
     - uid: string
     name: etag
-- description: Enrollment status.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: unassigned
-  - types:
-    - uid: string
-    name: assigning
-  - types:
-    - uid: string
-    name: assigned
-  - types:
-    - uid: string
-    name: failed
-  - types:
-    - uid: string
-    name: disabled
 - name: AttestationMechanism
   description: Attestation method used by the device.
   kind: object
@@ -160,6 +156,18 @@ definitions:
     types:
     - uid: X509Attestation
     name: x509
+- name: InitialTwin
+  description: Initial device twin.
+  kind: object
+  properties:
+  - description: Twin tags.
+    types:
+    - uid: TwinCollection
+    name: tags
+  - description: Twin desired properties.
+    types:
+    - uid: InitialTwinProperties
+    name: properties
 - name: TpmAttestation
   description: Attestation via TPM.
   kind: object
@@ -186,6 +194,27 @@ definitions:
     types:
     - uid: X509CAReferences
     name: caReferences
+- name: TwinCollection
+  description: Twin tags.
+  kind: object
+  properties:
+  - types:
+    - uid: integer
+    name: version
+  - types:
+    - uid: integer
+    name: count
+  - types:
+    - uid: Metadata
+    name: metadata
+- name: InitialTwinProperties
+  description: Twin desired properties.
+  kind: object
+  properties:
+  - description: Gets and sets the InitialTwin desired properties.
+    types:
+    - uid: TwinCollection
+    name: desired
 - name: X509Certificates
   description: Primary and secondary certificates
   kind: object
@@ -198,6 +227,26 @@ definitions:
     types:
     - uid: X509CertificateWithInfo
     name: secondary
+- name: X509CAReferences
+  description: Primary and secondary CA references.
+  kind: object
+  properties:
+  - types:
+    - uid: string
+    name: primary
+  - types:
+    - uid: string
+    name: secondary
+- name: Metadata
+  kind: object
+  properties:
+  - types:
+    - uid: string
+    name: lastUpdated
+  - description: This SHOULD be null for Reported properties metadata and MUST not be null for Desired properties metadata.
+    types:
+    - uid: integer
+    name: lastUpdatedVersion
 - name: X509CertificateWithInfo
   description: Certificate and Certificate info
   kind: object
@@ -237,59 +286,6 @@ definitions:
   - types:
     - uid: integer
     name: version
-- name: X509CAReferences
-  description: Primary and secondary CA references.
-  kind: object
-  properties:
-  - types:
-    - uid: string
-    name: primary
-  - types:
-    - uid: string
-    name: secondary
-- name: InitialTwin
-  description: Initial device twin.
-  kind: object
-  properties:
-  - description: Twin tags.
-    types:
-    - uid: TwinCollection
-    name: tags
-  - description: Twin desired properties.
-    types:
-    - uid: InitialTwinProperties
-    name: properties
-- name: TwinCollection
-  description: Twin tags.
-  kind: object
-  properties:
-  - types:
-    - uid: integer
-    name: version
-  - types:
-    - uid: integer
-    name: count
-  - types:
-    - uid: Metadata
-    name: metadata
-- name: Metadata
-  kind: object
-  properties:
-  - types:
-    - uid: string
-    name: lastUpdated
-  - description: This SHOULD be null for Reported properties metadata and MUST not be null for Desired properties metadata.
-    types:
-    - uid: integer
-    name: lastUpdatedVersion
-- name: InitialTwinProperties
-  description: Twin desired properties.
-  kind: object
-  properties:
-  - description: Gets and sets the InitialTwin desired properties.
-    types:
-    - uid: TwinCollection
-    name: desired
 examples: []
 security: []
 name: Query

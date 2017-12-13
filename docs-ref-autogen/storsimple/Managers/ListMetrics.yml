@@ -53,11 +53,10 @@ definitions:
   properties:
   - description: The value.
     types:
-    - isArray: true
-      uid: Metrics
+    - uid: Metrics
     name: value
 - name: Metrics
-  description: The monitoring metric.
+  description: The value.
   kind: object
   properties:
   - description: The ID of metric source.
@@ -86,8 +85,7 @@ definitions:
     name: name
   - description: The metric dimensions.
     types:
-    - isArray: true
-      uid: MetricDimension
+    - uid: MetricDimension
     name: dimensions
   - description: The unit of the metric data.
     types:
@@ -99,8 +97,7 @@ definitions:
     name: type
   - description: The list of the metric data.
     types:
-    - isArray: true
-      uid: MetricData
+    - uid: MetricData
     name: values
 - name: MetricAggregationType
   description: The metric aggregation type.
@@ -125,7 +122,7 @@ definitions:
     - uid: string
     name: Total
 - name: MetricName
-  description: The name of the metric.
+  description: The metric name.
   kind: object
   properties:
   - description: The metric name.
@@ -137,7 +134,7 @@ definitions:
     - uid: string
     name: localizedValue
 - name: MetricDimension
-  description: The metric dimension. It indicates the source of the metric.
+  description: The available metric dimensions.
   kind: object
   properties:
   - description: The metric dimension name.
@@ -149,7 +146,7 @@ definitions:
     - uid: string
     name: value
 - name: MetricUnit
-  description: The unit of the metric data.
+  description: The metric unit.
   kind: enum
   properties:
   - types:
@@ -203,7 +200,31 @@ examples:
     uri: GET https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/metrics?api-version=2017-06-01&$filter=name/value%20eq%20'PrimaryStorageTieredUsed'%20and%20timeGrain%20eq%20'PT1H'%20and%20startTime%20ge%20'2017-06-17T18:30:00Z'%20and%20endTime%20le%20'2017-06-21T18:30:00Z'%20and%20category%20eq%20'CapacityUtilization'
   responses:
   - statusCode: "200"
-    body: '{"value":[{"resourceId":"/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1","startTime":"2017-06-17T18:30:00Z","endTime":"2017-06-21T18:30:00Z","timeGrain":"01:00:00","primaryAggregation":"Average","name":{"value":"PrimaryStorageTieredUsed","localizedValue":"Primary Tiered Storage Used"},"dimensions":[{"name":"Manager","value":"ManagerForSDKTest1"}],"unit":"Bytes","type":"Microsoft.StorSimple/managers/metrics","values":[]}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "resourceId": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1",
+            "startTime": "2017-06-17T18:30:00Z",
+            "endTime": "2017-06-21T18:30:00Z",
+            "timeGrain": "01:00:00",
+            "primaryAggregation": "Average",
+            "name": {
+              "value": "PrimaryStorageTieredUsed",
+              "localizedValue": "Primary Tiered Storage Used"
+            },
+            "dimensions": [
+              {
+                "name": "Manager",
+                "value": "ManagerForSDKTest1"
+              }
+            ],
+            "unit": "Bytes",
+            "type": "Microsoft.StorSimple/managers/metrics",
+            "values": []
+          }
+        ]
+      }
   name: ManagersListMetrics
 security:
 - type: oauth2

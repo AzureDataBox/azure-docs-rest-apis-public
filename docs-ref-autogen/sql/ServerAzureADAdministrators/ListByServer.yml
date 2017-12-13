@@ -47,8 +47,7 @@ definitions:
   properties:
   - description: The list of server Active Directory Administrators for the server.
     types:
-    - isArray: true
-      uid: ServerAzureADAdministrator
+    - uid: ServerAzureADAdministrator
     name: value
 - name: ServerAzureADAdministrator
   description: An server Active Directory Administrator.
@@ -57,19 +56,19 @@ definitions:
   - description: The type of administrator.
     types:
     - uid: AdministratorType
-    name: administratorType
+    name: properties.administratorType
   - description: The server administrator login value.
     types:
     - uid: string
-    name: login
+    name: properties.login
   - description: The server administrator Sid (Secure ID).
     types:
     - uid: string
-    name: sid
+    name: properties.sid
   - description: The server Active Directory Administrator tenant id.
     types:
     - uid: string
-    name: tenantId
+    name: properties.tenantId
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -97,7 +96,21 @@ examples:
     uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-6440/administrators?api-version=2014-04-01
   responses:
   - statusCode: "200"
-    body: '{"value":[{"id":"/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-6440/providers/Microsoft.Sql/administrators/ActiveDirectory","name":"ActiveDirectory","properties":{"administratorType":"ActiveDirectory","login":"DSEngAll","sid":"5e90ef3b-9b42-4777-819b-25c36961ea4d","tenantId":"72f988bf-86f1-41af-91ab-2d7cd011db47"}}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-6440/providers/Microsoft.Sql/administrators/ActiveDirectory",
+            "name": "ActiveDirectory",
+            "properties": {
+              "administratorType": "ActiveDirectory",
+              "login": "DSEngAll",
+              "sid": "5e90ef3b-9b42-4777-819b-25c36961ea4d",
+              "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47"
+            }
+          }
+        ]
+      }
   name: get a list of server administrators
 security: []
 name: ListByServer

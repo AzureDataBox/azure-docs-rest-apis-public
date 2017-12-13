@@ -72,58 +72,6 @@ requestBody:
     name: tags
 requestHeader: []
 definitions:
-- name: IncludedQuantities
-  description: The included resource quantities this plan gives you.
-  kind: object
-  properties:
-  - description: Represents the quantity a commitment plan provides of a metered resource.
-    types:
-    - uid: PlanQuantity
-    name: ''
-- name: CommitmentPlan
-  description: An Azure ML commitment plan resource.
-  kind: object
-  properties:
-  - description: An entity tag used to enforce optimistic concurrency.
-    types:
-    - uid: string
-    name: etag
-  - isReadyOnly: true
-    description: The commitment plan properties.
-    types:
-    - uid: CommitmentPlanProperties
-    name: properties
-  - description: The commitment plan SKU.
-    types:
-    - uid: ResourceSku
-    name: sku
-  - isReadyOnly: true
-    description: Resource Id.
-    types:
-    - uid: string
-    name: id
-  - isReadyOnly: true
-    description: Resource name.
-    types:
-    - uid: string
-    name: name
-  - description: Resource location.
-    types:
-    - uid: string
-    name: location
-  - isReadyOnly: true
-    description: Resource type.
-    types:
-    - uid: string
-    name: type
-  - description: User-defined tags for the resource.
-    types:
-    - isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-      uid: object
-    name: tags
 - name: CommitmentPlanProperties
   description: The commitment plan properties.
   kind: object
@@ -182,6 +130,74 @@ definitions:
     types:
     - uid: boolean
     name: suspendPlanOnOverage
+- name: ResourceSku
+  description: The SKU of a resource.
+  kind: object
+  properties:
+  - description: The scale-out capacity of the resource. 1 is 1x, 2 is 2x, etc. This impacts the quantities and cost of any commitment plan resource.
+    types:
+    - uid: integer
+    name: capacity
+  - description: The SKU name. Along with tier, uniquely identifies the SKU.
+    types:
+    - uid: string
+    name: name
+  - description: The SKU tier. Along with name, uniquely identifies the SKU.
+    types:
+    - uid: string
+    name: tier
+- name: CommitmentPlan
+  description: An Azure ML commitment plan resource.
+  kind: object
+  properties:
+  - description: An entity tag used to enforce optimistic concurrency.
+    types:
+    - uid: string
+    name: etag
+  - isReadyOnly: true
+    description: The commitment plan properties.
+    types:
+    - uid: CommitmentPlanProperties
+    name: properties
+  - description: The commitment plan SKU.
+    types:
+    - uid: ResourceSku
+    name: sku
+  - isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - description: Resource location.
+    types:
+    - uid: string
+    name: location
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+  - description: User-defined tags for the resource.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+- name: IncludedQuantities
+  description: The included resource quantities this plan gives you.
+  kind: object
+  properties:
+  - description: Represents the quantity a commitment plan provides of a metered resource.
+    types:
+    - uid: PlanQuantity
+    name: ''
 - name: PlanQuantity
   description: Represents the quantity a commitment plan provides of a metered resource.
   kind: object
@@ -206,22 +222,6 @@ definitions:
     types:
     - uid: string
     name: overageMeter
-- name: ResourceSku
-  description: The commitment plan SKU.
-  kind: object
-  properties:
-  - description: The scale-out capacity of the resource. 1 is 1x, 2 is 2x, etc. This impacts the quantities and cost of any commitment plan resource.
-    types:
-    - uid: integer
-    name: capacity
-  - description: The SKU name. Along with tier, uniquely identifies the SKU.
-    types:
-    - uid: string
-    name: name
-  - description: The SKU tier. Along with name, uniquely identifies the SKU.
-    types:
-    - uid: string
-    name: tier
 examples: []
 security: []
 name: CreateOrUpdate

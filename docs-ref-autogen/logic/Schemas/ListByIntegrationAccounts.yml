@@ -60,8 +60,7 @@ definitions:
   properties:
   - description: The list of integration account schemas.
     types:
-    - isArray: true
-      uid: IntegrationAccountSchema
+    - uid: IntegrationAccountSchema
     name: value
   - description: The URL to get the next set of results.
     types:
@@ -74,46 +73,46 @@ definitions:
   - description: The schema type.
     types:
     - uid: SchemaType
-    name: schemaType
+    name: properties.schemaType
   - description: The target namespace of the schema.
     types:
     - uid: string
-    name: targetNamespace
+    name: properties.targetNamespace
   - description: The document name.
     types:
     - uid: string
-    name: documentName
+    name: properties.documentName
   - description: The file name.
     types:
     - uid: string
-    name: fileName
+    name: properties.fileName
   - isReadyOnly: true
     description: The created time.
     types:
     - uid: string
-    name: createdTime
+    name: properties.createdTime
   - isReadyOnly: true
     description: The changed time.
     types:
     - uid: string
-    name: changedTime
+    name: properties.changedTime
   - description: The metadata.
     types:
     - uid: Metadata
-    name: metadata
+    name: properties.metadata
   - description: The content.
     types:
     - uid: Content
-    name: content
+    name: properties.content
   - description: The content type.
     types:
     - uid: string
-    name: contentType
+    name: properties.contentType
   - isReadyOnly: true
     description: The content link.
     types:
     - uid: ContentLink
-    name: contentLink
+    name: properties.contentLink
   - isReadyOnly: true
     description: The resource id.
     types:
@@ -160,7 +159,7 @@ definitions:
   kind: object
   properties: []
 - name: ContentLink
-  description: The content link.
+  description: Gets the link to input parameters.
   kind: object
   properties:
   - description: The content link URI.
@@ -196,7 +195,6 @@ definitions:
     - uid: string
     name: value
 - name: Object
-  description: The metadata.
   kind: object
   properties: []
 examples:
@@ -204,7 +202,33 @@ examples:
     uri: GET https://management.azure.com/subscriptions/<subscriptionId>/resourceGroups/testResourceGroup/providers/Microsoft.Logic/integrationAccounts/<integrationAccountName>/schemas?api-version=2016-06-01
   responses:
   - statusCode: "200"
-    body: '{"value":[{"properties":{"schemaType":"Xml","targetNamespace":"http://Inbound_EDI.OrderFile","documentName":"OrderFile","contentLink":{"uri":"<contentLinkUri>","contentVersion":"\"0x8D45C553EECEB76\"","contentSize":7901,"contentHash":{"algorithm":"md5","value":"<Value>"}},"createdTime":"2017-02-24T01:34:16.7088958Z","changedTime":"2017-02-24T01:34:16.7098626Z","metadata":{}},"id":"/subscriptions/<subscriptionId>/resourceGroups/testResourceGroup/providers/Microsoft.Logic/integrationAccounts/<integrationAccountName>/schemas/IntegrationAccountSchema3944","name":"IntegrationAccountSchema3944","type":"Microsoft.Logic/integrationAccounts/schemas"}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "schemaType": "Xml",
+              "targetNamespace": "http://Inbound_EDI.OrderFile",
+              "documentName": "OrderFile",
+              "contentLink": {
+                "uri": "<contentLinkUri>",
+                "contentVersion": "\"0x8D45C553EECEB76\"",
+                "contentSize": 7901,
+                "contentHash": {
+                  "algorithm": "md5",
+                  "value": "<Value>"
+                }
+              },
+              "createdTime": "2017-02-24T01:34:16.7088958Z",
+              "changedTime": "2017-02-24T01:34:16.7098626Z",
+              "metadata": {}
+            },
+            "id": "/subscriptions/<subscriptionId>/resourceGroups/testResourceGroup/providers/Microsoft.Logic/integrationAccounts/<integrationAccountName>/schemas/IntegrationAccountSchema3944",
+            "name": "IntegrationAccountSchema3944",
+            "type": "Microsoft.Logic/integrationAccounts/schemas"
+          }
+        ]
+      }
   name: Get schemas by integration account name
 security:
 - type: oauth2

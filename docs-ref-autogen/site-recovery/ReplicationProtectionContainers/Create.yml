@@ -62,8 +62,18 @@ requestBody:
     name: properties
 requestHeader: []
 definitions:
+- name: CreateProtectionContainerInputProperties
+  description: Create protection container input properties.
+  kind: object
+  properties:
+  - description: Provider specific inputs for container creation.
+    types:
+    - isArray: true
+      uid: A2AContainerCreationInput
+    typesTitle: ReplicationProviderSpecificContainerCreationInput[]
+    name: providerSpecificInput
 - name: ProtectionContainer
-  description: Protection container details.
+  description: The Protection Container details.
   kind: object
   properties:
   - description: The custom data.
@@ -89,6 +99,14 @@ definitions:
     types:
     - uid: string
     name: location
+- name: CreateProtectionContainerInput
+  description: Create protection container input.
+  kind: object
+  properties:
+  - description: Create protection container input properties.
+    types:
+    - uid: CreateProtectionContainerInputProperties
+    name: properties
 - name: ProtectionContainerProperties
   description: The custom data.
   kind: object
@@ -121,6 +139,15 @@ definitions:
     types:
     - uid: ProtectionContainerFabricSpecificDetails
     name: fabricSpecificDetails
+- name: A2AContainerCreationInput
+  description: A2A cloud creation input.
+  kind: object
+  properties:
+  - description: The class type.
+    types:
+    - uid: A2A
+    typesTitle: string
+    name: instanceType
 - name: ProtectionContainerFabricSpecificDetails
   description: Fabric specific details.
   kind: object
@@ -133,10 +160,32 @@ definitions:
 examples:
 - request:
     uri: PUT https://management.azure.com/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1/replicationProtectionContainers/cloud_6d224fc6-f326-5d35-96de-fbf51efb3179?api-version=2016-08-10
-    requestBody: '{"properties":{"providerSpecificInput":[{"instanceType":"ReplicationProviderSpecificContainerCreationInput"}]}}'
+    body: >-
+      {
+        "properties": {
+          "providerSpecificInput": [
+            {
+              "instanceType": "ReplicationProviderSpecificContainerCreationInput"
+            }
+          ]
+        }
+      }
   responses:
   - statusCode: "200"
-    body: '{"id":"/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1/replicationProtectionContainers/cloud_6d224fc6-f326-5d35-96de-fbf51efb3179","name":"cloud_6d224fc6-f326-5d35-96de-fbf51efb3179","type":"Microsoft.RecoveryServices/vaults/replicationFabrics/replicationProtectionContainers","properties":{"fabricFriendlyName":"cloud1","friendlyName":"cloud1","fabricType":"HyperVSite","protectedItemCount":0,"pairingStatus":"NotPaired","role":""}}'
+    body: >-
+      {
+        "id": "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1/replicationProtectionContainers/cloud_6d224fc6-f326-5d35-96de-fbf51efb3179",
+        "name": "cloud_6d224fc6-f326-5d35-96de-fbf51efb3179",
+        "type": "Microsoft.RecoveryServices/vaults/replicationFabrics/replicationProtectionContainers",
+        "properties": {
+          "fabricFriendlyName": "cloud1",
+          "friendlyName": "cloud1",
+          "fabricType": "HyperVSite",
+          "protectedItemCount": 0,
+          "pairingStatus": "NotPaired",
+          "role": ""
+        }
+      }
   - statusCode: "202"
   name: Create a protection container.
 security:

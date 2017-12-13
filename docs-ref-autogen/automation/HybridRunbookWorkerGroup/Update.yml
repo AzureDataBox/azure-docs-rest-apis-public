@@ -59,6 +59,14 @@ requestBody:
     name: credential
 requestHeader: []
 definitions:
+- name: RunAsCredentialAssociationProperty
+  description: Definition of runas credential to use for hybrid worker.
+  kind: object
+  properties:
+  - description: Gets or sets the name of the credential.
+    types:
+    - uid: string
+    name: name
 - name: HybridRunbookWorkerGroup
   description: Definition of hybrid runbook worker group.
   kind: object
@@ -73,9 +81,28 @@ definitions:
     name: name
   - description: Gets or sets the list of hybrid runbook workers.
     types:
-    - isArray: true
-      uid: HybridRunbookWorker
+    - uid: HybridRunbookWorker
     name: hybridRunbookWorkers
+  - description: Sets the credential of a worker group.
+    types:
+    - uid: RunAsCredentialAssociationProperty
+    name: credential
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - description: Error code
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
+- name: HybridRunbookWorkerGroupUpdateParameters
+  description: Parameters supplied to the update operation.
+  kind: object
+  properties:
   - description: Sets the credential of a worker group.
     types:
     - uid: RunAsCredentialAssociationProperty
@@ -96,26 +123,6 @@ definitions:
     types:
     - uid: string
     name: registrationTime
-- name: RunAsCredentialAssociationProperty
-  description: Sets the credential of a worker group.
-  kind: object
-  properties:
-  - description: Gets or sets the name of the credential.
-    types:
-    - uid: string
-    name: name
-- name: ErrorResponse
-  description: Error response of an operation failure
-  kind: object
-  properties:
-  - description: Error code
-    types:
-    - uid: string
-    name: code
-  - description: Error message indicating why the operation failed.
-    types:
-    - uid: string
-    name: message
 examples: []
 security: []
 name: Update

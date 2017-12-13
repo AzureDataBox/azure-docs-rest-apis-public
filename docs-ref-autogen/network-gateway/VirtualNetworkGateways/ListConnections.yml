@@ -49,8 +49,7 @@ definitions:
   properties:
   - description: Gets a list of VirtualNetworkGatewayConnection resources that exists in a resource group.
     types:
-    - isArray: true
-      uid: VirtualNetworkGatewayConnectionListEntity
+    - uid: VirtualNetworkGatewayConnectionListEntity
     name: value
   - isReadyOnly: true
     description: The URL to get the next set of results.
@@ -68,78 +67,76 @@ definitions:
   - description: The authorizationKey.
     types:
     - uid: string
-    name: authorizationKey
+    name: properties.authorizationKey
   - description: The reference to virtual network gateway resource.
     types:
     - uid: virtualNetworkConnectionGatewayReference
-    name: virtualNetworkGateway1
+    name: properties.virtualNetworkGateway1
   - description: The reference to virtual network gateway resource.
     types:
     - uid: virtualNetworkConnectionGatewayReference
-    name: virtualNetworkGateway2
+    name: properties.virtualNetworkGateway2
   - description: The reference to local network gateway resource.
     types:
     - uid: virtualNetworkConnectionGatewayReference
-    name: localNetworkGateway2
+    name: properties.localNetworkGateway2
   - description: "Gateway connection type. Possible values are: 'Ipsec','Vnet2Vnet','ExpressRoute', and 'VPNClient."
     types:
     - uid: VirtualNetworkGatewayConnectionType
-    name: connectionType
+    name: properties.connectionType
   - description: The routing weight.
     types:
     - uid: integer
-    name: routingWeight
+    name: properties.routingWeight
   - description: The IPSec shared key.
     types:
     - uid: string
-    name: sharedKey
+    name: properties.sharedKey
   - isReadyOnly: true
     description: Virtual network Gateway connection status. Possible values are 'Unknown', 'Connecting', 'Connected' and 'NotConnected'.
     types:
     - uid: VirtualNetworkGatewayConnectionStatus
-    name: connectionStatus
+    name: properties.connectionStatus
   - isReadyOnly: true
     description: Collection of all tunnels' connection health status.
     types:
-    - isArray: true
-      uid: TunnelConnectionHealth
-    name: tunnelConnectionStatus
+    - uid: TunnelConnectionHealth
+    name: properties.tunnelConnectionStatus
   - isReadyOnly: true
     description: The egress bytes transferred in this connection.
     types:
     - uid: integer
-    name: egressBytesTransferred
+    name: properties.egressBytesTransferred
   - isReadyOnly: true
     description: The ingress bytes transferred in this connection.
     types:
     - uid: integer
-    name: ingressBytesTransferred
+    name: properties.ingressBytesTransferred
   - description: The reference to peerings resource.
     types:
     - uid: SubResource
-    name: peer
+    name: properties.peer
   - description: EnableBgp flag
     types:
     - uid: boolean
-    name: enableBgp
+    name: properties.enableBgp
   - description: Enable policy-based traffic selectors.
     types:
     - uid: boolean
-    name: usePolicyBasedTrafficSelectors
+    name: properties.usePolicyBasedTrafficSelectors
   - description: The IPSec Policies to be considered by this connection.
     types:
-    - isArray: true
-      uid: IpsecPolicy
-    name: ipsecPolicies
+    - uid: IpsecPolicy
+    name: properties.ipsecPolicies
   - description: The resource GUID property of the VirtualNetworkGatewayConnection resource.
     types:
     - uid: string
-    name: resourceGuid
+    name: properties.resourceGuid
   - isReadyOnly: true
     description: "The provisioning state of the VirtualNetworkGatewayConnection resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -168,7 +165,7 @@ definitions:
       uid: object
     name: tags
 - name: virtualNetworkConnectionGatewayReference
-  description: The reference to virtual network gateway resource.
+  description: A reference to VirtualNetworkGateway or LocalNetworkGateway resource.
   kind: object
   properties:
   - description: The ID of VirtualNetworkGateway or LocalNetworkGateway resource.
@@ -192,7 +189,7 @@ definitions:
     - uid: string
     name: VPNClient
 - name: VirtualNetworkGatewayConnectionStatus
-  description: Virtual network Gateway connection status. Possible values are 'Unknown', 'Connecting', 'Connected' and 'NotConnected'.
+  description: Virtual network Gateway connection status
   kind: enum
   properties:
   - types:
@@ -237,7 +234,7 @@ definitions:
     - uid: string
     name: lastConnectionEstablishedUtcTime
 - name: SubResource
-  description: The reference to peerings resource.
+  description: The reference of the subnet resource.
   kind: object
   properties:
   - description: Resource ID.
@@ -245,7 +242,7 @@ definitions:
     - uid: string
     name: id
 - name: IpsecPolicy
-  description: An IPSec Policy configuration for a virtual network gateway connection
+  description: The IPSec Policies to be considered by this connection.
   kind: object
   properties:
   - description: The IPSec Security Association (also called Quick Mode or Phase 2 SA) lifetime in seconds for a site to site VPN tunnel.
@@ -426,7 +423,35 @@ examples:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/virtualNetworkGateways/test-vpn-gateway-1/connections?api-version=2017-09-01
   responses:
   - statusCode: "200"
-    body: '{"value":[{"name":"test-vpn-connection","id":"/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/connections/test-vpn-connection","etag":"W/\\\"00000000-0000-0000-0000-000000000000\\\"","type":"Microsoft.Network/connections","location":"eastus","properties":{"provisioningState":"Succeeded","resourceGuid":"00000000-0000-0000-0000-000000000000","virtualNetworkGateway1":{"id":"/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/virtualNetworkGateways/test-vpn-gateway-1"},"virtualNetworkGateway2":{"id":"/subscriptions/subid/resourceGroups/testrg-2/providers/Microsoft.Network/virtualNetworkGateways/test-vpn-gateway-2"},"connectionType":"Vnet2Vnet","routingWeight":22,"enableBgp":true,"usePolicyBasedTrafficSelectors":false,"ipsecPolicies":[],"ingressBytesTransferred":0,"egressBytesTransferred":0}}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "name": "test-vpn-connection",
+            "id": "/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/connections/test-vpn-connection",
+            "etag": "W/\\\"00000000-0000-0000-0000-000000000000\\\"",
+            "type": "Microsoft.Network/connections",
+            "location": "eastus",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "resourceGuid": "00000000-0000-0000-0000-000000000000",
+              "virtualNetworkGateway1": {
+                "id": "/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/virtualNetworkGateways/test-vpn-gateway-1"
+              },
+              "virtualNetworkGateway2": {
+                "id": "/subscriptions/subid/resourceGroups/testrg-2/providers/Microsoft.Network/virtualNetworkGateways/test-vpn-gateway-2"
+              },
+              "connectionType": "Vnet2Vnet",
+              "routingWeight": 22,
+              "enableBgp": true,
+              "usePolicyBasedTrafficSelectors": false,
+              "ipsecPolicies": [],
+              "ingressBytesTransferred": 0,
+              "egressBytesTransferred": 0
+            }
+          }
+        ]
+      }
   name: VirtualNetworkGatewaysListConnections
 security:
 - type: oauth2

@@ -53,12 +53,12 @@ requestBody:
     description: Value of the configuration.
     types:
     - uid: string
-    name: value
+    name: properties.value
   - in: body
     description: Source of the configuration.
     types:
     - uid: string
-    name: source
+    name: properties.source
 requestHeader: []
 definitions:
 - name: Configuration
@@ -68,31 +68,31 @@ definitions:
   - description: Value of the configuration.
     types:
     - uid: string
-    name: value
+    name: properties.value
   - isReadyOnly: true
     description: Description of the configuration.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - isReadyOnly: true
     description: Default value of the configuration.
     types:
     - uid: string
-    name: defaultValue
+    name: properties.defaultValue
   - isReadyOnly: true
     description: Data type of the configuration.
     types:
     - uid: string
-    name: dataType
+    name: properties.dataType
   - isReadyOnly: true
     description: Allowed values of the configuration.
     types:
     - uid: string
-    name: allowedValues
+    name: properties.allowedValues
   - description: Source of the configuration.
     types:
     - uid: string
-    name: source
+    name: properties.source
   - isReadyOnly: true
     description: Resource ID
     types:
@@ -111,10 +111,29 @@ definitions:
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMySQL/servers/testserver/configurations/event_scheduler?api-version=2017-04-30-preview
-    requestBody: '{"properties":{"value":"ON","source":"user-override"}}'
+    body: >-
+      {
+        "properties": {
+          "value": "ON",
+          "source": "user-override"
+        }
+      }
   responses:
   - statusCode: "200"
-    body: '{"properties":{"value":"ON","description":"Indicates the status of the Event Scheduler.","defaultValue":"OFF","dataType":"Enumeration","allowedValues":"ON,OFF,DISABLED","source":"user-override"},"id":"/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMySQL/servers/testserver/configurations/event_scheduler","name":"event_scheduler","type":"Microsoft.DBforMySQL/servers/configurations"}'
+    body: >-
+      {
+        "properties": {
+          "value": "ON",
+          "description": "Indicates the status of the Event Scheduler.",
+          "defaultValue": "OFF",
+          "dataType": "Enumeration",
+          "allowedValues": "ON,OFF,DISABLED",
+          "source": "user-override"
+        },
+        "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMySQL/servers/testserver/configurations/event_scheduler",
+        "name": "event_scheduler",
+        "type": "Microsoft.DBforMySQL/servers/configurations"
+      }
   - statusCode: "202"
   name: ConfigurationCreateOrUpdate
 security:

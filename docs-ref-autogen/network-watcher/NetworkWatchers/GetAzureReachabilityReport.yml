@@ -56,14 +56,12 @@ requestBody:
   - in: body
     description: List of Internet service providers.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: providers
   - in: body
     description: Optional Azure regions to scope the query to.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: azureLocations
   - in: body
     isRequired: true
@@ -79,23 +77,6 @@ requestBody:
     name: endTime
 requestHeader: []
 definitions:
-- name: AzureReachabilityReport
-  description: Azure reachability report details.
-  kind: object
-  properties:
-  - description: The aggregation level of Azure reachability report. Can be Country, State or City.
-    types:
-    - uid: string
-    name: aggregationLevel
-  - description: Parameters that define a geographic location.
-    types:
-    - uid: AzureReachabilityReportLocation
-    name: providerLocation
-  - description: List of Azure reachability report items.
-    types:
-    - isArray: true
-      uid: AzureReachabilityReportItem
-    name: reachabilityReport
 - name: AzureReachabilityReportLocation
   description: Parameters that define a geographic location.
   kind: object
@@ -112,8 +93,48 @@ definitions:
     types:
     - uid: string
     name: city
+- name: AzureReachabilityReport
+  description: Azure reachability report details.
+  kind: object
+  properties:
+  - description: The aggregation level of Azure reachability report. Can be Country, State or City.
+    types:
+    - uid: string
+    name: aggregationLevel
+  - description: Parameters that define a geographic location.
+    types:
+    - uid: AzureReachabilityReportLocation
+    name: providerLocation
+  - description: List of Azure reachability report items.
+    types:
+    - uid: AzureReachabilityReportItem
+    name: reachabilityReport
+- name: AzureReachabilityReportParameters
+  description: Geographic and time constraints for Azure reachability report.
+  kind: object
+  properties:
+  - description: Parameters that define a geographic location.
+    types:
+    - uid: AzureReachabilityReportLocation
+    name: providerLocation
+  - description: List of Internet service providers.
+    types:
+    - uid: string
+    name: providers
+  - description: Optional Azure regions to scope the query to.
+    types:
+    - uid: string
+    name: azureLocations
+  - description: The start time for the Azure reachability report.
+    types:
+    - uid: string
+    name: startTime
+  - description: The end time for the Azure reachability report.
+    types:
+    - uid: string
+    name: endTime
 - name: AzureReachabilityReportItem
-  description: Azure reachability report details for a given provider location.
+  description: List of Azure reachability report items.
   kind: object
   properties:
   - description: The Internet service provider.
@@ -126,11 +147,10 @@ definitions:
     name: azureLocation
   - description: List of latency details for each of the time series.
     types:
-    - isArray: true
-      uid: AzureReachabilityReportLatencyInfo
+    - uid: AzureReachabilityReportLatencyInfo
     name: latencies
 - name: AzureReachabilityReportLatencyInfo
-  description: Details on latency for a time series.
+  description: List of latency details for each of the time series.
   kind: object
   properties:
   - description: The time stamp.
@@ -144,12 +164,80 @@ definitions:
 examples:
 - request:
     uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/azureReachabilityReport?api-version=2017-09-01
-    requestBody: '{"providerLocation":{"country":"United States","state":"washington"},"providers":["Frontier Communications of America, Inc. - ASN 5650"],"azureLocations":["West US"],"startTime":"2017-09-07T00:00:00Z","endTime":"2017-09-10T00:00:00Z"}'
+    body: >-
+      {
+        "providerLocation": {
+          "country": "United States",
+          "state": "washington"
+        },
+        "providers": [
+          "Frontier Communications of America, Inc. - ASN 5650"
+        ],
+        "azureLocations": [
+          "West US"
+        ],
+        "startTime": "2017-09-07T00:00:00Z",
+        "endTime": "2017-09-10T00:00:00Z"
+      }
   responses:
   - statusCode: "200"
-    body: '{"aggregationLevel":"State","providerLocation":{"country":"United States","state":"washington"},"reachabilityReport":[{"provider":"Frontier Communications of America, Inc. - ASN 5650","azureLocation":"West US","latencies":[{"timeStamp":"2017-09-07T00:00:00Z","score":94},{"timeStamp":"2017-09-08T00:00:00Z","score":94},{"timeStamp":"2017-09-09T00:00:00Z","score":94}]}]}'
+    body: >-
+      {
+        "aggregationLevel": "State",
+        "providerLocation": {
+          "country": "United States",
+          "state": "washington"
+        },
+        "reachabilityReport": [
+          {
+            "provider": "Frontier Communications of America, Inc. - ASN 5650",
+            "azureLocation": "West US",
+            "latencies": [
+              {
+                "timeStamp": "2017-09-07T00:00:00Z",
+                "score": 94
+              },
+              {
+                "timeStamp": "2017-09-08T00:00:00Z",
+                "score": 94
+              },
+              {
+                "timeStamp": "2017-09-09T00:00:00Z",
+                "score": 94
+              }
+            ]
+          }
+        ]
+      }
   - statusCode: "202"
-    body: '{"aggregationLevel":"State","providerLocation":{"country":"United States","state":"washington"},"reachabilityReport":[{"provider":"Frontier Communications of America, Inc. - ASN 5650","azureLocation":"West US","latencies":[{"timeStamp":"2017-09-07T00:00:00Z","score":94},{"timeStamp":"2017-09-08T00:00:00Z","score":94},{"timeStamp":"2017-09-09T00:00:00Z","score":94}]}]}'
+    body: >-
+      {
+        "aggregationLevel": "State",
+        "providerLocation": {
+          "country": "United States",
+          "state": "washington"
+        },
+        "reachabilityReport": [
+          {
+            "provider": "Frontier Communications of America, Inc. - ASN 5650",
+            "azureLocation": "West US",
+            "latencies": [
+              {
+                "timeStamp": "2017-09-07T00:00:00Z",
+                "score": 94
+              },
+              {
+                "timeStamp": "2017-09-08T00:00:00Z",
+                "score": 94
+              },
+              {
+                "timeStamp": "2017-09-09T00:00:00Z",
+                "score": 94
+              }
+            ]
+          }
+        ]
+      }
   name: Get Azure Reachability Report
 security:
 - type: oauth2

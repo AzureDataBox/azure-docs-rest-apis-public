@@ -62,55 +62,55 @@ requestBody:
     description: User-friendly OpenID Connect Provider name.
     types:
     - uid: string
-    name: displayName
+    name: properties.displayName
   - in: body
     description: User-friendly description of OpenID Connect Provider.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - in: body
     isRequired: true
     description: Metadata endpoint URI.
     types:
     - uid: string
-    name: metadataEndpoint
+    name: properties.metadataEndpoint
   - in: body
     isRequired: true
     description: Client ID of developer console which is the client application.
     types:
     - uid: string
-    name: clientId
+    name: properties.clientId
   - in: body
     description: Client Secret of developer console which is the client application.
     types:
     - uid: string
-    name: clientSecret
+    name: properties.clientSecret
 requestHeader: []
 definitions:
 - name: OpenidConnectProviderContract
-  description: OpenId Connect Provider details.
+  description: Page values.
   kind: object
   properties:
   - description: User-friendly OpenID Connect Provider name.
     types:
     - uid: string
-    name: displayName
+    name: properties.displayName
   - description: User-friendly description of OpenID Connect Provider.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - description: Metadata endpoint URI.
     types:
     - uid: string
-    name: metadataEndpoint
+    name: properties.metadataEndpoint
   - description: Client ID of developer console which is the client application.
     types:
     - uid: string
-    name: clientId
+    name: properties.clientId
   - description: Client Secret of developer console which is the client application.
     types:
     - uid: string
-    name: clientSecret
+    name: properties.clientSecret
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -140,8 +140,7 @@ definitions:
     name: message
   - description: The list of invalid fields send in request, in case of validation error.
     types:
-    - isArray: true
-      uid: ErrorFieldContract
+    - uid: ErrorFieldContract
     name: details
 - name: ErrorFieldContract
   description: Error Field contract.
@@ -162,12 +161,39 @@ definitions:
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/openidConnectProviders/templateOpenIdConnect3?api-version=2017-03-01
-    requestBody: '{"properties":{"displayName":"templateoidprovider3","metadataEndpoint":"https://oidprovider-template3.net","clientId":"oidprovidertemplate3"}}'
+    body: >-
+      {
+        "properties": {
+          "displayName": "templateoidprovider3",
+          "metadataEndpoint": "https://oidprovider-template3.net",
+          "clientId": "oidprovidertemplate3"
+        }
+      }
   responses:
   - statusCode: "201"
-    body: '{"id":"/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/openidConnectProviders/templateOpenIdConnect3","type":"Microsoft.ApiManagement/service/openidconnectproviders","name":"templateOpenIdConnect3","properties":{"displayName":"templateoidprovider3","metadataEndpoint":"https://oidprovider-template3.net","clientId":"oidprovidertemplate3"}}'
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/openidConnectProviders/templateOpenIdConnect3",
+        "type": "Microsoft.ApiManagement/service/openidconnectproviders",
+        "name": "templateOpenIdConnect3",
+        "properties": {
+          "displayName": "templateoidprovider3",
+          "metadataEndpoint": "https://oidprovider-template3.net",
+          "clientId": "oidprovidertemplate3"
+        }
+      }
   - statusCode: "200"
-    body: '{"id":"/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/openidConnectProviders/templateOpenIdConnect3","type":"Microsoft.ApiManagement/service/openidconnectproviders","name":"templateOpenIdConnect3","properties":{"displayName":"templateoidprovider3","metadataEndpoint":"https://oidprovider-template3.net","clientId":"oidprovidertemplate3"}}'
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/openidConnectProviders/templateOpenIdConnect3",
+        "type": "Microsoft.ApiManagement/service/openidconnectproviders",
+        "name": "templateOpenIdConnect3",
+        "properties": {
+          "displayName": "templateoidprovider3",
+          "metadataEndpoint": "https://oidprovider-template3.net",
+          "clientId": "oidprovidertemplate3"
+        }
+      }
   name: ApiManagementCreateOpenIdConnectProvider
 security:
 - type: oauth2

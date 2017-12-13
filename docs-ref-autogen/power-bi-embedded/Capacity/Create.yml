@@ -72,14 +72,94 @@ requestBody:
     description: A collection of Dedicated capacity administrators
     types:
     - uid: DedicatedCapacityServerAdministrators
-    name: capacityAdministrators
+    name: properties.capacityAdministrators
   - in: body
     description: The container URI of backup blob.
     types:
     - uid: string
-    name: backupBlobContainerUri
+    name: properties.backupBlobContainerUri
 requestHeader: []
 definitions:
+- name: ResourceSku
+  description: The SKU of the PowerBI Dedicated resource.
+  kind: object
+  properties:
+  - description: Name of the SKU level.
+    types:
+    - uid: string
+    name: name
+  - description: The name of the Azure pricing tier to which the SKU applies.
+    types:
+    - uid: SkuTier
+    name: tier
+- name: DedicatedCapacityServerAdministrators
+  description: A collection of Dedicated capacity administrators
+  kind: object
+  properties:
+  - description: An array of administrator user identities.
+    types:
+    - uid: string
+    name: members
+- name: DedicatedCapacity
+  description: Represents an instance of a Dedicated Capacity resource.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The current state of PowerBI Dedicated resource. The state is to indicate more states outside of resource provisioning.
+    types:
+    - uid: State
+    name: properties.state
+  - isReadyOnly: true
+    description: The current deployment state of PowerBI Dedicatedresource. The provisioningState is to indicate states for resource provisioning.
+    types:
+    - uid: ProvisioningState
+    name: properties.provisioningState
+  - isReadyOnly: true
+    description: An identifier that represents the PowerBI Dedicated resource.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: The name of the PowerBI Dedicated resource.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: The type of the PowerBI Dedicated resource.
+    types:
+    - uid: string
+    name: type
+  - description: Location of the PowerBI Dedicated resource.
+    types:
+    - uid: string
+    name: location
+  - description: The SKU of the PowerBI Dedicated resource.
+    types:
+    - uid: ResourceSku
+    name: sku
+  - description: Key-value pairs of additional resource provisioning properties.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+  - description: A collection of Dedicated capacity administrators
+    types:
+    - uid: DedicatedCapacityServerAdministrators
+    name: properties.capacityAdministrators
+  - description: The container URI of backup blob.
+    types:
+    - uid: string
+    name: properties.backupBlobContainerUri
+- name: SkuTier
+  description: The name of the Azure pricing tier to which the SKU applies.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: PBIE_Azure
 - name: State
   description: The current state of PowerBI Dedicated resource. The state is to indicate more states outside of resource provisioning.
   kind: enum
@@ -160,96 +240,79 @@ definitions:
   - types:
     - uid: string
     name: Scaling
-- name: SkuTier
-  description: The name of the Azure pricing tier to which the SKU applies.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: PBIE_Azure
-- name: DedicatedCapacity
-  description: Represents an instance of a Dedicated Capacity resource.
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: The current state of PowerBI Dedicated resource. The state is to indicate more states outside of resource provisioning.
-    types:
-    - uid: State
-    name: state
-  - isReadyOnly: true
-    description: The current deployment state of PowerBI Dedicatedresource. The provisioningState is to indicate states for resource provisioning.
-    types:
-    - uid: ProvisioningState
-    name: provisioningState
-  - isReadyOnly: true
-    description: An identifier that represents the PowerBI Dedicated resource.
-    types:
-    - uid: string
-    name: id
-  - isReadyOnly: true
-    description: The name of the PowerBI Dedicated resource.
-    types:
-    - uid: string
-    name: name
-  - isReadyOnly: true
-    description: The type of the PowerBI Dedicated resource.
-    types:
-    - uid: string
-    name: type
-  - description: Location of the PowerBI Dedicated resource.
-    types:
-    - uid: string
-    name: location
-  - description: The SKU of the PowerBI Dedicated resource.
-    types:
-    - uid: ResourceSku
-    name: sku
-  - description: Key-value pairs of additional resource provisioning properties.
-    types:
-    - isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-      uid: object
-    name: tags
-  - description: A collection of Dedicated capacity administrators
-    types:
-    - uid: DedicatedCapacityServerAdministrators
-    name: capacityAdministrators
-  - description: The container URI of backup blob.
-    types:
-    - uid: string
-    name: backupBlobContainerUri
-- name: ResourceSku
-  description: The SKU of the PowerBI Dedicated resource.
-  kind: object
-  properties:
-  - description: Name of the SKU level.
-    types:
-    - uid: string
-    name: name
-  - description: The name of the Azure pricing tier to which the SKU applies.
-    types:
-    - uid: SkuTier
-    name: tier
-- name: DedicatedCapacityServerAdministrators
-  description: A collection of Dedicated capacity administrators
-  kind: object
-  properties:
-  - description: An array of administrator user identities.
-    types:
-    - isArray: true
-      uid: string
-    name: members
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/613192d7-503f-477a-9cfe-4efc3ee2bd60/resourceGroups/TestRG/providers/Microsoft.PowerBIDedicated/capacities/azsdktest?api-version=2017-10-01
-    requestBody: '{"sku":{"name":"A1","tier":"PBIE_Azure"},"tags":{"testKey":"testValue"},"location":"West US","properties":{"capacityAdministrators":{"members":["azsdktest@microsoft.com","azsdktest2@microsoft.com"]},"provisioningState":"Preparing","state":"Preparing"}}'
+    body: >-
+      {
+        "sku": {
+          "name": "A1",
+          "tier": "PBIE_Azure"
+        },
+        "tags": {
+          "testKey": "testValue"
+        },
+        "location": "West US",
+        "properties": {
+          "capacityAdministrators": {
+            "members": [
+              "azsdktest@microsoft.com",
+              "azsdktest2@microsoft.com"
+            ]
+          },
+          "provisioningState": "Preparing",
+          "state": "Preparing"
+        }
+      }
   responses:
   - statusCode: "200"
-    body: '{"id":"/subscriptions/613192d7-503f-477a-9cfe-4efc3ee2bd60/resourceGroups/TestRG/providers/Microsoft.PowerBIDedicated/capacities/azsdktest","location":"West US","name":"azsdktest","properties":{"capacityAdministrators":{"members":["azsdktest@microsoft.com","azsdktest2@microsoft.com"]},"provisioningState":"Provisioning","state":"Provisioning"},"sku":{"name":"A1","tier":"PBIE_Azure"},"tags":{"testKey":"testValue"}}'
+    body: >-
+      {
+        "id": "/subscriptions/613192d7-503f-477a-9cfe-4efc3ee2bd60/resourceGroups/TestRG/providers/Microsoft.PowerBIDedicated/capacities/azsdktest",
+        "location": "West US",
+        "name": "azsdktest",
+        "properties": {
+          "capacityAdministrators": {
+            "members": [
+              "azsdktest@microsoft.com",
+              "azsdktest2@microsoft.com"
+            ]
+          },
+          "provisioningState": "Provisioning",
+          "state": "Provisioning"
+        },
+        "sku": {
+          "name": "A1",
+          "tier": "PBIE_Azure"
+        },
+        "tags": {
+          "testKey": "testValue"
+        }
+      }
   - statusCode: "201"
-    body: '{"id":"/subscriptions/613192d7-503f-477a-9cfe-4efc3ee2bd60/resourceGroups/TestRG/providers/Microsoft.PowerBIDedicated/servers/azsdktest","location":"West US","name":"azsdktest","properties":{"capacityAdministrators":{"members":["azsdktest@microsoft.com","azsdktest2@microsoft.com"]},"provisioningState":"Provisioning","state":"Provisioning"},"sku":{"name":"A1","tier":"PBIE_Azure"},"tags":{"testKey":"testValue"}}'
+    body: >-
+      {
+        "id": "/subscriptions/613192d7-503f-477a-9cfe-4efc3ee2bd60/resourceGroups/TestRG/providers/Microsoft.PowerBIDedicated/servers/azsdktest",
+        "location": "West US",
+        "name": "azsdktest",
+        "properties": {
+          "capacityAdministrators": {
+            "members": [
+              "azsdktest@microsoft.com",
+              "azsdktest2@microsoft.com"
+            ]
+          },
+          "provisioningState": "Provisioning",
+          "state": "Provisioning"
+        },
+        "sku": {
+          "name": "A1",
+          "tier": "PBIE_Azure"
+        },
+        "tags": {
+          "testKey": "testValue"
+        }
+      }
   name: Create capacity
 security:
 - type: oauth2

@@ -60,24 +60,26 @@ definitions:
   - isReadyOnly: true
     description: Available reservation terms for this resource
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: terms
   - isReadyOnly: true
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: locations
   - isReadyOnly: true
     types:
-    - isArray: true
-      uid: SkuCapability
+    - uid: SkuCapability
     name: capabilities
   - isReadyOnly: true
     types:
-    - isArray: true
-      uid: SkuRestriction
+    - uid: SkuRestriction
     name: restrictions
+- name: Error
+  kind: object
+  properties:
+  - types:
+    - uid: ExtendedErrorInfo
+    name: error
 - name: SkuCapability
   kind: object
   properties:
@@ -98,19 +100,12 @@ definitions:
     name: type
   - description: The value of restrictions. If the restriction type is set to location. This would be different locations where the SKU is restricted.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: values
   - description: The reason for restriction.
     types:
     - uid: string
     name: reasonCode
-- name: Error
-  kind: object
-  properties:
-  - types:
-    - uid: ExtendedErrorInfo
-    name: error
 - name: ExtendedErrorInfo
   kind: object
   properties:
@@ -293,7 +288,80 @@ examples:
     uri: GET https://management.azure.com/subscriptions/23bc208b-083f-4901-ae85-4f98c0c3b4b6 /providers/Microsoft.Capacity/catalogs?api-version=2017-11-01
   responses:
   - statusCode: "200"
-    body: '[{"resourceType":"virtualMachines","name":"Standard_DS4_v2","tier":"Standard","size":"DS4_v2","terms":["P1Y","P3Y"],"locations":["eastus"],"restrictions":[]},{"resourceType":"virtualMachines","name":"Standard_D14_v2_Promo","tier":"Standard","size":"D14_v2_Promo","terms":["P1Y","P3Y"],"locations":["CanadaCentral"],"restrictions":[{"type":"Term","values":["P1Y"],"reasonCode":"NotAvailableForSubscription"},{"type":"Term","values":["P3Y"],"reasonCode":"NotAvailableForSubscription"}]},{"resourceType":"virtualMachines","name":"Standard_DS2_v2","tier":"Standard","size":"DS2_v2","terms":["P1Y","P3Y"],"locations":["eastus"],"restrictions":[]},{"resourceType":"virtualMachines","name":"Standard_DS1_v2","tier":"Standard","size":"DS1_v2","terms":["P1Y","P3Y"],"locations":["eastus"],"restrictions":[]}]'
+    body: >-
+      [
+        {
+          "resourceType": "virtualMachines",
+          "name": "Standard_DS4_v2",
+          "tier": "Standard",
+          "size": "DS4_v2",
+          "terms": [
+            "P1Y",
+            "P3Y"
+          ],
+          "locations": [
+            "eastus"
+          ],
+          "restrictions": []
+        },
+        {
+          "resourceType": "virtualMachines",
+          "name": "Standard_D14_v2_Promo",
+          "tier": "Standard",
+          "size": "D14_v2_Promo",
+          "terms": [
+            "P1Y",
+            "P3Y"
+          ],
+          "locations": [
+            "CanadaCentral"
+          ],
+          "restrictions": [
+            {
+              "type": "Term",
+              "values": [
+                "P1Y"
+              ],
+              "reasonCode": "NotAvailableForSubscription"
+            },
+            {
+              "type": "Term",
+              "values": [
+                "P3Y"
+              ],
+              "reasonCode": "NotAvailableForSubscription"
+            }
+          ]
+        },
+        {
+          "resourceType": "virtualMachines",
+          "name": "Standard_DS2_v2",
+          "tier": "Standard",
+          "size": "DS2_v2",
+          "terms": [
+            "P1Y",
+            "P3Y"
+          ],
+          "locations": [
+            "eastus"
+          ],
+          "restrictions": []
+        },
+        {
+          "resourceType": "virtualMachines",
+          "name": "Standard_DS1_v2",
+          "tier": "Standard",
+          "size": "DS1_v2",
+          "terms": [
+            "P1Y",
+            "P3Y"
+          ],
+          "locations": [
+            "eastus"
+          ],
+          "restrictions": []
+        }
+      ]
   name: Catalog
 security: []
 name: GetCatalog

@@ -58,19 +58,6 @@ requestBody:
     name: value
 requestHeader: []
 definitions:
-- name: JsonWebKeyEncryptionAlgorithm
-  description: algorithm identifier
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: RSA-OAEP
-  - types:
-    - uid: string
-    name: RSA-OAEP-256
-  - types:
-    - uid: string
-    name: RSA1_5
 - name: KeyOperationResult
   description: The key operation result.
   kind: object
@@ -93,8 +80,19 @@ definitions:
     types:
     - uid: Error
     name: error
+- name: KeyOperationsParameters
+  description: The key operations parameters.
+  kind: object
+  properties:
+  - description: algorithm identifier
+    types:
+    - uid: JsonWebKeyEncryptionAlgorithm
+    name: alg
+  - types:
+    - uid: string
+    name: value
 - name: Error
-  description: The key vault server error.
+  description: Error encountered, if any, during the certificate operation.
   kind: object
   properties:
   - isReadyOnly: true
@@ -110,7 +108,20 @@ definitions:
   - types:
     - {}
     name: innererror
+- name: JsonWebKeyEncryptionAlgorithm
+  description: algorithm identifier
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: RSA-OAEP
+  - types:
+    - uid: string
+    name: RSA-OAEP-256
+  - types:
+    - uid: string
+    name: RSA1_5
 examples: []
 security: []
 name: decrypt
-uid: .keyvault.decrypt.decrypt
+uid: keyvault.decrypt.decrypt

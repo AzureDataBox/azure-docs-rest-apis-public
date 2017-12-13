@@ -60,13 +60,20 @@ definitions:
   properties:
   - description: The list of applications.
     types:
-    - isArray: true
-      uid: Application
+    - uid: Application
     name: value
   - description: The URL to get the next set of results.
     types:
     - uid: string
     name: nextLink
+- name: CloudError
+  description: An error response from the Batch service.
+  kind: object
+  properties:
+  - description: An error response from the Batch service.
+    types:
+    - uid: CloudErrorBody
+    name: error
 - name: Application
   description: Contains information about an application in a Batch account.
   kind: object
@@ -81,8 +88,7 @@ definitions:
     name: displayName
   - description: The list of packages under this application.
     types:
-    - isArray: true
-      uid: ApplicationPackage
+    - uid: ApplicationPackage
     name: packages
   - description: A value indicating whether packages within the application may be overwritten using the same version string.
     types:
@@ -92,8 +98,28 @@ definitions:
     types:
     - uid: string
     name: defaultVersion
+- name: CloudErrorBody
+  description: An error response from the Batch service.
+  kind: object
+  properties:
+  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+    name: code
+  - description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+    name: message
+  - description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+    name: target
+  - description: A list of additional details about the error.
+    types:
+    - uid: Details
+    name: details
 - name: ApplicationPackage
-  description: An application package which represents a particular version of an application.
+  description: The list of packages under this application.
   kind: object
   properties:
   - isReadyOnly: true
@@ -144,41 +170,44 @@ definitions:
   - types:
     - uid: string
     name: Unmapped
-- name: CloudError
-  description: An error response from the Batch service.
-  kind: object
-  properties:
-  - description: An error response from the Batch service.
-    types:
-    - uid: CloudErrorBody
-    name: error
-- name: CloudErrorBody
-  description: An error response from the Batch service.
-  kind: object
-  properties:
-  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
-    types:
-    - uid: string
-    name: code
-  - description: A message describing the error, intended to be suitable for display in a user interface.
-    types:
-    - uid: string
-    name: message
-  - description: The target of the particular error. For example, the name of the property in error.
-    types:
-    - uid: string
-    name: target
-  - description: A list of additional details about the error.
-    types:
-    - isArray: true
-      uid: Details
-    name: details
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/applications?api-version=2017-09-01
   responses:
   - statusCode: "200"
-    body: '{"value":[{"id":"app1","displayName":"myAppName","packages":[{"version":"1","state":"active","format":"zip","lastActivationTime":"2017-06-27T18:48:09.9330991Z"}],"allowUpdates":false,"defaultVersion":"1"},{"id":"app2","displayName":"myAppName","packages":[{"version":"1","state":"active","format":"zip","lastActivationTime":"2017-06-27T18:48:09.9330991Z"}],"allowUpdates":false,"defaultVersion":"1"}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "id": "app1",
+            "displayName": "myAppName",
+            "packages": [
+              {
+                "version": "1",
+                "state": "active",
+                "format": "zip",
+                "lastActivationTime": "2017-06-27T18:48:09.9330991Z"
+              }
+            ],
+            "allowUpdates": false,
+            "defaultVersion": "1"
+          },
+          {
+            "id": "app2",
+            "displayName": "myAppName",
+            "packages": [
+              {
+                "version": "1",
+                "state": "active",
+                "format": "zip",
+                "lastActivationTime": "2017-06-27T18:48:09.9330991Z"
+              }
+            ],
+            "allowUpdates": false,
+            "defaultVersion": "1"
+          }
+        ]
+      }
   name: ApplicationList
 security:
 - type: oauth2

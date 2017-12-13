@@ -50,12 +50,6 @@ requestBody:
     name: type
 requestHeader: []
 definitions:
-- description: 'the Resource type. Note: This should not be set by the user, as the constant value is Microsoft.DataLakeStore/accounts'
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Microsoft.DataLakeStore/accounts
 - name: NameAvailabilityInformation
   description: Data Lake Store account name availability result information
   kind: object
@@ -75,13 +69,35 @@ definitions:
     types:
     - uid: string
     name: message
+- name: CheckNameAvailabilityParameters
+  description: Data Lake Store account name availability check parameters
+  kind: object
+  properties:
+  - description: the Data Lake Store name to check availability for.
+    types:
+    - uid: string
+    name: name
+  - description: 'the Resource type. Note: This should not be set by the user, as the constant value is Microsoft.DataLakeStore/accounts'
+    types:
+    - uid: Microsoft.DataLakeStore/accounts
+    typesTitle: enum
+    name: type
 examples:
 - request:
     uri: POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.DataLakeStore/locations/EastUS2/checkNameAvailability?api-version=2016-11-01
-    requestBody: '{"name":"contosoadla","type":"Microsoft.DataLakeStore/accounts"}'
+    body: >-
+      {
+        "name": "contosoadla",
+        "type": "Microsoft.DataLakeStore/accounts"
+      }
   responses:
   - statusCode: "200"
-    body: "{\"nameAvailable\":false,\"reason\":\"AlreadyExists\",\"message\":\"An account named 'abc' already exists.\"}"
+    body: >-
+      {
+        "nameAvailable": false,
+        "reason": "AlreadyExists",
+        "message": "An account named 'abc' already exists."
+      }
   name: Checks whether the specified account name is available or taken
 security:
 - type: oauth2

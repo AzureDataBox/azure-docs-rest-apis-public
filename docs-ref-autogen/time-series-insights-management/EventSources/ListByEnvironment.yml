@@ -83,8 +83,7 @@ definitions:
     name: target
   - description: Contains nested errors that are related to this error.
     types:
-    - isArray: true
-      uid: Details
+    - uid: Details
     name: details
 - name: EventHubEventSourceResource
   description: An event source that receives its data from an Azure EventHub.
@@ -125,19 +124,85 @@ definitions:
   - description: The name of the service bus that contains the event hub.
     types:
     - uid: string
-    name: serviceBusNamespace
+    name: properties.serviceBusNamespace
   - description: The name of the event hub.
     types:
     - uid: string
-    name: eventHubName
+    name: properties.eventHubName
   - description: The name of the event hub's consumer group that holds the partitions from which events will be read.
     types:
     - uid: string
-    name: consumerGroupName
+    name: properties.consumerGroupName
   - description: The name of the SAS key that grants the Time Series Insights service access to the event hub. The shared access policies for this key must grant 'Listen' permissions to the event hub.
     types:
     - uid: string
-    name: keyName
+    name: properties.keyName
+  - description: The resource id of the event source in Azure Resource Manager.
+    types:
+    - uid: string
+    name: eventSourceResourceId
+  - description: The event property that will be used as the event source's timestamp. If a value isn't specified for timestampPropertyName, or if null or empty-string is specified, the event creation time will be used.
+    types:
+    - uid: string
+    name: timestampPropertyName
+  - isReadyOnly: true
+    description: Provisioning state of the resource.
+    types:
+    - uid: ProvisioningState
+    name: provisioningState
+  - isReadyOnly: true
+    description: The time the resource was created.
+    types:
+    - uid: string
+    name: creationTime
+- name: IoTHubEventSourceResource
+  description: An event source that receives its data from an Azure IoTHub.
+  kind: object
+  properties:
+  - description: The kind of the event source.
+    types:
+    - uid: Microsoft.IotHub
+    typesTitle: string
+    name: kind
+  - description: Resource location
+    types:
+    - uid: string
+    name: location
+  - description: Resource tags
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+  - isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+    name: type
+  - description: The name of the iot hub.
+    types:
+    - uid: string
+    name: properties.iotHubName
+  - description: The name of the iot hub's consumer group that holds the partitions from which events will be read.
+    types:
+    - uid: string
+    name: properties.consumerGroupName
+  - description: The name of the Shared Access Policy key that grants the Time Series Insights service access to the iot hub. This shared access policy key must grant 'service connect' permissions to the iot hub.
+    types:
+    - uid: string
+    name: properties.keyName
   - description: The resource id of the event source in Azure Resource Manager.
     types:
     - uid: string
@@ -178,78 +243,33 @@ definitions:
   - types:
     - uid: string
     name: Deleting
-- name: IoTHubEventSourceResource
-  description: An event source that receives its data from an Azure IoTHub.
-  kind: object
-  properties:
-  - description: The kind of the event source.
-    types:
-    - uid: Microsoft.IotHub
-    typesTitle: string
-    name: kind
-  - description: Resource location
-    types:
-    - uid: string
-    name: location
-  - description: Resource tags
-    types:
-    - isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-      uid: object
-    name: tags
-  - isReadyOnly: true
-    description: Resource Id
-    types:
-    - uid: string
-    name: id
-  - isReadyOnly: true
-    description: Resource name
-    types:
-    - uid: string
-    name: name
-  - isReadyOnly: true
-    description: Resource type
-    types:
-    - uid: string
-    name: type
-  - description: The name of the iot hub.
-    types:
-    - uid: string
-    name: iotHubName
-  - description: The name of the iot hub's consumer group that holds the partitions from which events will be read.
-    types:
-    - uid: string
-    name: consumerGroupName
-  - description: The name of the Shared Access Policy key that grants the Time Series Insights service access to the iot hub. This shared access policy key must grant 'service connect' permissions to the iot hub.
-    types:
-    - uid: string
-    name: keyName
-  - description: The resource id of the event source in Azure Resource Manager.
-    types:
-    - uid: string
-    name: eventSourceResourceId
-  - description: The event property that will be used as the event source's timestamp. If a value isn't specified for timestampPropertyName, or if null or empty-string is specified, the event creation time will be used.
-    types:
-    - uid: string
-    name: timestampPropertyName
-  - isReadyOnly: true
-    description: Provisioning state of the resource.
-    types:
-    - uid: ProvisioningState
-    name: provisioningState
-  - isReadyOnly: true
-    description: The time the resource was created.
-    types:
-    - uid: string
-    name: creationTime
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.TimeSeriesInsights/environments/env1/eventSources?api-version=2017-11-15
   responses:
   - statusCode: "200"
-    body: '{"value":[{"id":"/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.TimeSeriesInsights/Environments/env1/eventSources/es1","location":"West US","name":"es1","type":"Microsoft.TimeSeriesInsights/Environments/EventSources","tags":{},"kind":"Microsoft.EventHub","properties":{"eventSourceResourceId":"somePathInArm","serviceBusNamespace":"sbn","consumerGroupName":"cgn","eventHubName":"ehn","keyName":"managementKey","provisioningState":"Succeeded","creationTime":"2017-04-18T19:20:33.228882Z"}}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.TimeSeriesInsights/Environments/env1/eventSources/es1",
+            "location": "West US",
+            "name": "es1",
+            "type": "Microsoft.TimeSeriesInsights/Environments/EventSources",
+            "tags": {},
+            "kind": "Microsoft.EventHub",
+            "properties": {
+              "eventSourceResourceId": "somePathInArm",
+              "serviceBusNamespace": "sbn",
+              "consumerGroupName": "cgn",
+              "eventHubName": "ehn",
+              "keyName": "managementKey",
+              "provisioningState": "Succeeded",
+              "creationTime": "2017-04-18T19:20:33.228882Z"
+            }
+          }
+        ]
+      }
   name: ListEventSourcesByEnvironment
 security:
 - type: oauth2

@@ -52,29 +52,27 @@ definitions:
   - description: The resource ID of the storage account to which you would like to send Diagnostic Logs.
     types:
     - uid: string
-    name: storageAccountId
+    name: properties.storageAccountId
   - description: "The service bus rule ID of the service bus namespace in which you would like to have Event Hubs created for streaming Diagnostic Logs. The rule ID is of the format: '{service bus resource ID}/authorizationrules/{key name}'."
     types:
     - uid: string
-    name: serviceBusRuleId
+    name: properties.serviceBusRuleId
   - description: The resource Id for the event hub namespace authorization rule.
     types:
     - uid: string
-    name: eventHubAuthorizationRuleId
+    name: properties.eventHubAuthorizationRuleId
   - description: the list of metric settings.
     types:
-    - isArray: true
-      uid: MetricSettings
-    name: metrics
+    - uid: MetricSettings
+    name: properties.metrics
   - description: the list of logs settings.
     types:
-    - isArray: true
-      uid: LogSettings
-    name: logs
+    - uid: LogSettings
+    name: properties.logs
   - description: 'The workspace ID (resource ID of a Log Analytics workspace) for a Log Analytics workspace to which you would like to send Diagnostic Logs. Example: /subscriptions/4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/resourceGroups/insights-integration/providers/Microsoft.OperationalInsights/workspaces/viruela2'
     types:
     - uid: string
-    name: workspaceId
+    name: properties.workspaceId
   - isReadyOnly: true
     description: Azure resource Id
     types:
@@ -118,18 +116,6 @@ definitions:
     types:
     - uid: RetentionPolicy
     name: retentionPolicy
-- name: RetentionPolicy
-  description: the retention policy for this timegrain.
-  kind: object
-  properties:
-  - description: a value indicating whether the retention policy is enabled.
-    types:
-    - uid: boolean
-    name: enabled
-  - description: the number of days for the retention in days. A value of 0 will retain the events indefinitely.
-    types:
-    - uid: integer
-    name: days
 - name: LogSettings
   description: Part of MultiTenantDiagnosticSettings. Specifies the settings for a particular log.
   kind: object
@@ -146,12 +132,57 @@ definitions:
     types:
     - uid: RetentionPolicy
     name: retentionPolicy
+- name: RetentionPolicy
+  description: Specifies the retention policy for the log.
+  kind: object
+  properties:
+  - description: a value indicating whether the retention policy is enabled.
+    types:
+    - uid: boolean
+    name: enabled
+  - description: the number of days for the retention in days. A value of 0 will retain the events indefinitely.
+    types:
+    - uid: integer
+    name: days
 examples:
 - request:
     uri: GET https://management.azure.com//subscriptions/1a66ce04-b633-4a0b-b2bc-a912ec8986a6/resourcegroups/viruela1/providers/microsoft.logic/workflows/viruela6/providers/microsoft.insights/diagnosticSettings/service?api-version=2016-09-01
   responses:
   - statusCode: "200"
-    body: '{"id":"/subscriptions/1a66ce04-b633-4a0b-b2bc-a912ec8986a6/resourcegroups/viruela1/providers/microsoft.logic/workflows/viruela6/diagnosticSettings/service","type":"","name":"service","location":"","tags":null,"properties":{"storageAccountId":"/subscriptions/df602c9c-7aa0-407d-a6fb-eb20c8bd1192/resourceGroups/apptest/providers/Microsoft.Storage/storageAccounts/appteststorage1","serviceBusRuleId":"/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/andy1101/providers/Microsoft.EventHub/namespaces/andy1101/authorizationrules/RootManageSharedAccessKey","workspaceId":"","eventHubAuthorizationRuleId":"/subscriptions/1a66ce04-b633-4a0b-b2bc-a912ec8986a6/resourceGroups/montest/providers/microsoft.eventhub/namespaces/mynamespace/eventhubs/myeventhub/authorizationrules/myrule","metrics":[{"timeGrain":"PT1M","enabled":true,"retentionPolicy":{"enabled":false,"days":0}}],"logs":[{"category":"WorkflowRuntime","enabled":true,"retentionPolicy":{"enabled":false,"days":0}}]}}'
+    body: >-
+      {
+        "id": "/subscriptions/1a66ce04-b633-4a0b-b2bc-a912ec8986a6/resourcegroups/viruela1/providers/microsoft.logic/workflows/viruela6/diagnosticSettings/service",
+        "type": "",
+        "name": "service",
+        "location": "",
+        "tags": null,
+        "properties": {
+          "storageAccountId": "/subscriptions/df602c9c-7aa0-407d-a6fb-eb20c8bd1192/resourceGroups/apptest/providers/Microsoft.Storage/storageAccounts/appteststorage1",
+          "serviceBusRuleId": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/andy1101/providers/Microsoft.EventHub/namespaces/andy1101/authorizationrules/RootManageSharedAccessKey",
+          "workspaceId": "",
+          "eventHubAuthorizationRuleId": "/subscriptions/1a66ce04-b633-4a0b-b2bc-a912ec8986a6/resourceGroups/montest/providers/microsoft.eventhub/namespaces/mynamespace/eventhubs/myeventhub/authorizationrules/myrule",
+          "metrics": [
+            {
+              "timeGrain": "PT1M",
+              "enabled": true,
+              "retentionPolicy": {
+                "enabled": false,
+                "days": 0
+              }
+            }
+          ],
+          "logs": [
+            {
+              "category": "WorkflowRuntime",
+              "enabled": true,
+              "retentionPolicy": {
+                "enabled": false,
+                "days": 0
+              }
+            }
+          ]
+        }
+      }
   name: Get service diagnostic setting
 security:
 - type: oauth2

@@ -37,33 +37,32 @@ definitions:
   properties:
   - description: A collection of topic types
     types:
-    - isArray: true
-      uid: TopicTypeInfo
+    - uid: TopicTypeInfo
     name: value
 - name: TopicTypeInfo
-  description: Properties of a topic type info.
+  description: A collection of topic types
   kind: object
   properties:
   - description: Namespace of the provider of the topic type.
     types:
     - uid: string
-    name: provider
+    name: properties.provider
   - description: Display Name for the topic type.
     types:
     - uid: string
-    name: displayName
+    name: properties.displayName
   - description: Description of the topic type.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - description: Region type of the resource.
     types:
     - uid: ResourceRegionType
-    name: resourceRegionType
+    name: properties.resourceRegionType
   - description: Provisioning state of the topic type
     types:
     - uid: TopicTypeProvisioningState
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: Fully qualified identifier of the resource
     types:
@@ -116,7 +115,35 @@ examples:
     uri: GET https://management.azure.com/providers/Microsoft.EventGrid/topicTypes?api-version=2017-06-15-preview
   responses:
   - statusCode: "200"
-    body: '{"value":[{"properties":{"description":"Microsoft EventHubs service events.","displayName":"EventHubs Namespace","provider":"Microsoft.Eventhub","provisioningState":"Succeeded","resourceRegionType":"RegionalResource"},"id":"providers/Microsoft.EventGrid/topicTypes/Microsoft.Eventhub.Namespaces","name":"Microsoft.Eventhub.Namespaces","type":"Microsoft.EventGrid/topicTypes"},{"properties":{"description":"Microsoft Storage service events.","displayName":"Storage Accounts","provider":"Microsoft.Storage","provisioningState":"Succeeded","resourceRegionType":"RegionalResource"},"id":"providers/Microsoft.EventGrid/topicTypes/Microsoft.Storage.StorageAccounts","name":"Microsoft.Storage.StorageAccounts","type":"Microsoft.EventGrid/topicTypes"}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "description": "Microsoft EventHubs service events.",
+              "displayName": "EventHubs Namespace",
+              "provider": "Microsoft.Eventhub",
+              "provisioningState": "Succeeded",
+              "resourceRegionType": "RegionalResource"
+            },
+            "id": "providers/Microsoft.EventGrid/topicTypes/Microsoft.Eventhub.Namespaces",
+            "name": "Microsoft.Eventhub.Namespaces",
+            "type": "Microsoft.EventGrid/topicTypes"
+          },
+          {
+            "properties": {
+              "description": "Microsoft Storage service events.",
+              "displayName": "Storage Accounts",
+              "provider": "Microsoft.Storage",
+              "provisioningState": "Succeeded",
+              "resourceRegionType": "RegionalResource"
+            },
+            "id": "providers/Microsoft.EventGrid/topicTypes/Microsoft.Storage.StorageAccounts",
+            "name": "Microsoft.Storage.StorageAccounts",
+            "type": "Microsoft.EventGrid/topicTypes"
+          }
+        ]
+      }
   name: TopicTypes_List
 security: []
 name: List

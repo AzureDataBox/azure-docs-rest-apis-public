@@ -31,13 +31,18 @@ definitions:
   kind: object
   properties:
   - types:
-    - isArray: true
-      uid: OperationResponse
+    - uid: OperationResponse
     name: value
   - description: Url to get the next page of items.
     types:
     - uid: string
     name: nextLink
+- name: Error
+  kind: object
+  properties:
+  - types:
+    - uid: ExtendedErrorInfo
+    name: error
 - name: OperationResponse
   kind: object
   properties:
@@ -50,6 +55,15 @@ definitions:
   - types:
     - uid: string
     name: origin
+- name: ExtendedErrorInfo
+  kind: object
+  properties:
+  - types:
+    - uid: ErrorResponseCode
+    name: code
+  - types:
+    - uid: string
+    name: message
 - name: OperationDisplay
   kind: object
   properties:
@@ -65,21 +79,6 @@ definitions:
   - types:
     - uid: string
     name: description
-- name: Error
-  kind: object
-  properties:
-  - types:
-    - uid: ExtendedErrorInfo
-    name: error
-- name: ExtendedErrorInfo
-  kind: object
-  properties:
-  - types:
-    - uid: ErrorResponseCode
-    name: code
-  - types:
-    - uid: string
-    name: message
 - name: ErrorResponseCode
   kind: enum
   properties:
@@ -253,7 +252,92 @@ examples:
     uri: GET https://management.azure.com/providers/Microsoft.Capacity/operations?api-version=2017-11-01
   responses:
   - statusCode: "200"
-    body: '{"value":[{"name":"Microsoft.Capacity/reservationorders/read","display":{"provider":"Microsoft Capacity","resource":"Reservations","operation":"Get Reservations","description":"Read All Reservations"}},{"name":"Microsoft.Capacity/reservationorders/write","display":{"provider":"Microsoft Capacity","resource":"Reservations","operation":"Create Reservations","description":"Create any Reservation"}},{"name":"Microsoft.Capacity/reservationorders/action","display":{"provider":"Microsoft Capacity","resource":"Reservations","operation":"Update Reservations","description":"Update any Reservation"}},{"name":"Microsoft.Capacity/reservationorders/delete","display":{"provider":"Microsoft Capacity","resource":"Reservations","operation":"Delete Reservations","description":"Delete any Reservation"}},{"name":"Microsoft.Capacity/reservationorders/reservations/read","display":{"provider":"Microsoft Capacity","resource":"Reservations","operation":"Get Reservations","description":"Read All Reservations"}},{"name":"Microsoft.Capacity/reservationorders/reservations/write","display":{"provider":"Microsoft Capacity","resource":"Reservations","operation":"Create Reservations","description":"Create any Reservation"}},{"name":"Microsoft.Capacity/reservationorders/reservations/action","display":{"provider":"Microsoft Capacity","resource":"Reservations","operation":"Update Reservations","description":"Update any Reservation"}},{"name":"Microsoft.Capacity/reservationorders/reservations/delete","display":{"provider":"Microsoft Capacity","resource":"Reservations","operation":"Delete Reservations","description":"Delete any Reservation"}},{"name":"Microsoft.Capacity/reservationorders/reservations/revisions/read","display":{"provider":"Microsoft Capacity","resource":"Reservations","operation":"Get Reservations","description":"Read All Reservations"}}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "name": "Microsoft.Capacity/reservationorders/read",
+            "display": {
+              "provider": "Microsoft Capacity",
+              "resource": "Reservations",
+              "operation": "Get Reservations",
+              "description": "Read All Reservations"
+            }
+          },
+          {
+            "name": "Microsoft.Capacity/reservationorders/write",
+            "display": {
+              "provider": "Microsoft Capacity",
+              "resource": "Reservations",
+              "operation": "Create Reservations",
+              "description": "Create any Reservation"
+            }
+          },
+          {
+            "name": "Microsoft.Capacity/reservationorders/action",
+            "display": {
+              "provider": "Microsoft Capacity",
+              "resource": "Reservations",
+              "operation": "Update Reservations",
+              "description": "Update any Reservation"
+            }
+          },
+          {
+            "name": "Microsoft.Capacity/reservationorders/delete",
+            "display": {
+              "provider": "Microsoft Capacity",
+              "resource": "Reservations",
+              "operation": "Delete Reservations",
+              "description": "Delete any Reservation"
+            }
+          },
+          {
+            "name": "Microsoft.Capacity/reservationorders/reservations/read",
+            "display": {
+              "provider": "Microsoft Capacity",
+              "resource": "Reservations",
+              "operation": "Get Reservations",
+              "description": "Read All Reservations"
+            }
+          },
+          {
+            "name": "Microsoft.Capacity/reservationorders/reservations/write",
+            "display": {
+              "provider": "Microsoft Capacity",
+              "resource": "Reservations",
+              "operation": "Create Reservations",
+              "description": "Create any Reservation"
+            }
+          },
+          {
+            "name": "Microsoft.Capacity/reservationorders/reservations/action",
+            "display": {
+              "provider": "Microsoft Capacity",
+              "resource": "Reservations",
+              "operation": "Update Reservations",
+              "description": "Update any Reservation"
+            }
+          },
+          {
+            "name": "Microsoft.Capacity/reservationorders/reservations/delete",
+            "display": {
+              "provider": "Microsoft Capacity",
+              "resource": "Reservations",
+              "operation": "Delete Reservations",
+              "description": "Delete any Reservation"
+            }
+          },
+          {
+            "name": "Microsoft.Capacity/reservationorders/reservations/revisions/read",
+            "display": {
+              "provider": "Microsoft Capacity",
+              "resource": "Reservations",
+              "operation": "Get Reservations",
+              "description": "Read All Reservations"
+            }
+          }
+        ]
+      }
   name: GetOperations
 security: []
 name: List

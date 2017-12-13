@@ -48,11 +48,11 @@ definitions:
   - description: The GUID of the suppression.
     types:
     - uid: string
-    name: suppressionId
+    name: properties.suppressionId
   - description: The duration for which the suppression is valid.
     types:
     - uid: string
-    name: ttl
+    name: properties.ttl
   - isReadyOnly: true
     description: The resource ID.
     types:
@@ -73,7 +73,16 @@ examples:
     uri: GET https://management.azure.com/resourceUri/providers/Microsoft.Advisor/recommendations/recommendationId/suppressions/suppressionName1?api-version=2017-03-31
   responses:
   - statusCode: "200"
-    body: '{"id":"/resourceUri/providers/Microsoft.Advisor/recommendations/recommendationId/suppressions/suppressionName1","name":"suppressionName1","type":"Microsoft.Advisor/suppressions","properties":{"suppressionId":"suppressionId1","ttl":"7.00:00:00"}}'
+    body: >-
+      {
+        "id": "/resourceUri/providers/Microsoft.Advisor/recommendations/recommendationId/suppressions/suppressionName1",
+        "name": "suppressionName1",
+        "type": "Microsoft.Advisor/suppressions",
+        "properties": {
+          "suppressionId": "suppressionId1",
+          "ttl": "7.00:00:00"
+        }
+      }
   name: GetSuppressionDetail
 security:
 - type: oauth2

@@ -74,35 +74,35 @@ definitions:
   - description: Specifies the state of the policy. If state is Enabled, storageEndpoint and storageAccountAccessKey are required.
     types:
     - uid: SecurityAlertPolicyState
-    name: state
+    name: properties.state
   - description: 'Specifies the semicolon-separated list of alerts that are disabled, or empty string to disable no alerts. Possible values: Sql_Injection; Sql_Injection_Vulnerability; Access_Anomaly; Usage_Anomaly.'
     types:
     - uid: string
-    name: disabledAlerts
+    name: properties.disabledAlerts
   - description: Specifies the semicolon-separated list of e-mail addresses to which the alert is sent.
     types:
     - uid: string
-    name: emailAddresses
+    name: properties.emailAddresses
   - description: Specifies that the alert is sent to the account administrators.
     types:
     - uid: SecurityAlertPolicyEmailAccountAdmins
-    name: emailAccountAdmins
+    name: properties.emailAccountAdmins
   - description: Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). This blob storage will hold all Threat Detection audit logs. If state is Enabled, storageEndpoint is required.
     types:
     - uid: string
-    name: storageEndpoint
+    name: properties.storageEndpoint
   - description: Specifies the identifier key of the Threat Detection audit storage account. If state is Enabled, storageAccountAccessKey is required.
     types:
     - uid: string
-    name: storageAccountAccessKey
+    name: properties.storageAccountAccessKey
   - description: Specifies the number of days to keep in the Threat Detection audit logs.
     types:
     - uid: integer
-    name: retentionDays
+    name: properties.retentionDays
   - description: Specifies whether to use the default server policy.
     types:
     - uid: SecurityAlertPolicyUseServerDefault
-    name: useServerDefault
+    name: properties.useServerDefault
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -156,7 +156,24 @@ examples:
     uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/securityalert-6852/providers/Microsoft.Sql/servers/securityalert-2080/databases/testdb/securityAlertPolicies/default?api-version=2014-04-01
   responses:
   - statusCode: "200"
-    body: '{"id":"/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/securityalert-6852/providers/Microsoft.Sql/servers/securityalert-2080/databases/testdb","name":"default","type":"Microsoft.Sql/servers/databases/securityAlertPolicies","location":"Japan East","kind":"V12","properties":{"state":"Enabled","emailAccountAdmins":"Enabled","emailAddresses":"test@microsoft.com;user@microsoft.com","disabledAlerts":"Usage_Anomaly","retentionDays":0,"storageAccountAccessKey":"","storageEndpoint":"","useServerDefault":"Enabled"}}'
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/securityalert-6852/providers/Microsoft.Sql/servers/securityalert-2080/databases/testdb",
+        "name": "default",
+        "type": "Microsoft.Sql/servers/databases/securityAlertPolicies",
+        "location": "Japan East",
+        "kind": "V12",
+        "properties": {
+          "state": "Enabled",
+          "emailAccountAdmins": "Enabled",
+          "emailAddresses": "test@microsoft.com;user@microsoft.com",
+          "disabledAlerts": "Usage_Anomaly",
+          "retentionDays": 0,
+          "storageAccountAccessKey": "",
+          "storageEndpoint": "",
+          "useServerDefault": "Enabled"
+        }
+      }
   name: Get database security alert policy
 security: []
 name: Get

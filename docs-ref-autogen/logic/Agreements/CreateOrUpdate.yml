@@ -55,43 +55,43 @@ requestBody:
     description: The metadata.
     types:
     - uid: Metadata
-    name: metadata
+    name: properties.metadata
   - in: body
     isRequired: true
     description: The agreement type.
     types:
     - uid: AgreementType
-    name: agreementType
+    name: properties.agreementType
   - in: body
     isRequired: true
     description: The integration account partner that is set as host partner for this agreement.
     types:
     - uid: string
-    name: hostPartner
+    name: properties.hostPartner
   - in: body
     isRequired: true
     description: The integration account partner that is set as guest partner for this agreement.
     types:
     - uid: string
-    name: guestPartner
+    name: properties.guestPartner
   - in: body
     isRequired: true
     description: The business identity of the host partner.
     types:
     - uid: BusinessIdentity
-    name: hostIdentity
+    name: properties.hostIdentity
   - in: body
     isRequired: true
     description: The business identity of the guest partner.
     types:
     - uid: BusinessIdentity
-    name: guestIdentity
+    name: properties.guestIdentity
   - in: body
     isRequired: true
     description: The agreement content.
     types:
     - uid: AgreementContent
-    name: content
+    name: properties.content
   - in: body
     description: The resource location.
     types:
@@ -108,310 +108,80 @@ requestBody:
     name: tags
 requestHeader: []
 definitions:
-- name: AgreementType
-  description: The agreement type.
-  kind: enum
+- name: Metadata
+  description: The metadata.
+  kind: object
+  properties: []
+- name: BusinessIdentity
+  description: The list of partner business identities.
+  kind: object
   properties:
-  - types:
+  - description: The business identity qualifier e.g. as2identity, ZZ, ZZZ, 31, 32
+    types:
     - uid: string
-    name: NotSpecified
-  - types:
+    name: qualifier
+  - description: The user defined business identity value.
+    types:
     - uid: string
-    name: AS2
-  - types:
-    - uid: string
-    name: X12
-  - types:
-    - uid: string
-    name: Edifact
-- name: HashingAlgorithm
-  description: The signing or hashing algorithm.
-  kind: enum
+    name: value
+- name: AgreementContent
+  description: The agreement content.
+  kind: object
   properties:
-  - types:
-    - uid: string
-    name: NotSpecified
-  - types:
-    - uid: string
-    name: None
-  - types:
-    - uid: string
-    name: MD5
-  - types:
-    - uid: string
-    name: SHA1
-  - types:
-    - uid: string
-    name: SHA2256
-  - types:
-    - uid: string
-    name: SHA2384
-  - types:
-    - uid: string
-    name: SHA2512
-- name: EncryptionAlgorithm
-  description: The encryption algorithm.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: NotSpecified
-  - types:
-    - uid: string
-    name: None
-  - types:
-    - uid: string
-    name: DES3
-  - types:
-    - uid: string
-    name: RC2
-  - types:
-    - uid: string
-    name: AES128
-  - types:
-    - uid: string
-    name: AES192
-  - types:
-    - uid: string
-    name: AES256
-- name: SigningAlgorithm
-  description: The signing algorithm.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: NotSpecified
-  - types:
-    - uid: string
-    name: Default
-  - types:
-    - uid: string
-    name: SHA1
-  - types:
-    - uid: string
-    name: SHA2256
-  - types:
-    - uid: string
-    name: SHA2384
-  - types:
-    - uid: string
-    name: SHA2512
-- name: TrailingSeparatorPolicy
-  description: The trailing separator policy.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: NotSpecified
-  - types:
-    - uid: string
-    name: NotAllowed
-  - types:
-    - uid: string
-    name: Optional
-  - types:
-    - uid: string
-    name: Mandatory
-- name: X12CharacterSet
-  description: The X12 character set.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: NotSpecified
-  - types:
-    - uid: string
-    name: Basic
-  - types:
-    - uid: string
-    name: Extended
-  - types:
-    - uid: string
-    name: UTF8
-- name: SegmentTerminatorSuffix
-  description: The segment terminator suffix.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: NotSpecified
-  - types:
-    - uid: string
-    name: None
-  - types:
-    - uid: string
-    name: CR
-  - types:
-    - uid: string
-    name: LF
-  - types:
-    - uid: string
-    name: CRLF
-- name: X12DateFormat
-  description: The group header date format.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: NotSpecified
-  - types:
-    - uid: string
-    name: CCYYMMDD
-  - types:
-    - uid: string
-    name: YYMMDD
-- name: X12TimeFormat
-  description: The group header time format.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: NotSpecified
-  - types:
-    - uid: string
-    name: HHMM
-  - types:
-    - uid: string
-    name: HHMMSS
-  - types:
-    - uid: string
-    name: HHMMSSdd
-  - types:
-    - uid: string
-    name: HHMMSSd
-- name: UsageIndicator
-  description: The usage indicator.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: NotSpecified
-  - types:
-    - uid: string
-    name: Test
-  - types:
-    - uid: string
-    name: Information
-  - types:
-    - uid: string
-    name: Production
-- name: MessageFilterType
-  description: The message filter type.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: NotSpecified
-  - types:
-    - uid: string
-    name: Include
-  - types:
-    - uid: string
-    name: Exclude
-- name: EdifactCharacterSet
-  description: The EDIFACT frame setting characterSet.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: NotSpecified
-  - types:
-    - uid: string
-    name: UNOB
-  - types:
-    - uid: string
-    name: UNOA
-  - types:
-    - uid: string
-    name: UNOC
-  - types:
-    - uid: string
-    name: UNOD
-  - types:
-    - uid: string
-    name: UNOE
-  - types:
-    - uid: string
-    name: UNOF
-  - types:
-    - uid: string
-    name: UNOG
-  - types:
-    - uid: string
-    name: UNOH
-  - types:
-    - uid: string
-    name: UNOI
-  - types:
-    - uid: string
-    name: UNOJ
-  - types:
-    - uid: string
-    name: UNOK
-  - types:
-    - uid: string
-    name: UNOX
-  - types:
-    - uid: string
-    name: UNOY
-  - types:
-    - uid: string
-    name: KECA
-- name: EdifactDecimalIndicator
-  description: The EDIFACT frame setting decimal indicator.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: NotSpecified
-  - types:
-    - uid: string
-    name: Comma
-  - types:
-    - uid: string
-    name: Decimal
+  - description: The AS2 agreement content.
+    types:
+    - uid: AS2AgreementContent
+    name: aS2
+  - description: The X12 agreement content.
+    types:
+    - uid: X12AgreementContent
+    name: x12
+  - description: The EDIFACT agreement content.
+    types:
+    - uid: EdifactAgreementContent
+    name: edifact
 - name: IntegrationAccountAgreement
-  description: The integration account agreement.
+  description: The list of integration account agreements.
   kind: object
   properties:
   - isReadyOnly: true
     description: The created time.
     types:
     - uid: string
-    name: createdTime
+    name: properties.createdTime
   - isReadyOnly: true
     description: The changed time.
     types:
     - uid: string
-    name: changedTime
+    name: properties.changedTime
   - description: The metadata.
     types:
     - uid: Metadata
-    name: metadata
+    name: properties.metadata
   - description: The agreement type.
     types:
     - uid: AgreementType
-    name: agreementType
+    name: properties.agreementType
   - description: The integration account partner that is set as host partner for this agreement.
     types:
     - uid: string
-    name: hostPartner
+    name: properties.hostPartner
   - description: The integration account partner that is set as guest partner for this agreement.
     types:
     - uid: string
-    name: guestPartner
+    name: properties.guestPartner
   - description: The business identity of the host partner.
     types:
     - uid: BusinessIdentity
-    name: hostIdentity
+    name: properties.hostIdentity
   - description: The business identity of the guest partner.
     types:
     - uid: BusinessIdentity
-    name: guestIdentity
+    name: properties.guestIdentity
   - description: The agreement content.
     types:
     - uid: AgreementContent
-    name: content
+    name: properties.content
   - isReadyOnly: true
     description: The resource id.
     types:
@@ -439,38 +209,6 @@ definitions:
       - uid: string
       uid: object
     name: tags
-- name: Metadata
-  description: The metadata.
-  kind: object
-  properties: []
-- name: BusinessIdentity
-  description: The business identity of the host partner.
-  kind: object
-  properties:
-  - description: The business identity qualifier e.g. as2identity, ZZ, ZZZ, 31, 32
-    types:
-    - uid: string
-    name: qualifier
-  - description: The user defined business identity value.
-    types:
-    - uid: string
-    name: value
-- name: AgreementContent
-  description: The agreement content.
-  kind: object
-  properties:
-  - description: The AS2 agreement content.
-    types:
-    - uid: AS2AgreementContent
-    name: aS2
-  - description: The X12 agreement content.
-    types:
-    - uid: X12AgreementContent
-    name: x12
-  - description: The EDIFACT agreement content.
-    types:
-    - uid: EdifactAgreementContent
-    name: edifact
 - name: AS2AgreementContent
   description: The AS2 agreement content.
   kind: object
@@ -483,6 +221,46 @@ definitions:
     types:
     - uid: AS2OneWayAgreement
     name: sendAgreement
+- name: X12AgreementContent
+  description: The X12 agreement content.
+  kind: object
+  properties:
+  - description: The X12 one-way receive agreement.
+    types:
+    - uid: X12OneWayAgreement
+    name: receiveAgreement
+  - description: The X12 one-way send agreement.
+    types:
+    - uid: X12OneWayAgreement
+    name: sendAgreement
+- name: EdifactAgreementContent
+  description: The EDIFACT agreement content.
+  kind: object
+  properties:
+  - description: The EDIFACT one-way receive agreement.
+    types:
+    - uid: EdifactOneWayAgreement
+    name: receiveAgreement
+  - description: The EDIFACT one-way send agreement.
+    types:
+    - uid: EdifactOneWayAgreement
+    name: sendAgreement
+- name: AgreementType
+  description: The agreement type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NotSpecified
+  - types:
+    - uid: string
+    name: AS2
+  - types:
+    - uid: string
+    name: X12
+  - types:
+    - uid: string
+    name: Edifact
 - name: AS2OneWayAgreement
   description: The AS2 one-way receive agreement.
   kind: object
@@ -498,6 +276,38 @@ definitions:
   - description: The AS2 protocol settings.
     types:
     - uid: AS2ProtocolSettings
+    name: protocolSettings
+- name: X12OneWayAgreement
+  description: The X12 one-way receive agreement.
+  kind: object
+  properties:
+  - description: The sender business identity
+    types:
+    - uid: BusinessIdentity
+    name: senderBusinessIdentity
+  - description: The receiver business identity
+    types:
+    - uid: BusinessIdentity
+    name: receiverBusinessIdentity
+  - description: The X12 protocol settings.
+    types:
+    - uid: X12ProtocolSettings
+    name: protocolSettings
+- name: EdifactOneWayAgreement
+  description: The EDIFACT one-way receive agreement.
+  kind: object
+  properties:
+  - description: The sender business identity
+    types:
+    - uid: BusinessIdentity
+    name: senderBusinessIdentity
+  - description: The receiver business identity
+    types:
+    - uid: BusinessIdentity
+    name: receiverBusinessIdentity
+  - description: The EDIFACT protocol settings.
+    types:
+    - uid: EdifactProtocolSettings
     name: protocolSettings
 - name: AS2ProtocolSettings
   description: The AS2 protocol settings.
@@ -531,6 +341,106 @@ definitions:
     types:
     - uid: AS2ErrorSettings
     name: errorSettings
+- name: X12ProtocolSettings
+  description: The X12 protocol settings.
+  kind: object
+  properties:
+  - description: The X12 validation settings.
+    types:
+    - uid: X12ValidationSettings
+    name: validationSettings
+  - description: The X12 framing settings.
+    types:
+    - uid: X12FramingSettings
+    name: framingSettings
+  - description: The X12 envelope settings.
+    types:
+    - uid: X12EnvelopeSettings
+    name: envelopeSettings
+  - description: The X12 acknowledgment settings.
+    types:
+    - uid: X12AcknowledgementSettings
+    name: acknowledgementSettings
+  - description: The X12 message filter.
+    types:
+    - uid: X12MessageFilter
+    name: messageFilter
+  - description: The X12 security settings.
+    types:
+    - uid: X12SecuritySettings
+    name: securitySettings
+  - description: The X12 processing settings.
+    types:
+    - uid: X12ProcessingSettings
+    name: processingSettings
+  - description: The X12 envelope override settings.
+    types:
+    - uid: X12EnvelopeOverride
+    name: envelopeOverrides
+  - description: The X12 validation override settings.
+    types:
+    - uid: X12ValidationOverride
+    name: validationOverrides
+  - description: The X12 message filter list.
+    types:
+    - uid: X12MessageIdentifier
+    name: messageFilterList
+  - description: The X12 schema references.
+    types:
+    - uid: X12SchemaReference
+    name: schemaReferences
+  - description: The X12 delimiter override settings.
+    types:
+    - uid: X12DelimiterOverrides
+    name: x12DelimiterOverrides
+- name: EdifactProtocolSettings
+  description: The EDIFACT protocol settings.
+  kind: object
+  properties:
+  - description: The EDIFACT validation settings.
+    types:
+    - uid: EdifactValidationSettings
+    name: validationSettings
+  - description: The EDIFACT framing settings.
+    types:
+    - uid: EdifactFramingSettings
+    name: framingSettings
+  - description: The EDIFACT envelope settings.
+    types:
+    - uid: EdifactEnvelopeSettings
+    name: envelopeSettings
+  - description: The EDIFACT acknowledgement settings.
+    types:
+    - uid: EdifactAcknowledgementSettings
+    name: acknowledgementSettings
+  - description: The EDIFACT message filter.
+    types:
+    - uid: EdifactMessageFilter
+    name: messageFilter
+  - description: The EDIFACT processing Settings.
+    types:
+    - uid: EdifactProcessingSettings
+    name: processingSettings
+  - description: The EDIFACT envelope override settings.
+    types:
+    - uid: EdifactEnvelopeOverride
+    name: envelopeOverrides
+  - description: The EDIFACT message filter list.
+    types:
+    - uid: EdifactMessageIdentifier
+    name: messageFilterList
+  - description: The EDIFACT schema references.
+    types:
+    - uid: EdifactSchemaReference
+    name: schemaReferences
+  - description: The EDIFACT validation override settings.
+    types:
+    - uid: EdifactValidationOverride
+    name: validationOverrides
+  - description: The EDIFACT delimiter override settings.
+    types:
+    - uid: EdifactDelimiterOverride
+    name: edifactDelimiterOverrides
 - name: AS2MessageConnectionSettings
   description: The message connection settings.
   kind: object
@@ -735,91 +645,6 @@ definitions:
     types:
     - uid: boolean
     name: resendIfMdnNotReceived
-- name: X12AgreementContent
-  description: The X12 agreement content.
-  kind: object
-  properties:
-  - description: The X12 one-way receive agreement.
-    types:
-    - uid: X12OneWayAgreement
-    name: receiveAgreement
-  - description: The X12 one-way send agreement.
-    types:
-    - uid: X12OneWayAgreement
-    name: sendAgreement
-- name: X12OneWayAgreement
-  description: The X12 one-way receive agreement.
-  kind: object
-  properties:
-  - description: The sender business identity
-    types:
-    - uid: BusinessIdentity
-    name: senderBusinessIdentity
-  - description: The receiver business identity
-    types:
-    - uid: BusinessIdentity
-    name: receiverBusinessIdentity
-  - description: The X12 protocol settings.
-    types:
-    - uid: X12ProtocolSettings
-    name: protocolSettings
-- name: X12ProtocolSettings
-  description: The X12 protocol settings.
-  kind: object
-  properties:
-  - description: The X12 validation settings.
-    types:
-    - uid: X12ValidationSettings
-    name: validationSettings
-  - description: The X12 framing settings.
-    types:
-    - uid: X12FramingSettings
-    name: framingSettings
-  - description: The X12 envelope settings.
-    types:
-    - uid: X12EnvelopeSettings
-    name: envelopeSettings
-  - description: The X12 acknowledgment settings.
-    types:
-    - uid: X12AcknowledgementSettings
-    name: acknowledgementSettings
-  - description: The X12 message filter.
-    types:
-    - uid: X12MessageFilter
-    name: messageFilter
-  - description: The X12 security settings.
-    types:
-    - uid: X12SecuritySettings
-    name: securitySettings
-  - description: The X12 processing settings.
-    types:
-    - uid: X12ProcessingSettings
-    name: processingSettings
-  - description: The X12 envelope override settings.
-    types:
-    - isArray: true
-      uid: X12EnvelopeOverride
-    name: envelopeOverrides
-  - description: The X12 validation override settings.
-    types:
-    - isArray: true
-      uid: X12ValidationOverride
-    name: validationOverrides
-  - description: The X12 message filter list.
-    types:
-    - isArray: true
-      uid: X12MessageIdentifier
-    name: messageFilterList
-  - description: The X12 schema references.
-    types:
-    - isArray: true
-      uid: X12SchemaReference
-    name: schemaReferences
-  - description: The X12 delimiter override settings.
-    types:
-    - isArray: true
-      uid: X12DelimiterOverrides
-    name: x12DelimiterOverrides
 - name: X12ValidationSettings
   description: The X12 validation settings.
   kind: object
@@ -1193,7 +1018,7 @@ definitions:
     - uid: TrailingSeparatorPolicy
     name: trailingSeparatorPolicy
 - name: X12MessageIdentifier
-  description: The X12 message identifier.
+  description: The X12 message filter list.
   kind: object
   properties:
   - description: The message id.
@@ -1201,7 +1026,7 @@ definitions:
     - uid: string
     name: messageId
 - name: X12SchemaReference
-  description: The X12 schema reference.
+  description: The X12 schema references.
   kind: object
   properties:
   - description: The message id.
@@ -1260,87 +1085,6 @@ definitions:
     types:
     - uid: string
     name: targetNamespace
-- name: EdifactAgreementContent
-  description: The EDIFACT agreement content.
-  kind: object
-  properties:
-  - description: The EDIFACT one-way receive agreement.
-    types:
-    - uid: EdifactOneWayAgreement
-    name: receiveAgreement
-  - description: The EDIFACT one-way send agreement.
-    types:
-    - uid: EdifactOneWayAgreement
-    name: sendAgreement
-- name: EdifactOneWayAgreement
-  description: The EDIFACT one-way receive agreement.
-  kind: object
-  properties:
-  - description: The sender business identity
-    types:
-    - uid: BusinessIdentity
-    name: senderBusinessIdentity
-  - description: The receiver business identity
-    types:
-    - uid: BusinessIdentity
-    name: receiverBusinessIdentity
-  - description: The EDIFACT protocol settings.
-    types:
-    - uid: EdifactProtocolSettings
-    name: protocolSettings
-- name: EdifactProtocolSettings
-  description: The EDIFACT protocol settings.
-  kind: object
-  properties:
-  - description: The EDIFACT validation settings.
-    types:
-    - uid: EdifactValidationSettings
-    name: validationSettings
-  - description: The EDIFACT framing settings.
-    types:
-    - uid: EdifactFramingSettings
-    name: framingSettings
-  - description: The EDIFACT envelope settings.
-    types:
-    - uid: EdifactEnvelopeSettings
-    name: envelopeSettings
-  - description: The EDIFACT acknowledgement settings.
-    types:
-    - uid: EdifactAcknowledgementSettings
-    name: acknowledgementSettings
-  - description: The EDIFACT message filter.
-    types:
-    - uid: EdifactMessageFilter
-    name: messageFilter
-  - description: The EDIFACT processing Settings.
-    types:
-    - uid: EdifactProcessingSettings
-    name: processingSettings
-  - description: The EDIFACT envelope override settings.
-    types:
-    - isArray: true
-      uid: EdifactEnvelopeOverride
-    name: envelopeOverrides
-  - description: The EDIFACT message filter list.
-    types:
-    - isArray: true
-      uid: EdifactMessageIdentifier
-    name: messageFilterList
-  - description: The EDIFACT schema references.
-    types:
-    - isArray: true
-      uid: EdifactSchemaReference
-    name: schemaReferences
-  - description: The EDIFACT validation override settings.
-    types:
-    - isArray: true
-      uid: EdifactValidationOverride
-    name: validationOverrides
-  - description: The EDIFACT delimiter override settings.
-    types:
-    - isArray: true
-      uid: EdifactDelimiterOverride
-    name: edifactDelimiterOverrides
 - name: EdifactValidationSettings
   description: The EDIFACT validation settings.
   kind: object
@@ -1682,7 +1426,7 @@ definitions:
     - uid: boolean
     name: useDotAsDecimalSeparator
 - name: EdifactEnvelopeOverride
-  description: The Edifact enevlope override settings.
+  description: The EDIFACT envelope override settings.
   kind: object
   properties:
   - description: The message id on which this envelope settings has to be applied.
@@ -1746,7 +1490,7 @@ definitions:
     - uid: string
     name: applicationPassword
 - name: EdifactMessageIdentifier
-  description: The Edifact message identifier.
+  description: The EDIFACT message filter list.
   kind: object
   properties:
   - description: The message id on which this envelope settings has to be applied.
@@ -1754,7 +1498,7 @@ definitions:
     - uid: string
     name: messageId
 - name: EdifactSchemaReference
-  description: The Edifact schema reference.
+  description: The EDIFACT schema references.
   kind: object
   properties:
   - description: The message id.
@@ -1786,7 +1530,7 @@ definitions:
     - uid: string
     name: schemaName
 - name: EdifactValidationOverride
-  description: The Edifact validation override settings.
+  description: The EDIFACT validation override settings.
   kind: object
   properties:
   - description: The message id on which the validation settings has to be applied.
@@ -1818,7 +1562,7 @@ definitions:
     - uid: boolean
     name: trimLeadingAndTrailingSpacesAndZeroes
 - name: EdifactDelimiterOverride
-  description: The Edifact delimiter override settings.
+  description: The EDIFACT delimiter override settings.
   kind: object
   properties:
   - description: The message id.
@@ -1869,15 +1613,731 @@ definitions:
     types:
     - uid: string
     name: targetNamespace
+- name: HashingAlgorithm
+  description: The signing or hashing algorithm.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NotSpecified
+  - types:
+    - uid: string
+    name: None
+  - types:
+    - uid: string
+    name: MD5
+  - types:
+    - uid: string
+    name: SHA1
+  - types:
+    - uid: string
+    name: SHA2256
+  - types:
+    - uid: string
+    name: SHA2384
+  - types:
+    - uid: string
+    name: SHA2512
+- name: EncryptionAlgorithm
+  description: The encryption algorithm.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NotSpecified
+  - types:
+    - uid: string
+    name: None
+  - types:
+    - uid: string
+    name: DES3
+  - types:
+    - uid: string
+    name: RC2
+  - types:
+    - uid: string
+    name: AES128
+  - types:
+    - uid: string
+    name: AES192
+  - types:
+    - uid: string
+    name: AES256
+- name: SigningAlgorithm
+  description: The signing algorithm.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NotSpecified
+  - types:
+    - uid: string
+    name: Default
+  - types:
+    - uid: string
+    name: SHA1
+  - types:
+    - uid: string
+    name: SHA2256
+  - types:
+    - uid: string
+    name: SHA2384
+  - types:
+    - uid: string
+    name: SHA2512
+- name: TrailingSeparatorPolicy
+  description: The trailing separator policy.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NotSpecified
+  - types:
+    - uid: string
+    name: NotAllowed
+  - types:
+    - uid: string
+    name: Optional
+  - types:
+    - uid: string
+    name: Mandatory
+- name: X12CharacterSet
+  description: The X12 character set.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NotSpecified
+  - types:
+    - uid: string
+    name: Basic
+  - types:
+    - uid: string
+    name: Extended
+  - types:
+    - uid: string
+    name: UTF8
+- name: SegmentTerminatorSuffix
+  description: The segment terminator suffix.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NotSpecified
+  - types:
+    - uid: string
+    name: None
+  - types:
+    - uid: string
+    name: CR
+  - types:
+    - uid: string
+    name: LF
+  - types:
+    - uid: string
+    name: CRLF
+- name: X12DateFormat
+  description: The group header date format.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NotSpecified
+  - types:
+    - uid: string
+    name: CCYYMMDD
+  - types:
+    - uid: string
+    name: YYMMDD
+- name: X12TimeFormat
+  description: The group header time format.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NotSpecified
+  - types:
+    - uid: string
+    name: HHMM
+  - types:
+    - uid: string
+    name: HHMMSS
+  - types:
+    - uid: string
+    name: HHMMSSdd
+  - types:
+    - uid: string
+    name: HHMMSSd
+- name: UsageIndicator
+  description: The usage indicator.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NotSpecified
+  - types:
+    - uid: string
+    name: Test
+  - types:
+    - uid: string
+    name: Information
+  - types:
+    - uid: string
+    name: Production
+- name: MessageFilterType
+  description: The message filter type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NotSpecified
+  - types:
+    - uid: string
+    name: Include
+  - types:
+    - uid: string
+    name: Exclude
+- name: EdifactCharacterSet
+  description: The EDIFACT frame setting characterSet.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NotSpecified
+  - types:
+    - uid: string
+    name: UNOB
+  - types:
+    - uid: string
+    name: UNOA
+  - types:
+    - uid: string
+    name: UNOC
+  - types:
+    - uid: string
+    name: UNOD
+  - types:
+    - uid: string
+    name: UNOE
+  - types:
+    - uid: string
+    name: UNOF
+  - types:
+    - uid: string
+    name: UNOG
+  - types:
+    - uid: string
+    name: UNOH
+  - types:
+    - uid: string
+    name: UNOI
+  - types:
+    - uid: string
+    name: UNOJ
+  - types:
+    - uid: string
+    name: UNOK
+  - types:
+    - uid: string
+    name: UNOX
+  - types:
+    - uid: string
+    name: UNOY
+  - types:
+    - uid: string
+    name: KECA
+- name: EdifactDecimalIndicator
+  description: The EDIFACT frame setting decimal indicator.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NotSpecified
+  - types:
+    - uid: string
+    name: Comma
+  - types:
+    - uid: string
+    name: Decimal
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testResourceGroup/providers/Microsoft.Logic/integrationAccounts/testIntegrationAccount/agreements/testAgreement?api-version=2016-06-01
-    requestBody: '{"properties":{"metadata":{},"agreementType":"AS2","hostPartner":"HostPartner","guestPartner":"GuestPartner","hostIdentity":{"qualifier":"ZZ","value":"ZZ"},"guestIdentity":{"qualifier":"AA","value":"AA"},"content":{"aS2":{"receiveAgreement":{"protocolSettings":{"messageConnectionSettings":{"ignoreCertificateNameMismatch":true,"supportHttpStatusCodeContinue":true,"keepHttpConnectionAlive":true,"unfoldHttpHeaders":true},"acknowledgementConnectionSettings":{"ignoreCertificateNameMismatch":true,"supportHttpStatusCodeContinue":true,"keepHttpConnectionAlive":true,"unfoldHttpHeaders":true},"mdnSettings":{"needMdn":true,"signMdn":true,"sendMdnAsynchronously":true,"receiptDeliveryUrl":"http://tempuri.org","dispositionNotificationTo":"http://tempuri.org","signOutboundMdnIfOptional":true,"mdnText":"Sample","sendInboundMdnToMessageBox":true,"micHashingAlgorithm":"SHA1"},"securitySettings":{"overrideGroupSigningCertificate":false,"enableNrrForInboundEncodedMessages":true,"enableNrrForInboundDecodedMessages":true,"enableNrrForOutboundMdn":true,"enableNrrForOutboundEncodedMessages":true,"enableNrrForOutboundDecodedMessages":true,"enableNrrForInboundMdn":true},"validationSettings":{"overrideMessageProperties":true,"encryptMessage":false,"signMessage":false,"compressMessage":true,"checkDuplicateMessage":true,"interchangeDuplicatesValidityDays":100,"checkCertificateRevocationListOnSend":true,"checkCertificateRevocationListOnReceive":true,"encryptionAlgorithm":"AES128"},"envelopeSettings":{"messageContentType":"text/plain","transmitFileNameInMimeHeader":true,"fileNameTemplate":"Test","suspendMessageOnFileNameGenerationError":true,"autogenerateFileName":true},"errorSettings":{"suspendDuplicateMessage":true,"resendIfMdnNotReceived":true}},"senderBusinessIdentity":{"qualifier":"AA","value":"AA"},"receiverBusinessIdentity":{"qualifier":"ZZ","value":"ZZ"}},"sendAgreement":{"protocolSettings":{"messageConnectionSettings":{"ignoreCertificateNameMismatch":true,"supportHttpStatusCodeContinue":true,"keepHttpConnectionAlive":true,"unfoldHttpHeaders":true},"acknowledgementConnectionSettings":{"ignoreCertificateNameMismatch":true,"supportHttpStatusCodeContinue":true,"keepHttpConnectionAlive":true,"unfoldHttpHeaders":true},"mdnSettings":{"needMdn":true,"signMdn":true,"sendMdnAsynchronously":true,"receiptDeliveryUrl":"http://tempuri.org","dispositionNotificationTo":"http://tempuri.org","signOutboundMdnIfOptional":true,"mdnText":"Sample","sendInboundMdnToMessageBox":true,"micHashingAlgorithm":"SHA1"},"securitySettings":{"overrideGroupSigningCertificate":false,"enableNrrForInboundEncodedMessages":true,"enableNrrForInboundDecodedMessages":true,"enableNrrForOutboundMdn":true,"enableNrrForOutboundEncodedMessages":true,"enableNrrForOutboundDecodedMessages":true,"enableNrrForInboundMdn":true},"validationSettings":{"overrideMessageProperties":true,"encryptMessage":false,"signMessage":false,"compressMessage":true,"checkDuplicateMessage":true,"interchangeDuplicatesValidityDays":100,"checkCertificateRevocationListOnSend":true,"checkCertificateRevocationListOnReceive":true,"encryptionAlgorithm":"AES128"},"envelopeSettings":{"messageContentType":"text/plain","transmitFileNameInMimeHeader":true,"fileNameTemplate":"Test","suspendMessageOnFileNameGenerationError":true,"autogenerateFileName":true},"errorSettings":{"suspendDuplicateMessage":true,"resendIfMdnNotReceived":true}},"senderBusinessIdentity":{"qualifier":"ZZ","value":"ZZ"},"receiverBusinessIdentity":{"qualifier":"AA","value":"AA"}}}}},"location":"westus","tags":{"IntegrationAccountAgreement":"<IntegrationAccountAgreementName>"}}'
+    body: >-
+      {
+        "properties": {
+          "metadata": {},
+          "agreementType": "AS2",
+          "hostPartner": "HostPartner",
+          "guestPartner": "GuestPartner",
+          "hostIdentity": {
+            "qualifier": "ZZ",
+            "value": "ZZ"
+          },
+          "guestIdentity": {
+            "qualifier": "AA",
+            "value": "AA"
+          },
+          "content": {
+            "aS2": {
+              "receiveAgreement": {
+                "protocolSettings": {
+                  "messageConnectionSettings": {
+                    "ignoreCertificateNameMismatch": true,
+                    "supportHttpStatusCodeContinue": true,
+                    "keepHttpConnectionAlive": true,
+                    "unfoldHttpHeaders": true
+                  },
+                  "acknowledgementConnectionSettings": {
+                    "ignoreCertificateNameMismatch": true,
+                    "supportHttpStatusCodeContinue": true,
+                    "keepHttpConnectionAlive": true,
+                    "unfoldHttpHeaders": true
+                  },
+                  "mdnSettings": {
+                    "needMdn": true,
+                    "signMdn": true,
+                    "sendMdnAsynchronously": true,
+                    "receiptDeliveryUrl": "http://tempuri.org",
+                    "dispositionNotificationTo": "http://tempuri.org",
+                    "signOutboundMdnIfOptional": true,
+                    "mdnText": "Sample",
+                    "sendInboundMdnToMessageBox": true,
+                    "micHashingAlgorithm": "SHA1"
+                  },
+                  "securitySettings": {
+                    "overrideGroupSigningCertificate": false,
+                    "enableNrrForInboundEncodedMessages": true,
+                    "enableNrrForInboundDecodedMessages": true,
+                    "enableNrrForOutboundMdn": true,
+                    "enableNrrForOutboundEncodedMessages": true,
+                    "enableNrrForOutboundDecodedMessages": true,
+                    "enableNrrForInboundMdn": true
+                  },
+                  "validationSettings": {
+                    "overrideMessageProperties": true,
+                    "encryptMessage": false,
+                    "signMessage": false,
+                    "compressMessage": true,
+                    "checkDuplicateMessage": true,
+                    "interchangeDuplicatesValidityDays": 100,
+                    "checkCertificateRevocationListOnSend": true,
+                    "checkCertificateRevocationListOnReceive": true,
+                    "encryptionAlgorithm": "AES128"
+                  },
+                  "envelopeSettings": {
+                    "messageContentType": "text/plain",
+                    "transmitFileNameInMimeHeader": true,
+                    "fileNameTemplate": "Test",
+                    "suspendMessageOnFileNameGenerationError": true,
+                    "autogenerateFileName": true
+                  },
+                  "errorSettings": {
+                    "suspendDuplicateMessage": true,
+                    "resendIfMdnNotReceived": true
+                  }
+                },
+                "senderBusinessIdentity": {
+                  "qualifier": "AA",
+                  "value": "AA"
+                },
+                "receiverBusinessIdentity": {
+                  "qualifier": "ZZ",
+                  "value": "ZZ"
+                }
+              },
+              "sendAgreement": {
+                "protocolSettings": {
+                  "messageConnectionSettings": {
+                    "ignoreCertificateNameMismatch": true,
+                    "supportHttpStatusCodeContinue": true,
+                    "keepHttpConnectionAlive": true,
+                    "unfoldHttpHeaders": true
+                  },
+                  "acknowledgementConnectionSettings": {
+                    "ignoreCertificateNameMismatch": true,
+                    "supportHttpStatusCodeContinue": true,
+                    "keepHttpConnectionAlive": true,
+                    "unfoldHttpHeaders": true
+                  },
+                  "mdnSettings": {
+                    "needMdn": true,
+                    "signMdn": true,
+                    "sendMdnAsynchronously": true,
+                    "receiptDeliveryUrl": "http://tempuri.org",
+                    "dispositionNotificationTo": "http://tempuri.org",
+                    "signOutboundMdnIfOptional": true,
+                    "mdnText": "Sample",
+                    "sendInboundMdnToMessageBox": true,
+                    "micHashingAlgorithm": "SHA1"
+                  },
+                  "securitySettings": {
+                    "overrideGroupSigningCertificate": false,
+                    "enableNrrForInboundEncodedMessages": true,
+                    "enableNrrForInboundDecodedMessages": true,
+                    "enableNrrForOutboundMdn": true,
+                    "enableNrrForOutboundEncodedMessages": true,
+                    "enableNrrForOutboundDecodedMessages": true,
+                    "enableNrrForInboundMdn": true
+                  },
+                  "validationSettings": {
+                    "overrideMessageProperties": true,
+                    "encryptMessage": false,
+                    "signMessage": false,
+                    "compressMessage": true,
+                    "checkDuplicateMessage": true,
+                    "interchangeDuplicatesValidityDays": 100,
+                    "checkCertificateRevocationListOnSend": true,
+                    "checkCertificateRevocationListOnReceive": true,
+                    "encryptionAlgorithm": "AES128"
+                  },
+                  "envelopeSettings": {
+                    "messageContentType": "text/plain",
+                    "transmitFileNameInMimeHeader": true,
+                    "fileNameTemplate": "Test",
+                    "suspendMessageOnFileNameGenerationError": true,
+                    "autogenerateFileName": true
+                  },
+                  "errorSettings": {
+                    "suspendDuplicateMessage": true,
+                    "resendIfMdnNotReceived": true
+                  }
+                },
+                "senderBusinessIdentity": {
+                  "qualifier": "ZZ",
+                  "value": "ZZ"
+                },
+                "receiverBusinessIdentity": {
+                  "qualifier": "AA",
+                  "value": "AA"
+                }
+              }
+            }
+          }
+        },
+        "location": "westus",
+        "tags": {
+          "IntegrationAccountAgreement": "<IntegrationAccountAgreementName>"
+        }
+      }
   responses:
   - statusCode: "200"
-    body: '{"properties":{"hostPartner":"HostPartner","guestPartner":"GuestPartner","hostIdentity":{"qualifier":"ZZ","value":"ZZ"},"guestIdentity":{"qualifier":"AA","value":"AA"},"agreementType":"AS2","content":{"aS2":{"receiveAgreement":{"protocolSettings":{"messageConnectionSettings":{"ignoreCertificateNameMismatch":true,"supportHttpStatusCodeContinue":true,"keepHttpConnectionAlive":true,"unfoldHttpHeaders":true},"acknowledgementConnectionSettings":{"ignoreCertificateNameMismatch":true,"supportHttpStatusCodeContinue":true,"keepHttpConnectionAlive":true,"unfoldHttpHeaders":true},"mdnSettings":{"needMdn":true,"signMdn":true,"sendMdnAsynchronously":true,"receiptDeliveryUrl":"http://tempuri.org","dispositionNotificationTo":"http://tempuri.org","signOutboundMdnIfOptional":true,"mdnText":"Sample","sendInboundMdnToMessageBox":true,"micHashingAlgorithm":"SHA1"},"securitySettings":{"overrideGroupSigningCertificate":false,"enableNrrForInboundEncodedMessages":true,"enableNrrForInboundDecodedMessages":true,"enableNrrForOutboundMdn":true,"enableNrrForOutboundEncodedMessages":true,"enableNrrForOutboundDecodedMessages":true,"enableNrrForInboundMdn":true},"validationSettings":{"overrideMessageProperties":true,"encryptMessage":false,"signMessage":false,"compressMessage":true,"checkDuplicateMessage":true,"interchangeDuplicatesValidityDays":100,"checkCertificateRevocationListOnSend":true,"checkCertificateRevocationListOnReceive":true,"encryptionAlgorithm":"AES128"},"envelopeSettings":{"messageContentType":"text/plain","transmitFileNameInMimeHeader":true,"fileNameTemplate":"Test","suspendMessageOnFileNameGenerationError":true,"autogenerateFileName":true},"errorSettings":{"suspendDuplicateMessage":true,"resendIfMdnNotReceived":true}},"senderBusinessIdentity":{"qualifier":"AA","value":"AA"},"receiverBusinessIdentity":{"qualifier":"ZZ","value":"ZZ"}},"sendAgreement":{"protocolSettings":{"messageConnectionSettings":{"ignoreCertificateNameMismatch":true,"supportHttpStatusCodeContinue":true,"keepHttpConnectionAlive":true,"unfoldHttpHeaders":true},"acknowledgementConnectionSettings":{"ignoreCertificateNameMismatch":true,"supportHttpStatusCodeContinue":true,"keepHttpConnectionAlive":true,"unfoldHttpHeaders":true},"mdnSettings":{"needMdn":true,"signMdn":true,"sendMdnAsynchronously":true,"receiptDeliveryUrl":"http://tempuri.org","dispositionNotificationTo":"http://tempuri.org","signOutboundMdnIfOptional":true,"mdnText":"Sample","sendInboundMdnToMessageBox":true,"micHashingAlgorithm":"SHA1"},"securitySettings":{"overrideGroupSigningCertificate":false,"enableNrrForInboundEncodedMessages":true,"enableNrrForInboundDecodedMessages":true,"enableNrrForOutboundMdn":true,"enableNrrForOutboundEncodedMessages":true,"enableNrrForOutboundDecodedMessages":true,"enableNrrForInboundMdn":true},"validationSettings":{"overrideMessageProperties":true,"encryptMessage":false,"signMessage":false,"compressMessage":true,"checkDuplicateMessage":true,"interchangeDuplicatesValidityDays":100,"checkCertificateRevocationListOnSend":true,"checkCertificateRevocationListOnReceive":true,"encryptionAlgorithm":"AES128"},"envelopeSettings":{"messageContentType":"text/plain","transmitFileNameInMimeHeader":true,"fileNameTemplate":"Test","suspendMessageOnFileNameGenerationError":true,"autogenerateFileName":true},"errorSettings":{"suspendDuplicateMessage":true,"resendIfMdnNotReceived":true}},"senderBusinessIdentity":{"qualifier":"ZZ","value":"ZZ"},"receiverBusinessIdentity":{"qualifier":"AA","value":"AA"}}}},"createdTime":"2017-03-06T22:32:54.2938748Z","changedTime":"2017-03-06T22:32:54.2945291Z","metadata":{}},"id":"/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testResourceGroup/providers/Microsoft.Logic/integrationAccounts/IntegrationAccount4533/agreements/<IntegrationAccountAgreementName>","name":"<IntegrationAccountAgreementName>","type":"Microsoft.Logic/integrationAccounts/agreements"}'
+    body: >-
+      {
+        "properties": {
+          "hostPartner": "HostPartner",
+          "guestPartner": "GuestPartner",
+          "hostIdentity": {
+            "qualifier": "ZZ",
+            "value": "ZZ"
+          },
+          "guestIdentity": {
+            "qualifier": "AA",
+            "value": "AA"
+          },
+          "agreementType": "AS2",
+          "content": {
+            "aS2": {
+              "receiveAgreement": {
+                "protocolSettings": {
+                  "messageConnectionSettings": {
+                    "ignoreCertificateNameMismatch": true,
+                    "supportHttpStatusCodeContinue": true,
+                    "keepHttpConnectionAlive": true,
+                    "unfoldHttpHeaders": true
+                  },
+                  "acknowledgementConnectionSettings": {
+                    "ignoreCertificateNameMismatch": true,
+                    "supportHttpStatusCodeContinue": true,
+                    "keepHttpConnectionAlive": true,
+                    "unfoldHttpHeaders": true
+                  },
+                  "mdnSettings": {
+                    "needMdn": true,
+                    "signMdn": true,
+                    "sendMdnAsynchronously": true,
+                    "receiptDeliveryUrl": "http://tempuri.org",
+                    "dispositionNotificationTo": "http://tempuri.org",
+                    "signOutboundMdnIfOptional": true,
+                    "mdnText": "Sample",
+                    "sendInboundMdnToMessageBox": true,
+                    "micHashingAlgorithm": "SHA1"
+                  },
+                  "securitySettings": {
+                    "overrideGroupSigningCertificate": false,
+                    "enableNrrForInboundEncodedMessages": true,
+                    "enableNrrForInboundDecodedMessages": true,
+                    "enableNrrForOutboundMdn": true,
+                    "enableNrrForOutboundEncodedMessages": true,
+                    "enableNrrForOutboundDecodedMessages": true,
+                    "enableNrrForInboundMdn": true
+                  },
+                  "validationSettings": {
+                    "overrideMessageProperties": true,
+                    "encryptMessage": false,
+                    "signMessage": false,
+                    "compressMessage": true,
+                    "checkDuplicateMessage": true,
+                    "interchangeDuplicatesValidityDays": 100,
+                    "checkCertificateRevocationListOnSend": true,
+                    "checkCertificateRevocationListOnReceive": true,
+                    "encryptionAlgorithm": "AES128"
+                  },
+                  "envelopeSettings": {
+                    "messageContentType": "text/plain",
+                    "transmitFileNameInMimeHeader": true,
+                    "fileNameTemplate": "Test",
+                    "suspendMessageOnFileNameGenerationError": true,
+                    "autogenerateFileName": true
+                  },
+                  "errorSettings": {
+                    "suspendDuplicateMessage": true,
+                    "resendIfMdnNotReceived": true
+                  }
+                },
+                "senderBusinessIdentity": {
+                  "qualifier": "AA",
+                  "value": "AA"
+                },
+                "receiverBusinessIdentity": {
+                  "qualifier": "ZZ",
+                  "value": "ZZ"
+                }
+              },
+              "sendAgreement": {
+                "protocolSettings": {
+                  "messageConnectionSettings": {
+                    "ignoreCertificateNameMismatch": true,
+                    "supportHttpStatusCodeContinue": true,
+                    "keepHttpConnectionAlive": true,
+                    "unfoldHttpHeaders": true
+                  },
+                  "acknowledgementConnectionSettings": {
+                    "ignoreCertificateNameMismatch": true,
+                    "supportHttpStatusCodeContinue": true,
+                    "keepHttpConnectionAlive": true,
+                    "unfoldHttpHeaders": true
+                  },
+                  "mdnSettings": {
+                    "needMdn": true,
+                    "signMdn": true,
+                    "sendMdnAsynchronously": true,
+                    "receiptDeliveryUrl": "http://tempuri.org",
+                    "dispositionNotificationTo": "http://tempuri.org",
+                    "signOutboundMdnIfOptional": true,
+                    "mdnText": "Sample",
+                    "sendInboundMdnToMessageBox": true,
+                    "micHashingAlgorithm": "SHA1"
+                  },
+                  "securitySettings": {
+                    "overrideGroupSigningCertificate": false,
+                    "enableNrrForInboundEncodedMessages": true,
+                    "enableNrrForInboundDecodedMessages": true,
+                    "enableNrrForOutboundMdn": true,
+                    "enableNrrForOutboundEncodedMessages": true,
+                    "enableNrrForOutboundDecodedMessages": true,
+                    "enableNrrForInboundMdn": true
+                  },
+                  "validationSettings": {
+                    "overrideMessageProperties": true,
+                    "encryptMessage": false,
+                    "signMessage": false,
+                    "compressMessage": true,
+                    "checkDuplicateMessage": true,
+                    "interchangeDuplicatesValidityDays": 100,
+                    "checkCertificateRevocationListOnSend": true,
+                    "checkCertificateRevocationListOnReceive": true,
+                    "encryptionAlgorithm": "AES128"
+                  },
+                  "envelopeSettings": {
+                    "messageContentType": "text/plain",
+                    "transmitFileNameInMimeHeader": true,
+                    "fileNameTemplate": "Test",
+                    "suspendMessageOnFileNameGenerationError": true,
+                    "autogenerateFileName": true
+                  },
+                  "errorSettings": {
+                    "suspendDuplicateMessage": true,
+                    "resendIfMdnNotReceived": true
+                  }
+                },
+                "senderBusinessIdentity": {
+                  "qualifier": "ZZ",
+                  "value": "ZZ"
+                },
+                "receiverBusinessIdentity": {
+                  "qualifier": "AA",
+                  "value": "AA"
+                }
+              }
+            }
+          },
+          "createdTime": "2017-03-06T22:32:54.2938748Z",
+          "changedTime": "2017-03-06T22:32:54.2945291Z",
+          "metadata": {}
+        },
+        "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testResourceGroup/providers/Microsoft.Logic/integrationAccounts/IntegrationAccount4533/agreements/<IntegrationAccountAgreementName>",
+        "name": "<IntegrationAccountAgreementName>",
+        "type": "Microsoft.Logic/integrationAccounts/agreements"
+      }
   - statusCode: "201"
-    body: '{"properties":{"hostPartner":"HostPartner","guestPartner":"GuestPartner","hostIdentity":{"qualifier":"ZZ","value":"ZZ"},"guestIdentity":{"qualifier":"AA","value":"AA"},"agreementType":"AS2","content":{"aS2":{"receiveAgreement":{"protocolSettings":{"messageConnectionSettings":{"ignoreCertificateNameMismatch":true,"supportHttpStatusCodeContinue":true,"keepHttpConnectionAlive":true,"unfoldHttpHeaders":true},"acknowledgementConnectionSettings":{"ignoreCertificateNameMismatch":true,"supportHttpStatusCodeContinue":true,"keepHttpConnectionAlive":true,"unfoldHttpHeaders":true},"mdnSettings":{"needMdn":true,"signMdn":true,"sendMdnAsynchronously":true,"receiptDeliveryUrl":"http://tempuri.org","dispositionNotificationTo":"http://tempuri.org","signOutboundMdnIfOptional":true,"mdnText":"Sample","sendInboundMdnToMessageBox":true,"micHashingAlgorithm":"SHA1"},"securitySettings":{"overrideGroupSigningCertificate":false,"enableNrrForInboundEncodedMessages":true,"enableNrrForInboundDecodedMessages":true,"enableNrrForOutboundMdn":true,"enableNrrForOutboundEncodedMessages":true,"enableNrrForOutboundDecodedMessages":true,"enableNrrForInboundMdn":true},"validationSettings":{"overrideMessageProperties":true,"encryptMessage":false,"signMessage":false,"compressMessage":true,"checkDuplicateMessage":true,"interchangeDuplicatesValidityDays":100,"checkCertificateRevocationListOnSend":true,"checkCertificateRevocationListOnReceive":true,"encryptionAlgorithm":"AES128"},"envelopeSettings":{"messageContentType":"text/plain","transmitFileNameInMimeHeader":true,"fileNameTemplate":"Test","suspendMessageOnFileNameGenerationError":true,"autogenerateFileName":true},"errorSettings":{"suspendDuplicateMessage":true,"resendIfMdnNotReceived":true}},"senderBusinessIdentity":{"qualifier":"AA","value":"AA"},"receiverBusinessIdentity":{"qualifier":"ZZ","value":"ZZ"}},"sendAgreement":{"protocolSettings":{"messageConnectionSettings":{"ignoreCertificateNameMismatch":true,"supportHttpStatusCodeContinue":true,"keepHttpConnectionAlive":true,"unfoldHttpHeaders":true},"acknowledgementConnectionSettings":{"ignoreCertificateNameMismatch":true,"supportHttpStatusCodeContinue":true,"keepHttpConnectionAlive":true,"unfoldHttpHeaders":true},"mdnSettings":{"needMdn":true,"signMdn":true,"sendMdnAsynchronously":true,"receiptDeliveryUrl":"http://tempuri.org","dispositionNotificationTo":"http://tempuri.org","signOutboundMdnIfOptional":true,"mdnText":"Sample","sendInboundMdnToMessageBox":true,"micHashingAlgorithm":"SHA1"},"securitySettings":{"overrideGroupSigningCertificate":false,"enableNrrForInboundEncodedMessages":true,"enableNrrForInboundDecodedMessages":true,"enableNrrForOutboundMdn":true,"enableNrrForOutboundEncodedMessages":true,"enableNrrForOutboundDecodedMessages":true,"enableNrrForInboundMdn":true},"validationSettings":{"overrideMessageProperties":true,"encryptMessage":false,"signMessage":false,"compressMessage":true,"checkDuplicateMessage":true,"interchangeDuplicatesValidityDays":100,"checkCertificateRevocationListOnSend":true,"checkCertificateRevocationListOnReceive":true,"encryptionAlgorithm":"AES128"},"envelopeSettings":{"messageContentType":"text/plain","transmitFileNameInMimeHeader":true,"fileNameTemplate":"Test","suspendMessageOnFileNameGenerationError":true,"autogenerateFileName":true},"errorSettings":{"suspendDuplicateMessage":true,"resendIfMdnNotReceived":true}},"senderBusinessIdentity":{"qualifier":"ZZ","value":"ZZ"},"receiverBusinessIdentity":{"qualifier":"AA","value":"AA"}}}},"createdTime":"2017-03-06T22:32:54.2938748Z","changedTime":"2017-03-06T22:32:54.2945291Z","metadata":{}},"id":"/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testResourceGroup/providers/Microsoft.Logic/integrationAccounts/IntegrationAccount4533/agreements/<IntegrationAccountAgreementName>","name":"<IntegrationAccountAgreementName>","type":"Microsoft.Logic/integrationAccounts/agreements"}'
+    body: >-
+      {
+        "properties": {
+          "hostPartner": "HostPartner",
+          "guestPartner": "GuestPartner",
+          "hostIdentity": {
+            "qualifier": "ZZ",
+            "value": "ZZ"
+          },
+          "guestIdentity": {
+            "qualifier": "AA",
+            "value": "AA"
+          },
+          "agreementType": "AS2",
+          "content": {
+            "aS2": {
+              "receiveAgreement": {
+                "protocolSettings": {
+                  "messageConnectionSettings": {
+                    "ignoreCertificateNameMismatch": true,
+                    "supportHttpStatusCodeContinue": true,
+                    "keepHttpConnectionAlive": true,
+                    "unfoldHttpHeaders": true
+                  },
+                  "acknowledgementConnectionSettings": {
+                    "ignoreCertificateNameMismatch": true,
+                    "supportHttpStatusCodeContinue": true,
+                    "keepHttpConnectionAlive": true,
+                    "unfoldHttpHeaders": true
+                  },
+                  "mdnSettings": {
+                    "needMdn": true,
+                    "signMdn": true,
+                    "sendMdnAsynchronously": true,
+                    "receiptDeliveryUrl": "http://tempuri.org",
+                    "dispositionNotificationTo": "http://tempuri.org",
+                    "signOutboundMdnIfOptional": true,
+                    "mdnText": "Sample",
+                    "sendInboundMdnToMessageBox": true,
+                    "micHashingAlgorithm": "SHA1"
+                  },
+                  "securitySettings": {
+                    "overrideGroupSigningCertificate": false,
+                    "enableNrrForInboundEncodedMessages": true,
+                    "enableNrrForInboundDecodedMessages": true,
+                    "enableNrrForOutboundMdn": true,
+                    "enableNrrForOutboundEncodedMessages": true,
+                    "enableNrrForOutboundDecodedMessages": true,
+                    "enableNrrForInboundMdn": true
+                  },
+                  "validationSettings": {
+                    "overrideMessageProperties": true,
+                    "encryptMessage": false,
+                    "signMessage": false,
+                    "compressMessage": true,
+                    "checkDuplicateMessage": true,
+                    "interchangeDuplicatesValidityDays": 100,
+                    "checkCertificateRevocationListOnSend": true,
+                    "checkCertificateRevocationListOnReceive": true,
+                    "encryptionAlgorithm": "AES128"
+                  },
+                  "envelopeSettings": {
+                    "messageContentType": "text/plain",
+                    "transmitFileNameInMimeHeader": true,
+                    "fileNameTemplate": "Test",
+                    "suspendMessageOnFileNameGenerationError": true,
+                    "autogenerateFileName": true
+                  },
+                  "errorSettings": {
+                    "suspendDuplicateMessage": true,
+                    "resendIfMdnNotReceived": true
+                  }
+                },
+                "senderBusinessIdentity": {
+                  "qualifier": "AA",
+                  "value": "AA"
+                },
+                "receiverBusinessIdentity": {
+                  "qualifier": "ZZ",
+                  "value": "ZZ"
+                }
+              },
+              "sendAgreement": {
+                "protocolSettings": {
+                  "messageConnectionSettings": {
+                    "ignoreCertificateNameMismatch": true,
+                    "supportHttpStatusCodeContinue": true,
+                    "keepHttpConnectionAlive": true,
+                    "unfoldHttpHeaders": true
+                  },
+                  "acknowledgementConnectionSettings": {
+                    "ignoreCertificateNameMismatch": true,
+                    "supportHttpStatusCodeContinue": true,
+                    "keepHttpConnectionAlive": true,
+                    "unfoldHttpHeaders": true
+                  },
+                  "mdnSettings": {
+                    "needMdn": true,
+                    "signMdn": true,
+                    "sendMdnAsynchronously": true,
+                    "receiptDeliveryUrl": "http://tempuri.org",
+                    "dispositionNotificationTo": "http://tempuri.org",
+                    "signOutboundMdnIfOptional": true,
+                    "mdnText": "Sample",
+                    "sendInboundMdnToMessageBox": true,
+                    "micHashingAlgorithm": "SHA1"
+                  },
+                  "securitySettings": {
+                    "overrideGroupSigningCertificate": false,
+                    "enableNrrForInboundEncodedMessages": true,
+                    "enableNrrForInboundDecodedMessages": true,
+                    "enableNrrForOutboundMdn": true,
+                    "enableNrrForOutboundEncodedMessages": true,
+                    "enableNrrForOutboundDecodedMessages": true,
+                    "enableNrrForInboundMdn": true
+                  },
+                  "validationSettings": {
+                    "overrideMessageProperties": true,
+                    "encryptMessage": false,
+                    "signMessage": false,
+                    "compressMessage": true,
+                    "checkDuplicateMessage": true,
+                    "interchangeDuplicatesValidityDays": 100,
+                    "checkCertificateRevocationListOnSend": true,
+                    "checkCertificateRevocationListOnReceive": true,
+                    "encryptionAlgorithm": "AES128"
+                  },
+                  "envelopeSettings": {
+                    "messageContentType": "text/plain",
+                    "transmitFileNameInMimeHeader": true,
+                    "fileNameTemplate": "Test",
+                    "suspendMessageOnFileNameGenerationError": true,
+                    "autogenerateFileName": true
+                  },
+                  "errorSettings": {
+                    "suspendDuplicateMessage": true,
+                    "resendIfMdnNotReceived": true
+                  }
+                },
+                "senderBusinessIdentity": {
+                  "qualifier": "ZZ",
+                  "value": "ZZ"
+                },
+                "receiverBusinessIdentity": {
+                  "qualifier": "AA",
+                  "value": "AA"
+                }
+              }
+            }
+          },
+          "createdTime": "2017-03-06T22:32:54.2938748Z",
+          "changedTime": "2017-03-06T22:32:54.2945291Z",
+          "metadata": {}
+        },
+        "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testResourceGroup/providers/Microsoft.Logic/integrationAccounts/IntegrationAccount4533/agreements/<IntegrationAccountAgreementName>",
+        "name": "<IntegrationAccountAgreementName>",
+        "type": "Microsoft.Logic/integrationAccounts/agreements"
+      }
   name: Create or update an agreement
 security:
 - type: oauth2

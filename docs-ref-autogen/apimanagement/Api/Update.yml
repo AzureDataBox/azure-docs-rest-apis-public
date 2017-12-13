@@ -55,58 +55,57 @@ requestBody:
     description: API name.
     types:
     - uid: string
-    name: displayName
+    name: properties.displayName
   - in: body
     description: Absolute URL of the backend service implementing this API.
     types:
     - uid: string
-    name: serviceUrl
+    name: properties.serviceUrl
   - in: body
     description: Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance. It is appended to the API endpoint base URL specified during the service instance creation to form a public URL for this API.
     types:
     - uid: string
-    name: path
+    name: properties.path
   - in: body
     description: Describes on which protocols the operations in this API can be invoked.
     types:
-    - isArray: true
-      uid: string
-    name: protocols
+    - uid: string
+    name: properties.protocols
   - in: body
     description: Description of the API. May include HTML formatting tags.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - in: body
     description: Collection of authentication settings included into this API.
     types:
     - uid: AuthenticationSettingsContract
-    name: authenticationSettings
+    name: properties.authenticationSettings
   - in: body
     description: Protocols over which API is made available.
     types:
     - uid: SubscriptionKeyParameterNamesContract
-    name: subscriptionKeyParameterNames
+    name: properties.subscriptionKeyParameterNames
   - in: body
     description: Type of API.
     types:
     - uid: ApiType
-    name: type
+    name: properties.type
   - in: body
     description: Describes the Revision of the Api. If no value is provided, default revision 1 is created
     types:
     - uid: string
-    name: apiRevision
+    name: properties.apiRevision
   - in: body
     description: Indicates if API revision is current api revision.
     types:
     - uid: boolean
-    name: isCurrent
+    name: properties.isCurrent
   - in: body
     description: Indicates if API revision is accessible via the gateway.
     types:
     - uid: boolean
-    name: isOnline
+    name: properties.isOnline
 requestHeader:
 - in: header
   isRequired: true
@@ -115,16 +114,26 @@ requestHeader:
   - uid: string
   name: If-Match
 definitions:
-- name: ApiType
-  description: Type of API.
-  kind: enum
+- name: AuthenticationSettingsContract
+  description: Collection of authentication settings included into this API.
+  kind: object
   properties:
-  - types:
+  - description: OAuth2 Authentication settings
+    types:
+    - uid: OAuth2AuthenticationSettingsContract
+    name: oAuth2
+- name: SubscriptionKeyParameterNamesContract
+  description: Protocols over which API is made available.
+  kind: object
+  properties:
+  - description: Subscription key header name.
+    types:
     - uid: string
-    name: http
-  - types:
+    name: header
+  - description: Subscription key query string parameter name.
+    types:
     - uid: string
-    name: soap
+    name: query
 - name: ErrorResponse
   description: Error Body contract.
   kind: object
@@ -139,9 +148,68 @@ definitions:
     name: message
   - description: The list of invalid fields send in request, in case of validation error.
     types:
-    - isArray: true
-      uid: ErrorFieldContract
+    - uid: ErrorFieldContract
     name: details
+- name: ApiUpdateContract
+  description: API update contract details.
+  kind: object
+  properties:
+  - description: API name.
+    types:
+    - uid: string
+    name: properties.displayName
+  - description: Absolute URL of the backend service implementing this API.
+    types:
+    - uid: string
+    name: properties.serviceUrl
+  - description: Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance. It is appended to the API endpoint base URL specified during the service instance creation to form a public URL for this API.
+    types:
+    - uid: string
+    name: properties.path
+  - description: Describes on which protocols the operations in this API can be invoked.
+    types:
+    - uid: string
+    name: properties.protocols
+  - description: Description of the API. May include HTML formatting tags.
+    types:
+    - uid: string
+    name: properties.description
+  - description: Collection of authentication settings included into this API.
+    types:
+    - uid: AuthenticationSettingsContract
+    name: properties.authenticationSettings
+  - description: Protocols over which API is made available.
+    types:
+    - uid: SubscriptionKeyParameterNamesContract
+    name: properties.subscriptionKeyParameterNames
+  - description: Type of API.
+    types:
+    - uid: ApiType
+    name: properties.type
+  - description: Describes the Revision of the Api. If no value is provided, default revision 1 is created
+    types:
+    - uid: string
+    name: properties.apiRevision
+  - description: Indicates if API revision is current api revision.
+    types:
+    - uid: boolean
+    name: properties.isCurrent
+  - description: Indicates if API revision is accessible via the gateway.
+    types:
+    - uid: boolean
+    name: properties.isOnline
+- name: OAuth2AuthenticationSettingsContract
+  description: OAuth2 Authentication settings
+  kind: object
+  properties:
+  - description: OAuth authorization server identifier.
+    types:
+    - uid: string
+    name: authorizationServerId
+  - description: operations scope.
+    types:
+    - uid: string
+    name: scope
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
@@ -158,10 +226,27 @@ definitions:
     types:
     - uid: string
     name: target
+- name: ApiType
+  description: Type of API.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: http
+  - types:
+    - uid: string
+    name: soap
 examples:
 - request:
     uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/echo-api?api-version=2017-03-01
-    requestBody: '{"properties":{"displayName":"Echo API New","serviceUrl":"http://echoapi.cloudapp.net/api2","path":"newecho"}}'
+    body: >-
+      {
+        "properties": {
+          "displayName": "Echo API New",
+          "serviceUrl": "http://echoapi.cloudapp.net/api2",
+          "path": "newecho"
+        }
+      }
     headers:
     - value: '*'
       name: If-Match

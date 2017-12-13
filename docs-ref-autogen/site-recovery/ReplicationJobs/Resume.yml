@@ -56,8 +56,16 @@ requestBody:
     name: properties
 requestHeader: []
 definitions:
+- name: ResumeJobParamsProperties
+  description: Resume job properties.
+  kind: object
+  properties:
+  - description: Resume job comments.
+    types:
+    - uid: string
+    name: comments
 - name: Job
-  description: Job details.
+  description: The list of jobs.
   kind: object
   properties:
   - description: The custom data.
@@ -99,6 +107,14 @@ definitions:
     types:
     - uid: string
     name: location
+- name: ResumeJobParams
+  description: Resume job params.
+  kind: object
+  properties:
+  - description: Resume job properties.
+    types:
+    - uid: ResumeJobParamsProperties
+    name: properties
 - name: JobProperties
   description: The custom data.
   kind: object
@@ -125,13 +141,11 @@ definitions:
     name: stateDescription
   - description: The tasks.
     types:
-    - isArray: true
-      uid: ASRTask
+    - uid: ASRTask
     name: tasks
   - description: The errors.
     types:
-    - isArray: true
-      uid: JobErrorDetails
+    - uid: JobErrorDetails
     name: errors
   - description: The start time.
     types:
@@ -143,8 +157,7 @@ definitions:
     name: endTime
   - description: The Allowed action the job.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: allowedActions
   - description: The affected Object Id.
     types:
@@ -167,8 +180,32 @@ definitions:
     - uid: SwitchProtectionJobDetails
     typesTitle: JobDetails
     name: customDetails
+- name: ARMException
+  description: The error.
+  kind: object
+  properties:
+  - description: Gets HTTP status code for the error.
+    types:
+    - uid: string
+    name: code
+  - description: Gets exception message.
+    types:
+    - uid: string
+    name: message
+  - description: Gets exception target.
+    types:
+    - uid: string
+    name: target
+  - description: Gets service based error details.
+    types:
+    - uid: ARMExceptionDetails
+    name: details
+  - description: Gets private data for service debugging.
+    types:
+    - uid: ARMInnerError
+    name: innererror
 - name: ASRTask
-  description: Task of the Job.
+  description: The tasks.
   kind: object
   properties:
   - description: The Id.
@@ -189,8 +226,7 @@ definitions:
     name: endTime
   - description: The state/actions applicable on this task.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: allowedActions
   - description: The name.
     types:
@@ -229,11 +265,10 @@ definitions:
     name: groupTaskCustomDetails
   - description: The task error details.
     types:
-    - isArray: true
-      uid: JobErrorDetails
+    - uid: JobErrorDetails
     name: errors
 - name: JobErrorDetails
-  description: This class contains the error details per object.
+  description: The task error details.
   kind: object
   properties:
   - description: The Service error details.
@@ -256,81 +291,8 @@ definitions:
     types:
     - uid: string
     name: taskId
-- name: ServiceError
-  description: The Service error details.
-  kind: object
-  properties:
-  - description: Error code.
-    types:
-    - uid: string
-    name: code
-  - description: Error message.
-    types:
-    - uid: string
-    name: message
-  - description: Possible causes of error.
-    types:
-    - uid: string
-    name: possibleCauses
-  - description: Recommended action to resolve error.
-    types:
-    - uid: string
-    name: recommendedAction
-  - description: Activity Id.
-    types:
-    - uid: string
-    name: activityId
-- name: ProviderError
-  description: The Provider error details.
-  kind: object
-  properties:
-  - description: The Error code.
-    types:
-    - uid: integer
-    name: errorCode
-  - description: The Error message.
-    types:
-    - uid: string
-    name: errorMessage
-  - description: The Provider error Id.
-    types:
-    - uid: string
-    name: errorId
-  - description: The possible causes for the error.
-    types:
-    - uid: string
-    name: possibleCauses
-  - description: The recommended action to resolve the error.
-    types:
-    - uid: string
-    name: recommendedAction
-- name: ARMException
-  description: The error.
-  kind: object
-  properties:
-  - description: Gets HTTP status code for the error.
-    types:
-    - uid: string
-    name: code
-  - description: Gets exception message.
-    types:
-    - uid: string
-    name: message
-  - description: Gets exception target.
-    types:
-    - uid: string
-    name: target
-  - description: Gets service based error details.
-    types:
-    - isArray: true
-      uid: ARMExceptionDetails
-    name: details
-  - description: Gets private data for service debugging.
-    types:
-    - uid: ARMInnerError
-    name: innererror
 - name: ARMExceptionDetails
-  description: Service based exception details.
+  description: Gets service based error details.
   kind: object
   properties:
   - description: Gets service error code.
@@ -425,23 +387,54 @@ definitions:
     types:
     - uid: string
     name: serializedSRSLogContext
-- name: MethodCallStatus
-  description: Gets data related to method which threw the exception.
+- name: ServiceError
+  description: The Service error details.
   kind: object
   properties:
-  - description: Gets a value indicating whether called method was virtual
+  - description: Error code.
     types:
     - uid: string
-    name: isVirtual
-  - description: Gets parameter list passed to method.
-    types:
-    - isArray: true
-      uid: string
-    name: parameters
-  - description: Gets a value indicating whether method container generic params.
+    name: code
+  - description: Error message.
     types:
     - uid: string
-    name: containsGenericParameters
+    name: message
+  - description: Possible causes of error.
+    types:
+    - uid: string
+    name: possibleCauses
+  - description: Recommended action to resolve error.
+    types:
+    - uid: string
+    name: recommendedAction
+  - description: Activity Id.
+    types:
+    - uid: string
+    name: activityId
+- name: ProviderError
+  description: The Provider error details.
+  kind: object
+  properties:
+  - description: The Error code.
+    types:
+    - uid: integer
+    name: errorCode
+  - description: The Error message.
+    types:
+    - uid: string
+    name: errorMessage
+  - description: The Provider error Id.
+    types:
+    - uid: string
+    name: errorId
+  - description: The possible causes for the error.
+    types:
+    - uid: string
+    name: possibleCauses
+  - description: The recommended action to resolve the error.
+    types:
+    - uid: string
+    name: recommendedAction
 - name: AsrJobDetails
   description: This class represents job details based on specific job type.
   kind: object
@@ -486,8 +479,7 @@ definitions:
     name: networkType
   - description: The test VM details.
     types:
-    - isArray: true
-      uid: FailoverReplicationProtectedItemDetails
+    - uid: FailoverReplicationProtectedItemDetails
     name: protectedItemDetails
   - isReadyOnly: true
     description: Gets the type of job details (see JobDetailsTypes enum for possible values).
@@ -503,54 +495,13 @@ definitions:
       - uid: string
       uid: object
     name: affectedObjectDetails
-- name: FailoverReplicationProtectedItemDetails
-  description: Failover details for a replication protected item.
-  kind: object
-  properties:
-  - description: The name.
-    types:
-    - uid: string
-    name: name
-  - description: The friendly name.
-    types:
-    - uid: string
-    name: friendlyName
-  - description: The test Vm name.
-    types:
-    - uid: string
-    name: testVmName
-  - description: The test Vm friendly name.
-    types:
-    - uid: string
-    name: testVmFriendlyName
-  - description: The network connection status.
-    types:
-    - uid: string
-    name: networkConnectionStatus
-  - description: The network friendly name.
-    types:
-    - uid: string
-    name: networkFriendlyName
-  - description: The network subnet.
-    types:
-    - uid: string
-    name: subnet
-  - description: The recovery point Id.
-    types:
-    - uid: string
-    name: recoveryPointId
-  - description: The recovery point time.
-    types:
-    - uid: string
-    name: recoveryPointTime
 - name: FailoverJobDetails
   description: This class represents the details for a failover job.
   kind: object
   properties:
   - description: The test VM details.
     types:
-    - isArray: true
-      uid: FailoverReplicationProtectedItemDetails
+    - uid: FailoverReplicationProtectedItemDetails
     name: protectedItemDetails
   - isReadyOnly: true
     description: Gets the type of job details (see JobDetailsTypes enum for possible values).
@@ -614,6 +565,22 @@ definitions:
       - uid: string
       uid: object
     name: affectedObjectDetails
+- name: MethodCallStatus
+  description: Gets data related to method which threw the exception.
+  kind: object
+  properties:
+  - description: Gets a value indicating whether called method was virtual
+    types:
+    - uid: string
+    name: isVirtual
+  - description: Gets parameter list passed to method.
+    types:
+    - uid: string
+    name: parameters
+  - description: Gets a value indicating whether method container generic params.
+    types:
+    - uid: string
+    name: containsGenericParameters
 - name: JobTaskDetails
   description: This class represents a task which is actually a workflow so that one can navigate to its individual drill down.
   kind: object
@@ -627,34 +594,6 @@ definitions:
     - uid: JobTaskDetails
     typesTitle: string
     name: instanceType
-- name: JobEntity
-  description: The job entity.
-  kind: object
-  properties:
-  - description: The job id.
-    types:
-    - uid: string
-    name: jobId
-  - description: The job display name.
-    types:
-    - uid: string
-    name: jobFriendlyName
-  - description: The object id.
-    types:
-    - uid: string
-    name: targetObjectId
-  - description: The object name.
-    types:
-    - uid: string
-    name: targetObjectName
-  - description: The workflow affected object type.
-    types:
-    - uid: string
-    name: targetInstanceType
-  - description: The job name. Enum type ScenarioName.
-    types:
-    - uid: string
-    name: jobScenarioName
 - name: VirtualMachineTaskDetails
   description: This class represents the virtual machine task details.
   kind: object
@@ -770,36 +709,13 @@ definitions:
   properties:
   - description: The list of inconsistent Vm details.
     types:
-    - isArray: true
-      uid: InconsistentVmDetails
+    - uid: InconsistentVmDetails
     name: vmDetails
   - description: The type of task details.
     types:
     - uid: ConsistencyCheckTaskDetails
     typesTitle: string
     name: instanceType
-- name: InconsistentVmDetails
-  description: This class stores the monitoring details for consistency check of inconsistent Protected Entity.
-  kind: object
-  properties:
-  - description: The Vm name.
-    types:
-    - uid: string
-    name: vmName
-  - description: The Cloud name.
-    types:
-    - uid: string
-    name: cloudName
-  - description: The list of details regarding state of the Protected Entity in SRS and On prem.
-    types:
-    - isArray: true
-      uid: string
-    name: details
-  - description: The list of error ids.
-    types:
-    - isArray: true
-      uid: string
-    name: errorIds
 - name: AutomationRunbookTaskDetails
   description: This class represents the task details for an automation runbook.
   kind: object
@@ -851,8 +767,7 @@ definitions:
   properties:
   - description: The list of child workflow ids.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: workflowIds
   - description: The type of task details.
     types:
@@ -861,8 +776,7 @@ definitions:
     name: instanceType
   - description: The child tasks.
     types:
-    - isArray: true
-      uid: ASRTask
+    - uid: ASRTask
     name: childTasks
 - name: RecoveryPlanGroupTaskDetails
   description: This class represents the recovery plan group task.
@@ -887,8 +801,7 @@ definitions:
     name: instanceType
   - description: The child tasks.
     types:
-    - isArray: true
-      uid: ASRTask
+    - uid: ASRTask
     name: childTasks
 - name: RecoveryPlanShutdownGroupTaskDetails
   description: This class represents the recovery plan shutdown group task details.
@@ -913,16 +826,168 @@ definitions:
     name: instanceType
   - description: The child tasks.
     types:
-    - isArray: true
-      uid: ASRTask
+    - uid: ASRTask
     name: childTasks
+- name: FailoverReplicationProtectedItemDetails
+  description: The test VM details.
+  kind: object
+  properties:
+  - description: The name.
+    types:
+    - uid: string
+    name: name
+  - description: The friendly name.
+    types:
+    - uid: string
+    name: friendlyName
+  - description: The test Vm name.
+    types:
+    - uid: string
+    name: testVmName
+  - description: The test Vm friendly name.
+    types:
+    - uid: string
+    name: testVmFriendlyName
+  - description: The network connection status.
+    types:
+    - uid: string
+    name: networkConnectionStatus
+  - description: The network friendly name.
+    types:
+    - uid: string
+    name: networkFriendlyName
+  - description: The network subnet.
+    types:
+    - uid: string
+    name: subnet
+  - description: The recovery point Id.
+    types:
+    - uid: string
+    name: recoveryPointId
+  - description: The recovery point time.
+    types:
+    - uid: string
+    name: recoveryPointTime
+- name: JobEntity
+  description: The job entity.
+  kind: object
+  properties:
+  - description: The job id.
+    types:
+    - uid: string
+    name: jobId
+  - description: The job display name.
+    types:
+    - uid: string
+    name: jobFriendlyName
+  - description: The object id.
+    types:
+    - uid: string
+    name: targetObjectId
+  - description: The object name.
+    types:
+    - uid: string
+    name: targetObjectName
+  - description: The workflow affected object type.
+    types:
+    - uid: string
+    name: targetInstanceType
+  - description: The job name. Enum type ScenarioName.
+    types:
+    - uid: string
+    name: jobScenarioName
+- name: InconsistentVmDetails
+  description: The list of inconsistent Vm details.
+  kind: object
+  properties:
+  - description: The Vm name.
+    types:
+    - uid: string
+    name: vmName
+  - description: The Cloud name.
+    types:
+    - uid: string
+    name: cloudName
+  - description: The list of details regarding state of the Protected Entity in SRS and On prem.
+    types:
+    - uid: string
+    name: details
+  - description: The list of error ids.
+    types:
+    - uid: string
+    name: errorIds
 examples:
 - request:
     uri: POST https://management.azure.com/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationJobs/58776d0b-3141-48b2-a377-9ad863eb160d/resume?api-version=2016-08-10
-    requestBody: '{"properties":{"comments":" "}}'
+    body: >-
+      {
+        "properties": {
+          "comments": " "
+        }
+      }
   responses:
   - statusCode: "200"
-    body: '{"id":"/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationJobs/58776d0b-3141-48b2-a377-9ad863eb160d","name":"58776d0b-3141-48b2-a377-9ad863eb160d","properties":{"activityId":"1b808dfe-0451-44ac-894c-c7270711cd8c ActivityId: 9f6f849e-922a-43ec-a7a6-0be45fc85c56","scenarioName":"TestFailover","friendlyName":"Test failover","state":"Suspended","stateDescription":"WaitingForStopTestFailover","tasks":[],"errors":[],"startTime":"2017-04-25T09:57:57.0357829Z","allowedActions":["Cancel","Resume"],"targetObjectId":"f8491e4f-817a-40dd-a90c-af773978c75b","targetObjectName":"vm1","targetInstanceType":"ProtectionEntity","customDetails":{"instanceType":"TestFailoverJobDetails","testFailoverStatus":"Completed","comments":" ","networkName":"vnetavrai","networkFriendlyName":"vnetavrai","networkType":"VmNetworkAsInput","protectedItemDetails":[{"name":"f8491e4f-817a-40dd-a90c-af773978c75b","friendlyName":"vm1","testVmName":"vm1-test","testVmFriendlyName":"vm1-test","networkConnectionStatus":"Connected","networkFriendlyName":"vnetavrai","subnet":"Subnet1"}],"affectedObjectDetails":{"PrimaryVmId":"f8491e4f-817a-40dd-a90c-af773978c75b","PrimaryVmName":"vm1","RecoveryVmId":"","RecoveryVmName":"vm1","ProtectionProfileId":"af095a1e-1f1b-5365-87c9-99162ebcfaf0","PrimaryCloudId":"cloud_6d224fc6-f326-5d35-96de-fbf51efb3179","PrimaryCloudName":"cloud1","RecoveryCloudId":"d38048d4-b460-4791-8ece-108395ee8478","RecoveryCloudName":"Microsoft Azure","PrimaryVmmId":"6d224fc6-f326-5d35-96de-fbf51efb3179","PrimaryVmmName":"cloud1","RecoveryVmmId":"21a9403c-6ec1-44f2-b744-b4e50b792387","RecoveryVmmName":"Microsoft Azure","PrimaryFabricProviderId":"HyperVSite","RecoveryFabricProviderId":"Azure"}}},"status":"Suspended","startTime":"2017-04-25T09:57:57.0357829Z","endTime":"2017-04-25T09:59:12.0452175Z"}'
+    body: >-
+      {
+        "id": "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationJobs/58776d0b-3141-48b2-a377-9ad863eb160d",
+        "name": "58776d0b-3141-48b2-a377-9ad863eb160d",
+        "properties": {
+          "activityId": "1b808dfe-0451-44ac-894c-c7270711cd8c ActivityId: 9f6f849e-922a-43ec-a7a6-0be45fc85c56",
+          "scenarioName": "TestFailover",
+          "friendlyName": "Test failover",
+          "state": "Suspended",
+          "stateDescription": "WaitingForStopTestFailover",
+          "tasks": [],
+          "errors": [],
+          "startTime": "2017-04-25T09:57:57.0357829Z",
+          "allowedActions": [
+            "Cancel",
+            "Resume"
+          ],
+          "targetObjectId": "f8491e4f-817a-40dd-a90c-af773978c75b",
+          "targetObjectName": "vm1",
+          "targetInstanceType": "ProtectionEntity",
+          "customDetails": {
+            "instanceType": "TestFailoverJobDetails",
+            "testFailoverStatus": "Completed",
+            "comments": " ",
+            "networkName": "vnetavrai",
+            "networkFriendlyName": "vnetavrai",
+            "networkType": "VmNetworkAsInput",
+            "protectedItemDetails": [
+              {
+                "name": "f8491e4f-817a-40dd-a90c-af773978c75b",
+                "friendlyName": "vm1",
+                "testVmName": "vm1-test",
+                "testVmFriendlyName": "vm1-test",
+                "networkConnectionStatus": "Connected",
+                "networkFriendlyName": "vnetavrai",
+                "subnet": "Subnet1"
+              }
+            ],
+            "affectedObjectDetails": {
+              "PrimaryVmId": "f8491e4f-817a-40dd-a90c-af773978c75b",
+              "PrimaryVmName": "vm1",
+              "RecoveryVmId": "",
+              "RecoveryVmName": "vm1",
+              "ProtectionProfileId": "af095a1e-1f1b-5365-87c9-99162ebcfaf0",
+              "PrimaryCloudId": "cloud_6d224fc6-f326-5d35-96de-fbf51efb3179",
+              "PrimaryCloudName": "cloud1",
+              "RecoveryCloudId": "d38048d4-b460-4791-8ece-108395ee8478",
+              "RecoveryCloudName": "Microsoft Azure",
+              "PrimaryVmmId": "6d224fc6-f326-5d35-96de-fbf51efb3179",
+              "PrimaryVmmName": "cloud1",
+              "RecoveryVmmId": "21a9403c-6ec1-44f2-b744-b4e50b792387",
+              "RecoveryVmmName": "Microsoft Azure",
+              "PrimaryFabricProviderId": "HyperVSite",
+              "RecoveryFabricProviderId": "Azure"
+            }
+          }
+        },
+        "status": "Suspended",
+        "startTime": "2017-04-25T09:57:57.0357829Z",
+        "endTime": "2017-04-25T09:59:12.0452175Z"
+      }
   - statusCode: "202"
   name: Resumes the specified job.
 security:

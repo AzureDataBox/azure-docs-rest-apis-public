@@ -102,8 +102,24 @@ requestHeader:
   format: date-time-rfc1123
   name: If-Unmodified-Since
 definitions:
+- name: TaskConstraints
+  description: Execution constraints to apply to a task.
+  kind: object
+  properties:
+  - description: If this is not specified, there is no time limit on how long the task may run.
+    types:
+    - uid: string
+    name: maxWallClockTime
+  - description: The default is infinite, i.e. the task directory will be retained until the compute node is removed or reimaged.
+    types:
+    - uid: string
+    name: retentionTime
+  - description: Note that this value specifically controls the number of retries. The Batch service will try the task once, and may then retry up to this limit. For example, if the maximum retry count is 3, Batch tries the task up to 4 times (one initial try and 3 retries). If the maximum retry count is 0, the Batch service does not retry the task. If the maximum retry count is -1, the Batch service retries the task without limit.
+    types:
+    - uid: integer
+    name: maxTaskRetryCount
 - name: BatchError
-  description: An error response received from the Azure Batch service.
+  description: The error encountered while attempting to add the task.
   kind: object
   properties:
   - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
@@ -116,9 +132,16 @@ definitions:
     name: message
   - description: A collection of key-value pairs containing additional details about the error.
     types:
-    - isArray: true
-      uid: BatchErrorDetail
+    - uid: BatchErrorDetail
     name: values
+- name: TaskUpdateParameter
+  description: The set of changes to be made to a task.
+  kind: object
+  properties:
+  - description: If omitted, the task is given the default constraints. For multi-instance tasks, updating the retention time applies only to the primary task and not subtasks.
+    types:
+    - uid: TaskConstraints
+    name: constraints
 - name: ErrorMessage
   description: A message describing the error, intended to be suitable for display in a user interface.
   kind: object
@@ -132,7 +155,7 @@ definitions:
     - uid: string
     name: value
 - name: BatchErrorDetail
-  description: An item of additional information included in an Azure Batch error response.
+  description: A collection of key-value pairs containing additional details about the error.
   kind: object
   properties:
   - description: An identifier specifying the meaning of the Value property.
@@ -146,7 +169,14 @@ definitions:
 examples:
 - request:
     uri: PUT https://batch.core.windows.net/jobs/jobId/tasks/taskId?api-version=2017-09-01.6.0
-    requestBody: '{"constraints":{"maxWallClockTime":"PT1H","maxTaskRetryCount":3,"retentionTime":"PT1H"}}'
+    body: >-
+      {
+        "constraints": {
+          "maxWallClockTime": "PT1H",
+          "maxTaskRetryCount": 3,
+          "retentionTime": "PT1H"
+        }
+      }
     headers:
     - value: 00000000-0000-0000-0000-000000000000
       name: client-request-id

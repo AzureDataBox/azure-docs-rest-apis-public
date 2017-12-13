@@ -58,14 +58,13 @@ responses:
 requestHeader: []
 definitions:
 - name: SBAuthorizationRule
-  description: Description of a namespace authorization rule.
+  description: Result of the List Authorization Rules operation.
   kind: object
   properties:
   - description: The rights associated with the rule.
     types:
-    - isArray: true
-      uid: string
-    name: rights
+    - uid: string
+    name: properties.rights
   - isReadyOnly: true
     description: Resource Id
     types:
@@ -98,7 +97,18 @@ examples:
     uri: GET https://management.azure.com/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-7982/queues/sdk-Queues-2317/authorizationRules/sdk-AuthRules-5800?api-version=2017-04-01
   responses:
   - statusCode: "200"
-    body: '{"id":"/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-7982/queues/sdk-Queues-2317/authorizationRules/sdk-AuthRules-5800","name":"sdk-AuthRules-5800","type":"Microsoft.ServiceBus/Namespaces/Queues/AuthorizationRules","properties":{"rights":["Listen","Send"]}}'
+    body: >-
+      {
+        "id": "/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-7982/queues/sdk-Queues-2317/authorizationRules/sdk-AuthRules-5800",
+        "name": "sdk-AuthRules-5800",
+        "type": "Microsoft.ServiceBus/Namespaces/Queues/AuthorizationRules",
+        "properties": {
+          "rights": [
+            "Listen",
+            "Send"
+          ]
+        }
+      }
   name: QueueAutorizationRuleGet
 security:
 - type: oauth2

@@ -48,8 +48,7 @@ definitions:
   properties:
   - description: Collection of resources.
     types:
-    - isArray: true
-      uid: TriggeredWebJob
+    - uid: TriggeredWebJob
     name: value
   - description: Link to next page of resources.
     types:
@@ -62,44 +61,44 @@ definitions:
   - description: Latest job run information.
     types:
     - uid: TriggeredJobRun
-    name: latestRun
+    name: properties.latestRun
   - description: History URL.
     types:
     - uid: string
-    name: historyUrl
+    name: properties.historyUrl
   - description: Scheduler Logs URL.
     types:
     - uid: string
-    name: schedulerLogsUrl
+    name: properties.schedulerLogsUrl
   - isReadyOnly: true
     description: Job name. Used as job identifier in ARM resource URI.
     types:
     - uid: string
-    name: name
+    name: properties.name
   - description: Run command.
     types:
     - uid: string
-    name: runCommand
+    name: properties.runCommand
   - description: Job URL.
     types:
     - uid: string
-    name: url
+    name: properties.url
   - description: Extra Info URL.
     types:
     - uid: string
-    name: extraInfoUrl
+    name: properties.extraInfoUrl
   - description: Job type.
     types:
     - uid: WebJobType
-    name: jobType
+    name: properties.jobType
   - description: Error information.
     types:
     - uid: string
-    name: error
+    name: properties.error
   - description: Using SDK?
     types:
     - uid: boolean
-    name: usingSdk
+    name: properties.usingSdk
   - description: Job settings.
     types:
     - isDictionary: true
@@ -107,12 +106,17 @@ definitions:
       - uid: string
       - uid: object
       uid: object
-    name: settings
+    name: properties.settings
   - isReadyOnly: true
     description: Resource Id.
     types:
     - uid: string
     name: id
+  - isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+    name: name
   - description: Kind of resource.
     types:
     - uid: string
@@ -123,54 +127,64 @@ definitions:
     - uid: string
     name: type
 - name: TriggeredJobRun
-  description: Latest job run information.
+  description: List of triggered web job runs.
   kind: object
   properties:
   - description: Job ID.
     types:
     - uid: string
-    name: id
+    name: properties.id
   - isReadyOnly: true
     description: Job name.
     types:
     - uid: string
-    name: name
+    name: properties.name
   - description: Job status.
     types:
     - uid: TriggeredWebJobStatus
-    name: status
+    name: properties.status
   - description: Start time.
     types:
     - uid: string
-    name: startTime
+    name: properties.startTime
   - description: End time.
     types:
     - uid: string
-    name: endTime
+    name: properties.endTime
   - description: Job duration.
     types:
     - uid: string
-    name: duration
+    name: properties.duration
   - description: Output URL.
     types:
     - uid: string
-    name: outputUrl
+    name: properties.outputUrl
   - description: Error URL.
     types:
     - uid: string
-    name: errorUrl
+    name: properties.errorUrl
   - description: Job URL.
     types:
     - uid: string
-    name: url
+    name: properties.url
   - description: Job name.
     types:
     - uid: string
-    name: jobName
+    name: properties.jobName
   - description: Job trigger.
     types:
     - uid: string
-    name: trigger
+    name: properties.trigger
+  - isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+    name: name
   - description: Kind of resource.
     types:
     - uid: string
@@ -180,6 +194,16 @@ definitions:
     types:
     - uid: string
     name: type
+- name: WebJobType
+  description: Job type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Continuous
+  - types:
+    - uid: string
+    name: Triggered
 - name: TriggeredWebJobStatus
   description: Job status.
   kind: enum
@@ -193,16 +217,6 @@ definitions:
   - types:
     - uid: string
     name: Error
-- name: WebJobType
-  description: Job type.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Continuous
-  - types:
-    - uid: string
-    name: Triggered
 examples: []
 security:
 - type: oauth2

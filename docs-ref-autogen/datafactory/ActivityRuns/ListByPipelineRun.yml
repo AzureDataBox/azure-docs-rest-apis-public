@@ -91,15 +91,34 @@ definitions:
   properties:
   - description: List of activity runs.
     types:
-    - isArray: true
-      uid: ActivityRun
+    - uid: ActivityRun
     name: value
   - description: The link to the next page of results, if any remaining results exist.
     types:
     - uid: string
     name: nextLink
+- name: ErrorResponse
+  description: The object that defines the structure of an Azure Data Factory response.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: string
+    name: code
+  - description: Error message.
+    types:
+    - uid: string
+    name: message
+  - description: Property name/path in request associated with error.
+    types:
+    - uid: string
+    name: target
+  - description: Array with additional error details.
+    types:
+    - uid: ErrorResponse
+    name: details
 - name: ActivityRun
-  description: Information about an activity run in a pipeline.
+  description: List of activity runs.
   kind: object
   properties:
   - isReadyOnly: true
@@ -167,27 +186,6 @@ definitions:
     types:
     - uid: object
     name: error
-- name: ErrorResponse
-  description: The object that defines the structure of an Azure Data Factory response.
-  kind: object
-  properties:
-  - description: Error code.
-    types:
-    - uid: string
-    name: code
-  - description: Error message.
-    types:
-    - uid: string
-    name: message
-  - description: Property name/path in request associated with error.
-    types:
-    - uid: string
-    name: target
-  - description: Array with additional error details.
-    types:
-    - isArray: true
-      uid: Details
-    name: details
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/pipelineruns/a420e4fd-ebe9-4758-8db7-852b4d06245e/activityruns?api-version=2017-09-01-preview&startTime=2017-09-13T17%3A54%3A57.0811551Z&endTime=2017-09-13T18%3A07%3A59.6211018Z&status=&activityName=&linkedServiceName=
@@ -204,7 +202,101 @@ examples:
       name: x-ms-ratelimit-remaining-subscription-reads
     - value: 4ac11d09-28a5-405c-927b-88f1052fd56e
       name: x-ms-correlation-request-id
-    body: '{"value":[{"activityRunEnd":"2017-09-13T17:56:24.580131Z","activityName":"ExampleForeachActivity","activityRunStart":"2017-09-13T17:56:00.0758597Z","activityType":"ForEach","durationInMs":24504,"error":{"errorCode":"","message":"","failureType":"","target":"ExampleForeachActivity"},"activityRunId":"c80e9e66-3c32-4f79-a3bb-1677599e3bcd","input":{"isSequential":true,"items":"@pipeline().parameters.OutputBlobNameList","activities":[{"type":"Copy","typeProperties":{"source":{"type":"BlobSource"},"sink":{"type":"BlobSink"}},"inputs":[{"referenceName":"exampleDataset","parameters":{"MyFolderPath":"examplecontainer","MyFileName":"examplecontainer.csv"},"type":"DatasetReference"}],"outputs":[{"referenceName":"exampleDataset","parameters":{"MyFolderPath":"examplecontainer","MyFileName":"@item()"},"type":"DatasetReference"}],"name":"ExampleCopyActivity"}]},"linkedServiceName":"","output":{},"pipelineName":"examplePipeline","pipelineRunId":"a420e4fd-ebe9-4758-8db7-852b4d06245e","status":"Succeeded"},{"activityRunEnd":"2017-09-13T17:56:20.0331458Z","activityName":"ExampleCopyActivity","activityRunStart":"2017-09-13T17:56:01.1719894Z","activityType":"Copy","durationInMs":18861,"error":{"errorCode":"","message":"","failureType":"","target":"ExampleCopyActivity"},"activityRunId":"b8bee996-143b-4f20-ace1-307cc1a0d75d","input":{"source":{"type":"BlobSource"},"sink":{"type":"BlobSink"}},"linkedServiceName":"","output":{"dataRead":142000,"dataWritten":142000,"copyDuration":4,"throughput":34.66797,"errors":[]},"pipelineName":"examplePipeline","pipelineRunId":"a420e4fd-ebe9-4758-8db7-852b4d06245e","status":"Succeeded"}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "activityRunEnd": "2017-09-13T17:56:24.580131Z",
+            "activityName": "ExampleForeachActivity",
+            "activityRunStart": "2017-09-13T17:56:00.0758597Z",
+            "activityType": "ForEach",
+            "durationInMs": 24504,
+            "error": {
+              "errorCode": "",
+              "message": "",
+              "failureType": "",
+              "target": "ExampleForeachActivity"
+            },
+            "activityRunId": "c80e9e66-3c32-4f79-a3bb-1677599e3bcd",
+            "input": {
+              "isSequential": true,
+              "items": "@pipeline().parameters.OutputBlobNameList",
+              "activities": [
+                {
+                  "type": "Copy",
+                  "typeProperties": {
+                    "source": {
+                      "type": "BlobSource"
+                    },
+                    "sink": {
+                      "type": "BlobSink"
+                    }
+                  },
+                  "inputs": [
+                    {
+                      "referenceName": "exampleDataset",
+                      "parameters": {
+                        "MyFolderPath": "examplecontainer",
+                        "MyFileName": "examplecontainer.csv"
+                      },
+                      "type": "DatasetReference"
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "referenceName": "exampleDataset",
+                      "parameters": {
+                        "MyFolderPath": "examplecontainer",
+                        "MyFileName": "@item()"
+                      },
+                      "type": "DatasetReference"
+                    }
+                  ],
+                  "name": "ExampleCopyActivity"
+                }
+              ]
+            },
+            "linkedServiceName": "",
+            "output": {},
+            "pipelineName": "examplePipeline",
+            "pipelineRunId": "a420e4fd-ebe9-4758-8db7-852b4d06245e",
+            "status": "Succeeded"
+          },
+          {
+            "activityRunEnd": "2017-09-13T17:56:20.0331458Z",
+            "activityName": "ExampleCopyActivity",
+            "activityRunStart": "2017-09-13T17:56:01.1719894Z",
+            "activityType": "Copy",
+            "durationInMs": 18861,
+            "error": {
+              "errorCode": "",
+              "message": "",
+              "failureType": "",
+              "target": "ExampleCopyActivity"
+            },
+            "activityRunId": "b8bee996-143b-4f20-ace1-307cc1a0d75d",
+            "input": {
+              "source": {
+                "type": "BlobSource"
+              },
+              "sink": {
+                "type": "BlobSink"
+              }
+            },
+            "linkedServiceName": "",
+            "output": {
+              "dataRead": 142000,
+              "dataWritten": 142000,
+              "copyDuration": 4,
+              "throughput": 34.66797,
+              "errors": []
+            },
+            "pipelineName": "examplePipeline",
+            "pipelineRunId": "a420e4fd-ebe9-4758-8db7-852b4d06245e",
+            "status": "Succeeded"
+          }
+        ]
+      }
   name: ActivityRuns_ListByPipelineRun
 security:
 - type: oauth2

@@ -74,8 +74,7 @@ definitions:
   properties:
   - description: Page values.
     types:
-    - isArray: true
-      uid: ReportRecordContract
+    - uid: ReportRecordContract
     name: value
   - description: Total record count number across all pages.
     types:
@@ -86,7 +85,7 @@ definitions:
     - uid: string
     name: nextLink
 - name: ReportRecordContract
-  description: Report data.
+  description: Page values.
   kind: object
   properties:
   - description: Name depending on report endpoint specifies product, API, operation or developer name.
@@ -201,7 +200,49 @@ examples:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/reports/byTimeId?$filter=timestamp ge datetime'2017-06-01T00:00:00' and timestamp le datetime'2017-06-04T00:00:00'&interval=PT15M&api-version=2017-03-01
   responses:
   - statusCode: "200"
-    body: '{"value":[{"timestamp":"2017-06-03T00:15:00Z","interval":"PT15M","callCountSuccess":4,"callCountBlocked":0,"callCountFailed":0,"callCountOther":0,"callCountTotal":4,"bandwidth":3243,"cacheHitCount":0,"cacheMissCount":0,"apiTimeAvg":1337.46335,"apiTimeMin":885.08390000000009,"apiTimeMax":1819.2173,"serviceTimeAvg":1255.917425,"serviceTimeMin":882.8264,"serviceTimeMax":1697.3612},{"timestamp":"2017-06-03T00:30:00Z","interval":"PT15M","callCountSuccess":9,"callCountBlocked":1,"callCountFailed":0,"callCountOther":0,"callCountTotal":10,"bandwidth":7776,"cacheHitCount":0,"cacheMissCount":0,"apiTimeAvg":872.78187777777782,"apiTimeMin":330.3206,"apiTimeMax":1093.8407,"serviceTimeAvg":824.28471111111116,"serviceTimeMin":215.24,"serviceTimeMax":973.22620000000006}],"count":2,"nextLink":""}'
+    body: >-
+      {
+        "value": [
+          {
+            "timestamp": "2017-06-03T00:15:00Z",
+            "interval": "PT15M",
+            "callCountSuccess": 4,
+            "callCountBlocked": 0,
+            "callCountFailed": 0,
+            "callCountOther": 0,
+            "callCountTotal": 4,
+            "bandwidth": 3243,
+            "cacheHitCount": 0,
+            "cacheMissCount": 0,
+            "apiTimeAvg": 1337.46335,
+            "apiTimeMin": 885.08390000000009,
+            "apiTimeMax": 1819.2173,
+            "serviceTimeAvg": 1255.917425,
+            "serviceTimeMin": 882.8264,
+            "serviceTimeMax": 1697.3612
+          },
+          {
+            "timestamp": "2017-06-03T00:30:00Z",
+            "interval": "PT15M",
+            "callCountSuccess": 9,
+            "callCountBlocked": 1,
+            "callCountFailed": 0,
+            "callCountOther": 0,
+            "callCountTotal": 10,
+            "bandwidth": 7776,
+            "cacheHitCount": 0,
+            "cacheMissCount": 0,
+            "apiTimeAvg": 872.78187777777782,
+            "apiTimeMin": 330.3206,
+            "apiTimeMax": 1093.8407,
+            "serviceTimeAvg": 824.28471111111116,
+            "serviceTimeMin": 215.24,
+            "serviceTimeMax": 973.22620000000006
+          }
+        ],
+        "count": 2,
+        "nextLink": ""
+      }
   name: ApiManagementGetReportsByTime
 security:
 - type: oauth2

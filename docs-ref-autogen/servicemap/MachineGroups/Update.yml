@@ -63,13 +63,12 @@ requestBody:
     description: User defined name for the group
     types:
     - uid: string
-    name: displayName
+    name: properties.displayName
   - in: body
     description: References of the machines in this group. The hints within each reference do not represent the current value of  the corresponding fields. They are a snapshot created during the last time the machine group was updated.
     types:
-    - isArray: true
-      uid: MachineReferenceWithHints
-    name: machines
+    - uid: MachineReferenceWithHints
+    name: properties.machines
   - in: body
     isRequired: true
     description: Additional resource type qualifier.
@@ -79,25 +78,39 @@ requestBody:
     name: kind
 requestHeader: []
 definitions:
-- name: OperatingSystemFamily
-  description: Last known operating system family.
-  kind: enum
+- name: MachineReferenceWithHints
+  description: A machine reference with a hint of the machine's name and operating system.
+  kind: object
   properties:
-  - types:
+  - isReadyOnly: true
+    description: Last known display name.
+    types:
     - uid: string
-    name: unknown
-  - types:
+    name: properties.displayNameHint
+  - isReadyOnly: true
+    description: Last known operating system family.
+    types:
+    - uid: OperatingSystemFamily
+    name: properties.osFamilyHint
+  - description: Resource URI.
+    types:
     - uid: string
-    name: windows
-  - types:
+    name: id
+  - isReadyOnly: true
+    description: Resource type qualifier.
+    types:
     - uid: string
-    name: linux
-  - types:
+    name: type
+  - isReadyOnly: true
+    description: Resource name.
+    types:
     - uid: string
-    name: solaris
-  - types:
-    - uid: string
-    name: aix
+    name: name
+  - description: Specifies the sub-class of the reference.
+    types:
+    - uid: ref:machinewithhints
+    typesTitle: string
+    name: kind
 - name: MachineGroup
   description: A user-defined logical grouping of machines.
   kind: object
@@ -109,12 +122,11 @@ definitions:
   - description: User defined name for the group
     types:
     - uid: string
-    name: displayName
+    name: properties.displayName
   - description: References of the machines in this group. The hints within each reference do not represent the current value of  the corresponding fields. They are a snapshot created during the last time the machine group was updated.
     types:
-    - isArray: true
-      uid: MachineReferenceWithHints
-    name: machines
+    - uid: MachineReferenceWithHints
+    name: properties.machines
   - description: Additional resource type qualifier.
     types:
     - uid: machineGroup
@@ -135,39 +147,6 @@ definitions:
     types:
     - uid: string
     name: name
-- name: MachineReferenceWithHints
-  description: A machine reference with a hint of the machine's name and operating system.
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: Last known display name.
-    types:
-    - uid: string
-    name: displayNameHint
-  - isReadyOnly: true
-    description: Last known operating system family.
-    types:
-    - uid: OperatingSystemFamily
-    name: osFamilyHint
-  - description: Resource URI.
-    types:
-    - uid: string
-    name: id
-  - isReadyOnly: true
-    description: Resource type qualifier.
-    types:
-    - uid: string
-    name: type
-  - isReadyOnly: true
-    description: Resource name.
-    types:
-    - uid: string
-    name: name
-  - description: Specifies the sub-class of the reference.
-    types:
-    - uid: ref:machinewithhints
-    typesTitle: string
-    name: kind
 - name: ErrorResponse
   description: An error response from the API.
   kind: object
@@ -176,6 +155,25 @@ definitions:
     types:
     - uid: Error
     name: error
+- name: OperatingSystemFamily
+  description: Last known operating system family.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: unknown
+  - types:
+    - uid: string
+    name: windows
+  - types:
+    - uid: string
+    name: linux
+  - types:
+    - uid: string
+    name: solaris
+  - types:
+    - uid: string
+    name: aix
 - name: Error
   description: Error information.
   kind: object

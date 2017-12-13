@@ -95,13 +95,28 @@ definitions:
   properties:
   - description: The list of files.
     types:
-    - isArray: true
-      uid: NodeFile
+    - uid: NodeFile
     name: value
   - description: The URL to get the next set of results.
     types:
     - uid: string
     name: odata.nextLink
+- name: BatchError
+  description: The error encountered while attempting to add the task.
+  kind: object
+  properties:
+  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+    name: code
+  - description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: ErrorMessage
+    name: message
+  - description: A collection of key-value pairs containing additional details about the error.
+    types:
+    - uid: BatchErrorDetail
+    name: values
 - name: NodeFile
   description: Information about a file or directory on a compute node.
   kind: object
@@ -122,8 +137,32 @@ definitions:
     types:
     - uid: FileProperties
     name: properties
+- name: ErrorMessage
+  description: A message describing the error, intended to be suitable for display in a user interface.
+  kind: object
+  properties:
+  - description: The language code of the error message
+    types:
+    - uid: string
+    name: lang
+  - description: The text of the message.
+    types:
+    - uid: string
+    name: value
+- name: BatchErrorDetail
+  description: A collection of key-value pairs containing additional details about the error.
+  kind: object
+  properties:
+  - description: An identifier specifying the meaning of the Value property.
+    types:
+    - uid: string
+    name: key
+  - description: The additional information included with the error response.
+    types:
+    - uid: string
+    name: value
 - name: FileProperties
-  description: The file properties.
+  description: The properties of a file on a compute node.
   kind: object
   properties:
   - description: The creation time is not returned for files on Linux compute nodes.
@@ -146,47 +185,6 @@ definitions:
     types:
     - uid: string
     name: fileMode
-- name: BatchError
-  description: An error response received from the Azure Batch service.
-  kind: object
-  properties:
-  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
-    types:
-    - uid: string
-    name: code
-  - description: A message describing the error, intended to be suitable for display in a user interface.
-    types:
-    - uid: ErrorMessage
-    name: message
-  - description: A collection of key-value pairs containing additional details about the error.
-    types:
-    - isArray: true
-      uid: BatchErrorDetail
-    name: values
-- name: ErrorMessage
-  description: A message describing the error, intended to be suitable for display in a user interface.
-  kind: object
-  properties:
-  - description: The language code of the error message
-    types:
-    - uid: string
-    name: lang
-  - description: The text of the message.
-    types:
-    - uid: string
-    name: value
-- name: BatchErrorDetail
-  description: An item of additional information included in an Azure Batch error response.
-  kind: object
-  properties:
-  - description: An identifier specifying the meaning of the Value property.
-    types:
-    - uid: string
-    name: key
-  - description: The additional information included with the error response.
-    types:
-    - uid: string
-    name: value
 examples:
 - request:
     uri: GET https://batch.core.windows.net/jobs/jobId/tasks/taskId/files?recursive=false&api-version=2017-09-01.6.0
@@ -195,7 +193,33 @@ examples:
       name: client-request-id
   responses:
   - statusCode: "200"
-    body: '{"value":[{"name":"startup\\ProcessEnv.cmd","url":"https://account.region.batch.azure.com/jobs/jobId/tasks/taskId/files/startup\\ProcessEnv.cmd","isDirectory":false,"properties":{"creationTime":"2014-09-19T21:56:17.679195Z","lastModified":"2014-09-19T21:56:17.679195Z","contentLength":1813,"contentType":"application/octet-stream"}},{"name":"startup\\stderr.txt","url":"https://account.region.batch.azure.com/jobs/jobId/tasks/taskId/files/startup\\stderr.txt","isDirectory":false,"properties":{"creationTime":"2014-09-19T21:56:17.5590855Z","lastModified":"2014-09-19T21:56:17.5590855Z","contentLength":0,"contentType":"application/octet-stream"}}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "name": "startup\\ProcessEnv.cmd",
+            "url": "https://account.region.batch.azure.com/jobs/jobId/tasks/taskId/files/startup\\ProcessEnv.cmd",
+            "isDirectory": false,
+            "properties": {
+              "creationTime": "2014-09-19T21:56:17.679195Z",
+              "lastModified": "2014-09-19T21:56:17.679195Z",
+              "contentLength": 1813,
+              "contentType": "application/octet-stream"
+            }
+          },
+          {
+            "name": "startup\\stderr.txt",
+            "url": "https://account.region.batch.azure.com/jobs/jobId/tasks/taskId/files/startup\\stderr.txt",
+            "isDirectory": false,
+            "properties": {
+              "creationTime": "2014-09-19T21:56:17.5590855Z",
+              "lastModified": "2014-09-19T21:56:17.5590855Z",
+              "contentLength": 0,
+              "contentType": "application/octet-stream"
+            }
+          }
+        ]
+      }
   name: File list from task
 security: []
 name: ListFromTask

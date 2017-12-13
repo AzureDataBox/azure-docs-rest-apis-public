@@ -48,15 +48,31 @@ requestBody:
     isRequired: true
     description: The list of alert IDs to be cleared
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: alerts
 requestHeader: []
-definitions: []
+definitions:
+- name: ClearAlertRequest
+  description: The request for clearing the alert
+  kind: object
+  properties:
+  - description: The resolution message while clearing the alert
+    types:
+    - uid: string
+    name: resolutionMessage
+  - description: The list of alert IDs to be cleared
+    types:
+    - uid: string
+    name: alerts
 examples:
 - request:
     uri: POST https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/clearAlerts?api-version=2017-06-01
-    requestBody: '{"alerts":["/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/alerts/308b5bd2-824b-436f-840e-44bde075ef33"]}'
+    body: >-
+      {
+        "alerts": [
+          "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/alerts/308b5bd2-824b-436f-840e-44bde075ef33"
+        ]
+      }
   responses:
   - statusCode: "204"
     body: "\"\""

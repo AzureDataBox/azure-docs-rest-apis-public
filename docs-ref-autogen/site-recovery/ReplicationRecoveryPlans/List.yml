@@ -47,15 +47,14 @@ definitions:
   properties:
   - description: The list of recovery plans.
     types:
-    - isArray: true
-      uid: RecoveryPlan
+    - uid: RecoveryPlan
     name: value
   - description: The value of next link.
     types:
     - uid: string
     name: nextLink
 - name: RecoveryPlan
-  description: Recovery plan details.
+  description: The list of recovery plans.
   kind: object
   properties:
   - description: The custom details.
@@ -111,13 +110,11 @@ definitions:
     name: failoverDeploymentModel
   - description: The list of replication providers.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: replicationProviders
   - description: The list of allowed operations.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: allowedOperations
   - description: The start time of the last planned failover.
     types:
@@ -145,8 +142,7 @@ definitions:
     name: currentScenarioStatusDescription
   - description: The recovery plan groups.
     types:
-    - isArray: true
-      uid: RecoveryPlanGroup
+    - uid: RecoveryPlanGroup
     name: groups
 - name: CurrentScenarioDetails
   description: The current scenario details.
@@ -165,7 +161,7 @@ definitions:
     - uid: string
     name: startTime
 - name: RecoveryPlanGroup
-  description: Recovery plan group details.
+  description: The recovery plan groups.
   kind: object
   properties:
   - description: The group type.
@@ -174,18 +170,15 @@ definitions:
     name: groupType
   - description: The list of protected items.
     types:
-    - isArray: true
-      uid: RecoveryPlanProtectedItem
+    - uid: RecoveryPlanProtectedItem
     name: replicationProtectedItems
   - description: The start group actions.
     types:
-    - isArray: true
-      uid: RecoveryPlanAction
+    - uid: RecoveryPlanAction
     name: startGroupActions
   - description: The end group actions.
     types:
-    - isArray: true
-      uid: RecoveryPlanAction
+    - uid: RecoveryPlanAction
     name: endGroupActions
 - name: RecoveryPlanGroupType
   description: The group type.
@@ -201,7 +194,7 @@ definitions:
     - uid: string
     name: Failover
 - name: RecoveryPlanProtectedItem
-  description: Recovery plan protected item.
+  description: The list of protected items.
   kind: object
   properties:
   - description: The ARM Id of the recovery plan protected item.
@@ -213,7 +206,7 @@ definitions:
     - uid: string
     name: virtualMachineId
 - name: RecoveryPlanAction
-  description: Recovery plan action details.
+  description: The start group actions.
   kind: object
   properties:
   - description: The action name.
@@ -222,13 +215,11 @@ definitions:
     name: actionName
   - description: The list of failover types.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: failoverTypes
   - description: The list of failover directions.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: failoverDirections
   - description: The custom details.
     types:
@@ -259,16 +250,6 @@ definitions:
     - uid: ScriptActionDetails
     typesTitle: string
     name: instanceType
-- name: RecoveryPlanActionLocation
-  description: The fabric location.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Primary
-  - types:
-    - uid: string
-    name: Recovery
 - name: RecoveryPlanAutomationRunbookActionDetails
   description: Recovery plan Automation runbook action details.
   kind: object
@@ -305,12 +286,48 @@ definitions:
     - uid: ManualActionDetails
     typesTitle: string
     name: instanceType
+- name: RecoveryPlanActionLocation
+  description: The fabric location.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Primary
+  - types:
+    - uid: string
+    name: Recovery
 examples:
 - request:
     uri: GET https://management.azure.com/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationRecoveryPlans?api-version=2016-08-10
   responses:
   - statusCode: "200"
-    body: '{"value":[{"id":"/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationRecoveryPlans/RPtest1","name":"RPtest1","type":"Microsoft.RecoveryServices/vaults/replicationRecoveryPlans","properties":{"friendlyName":"RPtest1","primaryFabricId":"/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1","primaryFabricFriendlyName":"cloud1","recoveryFabricId":"Microsoft Azure","recoveryFabricFriendlyName":"Microsoft Azure","failoverDeploymentModel":"ResourceManager","replicationProviders":["HyperVReplicaAzure"],"allowedOperations":["PlannedFailover","UnplannedFailover","TestFailover"],"groups":[]}}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationRecoveryPlans/RPtest1",
+            "name": "RPtest1",
+            "type": "Microsoft.RecoveryServices/vaults/replicationRecoveryPlans",
+            "properties": {
+              "friendlyName": "RPtest1",
+              "primaryFabricId": "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1",
+              "primaryFabricFriendlyName": "cloud1",
+              "recoveryFabricId": "Microsoft Azure",
+              "recoveryFabricFriendlyName": "Microsoft Azure",
+              "failoverDeploymentModel": "ResourceManager",
+              "replicationProviders": [
+                "HyperVReplicaAzure"
+              ],
+              "allowedOperations": [
+                "PlannedFailover",
+                "UnplannedFailover",
+                "TestFailover"
+              ],
+              "groups": []
+            }
+          }
+        ]
+      }
   name: Gets the list of recovery plans.
 security:
 - type: oauth2

@@ -60,8 +60,7 @@ definitions:
   properties:
   - description: A list of workflow runs.
     types:
-    - isArray: true
-      uid: WorkflowRun
+    - uid: WorkflowRun
     name: value
   - description: The URL to get the next set of results.
     types:
@@ -85,46 +84,46 @@ definitions:
     description: Gets the start time.
     types:
     - uid: string
-    name: startTime
+    name: properties.startTime
   - isReadyOnly: true
     description: Gets the end time.
     types:
     - uid: string
-    name: endTime
+    name: properties.endTime
   - isReadyOnly: true
     description: Gets the status.
     types:
     - uid: WorkflowStatus
-    name: status
+    name: properties.status
   - isReadyOnly: true
     description: Gets the code.
     types:
     - uid: string
-    name: code
+    name: properties.code
   - isReadyOnly: true
     description: Gets the error.
     types:
     - uid: Object
-    name: error
+    name: properties.error
   - isReadyOnly: true
     description: Gets the correlation id.
     types:
     - uid: string
-    name: correlationId
+    name: properties.correlationId
   - description: The run correlation.
     types:
     - uid: Correlation
-    name: correlation
+    name: properties.correlation
   - isReadyOnly: true
     description: Gets the reference to workflow version.
     types:
     - uid: ResourceReference
-    name: workflow
+    name: properties.workflow
   - isReadyOnly: true
     description: Gets the fired trigger.
     types:
     - uid: WorkflowRunTrigger
-    name: trigger
+    name: properties.trigger
   - isReadyOnly: true
     description: Gets the outputs.
     types:
@@ -133,12 +132,12 @@ definitions:
       - uid: string
       - uid: WorkflowOutputParameter
       uid: object
-    name: outputs
+    name: properties.outputs
   - isReadyOnly: true
     description: Gets the response of the flow run.
     types:
     - uid: WorkflowRunTrigger
-    name: response
+    name: properties.response
   - isReadyOnly: true
     description: The resource id.
     types:
@@ -188,7 +187,6 @@ definitions:
     - uid: string
     name: Ignored
 - name: Object
-  description: Gets the error.
   kind: object
   properties: []
 - name: Correlation
@@ -200,7 +198,7 @@ definitions:
     - uid: string
     name: clientTrackingId
 - name: ResourceReference
-  description: Gets the reference to workflow version.
+  description: The resource reference.
   kind: object
   properties:
   - isReadyOnly: true
@@ -286,8 +284,16 @@ definitions:
     types:
     - uid: Object
     name: trackedProperties
+- name: Outputs
+  description: Gets the outputs.
+  kind: object
+  properties:
+  - description: The workflow output parameter.
+    types:
+    - uid: WorkflowOutputParameter
+    name: ''
 - name: ContentLink
-  description: Gets the link to inputs.
+  description: Gets the link to input parameters.
   kind: object
   properties:
   - description: The content link URI.
@@ -310,26 +316,6 @@ definitions:
     types:
     - uid: Object
     name: metadata
-- name: ContentHash
-  description: The content hash.
-  kind: object
-  properties:
-  - description: The algorithm of the content hash.
-    types:
-    - uid: string
-    name: algorithm
-  - description: The value of the content hash.
-    types:
-    - uid: string
-    name: value
-- name: Outputs
-  description: Gets the outputs.
-  kind: object
-  properties:
-  - description: The workflow output parameter.
-    types:
-    - uid: WorkflowOutputParameter
-    name: ''
 - name: WorkflowOutputParameter
   description: The workflow output parameter.
   kind: object
@@ -355,6 +341,18 @@ definitions:
     types:
     - uid: string
     name: description
+- name: ContentHash
+  description: The content hash.
+  kind: object
+  properties:
+  - description: The algorithm of the content hash.
+    types:
+    - uid: string
+    name: algorithm
+  - description: The value of the content hash.
+    types:
+    - uid: string
+    name: value
 - name: ParameterType
   description: The type.
   kind: enum

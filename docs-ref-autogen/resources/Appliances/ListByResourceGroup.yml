@@ -46,13 +46,28 @@ definitions:
   properties:
   - description: The array of appliances.
     types:
-    - isArray: true
-      uid: Appliance
+    - uid: Appliance
     name: value
   - description: The URL to use for getting the next set of results.
     types:
     - uid: string
     name: nextLink
+- name: ErrorResponse
+  description: Error reponse indicates ARM appliance is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - description: Http status code.
+    types:
+    - uid: string
+    name: httpStatus
+  - description: Error code.
+    types:
+    - uid: string
+    name: errorCode
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: errorMessage
 - name: Appliance
   description: Information about appliance.
   kind: object
@@ -68,29 +83,29 @@ definitions:
   - description: The managed resource group Id.
     types:
     - uid: string
-    name: managedResourceGroupId
+    name: properties.managedResourceGroupId
   - description: The fully qualified path of appliance definition Id.
     types:
     - uid: string
-    name: applianceDefinitionId
+    name: properties.applianceDefinitionId
   - description: Name and value pairs that define the appliance parameters. It can be a JObject or a well formed JSON string.
     types:
     - uid: object
-    name: parameters
+    name: properties.parameters
   - isReadyOnly: true
     description: Name and value pairs that define the appliance outputs.
     types:
     - uid: object
-    name: outputs
+    name: properties.outputs
   - isReadyOnly: true
     description: The appliance provisioning state.
     types:
     - uid: ProvisioningState
-    name: provisioningState
+    name: properties.provisioningState
   - description: The blob URI where the UI definition file is located.
     types:
     - uid: string
-    name: uiDefinitionUri
+    name: properties.uiDefinitionUri
   - description: ID of the resource that manages this resource.
     types:
     - uid: string
@@ -244,28 +259,58 @@ definitions:
   - types:
     - uid: string
     name: SystemAssigned
-- name: ErrorResponse
-  description: Error reponse indicates ARM appliance is not able to process the incoming request. The reason is provided in the error message.
-  kind: object
-  properties:
-  - description: Http status code.
-    types:
-    - uid: string
-    name: httpStatus
-  - description: Error code.
-    types:
-    - uid: string
-    name: errorCode
-  - description: Error message indicating why the operation failed.
-    types:
-    - uid: string
-    name: errorMessage
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/appliances?api-version=2016-09-01-preview
   responses:
   - statusCode: "200"
-    body: '{"value":[{"name":"myAppliance","id":"/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/appliances/myAppliance","type":"Microsoft.Solutions/appliances","location":"East US 2","managedBy":null,"resourceGroup":"rg","tags":null,"plan":null,"identity":null,"kind":"ServiceCatalog","sku":null,"properties":{"applianceDefinitionId":"/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/applianceDefinitions/myAppDef","managedResourceGroupId":"/subscriptions/subid/resourceGroups/myManagedRG","outputs":null,"parameters":null,"provisioningState":"Created","uiDefinitionUri":"https://path/to/applianceCreateUiDefinition.json"}},{"name":"myAppliance2","id":"/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/appliances/myAppliance2","type":"Microsoft.Solutions/appliances","location":"West US","managedBy":null,"resourceGroup":"rg","tags":null,"plan":null,"identity":null,"kind":"ServiceCatalog","sku":null,"properties":{"applianceDefinitionId":"/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/applianceDefinitions/myAppDef2","managedResourceGroupId":"/subscriptions/subid/resourceGroups/myManagedRG","outputs":null,"parameters":null,"provisioningState":"Created","uiDefinitionUri":"https://path/to/applianceCreateUiDefinition.json"}}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "name": "myAppliance",
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/appliances/myAppliance",
+            "type": "Microsoft.Solutions/appliances",
+            "location": "East US 2",
+            "managedBy": null,
+            "resourceGroup": "rg",
+            "tags": null,
+            "plan": null,
+            "identity": null,
+            "kind": "ServiceCatalog",
+            "sku": null,
+            "properties": {
+              "applianceDefinitionId": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/applianceDefinitions/myAppDef",
+              "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG",
+              "outputs": null,
+              "parameters": null,
+              "provisioningState": "Created",
+              "uiDefinitionUri": "https://path/to/applianceCreateUiDefinition.json"
+            }
+          },
+          {
+            "name": "myAppliance2",
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/appliances/myAppliance2",
+            "type": "Microsoft.Solutions/appliances",
+            "location": "West US",
+            "managedBy": null,
+            "resourceGroup": "rg",
+            "tags": null,
+            "plan": null,
+            "identity": null,
+            "kind": "ServiceCatalog",
+            "sku": null,
+            "properties": {
+              "applianceDefinitionId": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/applianceDefinitions/myAppDef2",
+              "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG",
+              "outputs": null,
+              "parameters": null,
+              "provisioningState": "Created",
+              "uiDefinitionUri": "https://path/to/applianceCreateUiDefinition.json"
+            }
+          }
+        ]
+      }
   name: Lists appliances
 security:
 - type: oauth2

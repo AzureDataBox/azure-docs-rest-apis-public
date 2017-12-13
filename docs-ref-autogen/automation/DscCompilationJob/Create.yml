@@ -77,7 +77,7 @@ requestBody:
     description: Gets or sets the configuration.
     types:
     - uid: DscConfigurationAssociationProperty
-    name: configuration
+    name: properties.configuration
   - in: body
     description: Gets or sets the parameters of the job.
     types:
@@ -86,14 +86,22 @@ requestBody:
       - uid: string
       - uid: string
       uid: object
-    name: parameters
+    name: properties.parameters
   - in: body
     description: If a new build version of NodeConfiguration is required.
     types:
     - uid: boolean
-    name: newNodeConfigurationBuildVersionRequired
+    name: properties.newNodeConfigurationBuildVersionRequired
 requestHeader: []
 definitions:
+- name: DscConfigurationAssociationProperty
+  description: The Dsc configuration property associated with the entity.
+  kind: object
+  properties:
+  - description: Gets or sets the name of the Dsc configuration.
+    types:
+    - uid: string
+    name: name
 - name: DscCompilationJob
   description: Definition of the Dsc Compilation job.
   kind: object
@@ -106,55 +114,55 @@ definitions:
   - description: Gets or sets the configuration.
     types:
     - uid: DscConfigurationAssociationProperty
-    name: configuration
+    name: properties.configuration
   - isReadyOnly: true
     description: Gets the compilation job started by.
     types:
     - uid: string
-    name: startedBy
+    name: properties.startedBy
   - isReadyOnly: true
     description: Gets the id of the job.
     types:
     - uid: string
-    name: jobId
+    name: properties.jobId
   - isReadyOnly: true
     description: Gets the creation time of the job.
     types:
     - uid: string
-    name: creationTime
+    name: properties.creationTime
   - description: Gets or sets the status of the job.
     types:
     - uid: JobStatus
-    name: status
+    name: properties.status
   - description: Gets or sets the status details of the job.
     types:
     - uid: string
-    name: statusDetails
+    name: properties.statusDetails
   - isReadyOnly: true
     description: Gets the start time of the job.
     types:
     - uid: string
-    name: startTime
+    name: properties.startTime
   - isReadyOnly: true
     description: Gets the end time of the job.
     types:
     - uid: string
-    name: endTime
+    name: properties.endTime
   - isReadyOnly: true
     description: Gets the exception of the job.
     types:
     - uid: string
-    name: exception
+    name: properties.exception
   - isReadyOnly: true
     description: Gets the last modified time of the job.
     types:
     - uid: string
-    name: lastModifiedTime
+    name: properties.lastModifiedTime
   - isReadyOnly: true
     description: Gets the last status modified time of the job.
     types:
     - uid: string
-    name: lastStatusModifiedTime
+    name: properties.lastStatusModifiedTime
   - description: Gets or sets the parameters of the job.
     types:
     - isDictionary: true
@@ -162,15 +170,55 @@ definitions:
       - uid: string
       - uid: string
       uid: object
-    name: parameters
-- name: DscConfigurationAssociationProperty
-  description: Gets or sets the configuration.
+    name: properties.parameters
+- name: ErrorResponse
+  description: Error response of an operation failure
   kind: object
   properties:
-  - description: Gets or sets the name of the Dsc configuration.
+  - description: Error code
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
+- name: DscCompilationJobCreateParameters
+  description: The parameters supplied to the create compilation job operation.
+  kind: object
+  properties:
+  - description: Gets or sets name of the resource.
     types:
     - uid: string
     name: name
+  - description: Gets or sets the location of the resource.
+    types:
+    - uid: string
+    name: location
+  - description: Gets or sets the tags attached to the resource.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+  - description: Gets or sets the configuration.
+    types:
+    - uid: DscConfigurationAssociationProperty
+    name: properties.configuration
+  - description: Gets or sets the parameters of the job.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: properties.parameters
+  - description: If a new build version of NodeConfiguration is required.
+    types:
+    - uid: boolean
+    name: properties.newNodeConfigurationBuildVersionRequired
 - name: JobStatus
   description: Gets or sets the status of the job.
   kind: enum
@@ -214,25 +262,41 @@ definitions:
   - types:
     - uid: string
     name: Removing
-- name: ErrorResponse
-  description: Error response of an operation failure
-  kind: object
-  properties:
-  - description: Error code
-    types:
-    - uid: string
-    name: code
-  - description: Error message indicating why the operation failed.
-    types:
-    - uid: string
-    name: message
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/compilationjobs/ce6fe3e3-9db3-4096-a6b4-82bfb4c10a9a?api-version=2015-10-31
-    requestBody: '{"properties":{"configuration":{"name":"SetupServer"}}}'
+    body: >-
+      {
+        "properties": {
+          "configuration": {
+            "name": "SetupServer"
+          }
+        }
+      }
   responses:
   - statusCode: "201"
-    body: '{"id":"/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/compilationjobs/ce6fe3e3-9db3-4096-a6b4-82bfb4c10a9a","name":null,"properties":{"jobId":"ce6fe3e3-9db3-4096-a6b4-82bfb4c10a9a","creationTime":"2017-03-28T23:14:26.903+00:00","provisioningState":"Processing","status":"New","statusDetails":"None","startTime":null,"endTime":null,"lastModifiedTime":"2017-03-28T23:14:26.903+00:00","lastStatusModifiedTime":"2017-03-28T23:14:26.903+00:00","exception":null,"parameters":{},"configuration":{"name":"SetupServer"},"runOn":null}}'
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/compilationjobs/ce6fe3e3-9db3-4096-a6b4-82bfb4c10a9a",
+        "name": null,
+        "properties": {
+          "jobId": "ce6fe3e3-9db3-4096-a6b4-82bfb4c10a9a",
+          "creationTime": "2017-03-28T23:14:26.903+00:00",
+          "provisioningState": "Processing",
+          "status": "New",
+          "statusDetails": "None",
+          "startTime": null,
+          "endTime": null,
+          "lastModifiedTime": "2017-03-28T23:14:26.903+00:00",
+          "lastStatusModifiedTime": "2017-03-28T23:14:26.903+00:00",
+          "exception": null,
+          "parameters": {},
+          "configuration": {
+            "name": "SetupServer"
+          },
+          "runOn": null
+        }
+      }
   name: Create or update a DSC Compilation job
 security: []
 name: Create

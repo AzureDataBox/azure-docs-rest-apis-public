@@ -53,13 +53,6 @@ requestBody:
     name: type
 requestHeader: []
 definitions:
-- name: Type
-  description: The resource type. Must be set to Microsoft.Batch/batchAccounts
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Microsoft.Batch/batchAccounts
 - name: CheckNameAvailabilityResult
   description: The CheckNameAvailability operation response.
   kind: object
@@ -79,6 +72,26 @@ definitions:
     types:
     - uid: string
     name: message
+- name: CloudError
+  description: An error response from the Batch service.
+  kind: object
+  properties:
+  - description: An error response from the Batch service.
+    types:
+    - uid: CloudErrorBody
+    name: error
+- name: CheckNameAvailabilityParameters
+  description: Parameters for a check name availability request.
+  kind: object
+  properties:
+  - description: The name to check for availability
+    types:
+    - uid: string
+    name: name
+  - description: The resource type. Must be set to Microsoft.Batch/batchAccounts
+    types:
+    - uid: Type
+    name: type
 - name: NameAvailabilityReason
   description: Gets the reason that a Batch account name could not be used. The Reason element is only returned if NameAvailable is false.
   kind: enum
@@ -89,14 +102,6 @@ definitions:
   - types:
     - uid: string
     name: AlreadyExists
-- name: CloudError
-  description: An error response from the Batch service.
-  kind: object
-  properties:
-  - description: An error response from the Batch service.
-    types:
-    - uid: CloudErrorBody
-    name: error
 - name: CloudErrorBody
   description: An error response from the Batch service.
   kind: object
@@ -115,23 +120,45 @@ definitions:
     name: target
   - description: A list of additional details about the error.
     types:
-    - isArray: true
-      uid: Details
+    - uid: Details
     name: details
+- name: Type
+  description: The resource type. Must be set to Microsoft.Batch/batchAccounts
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Microsoft.Batch/batchAccounts
 examples:
 - request:
     uri: POST https://management.azure.com/subscriptions/subid/providers/Microsoft.Batch/locations/japaneast/checkNameAvailability?api-version=2017-09-01
-    requestBody: '{"name":"newaccountname","type":"Microsoft.Batch/batchAccounts"}'
+    body: >-
+      {
+        "name": "newaccountname",
+        "type": "Microsoft.Batch/batchAccounts"
+      }
   responses:
   - statusCode: "200"
-    body: '{"nameAvailable":true}'
+    body: >-
+      {
+        "nameAvailable": true
+      }
   name: LocationCheckNameAvailability_Available
 - request:
     uri: POST https://management.azure.com/subscriptions/subid/providers/Microsoft.Batch/locations/japaneast/checkNameAvailability?api-version=2017-09-01
-    requestBody: '{"name":"existingaccountname","type":"Microsoft.Batch/batchAccounts"}'
+    body: >-
+      {
+        "name": "existingaccountname",
+        "type": "Microsoft.Batch/batchAccounts"
+      }
   responses:
   - statusCode: "200"
-    body: "{\"nameAvailable\":false,\"reason\":\"AlreadyExists\",\"message\":\"An account named 'existingaccountname' is already in use.\"}"
+    body: >-
+      {
+        "nameAvailable": false,
+        "reason": "AlreadyExists",
+        "message": "An account named 'existingaccountname' is already in use."
+      }
   name: LocationCheckNameAvailability_AlreadyExists
 security:
 - type: oauth2

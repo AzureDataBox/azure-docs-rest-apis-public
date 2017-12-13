@@ -65,7 +65,7 @@ definitions:
     - uid: ManagedClusterUpgradeProfileProperties
     name: properties
 - name: ManagedClusterUpgradeProfileProperties
-  description: Properties of upgrade profile.
+  description: Control plane and agent pool upgrade profiles.
   kind: object
   properties:
   - description: The list of available upgrade versions for the control plane.
@@ -74,11 +74,10 @@ definitions:
     name: controlPlaneProfile
   - description: The list of available upgrade versions for agent pools.
     types:
-    - isArray: true
-      uid: ManagedClusterPoolUpgradeProfile
+    - uid: ManagedClusterPoolUpgradeProfile
     name: agentPoolProfiles
 - name: ManagedClusterPoolUpgradeProfile
-  description: The list of available upgrade versions for the control plane.
+  description: The list of available upgrade versions.
   kind: object
   properties:
   - description: Kubernetes version (major, minor, patch).
@@ -95,8 +94,7 @@ definitions:
     name: osType
   - description: List of orchestrator types and versions available for upgrade.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: upgrades
 - name: ContainerServiceOSTypes
   description: OsType to be used to specify os type. Choose from Linux and Windows. Default to Linux.
@@ -113,7 +111,32 @@ examples:
     uri: GET https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/upgradeProfiles/default?api-version=2017-08-31
   responses:
   - statusCode: "200"
-    body: '{"id":"/subscriptions/subid1/resourcegroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/upgradeprofiles/default","name":"default","properties":{"agentPoolProfiles":[{"kubernetesVersion":"1.7.7","name":"agent","osType":"Linux","upgrades":["1.8.1"]}],"controlPlaneProfile":{"kubernetesVersion":"1.7.7","name":"master","osType":"Linux","upgrades":["1.8.1"]}},"type":"Microsoft.ContainerService/managedClusters/upgradeprofiles"}'
+    body: >-
+      {
+        "id": "/subscriptions/subid1/resourcegroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/upgradeprofiles/default",
+        "name": "default",
+        "properties": {
+          "agentPoolProfiles": [
+            {
+              "kubernetesVersion": "1.7.7",
+              "name": "agent",
+              "osType": "Linux",
+              "upgrades": [
+                "1.8.1"
+              ]
+            }
+          ],
+          "controlPlaneProfile": {
+            "kubernetesVersion": "1.7.7",
+            "name": "master",
+            "osType": "Linux",
+            "upgrades": [
+              "1.8.1"
+            ]
+          }
+        },
+        "type": "Microsoft.ContainerService/managedClusters/upgradeprofiles"
+      }
   name: Get Upgrade Profile for Managed Cluster
 security:
 - type: oauth2

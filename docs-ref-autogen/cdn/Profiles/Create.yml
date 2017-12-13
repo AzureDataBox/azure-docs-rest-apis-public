@@ -77,6 +77,71 @@ requestBody:
     name: tags
 requestHeader: []
 definitions:
+- name: Sku
+  description: The pricing tier (defines a CDN provider, feature list and rate) of the CDN profile.
+  kind: object
+  properties:
+  - description: Name of the pricing tier.
+    types:
+    - uid: SkuName
+    name: name
+- name: Profile
+  description: CDN profile represents the top level resource and the entry point into the CDN API. This allows users to set up a logical grouping of endpoints in addition to creating shared configuration settings and selecting pricing tiers and providers.
+  kind: object
+  properties:
+  - description: The pricing tier (defines a CDN provider, feature list and rate) of the CDN profile.
+    types:
+    - uid: Sku
+    name: sku
+  - isReadyOnly: true
+    description: Resource status of the profile.
+    types:
+    - uid: ProfileResourceState
+    name: properties.resourceState
+  - isReadyOnly: true
+    description: Provisioning status of the profile.
+    types:
+    - uid: string
+    name: properties.provisioningState
+  - isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+  - description: Resource location.
+    types:
+    - uid: string
+    name: location
+  - description: Resource tags.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+- name: ErrorResponse
+  description: Error reponse indicates CDN service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
 - name: SkuName
   description: Name of the pricing tier.
   kind: enum
@@ -112,71 +177,6 @@ definitions:
   - types:
     - uid: string
     name: Disabled
-- name: Profile
-  description: CDN profile represents the top level resource and the entry point into the CDN API. This allows users to set up a logical grouping of endpoints in addition to creating shared configuration settings and selecting pricing tiers and providers.
-  kind: object
-  properties:
-  - description: The pricing tier (defines a CDN provider, feature list and rate) of the CDN profile.
-    types:
-    - uid: Sku
-    name: sku
-  - isReadyOnly: true
-    description: Resource status of the profile.
-    types:
-    - uid: ProfileResourceState
-    name: resourceState
-  - isReadyOnly: true
-    description: Provisioning status of the profile.
-    types:
-    - uid: string
-    name: provisioningState
-  - isReadyOnly: true
-    description: Resource ID.
-    types:
-    - uid: string
-    name: id
-  - isReadyOnly: true
-    description: Resource name.
-    types:
-    - uid: string
-    name: name
-  - isReadyOnly: true
-    description: Resource type.
-    types:
-    - uid: string
-    name: type
-  - description: Resource location.
-    types:
-    - uid: string
-    name: location
-  - description: Resource tags.
-    types:
-    - isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-      uid: object
-    name: tags
-- name: Sku
-  description: The pricing tier (defines a CDN provider, feature list and rate) of the CDN profile.
-  kind: object
-  properties:
-  - description: Name of the pricing tier.
-    types:
-    - uid: SkuName
-    name: name
-- name: ErrorResponse
-  description: Error reponse indicates CDN service is not able to process the incoming request. The reason is provided in the error message.
-  kind: object
-  properties:
-  - description: Error code.
-    types:
-    - uid: string
-    name: code
-  - description: Error message indicating why the operation failed.
-    types:
-    - uid: string
-    name: message
 examples: []
 security:
 - type: oauth2

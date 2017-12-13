@@ -41,8 +41,7 @@ definitions:
   properties:
   - description: Gets a list of route filters in a resource group.
     types:
-    - isArray: true
-      uid: RouteFilter
+    - uid: RouteFilter
     name: value
   - description: The URL to get the next set of results.
     types:
@@ -59,19 +58,17 @@ definitions:
     name: etag
   - description: Collection of RouteFilterRules contained within a route filter.
     types:
-    - isArray: true
-      uid: RouteFilterRule
-    name: rules
+    - uid: RouteFilterRule
+    name: properties.rules
   - description: A collection of references to express route circuit peerings.
     types:
-    - isArray: true
-      uid: SubResource
-    name: peerings
+    - uid: SubResource
+    name: properties.peerings
   - isReadyOnly: true
     description: "The provisioning state of the resource. Possible values are: 'Updating', 'Deleting', 'Succeeded' and 'Failed'."
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -127,23 +124,30 @@ definitions:
   - description: "The access type of the rule. Valid values are: 'Allow', 'Deny'"
     types:
     - uid: Access
-    name: access
+    name: properties.access
   - description: "The rule type of the rule. Valid value is: 'Community'"
     types:
     - uid: RouteFilterRuleType
-    name: routeFilterRuleType
+    name: properties.routeFilterRuleType
   - description: The collection for bgp community values to filter on. e.g. ['12076:5010','12076:5020']
     types:
-    - isArray: true
-      uid: string
-    name: communities
+    - uid: string
+    name: properties.communities
   - isReadyOnly: true
     description: "The provisioning state of the resource. Possible values are: 'Updating', 'Deleting', 'Succeeded' and 'Failed'."
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: Resource ID
+    types:
+    - uid: string
+    name: id
+- name: SubResource
+  description: A collection of references to express route circuit peerings.
+  kind: object
+  properties:
+  - description: Resource ID.
     types:
     - uid: string
     name: id
@@ -164,20 +168,46 @@ definitions:
   - types:
     - uid: string
     name: Community
-- name: SubResource
-  description: Reference to another subresource.
-  kind: object
-  properties:
-  - description: Resource ID.
-    types:
-    - uid: string
-    name: id
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/routeFilters?api-version=2017-09-01
   responses:
   - statusCode: "200"
-    body: '{"value":[{"id":"/subscriptions/subid/resourceGroups/rg1/providers/Microsofot.Network/routeFilters/filterName","etag":"w/\\00000000-0000-0000-0000-000000000000\\","location":"West US","name":"filterName","type":"Microsofot.Network/routeFilters","tags":{"key1":"value1"},"properties":{"provisioningState":"Succeeded","rules":[{"id":"/subscriptions/subid/resourceGroups/rg1/providers/Microsofot.Network/routeFilters/filterName/routeFilterRules/ruleName","etag":"w/\\00000000-0000-0000-0000-000000000000\\","name":"ruleName","properties":{"provisioningState":"Succeeded","access":"Allow","routeFilterRuleType":"Community","communities":["12076:5030","12076:5040"]}}],"peerings":[]}}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsofot.Network/routeFilters/filterName",
+            "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+            "location": "West US",
+            "name": "filterName",
+            "type": "Microsofot.Network/routeFilters",
+            "tags": {
+              "key1": "value1"
+            },
+            "properties": {
+              "provisioningState": "Succeeded",
+              "rules": [
+                {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsofot.Network/routeFilters/filterName/routeFilterRules/ruleName",
+                  "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+                  "name": "ruleName",
+                  "properties": {
+                    "provisioningState": "Succeeded",
+                    "access": "Allow",
+                    "routeFilterRuleType": "Community",
+                    "communities": [
+                      "12076:5030",
+                      "12076:5040"
+                    ]
+                  }
+                }
+              ],
+              "peerings": []
+            }
+          }
+        ]
+      }
   name: RouteFilterListByResourceGroup
 security:
 - type: oauth2

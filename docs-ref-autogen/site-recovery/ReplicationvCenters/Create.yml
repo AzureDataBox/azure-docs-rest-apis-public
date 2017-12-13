@@ -62,8 +62,32 @@ requestBody:
     name: properties
 requestHeader: []
 definitions:
+- name: AddVCenterRequestProperties
+  description: The properties of an add vCenter request.
+  kind: object
+  properties:
+  - description: The friendly name of the vCenter.
+    types:
+    - uid: string
+    name: friendlyName
+  - description: The IP address of the vCenter to be discovered.
+    types:
+    - uid: string
+    name: ipAddress
+  - description: The process server Id from where the discovery is orchestrated.
+    types:
+    - uid: string
+    name: processServerId
+  - description: The port number for discovery.
+    types:
+    - uid: string
+    name: port
+  - description: The account Id which has privileges to discover the vCenter.
+    types:
+    - uid: string
+    name: runAsAccountId
 - name: VCenter
-  description: vCenter definition.
+  description: The vCenter details.
   kind: object
   properties:
   - description: VCenter related data.
@@ -89,6 +113,14 @@ definitions:
     types:
     - uid: string
     name: location
+- name: AddVCenterRequest
+  description: Input required to add vCenter.
+  kind: object
+  properties:
+  - description: The properties of an add vCenter request.
+    types:
+    - uid: AddVCenterRequestProperties
+    name: properties
 - name: VCenterProperties
   description: VCenter related data.
   kind: object
@@ -136,10 +168,34 @@ definitions:
 examples:
 - request:
     uri: PUT https://management.azure.com/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/MadhaviVRG/providers/Microsoft.RecoveryServices/vaults/MadhaviVault/replicationFabrics/MadhaviFabric/replicationvCenters/esx-78?api-version=2016-08-10
-    requestBody: '{"properties":{"friendlyName":"esx-78","ipAddress":"inmtest78","processServerId":"5A720CAB-39CB-F445-BD1662B0B33164B5","port":"443","runAsAccountId":"2"}}'
+    body: >-
+      {
+        "properties": {
+          "friendlyName": "esx-78",
+          "ipAddress": "inmtest78",
+          "processServerId": "5A720CAB-39CB-F445-BD1662B0B33164B5",
+          "port": "443",
+          "runAsAccountId": "2"
+        }
+      }
   responses:
   - statusCode: "200"
-    body: '{"name":"esx-78","type":"Microsoft.RecoveryServices/vaults/replicationFabrics/replicationvCenters","id":"/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/MadhaviVRG/providers/Microsoft.RecoveryServices/vaults/MadhaviVault/replicationFabrics/239f778f368e34f78216d81f030725cdf2033174b47879b9f2eeede06fdd9c4d/replicationvCenters/esx-78","properties":{"friendlyName":"esx-78","internalId":"inmtest78","discoveryStatus":"Pending","processServerId":"5A720CAB-39CB-F445-BD1662B0B33164B5","ipAddress":"inmtest78","port":"443","runAsAccountId":"2","fabricArmResourceName":"239f778f368e34f78216d81f030725cdf2033174b47879b9f2eeede06fdd9c4d"}}'
+    body: >-
+      {
+        "name": "esx-78",
+        "type": "Microsoft.RecoveryServices/vaults/replicationFabrics/replicationvCenters",
+        "id": "/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/MadhaviVRG/providers/Microsoft.RecoveryServices/vaults/MadhaviVault/replicationFabrics/239f778f368e34f78216d81f030725cdf2033174b47879b9f2eeede06fdd9c4d/replicationvCenters/esx-78",
+        "properties": {
+          "friendlyName": "esx-78",
+          "internalId": "inmtest78",
+          "discoveryStatus": "Pending",
+          "processServerId": "5A720CAB-39CB-F445-BD1662B0B33164B5",
+          "ipAddress": "inmtest78",
+          "port": "443",
+          "runAsAccountId": "2",
+          "fabricArmResourceName": "239f778f368e34f78216d81f030725cdf2033174b47879b9f2eeede06fdd9c4d"
+        }
+      }
   - statusCode: "202"
   name: Add vCenter.
 security:

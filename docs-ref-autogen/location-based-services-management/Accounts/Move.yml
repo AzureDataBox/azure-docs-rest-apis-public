@@ -47,8 +47,7 @@ requestBody:
     isRequired: true
     description: A list of resource names to move from the source resource group.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: resourceIds
 requestHeader: []
 definitions:
@@ -74,10 +73,22 @@ definitions:
   - isReadyOnly: true
     description: If available, a list of additional details about the error.
     types:
-    - isArray: true
-      uid: Details
+    - uid: Details
     name: details
+- name: LocationBasedServicesAccountsMoveRequest
+  description: The description of what resources to move between resource groups.
+  kind: object
+  properties:
+  - description: The name of the destination resource group.
+    types:
+    - uid: string
+    name: targetResourceGroup
+  - description: A list of resource names to move from the source resource group.
+    types:
+    - uid: string
+    name: resourceIds
 - name: Details
+  description: If available, a list of additional details about the error.
   kind: object
   properties:
   - isReadyOnly: true
@@ -98,7 +109,14 @@ definitions:
 examples:
 - request:
     uri: POST https://management.azure.com/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/moveResources?api-version=2017-01-01-preview
-    requestBody: '{"targetResourceGroup":"/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup2","resourceIds":["/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.LocationBasedServices/accounts/myLBSAccount","/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.LocationBasedServices/accounts/myLBSAccount2"]}'
+    body: >-
+      {
+        "targetResourceGroup": "/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup2",
+        "resourceIds": [
+          "/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.LocationBasedServices/accounts/myLBSAccount",
+          "/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.LocationBasedServices/accounts/myLBSAccount2"
+        ]
+      }
   responses:
   - statusCode: "200"
   name: MoveAccounts

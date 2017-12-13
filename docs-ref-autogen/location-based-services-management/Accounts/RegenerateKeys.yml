@@ -55,16 +55,6 @@ requestBody:
     name: keyType
 requestHeader: []
 definitions:
-- name: KeyType
-  description: Whether the operation refers to the primary or secondary key.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: primary
-  - types:
-    - uid: string
-    name: secondary
 - name: LocationBasedServicesAccountKeys
   description: The set of keys which can be used to access the Location Based Services REST APIs. Two keys are provided for key rotation without interruption.
   kind: object
@@ -106,10 +96,18 @@ definitions:
   - isReadyOnly: true
     description: If available, a list of additional details about the error.
     types:
-    - isArray: true
-      uid: Details
+    - uid: Details
     name: details
+- name: LocationBasedServicesKeySpecification
+  description: Whether the operation refers to the primary or secondary key.
+  kind: object
+  properties:
+  - description: Whether the operation refers to the primary or secondary key.
+    types:
+    - uid: KeyType
+    name: keyType
 - name: Details
+  description: If available, a list of additional details about the error.
   kind: object
   properties:
   - isReadyOnly: true
@@ -127,13 +125,31 @@ definitions:
     types:
     - uid: string
     name: target
+- name: KeyType
+  description: Whether the operation refers to the primary or secondary key.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: primary
+  - types:
+    - uid: string
+    name: secondary
 examples:
 - request:
     uri: POST https://management.azure.com/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.LocationBasedServices/accounts/myLBSAccount/regenerateKey?api-version=2017-01-01-preview
-    requestBody: '{"keyType":"primary"}'
+    body: >-
+      {
+        "keyType": "primary"
+      }
   responses:
   - statusCode: "200"
-    body: '{"id":"/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.LocationBasedServices/accounts/myLBSAccount","primaryKey":"uj0yqjjz8zG3IOSWvb_smi1q1QenGtupAqrOA1zCO6s","secondaryKey":"cJHpmUGNaGGO8H59p6NKGhfff9VjD278-2bi5wo0_mU"}'
+    body: >-
+      {
+        "id": "/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.LocationBasedServices/accounts/myLBSAccount",
+        "primaryKey": "uj0yqjjz8zG3IOSWvb_smi1q1QenGtupAqrOA1zCO6s",
+        "secondaryKey": "cJHpmUGNaGGO8H59p6NKGhfff9VjD278-2bi5wo0_mU"
+      }
   - statusCode: "404"
   name: RegenerateKey
 security:

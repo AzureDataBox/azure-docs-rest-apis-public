@@ -66,11 +66,34 @@ definitions:
     name: nextLink
   - description: Job list
     types:
-    - isArray: true
-      uid: JobResponse
+    - uid: JobResponse
     name: value
+- name: ErrorResponse
+  description: Response when errors occurred
+  kind: object
+  properties:
+  - description: Provides information about the error code.
+    types:
+    - uid: string
+    name: error.code
+  - description: Provides information about the error message.
+    types:
+    - uid: string
+    name: error.message
+  - description: Provides information about the error target.
+    types:
+    - uid: string
+    name: error.target
+  - description: Describes the error details if present.
+    types:
+    - uid: Details
+    name: error.details
+  - description: Inner error object if present.
+    types:
+    - uid: object
+    name: error.innererror
 - name: JobResponse
-  description: Contains the job information.
+  description: Job list
   kind: object
   properties:
   - isReadyOnly: true
@@ -100,6 +123,22 @@ definitions:
     types:
     - uid: JobDetails
     name: properties
+- name: Details
+  description: Describes the error details if present.
+  kind: object
+  properties:
+  - description: Provides information about the error code.
+    types:
+    - uid: string
+    name: code
+  - description: Provides information about the error target.
+    types:
+    - uid: string
+    name: target
+  - description: Provides information about the error message.
+    types:
+    - uid: string
+    name: message
 - name: JobDetails
   description: Specifies the job properties
   kind: object
@@ -162,8 +201,7 @@ definitions:
     name: incompleteBlobListUri
   - description: List of up to ten drives that comprise the job. The drive list is a required element for an import job; it is not specified for export jobs.
     types:
-    - isArray: true
-      uid: DriveStatus
+    - uid: DriveStatus
     name: driveList
   - description: A property containing information about the blobs to be exported for an export job. This property is included for export jobs only.
     types:
@@ -282,7 +320,7 @@ definitions:
     - uid: string
     name: shipDate
 - name: DriveStatus
-  description: Provides information about the drive's status
+  description: List of up to ten drives that comprise the job. The drive list is a required element for an import job; it is not specified for export jobs.
   kind: object
   properties:
   - description: The drive's hardware serial number, without spaces.
@@ -333,6 +371,22 @@ definitions:
     types:
     - uid: integer
     name: bytesSucceeded
+- name: Export
+  description: A property containing information about the blobs to be exported for an export job. This property is included for export jobs only.
+  kind: object
+  properties:
+  - description: 'The relative URI to the block blob that contains the list of blob paths or blob path prefixes as defined above, beginning with the container name. If the blob is in root container, the URI must begin with $root. '
+    types:
+    - uid: string
+    name: blobListblobPath
+  - description: A collection of blob-path strings.
+    types:
+    - uid: string
+    name: blobList.blobPath
+  - description: A collection of blob-prefix strings.
+    types:
+    - uid: string
+    name: blobList.blobPathPrefix
 - name: DriveState
   description: "The drive's current state. "
   kind: enum
@@ -358,70 +412,59 @@ definitions:
   - types:
     - uid: string
     name: ShippedBack
-- name: Export
-  description: A property containing information about the blobs to be exported for an export job. This property is included for export jobs only.
-  kind: object
-  properties:
-  - description: 'The relative URI to the block blob that contains the list of blob paths or blob path prefixes as defined above, beginning with the container name. If the blob is in root container, the URI must begin with $root. '
-    types:
-    - uid: string
-    name: blobListblobPath
-  - description: A collection of blob-path strings.
-    types:
-    - isArray: true
-      uid: string
-    name: blobPath
-  - description: A collection of blob-prefix strings.
-    types:
-    - isArray: true
-      uid: string
-    name: blobPathPrefix
-- name: ErrorResponse
-  description: Response when errors occurred
-  kind: object
-  properties:
-  - description: Provides information about the error code.
-    types:
-    - uid: string
-    name: code
-  - description: Provides information about the error message.
-    types:
-    - uid: string
-    name: message
-  - description: Provides information about the error target.
-    types:
-    - uid: string
-    name: target
-  - description: Describes the error details if present.
-    types:
-    - isArray: true
-      uid: Details
-    name: details
-  - description: Inner error object if present.
-    types:
-    - uid: object
-    name: innererror
-- name: Details
-  kind: object
-  properties:
-  - description: Provides information about the error code.
-    types:
-    - uid: string
-    name: code
-  - description: Provides information about the error target.
-    types:
-    - uid: string
-    name: target
-  - description: Provides information about the error message.
-    types:
-    - uid: string
-    name: message
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/resourceGroups/Default-Storage-WestUS/providers/Microsoft.ImportExport/jobs?api-version=2016-11-01
   responses:
   - statusCode: "200"
-    body: '{"value":[{"properties":{"storageAccountId":"/subscriptions/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/resourceGroups/Default-Storage-WestUS/providers/Microsoft.ClassicStorage/storageAccounts/xtprodtestwu","jobType":"Import","returnAddress":{"recipientName":"La","streetAddress1":"Street1","streetAddress2":"street2","city":"Redmond","stateOrProvince":"wa","postalCode":"98007","countryOrRegion":"USA","phone":"4250000000","email":"test@contoso.com"},"shippingInformation":{"recipientName":"Microsoft Azure Import/Export Service","streetAddress1":"2045 Lafayette Street","streetAddress2":"","city":"Santa Clara","stateOrProvince":"CA","postalCode":"95050","countryOrRegion":"USA","phone":"408 352 7600"},"deliveryPackage":{"carrierName":"FedEx","trackingNumber":"787895108176","driveCount":1,"shipDate":"9/29/2017 10:28:35 PM"},"diagnosticsPath":"waimportexport","logLevel":"Verbose","backupDriveManifest":true,"cancelRequested":false,"state":"Received","provisioningState":"Succeeded"},"id":"/subscriptions/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/resourceGroups/Default-Storage-WestUS/providers/Microsoft.ImportExport/jobs/test-by1-ssd-2","name":"test-by1-ssd-2","type":"Microsoft.ImportExport/jobs","location":"West US"}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "storageAccountId": "/subscriptions/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/resourceGroups/Default-Storage-WestUS/providers/Microsoft.ClassicStorage/storageAccounts/xtprodtestwu",
+              "jobType": "Import",
+              "returnAddress": {
+                "recipientName": "La",
+                "streetAddress1": "Street1",
+                "streetAddress2": "street2",
+                "city": "Redmond",
+                "stateOrProvince": "wa",
+                "postalCode": "98007",
+                "countryOrRegion": "USA",
+                "phone": "4250000000",
+                "email": "test@contoso.com"
+              },
+              "shippingInformation": {
+                "recipientName": "Microsoft Azure Import/Export Service",
+                "streetAddress1": "2045 Lafayette Street",
+                "streetAddress2": "",
+                "city": "Santa Clara",
+                "stateOrProvince": "CA",
+                "postalCode": "95050",
+                "countryOrRegion": "USA",
+                "phone": "408 352 7600"
+              },
+              "deliveryPackage": {
+                "carrierName": "FedEx",
+                "trackingNumber": "787895108176",
+                "driveCount": 1,
+                "shipDate": "9/29/2017 10:28:35 PM"
+              },
+              "diagnosticsPath": "waimportexport",
+              "logLevel": "Verbose",
+              "backupDriveManifest": true,
+              "cancelRequested": false,
+              "state": "Received",
+              "provisioningState": "Succeeded"
+            },
+            "id": "/subscriptions/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/resourceGroups/Default-Storage-WestUS/providers/Microsoft.ImportExport/jobs/test-by1-ssd-2",
+            "name": "test-by1-ssd-2",
+            "type": "Microsoft.ImportExport/jobs",
+            "location": "West US"
+          }
+        ]
+      }
   name: List jobs in a resource group
 security:
 - type: oauth2

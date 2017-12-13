@@ -48,7 +48,7 @@ responses:
 requestHeader: []
 definitions:
 - name: Event
-  description: Implements the Event class.
+  description: The list of events.
   kind: object
   properties:
   - description: Event related data.
@@ -123,11 +123,10 @@ definitions:
     name: eventSpecificDetails
   - description: The list of errors / warnings capturing details associated with the issue(s).
     types:
-    - isArray: true
-      uid: HealthError
+    - uid: HealthError
     name: healthErrors
 - name: HealthError
-  description: Health Error
+  description: The list of errors / warnings capturing details associated with the issue(s).
   kind: object
   properties:
   - description: Source of error.
@@ -172,8 +171,7 @@ definitions:
     name: entityId
   - description: The child health errors.
     types:
-    - isArray: true
-      uid: ChildErrors
+    - uid: ChildErrors
     name: childErrors
 - name: HyperVReplicaBaseEventDetails
   description: Abstract model class for event details of a HyperVReplica E2E event.
@@ -378,7 +376,28 @@ examples:
     uri: GET https://management.azure.com/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationEvents/654b71d0-b2ce-4e6e-a861-98528d4bd375?api-version=2016-08-10
   responses:
   - statusCode: "200"
-    body: '{"type":"Microsoft.RecoveryServices/vaults/replicationEvents","id":"/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationEvents/VmMonitoringEvent;9091989947769704276_516de684-0079-48f7-b44b-882923268654","name":"VmMonitoringEvent;9091989947769704276_516de684-0079-48f7-b44b-882923268654","properties":{"eventCode":"d9a07b07-c7b5-49ca-ab6c-6926596dfe47","description":"Virtual machine health is OK","eventType":"VmHealth","affectedObjectFriendlyName":"vm1","severity":"OK","timeOfOccurrence":"2017-05-02T14:28:28.5071531Z","fabricId":"/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1","providerSpecificDetails":{"instanceType":"HyperVReplicaAzure"},"eventSpecificDetails":{"instanceType":"JobStatusEventDetails"},"healthErrors":[]}}'
+    body: >-
+      {
+        "type": "Microsoft.RecoveryServices/vaults/replicationEvents",
+        "id": "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationEvents/VmMonitoringEvent;9091989947769704276_516de684-0079-48f7-b44b-882923268654",
+        "name": "VmMonitoringEvent;9091989947769704276_516de684-0079-48f7-b44b-882923268654",
+        "properties": {
+          "eventCode": "d9a07b07-c7b5-49ca-ab6c-6926596dfe47",
+          "description": "Virtual machine health is OK",
+          "eventType": "VmHealth",
+          "affectedObjectFriendlyName": "vm1",
+          "severity": "OK",
+          "timeOfOccurrence": "2017-05-02T14:28:28.5071531Z",
+          "fabricId": "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1",
+          "providerSpecificDetails": {
+            "instanceType": "HyperVReplicaAzure"
+          },
+          "eventSpecificDetails": {
+            "instanceType": "JobStatusEventDetails"
+          },
+          "healthErrors": []
+        }
+      }
   name: Get the details of an Azure Site recovery event.
 security:
 - type: oauth2

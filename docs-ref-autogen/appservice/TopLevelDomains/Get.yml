@@ -43,16 +43,21 @@ definitions:
     description: Name of the top level domain.
     types:
     - uid: string
-    name: name
+    name: properties.name
   - description: If <code>true</code>, then the top level domain supports domain privacy; otherwise, <code>false</code>.
     types:
     - uid: boolean
-    name: privacy
+    name: properties.privacy
   - isReadyOnly: true
     description: Resource Id.
     types:
     - uid: string
     name: id
+  - isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+    name: name
   - description: Kind of resource.
     types:
     - uid: string
@@ -67,7 +72,17 @@ examples:
     uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.DomainRegistration/topLevelDomains/com?api-version=2015-04-01
   responses:
   - statusCode: "200"
-    body: '{"id":"/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.DomainRegistration/topLevelDomains/com","name":"com","type":"Microsoft.DomainRegistration/topLevelDomains","location":"global","properties":{"name":"com","privacy":true}}'
+    body: >-
+      {
+        "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.DomainRegistration/topLevelDomains/com",
+        "name": "com",
+        "type": "Microsoft.DomainRegistration/topLevelDomains",
+        "location": "global",
+        "properties": {
+          "name": "com",
+          "privacy": true
+        }
+      }
   name: Get Top Level Domain
 security:
 - type: oauth2

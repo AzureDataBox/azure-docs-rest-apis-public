@@ -94,6 +94,20 @@ definitions:
     types:
     - uid: ViewpResp
     name: viewpResp
+- name: Error
+  description: This object is returned when an error occurs in the Location Based Service API
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+    name: statuscode
+  - isReadyOnly: true
+    description: If available, a human readable description of the error.
+    types:
+    - uid: string
+    name: message
 - name: ViewpResp
   description: Viewport Response object
   kind: object
@@ -132,36 +146,53 @@ definitions:
     types:
     - uid: string
     name: '@trafficModelId'
-- name: Error
-  description: This object is returned when an error occurs in the Location Based Service API
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: Error code.
-    types:
-    - uid: string
-    name: statuscode
-  - isReadyOnly: true
-    description: If available, a human readable description of the error.
-    types:
-    - uid: string
-    name: message
 examples:
 - request:
     uri: GET https://atlas.microsoft.com/traffic/incident/viewport/json?api-version=1.0&boundingbox=-939584.4813015489,-23954526.723651607,14675583.153020501,25043442.895825107&boundingzoom=2&overviewbox=-939584.4813018347,-23954526.723651607,14675583.153020501,25043442.8958229083&overviewzoom=2&copyright=true
   responses:
   - statusCode: "200"
-    body: '{"viewpResp":{"trafficState":{"@trafficAge":18895,"@trafficModelId":"1504808593298"},"copyrightIds":"&copy; 2017 GeoSmart^&copy; 2017 TomTom^&copy; 2017 Whereis","@version":"1.0.51-mascoma","@maps":"europe,taiwan,latam,northamerica,israel,middleeast,iraq,guam,australia,newzealand,india,africa,world,southeastasia"}}'
+    body: >-
+      {
+        "viewpResp": {
+          "trafficState": {
+            "@trafficAge": 18895,
+            "@trafficModelId": "1504808593298"
+          },
+          "copyrightIds": "&copy; 2017 GeoSmart^&copy; 2017 TomTom^&copy; 2017 Whereis",
+          "@version": "1.0.51-mascoma",
+          "@maps": "europe,taiwan,latam,northamerica,israel,middleeast,iraq,guam,australia,newzealand,india,africa,world,southeastasia"
+        }
+      }
   - statusCode: "400"
-    body: '{"statuscode":"400","message":"Bad request: one or more parameters were incorrectly specified or are mutually exclusive."}'
+    body: >-
+      {
+        "statuscode": "400",
+        "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
+      }
   - statusCode: "401"
-    body: '{"statuscode":"401","message":"Unauthorized: Access is denied due to invalid credentials."}'
+    body: >-
+      {
+        "statuscode": "401",
+        "message": "Unauthorized: Access is denied due to invalid credentials."
+      }
   - statusCode: "403"
-    body: '{"statuscode":"403","message":"Permission, capacity, or authentication issues."}'
+    body: >-
+      {
+        "statuscode": "403",
+        "message": "Permission, capacity, or authentication issues."
+      }
   - statusCode: "404"
-    body: '{"statuscode":"404","message":"Not Found: the requested resource could not be found, but it may be available again in the future."}'
+    body: >-
+      {
+        "statuscode": "404",
+        "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
+      }
   - statusCode: "500"
-    body: '{"statuscode":"500","message":"An error occurred while processing the request. Please try again later."}'
+    body: >-
+      {
+        "statuscode": "500",
+        "message": "An error occurred while processing the request. Please try again later."
+      }
   name: GetTrafficIncidentViewport
 security:
 - type: apiKey

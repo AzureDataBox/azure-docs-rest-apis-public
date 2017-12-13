@@ -59,8 +59,7 @@ definitions:
   properties:
   - description: User Identity values.
     types:
-    - isArray: true
-      uid: UserIdentityContract
+    - uid: UserIdentityContract
     name: value
   - description: Total record count number across all pages.
     types:
@@ -70,18 +69,6 @@ definitions:
     types:
     - uid: string
     name: nextLink
-- name: UserIdentityContract
-  description: User identity details.
-  kind: object
-  properties:
-  - description: Identity provider name.
-    types:
-    - uid: string
-    name: provider
-  - description: Identifier value within provider.
-    types:
-    - uid: string
-    name: id
 - name: ErrorResponse
   description: Error Body contract.
   kind: object
@@ -96,9 +83,20 @@ definitions:
     name: message
   - description: The list of invalid fields send in request, in case of validation error.
     types:
-    - isArray: true
-      uid: ErrorFieldContract
+    - uid: ErrorFieldContract
     name: details
+- name: UserIdentityContract
+  description: Collection of user identities.
+  kind: object
+  properties:
+  - description: Identity provider name.
+    types:
+    - uid: string
+    name: provider
+  - description: Identifier value within provider.
+    types:
+    - uid: string
+    name: id
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
@@ -120,7 +118,17 @@ examples:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/57f2af53bb17172280f44057/identities?api-version=2017-03-01
   responses:
   - statusCode: "200"
-    body: '{"value":[{"provider":"Microsoft","id":"086cf9********55ab"}],"count":1,"nextLink":""}'
+    body: >-
+      {
+        "value": [
+          {
+            "provider": "Microsoft",
+            "id": "086cf9********55ab"
+          }
+        ],
+        "count": 1,
+        "nextLink": ""
+      }
   name: ApiManagementListUsersIdentities
 security:
 - type: oauth2

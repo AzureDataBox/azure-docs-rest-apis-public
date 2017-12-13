@@ -98,7 +98,7 @@ requestHeader:
   name: If-Unmodified-Since
 definitions:
 - name: BatchError
-  description: An error response received from the Azure Batch service.
+  description: The error encountered while attempting to add the task.
   kind: object
   properties:
   - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
@@ -111,9 +111,16 @@ definitions:
     name: message
   - description: A collection of key-value pairs containing additional details about the error.
     types:
-    - isArray: true
-      uid: BatchErrorDetail
+    - uid: BatchErrorDetail
     name: values
+- name: PoolUpgradeOSParameter
+  description: Options for upgrading the operating system of compute nodes in a pool.
+  kind: object
+  properties:
+  - description: The Azure Guest OS version to be installed on the virtual machines in the pool.
+    types:
+    - uid: string
+    name: targetOSVersion
 - name: ErrorMessage
   description: A message describing the error, intended to be suitable for display in a user interface.
   kind: object
@@ -127,7 +134,7 @@ definitions:
     - uid: string
     name: value
 - name: BatchErrorDetail
-  description: An item of additional information included in an Azure Batch error response.
+  description: A collection of key-value pairs containing additional details about the error.
   kind: object
   properties:
   - description: An identifier specifying the meaning of the Value property.

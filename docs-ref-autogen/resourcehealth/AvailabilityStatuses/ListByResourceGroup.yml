@@ -55,15 +55,33 @@ definitions:
   properties:
   - description: The list of availabilityStatuses.
     types:
-    - isArray: true
-      uid: availabilityStatus
+    - uid: availabilityStatus
     name: value
   - description: The URI to fetch the next page of availabilityStatuses. Call ListNext() with this URI to fetch the next page of availabilityStatuses.
     types:
     - uid: string
     name: nextLink
+- name: ErrorResponse
+  description: Error details.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+    name: code
+  - isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+    name: message
+  - isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: string
+    name: details
 - name: availabilityStatus
-  description: availabilityStatus of a resource.
+  description: The list of availabilityStatuses.
   kind: object
   properties:
   - description: Azure Resource Manager Identity for the availabilityStatuses resource.
@@ -132,13 +150,11 @@ definitions:
     name: recentlyResolvedState
   - description: Lists actions the user can take based on the current availabilityState of the resource.
     types:
-    - isArray: true
-      uid: recommendedAction
+    - uid: recommendedAction
     name: recommendedActions
   - description: Lists the service impacting events that may be affecting the health of the resource.
     types:
-    - isArray: true
-      uid: serviceImpactingEvent
+    - uid: serviceImpactingEvent
     name: serviceImpactingEvents
 - name: AvailabilityStateValues
   description: Availability status of the resource.
@@ -247,31 +263,73 @@ definitions:
     types:
     - uid: string
     name: incidentType
-- name: ErrorResponse
-  description: Error details.
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: The error code.
-    types:
-    - uid: string
-    name: code
-  - isReadyOnly: true
-    description: The error message.
-    types:
-    - uid: string
-    name: message
-  - isReadyOnly: true
-    description: The error details.
-    types:
-    - uid: string
-    name: details
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/subscriptionId/resourceGroups/resourceGroupName/providers/Microsoft.ResourceHealth/availabilityStatuses?api-version=2015-01-01&$expand=recommendedactions
   responses:
   - statusCode: "200"
-    body: "{\"value\":[{\"id\":\"<resourceId>/providers/Microsoft.ResourceHealth/AvailabilityStatueses/current\",\"name\":\"current\",\"type\":\"Microsoft.ResourceHealth/AvailabilityStatuses\",\"location\":\"eastus\",\"properties\":{\"availabilityState\":\"Available\",\"summary\":\"Vm is available\",\"reasonType\":\"Unplanned\",\"reasonChronicity\":\"Persistent\",\"detailedStatus\":\"We have not seen any issues with your virtual machine\",\"occuredTime\":\"2016-03-29T09:12:00Z\",\"reportedTime\":\"2016-05-04T14:11:29.7598931Z\",\"RecentlyResolved\":{\"UnavailableOccuredTime\":\"2017-02-28T00:48:00Z\",\"ResolvedTime\":\"2017-02-28T00:49:00Z\",\"UnavailableSummary\":\"We are sorry your SQL database is unavailable\"},\"RecommendedActions\":[{\"Action\":\"To start this virtualmachine, open the resource blade and click Start\",\"ActionUrl\":\"<#ResourceBlade>\",\"ActionUrlText\":\"resourceblade\"}]}},{\"id\":\"<resourceId>/providers/Microsoft.ResourceHealth/AvailabilityStatueses/current\",\"name\":\"current\",\"type\":\"Microsoft.ResourceHealth/AvailabilityStatuses\",\"location\":\"eastus\",\"properties\":{\"availabilityState\":\"Unavailable\",\"summary\":\"We are sorry, we couldn't automatically recovery our virtualmachine\",\"reasonType\":\"Unplanned\",\"reasonChronicity\":\"Persistent\",\"detailedStatus\":\"Diskproblemsarepreventingusfromautomaticallyrecoveringyourvirtualmachine\",\"occuredTime\":\"2016-03-29T09:12:00Z\",\"reportedTime\":\"2016-05-04T14:11:29.7598931Z\",\"rootCauseAttributionTime\":\"2016-03-29T09:13:00Z\",\"resolutionETA\":\"2016-03-29T09:37:00Z\",\"RecommendedActions\":[{\"Action\":\"To start this virtualmachine, open the resource blade\",\"ActionUrl\":\"<#ResourceBlade>\",\"ActionUrlText\":\"resourceblade\"},{\"Action\":\"If you are experiencing problems you believe are caused by Azure, contact support\",\"ActionUrl\":\"<#SupportCase>\",\"ActionUrlText\":\"contactsupport\"}]}}],\"nextLink\":\"{originalRequestUrl}?$skipToken={OpaquePageNumber}\"}"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "<resourceId>/providers/Microsoft.ResourceHealth/AvailabilityStatueses/current",
+            "name": "current",
+            "type": "Microsoft.ResourceHealth/AvailabilityStatuses",
+            "location": "eastus",
+            "properties": {
+              "availabilityState": "Available",
+              "summary": "Vm is available",
+              "reasonType": "Unplanned",
+              "reasonChronicity": "Persistent",
+              "detailedStatus": "We have not seen any issues with your virtual machine",
+              "occuredTime": "2016-03-29T09:12:00Z",
+              "reportedTime": "2016-05-04T14:11:29.7598931Z",
+              "RecentlyResolved": {
+                "UnavailableOccuredTime": "2017-02-28T00:48:00Z",
+                "ResolvedTime": "2017-02-28T00:49:00Z",
+                "UnavailableSummary": "We are sorry your SQL database is unavailable"
+              },
+              "RecommendedActions": [
+                {
+                  "Action": "To start this virtualmachine, open the resource blade and click Start",
+                  "ActionUrl": "<#ResourceBlade>",
+                  "ActionUrlText": "resourceblade"
+                }
+              ]
+            }
+          },
+          {
+            "id": "<resourceId>/providers/Microsoft.ResourceHealth/AvailabilityStatueses/current",
+            "name": "current",
+            "type": "Microsoft.ResourceHealth/AvailabilityStatuses",
+            "location": "eastus",
+            "properties": {
+              "availabilityState": "Unavailable",
+              "summary": "We are sorry, we couldn't automatically recovery our virtualmachine",
+              "reasonType": "Unplanned",
+              "reasonChronicity": "Persistent",
+              "detailedStatus": "Diskproblemsarepreventingusfromautomaticallyrecoveringyourvirtualmachine",
+              "occuredTime": "2016-03-29T09:12:00Z",
+              "reportedTime": "2016-05-04T14:11:29.7598931Z",
+              "rootCauseAttributionTime": "2016-03-29T09:13:00Z",
+              "resolutionETA": "2016-03-29T09:37:00Z",
+              "RecommendedActions": [
+                {
+                  "Action": "To start this virtualmachine, open the resource blade",
+                  "ActionUrl": "<#ResourceBlade>",
+                  "ActionUrlText": "resourceblade"
+                },
+                {
+                  "Action": "If you are experiencing problems you believe are caused by Azure, contact support",
+                  "ActionUrl": "<#SupportCase>",
+                  "ActionUrlText": "contactsupport"
+                }
+              ]
+            }
+          }
+        ],
+        "nextLink": "{originalRequestUrl}?$skipToken={OpaquePageNumber}"
+      }
   name: ListByResourceGroup
 security:
 - type: oauth2

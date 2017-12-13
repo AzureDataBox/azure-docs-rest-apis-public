@@ -52,13 +52,24 @@ definitions:
   properties:
   - description: Gets or sets a list of hybrid runbook worker groups.
     types:
-    - isArray: true
-      uid: HybridRunbookWorkerGroup
+    - uid: HybridRunbookWorkerGroup
     name: value
   - description: Gets or sets the next link.
     types:
     - uid: string
     name: nextLink
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - description: Error code
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
 - name: HybridRunbookWorkerGroup
   description: Definition of hybrid runbook worker group.
   kind: object
@@ -73,8 +84,7 @@ definitions:
     name: name
   - description: Gets or sets the list of hybrid runbook workers.
     types:
-    - isArray: true
-      uid: HybridRunbookWorker
+    - uid: HybridRunbookWorker
     name: hybridRunbookWorkers
   - description: Sets the credential of a worker group.
     types:
@@ -97,31 +107,37 @@ definitions:
     - uid: string
     name: registrationTime
 - name: RunAsCredentialAssociationProperty
-  description: Sets the credential of a worker group.
+  description: Definition of runas credential to use for hybrid worker.
   kind: object
   properties:
   - description: Gets or sets the name of the credential.
     types:
     - uid: string
     name: name
-- name: ErrorResponse
-  description: Error response of an operation failure
-  kind: object
-  properties:
-  - description: Error code
-    types:
-    - uid: string
-    name: code
-  - description: Error message indicating why the operation failed.
-    types:
-    - uid: string
-    name: message
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/udtest/providers/Microsoft.Automation/automationAccounts/testaccount/hybridRunbookWorkerGroups?api-version=2015-10-31
   responses:
   - statusCode: "200"
-    body: '{"value":[{"id":"/subscriptions/subid/resourceGroups/udtest/providers/Microsoft.Automation/automationAccounts/testaccount/hybridRunbookWorkerGroups/TestWorkerGroup","name":"TestWorkerGroup","hybridRunbookWorkers":[{"name":"TestMachine","ip":"134.1.1.1","registrationTime":"2017-03-24T19:43:43.053855+00:00"}],"credential":{"name":"myRunAsCredentialName"}}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/udtest/providers/Microsoft.Automation/automationAccounts/testaccount/hybridRunbookWorkerGroups/TestWorkerGroup",
+            "name": "TestWorkerGroup",
+            "hybridRunbookWorkers": [
+              {
+                "name": "TestMachine",
+                "ip": "134.1.1.1",
+                "registrationTime": "2017-03-24T19:43:43.053855+00:00"
+              }
+            ],
+            "credential": {
+              "name": "myRunAsCredentialName"
+            }
+          }
+        ]
+      }
   name: List hybrid worker groups by Automation Account
 security: []
 name: ListByAutomationAccount

@@ -80,6 +80,54 @@ requestHeader:
   format: date-time-rfc1123
   name: ocp-date
 definitions:
+- name: BatchError
+  description: The error encountered while attempting to add the task.
+  kind: object
+  properties:
+  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+    name: code
+  - description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: ErrorMessage
+    name: message
+  - description: A collection of key-value pairs containing additional details about the error.
+    types:
+    - uid: BatchErrorDetail
+    name: values
+- name: NodeRebootParameter
+  description: Options for rebooting a compute node.
+  kind: object
+  properties:
+  - description: The default value is requeue.
+    types:
+    - uid: ComputeNodeRebootOption
+    name: nodeRebootOption
+- name: ErrorMessage
+  description: A message describing the error, intended to be suitable for display in a user interface.
+  kind: object
+  properties:
+  - description: The language code of the error message
+    types:
+    - uid: string
+    name: lang
+  - description: The text of the message.
+    types:
+    - uid: string
+    name: value
+- name: BatchErrorDetail
+  description: A collection of key-value pairs containing additional details about the error.
+  kind: object
+  properties:
+  - description: An identifier specifying the meaning of the Value property.
+    types:
+    - uid: string
+    name: key
+  - description: The additional information included with the error response.
+    types:
+    - uid: string
+    name: value
 - name: ComputeNodeRebootOption
   description: The default value is requeue.
   kind: enum
@@ -100,51 +148,13 @@ definitions:
     types:
     - uid: string
     name: retaineddata
-- name: BatchError
-  description: An error response received from the Azure Batch service.
-  kind: object
-  properties:
-  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
-    types:
-    - uid: string
-    name: code
-  - description: A message describing the error, intended to be suitable for display in a user interface.
-    types:
-    - uid: ErrorMessage
-    name: message
-  - description: A collection of key-value pairs containing additional details about the error.
-    types:
-    - isArray: true
-      uid: BatchErrorDetail
-    name: values
-- name: ErrorMessage
-  description: A message describing the error, intended to be suitable for display in a user interface.
-  kind: object
-  properties:
-  - description: The language code of the error message
-    types:
-    - uid: string
-    name: lang
-  - description: The text of the message.
-    types:
-    - uid: string
-    name: value
-- name: BatchErrorDetail
-  description: An item of additional information included in an Azure Batch error response.
-  kind: object
-  properties:
-  - description: An identifier specifying the meaning of the Value property.
-    types:
-    - uid: string
-    name: key
-  - description: The additional information included with the error response.
-    types:
-    - uid: string
-    name: value
 examples:
 - request:
     uri: POST https://batch.core.windows.net/pools/poolId/nodes/tvm-1695681911_1-20161122t193202z/reboot?api-version=2017-09-01.6.0
-    requestBody: '{"nodeRebootOption":"terminate"}'
+    body: >-
+      {
+        "nodeRebootOption": "terminate"
+      }
     headers:
     - value: 00000000-0000-0000-0000-000000000000
       name: client-request-id

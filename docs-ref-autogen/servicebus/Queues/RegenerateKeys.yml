@@ -70,16 +70,6 @@ requestBody:
     name: key
 requestHeader: []
 definitions:
-- name: KeyType
-  description: The access key to regenerate.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: PrimaryKey
-  - types:
-    - uid: string
-    name: SecondaryKey
 - name: AccessKeys
   description: Namespace/ServiceBus Connection String
   kind: object
@@ -131,13 +121,45 @@ definitions:
     types:
     - uid: string
     name: message
+- name: RegenerateAccessKeyParameters
+  description: Parameters supplied to the Regenerate Authorization Rule operation, specifies which key neeeds to be reset.
+  kind: object
+  properties:
+  - description: The access key to regenerate.
+    types:
+    - uid: KeyType
+    name: keyType
+  - description: Optional, if the key value provided, is reset for KeyType value or autogenerate Key value set for keyType
+    types:
+    - uid: string
+    name: key
+- name: KeyType
+  description: The access key to regenerate.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: PrimaryKey
+  - types:
+    - uid: string
+    name: SecondaryKey
 examples:
 - request:
     uri: POST https://management.azure.com/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.ServiceBus/namespaces/sdk-namespace-7982/queues/sdk-Queues-2317/authorizationRules/sdk-AuthRules-5800/regenerateKeys?api-version=2017-04-01
-    requestBody: '{"keyType":"PrimaryKey"}'
+    body: >-
+      {
+        "keyType": "PrimaryKey"
+      }
   responses:
   - statusCode: "200"
-    body: '{"primaryConnectionString":"Endpoint=sb://sdk-namespace-7982.servicebus.windows-int.net/;SharedAccessKeyName=sdk-AuthRules-5800;SharedAccessKey=############################################;EntityPath=sdk-Queues-2317","secondaryConnectionString":"Endpoint=sb://sdk-namespace-7982.servicebus.windows-int.net/;SharedAccessKeyName=sdk-AuthRules-5800;SharedAccessKey=############################################;EntityPath=sdk-Queues-2317","primaryKey":"############################################","secondaryKey":"############################################","keyName":"sdk-AuthRules-5800"}'
+    body: >-
+      {
+        "primaryConnectionString": "Endpoint=sb://sdk-namespace-7982.servicebus.windows-int.net/;SharedAccessKeyName=sdk-AuthRules-5800;SharedAccessKey=############################################;EntityPath=sdk-Queues-2317",
+        "secondaryConnectionString": "Endpoint=sb://sdk-namespace-7982.servicebus.windows-int.net/;SharedAccessKeyName=sdk-AuthRules-5800;SharedAccessKey=############################################;EntityPath=sdk-Queues-2317",
+        "primaryKey": "############################################",
+        "secondaryKey": "############################################",
+        "keyName": "sdk-AuthRules-5800"
+      }
   name: QueueAuthorizationRuleRegenrateKey
 security:
 - type: oauth2

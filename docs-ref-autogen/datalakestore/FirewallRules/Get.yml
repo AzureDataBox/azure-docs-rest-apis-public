@@ -54,11 +54,11 @@ definitions:
   - description: the start IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
     types:
     - uid: string
-    name: startIpAddress
+    name: properties.startIpAddress
   - description: the end IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
     types:
     - uid: string
-    name: endIpAddress
+    name: properties.endIpAddress
   - isReadyOnly: true
     description: Resource Id
     types:
@@ -78,7 +78,16 @@ examples:
     uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/contosorg/providers/Microsoft.DataLakeStore/accounts/contosoadla/firewallRules/test_rule?api-version=2016-11-01
   responses:
   - statusCode: "200"
-    body: '{"id":"34adfa4f-cedf-4dc0-ba29-b6d1a69ab345","name":"test_rule","type":"test_type","properties":{"startIpAddress":"1.1.1.1","endIpAddress":"2.2.2.2"}}'
+    body: >-
+      {
+        "id": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
+        "name": "test_rule",
+        "type": "test_type",
+        "properties": {
+          "startIpAddress": "1.1.1.1",
+          "endIpAddress": "2.2.2.2"
+        }
+      }
   name: Gets the specified Data Lake Store firewall rule
 security:
 - type: oauth2

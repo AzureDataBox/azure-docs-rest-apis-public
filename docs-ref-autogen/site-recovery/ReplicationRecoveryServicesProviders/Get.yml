@@ -54,7 +54,7 @@ responses:
 requestHeader: []
 definitions:
 - name: RecoveryServicesProvider
-  description: Provider details.
+  description: The Servers details.
   kind: object
   properties:
   - description: Provider properties.
@@ -126,13 +126,11 @@ definitions:
     name: protectedItemCount
   - description: The scenarios allowed on this provider.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: allowedScenarios
   - description: The recovery services provider health error details.
     types:
-    - isArray: true
-      uid: HealthError
+    - uid: HealthError
     name: healthErrorDetails
   - description: The DRA Id.
     types:
@@ -143,7 +141,7 @@ definitions:
     - uid: IdentityInformation
     name: identityDetails
 - name: HealthError
-  description: Health Error
+  description: The list of errors / warnings capturing details associated with the issue(s).
   kind: object
   properties:
   - description: Source of error.
@@ -188,8 +186,7 @@ definitions:
     name: entityId
   - description: The child health errors.
     types:
-    - isArray: true
-      uid: ChildErrors
+    - uid: ChildErrors
     name: childErrors
 - name: IdentityInformation
   description: The identity details.
@@ -238,7 +235,26 @@ examples:
     uri: GET https://management.azure.com/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1/replicationRecoveryServicesProviders/241641e6-ee7b-4ee4-8141-821fadda43fa?api-version=2016-08-10
   responses:
   - statusCode: "200"
-    body: '{"id":"/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1/replicationRecoveryServicesProviders/241641e6-ee7b-4ee4-8141-821fadda43fa","type":"Microsoft.RecoveryServices/vaults/replicationFabrics/replicationRecoveryServicesProviders","name":"241641e6-ee7b-4ee4-8141-821fadda43fa","properties":{"fabricType":"HyperVSite","friendlyName":"CP-B3L40406-12.ntdev.corp.microsoft.com","providerVersion":"5.1.2250.0","serverVersion":"3.2.7510.0","providerVersionState":"Latest","fabricFriendlyName":"cloud1","lastHeartBeat":"2017-04-27T09:16:04.9405768Z","connectionStatus":"Connected","protectedItemCount":2,"allowedScenarios":["Refresh"]}}'
+    body: >-
+      {
+        "id": "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1/replicationRecoveryServicesProviders/241641e6-ee7b-4ee4-8141-821fadda43fa",
+        "type": "Microsoft.RecoveryServices/vaults/replicationFabrics/replicationRecoveryServicesProviders",
+        "name": "241641e6-ee7b-4ee4-8141-821fadda43fa",
+        "properties": {
+          "fabricType": "HyperVSite",
+          "friendlyName": "CP-B3L40406-12.ntdev.corp.microsoft.com",
+          "providerVersion": "5.1.2250.0",
+          "serverVersion": "3.2.7510.0",
+          "providerVersionState": "Latest",
+          "fabricFriendlyName": "cloud1",
+          "lastHeartBeat": "2017-04-27T09:16:04.9405768Z",
+          "connectionStatus": "Connected",
+          "protectedItemCount": 2,
+          "allowedScenarios": [
+            "Refresh"
+          ]
+        }
+      }
   name: Gets the details of a recovery services provider.
 security:
 - type: oauth2

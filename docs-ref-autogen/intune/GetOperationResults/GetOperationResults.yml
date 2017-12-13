@@ -54,34 +54,40 @@ definitions:
   kind: object
   properties:
   - types:
-    - isArray: true
-      uid: OperationResult
+    - uid: OperationResult
     name: value
   - isReadyOnly: true
     description: Gets the URL to get the next set of results.
     types:
     - uid: string
     name: nextlink
-- name: OperationResult
-  description: OperationResult entity for Intune.
+- name: Error
   kind: object
   properties:
   - types:
     - uid: string
-    name: friendlyName
+    name: code
   - types:
     - uid: string
-    name: category
+    name: message
+- name: OperationResult
+  kind: object
+  properties:
   - types:
     - uid: string
-    name: lastModifiedTime
+    name: properties.friendlyName
   - types:
     - uid: string
-    name: state
+    name: properties.category
   - types:
-    - isArray: true
-      uid: operationMetadataProperties
-    name: operationMetadata
+    - uid: string
+    name: properties.lastModifiedTime
+  - types:
+    - uid: string
+    name: properties.state
+  - types:
+    - uid: operationMetadataProperties
+    name: properties.operationMetadata
   - isReadyOnly: true
     description: Resource Id
     types:
@@ -118,15 +124,6 @@ definitions:
   - types:
     - uid: string
     name: value
-- name: Error
-  kind: object
-  properties:
-  - types:
-    - uid: string
-    name: code
-  - types:
-    - uid: string
-    name: message
 examples: []
 security: []
 name: GetOperationResults

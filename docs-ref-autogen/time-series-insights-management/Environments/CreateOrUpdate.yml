@@ -63,12 +63,12 @@ requestBody:
     description: ISO8601 timespan specifying the minimum number of days the environment's events will be available for query.
     types:
     - uid: string
-    name: dataRetentionTime
+    name: properties.dataRetentionTime
   - in: body
     description: The behavior the Time Series Insights service should take when the environment's capacity has been exceeded. If "PauseIngress" is specified, new events will not be read from the event source. If "PurgeOldData" is specified, new events will continue to be read and old events will be deleted from the environment. The default behavior is PurgeOldData.
     types:
     - uid: StorageLimitExceededBehavior
-    name: storageLimitExceededBehavior
+    name: properties.storageLimitExceededBehavior
   - in: body
     isRequired: true
     description: The location of the resource.
@@ -86,28 +86,20 @@ requestBody:
     name: tags
 requestHeader: []
 definitions:
-- name: SkuName
-  description: The name of this SKU.
-  kind: enum
+- name: Sku
+  description: The sku determines the capacity of the environment, the SLA (in queries-per-minute and total capacity), and the billing rate.
+  kind: object
   properties:
-  - types:
-    - uid: string
-    name: S1
-  - types:
-    - uid: string
-    name: S2
-- name: StorageLimitExceededBehavior
-  description: The behavior the Time Series Insights service should take when the environment's capacity has been exceeded. If "PauseIngress" is specified, new events will not be read from the event source. If "PurgeOldData" is specified, new events will continue to be read and old events will be deleted from the environment. The default behavior is PurgeOldData.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: PurgeOldData
-  - types:
-    - uid: string
-    name: PauseIngress
+  - description: The name of this SKU.
+    types:
+    - uid: SkuName
+    name: name
+  - description: The capacity of the sku. This value can be changed to support scale out of environments after they have been created.
+    types:
+    - uid: integer
+    name: capacity
 - name: EnvironmentResource
-  description: An environment is a set of time-series data avaliable for query, and is the top level Azure Time Series Insights resource.
+  description: Result of the List Environments operation.
   kind: object
   properties:
   - description: The sku determines the capacity of the environment, the SLA (in queries-per-minute and total capacity), and the billing rate.
@@ -118,12 +110,12 @@ definitions:
     description: An id used to access the environment data, e.g. to query the environment's events or upload reference data for the environment.
     types:
     - uid: string
-    name: dataAccessId
+    name: properties.dataAccessId
   - isReadyOnly: true
     description: The fully qualified domain name used to access the environment data, e.g. to query the environment's events or upload reference data for the environment.
     types:
     - uid: string
-    name: dataAccessFqdn
+    name: properties.dataAccessFqdn
   - description: Resource location
     types:
     - uid: string
@@ -154,33 +146,77 @@ definitions:
   - description: ISO8601 timespan specifying the minimum number of days the environment's events will be available for query.
     types:
     - uid: string
-    name: dataRetentionTime
+    name: properties.dataRetentionTime
   - description: The behavior the Time Series Insights service should take when the environment's capacity has been exceeded. If "PauseIngress" is specified, new events will not be read from the event source. If "PurgeOldData" is specified, new events will continue to be read and old events will be deleted from the environment. The default behavior is PurgeOldData.
     types:
     - uid: StorageLimitExceededBehavior
-    name: storageLimitExceededBehavior
+    name: properties.storageLimitExceededBehavior
   - isReadyOnly: true
     description: Provisioning state of the resource.
     types:
     - uid: ProvisioningState
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: The time the resource was created.
     types:
     - uid: string
-    name: creationTime
-- name: Sku
-  description: The sku determines the capacity of the environment, the SLA (in queries-per-minute and total capacity), and the billing rate.
+    name: properties.creationTime
+- name: CloudError
+  description: Contains information about an API error.
   kind: object
   properties:
-  - description: The name of this SKU.
+  - description: Describes a particular API error with an error code and a message.
     types:
-    - uid: SkuName
-    name: name
-  - description: The capacity of the sku. This value can be changed to support scale out of environments after they have been created.
+    - uid: CloudErrorBody
+    name: error
+- name: EnvironmentCreateOrUpdateParameters
+  description: Parameters supplied to the CreateOrUpdate Environment operation.
+  kind: object
+  properties:
+  - description: The sku determines the capacity of the environment, the SLA (in queries-per-minute and total capacity), and the billing rate.
     types:
-    - uid: integer
-    name: capacity
+    - uid: Sku
+    name: sku
+  - description: ISO8601 timespan specifying the minimum number of days the environment's events will be available for query.
+    types:
+    - uid: string
+    name: properties.dataRetentionTime
+  - description: The behavior the Time Series Insights service should take when the environment's capacity has been exceeded. If "PauseIngress" is specified, new events will not be read from the event source. If "PurgeOldData" is specified, new events will continue to be read and old events will be deleted from the environment. The default behavior is PurgeOldData.
+    types:
+    - uid: StorageLimitExceededBehavior
+    name: properties.storageLimitExceededBehavior
+  - description: The location of the resource.
+    types:
+    - uid: string
+    name: location
+  - description: Key-value pairs of additional properties for the resource.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+- name: SkuName
+  description: The name of this SKU.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: S1
+  - types:
+    - uid: string
+    name: S2
+- name: StorageLimitExceededBehavior
+  description: The behavior the Time Series Insights service should take when the environment's capacity has been exceeded. If "PauseIngress" is specified, new events will not be read from the event source. If "PurgeOldData" is specified, new events will continue to be read and old events will be deleted from the environment. The default behavior is PurgeOldData.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: PurgeOldData
+  - types:
+    - uid: string
+    name: PauseIngress
 - name: ProvisioningState
   description: Provisioning state of the resource.
   kind: enum
@@ -203,14 +239,6 @@ definitions:
   - types:
     - uid: string
     name: Deleting
-- name: CloudError
-  description: Contains information about an API error.
-  kind: object
-  properties:
-  - description: Describes a particular API error with an error code and a message.
-    types:
-    - uid: CloudErrorBody
-    name: error
 - name: CloudErrorBody
   description: Describes a particular API error with an error code and a message.
   kind: object
@@ -229,18 +257,59 @@ definitions:
     name: target
   - description: Contains nested errors that are related to this error.
     types:
-    - isArray: true
-      uid: Details
+    - uid: Details
     name: details
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.TimeSeriesInsights/environments/env1?api-version=2017-11-15
-    requestBody: '{"location":"West US","sku":{"name":"S1","capacity":1},"properties":{"dataRetentionTime":"P31D"}}'
+    body: >-
+      {
+        "location": "West US",
+        "sku": {
+          "name": "S1",
+          "capacity": 1
+        },
+        "properties": {
+          "dataRetentionTime": "P31D"
+        }
+      }
   responses:
   - statusCode: "201"
-    body: '{"id":"/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.TimeSeriesInsights/Environments/env1","location":"West US","name":"env1","type":"Microsoft.TimeSeriesInsights/Environments","tags":{},"properties":{"dataRetentionTime":"P31D","provisioningState":"Creating","creationTime":"2017-04-18T19:20:33.228882Z"},"sku":{"name":"S1","capacity":1}}'
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.TimeSeriesInsights/Environments/env1",
+        "location": "West US",
+        "name": "env1",
+        "type": "Microsoft.TimeSeriesInsights/Environments",
+        "tags": {},
+        "properties": {
+          "dataRetentionTime": "P31D",
+          "provisioningState": "Creating",
+          "creationTime": "2017-04-18T19:20:33.228882Z"
+        },
+        "sku": {
+          "name": "S1",
+          "capacity": 1
+        }
+      }
   - statusCode: "200"
-    body: '{"id":"/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.TimeSeriesInsights/Environments/env1","location":"West US","name":"env1","type":"Microsoft.TimeSeriesInsights/Environments","tags":{},"properties":{"dataRetentionTime":"P31D","provisioningState":"Succeeded","creationTime":"2017-04-18T19:20:33.228882Z"},"sku":{"name":"S1","capacity":1}}'
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.TimeSeriesInsights/Environments/env1",
+        "location": "West US",
+        "name": "env1",
+        "type": "Microsoft.TimeSeriesInsights/Environments",
+        "tags": {},
+        "properties": {
+          "dataRetentionTime": "P31D",
+          "provisioningState": "Succeeded",
+          "creationTime": "2017-04-18T19:20:33.228882Z"
+        },
+        "sku": {
+          "name": "S1",
+          "capacity": 1
+        }
+      }
   - statusCode: "404"
   name: EnvironmentsCreate
 security:

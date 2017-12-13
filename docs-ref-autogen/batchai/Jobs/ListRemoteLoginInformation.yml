@@ -53,13 +53,20 @@ definitions:
   properties:
   - description: The collection of returned remote login details.
     types:
-    - isArray: true
-      uid: RemoteLoginInformation
+    - uid: RemoteLoginInformation
     name: value
   - description: The continuation token.
     types:
     - uid: string
     name: nextLink
+- name: CloudError
+  description: An error response from the Batch AI service.
+  kind: object
+  properties:
+  - description: An error response from the Batch AI service.
+    types:
+    - uid: CloudErrorBody
+    name: error
 - name: RemoteLoginInformation
   description: Contains remote login details to SSH/RDP to a compute node in cluster.
   kind: object
@@ -76,14 +83,6 @@ definitions:
     types:
     - uid: number
     name: port
-- name: CloudError
-  description: An error response from the Batch AI service.
-  kind: object
-  properties:
-  - description: An error response from the Batch AI service.
-    types:
-    - uid: CloudErrorBody
-    name: error
 - name: CloudErrorBody
   description: An error response from the Batch AI service.
   kind: object
@@ -102,15 +101,23 @@ definitions:
     name: target
   - description: A list of additional details about the error.
     types:
-    - isArray: true
-      uid: Details
+    - uid: Details
     name: details
 examples:
 - request:
     uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/demo_resource_group/providers/Microsoft.BatchAI/jobs/demo_job/listRemoteLoginInformation?api-version=2017-09-01-preview
   responses:
   - statusCode: "200"
-    body: '{"value":[{"nodeId":"tvm-3601533753_1-20170719t162906z","ipAddress":"13.84.190.124","port":50000}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "nodeId": "tvm-3601533753_1-20170719t162906z",
+            "ipAddress": "13.84.190.124",
+            "port": 50000
+          }
+        ]
+      }
   name: "Get a job's remote-login-information "
 security:
 - type: oauth2

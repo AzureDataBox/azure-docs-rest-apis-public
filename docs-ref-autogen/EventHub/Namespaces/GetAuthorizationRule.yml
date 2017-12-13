@@ -52,14 +52,13 @@ responses:
 requestHeader: []
 definitions:
 - name: AuthorizationRule
-  description: Single item in a List or Get AuthorizationRule operation
+  description: Result of the List Authorization Rules operation.
   kind: object
   properties:
   - description: The rights associated with the rule.
     types:
-    - isArray: true
-      uid: string
-    name: rights
+    - uid: string
+    name: properties.rights
   - isReadyOnly: true
     description: Resource Id
     types:
@@ -92,7 +91,18 @@ examples:
     uri: GET https://management.azure.com/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.EventHub/namespaces/sdk-Namespace-2702/AuthorizationRules/sdk-Authrules-1746?api-version=2017-04-01
   responses:
   - statusCode: "200"
-    body: '{"id":"/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.EventHub/namespaces/sdk-Namespace-2702/AuthorizationRules/sdk-Authrules-1746","name":"sdk-Authrules-1746","type":"Microsoft.EventHub/Namespaces/AuthorizationRules","properties":{"rights":["Listen","Send"]}}'
+    body: >-
+      {
+        "id": "/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.EventHub/namespaces/sdk-Namespace-2702/AuthorizationRules/sdk-Authrules-1746",
+        "name": "sdk-Authrules-1746",
+        "type": "Microsoft.EventHub/Namespaces/AuthorizationRules",
+        "properties": {
+          "rights": [
+            "Listen",
+            "Send"
+          ]
+        }
+      }
   name: NameSpaceAutorizationRuleGet
 security:
 - type: oauth2

@@ -62,8 +62,32 @@ requestBody:
     name: properties
 requestHeader: []
 definitions:
+- name: UpdateVCenterRequestProperties
+  description: The update VCenter Request Properties.
+  kind: object
+  properties:
+  - description: The friendly name of the vCenter.
+    types:
+    - uid: string
+    name: friendlyName
+  - description: The IP address of the vCenter to be discovered.
+    types:
+    - uid: string
+    name: ipAddress
+  - description: The process server Id from where the update can be orchestrated.
+    types:
+    - uid: string
+    name: processServerId
+  - description: The port number for discovery.
+    types:
+    - uid: string
+    name: port
+  - description: The CS account Id which has priviliges to update the vCenter.
+    types:
+    - uid: string
+    name: runAsAccountId
 - name: VCenter
-  description: vCenter definition.
+  description: The vCenter details.
   kind: object
   properties:
   - description: VCenter related data.
@@ -89,6 +113,14 @@ definitions:
     types:
     - uid: string
     name: location
+- name: UpdateVCenterRequest
+  description: Input required to update vCenter.
+  kind: object
+  properties:
+  - description: The update VCenter Request Properties.
+    types:
+    - uid: UpdateVCenterRequestProperties
+    name: properties
 - name: VCenterProperties
   description: VCenter related data.
   kind: object
@@ -136,10 +168,30 @@ definitions:
 examples:
 - request:
     uri: PATCH https://management.azure.com/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/MadhaviVRG/providers/Microsoft.RecoveryServices/vaults/MadhaviVault/replicationFabrics/MadhaviFabric/replicationvCenters/esx-78?api-version=2016-08-10
-    requestBody: '{"properties":{"ipAddress":"10.150.109.25"}}'
+    body: >-
+      {
+        "properties": {
+          "ipAddress": "10.150.109.25"
+        }
+      }
   responses:
   - statusCode: "200"
-    body: '{"name":"esx-78","type":"Microsoft.RecoveryServices/vaults/replicationFabrics/replicationvCenters","id":"/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/MadhaviVRG/providers/Microsoft.RecoveryServices/vaults/MadhaviVault/replicationFabrics/239f778f368e34f78216d81f030725cdf2033174b47879b9f2eeede06fdd9c4d/replicationvCenters/esx-78","properties":{"friendlyName":"esx-78","internalId":"inmtest78","discoveryStatus":"Pending","processServerId":"5A720CAB-39CB-F445-BD1662B0B33164B5","ipAddress":"10.150.109.25","port":"443","runAsAccountId":"2","fabricArmResourceName":"239f778f368e34f78216d81f030725cdf2033174b47879b9f2eeede06fdd9c4d"}}'
+    body: >-
+      {
+        "name": "esx-78",
+        "type": "Microsoft.RecoveryServices/vaults/replicationFabrics/replicationvCenters",
+        "id": "/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/MadhaviVRG/providers/Microsoft.RecoveryServices/vaults/MadhaviVault/replicationFabrics/239f778f368e34f78216d81f030725cdf2033174b47879b9f2eeede06fdd9c4d/replicationvCenters/esx-78",
+        "properties": {
+          "friendlyName": "esx-78",
+          "internalId": "inmtest78",
+          "discoveryStatus": "Pending",
+          "processServerId": "5A720CAB-39CB-F445-BD1662B0B33164B5",
+          "ipAddress": "10.150.109.25",
+          "port": "443",
+          "runAsAccountId": "2",
+          "fabricArmResourceName": "239f778f368e34f78216d81f030725cdf2033174b47879b9f2eeede06fdd9c4d"
+        }
+      }
   - statusCode: "202"
   name: Update vCenter operation.
 security:

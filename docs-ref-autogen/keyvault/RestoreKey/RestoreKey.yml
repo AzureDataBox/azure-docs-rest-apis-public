@@ -41,10 +41,41 @@ requestBody:
     name: value
 requestHeader: []
 definitions:
-- name: KeyBundle
-  description: A KeyBundle consisting of a WebKey plus its attributes.
+- name: KeyVaultError
+  description: The key vault error exception.
   kind: object
   properties:
+  - isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
+    name: error
+- name: KeyRestoreParameters
+  description: The key restore parameters.
+  kind: object
+  properties:
+  - description: The backup blob associated with a key bundle.
+    types:
+    - uid: string
+    name: value
+- name: DeletedKeyBundle
+  description: A DeletedKeyBundle consisting of a WebKey plus its Attributes and deletion info
+  kind: object
+  properties:
+  - description: The url of the recovery object, used to identify and recover the deleted key.
+    types:
+    - uid: string
+    name: recoveryId
+  - isReadyOnly: true
+    description: The time when the key is scheduled to be purged, in UTC
+    types:
+    - uid: integer
+    name: scheduledPurgeDate
+  - isReadyOnly: true
+    description: The time when the key was deleted, in UTC
+    types:
+    - uid: integer
+    name: deletedDate
   - description: The Json web key.
     types:
     - uid: JsonWebKey
@@ -66,8 +97,25 @@ definitions:
     types:
     - uid: boolean
     name: managed
+- name: Error
+  description: Error encountered, if any, during the certificate operation.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+    name: code
+  - isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+    name: message
+  - types:
+    - {}
+    name: innererror
 - name: JsonWebKey
-  description: The Json web key.
+  description: As of http://tools.ietf.org/html/draft-ietf-jose-json-web-key-18
   kind: object
   properties:
   - description: Key identifier.
@@ -79,8 +127,7 @@ definitions:
     - uid: JsonWebKeyType
     name: kty
   - types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: key_ops
   - description: RSA modulus.
     types:
@@ -134,6 +181,37 @@ definitions:
     types:
     - uid: string
     name: y
+- name: KeyAttributes
+  description: The attributes of a key managed by the key vault service.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Reflects the deletion recovery level currently in effect for keys in the current vault. If it contains 'Purgeable' the key can be permanently deleted by a privileged user; otherwise, only the system can purge the key, at the end of the retention interval.
+    types:
+    - uid: DeletionRecoveryLevel
+    name: recoveryLevel
+  - description: Determines whether the object is enabled.
+    types:
+    - uid: boolean
+    name: enabled
+  - description: Not before date in UTC.
+    types:
+    - uid: integer
+    name: nbf
+  - description: Expiry date in UTC.
+    types:
+    - uid: integer
+    name: exp
+  - isReadyOnly: true
+    description: Creation time in UTC.
+    types:
+    - uid: integer
+    name: created
+  - isReadyOnly: true
+    description: Last updated time in UTC.
+    types:
+    - uid: integer
+    name: updated
 - name: JsonWebKeyType
   description: JsonWebKey key type (kty).
   kind: enum
@@ -169,37 +247,6 @@ definitions:
   - types:
     - uid: string
     name: SECP256K1
-- name: KeyAttributes
-  description: The key management attributes.
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: Reflects the deletion recovery level currently in effect for keys in the current vault. If it contains 'Purgeable' the key can be permanently deleted by a privileged user; otherwise, only the system can purge the key, at the end of the retention interval.
-    types:
-    - uid: DeletionRecoveryLevel
-    name: recoveryLevel
-  - description: Determines whether the object is enabled.
-    types:
-    - uid: boolean
-    name: enabled
-  - description: Not before date in UTC.
-    types:
-    - uid: integer
-    name: nbf
-  - description: Expiry date in UTC.
-    types:
-    - uid: integer
-    name: exp
-  - isReadyOnly: true
-    description: Creation time in UTC.
-    types:
-    - uid: integer
-    name: created
-  - isReadyOnly: true
-    description: Last updated time in UTC.
-    types:
-    - uid: integer
-    name: updated
 - name: DeletionRecoveryLevel
   description: Reflects the deletion recovery level currently in effect for keys in the current vault. If it contains 'Purgeable' the key can be permanently deleted by a privileged user; otherwise, only the system can purge the key, at the end of the retention interval.
   kind: enum
@@ -216,33 +263,7 @@ definitions:
   - types:
     - uid: string
     name: Recoverable+ProtectedSubscription
-- name: KeyVaultError
-  description: The key vault error exception.
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: The key vault server error.
-    types:
-    - uid: Error
-    name: error
-- name: Error
-  description: The key vault server error.
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: The error code.
-    types:
-    - uid: string
-    name: code
-  - isReadyOnly: true
-    description: The error message.
-    types:
-    - uid: string
-    name: message
-  - types:
-    - {}
-    name: innererror
 examples: []
 security: []
 name: RestoreKey
-uid: .keyvault.restorekey.restorekey
+uid: keyvault.restorekey.restorekey

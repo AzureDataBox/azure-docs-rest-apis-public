@@ -68,16 +68,6 @@ requestBody:
     name: expiry
 requestHeader: []
 definitions:
-- name: KeyType
-  description: The Key to be used to generate token for user.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: primary
-  - types:
-    - uid: string
-    name: secondary
 - name: UserTokenResult
   description: Get User Token response details.
   kind: object
@@ -100,9 +90,21 @@ definitions:
     name: message
   - description: The list of invalid fields send in request, in case of validation error.
     types:
-    - isArray: true
-      uid: ErrorFieldContract
+    - uid: ErrorFieldContract
     name: details
+- name: UserTokenParameters
+  description: Parameters supplied to the Get User Token operation.
+  kind: object
+  properties:
+  - description: The Key to be used to generate token for user.
+    types:
+    - uid: KeyType
+    name: keyType
+  - description: >
+      The Expiry time of the Token. Maximum token expiry time is set to 30 days. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.
+    types:
+    - uid: string
+    name: expiry
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
@@ -119,13 +121,30 @@ definitions:
     types:
     - uid: string
     name: target
+- name: KeyType
+  description: The Key to be used to generate token for user.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: primary
+  - types:
+    - uid: string
+    name: secondary
 examples:
 - request:
     uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/57f2af53bb17172280f44057/token?api-version=2017-03-01
-    requestBody: '{"keyType":"primary","expiry":"2017-05-13T10:39:35Z"}'
+    body: >-
+      {
+        "keyType": "primary",
+        "expiry": "2017-05-13T10:39:35Z"
+      }
   responses:
   - statusCode: "200"
-    body: '{"value":"57f2af53bb17172280f44057&201705131039&***************************/tJVExvjA=="}'
+    body: >-
+      {
+        "value": "57f2af53bb17172280f44057&201705131039&***************************/tJVExvjA=="
+      }
   name: ApiManagementUsersGetToken
 security:
 - type: oauth2

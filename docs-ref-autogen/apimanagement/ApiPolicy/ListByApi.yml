@@ -62,13 +62,28 @@ definitions:
   properties:
   - description: Policy Contract value.
     types:
-    - isArray: true
-      uid: PolicyContract
+    - uid: PolicyContract
     name: value
   - description: Next page link if any.
     types:
     - uid: string
     name: nextLink
+- name: ErrorResponse
+  description: Error Body contract.
+  kind: object
+  properties:
+  - description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+    name: code
+  - description: Human-readable representation of the error.
+    types:
+    - uid: string
+    name: message
+  - description: The list of invalid fields send in request, in case of validation error.
+    types:
+    - uid: ErrorFieldContract
+    name: details
 - name: PolicyContract
   description: Policy Contract details.
   kind: object
@@ -76,7 +91,7 @@ definitions:
   - description: Json escaped Xml Encoded contents of the Policy.
     types:
     - uid: string
-    name: policyContent
+    name: properties.policyContent
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -92,23 +107,6 @@ definitions:
     types:
     - uid: string
     name: type
-- name: ErrorResponse
-  description: Error Body contract.
-  kind: object
-  properties:
-  - description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
-    types:
-    - uid: string
-    name: code
-  - description: Human-readable representation of the error.
-    types:
-    - uid: string
-    name: message
-  - description: The list of invalid fields send in request, in case of validation error.
-    types:
-    - isArray: true
-      uid: ErrorFieldContract
-    name: details
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
@@ -130,7 +128,20 @@ examples:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/5600b59475ff190048040001/policies?api-version=2017-03-01
   responses:
   - statusCode: "200"
-    body: '{"value":[{"id":"/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/5600b59475ff190048040001/policies/policy","type":"Microsoft.ApiManagement/service/apis/policies","name":"policy","properties":{"policyContent":"<!--\r\n    IMPORTANT:\r\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\r\n    - Only the <forward-request> policy element can appear within the <backend> section element.\r\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\r\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\r\n    - To add a policy position the cursor at the desired insertion point and click on the round button associated with the policy.\r\n    - To remove a policy, delete the corresponding policy statement from the policy document.\r\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\r\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\r\n    - Policies are applied in the order of their appearance, from the top down.\r\n-->\r\n<policies>\r\n  <inbound>\r\n    <quota-by-key calls=\"5\" bandwidth=\"2\" renewal-period=\"&#x9;P3Y6M4DT12H30M5S\" counter-key=\"ba\" />\r\n    <base />\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <log-to-eventhub logger-id=\"apimService1\" partition-key=\"@(context.Subscription.Id)\">\r\n@{\r\n\tRandom Random = new Random();\r\n\t\t\t\tconst string Chars = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz \";                \r\n                return string.Join(\",\", DateTime.UtcNow, new string(\r\n                    Enumerable.Repeat(Chars, Random.Next(2150400))\r\n                              .Select(s =&gt; s[Random.Next(s.Length)])\r\n                              .ToArray()));\r\n          }                           \r\n                        </log-to-eventhub>\r\n    <base />\r\n  </outbound>\r\n</policies>"}}],"nextLink":""}'
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/5600b59475ff190048040001/policies/policy",
+            "type": "Microsoft.ApiManagement/service/apis/policies",
+            "name": "policy",
+            "properties": {
+              "policyContent": "<!--\r\n    IMPORTANT:\r\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\r\n    - Only the <forward-request> policy element can appear within the <backend> section element.\r\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\r\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\r\n    - To add a policy position the cursor at the desired insertion point and click on the round button associated with the policy.\r\n    - To remove a policy, delete the corresponding policy statement from the policy document.\r\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\r\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\r\n    - Policies are applied in the order of their appearance, from the top down.\r\n-->\r\n<policies>\r\n  <inbound>\r\n    <quota-by-key calls=\"5\" bandwidth=\"2\" renewal-period=\"&#x9;P3Y6M4DT12H30M5S\" counter-key=\"ba\" />\r\n    <base />\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <log-to-eventhub logger-id=\"apimService1\" partition-key=\"@(context.Subscription.Id)\">\r\n@{\r\n\tRandom Random = new Random();\r\n\t\t\t\tconst string Chars = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz \";                \r\n                return string.Join(\",\", DateTime.UtcNow, new string(\r\n                    Enumerable.Repeat(Chars, Random.Next(2150400))\r\n                              .Select(s =&gt; s[Random.Next(s.Length)])\r\n                              .ToArray()));\r\n          }                           \r\n                        </log-to-eventhub>\r\n    <base />\r\n  </outbound>\r\n</policies>"
+            }
+          }
+        ],
+        "nextLink": ""
+      }
   name: ApiManagementListApiPolicies
 security:
 - type: oauth2

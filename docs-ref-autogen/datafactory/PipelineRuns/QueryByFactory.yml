@@ -67,17 +67,99 @@ requestBody:
   - in: body
     description: List of filters.
     types:
-    - isArray: true
-      uid: PipelineRunQueryFilter
+    - uid: PipelineRunQueryFilter
     name: filters
   - in: body
     description: List of OrderBy option.
     types:
-    - isArray: true
-      uid: PipelineRunQueryOrderBy
+    - uid: PipelineRunQueryOrderBy
     name: orderBy
 requestHeader: []
 definitions:
+- name: PipelineRunQueryFilter
+  description: List of filters.
+  kind: object
+  properties:
+  - description: Parameter name to be used for filter.
+    types:
+    - uid: PipelineRunQueryFilterOperand
+    name: operand
+  - description: Operator to be used for filter.
+    types:
+    - uid: PipelineRunQueryFilterOperator
+    name: operator
+  - description: List of filter values.
+    types:
+    - uid: string
+    name: values
+- name: PipelineRunQueryOrderBy
+  description: List of OrderBy option.
+  kind: object
+  properties:
+  - description: Parameter name to be used for order by.
+    types:
+    - uid: PipelineRunQueryOrderByField
+    name: orderBy
+  - description: Sorting order of the parameter.
+    types:
+    - uid: PipelineRunQueryOrder
+    name: order
+- name: PipelineRunQueryResponse
+  description: A list pipeline runs.
+  kind: object
+  properties:
+  - description: List of pipeline runs.
+    types:
+    - uid: PipelineRun
+    name: value
+  - description: The continuation token for getting the next page of results, if any remaining results exist, null otherwise.
+    types:
+    - uid: string
+    name: continuationToken
+- name: ErrorResponse
+  description: The object that defines the structure of an Azure Data Factory response.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: string
+    name: code
+  - description: Error message.
+    types:
+    - uid: string
+    name: message
+  - description: Property name/path in request associated with error.
+    types:
+    - uid: string
+    name: target
+  - description: Array with additional error details.
+    types:
+    - uid: ErrorResponse
+    name: details
+- name: PipelineRunFilterParameters
+  description: Query parameters for listing pipeline runs.
+  kind: object
+  properties:
+  - description: The continuation token for getting the next page of results. Null for first page.
+    types:
+    - uid: string
+    name: continuationToken
+  - description: The time at or after which the pipeline run event was updated in 'ISO 8601' format.
+    types:
+    - uid: string
+    name: lastUpdatedAfter
+  - description: The time at or before which the pipeline run event was updated in 'ISO 8601' format.
+    types:
+    - uid: string
+    name: lastUpdatedBefore
+  - description: List of filters.
+    types:
+    - uid: PipelineRunQueryFilter
+    name: filters
+  - description: List of OrderBy option.
+    types:
+    - uid: PipelineRunQueryOrderBy
+    name: orderBy
 - name: PipelineRunQueryFilterOperand
   description: Parameter name to be used for filter.
   kind: enum
@@ -130,21 +212,8 @@ definitions:
   - types:
     - uid: string
     name: DESC
-- name: PipelineRunQueryResponse
-  description: A list pipeline runs.
-  kind: object
-  properties:
-  - description: List of pipeline runs.
-    types:
-    - isArray: true
-      uid: PipelineRun
-    name: value
-  - description: The continuation token for getting the next page of results, if any remaining results exist, null otherwise.
-    types:
-    - uid: string
-    name: continuationToken
 - name: PipelineRun
-  description: Information about a pipeline run.
+  description: List of pipeline runs.
   kind: object
   properties:
   - isReadyOnly: true
@@ -215,31 +284,23 @@ definitions:
     types:
     - uid: string
     name: id
-- name: ErrorResponse
-  description: The object that defines the structure of an Azure Data Factory response.
-  kind: object
-  properties:
-  - description: Error code.
-    types:
-    - uid: string
-    name: code
-  - description: Error message.
-    types:
-    - uid: string
-    name: message
-  - description: Property name/path in request associated with error.
-    types:
-    - uid: string
-    name: target
-  - description: Array with additional error details.
-    types:
-    - isArray: true
-      uid: Details
-    name: details
 examples:
 - request:
     uri: POST https://management.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/pipelineruns?api-version=2017-09-01-preview
-    requestBody: '{"lastUpdatedAfter":"2017-09-13T17:54:57.0811551Z","lastUpdatedBefore":"2017-09-13T18:07:59.6211018Z","filters":[{"operand":"PipelineName","operator":"Equals","values":["examplePipeline"]}]}'
+    body: >-
+      {
+        "lastUpdatedAfter": "2017-09-13T17:54:57.0811551Z",
+        "lastUpdatedBefore": "2017-09-13T18:07:59.6211018Z",
+        "filters": [
+          {
+            "operand": "PipelineName",
+            "operator": "Equals",
+            "values": [
+              "examplePipeline"
+            ]
+          }
+        ]
+      }
   responses:
   - statusCode: "200"
     headers:
@@ -253,7 +314,28 @@ examples:
       name: x-ms-ratelimit-remaining-subscription-writes
     - value: 988c8123-bf35-4601-a5d0-8958c1a2114d
       name: x-ms-correlation-request-id
-    body: '{"value":[{"runId":"a420e4fd-ebe9-4758-8db7-852b4d06245e","pipelineName":"examplePipeline","parameters":{"OutputBlobNameList":"[\"exampleoutput.csv\"]"},"invokedBy":{"id":"be423891558d4c5294d4b49401a34620","name":"Manual"},"runStart":"2017-09-13T17:55:57.1202147Z","runEnd":"2017-09-13T17:56:25.2051416Z","durationInMs":28084,"status":"Succeeded","message":"","lastUpdated":"2017-09-13T17:56:25.2051416Z"}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "runId": "a420e4fd-ebe9-4758-8db7-852b4d06245e",
+            "pipelineName": "examplePipeline",
+            "parameters": {
+              "OutputBlobNameList": "[\"exampleoutput.csv\"]"
+            },
+            "invokedBy": {
+              "id": "be423891558d4c5294d4b49401a34620",
+              "name": "Manual"
+            },
+            "runStart": "2017-09-13T17:55:57.1202147Z",
+            "runEnd": "2017-09-13T17:56:25.2051416Z",
+            "durationInMs": 28084,
+            "status": "Succeeded",
+            "message": "",
+            "lastUpdated": "2017-09-13T17:56:25.2051416Z"
+          }
+        ]
+      }
   name: PipelineRuns_QueryByFactory
 security:
 - type: oauth2

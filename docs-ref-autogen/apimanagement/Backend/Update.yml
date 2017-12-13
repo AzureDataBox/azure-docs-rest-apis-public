@@ -55,47 +55,47 @@ requestBody:
     description: Runtime Url of the Backend.
     types:
     - uid: string
-    name: url
+    name: properties.url
   - in: body
     description: Backend communication protocol.
     types:
     - uid: BackendProtocol
-    name: protocol
+    name: properties.protocol
   - in: body
     description: Backend Title.
     types:
     - uid: string
-    name: title
+    name: properties.title
   - in: body
     description: Backend Description.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - in: body
     description: Management Uri of the Resource in External System. This url can be the Arm Resource Id of Logic Apps, Function Apps or Api Apps.
     types:
     - uid: string
-    name: resourceId
+    name: properties.resourceId
   - in: body
     description: Backend Properties contract
     types:
     - uid: BackendProperties
-    name: properties
+    name: properties.properties
   - in: body
     description: Backend Credentials Contract Properties
     types:
     - uid: BackendCredentialsContract
-    name: credentials
+    name: properties.credentials
   - in: body
     description: Backend Proxy Contract Properties
     types:
     - uid: BackendProxyContract
-    name: proxy
+    name: properties.proxy
   - in: body
     description: Backend TLS Properties
     types:
     - uid: BackendTlsProperties
-    name: tls
+    name: properties.tls
 requestHeader:
 - in: header
   isRequired: true
@@ -104,18 +104,70 @@ requestHeader:
   - uid: string
   name: If-Match
 definitions:
-- name: BackendProtocol
-  description: Backend communication protocol.
-  kind: enum
+- name: BackendProperties
+  description: Backend Properties contract
+  kind: object
   properties:
-  - description: The Backend is a RESTful service.
+  - description: Backend Service Fabric Cluster Properties
+    types:
+    - uid: BackendServiceFabricClusterProperties
+    name: serviceFabricCluster
+- name: BackendCredentialsContract
+  description: Backend Credentials Contract Properties
+  kind: object
+  properties:
+  - description: List of Client Certificate Thumbprint.
     types:
     - uid: string
-    name: http
-  - description: The Backend is a SOAP service.
+    name: certificate
+  - description: Query Parameter description.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: array
+      uid: object
+    name: query
+  - description: Header Parameter description.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: array
+      uid: object
+    name: header
+  - description: Authorization header authentication
+    types:
+    - uid: BackendAuthorizationHeaderCredentials
+    name: authorization
+- name: BackendProxyContract
+  description: Backend Proxy Contract Properties
+  kind: object
+  properties:
+  - description: WebProxy Server AbsoluteUri property which includes the entire URI stored in the Uri instance, including all fragments and query strings.
     types:
     - uid: string
-    name: soap
+    name: url
+  - description: Username to connect to the WebProxy server
+    types:
+    - uid: string
+    name: username
+  - description: Password to connect to the WebProxy Server
+    types:
+    - uid: string
+    name: password
+- name: BackendTlsProperties
+  description: Backend TLS Properties
+  kind: object
+  properties:
+  - description: Flag indicating whether SSL certificate chain validation should be done when using self-signed certificates for this backend host.
+    types:
+    - uid: boolean
+    name: validateCertificateChain
+  - description: Flag indicating whether SSL certificate name validation should be done when using self-signed certificates for this backend host.
+    types:
+    - uid: boolean
+    name: validateCertificateName
 - name: ErrorResponse
   description: Error Body contract.
   kind: object
@@ -130,9 +182,84 @@ definitions:
     name: message
   - description: The list of invalid fields send in request, in case of validation error.
     types:
-    - isArray: true
-      uid: ErrorFieldContract
+    - uid: ErrorFieldContract
     name: details
+- name: BackendUpdateParameters
+  description: Backend update parameters.
+  kind: object
+  properties:
+  - description: Runtime Url of the Backend.
+    types:
+    - uid: string
+    name: properties.url
+  - description: Backend communication protocol.
+    types:
+    - uid: BackendProtocol
+    name: properties.protocol
+  - description: Backend Title.
+    types:
+    - uid: string
+    name: properties.title
+  - description: Backend Description.
+    types:
+    - uid: string
+    name: properties.description
+  - description: Management Uri of the Resource in External System. This url can be the Arm Resource Id of Logic Apps, Function Apps or Api Apps.
+    types:
+    - uid: string
+    name: properties.resourceId
+  - description: Backend Properties contract
+    types:
+    - uid: BackendProperties
+    name: properties.properties
+  - description: Backend Credentials Contract Properties
+    types:
+    - uid: BackendCredentialsContract
+    name: properties.credentials
+  - description: Backend Proxy Contract Properties
+    types:
+    - uid: BackendProxyContract
+    name: properties.proxy
+  - description: Backend TLS Properties
+    types:
+    - uid: BackendTlsProperties
+    name: properties.tls
+- name: BackendServiceFabricClusterProperties
+  description: Backend Service Fabric Cluster Properties
+  kind: object
+  properties:
+  - description: The client certificate thumbprint for the management endpoint.
+    types:
+    - uid: string
+    name: clientCertificatethumbprint
+  - description: Maximum number of retries while attempting resolve the parition.
+    types:
+    - uid: integer
+    name: maxPartitionResolutionRetries
+  - description: The cluster management endpoint.
+    types:
+    - uid: string
+    name: managementEndpoints
+  - description: Thumbprints of certificates cluster management service uses for tls communication
+    types:
+    - uid: string
+    name: serverCertificateThumbprints
+  - description: Server X509 Certificate Names Collection
+    types:
+    - uid: X509CertificateName
+    name: serverX509Names
+- name: BackendAuthorizationHeaderCredentials
+  description: Authorization header information.
+  kind: object
+  properties:
+  - description: Authentication Scheme name.
+    types:
+    - uid: string
+    name: scheme
+  - description: Authentication Parameter value.
+    types:
+    - uid: string
+    name: parameter
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
@@ -149,10 +276,43 @@ definitions:
     types:
     - uid: string
     name: target
+- name: BackendProtocol
+  description: Backend communication protocol.
+  kind: enum
+  properties:
+  - description: The Backend is a RESTful service.
+    types:
+    - uid: string
+    name: http
+  - description: The Backend is a SOAP service.
+    types:
+    - uid: string
+    name: soap
+- name: X509CertificateName
+  description: Server X509 Certificate Names Collection
+  kind: object
+  properties:
+  - description: Common Name of the Certificate.
+    types:
+    - uid: string
+    name: name
+  - description: Thumbprint for the Issuer of the Certificate.
+    types:
+    - uid: string
+    name: issuerCertificateThumbprint
 examples:
 - request:
     uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/backends/proxybackend?api-version=2017-03-01
-    requestBody: '{"properties":{"description":"description5308","tls":{"validateCertificateChain":false,"validateCertificateName":true}}}'
+    body: >-
+      {
+        "properties": {
+          "description": "description5308",
+          "tls": {
+            "validateCertificateChain": false,
+            "validateCertificateName": true
+          }
+        }
+      }
     headers:
     - value: '*'
       name: If-Match

@@ -66,13 +66,13 @@ requestBody:
     description: Gets or sets a Boolean value to indicate if the connection type is global.
     types:
     - uid: boolean
-    name: isGlobal
+    name: properties.isGlobal
   - in: body
     isRequired: true
     description: Gets or sets the field definitions of the connection type.
     types:
     - {}
-    name: fieldDefinitions
+    name: properties.fieldDefinitions
 requestHeader: []
 definitions:
 - name: ConnectionType
@@ -92,25 +92,25 @@ definitions:
   - description: Gets or sets a Boolean value to indicate if the connection type is global.
     types:
     - uid: boolean
-    name: isGlobal
+    name: properties.isGlobal
   - isReadyOnly: true
     description: Gets the field definitions of the connection type.
     types:
     - {}
-    name: fieldDefinitions
+    name: properties.fieldDefinitions
   - isReadyOnly: true
     description: Gets the creation time.
     types:
     - uid: string
-    name: creationTime
+    name: properties.creationTime
   - description: Gets or sets the last modified time.
     types:
     - uid: string
-    name: lastModifiedTime
+    name: properties.lastModifiedTime
   - description: Gets or sets the description.
     types:
     - uid: string
-    name: description
+    name: properties.description
 - name: ErrorResponse
   description: Error response of an operation failure
   kind: object
@@ -123,13 +123,78 @@ definitions:
     types:
     - uid: string
     name: message
+- name: ConnectionTypeCreateOrUpdateParameters
+  description: The parameters supplied to the create or update connection type operation.
+  kind: object
+  properties:
+  - description: Gets or sets the name of the connection type.
+    types:
+    - uid: string
+    name: name
+  - description: Gets or sets a Boolean value to indicate if the connection type is global.
+    types:
+    - uid: boolean
+    name: properties.isGlobal
+  - description: Gets or sets the field definitions of the connection type.
+    types:
+    - {}
+    name: properties.fieldDefinitions
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount22/connectionTypes/myCT?api-version=2015-10-31
-    requestBody: '{"name":"myCT","properties":{"isGlobal":false,"fieldDefinitions":{"myStringField":{"isEncrypted":false,"isOptional":false,"type":"string"},"myBoolField":{"isEncrypted":false,"isOptional":false,"type":"bool"},"myStringFieldEncrypted":{"isEncrypted":true,"isOptional":false,"type":"string"}}}}'
+    body: >-
+      {
+        "name": "myCT",
+        "properties": {
+          "isGlobal": false,
+          "fieldDefinitions": {
+            "myStringField": {
+              "isEncrypted": false,
+              "isOptional": false,
+              "type": "string"
+            },
+            "myBoolField": {
+              "isEncrypted": false,
+              "isOptional": false,
+              "type": "bool"
+            },
+            "myStringFieldEncrypted": {
+              "isEncrypted": true,
+              "isOptional": false,
+              "type": "string"
+            }
+          }
+        }
+      }
   responses:
   - statusCode: "201"
-    body: '{"id":"/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount22/connectionTypes/myCT","name":"myCT","properties":{"isGlobal":false,"fieldDefinitions":{"myStringField":{"isEncrypted":false,"isOptional":false,"type":"string"},"myBoolField":{"isEncrypted":false,"isOptional":false,"type":"bool"},"myStringFieldEncrypted":{"isEncrypted":true,"isOptional":false,"type":"string"}},"creationTime":"2017-03-27T03:47:53.433+00:00","lastModifiedTime":"2017-03-27T03:47:53.433+00:00"}}'
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount22/connectionTypes/myCT",
+        "name": "myCT",
+        "properties": {
+          "isGlobal": false,
+          "fieldDefinitions": {
+            "myStringField": {
+              "isEncrypted": false,
+              "isOptional": false,
+              "type": "string"
+            },
+            "myBoolField": {
+              "isEncrypted": false,
+              "isOptional": false,
+              "type": "bool"
+            },
+            "myStringFieldEncrypted": {
+              "isEncrypted": true,
+              "isOptional": false,
+              "type": "string"
+            }
+          },
+          "creationTime": "2017-03-27T03:47:53.433+00:00",
+          "lastModifiedTime": "2017-03-27T03:47:53.433+00:00"
+        }
+      }
   - statusCode: "409"
   name: Create or update connection type
 security: []

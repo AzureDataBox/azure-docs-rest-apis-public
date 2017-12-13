@@ -72,15 +72,14 @@ definitions:
   properties:
   - description: The list of resources.
     types:
-    - isArray: true
-      uid: RecoveryPointResource
+    - uid: RecoveryPointResource
     name: value
   - description: The URI to GET the next page of resources. Call ListNext() gets the next page of resources.
     types:
     - uid: string
     name: nextLink
 - name: RecoveryPointResource
-  description: The base class for backup copies. Workload-specific backup copies are derived from this class.
+  description: The list of resources.
   kind: object
   properties:
   - description: The base class for backup copies. Workload-specific backup copies are derived from this class.
@@ -154,6 +153,31 @@ definitions:
     - uid: IaasVMRecoveryPoint
     typesTitle: string
     name: objectType
+- name: GenericRecoveryPoint
+  description: Generic backup copy.
+  kind: object
+  properties:
+  - description: Friendly name of the backup copy.
+    types:
+    - uid: string
+    name: friendlyName
+  - description: Type of the backup copy.
+    types:
+    - uid: string
+    name: recoveryPointType
+  - description: The time when this backup copy was created.
+    types:
+    - uid: string
+    name: recoveryPointTime
+  - description: Additional information associated with this backup copy.
+    types:
+    - uid: string
+    name: recoveryPointAdditionalInfo
+  - description: This property is used as the discriminator for deciding the specific types in the polymorhpic chain of types.
+    types:
+    - uid: GenericRecoveryPoint
+    typesTitle: string
+    name: objectType
 - name: KeyAndSecretDetails
   description: Required details for recovering an encrypted VM. Applicable only when IsSourceVMEncrypted is true.
   kind: object
@@ -198,31 +222,6 @@ definitions:
     types:
     - uid: string
     name: secretData
-- name: GenericRecoveryPoint
-  description: Generic backup copy.
-  kind: object
-  properties:
-  - description: Friendly name of the backup copy.
-    types:
-    - uid: string
-    name: friendlyName
-  - description: Type of the backup copy.
-    types:
-    - uid: string
-    name: recoveryPointType
-  - description: The time when this backup copy was created.
-    types:
-    - uid: string
-    name: recoveryPointTime
-  - description: Additional information associated with this backup copy.
-    types:
-    - uid: string
-    name: recoveryPointAdditionalInfo
-  - description: This property is used as the discriminator for deciding the specific types in the polymorhpic chain of types.
-    types:
-    - uid: GenericRecoveryPoint
-    typesTitle: string
-    name: objectType
 examples: []
 security:
 - type: oauth2

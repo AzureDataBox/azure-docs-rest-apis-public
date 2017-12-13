@@ -35,8 +35,7 @@ definitions:
   properties:
   - description: Collection of resources.
     types:
-    - isArray: true
-      uid: AppServiceCertificateOrder
+    - uid: AppServiceCertificateOrder
     name: value
   - description: Link to next page of resources.
     types:
@@ -53,92 +52,91 @@ definitions:
       - uid: string
       - uid: AppServiceCertificate
       uid: object
-    name: certificates
+    name: properties.certificates
   - description: Certificate distinguished name.
     types:
     - uid: string
-    name: distinguishedName
+    name: properties.distinguishedName
   - isReadyOnly: true
     description: Domain verification token.
     types:
     - uid: string
-    name: domainVerificationToken
+    name: properties.domainVerificationToken
   - description: Duration in years (must be between 1 and 3).
     types:
     - uid: integer
-    name: validityInYears
+    name: properties.validityInYears
   - description: Certificate key size.
     types:
     - uid: integer
-    name: keySize
+    name: properties.keySize
   - description: Certificate product type.
     types:
     - uid: CertificateProductType
-    name: productType
+    name: properties.productType
   - description: <code>true</code> if the certificate should be automatically renewed when it expires; otherwise, <code>false</code>.
     types:
     - uid: boolean
-    name: autoRenew
+    name: properties.autoRenew
   - isReadyOnly: true
     description: Status of certificate order.
     types:
     - uid: ProvisioningState
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: Current order status.
     types:
     - uid: CertificateOrderStatus
-    name: status
+    name: properties.status
   - isReadyOnly: true
     description: Signed certificate.
     types:
     - uid: CertificateDetails
-    name: signedCertificate
+    name: properties.signedCertificate
   - description: Last CSR that was created for this order.
     types:
     - uid: string
-    name: csr
+    name: properties.csr
   - isReadyOnly: true
     description: Intermediate certificate.
     types:
     - uid: CertificateDetails
-    name: intermediate
+    name: properties.intermediate
   - isReadyOnly: true
     description: Root certificate.
     types:
     - uid: CertificateDetails
-    name: root
+    name: properties.root
   - isReadyOnly: true
     description: Current serial number of the certificate.
     types:
     - uid: string
-    name: serialNumber
+    name: properties.serialNumber
   - isReadyOnly: true
     description: Certificate last issuance time.
     types:
     - uid: string
-    name: lastCertificateIssuanceTime
+    name: properties.lastCertificateIssuanceTime
   - isReadyOnly: true
     description: Certificate expiration time.
     types:
     - uid: string
-    name: expirationTime
+    name: properties.expirationTime
   - isReadyOnly: true
     description: <code>true</code> if private key is external; otherwise, <code>false</code>.
     types:
     - uid: boolean
-    name: isPrivateKeyExternal
+    name: properties.isPrivateKeyExternal
   - isReadyOnly: true
     description: Reasons why App Service Certificate is not renewable at the current moment.
     types:
-    - isArray: true
-      uid: string
-    name: appServiceCertificateNotRenewableReasons
+    - uid: string
+    name: properties.appServiceCertificateNotRenewableReasons
   - isReadyOnly: true
     description: Time stamp when the certificate would be auto renewed next
     types:
     - uid: string
-    name: nextAutoRenewalTimeStamp
+    name: properties.nextAutoRenewalTimeStamp
   - isReadyOnly: true
     description: Resource Id.
     types:
@@ -178,60 +176,6 @@ definitions:
     types:
     - uid: AppServiceCertificate
     name: ''
-- name: AppServiceCertificate
-  description: Key Vault container for a certificate that is purchased through Azure.
-  kind: object
-  properties:
-  - description: Key Vault resource Id.
-    types:
-    - uid: string
-    name: keyVaultId
-  - description: Key Vault secret name.
-    types:
-    - uid: string
-    name: keyVaultSecretName
-  - isReadyOnly: true
-    description: Status of the Key Vault secret.
-    types:
-    - uid: KeyVaultSecretStatus
-    name: provisioningState
-- name: KeyVaultSecretStatus
-  description: Status of the Key Vault secret.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Initialized
-  - types:
-    - uid: string
-    name: WaitingOnCertificateOrder
-  - types:
-    - uid: string
-    name: Succeeded
-  - types:
-    - uid: string
-    name: CertificateOrderFailed
-  - types:
-    - uid: string
-    name: OperationNotPermittedOnKeyVault
-  - types:
-    - uid: string
-    name: AzureServiceUnauthorizedToAccessKeyVault
-  - types:
-    - uid: string
-    name: KeyVaultDoesNotExist
-  - types:
-    - uid: string
-    name: KeyVaultSecretDoesNotExist
-  - types:
-    - uid: string
-    name: UnknownError
-  - types:
-    - uid: string
-    name: ExternalPrivateKey
-  - types:
-    - uid: string
-    name: Unknown
 - name: CertificateProductType
   description: Certificate product type.
   kind: enum
@@ -344,6 +288,60 @@ definitions:
     types:
     - uid: string
     name: rawData
+- name: AppServiceCertificate
+  description: Key Vault container for a certificate that is purchased through Azure.
+  kind: object
+  properties:
+  - description: Key Vault resource Id.
+    types:
+    - uid: string
+    name: keyVaultId
+  - description: Key Vault secret name.
+    types:
+    - uid: string
+    name: keyVaultSecretName
+  - isReadyOnly: true
+    description: Status of the Key Vault secret.
+    types:
+    - uid: KeyVaultSecretStatus
+    name: provisioningState
+- name: KeyVaultSecretStatus
+  description: Status of the Key Vault secret.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Initialized
+  - types:
+    - uid: string
+    name: WaitingOnCertificateOrder
+  - types:
+    - uid: string
+    name: Succeeded
+  - types:
+    - uid: string
+    name: CertificateOrderFailed
+  - types:
+    - uid: string
+    name: OperationNotPermittedOnKeyVault
+  - types:
+    - uid: string
+    name: AzureServiceUnauthorizedToAccessKeyVault
+  - types:
+    - uid: string
+    name: KeyVaultDoesNotExist
+  - types:
+    - uid: string
+    name: KeyVaultSecretDoesNotExist
+  - types:
+    - uid: string
+    name: UnknownError
+  - types:
+    - uid: string
+    name: ExternalPrivateKey
+  - types:
+    - uid: string
+    name: Unknown
 examples: []
 security:
 - type: oauth2

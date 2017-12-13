@@ -61,17 +61,17 @@ requestBody:
     description: Json escaped Xml Encoded contents of the Policy.
     types:
     - uid: string
-    name: policyContent
+    name: properties.policyContent
 requestHeader: []
 definitions:
 - name: PolicyContract
-  description: Policy Contract details.
+  description: Policy Contract value.
   kind: object
   properties:
   - description: Json escaped Xml Encoded contents of the Policy.
     types:
     - uid: string
-    name: policyContent
+    name: properties.policyContent
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -101,8 +101,7 @@ definitions:
     name: message
   - description: The list of invalid fields send in request, in case of validation error.
     types:
-    - isArray: true
-      uid: ErrorFieldContract
+    - uid: ErrorFieldContract
     name: details
 - name: ErrorFieldContract
   description: Error Field contract.
@@ -123,12 +122,33 @@ definitions:
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/policies/policy?api-version=2017-03-01
-    requestBody: '{"properties":{"policyContent":"<policies>\r\n  <inbound />\r\n  <backend>\r\n    <forward-request />\r\n  </backend>\r\n  <outbound />\r\n</policies>"}}'
+    body: >-
+      {
+        "properties": {
+          "policyContent": "<policies>\r\n  <inbound />\r\n  <backend>\r\n    <forward-request />\r\n  </backend>\r\n  <outbound />\r\n</policies>"
+        }
+      }
   responses:
   - statusCode: "201"
-    body: '{"id":"/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/policies/policy","type":"Microsoft.ApiManagement/service/policies","name":"policy","properties":{"policyContent":"<policies>\r\n  <inbound />\r\n  <backend>\r\n    <forward-request />\r\n  </backend>\r\n  <outbound />\r\n</policies>"}}'
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/policies/policy",
+        "type": "Microsoft.ApiManagement/service/policies",
+        "name": "policy",
+        "properties": {
+          "policyContent": "<policies>\r\n  <inbound />\r\n  <backend>\r\n    <forward-request />\r\n  </backend>\r\n  <outbound />\r\n</policies>"
+        }
+      }
   - statusCode: "200"
-    body: '{"id":"/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/policies/policy","type":"Microsoft.ApiManagement/service/policies","name":"policy","properties":{"policyContent":"<policies>\r\n  <inbound />\r\n  <backend>\r\n    <forward-request />\r\n  </backend>\r\n  <outbound />\r\n</policies>"}}'
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/policies/policy",
+        "type": "Microsoft.ApiManagement/service/policies",
+        "name": "policy",
+        "properties": {
+          "policyContent": "<policies>\r\n  <inbound />\r\n  <backend>\r\n    <forward-request />\r\n  </backend>\r\n  <outbound />\r\n</policies>"
+        }
+      }
   name: ApiManagementCreatePolicy
 security:
 - type: oauth2

@@ -59,22 +59,22 @@ requestBody:
     description: The identity of the user.
     types:
     - uid: UserIdentity
-    name: identity
+    name: properties.identity
   - in: body
     description: The secret store of the user.
     types:
     - uid: UserSecretStore
-    name: secretStore
+    name: properties.secretStore
   - in: body
     description: The provisioning status of the resource.
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - in: body
     description: The unique immutable identifier of a resource (Guid).
     types:
     - uid: string
-    name: uniqueIdentifier
+    name: properties.uniqueIdentifier
   - in: body
     description: The location of the resource.
     types:
@@ -91,58 +91,6 @@ requestBody:
     name: tags
 requestHeader: []
 definitions:
-- name: User
-  description: Profile of a lab user.
-  kind: object
-  properties:
-  - description: The identity of the user.
-    types:
-    - uid: UserIdentity
-    name: identity
-  - description: The secret store of the user.
-    types:
-    - uid: UserSecretStore
-    name: secretStore
-  - isReadyOnly: true
-    description: The creation date of the user profile.
-    types:
-    - uid: string
-    name: createdDate
-  - description: The provisioning status of the resource.
-    types:
-    - uid: string
-    name: provisioningState
-  - description: The unique immutable identifier of a resource (Guid).
-    types:
-    - uid: string
-    name: uniqueIdentifier
-  - isReadyOnly: true
-    description: The identifier of the resource.
-    types:
-    - uid: string
-    name: id
-  - isReadyOnly: true
-    description: The name of the resource.
-    types:
-    - uid: string
-    name: name
-  - isReadyOnly: true
-    description: The type of the resource.
-    types:
-    - uid: string
-    name: type
-  - description: The location of the resource.
-    types:
-    - uid: string
-    name: location
-  - description: The tags of the resource.
-    types:
-    - isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-      uid: object
-    name: tags
 - name: UserIdentity
   description: The identity of the user.
   kind: object
@@ -179,6 +127,58 @@ definitions:
     types:
     - uid: string
     name: keyVaultId
+- name: User
+  description: Results of the list operation.
+  kind: object
+  properties:
+  - description: The identity of the user.
+    types:
+    - uid: UserIdentity
+    name: properties.identity
+  - description: The secret store of the user.
+    types:
+    - uid: UserSecretStore
+    name: properties.secretStore
+  - isReadyOnly: true
+    description: The creation date of the user profile.
+    types:
+    - uid: string
+    name: properties.createdDate
+  - description: The provisioning status of the resource.
+    types:
+    - uid: string
+    name: properties.provisioningState
+  - description: The unique immutable identifier of a resource (Guid).
+    types:
+    - uid: string
+    name: properties.uniqueIdentifier
+  - isReadyOnly: true
+    description: The identifier of the resource.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+    name: type
+  - description: The location of the resource.
+    types:
+    - uid: string
+    name: location
+  - description: The tags of the resource.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
 - name: CloudError
   description: Error from a REST request.
   kind: object
@@ -202,8 +202,7 @@ definitions:
     name: target
   - description: Inner errors.
     types:
-    - isArray: true
-      uid: Details
+    - uid: Details
     name: details
 examples: []
 security:

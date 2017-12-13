@@ -122,7 +122,7 @@ definitions:
     - uid: string
     name: waitTime
 - name: BatchError
-  description: An error response received from the Azure Batch service.
+  description: The error encountered while attempting to add the task.
   kind: object
   properties:
   - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
@@ -135,8 +135,7 @@ definitions:
     name: message
   - description: A collection of key-value pairs containing additional details about the error.
     types:
-    - isArray: true
-      uid: BatchErrorDetail
+    - uid: BatchErrorDetail
     name: values
 - name: ErrorMessage
   description: A message describing the error, intended to be suitable for display in a user interface.
@@ -151,7 +150,7 @@ definitions:
     - uid: string
     name: value
 - name: BatchErrorDetail
-  description: An item of additional information included in an Azure Batch error response.
+  description: A collection of key-value pairs containing additional details about the error.
   kind: object
   properties:
   - description: An identifier specifying the meaning of the Value property.
@@ -170,7 +169,23 @@ examples:
       name: client-request-id
   responses:
   - statusCode: "200"
-    body: '{"url":"https://account.region.batch.core.windows.net/lifetimejobstats","startTime":"2014-08-01T18:30:00.4345729Z","lastUpdateTime":"2014-08-04T18:30:00.4345729Z","userCPUTime":"PT0S","kernelCPUTime":"PT0S","wallClockTime":"PT0S","readIOps":0,"writeIOps":0,"readIOGiB":10,"writeIOGiB":5,"numSucceededTasks":0,"numFailedTasks":0,"numTaskRetries":0,"waitTime":"PT0S"}'
+    body: >-
+      {
+        "url": "https://account.region.batch.core.windows.net/lifetimejobstats",
+        "startTime": "2014-08-01T18:30:00.4345729Z",
+        "lastUpdateTime": "2014-08-04T18:30:00.4345729Z",
+        "userCPUTime": "PT0S",
+        "kernelCPUTime": "PT0S",
+        "wallClockTime": "PT0S",
+        "readIOps": 0,
+        "writeIOps": 0,
+        "readIOGiB": 10,
+        "writeIOGiB": 5,
+        "numSucceededTasks": 0,
+        "numFailedTasks": 0,
+        "numTaskRetries": 0,
+        "waitTime": "PT0S"
+      }
   name: Job get lifetime statistics
 security: []
 name: GetAllLifetimeStatistics

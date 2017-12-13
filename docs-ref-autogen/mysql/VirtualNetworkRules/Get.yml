@@ -61,16 +61,16 @@ definitions:
   - description: The ARM resource id of the virtual network subnet.
     types:
     - uid: string
-    name: virtualNetworkSubnetId
+    name: properties.virtualNetworkSubnetId
   - description: Create firewall rule before the virtual network has vnet service endpoint enabled.
     types:
     - uid: boolean
-    name: ignoreMissingVnetServiceEndpoint
+    name: properties.ignoreMissingVnetServiceEndpoint
   - isReadyOnly: true
     description: Virtual Network Rule State
     types:
     - uid: VirtualNetworkRuleState
-    name: state
+    name: properties.state
   - isReadyOnly: true
     description: Resource ID
     types:
@@ -110,7 +110,17 @@ examples:
     uri: GET https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMySQL/servers/vnet-test-svr/virtualNetworkRules/vnet-firewall-rule?api-version=2017-04-30-preview
   responses:
   - statusCode: "200"
-    body: '{"id":"/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMySQL/servers/vnet-test-svr/virtualNetworkRules/vnet-firewall-rule","name":"vnet-firewall-rule","type":"Microsoft.DBforMySQL/servers/virtualNetworkRules","properties":{"ignoreMissingVnetServiceEndpoint":false,"state":"Ready","virtualNetworkSubnetId":"/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.Network/virtualNetworks/testvnet/subnets/testsubnet"}}'
+    body: >-
+      {
+        "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMySQL/servers/vnet-test-svr/virtualNetworkRules/vnet-firewall-rule",
+        "name": "vnet-firewall-rule",
+        "type": "Microsoft.DBforMySQL/servers/virtualNetworkRules",
+        "properties": {
+          "ignoreMissingVnetServiceEndpoint": false,
+          "state": "Ready",
+          "virtualNetworkSubnetId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.Network/virtualNetworks/testvnet/subnets/testsubnet"
+        }
+      }
   name: Gets a virtual network rule
 security:
 - type: oauth2

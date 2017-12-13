@@ -63,59 +63,55 @@ definitions:
     name: etag
   - description: The reference of ApplicationGatewayBackendAddressPool resource.
     types:
-    - isArray: true
-      uid: SubResource
-    name: applicationGatewayBackendAddressPools
+    - uid: SubResource
+    name: properties.applicationGatewayBackendAddressPools
   - description: The reference of LoadBalancerBackendAddressPool resource.
     types:
-    - isArray: true
-      uid: SubResource
-    name: loadBalancerBackendAddressPools
+    - uid: SubResource
+    name: properties.loadBalancerBackendAddressPools
   - description: A list of references of LoadBalancerInboundNatRules.
     types:
-    - isArray: true
-      uid: SubResource
-    name: loadBalancerInboundNatRules
+    - uid: SubResource
+    name: properties.loadBalancerInboundNatRules
   - description: Private IP address of the IP configuration.
     types:
     - uid: string
-    name: privateIPAddress
+    name: properties.privateIPAddress
   - description: "Defines how a private IP address is assigned. Possible values are: 'Static' and 'Dynamic'."
     types:
     - uid: IPAllocationMethod
-    name: privateIPAllocationMethod
+    name: properties.privateIPAllocationMethod
   - description: "Available from Api-Version 2016-03-30 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'."
     types:
     - uid: IPVersion
-    name: privateIPAddressVersion
+    name: properties.privateIPAddressVersion
   - description: Subnet bound to the IP configuration.
     types:
     - uid: SubResource
-    name: subnet
+    name: properties.subnet
   - description: Gets whether this is a primary customer address on the network interface.
     types:
     - uid: boolean
-    name: primary
+    name: properties.primary
   - description: Public IP address bound to the IP configuration.
     types:
     - uid: SubResource
-    name: publicIPAddress
+    name: properties.publicIPAddress
   - description: Application security groups in which the IP configuration is included.
     types:
-    - isArray: true
-      uid: SubResource
-    name: applicationSecurityGroups
+    - uid: SubResource
+    name: properties.applicationSecurityGroups
   - description: "The provisioning state of the network interface IP configuration. Possible values are: 'Updating', 'Deleting', and 'Failed'."
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: Resource ID
     types:
     - uid: string
     name: id
 - name: SubResource
-  description: Reference to another subresource.
+  description: The reference of ApplicationGatewayBackendAddressPool resource.
   kind: object
   properties:
   - description: Resource ID.
@@ -147,7 +143,31 @@ examples:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/networkInterfaces/mynic/ipConfigurations/ipconfig1?api-version=2017-09-01
   responses:
   - statusCode: "200"
-    body: '{"name":"ipconfig1","id":"/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/networkInterfaces/mynic/ipConfigurations/ipconfig1","etag":"W/\\\"00000000-0000-0000-0000-000000000000\\\"","properties":{"provisioningState":"Succeeded","privateIPAddress":"10.0.1.4","privateIPAllocationMethod":"Dynamic","subnet":{"id":"/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/virtualNetworks/myVirtualNetwork/subnets/frontendSubnet"},"privateIPAddressVersion":"IPv4","loadBalancerBackendAddressPools":[{"id":"/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lbname1/backendAddressPools/bepool1"}],"loadBalancerInboundNatRules":[{"id":"/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lbname1/inboundNatRules/inbound1"}]}}'
+    body: >-
+      {
+        "name": "ipconfig1",
+        "id": "/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/networkInterfaces/mynic/ipConfigurations/ipconfig1",
+        "etag": "W/\\\"00000000-0000-0000-0000-000000000000\\\"",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "privateIPAddress": "10.0.1.4",
+          "privateIPAllocationMethod": "Dynamic",
+          "subnet": {
+            "id": "/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/virtualNetworks/myVirtualNetwork/subnets/frontendSubnet"
+          },
+          "privateIPAddressVersion": "IPv4",
+          "loadBalancerBackendAddressPools": [
+            {
+              "id": "/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lbname1/backendAddressPools/bepool1"
+            }
+          ],
+          "loadBalancerInboundNatRules": [
+            {
+              "id": "/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lbname1/inboundNatRules/inbound1"
+            }
+          ]
+        }
+      }
   name: NetworkInterfaceIPConfigurationGet
 security:
 - type: oauth2

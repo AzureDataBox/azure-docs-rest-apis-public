@@ -64,54 +64,54 @@ definitions:
   - description: A reference to frontend IP addresses.
     types:
     - uid: SubResource
-    name: frontendIPConfiguration
+    name: properties.frontendIPConfiguration
   - description: A reference to a pool of DIPs. Inbound traffic is randomly load balanced across IPs in the backend IPs.
     types:
     - uid: SubResource
-    name: backendAddressPool
+    name: properties.backendAddressPool
   - description: The reference of the load balancer probe used by the load balancing rule.
     types:
     - uid: SubResource
-    name: probe
+    name: properties.probe
   - description: The transport protocol for the endpoint. Possible values are 'Udp' or 'Tcp' or 'All.'
     types:
     - uid: TransportProtocol
-    name: protocol
+    name: properties.protocol
   - description: The load distribution policy for this rule. Possible values are 'Default', 'SourceIP', and 'SourceIPProtocol'.
     types:
     - uid: LoadDistribution
-    name: loadDistribution
+    name: properties.loadDistribution
   - description: The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer. Acceptable values are between 0 and 65534. Note that value 0 enables "Any Port"
     types:
     - uid: integer
-    name: frontendPort
+    name: properties.frontendPort
   - description: The port used for internal connections on the endpoint. Acceptable values are between 0 and 65535. Note that value 0 enables "Any Port"
     types:
     - uid: integer
-    name: backendPort
+    name: properties.backendPort
   - description: The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The default value is 4 minutes. This element is only used when the protocol is set to TCP.
     types:
     - uid: integer
-    name: idleTimeoutInMinutes
+    name: properties.idleTimeoutInMinutes
   - description: Configures a virtual machine's endpoint for the floating IP capability required to configure a SQL AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server. This setting can't be changed after you create the endpoint.
     types:
     - uid: boolean
-    name: enableFloatingIP
+    name: properties.enableFloatingIP
   - description: Configures SNAT for the VMs in the backend pool to use the publicIP address specified in the frontend of the load balancing rule.
     types:
     - uid: boolean
-    name: disableOutboundSnat
+    name: properties.disableOutboundSnat
   - description: "Gets the provisioning state of the PublicIP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: Resource ID
     types:
     - uid: string
     name: id
 - name: SubResource
-  description: A reference to frontend IP addresses.
+  description: Read only. Inbound rules URIs that use this frontend IP.
   kind: object
   properties:
   - description: Resource ID.
@@ -149,7 +149,30 @@ examples:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb1/loadBalancingRules/rule1?api-version=2017-09-01
   responses:
   - statusCode: "200"
-    body: '{"name":"rule1","id":"/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb1/loadBalancingRules/rule1","etag":"W/\\\"00000000-0000-0000-0000-000000000000\\\"","properties":{"provisioningState":"Succeeded","frontendIPConfiguration":{"id":"/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb1/frontendIPConfigurations/lbfrontend"},"frontendPort":80,"backendPort":80,"enableFloatingIP":false,"idleTimeoutInMinutes":15,"protocol":"Tcp","loadDistribution":"Default","backendAddressPool":{"id":"/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb1/backendAddressPools/bepool1"},"probe":{"id":"/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb1/probes/probe1"}}}'
+    body: >-
+      {
+        "name": "rule1",
+        "id": "/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb1/loadBalancingRules/rule1",
+        "etag": "W/\\\"00000000-0000-0000-0000-000000000000\\\"",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "frontendIPConfiguration": {
+            "id": "/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb1/frontendIPConfigurations/lbfrontend"
+          },
+          "frontendPort": 80,
+          "backendPort": 80,
+          "enableFloatingIP": false,
+          "idleTimeoutInMinutes": 15,
+          "protocol": "Tcp",
+          "loadDistribution": "Default",
+          "backendAddressPool": {
+            "id": "/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb1/backendAddressPools/bepool1"
+          },
+          "probe": {
+            "id": "/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb1/probes/probe1"
+          }
+        }
+      }
   name: LoadBalancerLoadBalancingRuleGet
 security:
 - type: oauth2

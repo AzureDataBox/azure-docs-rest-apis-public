@@ -58,9 +58,16 @@ definitions:
   - isReadyOnly: true
     description: Gets the list of storage account keys and their properties for the specified storage account.
     types:
-    - isArray: true
-      uid: StorageAccountKey
+    - uid: StorageAccountKey
     name: keys
+- name: StorageAccountRegenerateKeyParameters
+  description: The parameters used to regenerate the storage account key.
+  kind: object
+  properties:
+  - description: The name of storage keys that want to be regenerated, possible vaules are key1, key2.
+    types:
+    - uid: string
+    name: keyName
 - name: StorageAccountKey
   description: An access key for the storage account.
   kind: object
@@ -93,10 +100,27 @@ definitions:
 examples:
 - request:
     uri: POST https://management.azure.com/subscriptions/27de630f-e1ee-42de-8849-90def4986454/resourceGroups/res4167/providers/Microsoft.Storage/storageAccounts/sto3539/regenerateKey?api-version=2017-06-01
-    requestBody: '{"keyName":"key2"}'
+    body: >-
+      {
+        "keyName": "key2"
+      }
   responses:
   - statusCode: "200"
-    body: '{"keys":[{"keyName":"key1","permissions":"Full","value":"7xl+yQ4MrVpZCHspveCfy4f8jgTY1wv42gHO8k4bAX+EPvN4hY5uPau/bpofgeye+K9FtgvjkadkLISPfOxlMw=="},{"keyName":"key2","permissions":"Full","value":"uC+kyJ9/gT81E/+9I1Go4xtOe8sW5rdIm3n6PNIyQ5kGO5OpFq69aWnrn3jLeFIyItzpln9P392U0353RYKvbg=="}]}'
+    body: >-
+      {
+        "keys": [
+          {
+            "keyName": "key1",
+            "permissions": "Full",
+            "value": "7xl+yQ4MrVpZCHspveCfy4f8jgTY1wv42gHO8k4bAX+EPvN4hY5uPau/bpofgeye+K9FtgvjkadkLISPfOxlMw=="
+          },
+          {
+            "keyName": "key2",
+            "permissions": "Full",
+            "value": "uC+kyJ9/gT81E/+9I1Go4xtOe8sW5rdIm3n6PNIyQ5kGO5OpFq69aWnrn3jLeFIyItzpln9P392U0353RYKvbg=="
+          }
+        ]
+      }
   name: StorageAccountRegenerateKey
 security:
 - type: oauth2

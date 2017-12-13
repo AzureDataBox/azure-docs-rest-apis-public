@@ -36,29 +36,29 @@ responses:
 requestHeader: []
 definitions:
 - name: ResourceRecommendationBase
-  description: Advisor Recommendation.
+  description: The list of recommendations.
   kind: object
   properties:
   - description: The category of the recommendation.
     types:
     - uid: category
-    name: category
+    name: properties.category
   - description: The business impact of the recommendation.
     types:
     - uid: impact
-    name: impact
+    name: properties.impact
   - description: The resource type identified by Advisor.
     types:
     - uid: string
-    name: impactedField
+    name: properties.impactedField
   - description: The resource identified by Advisor.
     types:
     - uid: string
-    name: impactedValue
+    name: properties.impactedValue
   - description: The most recent time that Advisor checked the validity of the recommendation.
     types:
     - uid: string
-    name: lastUpdated
+    name: properties.lastUpdated
   - description: The recommendation metadata.
     types:
     - isDictionary: true
@@ -66,24 +66,23 @@ definitions:
       - uid: string
       - uid: object
       uid: object
-    name: metadata
+    name: properties.metadata
   - description: The recommendation-type GUID.
     types:
     - uid: string
-    name: recommendationTypeId
+    name: properties.recommendationTypeId
   - description: The potential risk of not implementing the recommendation.
     types:
     - uid: risk
-    name: risk
+    name: properties.risk
   - description: A summary of the recommendation.
     types:
     - uid: ShortDescription
-    name: shortDescription
+    name: properties.shortDescription
   - description: The list of snoozed and dismissed rules for the recommendation.
     types:
-    - isArray: true
-      uid: string
-    name: suppressionIds
+    - uid: string
+    name: properties.suppressionIds
   - isReadyOnly: true
     description: The resource ID.
     types:
@@ -158,7 +157,24 @@ examples:
     uri: GET https://management.azure.com/resourceUri/providers/Microsoft.Advisor/recommendations/recommendationId?api-version=2017-03-31
   responses:
   - statusCode: "200"
-    body: '{"id":"/resourceUri/providers/Microsoft.Advisor/recommendations/recommendationId","name":"recommendationId","properties":{"category":"HighAvailability","impact":"Medium","impactedField":"Microsoft.Compute/availabilitySets","impactedValue":"armavset","lastUpdated":"2017-02-24T22:24:43.3216408Z","risk":"Warning","shortDescription":{"problem":"This availability set is not configured for fault tolerance","solution":"To ensure high availability add one or more virtual machines to this availability set"}},"type":"Microsoft.Advisor/recommendations"}'
+    body: >-
+      {
+        "id": "/resourceUri/providers/Microsoft.Advisor/recommendations/recommendationId",
+        "name": "recommendationId",
+        "properties": {
+          "category": "HighAvailability",
+          "impact": "Medium",
+          "impactedField": "Microsoft.Compute/availabilitySets",
+          "impactedValue": "armavset",
+          "lastUpdated": "2017-02-24T22:24:43.3216408Z",
+          "risk": "Warning",
+          "shortDescription": {
+            "problem": "This availability set is not configured for fault tolerance",
+            "solution": "To ensure high availability add one or more virtual machines to this availability set"
+          }
+        },
+        "type": "Microsoft.Advisor/recommendations"
+      }
   name: GetRecommendationDetail
 security:
 - type: oauth2

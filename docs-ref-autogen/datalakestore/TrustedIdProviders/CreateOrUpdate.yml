@@ -52,7 +52,7 @@ requestBody:
     description: The URL of this trusted identity provider
     types:
     - uid: string
-    name: idProvider
+    name: properties.idProvider
   - in: body
     description: Resource name
     types:
@@ -67,7 +67,7 @@ definitions:
   - description: The URL of this trusted identity provider
     types:
     - uid: string
-    name: idProvider
+    name: properties.idProvider
   - isReadyOnly: true
     description: Resource Id
     types:
@@ -85,10 +85,24 @@ definitions:
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/contosorg/providers/Microsoft.DataLakeStore/accounts/contosoadla/trustedIdProviders/test_trusted_id_provider_name?api-version=2016-11-01
-    requestBody: '{"name":"test_trusted_id_provider_name","properties":{"idProvider":"https://sts.windows.net/ea9ec534-a3e3-4e45-ad36-3afc5bb291c1"}}'
+    body: >-
+      {
+        "name": "test_trusted_id_provider_name",
+        "properties": {
+          "idProvider": "https://sts.windows.net/ea9ec534-a3e3-4e45-ad36-3afc5bb291c1"
+        }
+      }
   responses:
   - statusCode: "200"
-    body: '{"id":"34adfa4f-cedf-4dc0-ba29-b6d1a69ab345","name":"test_trusted_id_provider_name","type":"test_type","properties":{"idProvider":"https://sts.windows.net/ea9ec534-a3e3-4e45-ad36-3afc5bb291c1"}}'
+    body: >-
+      {
+        "id": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
+        "name": "test_trusted_id_provider_name",
+        "type": "test_type",
+        "properties": {
+          "idProvider": "https://sts.windows.net/ea9ec534-a3e3-4e45-ad36-3afc5bb291c1"
+        }
+      }
   name: Creates or updates the specified trusted identity provider. During update, the trusted identity provider with the specified name will be replaced with this new provider
 security:
 - type: oauth2

@@ -39,8 +39,7 @@ requestBody:
   - in: body
     description: The IDs of the resources. The only supported string currently is '*' (all resources). Future updates will support exporting specific resources.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: resources
   - in: body
     description: The export template options. Supported values include 'IncludeParameterDefaultValue', 'IncludeComments' or 'IncludeParameterDefaultValue, IncludeComments
@@ -61,8 +60,20 @@ definitions:
     types:
     - uid: ResourceManagementErrorWithDetails
     name: error
+- name: ExportTemplateRequest
+  description: Export resource group template request parameters.
+  kind: object
+  properties:
+  - description: The IDs of the resources. The only supported string currently is '*' (all resources). Future updates will support exporting specific resources.
+    types:
+    - uid: string
+    name: resources
+  - description: The export template options. Supported values include 'IncludeParameterDefaultValue', 'IncludeComments' or 'IncludeParameterDefaultValue, IncludeComments
+    types:
+    - uid: string
+    name: options
 - name: ResourceManagementErrorWithDetails
-  description: The error.
+  description: The detailed error message of resource management.
   kind: object
   properties:
   - isReadyOnly: true
@@ -83,8 +94,7 @@ definitions:
   - isReadyOnly: true
     description: Validation error.
     types:
-    - isArray: true
-      uid: Details
+    - uid: ResourceManagementErrorWithDetails
     name: details
 examples: []
 security:

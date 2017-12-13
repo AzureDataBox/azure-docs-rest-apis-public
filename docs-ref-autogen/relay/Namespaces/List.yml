@@ -39,15 +39,26 @@ definitions:
   properties:
   - description: Result of the list namespace operation.
     types:
-    - isArray: true
-      uid: RelayNamespace
+    - uid: RelayNamespace
     name: value
   - description: Link to the next set of results. Not empty if value contains incomplete list of namespaces.
     types:
     - uid: string
     name: nextLink
+- name: ErrorResponse
+  description: Error reponse indicates Relay service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
 - name: RelayNamespace
-  description: Description of a namespace resource.
+  description: Result of the list namespace operation.
   kind: object
   properties:
   - description: SKU of the namespace.
@@ -57,27 +68,27 @@ definitions:
   - isReadyOnly: true
     types:
     - uid: provisioningStateEnum
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: The time the namespace was created.
     types:
     - uid: string
-    name: createdAt
+    name: properties.createdAt
   - isReadyOnly: true
     description: The time the namespace was updated.
     types:
     - uid: string
-    name: updatedAt
+    name: properties.updatedAt
   - isReadyOnly: true
     description: Endpoint you can use to perform Service Bus operations.
     types:
     - uid: string
-    name: serviceBusEndpoint
+    name: properties.serviceBusEndpoint
   - isReadyOnly: true
     description: Identifier for Azure Insights metrics.
     types:
     - uid: string
-    name: metricId
+    name: properties.metricId
   - description: Resource location.
     types:
     - uid: string
@@ -117,20 +128,6 @@ definitions:
     types:
     - uid: SkuTier
     name: tier
-- name: SkuName
-  description: Name of this SKU.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Standard
-- name: SkuTier
-  description: The tier of this SKU.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Standard
 - name: provisioningStateEnum
   kind: enum
   properties:
@@ -152,24 +149,72 @@ definitions:
   - types:
     - uid: string
     name: Unknown
-- name: ErrorResponse
-  description: Error reponse indicates Relay service is not able to process the incoming request. The reason is provided in the error message.
-  kind: object
+- name: SkuName
+  description: Name of this SKU.
+  kind: enum
   properties:
-  - description: Error code.
-    types:
+  - types:
     - uid: string
-    name: code
-  - description: Error message indicating why the operation failed.
-    types:
+    name: Standard
+- name: SkuTier
+  description: The tier of this SKU.
+  kind: enum
+  properties:
+  - types:
     - uid: string
-    name: message
+    name: Standard
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/8c246e6a-cbc6-4a87-aff1-d6a886f376ef/providers/Microsoft.Relay/namespaces?api-version=2017-04-01
   responses:
   - statusCode: "200"
-    body: '{"value":[{"id":"/subscriptions/8c246e6a-cbc6-4a87-aff1-d6a886f376ef/resourceGroups/RG1-eg/providers/Microsoft.Relay/namespaces/sdk-RelayNamespace-01","name":"sdk-RelayNamespace-01","type":"Microsoft.Relay/Namespaces","location":"West US","sku":{"name":"Standard","tier":"Standard"},"tags":{"tag1":"value1","tag2":"value2"},"properties":{"provisioningState":"Succeeded","metricId":"8c246e6a-cbc6-4a87-aff1-d6a886f376ef:sdk-RelayNamespace-01","createdAt":"2017-01-23T20:34:49.4131724Z","serviceBusEndpoint":"https://sdk-RelayNamespace-01.servicebus.windows.net:443/","updatedAt":"2017-01-23T20:34:59.4131724Z"}},{"id":"/subscriptions/8c246e6a-cbc6-4a87-aff1-d6a886f376ef/resourceGroups/RG1-eg/providers/Microsoft.Relay/namespaces/sdk-RelayNamespace-02","name":"sdk-RelayNamespace-02","type":"Microsoft.Relay/Namespaces","location":"West US","sku":{"name":"Standard","tier":"Standard"},"tags":{"tag1":"value1","tag2":"value2"},"properties":{"provisioningState":"Succeeded","metricId":"8c246e6a-cbc6-4a87-aff1-d6a886f376ef:sdk-RelayNamespace-02","createdAt":"2017-01-23T20:34:39.4131724Z","serviceBusEndpoint":"https://sdk-RelayNamespace-02.servicebus.windows.net:443/","updatedAt":"2017-01-23T20:34:49.4131724Z"}}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/8c246e6a-cbc6-4a87-aff1-d6a886f376ef/resourceGroups/RG1-eg/providers/Microsoft.Relay/namespaces/sdk-RelayNamespace-01",
+            "name": "sdk-RelayNamespace-01",
+            "type": "Microsoft.Relay/Namespaces",
+            "location": "West US",
+            "sku": {
+              "name": "Standard",
+              "tier": "Standard"
+            },
+            "tags": {
+              "tag1": "value1",
+              "tag2": "value2"
+            },
+            "properties": {
+              "provisioningState": "Succeeded",
+              "metricId": "8c246e6a-cbc6-4a87-aff1-d6a886f376ef:sdk-RelayNamespace-01",
+              "createdAt": "2017-01-23T20:34:49.4131724Z",
+              "serviceBusEndpoint": "https://sdk-RelayNamespace-01.servicebus.windows.net:443/",
+              "updatedAt": "2017-01-23T20:34:59.4131724Z"
+            }
+          },
+          {
+            "id": "/subscriptions/8c246e6a-cbc6-4a87-aff1-d6a886f376ef/resourceGroups/RG1-eg/providers/Microsoft.Relay/namespaces/sdk-RelayNamespace-02",
+            "name": "sdk-RelayNamespace-02",
+            "type": "Microsoft.Relay/Namespaces",
+            "location": "West US",
+            "sku": {
+              "name": "Standard",
+              "tier": "Standard"
+            },
+            "tags": {
+              "tag1": "value1",
+              "tag2": "value2"
+            },
+            "properties": {
+              "provisioningState": "Succeeded",
+              "metricId": "8c246e6a-cbc6-4a87-aff1-d6a886f376ef:sdk-RelayNamespace-02",
+              "createdAt": "2017-01-23T20:34:39.4131724Z",
+              "serviceBusEndpoint": "https://sdk-RelayNamespace-02.servicebus.windows.net:443/",
+              "updatedAt": "2017-01-23T20:34:49.4131724Z"
+            }
+          }
+        ]
+      }
   name: RelayNameSpaceListBySubscription
 security:
 - type: oauth2

@@ -52,23 +52,23 @@ requestBody:
     description: Point in time in which the app recovery should be attempted, formatted as a DateTime string.
     types:
     - uid: string
-    name: snapshotTime
+    name: properties.snapshotTime
   - in: body
     description: Specifies the web app that snapshot contents will be written to.
     types:
     - uid: SnapshotRecoveryTarget
-    name: recoveryTarget
+    name: properties.recoveryTarget
   - in: body
     isRequired: true
     description: If <code>true</code> the recovery operation can overwrite source app; otherwise, <code>false</code>.
     types:
     - uid: boolean
-    name: overwrite
+    name: properties.overwrite
   - in: body
     description: If true, site configuration, in addition to content, will be reverted.
     types:
     - uid: boolean
-    name: recoverConfiguration
+    name: properties.recoverConfiguration
   - in: body
     description: >-
       If true, custom hostname conflicts will be ignored when recovering to a target web app.
@@ -76,14 +76,72 @@ requestBody:
       This setting is only necessary when RecoverConfiguration is enabled.
     types:
     - uid: boolean
-    name: ignoreConflictingHostNames
+    name: properties.ignoreConflictingHostNames
   - in: body
     description: Kind of resource.
     types:
     - uid: string
     name: kind
 requestHeader: []
-definitions: []
+definitions:
+- name: SnapshotRecoveryTarget
+  description: Specifies the web app that snapshot contents will be written to.
+  kind: object
+  properties:
+  - description: Geographical location of the target web app, e.g. SouthEastAsia, SouthCentralUS
+    types:
+    - uid: string
+    name: location
+  - description: "ARM resource ID of the target app. \n/subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName} for production slots and \n/subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slotName} for other slots."
+    types:
+    - uid: string
+    name: id
+- name: SnapshotRecoveryRequest
+  description: If specified during app creation, the app is created from a previous snapshot.
+  kind: object
+  properties:
+  - description: Point in time in which the app recovery should be attempted, formatted as a DateTime string.
+    types:
+    - uid: string
+    name: properties.snapshotTime
+  - description: Specifies the web app that snapshot contents will be written to.
+    types:
+    - uid: SnapshotRecoveryTarget
+    name: properties.recoveryTarget
+  - description: If <code>true</code> the recovery operation can overwrite source app; otherwise, <code>false</code>.
+    types:
+    - uid: boolean
+    name: properties.overwrite
+  - description: If true, site configuration, in addition to content, will be reverted.
+    types:
+    - uid: boolean
+    name: properties.recoverConfiguration
+  - description: >-
+      If true, custom hostname conflicts will be ignored when recovering to a target web app.
+
+      This setting is only necessary when RecoverConfiguration is enabled.
+    types:
+    - uid: boolean
+    name: properties.ignoreConflictingHostNames
+  - isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+    name: name
+  - description: Kind of resource.
+    types:
+    - uid: string
+    name: kind
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
 examples: []
 security:
 - type: oauth2

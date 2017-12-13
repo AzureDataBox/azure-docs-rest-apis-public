@@ -52,9 +52,20 @@ definitions:
   properties:
   - description: Gets or sets usage.
     types:
-    - isArray: true
-      uid: Usage
+    - uid: Usage
     name: value
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - description: Error code
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
 - name: Usage
   description: Definition of Usage.
   kind: object
@@ -84,7 +95,7 @@ definitions:
     - uid: string
     name: throttleStatus
 - name: UsageCounterName
-  description: Gets or sets the usage counter name.
+  description: Definition of usage counter name.
   kind: object
   properties:
   - description: Gets or sets the usage counter name.
@@ -95,24 +106,46 @@ definitions:
     types:
     - uid: string
     name: localizedValue
-- name: ErrorResponse
-  description: Error response of an operation failure
-  kind: object
-  properties:
-  - description: Error code
-    types:
-    - uid: string
-    name: code
-  - description: Error message indicating why the operation failed.
-    types:
-    - uid: string
-    name: message
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount11/usages?api-version=2015-10-31
   responses:
   - statusCode: "200"
-    body: '{"value":[{"name":{"value":"AccountUsage","localizedValue":"AccountUsage"},"unit":"Minute","currentValue":0,"limit":500,"throttleStatus":"NotThrottled"},{"name":{"value":"SubscriptionUsage","localizedValue":"SubscriptionUsage"},"unit":"Minute","currentValue":429,"limit":500,"throttleStatus":"NotThrottled"},{"name":{"value":"DscSubscriptionUsage","localizedValue":"DscSubscriptionUsage"},"unit":"Count","currentValue":8,"limit":5,"throttleStatus":"ThrottledAtSubscriptionLevel"}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "name": {
+              "value": "AccountUsage",
+              "localizedValue": "AccountUsage"
+            },
+            "unit": "Minute",
+            "currentValue": 0,
+            "limit": 500,
+            "throttleStatus": "NotThrottled"
+          },
+          {
+            "name": {
+              "value": "SubscriptionUsage",
+              "localizedValue": "SubscriptionUsage"
+            },
+            "unit": "Minute",
+            "currentValue": 429,
+            "limit": 500,
+            "throttleStatus": "NotThrottled"
+          },
+          {
+            "name": {
+              "value": "DscSubscriptionUsage",
+              "localizedValue": "DscSubscriptionUsage"
+            },
+            "unit": "Count",
+            "currentValue": 8,
+            "limit": 5,
+            "throttleStatus": "ThrottledAtSubscriptionLevel"
+          }
+        ]
+      }
   name: Get usages of an automation account
 security: []
 name: ListByAutomationAccount

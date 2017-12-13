@@ -60,27 +60,17 @@ requestBody:
     description: The name of the server key.
     types:
     - uid: string
-    name: serverKeyName
+    name: properties.serverKeyName
   - in: body
     isRequired: true
     description: The encryption protector type like 'ServiceManaged', 'AzureKeyVault'.
     types:
     - uid: ServerKeyType
-    name: serverKeyType
+    name: properties.serverKeyType
 requestHeader: []
 definitions:
-- name: ServerKeyType
-  description: The encryption protector type like 'ServiceManaged', 'AzureKeyVault'.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: ServiceManaged
-  - types:
-    - uid: string
-    name: AzureKeyVault
 - name: EncryptionProtector
-  description: The server encryption protector.
+  description: Array of results.
   kind: object
   properties:
   - description: Kind of encryption protector. This is metadata used for the Azure portal experience.
@@ -96,25 +86,25 @@ definitions:
     description: Subregion of the encryption protector.
     types:
     - uid: string
-    name: subregion
+    name: properties.subregion
   - description: The name of the server key.
     types:
     - uid: string
-    name: serverKeyName
+    name: properties.serverKeyName
   - description: The encryption protector type like 'ServiceManaged', 'AzureKeyVault'.
     types:
     - uid: ServerKeyType
-    name: serverKeyType
+    name: properties.serverKeyType
   - isReadyOnly: true
     description: The URI of the server key.
     types:
     - uid: string
-    name: uri
+    name: properties.uri
   - isReadyOnly: true
     description: Thumbprint of the server key.
     types:
     - uid: string
-    name: thumbprint
+    name: properties.thumbprint
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -130,21 +120,65 @@ definitions:
     types:
     - uid: string
     name: type
+- name: ServerKeyType
+  description: The encryption protector type like 'ServiceManaged', 'AzureKeyVault'.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: ServiceManaged
+  - types:
+    - uid: string
+    name: AzureKeyVault
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645/encryptionProtector/current?api-version=2015-05-01-preview
-    requestBody: '{"properties":{"serverKeyType":"AzureKeyVault","serverKeyName":"someVault_someKey_01234567890123456789012345678901"}}'
+    body: >-
+      {
+        "properties": {
+          "serverKeyType": "AzureKeyVault",
+          "serverKeyName": "someVault_someKey_01234567890123456789012345678901"
+        }
+      }
   responses:
   - statusCode: "200"
-    body: '{"id":"/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645/encryptionProtector/current","name":"current","type":"Microsoft.Sql/servers/encryptionProtector","location":"West US","kind":"azurekeyvault","properties":{"serverKeyName":"someVault_someKey_01234567890123456789012345678901","serverKeyType":"AzureKeyVault"}}'
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645/encryptionProtector/current",
+        "name": "current",
+        "type": "Microsoft.Sql/servers/encryptionProtector",
+        "location": "West US",
+        "kind": "azurekeyvault",
+        "properties": {
+          "serverKeyName": "someVault_someKey_01234567890123456789012345678901",
+          "serverKeyType": "AzureKeyVault"
+        }
+      }
   - statusCode: "202"
   name: Update the encryption protector to key vault
 - request:
     uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645/encryptionProtector/current?api-version=2015-05-01-preview
-    requestBody: '{"properties":{"serverKeyType":"ServiceManaged","serverKeyName":"ServiceManaged"}}'
+    body: >-
+      {
+        "properties": {
+          "serverKeyType": "ServiceManaged",
+          "serverKeyName": "ServiceManaged"
+        }
+      }
   responses:
   - statusCode: "200"
-    body: '{"id":"/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645/encryptionProtector/current","name":"current","type":"Microsoft.Sql/servers/encryptionProtector","location":"West US","kind":"servicemanaged","properties":{"serverKeyName":"ServiceManaged","serverKeyType":"ServiceManaged"}}'
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645/encryptionProtector/current",
+        "name": "current",
+        "type": "Microsoft.Sql/servers/encryptionProtector",
+        "location": "West US",
+        "kind": "servicemanaged",
+        "properties": {
+          "serverKeyName": "ServiceManaged",
+          "serverKeyType": "ServiceManaged"
+        }
+      }
   - statusCode: "202"
   name: Update the encryption protector to service managed
 security: []

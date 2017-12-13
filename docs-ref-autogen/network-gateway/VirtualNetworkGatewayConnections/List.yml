@@ -43,8 +43,7 @@ definitions:
   properties:
   - description: Gets a list of VirtualNetworkGatewayConnection resources that exists in a resource group.
     types:
-    - isArray: true
-      uid: VirtualNetworkGatewayConnection
+    - uid: VirtualNetworkGatewayConnection
     name: value
   - isReadyOnly: true
     description: The URL to get the next set of results.
@@ -62,78 +61,76 @@ definitions:
   - description: The authorizationKey.
     types:
     - uid: string
-    name: authorizationKey
+    name: properties.authorizationKey
   - description: The reference to virtual network gateway resource.
     types:
     - uid: VirtualNetworkGateway
-    name: virtualNetworkGateway1
+    name: properties.virtualNetworkGateway1
   - description: The reference to virtual network gateway resource.
     types:
     - uid: VirtualNetworkGateway
-    name: virtualNetworkGateway2
+    name: properties.virtualNetworkGateway2
   - description: The reference to local network gateway resource.
     types:
     - uid: LocalNetworkGateway
-    name: localNetworkGateway2
+    name: properties.localNetworkGateway2
   - description: "Gateway connection type. Possible values are: 'Ipsec','Vnet2Vnet','ExpressRoute', and 'VPNClient."
     types:
     - uid: VirtualNetworkGatewayConnectionType
-    name: connectionType
+    name: properties.connectionType
   - description: The routing weight.
     types:
     - uid: integer
-    name: routingWeight
+    name: properties.routingWeight
   - description: The IPSec shared key.
     types:
     - uid: string
-    name: sharedKey
+    name: properties.sharedKey
   - isReadyOnly: true
     description: Virtual network Gateway connection status. Possible values are 'Unknown', 'Connecting', 'Connected' and 'NotConnected'.
     types:
     - uid: VirtualNetworkGatewayConnectionStatus
-    name: connectionStatus
+    name: properties.connectionStatus
   - isReadyOnly: true
     description: Collection of all tunnels' connection health status.
     types:
-    - isArray: true
-      uid: TunnelConnectionHealth
-    name: tunnelConnectionStatus
+    - uid: TunnelConnectionHealth
+    name: properties.tunnelConnectionStatus
   - isReadyOnly: true
     description: The egress bytes transferred in this connection.
     types:
     - uid: integer
-    name: egressBytesTransferred
+    name: properties.egressBytesTransferred
   - isReadyOnly: true
     description: The ingress bytes transferred in this connection.
     types:
     - uid: integer
-    name: ingressBytesTransferred
+    name: properties.ingressBytesTransferred
   - description: The reference to peerings resource.
     types:
     - uid: SubResource
-    name: peer
+    name: properties.peer
   - description: EnableBgp flag
     types:
     - uid: boolean
-    name: enableBgp
+    name: properties.enableBgp
   - description: Enable policy-based traffic selectors.
     types:
     - uid: boolean
-    name: usePolicyBasedTrafficSelectors
+    name: properties.usePolicyBasedTrafficSelectors
   - description: The IPSec Policies to be considered by this connection.
     types:
-    - isArray: true
-      uid: IpsecPolicy
-    name: ipsecPolicies
+    - uid: IpsecPolicy
+    name: properties.ipsecPolicies
   - description: The resource GUID property of the VirtualNetworkGatewayConnection resource.
     types:
     - uid: string
-    name: resourceGuid
+    name: properties.resourceGuid
   - isReadyOnly: true
     description: "The provisioning state of the VirtualNetworkGatewayConnection resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -162,7 +159,7 @@ definitions:
       uid: object
     name: tags
 - name: VirtualNetworkGateway
-  description: The reference to virtual network gateway resource.
+  description: A common class for general resource information
   kind: object
   properties:
   - description: Gets a unique read-only string that changes whenever the resource is updated.
@@ -171,50 +168,49 @@ definitions:
     name: etag
   - description: IP configurations for virtual network gateway.
     types:
-    - isArray: true
-      uid: VirtualNetworkGatewayIPConfiguration
-    name: ipConfigurations
+    - uid: VirtualNetworkGatewayIPConfiguration
+    name: properties.ipConfigurations
   - description: "The type of this virtual network gateway. Possible values are: 'Vpn' and 'ExpressRoute'."
     types:
     - uid: VirtualNetworkGatewayType
-    name: gatewayType
+    name: properties.gatewayType
   - description: "The type of this virtual network gateway. Possible values are: 'PolicyBased' and 'RouteBased'."
     types:
     - uid: VpnType
-    name: vpnType
+    name: properties.vpnType
   - description: Whether BGP is enabled for this virtual network gateway or not.
     types:
     - uid: boolean
-    name: enableBgp
+    name: properties.enableBgp
   - description: ActiveActive flag
     types:
     - uid: boolean
-    name: activeActive
+    name: properties.activeActive
   - description: The reference of the LocalNetworkGateway resource which represents local network site having default routes. Assign Null value in case of removing existing default site setting.
     types:
     - uid: SubResource
-    name: gatewayDefaultSite
+    name: properties.gatewayDefaultSite
   - description: The reference of the VirtualNetworkGatewaySku resource which represents the SKU selected for Virtual network gateway.
     types:
     - uid: VirtualNetworkGatewaySku
-    name: sku
+    name: properties.sku
   - description: The reference of the VpnClientConfiguration resource which represents the P2S VpnClient configurations.
     types:
     - uid: VpnClientConfiguration
-    name: vpnClientConfiguration
+    name: properties.vpnClientConfiguration
   - description: Virtual network gateway's BGP speaker settings.
     types:
     - uid: BgpSettings
-    name: bgpSettings
+    name: properties.bgpSettings
   - description: The resource GUID property of the VirtualNetworkGateway resource.
     types:
     - uid: string
-    name: resourceGuid
+    name: properties.resourceGuid
   - isReadyOnly: true
     description: "The provisioning state of the VirtualNetworkGateway resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -242,252 +238,6 @@ definitions:
       - uid: string
       uid: object
     name: tags
-- name: VirtualNetworkGatewayIPConfiguration
-  description: IP configuration for virtual network gateway
-  kind: object
-  properties:
-  - description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-    types:
-    - uid: string
-    name: name
-  - description: A unique read-only string that changes whenever the resource is updated.
-    types:
-    - uid: string
-    name: etag
-  - description: "The private IP allocation method. Possible values are: 'Static' and 'Dynamic'."
-    types:
-    - uid: IPAllocationMethod
-    name: privateIPAllocationMethod
-  - description: The reference of the subnet resource.
-    types:
-    - uid: SubResource
-    name: subnet
-  - description: The reference of the public IP resource.
-    types:
-    - uid: SubResource
-    name: publicIPAddress
-  - isReadyOnly: true
-    description: "The provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
-    types:
-    - uid: string
-    name: provisioningState
-  - isReadyOnly: true
-    description: Resource ID
-    types:
-    - uid: string
-    name: id
-- name: IPAllocationMethod
-  description: "The private IP allocation method. Possible values are: 'Static' and 'Dynamic'."
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Static
-  - types:
-    - uid: string
-    name: Dynamic
-- name: SubResource
-  description: The reference of the subnet resource.
-  kind: object
-  properties:
-  - description: Resource ID.
-    types:
-    - uid: string
-    name: id
-- name: VirtualNetworkGatewayType
-  description: "The type of this virtual network gateway. Possible values are: 'Vpn' and 'ExpressRoute'."
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Vpn
-  - types:
-    - uid: string
-    name: ExpressRoute
-- name: VpnType
-  description: "The type of this virtual network gateway. Possible values are: 'PolicyBased' and 'RouteBased'."
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: PolicyBased
-  - types:
-    - uid: string
-    name: RouteBased
-- name: VirtualNetworkGatewaySku
-  description: The reference of the VirtualNetworkGatewaySku resource which represents the SKU selected for Virtual network gateway.
-  kind: object
-  properties:
-  - description: Gateway SKU name.
-    types:
-    - uid: VirtualNetworkGatewaySkuName
-    name: name
-  - description: Gateway SKU tier.
-    types:
-    - uid: VirtualNetworkGatewaySkuTier
-    name: tier
-  - description: The capacity.
-    types:
-    - uid: integer
-    name: capacity
-- name: VirtualNetworkGatewaySkuName
-  description: Gateway SKU name.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Basic
-  - types:
-    - uid: string
-    name: HighPerformance
-  - types:
-    - uid: string
-    name: Standard
-  - types:
-    - uid: string
-    name: UltraPerformance
-  - types:
-    - uid: string
-    name: VpnGw1
-  - types:
-    - uid: string
-    name: VpnGw2
-  - types:
-    - uid: string
-    name: VpnGw3
-- name: VirtualNetworkGatewaySkuTier
-  description: Gateway SKU tier.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Basic
-  - types:
-    - uid: string
-    name: HighPerformance
-  - types:
-    - uid: string
-    name: Standard
-  - types:
-    - uid: string
-    name: UltraPerformance
-  - types:
-    - uid: string
-    name: VpnGw1
-  - types:
-    - uid: string
-    name: VpnGw2
-  - types:
-    - uid: string
-    name: VpnGw3
-- name: VpnClientConfiguration
-  description: The reference of the VpnClientConfiguration resource which represents the P2S VpnClient configurations.
-  kind: object
-  properties:
-  - description: The reference of the address space resource which represents Address space for P2S VpnClient.
-    types:
-    - uid: AddressSpace
-    name: vpnClientAddressPool
-  - description: VpnClientRootCertificate for virtual network gateway.
-    types:
-    - isArray: true
-      uid: VpnClientRootCertificate
-    name: vpnClientRootCertificates
-  - description: VpnClientRevokedCertificate for Virtual network gateway.
-    types:
-    - isArray: true
-      uid: VpnClientRevokedCertificate
-    name: vpnClientRevokedCertificates
-  - description: VpnClientProtocols for Virtual network gateway.
-    types:
-    - isArray: true
-      uid: string
-    name: vpnClientProtocols
-  - description: The radius server address property of the VirtualNetworkGateway resource for vpn client connection.
-    types:
-    - uid: string
-    name: radiusServerAddress
-  - description: The radius secret property of the VirtualNetworkGateway resource for vpn client connection.
-    types:
-    - uid: string
-    name: radiusServerSecret
-- name: AddressSpace
-  description: The reference of the address space resource which represents Address space for P2S VpnClient.
-  kind: object
-  properties:
-  - description: A list of address blocks reserved for this virtual network in CIDR notation.
-    types:
-    - isArray: true
-      uid: string
-    name: addressPrefixes
-- name: VpnClientRootCertificate
-  description: VPN client root certificate of virtual network gateway
-  kind: object
-  properties:
-  - description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-    types:
-    - uid: string
-    name: name
-  - description: A unique read-only string that changes whenever the resource is updated.
-    types:
-    - uid: string
-    name: etag
-  - description: The certificate public data.
-    types:
-    - uid: string
-    name: publicCertData
-  - isReadyOnly: true
-    description: "The provisioning state of the VPN client root certificate resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
-    types:
-    - uid: string
-    name: provisioningState
-  - isReadyOnly: true
-    description: Resource ID
-    types:
-    - uid: string
-    name: id
-- name: VpnClientRevokedCertificate
-  description: VPN client revoked certificate of virtual network gateway.
-  kind: object
-  properties:
-  - description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-    types:
-    - uid: string
-    name: name
-  - description: A unique read-only string that changes whenever the resource is updated.
-    types:
-    - uid: string
-    name: etag
-  - description: The revoked VPN client certificate thumbprint.
-    types:
-    - uid: string
-    name: thumbprint
-  - isReadyOnly: true
-    description: "The provisioning state of the VPN client revoked certificate resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
-    types:
-    - uid: string
-    name: provisioningState
-  - isReadyOnly: true
-    description: Resource ID
-    types:
-    - uid: string
-    name: id
-- name: BgpSettings
-  description: Virtual network gateway's BGP speaker settings.
-  kind: object
-  properties:
-  - description: The BGP speaker's ASN.
-    types:
-    - uid: integer
-    name: asn
-  - description: The BGP peering address and BGP identifier of this BGP speaker.
-    types:
-    - uid: string
-    name: bgpPeeringAddress
-  - description: The weight added to routes learned from this BGP speaker.
-    types:
-    - uid: integer
-    name: peerWeight
 - name: LocalNetworkGateway
   description: The reference to local network gateway resource.
   kind: object
@@ -499,24 +249,24 @@ definitions:
   - description: Local network site address space.
     types:
     - uid: AddressSpace
-    name: localNetworkAddressSpace
+    name: properties.localNetworkAddressSpace
   - description: IP address of local network gateway.
     types:
     - uid: string
-    name: gatewayIpAddress
+    name: properties.gatewayIpAddress
   - description: Local network gateway's BGP speaker settings.
     types:
     - uid: BgpSettings
-    name: bgpSettings
+    name: properties.bgpSettings
   - description: The resource GUID property of the LocalNetworkGateway resource.
     types:
     - uid: string
-    name: resourceGuid
+    name: properties.resourceGuid
   - isReadyOnly: true
     description: "The provisioning state of the LocalNetworkGateway resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -561,7 +311,7 @@ definitions:
     - uid: string
     name: VPNClient
 - name: VirtualNetworkGatewayConnectionStatus
-  description: Virtual network Gateway connection status. Possible values are 'Unknown', 'Connecting', 'Connected' and 'NotConnected'.
+  description: Virtual network Gateway connection status
   kind: enum
   properties:
   - types:
@@ -605,8 +355,16 @@ definitions:
     types:
     - uid: string
     name: lastConnectionEstablishedUtcTime
+- name: SubResource
+  description: The reference of the subnet resource.
+  kind: object
+  properties:
+  - description: Resource ID.
+    types:
+    - uid: string
+    name: id
 - name: IpsecPolicy
-  description: An IPSec Policy configuration for a virtual network gateway connection
+  description: The IPSec Policies to be considered by this connection.
   kind: object
   properties:
   - description: The IPSec Security Association (also called Quick Mode or Phase 2 SA) lifetime in seconds for a site to site VPN tunnel.
@@ -641,6 +399,128 @@ definitions:
     types:
     - uid: PfsGroup
     name: pfsGroup
+- name: VirtualNetworkGatewayIPConfiguration
+  description: IP configuration for virtual network gateway
+  kind: object
+  properties:
+  - description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+    name: name
+  - description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+    name: etag
+  - description: "The private IP allocation method. Possible values are: 'Static' and 'Dynamic'."
+    types:
+    - uid: IPAllocationMethod
+    name: properties.privateIPAllocationMethod
+  - description: The reference of the subnet resource.
+    types:
+    - uid: SubResource
+    name: properties.subnet
+  - description: The reference of the public IP resource.
+    types:
+    - uid: SubResource
+    name: properties.publicIPAddress
+  - isReadyOnly: true
+    description: "The provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
+    name: properties.provisioningState
+  - isReadyOnly: true
+    description: Resource ID
+    types:
+    - uid: string
+    name: id
+- name: VirtualNetworkGatewayType
+  description: "The type of this virtual network gateway. Possible values are: 'Vpn' and 'ExpressRoute'."
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Vpn
+  - types:
+    - uid: string
+    name: ExpressRoute
+- name: VpnType
+  description: "The type of this virtual network gateway. Possible values are: 'PolicyBased' and 'RouteBased'."
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: PolicyBased
+  - types:
+    - uid: string
+    name: RouteBased
+- name: VirtualNetworkGatewaySku
+  description: The reference of the VirtualNetworkGatewaySku resource which represents the SKU selected for Virtual network gateway.
+  kind: object
+  properties:
+  - description: Gateway SKU name.
+    types:
+    - uid: VirtualNetworkGatewaySkuName
+    name: name
+  - description: Gateway SKU tier.
+    types:
+    - uid: VirtualNetworkGatewaySkuTier
+    name: tier
+  - description: The capacity.
+    types:
+    - uid: integer
+    name: capacity
+- name: VpnClientConfiguration
+  description: The reference of the VpnClientConfiguration resource which represents the P2S VpnClient configurations.
+  kind: object
+  properties:
+  - description: The reference of the address space resource which represents Address space for P2S VpnClient.
+    types:
+    - uid: AddressSpace
+    name: vpnClientAddressPool
+  - description: VpnClientRootCertificate for virtual network gateway.
+    types:
+    - uid: VpnClientRootCertificate
+    name: vpnClientRootCertificates
+  - description: VpnClientRevokedCertificate for Virtual network gateway.
+    types:
+    - uid: VpnClientRevokedCertificate
+    name: vpnClientRevokedCertificates
+  - description: VpnClientProtocols for Virtual network gateway.
+    types:
+    - uid: string
+    name: vpnClientProtocols
+  - description: The radius server address property of the VirtualNetworkGateway resource for vpn client connection.
+    types:
+    - uid: string
+    name: radiusServerAddress
+  - description: The radius secret property of the VirtualNetworkGateway resource for vpn client connection.
+    types:
+    - uid: string
+    name: radiusServerSecret
+- name: BgpSettings
+  description: Virtual network gateway's BGP speaker settings.
+  kind: object
+  properties:
+  - description: The BGP speaker's ASN.
+    types:
+    - uid: integer
+    name: asn
+  - description: The BGP peering address and BGP identifier of this BGP speaker.
+    types:
+    - uid: string
+    name: bgpPeeringAddress
+  - description: The weight added to routes learned from this BGP speaker.
+    types:
+    - uid: integer
+    name: peerWeight
+- name: AddressSpace
+  description: The reference of the address space resource which represents Address space for P2S VpnClient.
+  kind: object
+  properties:
+  - description: A list of address blocks reserved for this virtual network in CIDR notation.
+    types:
+    - uid: string
+    name: addressPrefixes
 - name: IpsecEncryption
   description: The IPSec encryption algorithm (IKE phase 1).
   kind: enum
@@ -782,6 +662,118 @@ definitions:
   - types:
     - uid: string
     name: PFS24
+- name: IPAllocationMethod
+  description: "The private IP allocation method. Possible values are: 'Static' and 'Dynamic'."
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Static
+  - types:
+    - uid: string
+    name: Dynamic
+- name: VirtualNetworkGatewaySkuName
+  description: Gateway SKU name.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Basic
+  - types:
+    - uid: string
+    name: HighPerformance
+  - types:
+    - uid: string
+    name: Standard
+  - types:
+    - uid: string
+    name: UltraPerformance
+  - types:
+    - uid: string
+    name: VpnGw1
+  - types:
+    - uid: string
+    name: VpnGw2
+  - types:
+    - uid: string
+    name: VpnGw3
+- name: VirtualNetworkGatewaySkuTier
+  description: Gateway SKU tier.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Basic
+  - types:
+    - uid: string
+    name: HighPerformance
+  - types:
+    - uid: string
+    name: Standard
+  - types:
+    - uid: string
+    name: UltraPerformance
+  - types:
+    - uid: string
+    name: VpnGw1
+  - types:
+    - uid: string
+    name: VpnGw2
+  - types:
+    - uid: string
+    name: VpnGw3
+- name: VpnClientRootCertificate
+  description: VpnClientRootCertificate for virtual network gateway.
+  kind: object
+  properties:
+  - description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+    name: name
+  - description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+    name: etag
+  - description: The certificate public data.
+    types:
+    - uid: string
+    name: properties.publicCertData
+  - isReadyOnly: true
+    description: "The provisioning state of the VPN client root certificate resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
+    name: properties.provisioningState
+  - isReadyOnly: true
+    description: Resource ID
+    types:
+    - uid: string
+    name: id
+- name: VpnClientRevokedCertificate
+  description: VpnClientRevokedCertificate for Virtual network gateway.
+  kind: object
+  properties:
+  - description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+    name: name
+  - description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+    name: etag
+  - description: The revoked VPN client certificate thumbprint.
+    types:
+    - uid: string
+    name: properties.thumbprint
+  - isReadyOnly: true
+    description: "The provisioning state of the VPN client revoked certificate resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
+    name: properties.provisioningState
+  - isReadyOnly: true
+    description: Resource ID
+    types:
+    - uid: string
+    name: id
 examples: []
 security:
 - type: oauth2

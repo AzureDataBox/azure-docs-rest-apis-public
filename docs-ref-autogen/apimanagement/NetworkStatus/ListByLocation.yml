@@ -58,14 +58,28 @@ definitions:
   properties:
   - description: Gets the list of DNS servers IPV4 addresses.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: dnsServers
   - description: Gets the list of Connectivity Status to the Resources on which the service depends upon.
     types:
-    - isArray: true
-      uid: ConnectivityStatusContract
+    - uid: ConnectivityStatusContract
     name: connectivityStatus
+- name: ErrorResponse
+  description: Error Body contract.
+  kind: object
+  properties:
+  - description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+    name: code
+  - description: Human-readable representation of the error.
+    types:
+    - uid: string
+    name: message
+  - description: The list of invalid fields send in request, in case of validation error.
+    types:
+    - uid: ErrorFieldContract
+    name: details
 - name: ConnectivityStatusContract
   description: Details about connectivity to a resource.
   kind: object
@@ -92,36 +106,6 @@ definitions:
     types:
     - uid: string
     name: lastStatusChange
-- name: ConnectivityStatusType
-  description: Resource Connectivity Status Type identifier.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: initializing
-  - types:
-    - uid: string
-    name: success
-  - types:
-    - uid: string
-    name: failure
-- name: ErrorResponse
-  description: Error Body contract.
-  kind: object
-  properties:
-  - description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
-    types:
-    - uid: string
-    name: code
-  - description: Human-readable representation of the error.
-    types:
-    - uid: string
-    name: message
-  - description: The list of invalid fields send in request, in case of validation error.
-    types:
-    - isArray: true
-      uid: ErrorFieldContract
-    name: details
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
@@ -138,12 +122,61 @@ definitions:
     types:
     - uid: string
     name: target
+- name: ConnectivityStatusType
+  description: Resource Connectivity Status Type identifier.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: initializing
+  - types:
+    - uid: string
+    name: success
+  - types:
+    - uid: string
+    name: failure
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/locations/East Asia/networkstatus?api-version=2017-03-01
   responses:
   - statusCode: "200"
-    body: '{"dnsServers":["10.20.32.69","10.20.237.143"],"connectivityStatus":[{"name":"apimgmtstxaleb7*******.blob.core.windows.net","status":"success","error":"","lastUpdated":"2017-06-01T23:13:07.9054516Z","lastStatusChange":"2017-04-13T19:39:53.5543347Z"},{"name":"apimgmtstxaleb7*******.file.core.windows.net","status":"success","error":"","lastUpdated":"2017-06-01T23:13:08.1242042Z","lastStatusChange":"2017-04-13T19:39:53.7262408Z"},{"name":"Scm","status":"success","error":"","lastUpdated":"2017-06-01T23:08:22.9140197Z","lastStatusChange":"2017-05-27T17:52:41.3592337Z"},{"name":"****seqi.database.windows.net","status":"success","error":"","lastUpdated":"2017-06-01T23:13:08.0617078Z","lastStatusChange":"2017-04-13T19:39:53.5543347Z"}]}'
+    body: >-
+      {
+        "dnsServers": [
+          "10.20.32.69",
+          "10.20.237.143"
+        ],
+        "connectivityStatus": [
+          {
+            "name": "apimgmtstxaleb7*******.blob.core.windows.net",
+            "status": "success",
+            "error": "",
+            "lastUpdated": "2017-06-01T23:13:07.9054516Z",
+            "lastStatusChange": "2017-04-13T19:39:53.5543347Z"
+          },
+          {
+            "name": "apimgmtstxaleb7*******.file.core.windows.net",
+            "status": "success",
+            "error": "",
+            "lastUpdated": "2017-06-01T23:13:08.1242042Z",
+            "lastStatusChange": "2017-04-13T19:39:53.7262408Z"
+          },
+          {
+            "name": "Scm",
+            "status": "success",
+            "error": "",
+            "lastUpdated": "2017-06-01T23:08:22.9140197Z",
+            "lastStatusChange": "2017-05-27T17:52:41.3592337Z"
+          },
+          {
+            "name": "****seqi.database.windows.net",
+            "status": "success",
+            "error": "",
+            "lastUpdated": "2017-06-01T23:13:08.0617078Z",
+            "lastStatusChange": "2017-04-13T19:39:53.5543347Z"
+          }
+        ]
+      }
   name: ApiManagementServiceGetNetworkStatusByLocation
 security:
 - type: oauth2

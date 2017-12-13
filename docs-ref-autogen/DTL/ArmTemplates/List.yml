@@ -80,13 +80,20 @@ definitions:
   properties:
   - description: Results of the list operation.
     types:
-    - isArray: true
-      uid: ArmTemplate
+    - uid: ArmTemplate
     name: value
   - description: Link for next set of results.
     types:
     - uid: string
     name: nextLink
+- name: CloudError
+  description: Error from a REST request.
+  kind: object
+  properties:
+  - description: Body of an error from a REST request.
+    types:
+    - uid: CloudErrorBody
+    name: error
 - name: ArmTemplate
   description: An Azure Resource Manager template.
   kind: object
@@ -95,38 +102,37 @@ definitions:
     description: The display name of the ARM template.
     types:
     - uid: string
-    name: displayName
+    name: properties.displayName
   - isReadyOnly: true
     description: The description of the ARM template.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - isReadyOnly: true
     description: The publisher of the ARM template.
     types:
     - uid: string
-    name: publisher
+    name: properties.publisher
   - isReadyOnly: true
     description: The URI to the icon of the ARM template.
     types:
     - uid: string
-    name: icon
+    name: properties.icon
   - isReadyOnly: true
     description: The contents of the ARM template.
     types:
     - uid: object
-    name: contents
+    name: properties.contents
   - isReadyOnly: true
     description: The creation date of the armTemplate.
     types:
     - uid: string
-    name: createdDate
+    name: properties.createdDate
   - isReadyOnly: true
     description: File name and parameter values information from all azuredeploy.*.parameters.json for the ARM template.
     types:
-    - isArray: true
-      uid: ParametersValueFileInfo
-    name: parametersValueFilesInfo
+    - uid: ParametersValueFileInfo
+    name: properties.parametersValueFilesInfo
   - isReadyOnly: true
     description: The identifier of the resource.
     types:
@@ -154,26 +160,6 @@ definitions:
       - uid: string
       uid: object
     name: tags
-- name: ParametersValueFileInfo
-  description: A file containing a set of parameter values for an ARM template.
-  kind: object
-  properties:
-  - description: File name.
-    types:
-    - uid: string
-    name: fileName
-  - description: Contents of the file.
-    types:
-    - uid: object
-    name: parametersValueInfo
-- name: CloudError
-  description: Error from a REST request.
-  kind: object
-  properties:
-  - description: Body of an error from a REST request.
-    types:
-    - uid: CloudErrorBody
-    name: error
 - name: CloudErrorBody
   description: Body of an error from a REST request.
   kind: object
@@ -189,9 +175,20 @@ definitions:
     name: target
   - description: Inner errors.
     types:
-    - isArray: true
-      uid: Details
+    - uid: Details
     name: details
+- name: ParametersValueFileInfo
+  description: File name and parameter values information from all azuredeploy.*.parameters.json for the ARM template.
+  kind: object
+  properties:
+  - description: File name.
+    types:
+    - uid: string
+    name: fileName
+  - description: Contents of the file.
+    types:
+    - uid: object
+    name: parametersValueInfo
 examples: []
 security:
 - type: oauth2

@@ -72,6 +72,14 @@ definitions:
     types:
     - uid: CloudErrorBody
     name: error
+- name: ActivateApplicationPackageParameters
+  description: Parameters for an activating an application package.
+  kind: object
+  properties:
+  - description: The format of the application package binary file.
+    types:
+    - uid: string
+    name: format
 - name: CloudErrorBody
   description: An error response from the Batch service.
   kind: object
@@ -90,13 +98,15 @@ definitions:
     name: target
   - description: A list of additional details about the error.
     types:
-    - isArray: true
-      uid: Details
+    - uid: Details
     name: details
 examples:
 - request:
     uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/applications/app1/versions/1/activate?api-version=2017-09-01
-    requestBody: '{"format":"zip"}'
+    body: >-
+      {
+        "format": "zip"
+      }
   responses:
   - statusCode: "204"
   name: ApplicationPackageActivate

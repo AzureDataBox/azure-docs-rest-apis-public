@@ -62,17 +62,17 @@ requestBody:
     description: The name of this route. This is only returned by the server and does not need to be set by the client.
     types:
     - uid: string
-    name: name
+    name: properties.name
   - in: body
     description: The starting address for this route. This may also include a CIDR notation, in which case the end address must not be specified.
     types:
     - uid: string
-    name: startAddress
+    name: properties.startAddress
   - in: body
     description: The ending address for this route. If the start address is specified in CIDR notation, this must be omitted.
     types:
     - uid: string
-    name: endAddress
+    name: properties.endAddress
   - in: body
     description: >-
       The type of route this is:
@@ -87,7 +87,7 @@ requestBody:
       These values will be used for syncing an app's routes with those from a Virtual Network.
     types:
     - uid: RouteType
-    name: routeType
+    name: properties.routeType
   - in: body
     description: Kind of resource.
     types:
@@ -95,6 +95,55 @@ requestBody:
     name: kind
 requestHeader: []
 definitions:
+- name: VnetRoute
+  description: Virtual Network route contract used to pass routing information for a Virtual Network.
+  kind: object
+  properties:
+  - description: The name of this route. This is only returned by the server and does not need to be set by the client.
+    types:
+    - uid: string
+    name: properties.name
+  - description: The starting address for this route. This may also include a CIDR notation, in which case the end address must not be specified.
+    types:
+    - uid: string
+    name: properties.startAddress
+  - description: The ending address for this route. If the start address is specified in CIDR notation, this must be omitted.
+    types:
+    - uid: string
+    name: properties.endAddress
+  - description: >-
+      The type of route this is:
+
+      DEFAULT - By default, every app has routes to the local address ranges specified by RFC1918
+
+      INHERITED - Routes inherited from the real Virtual Network routes
+
+      STATIC - Static route set on the app only
+
+
+      These values will be used for syncing an app's routes with those from a Virtual Network.
+    types:
+    - uid: RouteType
+    name: properties.routeType
+  - isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+    name: name
+  - description: Kind of resource.
+    types:
+    - uid: string
+    name: kind
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
 - name: RouteType
   description: >-
     The type of route this is:
@@ -118,50 +167,6 @@ definitions:
   - types:
     - uid: string
     name: STATIC
-- name: VnetRoute
-  description: Virtual Network route contract used to pass routing information for a Virtual Network.
-  kind: object
-  properties:
-  - description: The name of this route. This is only returned by the server and does not need to be set by the client.
-    types:
-    - uid: string
-    name: name
-  - description: The starting address for this route. This may also include a CIDR notation, in which case the end address must not be specified.
-    types:
-    - uid: string
-    name: startAddress
-  - description: The ending address for this route. If the start address is specified in CIDR notation, this must be omitted.
-    types:
-    - uid: string
-    name: endAddress
-  - description: >-
-      The type of route this is:
-
-      DEFAULT - By default, every app has routes to the local address ranges specified by RFC1918
-
-      INHERITED - Routes inherited from the real Virtual Network routes
-
-      STATIC - Static route set on the app only
-
-
-      These values will be used for syncing an app's routes with those from a Virtual Network.
-    types:
-    - uid: RouteType
-    name: routeType
-  - isReadyOnly: true
-    description: Resource Id.
-    types:
-    - uid: string
-    name: id
-  - description: Kind of resource.
-    types:
-    - uid: string
-    name: kind
-  - isReadyOnly: true
-    description: Resource type.
-    types:
-    - uid: string
-    name: type
 examples: []
 security:
 - type: oauth2

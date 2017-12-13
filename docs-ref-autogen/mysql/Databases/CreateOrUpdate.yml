@@ -57,12 +57,12 @@ requestBody:
     description: The charset of the database.
     types:
     - uid: string
-    name: charset
+    name: properties.charset
   - in: body
     description: The collation of the database.
     types:
     - uid: string
-    name: collation
+    name: properties.collation
 requestHeader: []
 definitions:
 - name: Database
@@ -72,11 +72,11 @@ definitions:
   - description: The charset of the database.
     types:
     - uid: string
-    name: charset
+    name: properties.charset
   - description: The collation of the database.
     types:
     - uid: string
-    name: collation
+    name: properties.collation
   - isReadyOnly: true
     description: Resource ID
     types:
@@ -95,12 +95,36 @@ definitions:
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMySQL/servers/testserver/databases/db1?api-version=2017-04-30-preview
-    requestBody: '{"properties":{"charset":"utf8","collation":"utf8_general_ci"}}'
+    body: >-
+      {
+        "properties": {
+          "charset": "utf8",
+          "collation": "utf8_general_ci"
+        }
+      }
   responses:
   - statusCode: "201"
-    body: '{"id":"/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMySQL/servers/testserver/databases/db1","name":"db1","type":"Microsoft.DBforMySQL/servers/databases","properties":{"charset":"utf8","collation":"utf8_general_ci"}}'
+    body: >-
+      {
+        "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMySQL/servers/testserver/databases/db1",
+        "name": "db1",
+        "type": "Microsoft.DBforMySQL/servers/databases",
+        "properties": {
+          "charset": "utf8",
+          "collation": "utf8_general_ci"
+        }
+      }
   - statusCode: "200"
-    body: '{"id":"/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMySQL/servers/testserver/databases/db1","name":"db1","type":"Microsoft.DBforMySQL/servers/databases","properties":{"charset":"utf8","collation":"utf8_general_ci"}}'
+    body: >-
+      {
+        "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMySQL/servers/testserver/databases/db1",
+        "name": "db1",
+        "type": "Microsoft.DBforMySQL/servers/databases",
+        "properties": {
+          "charset": "utf8",
+          "collation": "utf8_general_ci"
+        }
+      }
   - statusCode: "202"
   name: DatabaseCreate
 security:

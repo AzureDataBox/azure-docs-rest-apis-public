@@ -84,9 +84,24 @@ definitions:
   properties:
   - description: The list of subtasks.
     types:
-    - isArray: true
-      uid: SubtaskInformation
+    - uid: SubtaskInformation
     name: value
+- name: BatchError
+  description: The error encountered while attempting to add the task.
+  kind: object
+  properties:
+  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+    name: code
+  - description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: ErrorMessage
+    name: message
+  - description: A collection of key-value pairs containing additional details about the error.
+    types:
+    - uid: BatchErrorDetail
+    name: values
 - name: SubtaskInformation
   description: Information about an Azure Batch subtask.
   kind: object
@@ -139,8 +154,32 @@ definitions:
     types:
     - uid: TaskExecutionResult
     name: result
+- name: ErrorMessage
+  description: A message describing the error, intended to be suitable for display in a user interface.
+  kind: object
+  properties:
+  - description: The language code of the error message
+    types:
+    - uid: string
+    name: lang
+  - description: The text of the message.
+    types:
+    - uid: string
+    name: value
+- name: BatchErrorDetail
+  description: A collection of key-value pairs containing additional details about the error.
+  kind: object
+  properties:
+  - description: An identifier specifying the meaning of the Value property.
+    types:
+    - uid: string
+    name: key
+  - description: The additional information included with the error response.
+    types:
+    - uid: string
+    name: value
 - name: ComputeNodeInformation
-  description: Information about the compute node on which the subtask ran.
+  description: Information about the compute node on which a task ran.
   kind: object
   properties:
   - description: An identifier for the compute node on which the task ran, which can be passed when adding a task to request that the task be scheduled on this compute node.
@@ -168,7 +207,7 @@ definitions:
     - uid: string
     name: taskRootDirectoryUrl
 - name: TaskContainerExecutionInformation
-  description: This property is set only if the task runs in a container context.
+  description: Contains information about the container which a task is executing.
   kind: object
   properties:
   - description: The ID of the container.
@@ -184,7 +223,7 @@ definitions:
     - uid: string
     name: error
 - name: TaskFailureInformation
-  description: This property is set only if the task is in the completed state and encountered a failure.
+  description: Information about a task failure.
   kind: object
   properties:
   - description: The category of the task error.
@@ -201,33 +240,8 @@ definitions:
     name: message
   - description: A list of additional details related to the error.
     types:
-    - isArray: true
-      uid: NameValuePair
+    - uid: NameValuePair
     name: details
-- name: ErrorCategory
-  description: The category of the task error.
-  kind: enum
-  properties:
-  - description: The error is due to a user issue, such as misconfiguration.
-    types:
-    - uid: string
-    name: usererror
-  - description: The error is due to an internal server issue.
-    types:
-    - uid: string
-    name: servererror
-- name: NameValuePair
-  description: Represents a name-value pair.
-  kind: object
-  properties:
-  - description: The name in the name-value pair.
-    types:
-    - uid: string
-    name: name
-  - description: The value in the name-value pair.
-    types:
-    - uid: string
-    name: value
 - name: SubtaskState
   description: The current state of the subtask.
   kind: enum
@@ -256,44 +270,27 @@ definitions:
     types:
     - uid: string
     name: failure
-- name: BatchError
-  description: An error response received from the Azure Batch service.
+- name: ErrorCategory
+  description: The category of the job scheduling error.
+  kind: enum
+  properties:
+  - description: The error is due to a user issue, such as misconfiguration.
+    types:
+    - uid: string
+    name: usererror
+  - description: The error is due to an internal server issue.
+    types:
+    - uid: string
+    name: servererror
+- name: NameValuePair
+  description: Represents a name-value pair.
   kind: object
   properties:
-  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+  - description: The name in the name-value pair.
     types:
     - uid: string
-    name: code
-  - description: A message describing the error, intended to be suitable for display in a user interface.
-    types:
-    - uid: ErrorMessage
-    name: message
-  - description: A collection of key-value pairs containing additional details about the error.
-    types:
-    - isArray: true
-      uid: BatchErrorDetail
-    name: values
-- name: ErrorMessage
-  description: A message describing the error, intended to be suitable for display in a user interface.
-  kind: object
-  properties:
-  - description: The language code of the error message
-    types:
-    - uid: string
-    name: lang
-  - description: The text of the message.
-    types:
-    - uid: string
-    name: value
-- name: BatchErrorDetail
-  description: An item of additional information included in an Azure Batch error response.
-  kind: object
-  properties:
-  - description: An identifier specifying the meaning of the Value property.
-    types:
-    - uid: string
-    name: key
-  - description: The additional information included with the error response.
+    name: name
+  - description: The value in the name-value pair.
     types:
     - uid: string
     name: value
@@ -305,7 +302,43 @@ examples:
       name: client-request-id
   responses:
   - statusCode: "200"
-    body: '{"value":[{"id":1,"startTime":"2016-09-06T06:59:16.3139271Z","endTime":"2016-09-06T06:59:20.0242024Z","state":"completed","stateTransitionTime":"2016-09-06T06:59:20.0242024Z","previousState":"running","previousStateTransitionTime":"2016-09-06T06:59:16.3139271Z","exitCode":0,"nodeInfo":{"affinityId":"TVM:tvm-2544493925_3-20160905t051718z","nodeUrl":"https://account.region.batch.azure.com/pools/poolId/nodes/tvm-2544493925_3-20160905t051718z","poolId":"mpiPool","nodeId":"tvm-2544493925_3-20160905t051718z","taskRootDirectory":"\\workitems\\jobId\\job-1\\taskId\\1","taskRootDirectoryUrl":"https://account.region.batch.azure.com/pools/poolId/nodes/tvm-2544493925_3-20160905t051718z/files//workitems/jobId/job-1/taskId/1"}},{"id":2,"startTime":"2016-09-06T06:59:16.9702844Z","state":"running","stateTransitionTime":"2016-09-06T06:59:16.9702844Z","nodeInfo":{"affinityId":"TVM:tvm-2544493925_2-20160905t051718z","nodeUrl":"https://account.region.batch.azure.com/pools/poolId/nodes/tvm-2544493925_2-20160905t051718z","poolId":"mpiPool","nodeId":"tvm-2544493925_2-20160905t051718z","taskRootDirectory":"\\workitems\\jobId\\job-1\\taskId\\2","taskRootDirectoryUrl":"https://account.region.batch.azure.com/pools/poolId/nodes/tvm-2544493925_2-20160905t051718z/files//workitems/jobId/job-1/taskId/2"}}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "id": 1,
+            "startTime": "2016-09-06T06:59:16.3139271Z",
+            "endTime": "2016-09-06T06:59:20.0242024Z",
+            "state": "completed",
+            "stateTransitionTime": "2016-09-06T06:59:20.0242024Z",
+            "previousState": "running",
+            "previousStateTransitionTime": "2016-09-06T06:59:16.3139271Z",
+            "exitCode": 0,
+            "nodeInfo": {
+              "affinityId": "TVM:tvm-2544493925_3-20160905t051718z",
+              "nodeUrl": "https://account.region.batch.azure.com/pools/poolId/nodes/tvm-2544493925_3-20160905t051718z",
+              "poolId": "mpiPool",
+              "nodeId": "tvm-2544493925_3-20160905t051718z",
+              "taskRootDirectory": "\\workitems\\jobId\\job-1\\taskId\\1",
+              "taskRootDirectoryUrl": "https://account.region.batch.azure.com/pools/poolId/nodes/tvm-2544493925_3-20160905t051718z/files//workitems/jobId/job-1/taskId/1"
+            }
+          },
+          {
+            "id": 2,
+            "startTime": "2016-09-06T06:59:16.9702844Z",
+            "state": "running",
+            "stateTransitionTime": "2016-09-06T06:59:16.9702844Z",
+            "nodeInfo": {
+              "affinityId": "TVM:tvm-2544493925_2-20160905t051718z",
+              "nodeUrl": "https://account.region.batch.azure.com/pools/poolId/nodes/tvm-2544493925_2-20160905t051718z",
+              "poolId": "mpiPool",
+              "nodeId": "tvm-2544493925_2-20160905t051718z",
+              "taskRootDirectory": "\\workitems\\jobId\\job-1\\taskId\\2",
+              "taskRootDirectoryUrl": "https://account.region.batch.azure.com/pools/poolId/nodes/tvm-2544493925_2-20160905t051718z/files//workitems/jobId/job-1/taskId/2"
+            }
+          }
+        ]
+      }
   name: Task list subtasks
 security: []
 name: ListSubtasks

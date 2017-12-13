@@ -74,13 +74,20 @@ definitions:
   properties:
   - description: Results of the list operation.
     types:
-    - isArray: true
-      uid: GalleryImage
+    - uid: GalleryImage
     name: value
   - description: Link for next set of results.
     types:
     - uid: string
     name: nextLink
+- name: CloudError
+  description: Error from a REST request.
+  kind: object
+  properties:
+  - description: Body of an error from a REST request.
+    types:
+    - uid: CloudErrorBody
+    name: error
 - name: GalleryImage
   description: A gallery image.
   kind: object
@@ -88,28 +95,28 @@ definitions:
   - description: The author of the gallery image.
     types:
     - uid: string
-    name: author
+    name: properties.author
   - isReadyOnly: true
     description: The creation date of the gallery image.
     types:
     - uid: string
-    name: createdDate
+    name: properties.createdDate
   - description: The description of the gallery image.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - description: The image reference of the gallery image.
     types:
     - uid: GalleryImageReference
-    name: imageReference
+    name: properties.imageReference
   - description: The icon of the gallery image.
     types:
     - uid: string
-    name: icon
+    name: properties.icon
   - description: Indicates whether this gallery image is enabled.
     types:
     - uid: boolean
-    name: enabled
+    name: properties.enabled
   - isReadyOnly: true
     description: The identifier of the resource.
     types:
@@ -137,8 +144,25 @@ definitions:
       - uid: string
       uid: object
     name: tags
+- name: CloudErrorBody
+  description: Body of an error from a REST request.
+  kind: object
+  properties:
+  - types:
+    - uid: string
+    name: code
+  - types:
+    - uid: string
+    name: message
+  - types:
+    - uid: string
+    name: target
+  - description: Inner errors.
+    types:
+    - uid: Details
+    name: details
 - name: GalleryImageReference
-  description: The image reference of the gallery image.
+  description: The Microsoft Azure Marketplace image reference of the virtual machine.
   kind: object
   properties:
   - description: The offer of the gallery image.
@@ -161,32 +185,6 @@ definitions:
     types:
     - uid: string
     name: version
-- name: CloudError
-  description: Error from a REST request.
-  kind: object
-  properties:
-  - description: Body of an error from a REST request.
-    types:
-    - uid: CloudErrorBody
-    name: error
-- name: CloudErrorBody
-  description: Body of an error from a REST request.
-  kind: object
-  properties:
-  - types:
-    - uid: string
-    name: code
-  - types:
-    - uid: string
-    name: message
-  - types:
-    - uid: string
-    name: target
-  - description: Inner errors.
-    types:
-    - isArray: true
-      uid: Details
-    name: details
 examples: []
 security:
 - type: oauth2

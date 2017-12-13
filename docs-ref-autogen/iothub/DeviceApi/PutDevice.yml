@@ -83,26 +83,18 @@ requestBody:
     name: authentication
 requestHeader: []
 definitions:
-- name: DeviceConnectionState
-  description: Specifies the different connection states of a device.
-  kind: enum
+- name: AuthenticationMechanism
+  description: Used to specify the authentication mechanism used by a device. Two mutually-exclusive options are supported - shared access signature keys and device X.509 client certificates.
+  kind: object
   properties:
-  - types:
-    - uid: string
-    name: disconnected
-  - types:
-    - uid: string
-    name: connected
-- name: DeviceStatus
-  description: Represents the current status of a device. A disabled device is not allowed to perform any messaging operation. An IoT hub administrator can choose to enable or disable a device.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: enabled
-  - types:
-    - uid: string
-    name: disabled
+  - description: Primary and secondary shared access signature symmetric keys of a device. If specified, both primary key and secondary key are required. The keys must be in valid base-64 format with a key length between 16 bytes and 64 bytes. They can be identical. If they are not specified, the Iot Hub generates both keys for the device with a default key length of 32 bytes.
+    types:
+    - uid: SymmetricKey
+    name: symmetricKey
+  - description: If the device is using X.509 client certificates for authentication, at least one of primaryThumbprint or secondaryThumbprint must be specified. They can be identical.
+    types:
+    - uid: X509Thumbprint
+    name: x509Thumbprint
 - name: Device
   description: Container of IoT Hub device properties and their accessors.
   kind: object
@@ -152,18 +144,6 @@ definitions:
     types:
     - uid: AuthenticationMechanism
     name: authentication
-- name: AuthenticationMechanism
-  description: Used to specify the authentication mechanism used by a device. Two mutually-exclusive options are supported - shared access signature keys and device X.509 client certificates.
-  kind: object
-  properties:
-  - description: Primary and secondary shared access signature symmetric keys of a device. If specified, both primary key and secondary key are required. The keys must be in valid base-64 format with a key length between 16 bytes and 64 bytes. They can be identical. If they are not specified, the Iot Hub generates both keys for the device with a default key length of 32 bytes.
-    types:
-    - uid: SymmetricKey
-    name: symmetricKey
-  - description: If the device is using X.509 client certificates for authentication, at least one of primaryThumbprint or secondaryThumbprint must be specified. They can be identical.
-    types:
-    - uid: X509Thumbprint
-    name: x509Thumbprint
 - name: SymmetricKey
   description: Primary and secondary shared access signature symmetric keys of a device. If specified, both primary key and secondary key are required. The keys must be in valid base-64 format with a key length between 16 bytes and 64 bytes. They can be identical. If they are not specified, the Iot Hub generates both keys for the device with a default key length of 32 bytes.
   kind: object
@@ -186,6 +166,26 @@ definitions:
     types:
     - uid: string
     name: secondaryThumbprint
+- name: DeviceConnectionState
+  description: Specifies the different connection states of a device.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: disconnected
+  - types:
+    - uid: string
+    name: connected
+- name: DeviceStatus
+  description: Represents the current status of a device. A disabled device is not allowed to perform any messaging operation. An IoT hub administrator can choose to enable or disable a device.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: enabled
+  - types:
+    - uid: string
+    name: disabled
 examples: []
 security: []
 name: PutDevice

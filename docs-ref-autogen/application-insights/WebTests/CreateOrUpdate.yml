@@ -51,56 +51,55 @@ requestBody:
     description: Unique ID of this WebTest. This is typically the same value as the Name field.
     types:
     - uid: string
-    name: SyntheticMonitorId
+    name: properties.SyntheticMonitorId
   - in: body
     isRequired: true
     description: User defined name if this WebTest.
     types:
     - uid: string
-    name: Name
+    name: properties.Name
   - in: body
     description: Purpose/user defined descriptive test for this WebTest.
     types:
     - uid: string
-    name: Description
+    name: properties.Description
   - in: body
     description: Is the test actively being monitored.
     types:
     - uid: boolean
-    name: Enabled
+    name: properties.Enabled
   - in: body
     description: Interval in seconds between test runs for this WebTest. Default value is 300.
     types:
     - uid: integer
-    name: Frequency
+    name: properties.Frequency
   - in: body
     description: Seconds until this WebTest will timeout and fail. Default value is 30.
     types:
     - uid: integer
-    name: Timeout
+    name: properties.Timeout
   - in: body
     isRequired: true
     description: The kind of web test this is, valid choices are ping and multistep.
     types:
     - uid: WebTestKind
-    name: Kind
+    name: properties.Kind
   - in: body
     description: Allow for retries should this WebTest fail.
     types:
     - uid: boolean
-    name: RetryEnabled
+    name: properties.RetryEnabled
   - in: body
     isRequired: true
     description: A list of where to physically run the tests from to give global coverage for accessibility of your application.
     types:
-    - isArray: true
-      uid: WebTestGeolocation
-    name: Locations
+    - uid: WebTestGeolocation
+    name: properties.Locations
   - in: body
     description: An XML configuration specification for a WebTest.
     types:
     - uid: Configuration
-    name: Configuration
+    name: properties.Configuration
   - in: body
     isRequired: true
     description: Resource location
@@ -118,18 +117,24 @@ requestBody:
     name: tags
 requestHeader: []
 definitions:
-- name: WebTestKind
-  description: The kind of web test that this web test watches. Choices are ping and multistep.
-  kind: enum
+- name: WebTestGeolocation
+  description: A list of where to physically run the tests from to give global coverage for accessibility of your application.
+  kind: object
   properties:
-  - types:
+  - description: Location ID for the webtest to run from.
+    types:
     - uid: string
-    name: ping
-  - types:
+    name: Id
+- name: Configuration
+  description: An XML configuration specification for a WebTest.
+  kind: object
+  properties:
+  - description: The XML specification of a WebTest to run against an application.
+    types:
     - uid: string
-    name: multistep
+    name: WebTest
 - name: WebTest
-  description: An Application Insights web test definition.
+  description: Set of Application Insights web test definitions.
   kind: object
   properties:
   - description: The kind of web test that this web test watches. Choices are ping and multistep.
@@ -139,49 +144,48 @@ definitions:
   - description: Unique ID of this WebTest. This is typically the same value as the Name field.
     types:
     - uid: string
-    name: SyntheticMonitorId
+    name: properties.SyntheticMonitorId
   - description: User defined name if this WebTest.
     types:
     - uid: string
-    name: Name
+    name: properties.Name
   - description: Purpose/user defined descriptive test for this WebTest.
     types:
     - uid: string
-    name: Description
+    name: properties.Description
   - description: Is the test actively being monitored.
     types:
     - uid: boolean
-    name: Enabled
+    name: properties.Enabled
   - description: Interval in seconds between test runs for this WebTest. Default value is 300.
     types:
     - uid: integer
-    name: Frequency
+    name: properties.Frequency
   - description: Seconds until this WebTest will timeout and fail. Default value is 30.
     types:
     - uid: integer
-    name: Timeout
+    name: properties.Timeout
   - description: The kind of web test this is, valid choices are ping and multistep.
     types:
     - uid: WebTestKind
-    name: Kind
+    name: properties.Kind
   - description: Allow for retries should this WebTest fail.
     types:
     - uid: boolean
-    name: RetryEnabled
+    name: properties.RetryEnabled
   - description: A list of where to physically run the tests from to give global coverage for accessibility of your application.
     types:
-    - isArray: true
-      uid: WebTestGeolocation
-    name: Locations
+    - uid: WebTestGeolocation
+    name: properties.Locations
   - description: An XML configuration specification for a WebTest.
     types:
     - uid: Configuration
-    name: Configuration
+    name: properties.Configuration
   - isReadyOnly: true
     description: Current state of this component, whether or not is has been provisioned within the resource group it is defined. Users cannot change this value but are able to read from it. Values will include Succeeded, Deploying, Canceled, and Failed.
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: Azure resource Id
     types:
@@ -209,36 +213,137 @@ definitions:
       - uid: string
       uid: object
     name: tags
-- name: WebTestGeolocation
-  description: Geo-physical location to run a web test from. You must specify one or more locations for the test to run from.
-  kind: object
+- name: WebTestKind
+  description: The kind of web test that this web test watches. Choices are ping and multistep.
+  kind: enum
   properties:
-  - description: Location ID for the webtest to run from.
-    types:
+  - types:
     - uid: string
-    name: Id
-- name: Configuration
-  description: An XML configuration specification for a WebTest.
-  kind: object
-  properties:
-  - description: The XML specification of a WebTest to run against an application.
-    types:
+    name: ping
+  - types:
     - uid: string
-    name: WebTest
+    name: multistep
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/my-resource-group/providers/microsoft.insights/webtests/my-webtest-my-component?api-version=2015-05-01
-    requestBody: '{"location":"South Central US","kind":"ping","properties":{"Name":"my-webtest-my-component","SyntheticMonitorId":"my-webtest-my-component","Configuration":{"WebTest":"<WebTest Name=\"my-webtest\" Id=\"678ddf96-1ab8-44c8-9274-123456789abc\" Enabled=\"True\" CssProjectStructure=\"\" CssIteration=\"\" Timeout=\"120\" WorkItemIds=\"\" xmlns=\"http://microsoft.com/schemas/VisualStudio/TeamTest/2010\" Description=\"\" CredentialUserName=\"\" CredentialPassword=\"\" PreAuthenticate=\"True\" Proxy=\"default\" StopOnError=\"False\" RecordedResultFile=\"\" ResultsLocale=\"\" ><Items><Request Method=\"GET\" Guid=\"a4162485-9114-fcfc-e086-123456789abc\" Version=\"1.1\" Url=\"http://my-component.azurewebsites.net\" ThinkTime=\"0\" Timeout=\"120\" ParseDependentRequests=\"True\" FollowRedirects=\"True\" RecordResult=\"True\" Cache=\"False\" ResponseTimeGoal=\"0\" Encoding=\"utf-8\" ExpectedHttpStatusCode=\"200\" ExpectedResponseUrl=\"\" ReportingName=\"\" IgnoreHttpStatusCode=\"False\" /></Items></WebTest>"},"Description":"Ping web test alert for mytestwebapp","Enabled":true,"Frequency":900,"Timeout":120,"Kind":"ping","RetryEnabled":true,"Locations":[{"Id":"us-fl-mia-edge"}]}}'
+    body: >-
+      {
+        "location": "South Central US",
+        "kind": "ping",
+        "properties": {
+          "Name": "my-webtest-my-component",
+          "SyntheticMonitorId": "my-webtest-my-component",
+          "Configuration": {
+            "WebTest": "<WebTest Name=\"my-webtest\" Id=\"678ddf96-1ab8-44c8-9274-123456789abc\" Enabled=\"True\" CssProjectStructure=\"\" CssIteration=\"\" Timeout=\"120\" WorkItemIds=\"\" xmlns=\"http://microsoft.com/schemas/VisualStudio/TeamTest/2010\" Description=\"\" CredentialUserName=\"\" CredentialPassword=\"\" PreAuthenticate=\"True\" Proxy=\"default\" StopOnError=\"False\" RecordedResultFile=\"\" ResultsLocale=\"\" ><Items><Request Method=\"GET\" Guid=\"a4162485-9114-fcfc-e086-123456789abc\" Version=\"1.1\" Url=\"http://my-component.azurewebsites.net\" ThinkTime=\"0\" Timeout=\"120\" ParseDependentRequests=\"True\" FollowRedirects=\"True\" RecordResult=\"True\" Cache=\"False\" ResponseTimeGoal=\"0\" Encoding=\"utf-8\" ExpectedHttpStatusCode=\"200\" ExpectedResponseUrl=\"\" ReportingName=\"\" IgnoreHttpStatusCode=\"False\" /></Items></WebTest>"
+          },
+          "Description": "Ping web test alert for mytestwebapp",
+          "Enabled": true,
+          "Frequency": 900,
+          "Timeout": 120,
+          "Kind": "ping",
+          "RetryEnabled": true,
+          "Locations": [
+            {
+              "Id": "us-fl-mia-edge"
+            }
+          ]
+        }
+      }
   responses:
   - statusCode: "200"
-    body: '{"id":"/subscriptions/subid/resourceGroups/my-resource-group/providers/microsoft.insights/webtests/my-webtest-my-component","name":"my-webtest-my-component","type":"microsoft.insights/webtests","location":"southcentralus","tags":{"hidden-link:/subscriptions/subid/resourceGroups/my-resource-group/providers/microsoft.insights/components/my-component":"Resource","hidden-link:/subscriptions/subid/resourceGroups/my-resource-group/providers/Microsoft.Web/sites/mytestwebapp":"Resource"},"kind":"ping","properties":{"Name":"my-webtest-my-component","SyntheticMonitorId":"my-webtest-my-component","Description":"Ping web test alert for mytestwebapp","Enabled":true,"Frequency":900,"Timeout":120,"Kind":"ping","RetryEnabled":true,"Locations":[{"Id":"us-fl-mia-edge"}],"Configuration":{"WebTest":"<WebTest Name=\"my-webtest\" Id=\"678ddf96-1ab8-44c8-9274-123456789abc\" Enabled=\"True\" CssProjectStructure=\"\" CssIteration=\"\" Timeout=\"120\" WorkItemIds=\"\" xmlns=\"http://microsoft.com/schemas/VisualStudio/TeamTest/2010\" Description=\"\" CredentialUserName=\"\" CredentialPassword=\"\" PreAuthenticate=\"True\" Proxy=\"default\" StopOnError=\"False\" RecordedResultFile=\"\" ResultsLocale=\"\" ><Items><Request Method=\"GET\" Guid=\"a4162485-9114-fcfc-e086-123456789abc\" Version=\"1.1\" Url=\"http://my-component.azurewebsites.net\" ThinkTime=\"0\" Timeout=\"120\" ParseDependentRequests=\"True\" FollowRedirects=\"True\" RecordResult=\"True\" Cache=\"False\" ResponseTimeGoal=\"0\" Encoding=\"utf-8\" ExpectedHttpStatusCode=\"200\" ExpectedResponseUrl=\"\" ReportingName=\"\" IgnoreHttpStatusCode=\"False\" /></Items></WebTest>"},"provisioningState":"Succeeded"}}'
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/my-resource-group/providers/microsoft.insights/webtests/my-webtest-my-component",
+        "name": "my-webtest-my-component",
+        "type": "microsoft.insights/webtests",
+        "location": "southcentralus",
+        "tags": {
+          "hidden-link:/subscriptions/subid/resourceGroups/my-resource-group/providers/microsoft.insights/components/my-component": "Resource",
+          "hidden-link:/subscriptions/subid/resourceGroups/my-resource-group/providers/Microsoft.Web/sites/mytestwebapp": "Resource"
+        },
+        "kind": "ping",
+        "properties": {
+          "Name": "my-webtest-my-component",
+          "SyntheticMonitorId": "my-webtest-my-component",
+          "Description": "Ping web test alert for mytestwebapp",
+          "Enabled": true,
+          "Frequency": 900,
+          "Timeout": 120,
+          "Kind": "ping",
+          "RetryEnabled": true,
+          "Locations": [
+            {
+              "Id": "us-fl-mia-edge"
+            }
+          ],
+          "Configuration": {
+            "WebTest": "<WebTest Name=\"my-webtest\" Id=\"678ddf96-1ab8-44c8-9274-123456789abc\" Enabled=\"True\" CssProjectStructure=\"\" CssIteration=\"\" Timeout=\"120\" WorkItemIds=\"\" xmlns=\"http://microsoft.com/schemas/VisualStudio/TeamTest/2010\" Description=\"\" CredentialUserName=\"\" CredentialPassword=\"\" PreAuthenticate=\"True\" Proxy=\"default\" StopOnError=\"False\" RecordedResultFile=\"\" ResultsLocale=\"\" ><Items><Request Method=\"GET\" Guid=\"a4162485-9114-fcfc-e086-123456789abc\" Version=\"1.1\" Url=\"http://my-component.azurewebsites.net\" ThinkTime=\"0\" Timeout=\"120\" ParseDependentRequests=\"True\" FollowRedirects=\"True\" RecordResult=\"True\" Cache=\"False\" ResponseTimeGoal=\"0\" Encoding=\"utf-8\" ExpectedHttpStatusCode=\"200\" ExpectedResponseUrl=\"\" ReportingName=\"\" IgnoreHttpStatusCode=\"False\" /></Items></WebTest>"
+          },
+          "provisioningState": "Succeeded"
+        }
+      }
   name: webTestCreate
 - request:
     uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/my-resource-group/providers/microsoft.insights/webtests/my-webtest-my-component?api-version=2015-05-01
-    requestBody: '{"location":"South Central US","kind":"ping","properties":{"Configuration":{"WebTest":"<WebTest Name=\"my-webtest\" Id=\"678ddf96-1ab8-44c8-9274-123456789abc\" Enabled=\"True\" CssProjectStructure=\"\" CssIteration=\"\" Timeout=\"30\" WorkItemIds=\"\" xmlns=\"http://microsoft.com/schemas/VisualStudio/TeamTest/2010\" Description=\"\" CredentialUserName=\"\" CredentialPassword=\"\" PreAuthenticate=\"True\" Proxy=\"default\" StopOnError=\"False\" RecordedResultFile=\"\" ResultsLocale=\"\" ><Items><Request Method=\"GET\" Guid=\"a4162485-9114-fcfc-e086-123456789abc\" Version=\"1.1\" Url=\"http://my-component.azurewebsites.net\" ThinkTime=\"0\" Timeout=\"30\" ParseDependentRequests=\"True\" FollowRedirects=\"True\" RecordResult=\"True\" Cache=\"False\" ResponseTimeGoal=\"0\" Encoding=\"utf-8\" ExpectedHttpStatusCode=\"200\" ExpectedResponseUrl=\"\" ReportingName=\"\" IgnoreHttpStatusCode=\"False\" /></Items></WebTest>"},"Frequency":600,"Timeout":30,"Locations":[{"Id":"us-fl-mia-edge"},{"Id":"apac-hk-hkn-azr"}],"Kind":"ping","Name":"my-webtest-my-component","SyntheticMonitorId":"my-webtest-my-component"}}'
+    body: >-
+      {
+        "location": "South Central US",
+        "kind": "ping",
+        "properties": {
+          "Configuration": {
+            "WebTest": "<WebTest Name=\"my-webtest\" Id=\"678ddf96-1ab8-44c8-9274-123456789abc\" Enabled=\"True\" CssProjectStructure=\"\" CssIteration=\"\" Timeout=\"30\" WorkItemIds=\"\" xmlns=\"http://microsoft.com/schemas/VisualStudio/TeamTest/2010\" Description=\"\" CredentialUserName=\"\" CredentialPassword=\"\" PreAuthenticate=\"True\" Proxy=\"default\" StopOnError=\"False\" RecordedResultFile=\"\" ResultsLocale=\"\" ><Items><Request Method=\"GET\" Guid=\"a4162485-9114-fcfc-e086-123456789abc\" Version=\"1.1\" Url=\"http://my-component.azurewebsites.net\" ThinkTime=\"0\" Timeout=\"30\" ParseDependentRequests=\"True\" FollowRedirects=\"True\" RecordResult=\"True\" Cache=\"False\" ResponseTimeGoal=\"0\" Encoding=\"utf-8\" ExpectedHttpStatusCode=\"200\" ExpectedResponseUrl=\"\" ReportingName=\"\" IgnoreHttpStatusCode=\"False\" /></Items></WebTest>"
+          },
+          "Frequency": 600,
+          "Timeout": 30,
+          "Locations": [
+            {
+              "Id": "us-fl-mia-edge"
+            },
+            {
+              "Id": "apac-hk-hkn-azr"
+            }
+          ],
+          "Kind": "ping",
+          "Name": "my-webtest-my-component",
+          "SyntheticMonitorId": "my-webtest-my-component"
+        }
+      }
   responses:
   - statusCode: "200"
-    body: '{"id":"/subscriptions/subid/resourceGroups/my-resource-group/providers/microsoft.insights/webtests/my-webtest-my-component","name":"my-webtest-my-component","type":"microsoft.insights/webtests","location":"southcentralus","tags":{"hidden-link:/subscriptions/subid/resourceGroups/my-resource-group/providers/microsoft.insights/components/my-component":"Resource","hidden-link:/subscriptions/subid/resourceGroups/my-resource-group/providers/Microsoft.Web/sites/mytestwebapp":"Resource"},"kind":"ping","properties":{"Name":"my-webtest-my-component","SyntheticMonitorId":"my-webtest-my-component","Description":"Ping web test alert for mytestwebapp","Enabled":true,"Frequency":600,"Timeout":30,"Kind":"ping","RetryEnabled":true,"Locations":[{"Id":"us-fl-mia-edge"},{"Id":"apac-hk-hkn-azr"}],"Configuration":{"WebTest":"<WebTest Name=\"my-webtest\" Id=\"678ddf96-1ab8-44c8-9274-123456789abc\" Enabled=\"True\" CssProjectStructure=\"\" CssIteration=\"\" Timeout=\"30\" WorkItemIds=\"\" xmlns=\"http://microsoft.com/schemas/VisualStudio/TeamTest/2010\" Description=\"\" CredentialUserName=\"\" CredentialPassword=\"\" PreAuthenticate=\"True\" Proxy=\"default\" StopOnError=\"False\" RecordedResultFile=\"\" ResultsLocale=\"\" ><Items><Request Method=\"GET\" Guid=\"a4162485-9114-fcfc-e086-123456789abc\" Version=\"1.1\" Url=\"http://my-component.azurewebsites.net\" ThinkTime=\"0\" Timeout=\"30\" ParseDependentRequests=\"True\" FollowRedirects=\"True\" RecordResult=\"True\" Cache=\"False\" ResponseTimeGoal=\"0\" Encoding=\"utf-8\" ExpectedHttpStatusCode=\"200\" ExpectedResponseUrl=\"\" ReportingName=\"\" IgnoreHttpStatusCode=\"False\" /></Items></WebTest>"},"provisioningState":"Succeeded"}}'
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/my-resource-group/providers/microsoft.insights/webtests/my-webtest-my-component",
+        "name": "my-webtest-my-component",
+        "type": "microsoft.insights/webtests",
+        "location": "southcentralus",
+        "tags": {
+          "hidden-link:/subscriptions/subid/resourceGroups/my-resource-group/providers/microsoft.insights/components/my-component": "Resource",
+          "hidden-link:/subscriptions/subid/resourceGroups/my-resource-group/providers/Microsoft.Web/sites/mytestwebapp": "Resource"
+        },
+        "kind": "ping",
+        "properties": {
+          "Name": "my-webtest-my-component",
+          "SyntheticMonitorId": "my-webtest-my-component",
+          "Description": "Ping web test alert for mytestwebapp",
+          "Enabled": true,
+          "Frequency": 600,
+          "Timeout": 30,
+          "Kind": "ping",
+          "RetryEnabled": true,
+          "Locations": [
+            {
+              "Id": "us-fl-mia-edge"
+            },
+            {
+              "Id": "apac-hk-hkn-azr"
+            }
+          ],
+          "Configuration": {
+            "WebTest": "<WebTest Name=\"my-webtest\" Id=\"678ddf96-1ab8-44c8-9274-123456789abc\" Enabled=\"True\" CssProjectStructure=\"\" CssIteration=\"\" Timeout=\"30\" WorkItemIds=\"\" xmlns=\"http://microsoft.com/schemas/VisualStudio/TeamTest/2010\" Description=\"\" CredentialUserName=\"\" CredentialPassword=\"\" PreAuthenticate=\"True\" Proxy=\"default\" StopOnError=\"False\" RecordedResultFile=\"\" ResultsLocale=\"\" ><Items><Request Method=\"GET\" Guid=\"a4162485-9114-fcfc-e086-123456789abc\" Version=\"1.1\" Url=\"http://my-component.azurewebsites.net\" ThinkTime=\"0\" Timeout=\"30\" ParseDependentRequests=\"True\" FollowRedirects=\"True\" RecordResult=\"True\" Cache=\"False\" ResponseTimeGoal=\"0\" Encoding=\"utf-8\" ExpectedHttpStatusCode=\"200\" ExpectedResponseUrl=\"\" ReportingName=\"\" IgnoreHttpStatusCode=\"False\" /></Items></WebTest>"
+          },
+          "provisioningState": "Succeeded"
+        }
+      }
   name: webTestUpdate
 security:
 - type: oauth2

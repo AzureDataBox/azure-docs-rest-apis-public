@@ -51,7 +51,7 @@ requestBody:
     description: Short description given for the device
     types:
     - uid: string
-    name: deviceDescription
+    name: properties.deviceDescription
 requestHeader: []
 definitions:
 - name: Device
@@ -61,112 +61,112 @@ definitions:
   - description: The friendly name of the device.
     types:
     - uid: string
-    name: friendlyName
+    name: properties.friendlyName
   - description: The UTC time at which the device was activated
     types:
     - uid: string
-    name: activationTime
+    name: properties.activationTime
   - description: 'The language culture setting on the device. For eg: "en-US"'
     types:
     - uid: string
-    name: culture
+    name: properties.culture
   - description: The device description.
     types:
     - uid: string
-    name: deviceDescription
+    name: properties.deviceDescription
   - description: The version number of the software running on the device.
     types:
     - uid: string
-    name: deviceSoftwareVersion
+    name: properties.deviceSoftwareVersion
   - description: The friendly name of the software running on the device.
     types:
     - uid: string
-    name: friendlySoftwareName
+    name: properties.friendlySoftwareName
   - description: The current configuration status of the device.
     types:
     - uid: DeviceConfigurationStatus
-    name: deviceConfigurationStatus
+    name: properties.deviceConfigurationStatus
   - description: The target IQN.
     types:
     - uid: string
-    name: targetIqn
+    name: properties.targetIqn
   - description: The device model.
     types:
     - uid: string
-    name: modelDescription
+    name: properties.modelDescription
   - description: The current status of the device.
     types:
     - uid: DeviceStatus
-    name: status
+    name: properties.status
   - description: The serial number.
     types:
     - uid: string
-    name: serialNumber
+    name: properties.serialNumber
   - description: The type of the device.
     types:
     - uid: DeviceType
-    name: deviceType
+    name: properties.deviceType
   - description: The identifier of the active controller of the device.
     types:
     - uid: ControllerId
-    name: activeController
+    name: properties.activeController
   - description: The device friendly software version.
     types:
     - uid: string
-    name: friendlySoftwareVersion
+    name: properties.friendlySoftwareVersion
   - description: The storage in bytes that is available locally on the device.
     types:
     - uid: integer
-    name: availableLocalStorageInBytes
+    name: properties.availableLocalStorageInBytes
   - description: The storage in bytes that is available on the device for tiered volumes.
     types:
     - uid: integer
-    name: availableTieredStorageInBytes
+    name: properties.availableTieredStorageInBytes
   - description: The storage in bytes that has been provisioned on the device for tiered volumes.
     types:
     - uid: integer
-    name: provisionedTieredStorageInBytes
+    name: properties.provisionedTieredStorageInBytes
   - description: The storage in bytes used for locally pinned volumes on the device (including additional local reservation).
     types:
     - uid: integer
-    name: provisionedLocalStorageInBytes
+    name: properties.provisionedLocalStorageInBytes
   - description: Total capacity in bytes of tiered and locally pinned volumes on the device
     types:
     - uid: integer
-    name: provisionedVolumeSizeInBytes
+    name: properties.provisionedVolumeSizeInBytes
   - description: The storage in bytes that is currently being used on the device, including both local and cloud.
     types:
     - uid: integer
-    name: usingStorageInBytes
+    name: properties.usingStorageInBytes
   - description: The total tiered storage available on the device in bytes.
     types:
     - uid: integer
-    name: totalTieredStorageInBytes
+    name: properties.totalTieredStorageInBytes
   - description: The device agent group version.
     types:
     - uid: integer
-    name: agentGroupVersion
+    name: properties.agentGroupVersion
   - description: The number of network interface cards
     types:
     - uid: integer
-    name: networkInterfaceCardCount
+    name: properties.networkInterfaceCardCount
   - description: The location of the virtual appliance.
     types:
     - uid: string
-    name: deviceLocation
+    name: properties.deviceLocation
   - isReadyOnly: true
     description: The virtual machine API type.
     types:
     - uid: VirtualMachineApiType
-    name: virtualMachineApiType
+    name: properties.virtualMachineApiType
   - description: The additional device details regarding the end point count and volume container count.
     types:
     - uid: DeviceDetails
-    name: details
+    name: properties.details
   - description: The additional device details for the service data encryption key rollover.
     types:
     - uid: DeviceRolloverDetails
-    name: rolloverDetails
+    name: properties.rolloverDetails
   - isReadyOnly: true
     description: The path ID that uniquely identifies the object.
     types:
@@ -186,6 +186,14 @@ definitions:
     types:
     - uid: Kind
     name: kind
+- name: DevicePatch
+  description: The device patch.
+  kind: object
+  properties:
+  - description: Short description given for the device
+    types:
+    - uid: string
+    name: properties.deviceDescription
 - name: DeviceConfigurationStatus
   description: The current configuration status of the device.
   kind: enum
@@ -247,7 +255,7 @@ definitions:
     - uid: string
     name: Series8000PhysicalAppliance
 - name: ControllerId
-  description: The identifier of the active controller of the device.
+  description: The active controller that the request is expecting on the device.
   kind: enum
   properties:
   - types:
@@ -300,6 +308,13 @@ definitions:
     types:
     - uid: InEligibilityCategory
     name: inEligibilityReason
+- name: Kind
+  description: The Kind of the object. Currently only Series8000 is supported
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Series8000
 - name: AuthorizationEligibility
   description: The eligibility status of device for service data encryption key rollover.
   kind: enum
@@ -333,20 +348,48 @@ definitions:
   - types:
     - uid: string
     name: RolloverPending
-- name: Kind
-  description: The Kind of the object. Currently only Series8000 is supported
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Series8000
 examples:
 - request:
     uri: PATCH https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device001ForSDKTest?api-version=2017-06-01
-    requestBody: '{"properties":{"deviceDescription":"updated device description"}}'
+    body: >-
+      {
+        "properties": {
+          "deviceDescription": "updated device description"
+        }
+      }
   responses:
   - statusCode: "200"
-    body: '{"properties":{"friendlyName":"Device001ForSDKTest","activationTime":"2017-06-22T09:36:20.9632051Z","culture":"en-US","deviceDescription":"updated device description","deviceSoftwareVersion":"6.3.9600.17802","deviceConfigurationStatus":"Complete","targetIqn":"iqn.1991-05.com.microsoft:storsimple100-123456789-target","modelDescription":"100","status":"Online","serialNumber":"123456789","deviceType":"Series8000PhysicalAppliance","activeController":"Controller0","friendlySoftwareVersion":"StorSimple 8000 Series Update 4.0","availableLocalStorageInBytes":43980464128,"availableTieredStorageInBytes":1099511627776,"provisionedTieredStorageInBytes":0,"provisionedLocalStorageInBytes":0,"provisionedVolumeSizeInBytes":0,"usingStorageInBytes":0,"totalTieredStorageInBytes":1099511627776,"agentGroupVersion":7,"networkInterfaceCardCount":6},"id":"/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device001ForSDKTest","name":"Device001ForSDKTest","type":"Microsoft.StorSimple/managers/devices","kind":"Series8000"}'
+    body: >-
+      {
+        "properties": {
+          "friendlyName": "Device001ForSDKTest",
+          "activationTime": "2017-06-22T09:36:20.9632051Z",
+          "culture": "en-US",
+          "deviceDescription": "updated device description",
+          "deviceSoftwareVersion": "6.3.9600.17802",
+          "deviceConfigurationStatus": "Complete",
+          "targetIqn": "iqn.1991-05.com.microsoft:storsimple100-123456789-target",
+          "modelDescription": "100",
+          "status": "Online",
+          "serialNumber": "123456789",
+          "deviceType": "Series8000PhysicalAppliance",
+          "activeController": "Controller0",
+          "friendlySoftwareVersion": "StorSimple 8000 Series Update 4.0",
+          "availableLocalStorageInBytes": 43980464128,
+          "availableTieredStorageInBytes": 1099511627776,
+          "provisionedTieredStorageInBytes": 0,
+          "provisionedLocalStorageInBytes": 0,
+          "provisionedVolumeSizeInBytes": 0,
+          "usingStorageInBytes": 0,
+          "totalTieredStorageInBytes": 1099511627776,
+          "agentGroupVersion": 7,
+          "networkInterfaceCardCount": 6
+        },
+        "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device001ForSDKTest",
+        "name": "Device001ForSDKTest",
+        "type": "Microsoft.StorSimple/managers/devices",
+        "kind": "Series8000"
+      }
   name: DevicesUpdate
 security:
 - type: oauth2

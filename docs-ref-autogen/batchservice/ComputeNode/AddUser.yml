@@ -102,7 +102,7 @@ requestHeader:
   name: ocp-date
 definitions:
 - name: BatchError
-  description: An error response received from the Azure Batch service.
+  description: The error encountered while attempting to add the task.
   kind: object
   properties:
   - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
@@ -115,9 +115,32 @@ definitions:
     name: message
   - description: A collection of key-value pairs containing additional details about the error.
     types:
-    - isArray: true
-      uid: BatchErrorDetail
+    - uid: BatchErrorDetail
     name: values
+- name: ComputeNodeUser
+  description: A user account for RDP or SSH access on a compute node.
+  kind: object
+  properties:
+  - description: The user name of the account.
+    types:
+    - uid: string
+    name: name
+  - description: The default value is false.
+    types:
+    - uid: boolean
+    name: isAdmin
+  - description: If omitted, the default is 1 day from the current time. For Linux compute nodes, the expiryTime has a precision up to a day.
+    types:
+    - uid: string
+    name: expiryTime
+  - description: The password is required for Windows nodes (those created with 'cloudServiceConfiguration', or created with 'virtualMachineConfiguration' using a Windows image reference). For Linux compute nodes, the password can optionally be specified along with the sshPublicKey property.
+    types:
+    - uid: string
+    name: password
+  - description: The public key should be compatible with OpenSSH encoding and should be base 64 encoded. This property can be specified only for Linux nodes. If this is specified for a Windows node, then the Batch service rejects the request; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request).
+    types:
+    - uid: string
+    name: sshPublicKey
 - name: ErrorMessage
   description: A message describing the error, intended to be suitable for display in a user interface.
   kind: object
@@ -131,7 +154,7 @@ definitions:
     - uid: string
     name: value
 - name: BatchErrorDetail
-  description: An item of additional information included in an Azure Batch error response.
+  description: A collection of key-value pairs containing additional details about the error.
   kind: object
   properties:
   - description: An identifier specifying the meaning of the Value property.
@@ -145,7 +168,13 @@ definitions:
 examples:
 - request:
     uri: POST https://batch.core.windows.net/pools/poolId/nodes/tvm-1695681911_1-20161121t182739z/users?api-version=2017-09-01.6.0
-    requestBody: '{"name":"userName","isAdmin":false,"expiryTime":"2017-08-01T00:00:00Z","password":"Password"}'
+    body: >-
+      {
+        "name": "userName",
+        "isAdmin": false,
+        "expiryTime": "2017-08-01T00:00:00Z",
+        "password": "Password"
+      }
     headers:
     - value: 00000000-0000-0000-0000-000000000000
       name: client-request-id

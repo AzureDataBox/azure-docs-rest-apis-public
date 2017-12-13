@@ -75,21 +75,20 @@ definitions:
   - description: "The access type of the rule. Valid values are: 'Allow', 'Deny'"
     types:
     - uid: Access
-    name: access
+    name: properties.access
   - description: "The rule type of the rule. Valid value is: 'Community'"
     types:
     - uid: RouteFilterRuleType
-    name: routeFilterRuleType
+    name: properties.routeFilterRuleType
   - description: The collection for bgp community values to filter on. e.g. ['12076:5010','12076:5020']
     types:
-    - isArray: true
-      uid: string
-    name: communities
+    - uid: string
+    name: properties.communities
   - isReadyOnly: true
     description: "The provisioning state of the resource. Possible values are: 'Updating', 'Deleting', 'Succeeded' and 'Failed'."
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: Resource ID
     types:
@@ -117,7 +116,24 @@ examples:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/routeFilters/filterName/routeFilterRules/filterName?api-version=2017-09-01
   responses:
   - statusCode: "200"
-    body: '{"id":"/subscriptions/subid/resourceGroups/rg1/providers/Microsofot.Network/routeFilters/filterName/routeFilterRules/ruleName","etag":"w/\\00000000-0000-0000-0000-000000000000\\","tags":{"key1":"value1"},"name":"ruleName","properties":{"provisioningState":"Succeeded","access":"Allow","routeFilterRuleType":"Community","communities":["12076:5030","12076:5040"]}}'
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsofot.Network/routeFilters/filterName/routeFilterRules/ruleName",
+        "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+        "tags": {
+          "key1": "value1"
+        },
+        "name": "ruleName",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "access": "Allow",
+          "routeFilterRuleType": "Community",
+          "communities": [
+            "12076:5030",
+            "12076:5040"
+          ]
+        }
+      }
   name: RouteFilterRuleGet
 security:
 - type: oauth2

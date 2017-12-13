@@ -74,8 +74,7 @@ definitions:
   properties:
   - description: Role assignment list.
     types:
-    - isArray: true
-      uid: RoleAssignment
+    - uid: RoleAssignment
     name: value
   - description: The URL to use for getting the next set of results.
     types:
@@ -105,7 +104,7 @@ definitions:
     - uid: RoleAssignmentPropertiesWithScope
     name: properties
 - name: RoleAssignmentPropertiesWithScope
-  description: Role assignment properties.
+  description: Role assignment properties with scope.
   kind: object
   properties:
   - description: The role assignment scope.
@@ -125,7 +124,21 @@ examples:
     uri: GET https://management.azure.com/subscriptions/subId/resourcegroups/rgname/providers/resourceProviderNamespace/parentResourcePath/resourceType/resourceName/providers/Microsoft.Authorization/roleAssignments?api-version=2015-07-01
   responses:
   - statusCode: "200"
-    body: '{"value":[{"properties":{"roleDefinitionId":"/subscriptions/subId/providers/Microsoft.Authorization/roleDefinitions/roledefinitionId","principalId":"Pid","scope":"/subscriptions/subId/resourcegroups/rgname"},"id":"/subscriptions/subId/resourcegroups/rgname/providers/Microsoft.Authorization/roleAssignments/roleassignmentId","type":"Microsoft.Authorization/roleAssignments","name":"raId"}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "roleDefinitionId": "/subscriptions/subId/providers/Microsoft.Authorization/roleDefinitions/roledefinitionId",
+              "principalId": "Pid",
+              "scope": "/subscriptions/subId/resourcegroups/rgname"
+            },
+            "id": "/subscriptions/subId/resourcegroups/rgname/providers/Microsoft.Authorization/roleAssignments/roleassignmentId",
+            "type": "Microsoft.Authorization/roleAssignments",
+            "name": "raId"
+          }
+        ]
+      }
   name: GetConfigurations
 security:
 - type: oauth2

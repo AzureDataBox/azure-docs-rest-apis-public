@@ -58,13 +58,24 @@ definitions:
   properties:
   - description: List of CDN origins within an endpoint
     types:
-    - isArray: true
-      uid: Origin
+    - uid: Origin
     name: value
   - description: URL to get the next set of origin objects if there are any.
     types:
     - uid: string
     name: nextLink
+- name: ErrorResponse
+  description: Error reponse indicates CDN service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
 - name: Origin
   description: CDN origin is the source of the content being delivered via CDN. When the edge nodes represented by an endpoint do not have the requested content cached, they attempt to fetch it from one or more of the configured origins.
   kind: object
@@ -72,25 +83,25 @@ definitions:
   - description: The address of the origin. Domain names, IPv4 addresses, and IPv6 addresses are supported.
     types:
     - uid: string
-    name: hostName
+    name: properties.hostName
   - description: The value of the HTTP port. Must be between 1 and 65535.
     types:
     - uid: integer
-    name: httpPort
+    name: properties.httpPort
   - description: The value of the https port. Must be between 1 and 65535.
     types:
     - uid: integer
-    name: httpsPort
+    name: properties.httpsPort
   - isReadyOnly: true
     description: Resource status of the origin.
     types:
     - uid: OriginResourceState
-    name: resourceState
+    name: properties.resourceState
   - isReadyOnly: true
     description: Provisioning status of the origin.
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -131,18 +142,6 @@ definitions:
   - types:
     - uid: string
     name: Deleting
-- name: ErrorResponse
-  description: Error reponse indicates CDN service is not able to process the incoming request. The reason is provided in the error message.
-  kind: object
-  properties:
-  - description: Error code.
-    types:
-    - uid: string
-    name: code
-  - description: Error message indicating why the operation failed.
-    types:
-    - uid: string
-    name: message
 examples: []
 security:
 - type: oauth2

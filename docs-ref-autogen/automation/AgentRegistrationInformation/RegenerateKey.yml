@@ -73,16 +73,6 @@ requestBody:
     name: tags
 requestHeader: []
 definitions:
-- name: AgentRegistrationKeyName
-  description: Gets or sets the agent registration key name - Primary or Secondary.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Primary
-  - types:
-    - uid: string
-    name: Secondary
 - name: AgentRegistration
   description: Definition of the agent registration infomration type.
   kind: object
@@ -103,18 +93,6 @@ definitions:
     types:
     - uid: string
     name: id
-- name: AgentRegistrationKeys
-  description: Gets or sets the agent registration keys.
-  kind: object
-  properties:
-  - description: Gets or sets the primary key.
-    types:
-    - uid: string
-    name: primary
-  - description: Gets or sets the secondary key.
-    types:
-    - uid: string
-    name: secondary
 - name: ErrorResponse
   description: Error response of an operation failure
   kind: object
@@ -127,6 +105,52 @@ definitions:
     types:
     - uid: string
     name: message
+- name: AgentRegistrationRegenerateKeyParameter
+  description: The parameters supplied to the regenerate keys operation.
+  kind: object
+  properties:
+  - description: Gets or sets the agent registration key name - Primary or Secondary.
+    types:
+    - uid: AgentRegistrationKeyName
+    name: keyName
+  - description: Gets or sets the name of the resource.
+    types:
+    - uid: string
+    name: name
+  - description: Gets or sets the location of the resource.
+    types:
+    - uid: string
+    name: location
+  - description: Gets or sets the tags attached to the resource.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+- name: AgentRegistrationKeys
+  description: Definition of the agent registration keys.
+  kind: object
+  properties:
+  - description: Gets or sets the primary key.
+    types:
+    - uid: string
+    name: primary
+  - description: Gets or sets the secondary key.
+    types:
+    - uid: string
+    name: secondary
+- name: AgentRegistrationKeyName
+  description: Gets or sets the agent registration key name - Primary or Secondary.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Primary
+  - types:
+    - uid: string
+    name: Secondary
 examples: []
 security: []
 name: RegenerateKey

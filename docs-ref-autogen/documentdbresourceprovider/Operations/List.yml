@@ -29,8 +29,7 @@ definitions:
   properties:
   - description: List of operations supported by the Resource Provider.
     types:
-    - isArray: true
-      uid: Operation
+    - uid: Operation
     name: value
   - description: URL to get the next set of operation list results if there are any.
     types:
@@ -73,7 +72,20 @@ examples:
     uri: GET https://management.azure.com/providers/Microsoft.DocumentDB/operations?api-version=2015-04-08
   responses:
   - statusCode: "200"
-    body: '{"value":[{"name":"operationName","display":{"Provider":"providerName","Resource":"resourceName","Operation":"operationName","Description":"description"}}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "name": "operationName",
+            "display": {
+              "Provider": "providerName",
+              "Resource": "resourceName",
+              "Operation": "operationName",
+              "Description": "description"
+            }
+          }
+        ]
+      }
   name: CosmosDBOperationsList
 security:
 - type: oauth2

@@ -55,39 +55,38 @@ definitions:
   properties:
   - description: The list of integration account certificates.
     types:
-    - isArray: true
-      uid: IntegrationAccountCertificate
+    - uid: IntegrationAccountCertificate
     name: value
   - description: The URL to get the next set of results.
     types:
     - uid: string
     name: nextLink
 - name: IntegrationAccountCertificate
-  description: The integration account certificate.
+  description: The list of integration account certificates.
   kind: object
   properties:
   - isReadyOnly: true
     description: The created time.
     types:
     - uid: string
-    name: createdTime
+    name: properties.createdTime
   - isReadyOnly: true
     description: The changed time.
     types:
     - uid: string
-    name: changedTime
+    name: properties.changedTime
   - description: The metadata.
     types:
     - uid: Metadata
-    name: metadata
+    name: properties.metadata
   - description: The key details in the key vault.
     types:
     - uid: KeyVaultKeyReference
-    name: key
+    name: properties.key
   - description: The public certificate.
     types:
     - uid: string
-    name: publicCertificate
+    name: properties.publicCertificate
   - isReadyOnly: true
     description: The resource id.
     types:
@@ -158,7 +157,30 @@ examples:
     uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testResourceGroup/providers/Microsoft.Logic/integrationAccounts/testIntegrationAccount/certificates?api-version=2016-06-01
   responses:
   - statusCode: "200"
-    body: '{"value":[{"properties":{"key":{"keyVault":{"name":"AzureSdkTestKeyVault","id":"/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourcegroups/testResourceGroup/providers/microsoft.keyvault/vaults/<keyVaultName>","type":"Microsoft.KeyVault/vaults"},"keyName":"<keyName>","keyVersion":"87d9764197604449b9b8eb7bd8710868"},"publicCertificate":"<publicCertificate>","createdTime":"2017-03-06T20:33:09.7022471Z","changedTime":"2017-03-06T20:33:09.7032076Z"},"id":"/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testResourceGroup/providers/Microsoft.Logic/integrationAccounts/testIntegrationAccount/certificates/<integrationAccountCertificateName>","name":"<IntegrationAccountCertificateName>","type":"Microsoft.Logic/integrationAccounts/certificates"}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "key": {
+                "keyVault": {
+                  "name": "AzureSdkTestKeyVault",
+                  "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourcegroups/testResourceGroup/providers/microsoft.keyvault/vaults/<keyVaultName>",
+                  "type": "Microsoft.KeyVault/vaults"
+                },
+                "keyName": "<keyName>",
+                "keyVersion": "87d9764197604449b9b8eb7bd8710868"
+              },
+              "publicCertificate": "<publicCertificate>",
+              "createdTime": "2017-03-06T20:33:09.7022471Z",
+              "changedTime": "2017-03-06T20:33:09.7032076Z"
+            },
+            "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testResourceGroup/providers/Microsoft.Logic/integrationAccounts/testIntegrationAccount/certificates/<integrationAccountCertificateName>",
+            "name": "<IntegrationAccountCertificateName>",
+            "type": "Microsoft.Logic/integrationAccounts/certificates"
+          }
+        ]
+      }
   name: Get certificates by integrationAccount name
 security:
 - type: oauth2

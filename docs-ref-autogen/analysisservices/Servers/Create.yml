@@ -72,14 +72,105 @@ requestBody:
     description: A collection of AS server administrators
     types:
     - uid: ServerAdministrators
-    name: asAdministrators
+    name: properties.asAdministrators
   - in: body
     description: The container URI of backup blob.
     types:
     - uid: string
-    name: backupBlobContainerUri
+    name: properties.backupBlobContainerUri
 requestHeader: []
 definitions:
+- name: ResourceSku
+  description: The SKU of the Analysis Services resource.
+  kind: object
+  properties:
+  - description: Name of the SKU level.
+    types:
+    - uid: string
+    name: name
+  - description: The name of the Azure pricing tier to which the SKU applies.
+    types:
+    - uid: SkuTier
+    name: tier
+- name: ServerAdministrators
+  description: A collection of AS server administrators
+  kind: object
+  properties:
+  - description: An array of administrator user identities.
+    types:
+    - uid: string
+    name: members
+- name: AnalysisServicesServer
+  description: Represents an instance of an Analysis Services resource.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The current state of Analysis Services resource. The state is to indicate more states outside of resource provisioning.
+    types:
+    - uid: State
+    name: properties.state
+  - isReadyOnly: true
+    description: The current deployment state of Analysis Services resource. The provisioningState is to indicate states for resource provisioning.
+    types:
+    - uid: ProvisioningState
+    name: properties.provisioningState
+  - isReadyOnly: true
+    description: The full name of the Analysis Services resource.
+    types:
+    - uid: string
+    name: properties.serverFullName
+  - isReadyOnly: true
+    description: An identifier that represents the Analysis Services resource.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: The name of the Analysis Services resource.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: The type of the Analysis Services resource.
+    types:
+    - uid: string
+    name: type
+  - description: Location of the Analysis Services resource.
+    types:
+    - uid: string
+    name: location
+  - description: The SKU of the Analysis Services resource.
+    types:
+    - uid: ResourceSku
+    name: sku
+  - description: Key-value pairs of additional resource provisioning properties.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+  - description: A collection of AS server administrators
+    types:
+    - uid: ServerAdministrators
+    name: properties.asAdministrators
+  - description: The container URI of backup blob.
+    types:
+    - uid: string
+    name: properties.backupBlobContainerUri
+- name: SkuTier
+  description: The name of the Azure pricing tier to which the SKU applies.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Development
+  - types:
+    - uid: string
+    name: Basic
+  - types:
+    - uid: string
+    name: Standard
 - name: State
   description: The current state of Analysis Services resource. The state is to indicate more states outside of resource provisioning.
   kind: enum
@@ -160,98 +251,6 @@ definitions:
   - types:
     - uid: string
     name: Scaling
-- name: SkuTier
-  description: The name of the Azure pricing tier to which the SKU applies.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Development
-  - types:
-    - uid: string
-    name: Basic
-  - types:
-    - uid: string
-    name: Standard
-- name: AnalysisServicesServer
-  description: Represents an instance of an Analysis Services resource.
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: The current state of Analysis Services resource. The state is to indicate more states outside of resource provisioning.
-    types:
-    - uid: State
-    name: state
-  - isReadyOnly: true
-    description: The current deployment state of Analysis Services resource. The provisioningState is to indicate states for resource provisioning.
-    types:
-    - uid: ProvisioningState
-    name: provisioningState
-  - isReadyOnly: true
-    description: The full name of the Analysis Services resource.
-    types:
-    - uid: string
-    name: serverFullName
-  - isReadyOnly: true
-    description: An identifier that represents the Analysis Services resource.
-    types:
-    - uid: string
-    name: id
-  - isReadyOnly: true
-    description: The name of the Analysis Services resource.
-    types:
-    - uid: string
-    name: name
-  - isReadyOnly: true
-    description: The type of the Analysis Services resource.
-    types:
-    - uid: string
-    name: type
-  - description: Location of the Analysis Services resource.
-    types:
-    - uid: string
-    name: location
-  - description: The SKU of the Analysis Services resource.
-    types:
-    - uid: ResourceSku
-    name: sku
-  - description: Key-value pairs of additional resource provisioning properties.
-    types:
-    - isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-      uid: object
-    name: tags
-  - description: A collection of AS server administrators
-    types:
-    - uid: ServerAdministrators
-    name: asAdministrators
-  - description: The container URI of backup blob.
-    types:
-    - uid: string
-    name: backupBlobContainerUri
-- name: ResourceSku
-  description: The SKU of the Analysis Services resource.
-  kind: object
-  properties:
-  - description: Name of the SKU level.
-    types:
-    - uid: string
-    name: name
-  - description: The name of the Azure pricing tier to which the SKU applies.
-    types:
-    - uid: SkuTier
-    name: tier
-- name: ServerAdministrators
-  description: A collection of AS server administrators
-  kind: object
-  properties:
-  - description: An array of administrator user identities.
-    types:
-    - isArray: true
-      uid: string
-    name: members
 examples: []
 security:
 - type: oauth2

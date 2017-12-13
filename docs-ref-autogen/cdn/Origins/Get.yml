@@ -65,25 +65,25 @@ definitions:
   - description: The address of the origin. Domain names, IPv4 addresses, and IPv6 addresses are supported.
     types:
     - uid: string
-    name: hostName
+    name: properties.hostName
   - description: The value of the HTTP port. Must be between 1 and 65535.
     types:
     - uid: integer
-    name: httpPort
+    name: properties.httpPort
   - description: The value of the https port. Must be between 1 and 65535.
     types:
     - uid: integer
-    name: httpsPort
+    name: properties.httpsPort
   - isReadyOnly: true
     description: Resource status of the origin.
     types:
     - uid: OriginResourceState
-    name: resourceState
+    name: properties.resourceState
   - isReadyOnly: true
     description: Provisioning status of the origin.
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -111,6 +111,18 @@ definitions:
       - uid: string
       uid: object
     name: tags
+- name: ErrorResponse
+  description: Error reponse indicates CDN service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
 - name: OriginResourceState
   description: Resource status of the origin.
   kind: enum
@@ -124,18 +136,6 @@ definitions:
   - types:
     - uid: string
     name: Deleting
-- name: ErrorResponse
-  description: Error reponse indicates CDN service is not able to process the incoming request. The reason is provided in the error message.
-  kind: object
-  properties:
-  - description: Error code.
-    types:
-    - uid: string
-    name: code
-  - description: Error message indicating why the operation failed.
-    types:
-    - uid: string
-    name: message
 examples: []
 security:
 - type: oauth2

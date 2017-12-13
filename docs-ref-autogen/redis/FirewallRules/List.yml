@@ -47,8 +47,7 @@ definitions:
   properties:
   - description: Results of the list firewall rules operation.
     types:
-    - isArray: true
-      uid: RedisFirewallRule
+    - uid: RedisFirewallRule
     name: value
   - description: Link for next set of locations.
     types:
@@ -76,17 +75,39 @@ definitions:
   - description: lowest IP address included in the range
     types:
     - uid: string
-    name: startIP
+    name: properties.startIP
   - description: highest IP address included in the range
     types:
     - uid: string
-    name: endIP
+    name: properties.endIP
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/firewallRules?api-version=2016-04-01
   responses:
   - statusCode: "200"
-    body: '{"value":[{"id":"/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/firewallRules/rule1","name":"rule1","type":"Microsoft.Cache/Redis/firewallRules","properties":{"startIP":"192.168.1.1","endIP":"192.168.1.4"}},{"id":"/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/firewallRules/rule2","name":"rule2","type":"Microsoft.Cache/Redis/firewallRules","properties":{"startIP":"192.169.1.0","endIP":"192.169.1.255"}}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/firewallRules/rule1",
+            "name": "rule1",
+            "type": "Microsoft.Cache/Redis/firewallRules",
+            "properties": {
+              "startIP": "192.168.1.1",
+              "endIP": "192.168.1.4"
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/firewallRules/rule2",
+            "name": "rule2",
+            "type": "Microsoft.Cache/Redis/firewallRules",
+            "properties": {
+              "startIP": "192.169.1.0",
+              "endIP": "192.169.1.255"
+            }
+          }
+        ]
+      }
   name: RedisCacheFirewallRulesList
 security:
 - type: oauth2

@@ -57,17 +57,17 @@ responses:
 requestHeader: []
 definitions:
 - name: LoggerContract
-  description: Logger details.
+  description: Logger values.
   kind: object
   properties:
   - description: Logger type.
     types:
     - uid: LoggerType
-    name: loggerType
+    name: properties.loggerType
   - description: Logger description.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - description: The name and SendRule connection string of the event hub.
     types:
     - isDictionary: true
@@ -75,11 +75,11 @@ definitions:
       - uid: string
       - uid: string
       uid: object
-    name: credentials
+    name: properties.credentials
   - description: Whether records are buffered in the logger before publishing. Default is assumed to be true.
     types:
     - uid: boolean
-    name: isBuffered
+    name: properties.isBuffered
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -95,14 +95,6 @@ definitions:
     types:
     - uid: string
     name: type
-- name: LoggerType
-  description: Logger type.
-  kind: enum
-  properties:
-  - description: Azure Event Hub as log destination.
-    types:
-    - uid: string
-    name: azureEventHub
 - name: ErrorResponse
   description: Error Body contract.
   kind: object
@@ -117,9 +109,16 @@ definitions:
     name: message
   - description: The list of invalid fields send in request, in case of validation error.
     types:
-    - isArray: true
-      uid: ErrorFieldContract
+    - uid: ErrorFieldContract
     name: details
+- name: LoggerType
+  description: Logger type.
+  kind: enum
+  properties:
+  - description: Azure Event Hub as log destination.
+    types:
+    - uid: string
+    name: azureEventHub
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
@@ -141,7 +140,21 @@ examples:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/loggers/templateLogger?api-version=2017-03-01
   responses:
   - statusCode: "200"
-    body: '{"id":"/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/loggers/kloudapilogger1","type":"Microsoft.ApiManagement/service/loggers","name":"kloudapilogger1","properties":{"loggerType":"azureEventHub","description":"testeventhub3again","credentials":{"name":"testeventhub4","connectionString":"Endpoint=sb://eventhubapim.servicebus.windows.net/;SharedAccessKeyName=Sender;SharedAccessKey=************"},"isBuffered":true}}'
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/loggers/kloudapilogger1",
+        "type": "Microsoft.ApiManagement/service/loggers",
+        "name": "kloudapilogger1",
+        "properties": {
+          "loggerType": "azureEventHub",
+          "description": "testeventhub3again",
+          "credentials": {
+            "name": "testeventhub4",
+            "connectionString": "Endpoint=sb://eventhubapim.servicebus.windows.net/;SharedAccessKeyName=Sender;SharedAccessKey=************"
+          },
+          "isBuffered": true
+        }
+      }
   name: ApiManagementGetLogger
 security:
 - type: oauth2

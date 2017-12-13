@@ -58,35 +58,34 @@ definitions:
   - isReadyOnly: true
     description: Current number of shards on the Event Hub.
     types:
-    - isArray: true
-      uid: string
-    name: partitionIds
+    - uid: string
+    name: properties.partitionIds
   - isReadyOnly: true
     description: Exact time the Event Hub was created.
     types:
     - uid: string
-    name: createdAt
+    name: properties.createdAt
   - isReadyOnly: true
     description: The exact time the message was updated.
     types:
     - uid: string
-    name: updatedAt
+    name: properties.updatedAt
   - description: Number of days to retain the events for this Event Hub, value should be 1 to 7 days
     types:
     - uid: integer
-    name: messageRetentionInDays
+    name: properties.messageRetentionInDays
   - description: Number of partitions created for the Event Hub, allowed values are from 1 to 32 partitions.
     types:
     - uid: integer
-    name: partitionCount
+    name: properties.partitionCount
   - description: Enumerates the possible values for the status of the Event Hub.
     types:
     - uid: EntityStatus
-    name: status
+    name: properties.status
   - description: Properties of capture description
     types:
     - uid: CaptureDescription
-    name: captureDescription
+    name: properties.captureDescription
   - isReadyOnly: true
     description: Resource Id
     types:
@@ -102,6 +101,18 @@ definitions:
     types:
     - uid: string
     name: type
+- name: ErrorResponse
+  description: Error reponse indicates EventHub service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
 - name: EntityStatus
   description: Enumerates the possible values for the status of the Event Hub.
   kind: enum
@@ -178,33 +189,53 @@ definitions:
   - description: Resource id of the storage account to be used to create the blobs
     types:
     - uid: string
-    name: storageAccountResourceId
+    name: properties.storageAccountResourceId
   - description: Blob container Name
     types:
     - uid: string
-    name: blobContainer
+    name: properties.blobContainer
   - description: Blob naming convention for archive, e.g. {Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}. Here all the parameters (Namespace,EventHub .. etc) are mandatory irrespective of order
     types:
     - uid: string
-    name: archiveNameFormat
-- name: ErrorResponse
-  description: Error reponse indicates EventHub service is not able to process the incoming request. The reason is provided in the error message.
-  kind: object
-  properties:
-  - description: Error code.
-    types:
-    - uid: string
-    name: code
-  - description: Error message indicating why the operation failed.
-    types:
-    - uid: string
-    name: message
+    name: properties.archiveNameFormat
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/e2f361f0-3b27-4503-a9cc-21cfba380093/resourceGroups/Default-NotificationHubs-AustraliaEast/providers/Microsoft.EventHub/namespaces/sdk-Namespace-716/eventhubs/sdk-EventHub-10?api-version=2017-04-01
   responses:
   - statusCode: "200"
-    body: '{"id":"/subscriptions/e2f361f0-3b27-4503-a9cc-21cfba380093/resourceGroups/Default-NotificationHubs-AustraliaEast/providers/Microsoft.EventHub/namespaces/sdk-Namespace-716/eventhubs/sdk-EventHub-10","name":"sdk-EventHub-10","type":"Microsoft.EventHub/Namespaces/EventHubs","properties":{"messageRetentionInDays":4,"partitionCount":4,"status":"Active","createdAt":"2017-06-28T02:45:55.877Z","updatedAt":"2017-06-28T02:46:05.877Z","partitionIds":["0","1","2","3"],"captureDescription":{"enabled":true,"encoding":"Avro","destination":{"name":"EventHubArchive.AzureBlockBlob","properties":{"storageAccountResourceId":"/subscriptions/e2f361f0-3b27-4503-a9cc-21cfba380093/resourceGroups/Default-Storage-SouthCentralUS/providers/Microsoft.ClassicStorage/storageAccounts/arjunteststorage","blobContainer":"container","archiveNameFormat":"{Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}"}},"intervalInSeconds":120,"sizeLimitInBytes":10485763}}}'
+    body: >-
+      {
+        "id": "/subscriptions/e2f361f0-3b27-4503-a9cc-21cfba380093/resourceGroups/Default-NotificationHubs-AustraliaEast/providers/Microsoft.EventHub/namespaces/sdk-Namespace-716/eventhubs/sdk-EventHub-10",
+        "name": "sdk-EventHub-10",
+        "type": "Microsoft.EventHub/Namespaces/EventHubs",
+        "properties": {
+          "messageRetentionInDays": 4,
+          "partitionCount": 4,
+          "status": "Active",
+          "createdAt": "2017-06-28T02:45:55.877Z",
+          "updatedAt": "2017-06-28T02:46:05.877Z",
+          "partitionIds": [
+            "0",
+            "1",
+            "2",
+            "3"
+          ],
+          "captureDescription": {
+            "enabled": true,
+            "encoding": "Avro",
+            "destination": {
+              "name": "EventHubArchive.AzureBlockBlob",
+              "properties": {
+                "storageAccountResourceId": "/subscriptions/e2f361f0-3b27-4503-a9cc-21cfba380093/resourceGroups/Default-Storage-SouthCentralUS/providers/Microsoft.ClassicStorage/storageAccounts/arjunteststorage",
+                "blobContainer": "container",
+                "archiveNameFormat": "{Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}"
+              }
+            },
+            "intervalInSeconds": 120,
+            "sizeLimitInBytes": 10485763
+          }
+        }
+      }
   name: EventHubGet
 security:
 - type: oauth2

@@ -44,8 +44,7 @@ definitions:
   properties:
   - description: Role definition list.
     types:
-    - isArray: true
-      uid: RoleDefinition
+    - uid: RoleDefinition
     name: value
   - description: The URL to use for getting the next set of results.
     types:
@@ -92,13 +91,11 @@ definitions:
     name: type
   - description: Role definition permissions.
     types:
-    - isArray: true
-      uid: Permission
+    - uid: Permission
     name: permissions
   - description: Role definition assignable scopes.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: assignableScopes
 - name: Permission
   description: Role definition permissions.
@@ -106,20 +103,43 @@ definitions:
   properties:
   - description: Allowed actions.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: actions
   - description: Denied actions.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: notActions
 examples:
 - request:
     uri: GET https://management.azure.com/scope/providers/Microsoft.Authorization/roleDefinitions?api-version=2015-07-01
   responses:
   - statusCode: "200"
-    body: '{"value":[{"properties":{"roleName":"Role name","type":"roletype","description":"Role description","assignableScopes":["/subscriptions/subId"],"permissions":[{"actions":["action"],"notActions":[]}]},"id":"/subscriptions/subID/providers/Microsoft.Authorization/roleDefinitions/roleDefinitionId","type":"Microsoft.Authorization/roleDefinitions","name":"roleDefinitionId"}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "roleName": "Role name",
+              "type": "roletype",
+              "description": "Role description",
+              "assignableScopes": [
+                "/subscriptions/subId"
+              ],
+              "permissions": [
+                {
+                  "actions": [
+                    "action"
+                  ],
+                  "notActions": []
+                }
+              ]
+            },
+            "id": "/subscriptions/subID/providers/Microsoft.Authorization/roleDefinitions/roleDefinitionId",
+            "type": "Microsoft.Authorization/roleDefinitions",
+            "name": "roleDefinitionId"
+          }
+        ]
+      }
   name: GetConfigurations
 security:
 - type: oauth2

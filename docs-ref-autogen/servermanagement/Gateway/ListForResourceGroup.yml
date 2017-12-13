@@ -48,13 +48,25 @@ definitions:
   properties:
   - description: Collection of Gateway Resources.
     types:
-    - isArray: true
-      uid: GatewayResource
+    - uid: GatewayResource
     name: value
   - description: The URL to the next set of resources.
     types:
     - uid: string
     name: nextLink
+- name: Error
+  description: Error message.
+  kind: object
+  properties:
+  - types:
+    - uid: integer
+    name: code
+  - types:
+    - uid: string
+    name: message
+  - types:
+    - uid: string
+    name: fields
 - name: GatewayResource
   description: Data model for an arm gateway resource.
   kind: object
@@ -62,46 +74,45 @@ definitions:
   - description: UTC date and time when gateway was first added to management service.
     types:
     - uid: string
-    name: created
+    name: properties.created
   - description: UTC date and time when node was last updated.
     types:
     - uid: string
-    name: updated
+    name: properties.updated
   - description: The upgradeMode property gives the flexibility to gateway to auto upgrade itself. If properties value not specified, then we assume upgradeMode = Automatic.
     types:
     - uid: upgradeMode
-    name: upgradeMode
+    name: properties.upgradeMode
   - description: Latest available MSI version.
     types:
     - uid: string
-    name: desiredVersion
+    name: properties.desiredVersion
   - description: Names of the nodes in the gateway.
     types:
-    - isArray: true
-      uid: GatewayStatus
-    name: instances
+    - uid: GatewayStatus
+    name: properties.instances
   - description: Number of active messages.
     types:
     - uid: integer
-    name: activeMessageCount
+    name: properties.activeMessageCount
   - description: Last published MSI version.
     types:
     - uid: string
-    name: latestPublishedMsiVersion
+    name: properties.latestPublishedMsiVersion
   - description: The date/time of the last published gateway.
     types:
     - uid: string
-    name: publishedTimeUtc
+    name: properties.publishedTimeUtc
   - isReadyOnly: true
     description: Installer download uri.
     types:
     - uid: string
-    name: installerDownload
+    name: properties.installerDownload
   - isReadyOnly: true
     description: Minimum gateway version.
     types:
     - uid: string
-    name: minimumVersion
+    name: properties.minimumVersion
   - isReadyOnly: true
     description: Resource Manager Resource ID.
     types:
@@ -144,7 +155,7 @@ definitions:
     - uid: string
     name: Automatic
 - name: GatewayStatus
-  description: Expanded gateway status information.
+  description: Names of the nodes in the gateway.
   kind: object
   properties:
   - description: The available memory on the gateway host machine in megabytes.
@@ -247,19 +258,6 @@ definitions:
   - types:
     - uid: string
     name: n
-- name: Error
-  description: Error message.
-  kind: object
-  properties:
-  - types:
-    - uid: integer
-    name: code
-  - types:
-    - uid: string
-    name: message
-  - types:
-    - uid: string
-    name: fields
 examples: []
 security:
 - type: oauth2

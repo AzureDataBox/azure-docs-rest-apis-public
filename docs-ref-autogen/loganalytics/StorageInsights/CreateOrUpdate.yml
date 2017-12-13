@@ -60,21 +60,19 @@ requestBody:
   - in: body
     description: The names of the blob containers that the workspace should read
     types:
-    - isArray: true
-      uid: string
-    name: containers
+    - uid: string
+    name: properties.containers
   - in: body
     description: The names of the Azure tables that the workspace should read
     types:
-    - isArray: true
-      uid: string
-    name: tables
+    - uid: string
+    name: properties.tables
   - in: body
     isRequired: true
     description: The storage account connection details
     types:
     - uid: StorageAccount
-    name: storageAccount
+    name: properties.storageAccount
   - in: body
     description: Resource tags
     types:
@@ -86,16 +84,30 @@ requestBody:
     name: tags
 requestHeader: []
 definitions:
-- name: StorageInsightState
-  description: The state of the storage insight connection to the workspace
-  kind: enum
+- name: StorageAccount
+  description: Describes a storage account connection.
+  kind: object
   properties:
-  - types:
+  - description: The Azure Resource Manager ID of the storage account resource.
+    types:
     - uid: string
-    name: OK
-  - types:
+    name: id
+  - description: The storage account key.
+    types:
     - uid: string
-    name: ERROR
+    name: key
+- name: StorageInsightStatus
+  description: The status of the storage insight.
+  kind: object
+  properties:
+  - description: The state of the storage insight connection to the workspace
+    types:
+    - uid: StorageInsightState
+    name: state
+  - description: Description of the state of the storage insight.
+    types:
+    - uid: string
+    name: description
 - name: StorageInsight
   description: The top level storage insight resource container.
   kind: object
@@ -106,23 +118,21 @@ definitions:
     name: eTag
   - description: The names of the blob containers that the workspace should read
     types:
-    - isArray: true
-      uid: string
-    name: containers
+    - uid: string
+    name: properties.containers
   - description: The names of the Azure tables that the workspace should read
     types:
-    - isArray: true
-      uid: string
-    name: tables
+    - uid: string
+    name: properties.tables
   - description: The storage account connection details
     types:
     - uid: StorageAccount
-    name: storageAccount
+    name: properties.storageAccount
   - isReadyOnly: true
     description: The status of the storage insight
     types:
     - uid: StorageInsightStatus
-    name: status
+    name: properties.status
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -146,30 +156,16 @@ definitions:
       - uid: string
       uid: object
     name: tags
-- name: StorageAccount
-  description: The storage account connection details
-  kind: object
+- name: StorageInsightState
+  description: The state of the storage insight connection to the workspace
+  kind: enum
   properties:
-  - description: The Azure Resource Manager ID of the storage account resource.
-    types:
+  - types:
     - uid: string
-    name: id
-  - description: The storage account key.
-    types:
+    name: OK
+  - types:
     - uid: string
-    name: key
-- name: StorageInsightStatus
-  description: The status of the storage insight
-  kind: object
-  properties:
-  - description: The state of the storage insight connection to the workspace
-    types:
-    - uid: StorageInsightState
-    name: state
-  - description: Description of the state of the storage insight.
-    types:
-    - uid: string
-    name: description
+    name: ERROR
 examples: []
 security:
 - type: oauth2

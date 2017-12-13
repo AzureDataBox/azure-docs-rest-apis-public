@@ -85,8 +85,24 @@ definitions:
     types:
     - uid: ResourceStatistics
     name: resourceStats
+- name: BatchError
+  description: The error encountered while attempting to add the task.
+  kind: object
+  properties:
+  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+    name: code
+  - description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: ErrorMessage
+    name: message
+  - description: A collection of key-value pairs containing additional details about the error.
+    types:
+    - uid: BatchErrorDetail
+    name: values
 - name: UsageStatistics
-  description: Statistics related to pool usage, such as the amount of core-time used.
+  description: Statistics related to pool usage information.
   kind: object
   properties:
   - description: The start time of the time range covered by the statistics.
@@ -102,7 +118,7 @@ definitions:
     - uid: string
     name: dedicatedCoreTime
 - name: ResourceStatistics
-  description: Statistics related to resource consumption by compute nodes in the pool.
+  description: Statistics related to resource consumption by compute nodes in a pool.
   kind: object
   properties:
   - description: The start time of the time range covered by the statistics.
@@ -157,23 +173,6 @@ definitions:
     types:
     - uid: number
     name: networkWriteGiB
-- name: BatchError
-  description: An error response received from the Azure Batch service.
-  kind: object
-  properties:
-  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
-    types:
-    - uid: string
-    name: code
-  - description: A message describing the error, intended to be suitable for display in a user interface.
-    types:
-    - uid: ErrorMessage
-    name: message
-  - description: A collection of key-value pairs containing additional details about the error.
-    types:
-    - isArray: true
-      uid: BatchErrorDetail
-    name: values
 - name: ErrorMessage
   description: A message describing the error, intended to be suitable for display in a user interface.
   kind: object
@@ -187,7 +186,7 @@ definitions:
     - uid: string
     name: value
 - name: BatchErrorDetail
-  description: An item of additional information included in an Azure Batch error response.
+  description: A collection of key-value pairs containing additional details about the error.
   kind: object
   properties:
   - description: An identifier specifying the meaning of the Value property.
@@ -206,7 +205,32 @@ examples:
       name: client-request-id
   responses:
   - statusCode: "200"
-    body: '{"url":"https://account.region.batch.core.windows.net/lifetimepoolstats","startTime":"2014-08-01T18:30:00.4345729Z","lastUpdateTime":"2014-08-04T18:30:00.4345729Z","usageStats":{"startTime":"2014-08-01T18:30:00.4345729Z","lastUpdateTime":"2014-08-04T18:30:00.4345729Z","dedicatedCoreTime":"PT0S"},"resourceStats":{"startTime":"2014-08-01T18:30:00.4345729Z","lastUpdateTime":"2014-08-04T18:30:00.4345729Z","avgCPUPercentage":40,"avgMemoryGiB":2,"peakMemoryGiB":4,"avgDiskGiB":125,"peakDiskGiB":240,"diskReadIOps":0,"diskWriteIOps":0,"diskReadGiB":10,"diskWriteGiB":1,"networkReadGiB":20,"networkWriteGiB":25}}'
+    body: >-
+      {
+        "url": "https://account.region.batch.core.windows.net/lifetimepoolstats",
+        "startTime": "2014-08-01T18:30:00.4345729Z",
+        "lastUpdateTime": "2014-08-04T18:30:00.4345729Z",
+        "usageStats": {
+          "startTime": "2014-08-01T18:30:00.4345729Z",
+          "lastUpdateTime": "2014-08-04T18:30:00.4345729Z",
+          "dedicatedCoreTime": "PT0S"
+        },
+        "resourceStats": {
+          "startTime": "2014-08-01T18:30:00.4345729Z",
+          "lastUpdateTime": "2014-08-04T18:30:00.4345729Z",
+          "avgCPUPercentage": 40,
+          "avgMemoryGiB": 2,
+          "peakMemoryGiB": 4,
+          "avgDiskGiB": 125,
+          "peakDiskGiB": 240,
+          "diskReadIOps": 0,
+          "diskWriteIOps": 0,
+          "diskReadGiB": 10,
+          "diskWriteGiB": 1,
+          "networkReadGiB": 20,
+          "networkWriteGiB": 25
+        }
+      }
   name: Pool get lifetime statistics
 security: []
 name: GetAllLifetimeStatistics

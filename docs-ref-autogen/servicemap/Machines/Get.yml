@@ -68,59 +68,59 @@ definitions:
   - description: UTC date and time when this resource was updated in the system.
     types:
     - uid: string
-    name: timestamp
+    name: properties.timestamp
   - description: Specifies whether the machine is actively monitored or discovered.
     types:
     - uid: MonitoringState
-    name: monitoringState
+    name: properties.monitoringState
   - description: Specifies whether the machine is virtualized.
     types:
     - uid: VirtualizationState
-    name: virtualizationState
+    name: properties.virtualizationState
   - description: Name to use for display purposes
     types:
     - uid: string
-    name: displayName
+    name: properties.displayName
   - description: Name of the machine, e.g., server
     types:
     - uid: string
-    name: computerName
+    name: properties.computerName
   - description: Fully-qualified name of the machine, e.g., server.company.com
     types:
     - uid: string
-    name: fullyQualifiedDomainName
+    name: properties.fullyQualifiedDomainName
   - description: UTC date and time when the machine last booted
     types:
     - uid: string
-    name: bootTime
+    name: properties.bootTime
   - description: Timezone of the machine.
     types:
     - uid: Timezone
-    name: timezone
+    name: properties.timezone
   - description: Dependency Agent configuration.
     types:
     - uid: AgentConfiguration
-    name: agent
+    name: properties.agent
   - description: Machine resources (memory, cpu, etc.).
     types:
     - uid: MachineResourcesConfiguration
-    name: resources
+    name: properties.resources
   - description: Network configuration (ips, gateways, dns, etc.)
     types:
     - uid: NetworkConfiguration
-    name: networking
+    name: properties.networking
   - description: Operating system information.
     types:
     - uid: OperatingSystemConfiguration
-    name: operatingSystem
+    name: properties.operatingSystem
   - description: Virtualization-related configuration. Present only when `virtualizationState` is `virtual`.
     types:
     - uid: VirtualMachineConfiguration
-    name: virtualMachine
+    name: properties.virtualMachine
   - description: Hypervisor-related configuration. Present only when 'virtualizationState' is `hypervisor`.
     types:
     - uid: HypervisorConfiguration
-    name: hypervisor
+    name: properties.hypervisor
   - description: Resource ETAG.
     types:
     - uid: string
@@ -145,6 +145,14 @@ definitions:
     types:
     - uid: string
     name: name
+- name: ErrorResponse
+  description: An error response from the API.
+  kind: object
+  properties:
+  - description: Error information.
+    types:
+    - uid: Error
+    name: error
 - name: MonitoringState
   description: Specifies whether the machine is actively monitored or discovered.
   kind: enum
@@ -207,19 +215,6 @@ definitions:
     types:
     - uid: integer
     name: clockGranularity
-- name: MachineRebootStatus
-  description: Specifies whether the machine has been rebooted since the Dependency Agent installation.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: unknown
-  - types:
-    - uid: string
-    name: rebooted
-  - types:
-    - uid: string
-    name: notRebooted
 - name: MachineResourcesConfiguration
   description: Machine resources (memory, cpu, etc.).
   kind: object
@@ -240,65 +235,30 @@ definitions:
     types:
     - uid: Accuracy
     name: cpuSpeedAccuracy
-- name: Accuracy
-  description: Describes the accuracy of the cpuSpeed field.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: actual
-  - types:
-    - uid: string
-    name: estimated
 - name: NetworkConfiguration
   description: Network configuration (ips, gateways, dns, etc.)
   kind: object
   properties:
   - description: IPv4 interfaces.
     types:
-    - isArray: true
-      uid: Ipv4NetworkInterface
+    - uid: Ipv4NetworkInterface
     name: ipv4Interfaces
   - description: IPv6 interfaces.
     types:
-    - isArray: true
-      uid: Ipv6NetworkInterface
+    - uid: Ipv6NetworkInterface
     name: ipv6Interfaces
   - description: Default IPv4 gateways.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: defaultIpv4Gateways
   - description: MAC addresses of all active network interfaces.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: macAddresses
   - description: DNS names associated with the machine.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: dnsNames
-- name: Ipv4NetworkInterface
-  description: Describes an IPv4 network interface.
-  kind: object
-  properties:
-  - description: IPv4 address.
-    types:
-    - uid: string
-    name: ipAddress
-  - description: IPv4 subnet mask.
-    types:
-    - uid: string
-    name: subnetMask
-- name: Ipv6NetworkInterface
-  description: Describes an IPv6 network interface.
-  kind: object
-  properties:
-  - description: IPv6 address.
-    types:
-    - uid: string
-    name: ipAddress
 - name: OperatingSystemConfiguration
   description: Operating system information.
   kind: object
@@ -315,8 +275,95 @@ definitions:
     types:
     - uid: Bitness
     name: bitness
+- name: VirtualMachineConfiguration
+  description: Virtualization-related configuration. Present only when `virtualizationState` is `virtual`.
+  kind: object
+  properties:
+  - description: Specifies the virtualization technology used by the machine (hyperv, vmware, etc.)
+    types:
+    - uid: VirtualMachineType
+    name: virtualMachineType
+  - description: The unique identifier of the virtual machine as reported by the underlying virtualization sytem.
+    types:
+    - uid: string
+    name: nativeMachineId
+  - description: The Name of the virtual machine.
+    types:
+    - uid: string
+    name: virtualMachineName
+  - description: The unique identifier of the host of this virtual machine as reported by the underlying virtualization system.
+    types:
+    - uid: string
+    name: nativeHostMachineId
+- name: HypervisorConfiguration
+  description: Hypervisor-related configuration. Present only when 'virtualizationState' is `hypervisor`.
+  kind: object
+  properties:
+  - description: Specifies the virtualization technology used by the hypervisor (hyperv, vmware, etc.)
+    types:
+    - uid: HypervisorType
+    name: hypervisorType
+  - description: The unique identifier of the hypervisor machine as reported by the underlying virtualization system.
+    types:
+    - uid: string
+    name: nativeHostMachineId
+- name: Error
+  description: Error information.
+  kind: object
+  properties:
+  - description: Error code identifying the specific error.
+    types:
+    - uid: string
+    name: code
+  - description: Error message in the caller's locale.
+    types:
+    - uid: string
+    name: message
+- name: MachineRebootStatus
+  description: Specifies whether the machine has been rebooted since the Dependency Agent installation.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: unknown
+  - types:
+    - uid: string
+    name: rebooted
+  - types:
+    - uid: string
+    name: notRebooted
+- name: Accuracy
+  description: Describes the accuracy of the cpuSpeed field.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: actual
+  - types:
+    - uid: string
+    name: estimated
+- name: Ipv4NetworkInterface
+  description: IPv4 interfaces.
+  kind: object
+  properties:
+  - description: IPv4 address.
+    types:
+    - uid: string
+    name: ipAddress
+  - description: IPv4 subnet mask.
+    types:
+    - uid: string
+    name: subnetMask
+- name: Ipv6NetworkInterface
+  description: IPv6 interfaces.
+  kind: object
+  properties:
+  - description: IPv6 address.
+    types:
+    - uid: string
+    name: ipAddress
 - name: OperatingSystemFamily
-  description: Windows, Linux, etc.
+  description: Last known operating system family.
   kind: enum
   properties:
   - types:
@@ -344,26 +391,6 @@ definitions:
   - types:
     - uid: string
     name: 64bit
-- name: VirtualMachineConfiguration
-  description: Virtualization-related configuration. Present only when `virtualizationState` is `virtual`.
-  kind: object
-  properties:
-  - description: Specifies the virtualization technology used by the machine (hyperv, vmware, etc.)
-    types:
-    - uid: VirtualMachineType
-    name: virtualMachineType
-  - description: The unique identifier of the virtual machine as reported by the underlying virtualization sytem.
-    types:
-    - uid: string
-    name: nativeMachineId
-  - description: The Name of the virtual machine.
-    types:
-    - uid: string
-    name: virtualMachineName
-  - description: The unique identifier of the host of this virtual machine as reported by the underlying virtualization system.
-    types:
-    - uid: string
-    name: nativeHostMachineId
 - name: VirtualMachineType
   description: Specifies the virtualization technology used by the machine (hyperv, vmware, etc.)
   kind: enum
@@ -389,18 +416,6 @@ definitions:
   - types:
     - uid: string
     name: xen
-- name: HypervisorConfiguration
-  description: Hypervisor-related configuration. Present only when 'virtualizationState' is `hypervisor`.
-  kind: object
-  properties:
-  - description: Specifies the virtualization technology used by the hypervisor (hyperv, vmware, etc.)
-    types:
-    - uid: HypervisorType
-    name: hypervisorType
-  - description: The unique identifier of the hypervisor machine as reported by the underlying virtualization system.
-    types:
-    - uid: string
-    name: nativeHostMachineId
 - name: HypervisorType
   description: Specifies the virtualization technology used by the hypervisor (hyperv, vmware, etc.)
   kind: enum
@@ -411,26 +426,6 @@ definitions:
   - types:
     - uid: string
     name: hyperv
-- name: ErrorResponse
-  description: An error response from the API.
-  kind: object
-  properties:
-  - description: Error information.
-    types:
-    - uid: Error
-    name: error
-- name: Error
-  description: Error information.
-  kind: object
-  properties:
-  - description: Error code identifying the specific error.
-    types:
-    - uid: string
-    name: code
-  - description: Error message in the caller's locale.
-    types:
-    - uid: string
-    name: message
 examples: []
 security:
 - type: oauth2

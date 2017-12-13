@@ -72,6 +72,24 @@ requestBody:
     name: tags
 requestHeader: []
 definitions:
+- name: SasDefinitionAttributes
+  description: The SAS definition management attributes.
+  kind: object
+  properties:
+  - description: the enabled state of the object.
+    types:
+    - uid: boolean
+    name: enabled
+  - isReadyOnly: true
+    description: Creation time in UTC.
+    types:
+    - uid: integer
+    name: created
+  - isReadyOnly: true
+    description: Last updated time in UTC.
+    types:
+    - uid: integer
+    name: updated
 - name: SasDefinitionBundle
   description: A SAS definition bundle consists of key vault SAS definition details plus its attributes.
   kind: object
@@ -109,24 +127,6 @@ definitions:
       - uid: string
       uid: object
     name: tags
-- name: SasDefinitionAttributes
-  description: The SAS definition attributes.
-  kind: object
-  properties:
-  - description: the enabled state of the object.
-    types:
-    - uid: boolean
-    name: enabled
-  - isReadyOnly: true
-    description: Creation time in UTC.
-    types:
-    - uid: integer
-    name: created
-  - isReadyOnly: true
-    description: Last updated time in UTC.
-    types:
-    - uid: integer
-    name: updated
 - name: KeyVaultError
   description: The key vault error exception.
   kind: object
@@ -136,8 +136,32 @@ definitions:
     types:
     - uid: Error
     name: error
+- name: SasDefinitionUpdateParameters
+  description: The SAS definition update parameters.
+  kind: object
+  properties:
+  - description: Sas definition update metadata in the form of key-value pairs.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: parameters
+  - description: The attributes of the SAS definition.
+    types:
+    - uid: SasDefinitionAttributes
+    name: attributes
+  - description: Application specific metadata in the form of key-value pairs.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
 - name: Error
-  description: The key vault server error.
+  description: Error encountered, if any, during the certificate operation.
   kind: object
   properties:
   - isReadyOnly: true
@@ -156,11 +180,43 @@ definitions:
 examples:
 - request:
     uri: PATCH https://{vaultBaseUrl}/storage/patchsas01/sas/patchStrgSasDef01?api-version=2016-10-01
-    requestBody: '{"parameters":{"sasType":"account","signedProtocols":"httpOrHttps","signedServices":"t","signedResourceTypes":"sco","signedPermissions":"rl","signedVersion":"2016-05-31","validityPeriod":"PT10H"},"attributes":{"enabled":true}}'
+    body: >-
+      {
+        "parameters": {
+          "sasType": "account",
+          "signedProtocols": "httpOrHttps",
+          "signedServices": "t",
+          "signedResourceTypes": "sco",
+          "signedPermissions": "rl",
+          "signedVersion": "2016-05-31",
+          "validityPeriod": "PT10H"
+        },
+        "attributes": {
+          "enabled": true
+        }
+      }
   responses:
   - statusCode: "200"
-    body: '{"id":"https://storage-sdk-test.vault-int.azure-int.net/storage/patchsas01/sas/patchStrgSasDef01","sid":"https://storage-sdk-test.vault-int.azure-int.net/secrets/patchsas01-patchStrgSasDef01","parameters":{"sasType":"account","signedProtocols":"httpOrHttps","signedServices":"t","signedResourceTypes":"sco","signedPermissions":"rl","signedVersion":"2016-05-31","validityPeriod":"PT10H"},"attributes":{"enabled":true,"created":1490738438,"updated":1490738438}}'
+    body: >-
+      {
+        "id": "https://storage-sdk-test.vault-int.azure-int.net/storage/patchsas01/sas/patchStrgSasDef01",
+        "sid": "https://storage-sdk-test.vault-int.azure-int.net/secrets/patchsas01-patchStrgSasDef01",
+        "parameters": {
+          "sasType": "account",
+          "signedProtocols": "httpOrHttps",
+          "signedServices": "t",
+          "signedResourceTypes": "sco",
+          "signedPermissions": "rl",
+          "signedVersion": "2016-05-31",
+          "validityPeriod": "PT10H"
+        },
+        "attributes": {
+          "enabled": true,
+          "created": 1490738438,
+          "updated": 1490738438
+        }
+      }
   name: Update Storage Sas definition
 security: []
 name: UpdateSasDefinition
-uid: .keyvault.updatesasdefinition.updatesasdefinition
+uid: keyvault.updatesasdefinition.updatesasdefinition

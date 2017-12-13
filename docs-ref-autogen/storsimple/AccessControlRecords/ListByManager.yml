@@ -47,8 +47,7 @@ definitions:
   properties:
   - description: The value.
     types:
-    - isArray: true
-      uid: AccessControlRecord
+    - uid: AccessControlRecord
     name: value
 - name: AccessControlRecord
   description: The access control record.
@@ -57,12 +56,12 @@ definitions:
   - description: The iSCSI initiator name (IQN).
     types:
     - uid: string
-    name: initiatorName
+    name: properties.initiatorName
   - isReadyOnly: true
     description: The number of volumes using the access control record.
     types:
     - uid: integer
-    name: volumeCount
+    name: properties.volumeCount
   - isReadyOnly: true
     description: The path ID that uniquely identifies the object.
     types:
@@ -94,7 +93,31 @@ examples:
     uri: GET https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/accessControlRecords?api-version=2017-06-01
   responses:
   - statusCode: "200"
-    body: '{"value":[{"properties":{"initiatorName":"iqn.1991-05.com.microsoft:test1","volumeCount":1},"id":"/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/accessControlRecords/ACR2","name":"ACR2","type":"Microsoft.StorSimple/managers/accessControlRecords","kind":"Series8000"},{"properties":{"initiatorName":"iqn.1991-05.com.microsoft:test2","volumeCount":1},"id":"/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/accessControlRecords/ACR1","name":"ACR1","type":"Microsoft.StorSimple/managers/accessControlRecords","kind":"Series8000"}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "initiatorName": "iqn.1991-05.com.microsoft:test1",
+              "volumeCount": 1
+            },
+            "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/accessControlRecords/ACR2",
+            "name": "ACR2",
+            "type": "Microsoft.StorSimple/managers/accessControlRecords",
+            "kind": "Series8000"
+          },
+          {
+            "properties": {
+              "initiatorName": "iqn.1991-05.com.microsoft:test2",
+              "volumeCount": 1
+            },
+            "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/accessControlRecords/ACR1",
+            "name": "ACR1",
+            "type": "Microsoft.StorSimple/managers/accessControlRecords",
+            "kind": "Series8000"
+          }
+        ]
+      }
   name: AccessControlRecordsListByManager
 security:
 - type: oauth2

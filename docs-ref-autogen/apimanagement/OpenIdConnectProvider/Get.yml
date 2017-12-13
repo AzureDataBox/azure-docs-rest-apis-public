@@ -57,29 +57,29 @@ responses:
 requestHeader: []
 definitions:
 - name: OpenidConnectProviderContract
-  description: OpenId Connect Provider details.
+  description: Page values.
   kind: object
   properties:
   - description: User-friendly OpenID Connect Provider name.
     types:
     - uid: string
-    name: displayName
+    name: properties.displayName
   - description: User-friendly description of OpenID Connect Provider.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - description: Metadata endpoint URI.
     types:
     - uid: string
-    name: metadataEndpoint
+    name: properties.metadataEndpoint
   - description: Client ID of developer console which is the client application.
     types:
     - uid: string
-    name: clientId
+    name: properties.clientId
   - description: Client Secret of developer console which is the client application.
     types:
     - uid: string
-    name: clientSecret
+    name: properties.clientSecret
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -109,8 +109,7 @@ definitions:
     name: message
   - description: The list of invalid fields send in request, in case of validation error.
     types:
-    - isArray: true
-      uid: ErrorFieldContract
+    - uid: ErrorFieldContract
     name: details
 - name: ErrorFieldContract
   description: Error Field contract.
@@ -133,7 +132,19 @@ examples:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/openidConnectProviders/templateOpenIdConnect2?api-version=2017-03-01
   responses:
   - statusCode: "200"
-    body: '{"id":"/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/openidConnectProviders/templateOpenIdConnect2","type":"Microsoft.ApiManagement/service/openidconnectproviders","name":"templateOpenIdConnect2","properties":{"displayName":"templateoidprovider2","description":"open id provider template2","metadataEndpoint":"https://oidprovider-template2.net","clientId":"oidprovidertemplate2","clientSecret":"oidsecretproviderTemplate2"}}'
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/openidConnectProviders/templateOpenIdConnect2",
+        "type": "Microsoft.ApiManagement/service/openidconnectproviders",
+        "name": "templateOpenIdConnect2",
+        "properties": {
+          "displayName": "templateoidprovider2",
+          "description": "open id provider template2",
+          "metadataEndpoint": "https://oidprovider-template2.net",
+          "clientId": "oidprovidertemplate2",
+          "clientSecret": "oidsecretproviderTemplate2"
+        }
+      }
   name: ApiManagementGetOpenIdConnectProvider
 security:
 - type: oauth2

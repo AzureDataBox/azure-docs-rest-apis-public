@@ -52,14 +52,28 @@ definitions:
   properties:
   - description: Gets the list of DNS servers IPV4 addresses.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: dnsServers
   - description: Gets the list of Connectivity Status to the Resources on which the service depends upon.
     types:
-    - isArray: true
-      uid: ConnectivityStatusContract
+    - uid: ConnectivityStatusContract
     name: connectivityStatus
+- name: ErrorResponse
+  description: Error Body contract.
+  kind: object
+  properties:
+  - description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+    name: code
+  - description: Human-readable representation of the error.
+    types:
+    - uid: string
+    name: message
+  - description: The list of invalid fields send in request, in case of validation error.
+    types:
+    - uid: ErrorFieldContract
+    name: details
 - name: ConnectivityStatusContract
   description: Details about connectivity to a resource.
   kind: object
@@ -86,36 +100,6 @@ definitions:
     types:
     - uid: string
     name: lastStatusChange
-- name: ConnectivityStatusType
-  description: Resource Connectivity Status Type identifier.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: initializing
-  - types:
-    - uid: string
-    name: success
-  - types:
-    - uid: string
-    name: failure
-- name: ErrorResponse
-  description: Error Body contract.
-  kind: object
-  properties:
-  - description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
-    types:
-    - uid: string
-    name: code
-  - description: Human-readable representation of the error.
-    types:
-    - uid: string
-    name: message
-  - description: The list of invalid fields send in request, in case of validation error.
-    types:
-    - isArray: true
-      uid: ErrorFieldContract
-    name: details
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
@@ -132,12 +116,99 @@ definitions:
     types:
     - uid: string
     name: target
+- name: ConnectivityStatusType
+  description: Resource Connectivity Status Type identifier.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: initializing
+  - types:
+    - uid: string
+    name: success
+  - types:
+    - uid: string
+    name: failure
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/networkstatus?api-version=2017-03-01
   responses:
   - statusCode: "200"
-    body: '[{"location":"Central US","networkStatus":{"dnsServers":["10.20.37.126","10.20.244.38"],"connectivityStatus":[{"name":"ap********.blob.core.windows.net","status":"success","error":"","lastUpdated":"2017-06-28T23:37:35.1518379Z","lastStatusChange":"2017-06-28T23:17:34.9009011Z"},{"name":"ap********.file.core.windows.net","status":"success","error":"","lastUpdated":"2017-06-28T23:37:35.9161347Z","lastStatusChange":"2017-06-28T23:17:35.2579713Z"},{"name":"e*****.database.windows.net","status":"success","error":"","lastUpdated":"2017-06-28T23:37:35.2130114Z","lastStatusChange":"2017-06-28T23:17:35.0079651Z"},{"name":"Scm","status":"success","error":"","lastUpdated":"2017-06-28T23:37:37.4401208Z","lastStatusChange":"2017-06-28T23:27:36.8198739Z"}]}},{"location":"West US","networkStatus":{"dnsServers":["10.64.3.87","10.64.5.29","10.20.32.105"],"connectivityStatus":[{"name":"ap********.file.core.windows.net","status":"success","error":"","lastUpdated":"2017-06-28T23:37:07.1803004Z","lastStatusChange":"2017-06-28T23:17:06.4831818Z"},{"name":"bb******.blob.core.windows.net","status":"success","error":"","lastUpdated":"2017-06-28T23:37:05.9303015Z","lastStatusChange":"2017-06-28T23:17:05.7332755Z"},{"name":"e******.database.windows.net","status":"success","error":"","lastUpdated":"2017-06-28T23:37:07.1178113Z","lastStatusChange":"2017-06-28T23:17:06.1237965Z"}]}}]'
+    body: >-
+      [
+        {
+          "location": "Central US",
+          "networkStatus": {
+            "dnsServers": [
+              "10.20.37.126",
+              "10.20.244.38"
+            ],
+            "connectivityStatus": [
+              {
+                "name": "ap********.blob.core.windows.net",
+                "status": "success",
+                "error": "",
+                "lastUpdated": "2017-06-28T23:37:35.1518379Z",
+                "lastStatusChange": "2017-06-28T23:17:34.9009011Z"
+              },
+              {
+                "name": "ap********.file.core.windows.net",
+                "status": "success",
+                "error": "",
+                "lastUpdated": "2017-06-28T23:37:35.9161347Z",
+                "lastStatusChange": "2017-06-28T23:17:35.2579713Z"
+              },
+              {
+                "name": "e*****.database.windows.net",
+                "status": "success",
+                "error": "",
+                "lastUpdated": "2017-06-28T23:37:35.2130114Z",
+                "lastStatusChange": "2017-06-28T23:17:35.0079651Z"
+              },
+              {
+                "name": "Scm",
+                "status": "success",
+                "error": "",
+                "lastUpdated": "2017-06-28T23:37:37.4401208Z",
+                "lastStatusChange": "2017-06-28T23:27:36.8198739Z"
+              }
+            ]
+          }
+        },
+        {
+          "location": "West US",
+          "networkStatus": {
+            "dnsServers": [
+              "10.64.3.87",
+              "10.64.5.29",
+              "10.20.32.105"
+            ],
+            "connectivityStatus": [
+              {
+                "name": "ap********.file.core.windows.net",
+                "status": "success",
+                "error": "",
+                "lastUpdated": "2017-06-28T23:37:07.1803004Z",
+                "lastStatusChange": "2017-06-28T23:17:06.4831818Z"
+              },
+              {
+                "name": "bb******.blob.core.windows.net",
+                "status": "success",
+                "error": "",
+                "lastUpdated": "2017-06-28T23:37:05.9303015Z",
+                "lastStatusChange": "2017-06-28T23:17:05.7332755Z"
+              },
+              {
+                "name": "e******.database.windows.net",
+                "status": "success",
+                "error": "",
+                "lastUpdated": "2017-06-28T23:37:07.1178113Z",
+                "lastStatusChange": "2017-06-28T23:17:06.1237965Z"
+              }
+            ]
+          }
+        }
+      ]
   name: ApiManagementServiceGetNetworkStatus
 security:
 - type: oauth2

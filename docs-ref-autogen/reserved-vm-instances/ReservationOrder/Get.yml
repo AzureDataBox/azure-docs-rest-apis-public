@@ -58,35 +58,40 @@ definitions:
   - description: Friendly name for user to easily identified the reservation.
     types:
     - uid: string
-    name: displayName
+    name: properties.displayName
   - description: This is the DateTime when the reservation was initially requested for purchase.
     types:
     - uid: string
-    name: requestDateTime
+    name: properties.requestDateTime
   - description: This is the DateTime when the reservation was created.
     types:
     - uid: string
-    name: createdDateTime
+    name: properties.createdDateTime
   - description: This is the date when the Reservation will expire.
     types:
     - uid: string
-    name: expiryDate
+    name: properties.expiryDate
   - description: Total Quantity of the SKUs purchased in the Reservation.
     types:
     - uid: integer
-    name: originalQuantity
+    name: properties.originalQuantity
   - description: Represent the term of Reservation.
     types:
     - uid: ReservationTerm
-    name: term
+    name: properties.term
   - description: Represent the current state of the Reservation.
     types:
     - uid: ProvisioningState
-    name: provisioningState
+    name: properties.provisioningState
   - types:
-    - isArray: true
-      uid: ReservationResponse
-    name: reservations
+    - uid: ReservationResponse
+    name: properties.reservations
+- name: Error
+  kind: object
+  properties:
+  - types:
+    - uid: ExtendedErrorInfo
+    name: error
 - name: ReservationTerm
   description: Represent the term of Reservation.
   kind: enum
@@ -175,6 +180,15 @@ definitions:
     types:
     - uid: string
     name: type
+- name: ExtendedErrorInfo
+  kind: object
+  properties:
+  - types:
+    - uid: ErrorResponseCode
+    name: code
+  - types:
+    - uid: string
+    name: message
 - name: Location
   description: Location in which the Resources needs to be reserved. It cannot be changed after the resource has been created.
   kind: enum
@@ -273,8 +287,7 @@ definitions:
     name: displayName
   - description: List of the subscriptions that the benefit will be applied. Do not specify if AppliedScopeType is Shared.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: appliedScopes
   - description: Type of the Applied Scope.
     types:
@@ -310,95 +323,6 @@ definitions:
   - types:
     - uid: ReservationMergeProperties
     name: mergeProperties
-- name: AppliedScopeType
-  description: Type of the Applied Scope.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Single
-  - types:
-    - uid: string
-    name: Shared
-- name: ExtendedStatusInfo
-  kind: object
-  properties:
-  - types:
-    - uid: ReservationStatusCode
-    name: statusCode
-  - description: The message giving detailed information about the status code.
-    types:
-    - uid: string
-    name: message
-- name: ReservationStatusCode
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: None
-  - types:
-    - uid: string
-    name: Pending
-  - types:
-    - uid: string
-    name: Active
-  - types:
-    - uid: string
-    name: PurchaseError
-  - types:
-    - uid: string
-    name: PaymentInstrumentError
-  - types:
-    - uid: string
-    name: Split
-  - types:
-    - uid: string
-    name: Merged
-  - types:
-    - uid: string
-    name: Expired
-  - types:
-    - uid: string
-    name: Succeeded
-- name: ReservationSplitProperties
-  kind: object
-  properties:
-  - description: List of destination Resource Id that are created due to split. Format of the resource Id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}
-    types:
-    - isArray: true
-      uid: string
-    name: splitDestinations
-  - description: Resource Id of the Reservation from which this is split. Format of the resource Id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}
-    types:
-    - uid: string
-    name: splitSource
-- name: ReservationMergeProperties
-  kind: object
-  properties:
-  - description: Reservation Resource Id Created due to the merge. Format of the resource Id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}
-    types:
-    - uid: string
-    name: mergeDestination
-  - description: Resource Ids of the Source Reservation's merged to form this Reservation. Format of the resource Id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}
-    types:
-    - isArray: true
-      uid: string
-    name: mergeSources
-- name: Error
-  kind: object
-  properties:
-  - types:
-    - uid: ExtendedErrorInfo
-    name: error
-- name: ExtendedErrorInfo
-  kind: object
-  properties:
-  - types:
-    - uid: ErrorResponseCode
-    name: code
-  - types:
-    - uid: string
-    name: message
 - name: ErrorResponseCode
   kind: enum
   properties:
@@ -567,12 +491,102 @@ definitions:
   - types:
     - uid: string
     name: CalculatePriceFailed
+- name: AppliedScopeType
+  description: Type of the Applied Scope.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Single
+  - types:
+    - uid: string
+    name: Shared
+- name: ExtendedStatusInfo
+  kind: object
+  properties:
+  - types:
+    - uid: ReservationStatusCode
+    name: statusCode
+  - description: The message giving detailed information about the status code.
+    types:
+    - uid: string
+    name: message
+- name: ReservationSplitProperties
+  kind: object
+  properties:
+  - description: List of destination Resource Id that are created due to split. Format of the resource Id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}
+    types:
+    - uid: string
+    name: splitDestinations
+  - description: Resource Id of the Reservation from which this is split. Format of the resource Id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}
+    types:
+    - uid: string
+    name: splitSource
+- name: ReservationMergeProperties
+  kind: object
+  properties:
+  - description: Reservation Resource Id Created due to the merge. Format of the resource Id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}
+    types:
+    - uid: string
+    name: mergeDestination
+  - description: Resource Ids of the Source Reservation's merged to form this Reservation. Format of the resource Id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}
+    types:
+    - uid: string
+    name: mergeSources
+- name: ReservationStatusCode
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: None
+  - types:
+    - uid: string
+    name: Pending
+  - types:
+    - uid: string
+    name: Active
+  - types:
+    - uid: string
+    name: PurchaseError
+  - types:
+    - uid: string
+    name: PaymentInstrumentError
+  - types:
+    - uid: string
+    name: Split
+  - types:
+    - uid: string
+    name: Merged
+  - types:
+    - uid: string
+    name: Expired
+  - types:
+    - uid: string
+    name: Succeeded
 examples:
 - request:
     uri: GET https://management.azure.com/providers/Microsoft.Capacity/reservationOrders/a075419f-44cc-497f-b68a-14ee811d48b9?api-version=2017-11-01
   responses:
   - statusCode: "200"
-    body: '{"id":"/providers/microsoft.capacity/reservationOrders/1f14354c-dc12-4c8d-8090-6f295a3a34aa","type":"Microsoft.Capacity/reservationOrders","name":"1f14354c-dc12-4c8d-8090-6f295a3a34aa","etag":7,"properties":{"requestDateTime":"2017-08-30T03:49:19.0252126Z","createdDateTime":"2017-08-30T03:51:49.8083758Z","term":"P1Y","provisioningState":"Succeeded","reservations":[{"id":"/providers/microsoft.capacity/reservationOrders/1f14354c-dc12-4c8d-8090-6f295a3a34aa/reservations/c8c926bd-fc5d-4e29-9d43-b68340ac23a6"}],"originalQuantity":7}}'
+    body: >-
+      {
+        "id": "/providers/microsoft.capacity/reservationOrders/1f14354c-dc12-4c8d-8090-6f295a3a34aa",
+        "type": "Microsoft.Capacity/reservationOrders",
+        "name": "1f14354c-dc12-4c8d-8090-6f295a3a34aa",
+        "etag": 7,
+        "properties": {
+          "requestDateTime": "2017-08-30T03:49:19.0252126Z",
+          "createdDateTime": "2017-08-30T03:51:49.8083758Z",
+          "term": "P1Y",
+          "provisioningState": "Succeeded",
+          "reservations": [
+            {
+              "id": "/providers/microsoft.capacity/reservationOrders/1f14354c-dc12-4c8d-8090-6f295a3a34aa/reservations/c8c926bd-fc5d-4e29-9d43-b68340ac23a6"
+            }
+          ],
+          "originalQuantity": 7
+        }
+      }
   name: GetReservation
 security: []
 name: Get

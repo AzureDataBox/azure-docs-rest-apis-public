@@ -48,7 +48,7 @@ responses:
 requestHeader: []
 definitions:
 - name: Factory
-  description: Factory resource type.
+  description: List of factories.
   kind: object
   properties:
   - description: Managed service identity of the factory.
@@ -59,17 +59,17 @@ definitions:
     description: Factory provisioning state, example Succeeded.
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: Time the factory was created in ISO8601 format.
     types:
     - uid: string
-    name: createTime
+    name: properties.createTime
   - isReadyOnly: true
     description: Version of the factory.
     types:
     - uid: string
-    name: version
+    name: properties.version
   - isReadyOnly: true
     description: The resource identifier.
     types:
@@ -97,6 +97,26 @@ definitions:
       - uid: string
       uid: object
     name: tags
+- name: ErrorResponse
+  description: The object that defines the structure of an Azure Data Factory response.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: string
+    name: code
+  - description: Error message.
+    types:
+    - uid: string
+    name: message
+  - description: Property name/path in request associated with error.
+    types:
+    - uid: string
+    name: target
+  - description: Array with additional error details.
+    types:
+    - uid: ErrorResponse
+    name: details
 - name: FactoryIdentity
   description: Managed service identity of the factory.
   kind: object
@@ -122,27 +142,6 @@ definitions:
   - types:
     - uid: string
     name: SystemAssigned
-- name: ErrorResponse
-  description: The object that defines the structure of an Azure Data Factory response.
-  kind: object
-  properties:
-  - description: Error code.
-    types:
-    - uid: string
-    name: code
-  - description: Error message.
-    types:
-    - uid: string
-    name: message
-  - description: Property name/path in request associated with error.
-    types:
-    - uid: string
-    name: target
-  - description: Array with additional error details.
-    types:
-    - isArray: true
-      uid: Details
-    name: details
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName?api-version=2017-09-01-preview
@@ -159,7 +158,21 @@ examples:
       name: x-ms-ratelimit-remaining-subscription-reads
     - value: 5d862c55-4de9-4a46-969d-cf1ed3e235ed
       name: x-ms-correlation-request-id
-    body: '{"name":"exampleFactoryName","tags":{"exampleTag":"exampleValue"},"properties":{"provisioningState":"Succeeded","createTime":"2017-09-13T17:33:54.0294655Z","version":"2017-09-01-preview"},"id":"/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleresourcegroup/providers/Microsoft.DataFactory/factories/exampleFactoryName","type":"Microsoft.DataFactory/factories","location":"East US"}'
+    body: >-
+      {
+        "name": "exampleFactoryName",
+        "tags": {
+          "exampleTag": "exampleValue"
+        },
+        "properties": {
+          "provisioningState": "Succeeded",
+          "createTime": "2017-09-13T17:33:54.0294655Z",
+          "version": "2017-09-01-preview"
+        },
+        "id": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleresourcegroup/providers/Microsoft.DataFactory/factories/exampleFactoryName",
+        "type": "Microsoft.DataFactory/factories",
+        "location": "East US"
+      }
   name: Factories_Get
 security:
 - type: oauth2

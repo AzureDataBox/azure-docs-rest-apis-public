@@ -75,12 +75,12 @@ definitions:
     description: The resource GUID property of the application security group resource. It uniquely identifies a resource, even if the user changes its name or migrate the resource across subscriptions or resource groups.
     types:
     - uid: string
-    name: resourceGuid
+    name: properties.resourceGuid
   - isReadyOnly: true
     description: "The provisioning state of the application security group resource. Possible values are: 'Succeeded', 'Updating', 'Deleting', and 'Failed'."
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -111,12 +111,36 @@ definitions:
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationSecurityGroups/test-asg?api-version=2017-09-01
-    requestBody: '{"location":"westus","properties":{}}'
+    body: >-
+      {
+        "location": "westus",
+        "properties": {}
+      }
   responses:
   - statusCode: "200"
-    body: '{"name":"test-asg","id":"/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationSecurityGroups/test-asg","type":"Microsoft.Network/applicationSecurityGroups","location":"westus","properties":{"provisioningState":"Succeeded","resourceGuid":"00000000-0000-0000-0000-000000000000"}}'
+    body: >-
+      {
+        "name": "test-asg",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationSecurityGroups/test-asg",
+        "type": "Microsoft.Network/applicationSecurityGroups",
+        "location": "westus",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "resourceGuid": "00000000-0000-0000-0000-000000000000"
+        }
+      }
   - statusCode: "201"
-    body: '{"name":"test-asg","id":"/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationSecurityGroups/test-asg","type":"Microsoft.Network/applicationSecurityGroups","location":"westus","properties":{"provisioningState":"Succeeded","resourceGuid":"00000000-0000-0000-0000-000000000000"}}'
+    body: >-
+      {
+        "name": "test-asg",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationSecurityGroups/test-asg",
+        "type": "Microsoft.Network/applicationSecurityGroups",
+        "location": "westus",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "resourceGuid": "00000000-0000-0000-0000-000000000000"
+        }
+      }
   name: Create application security group
 security:
 - type: oauth2

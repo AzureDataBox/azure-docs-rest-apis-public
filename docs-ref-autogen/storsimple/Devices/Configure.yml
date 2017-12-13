@@ -46,29 +46,29 @@ requestBody:
     description: The friendly name for the device.
     types:
     - uid: string
-    name: friendlyName
+    name: properties.friendlyName
   - in: body
     isRequired: true
     description: The current name of the device.
     types:
     - uid: string
-    name: currentDeviceName
+    name: properties.currentDeviceName
   - in: body
     isRequired: true
     description: 'The device time zone. For eg: "Pacific Standard Time"'
     types:
     - uid: string
-    name: timeZone
+    name: properties.timeZone
   - in: body
     description: The secondary DNS Settings of the device.
     types:
     - uid: SecondaryDNSSettings
-    name: dnsSettings
+    name: properties.dnsSettings
   - in: body
     description: The 'Data 0' network interface card settings.
     types:
     - uid: NetworkInterfaceData0Settings
-    name: networkInterfaceData0Settings
+    name: properties.networkInterfaceData0Settings
   - in: body
     description: The Kind of the object. Currently only Series8000 is supported
     types:
@@ -76,6 +76,69 @@ requestBody:
     name: kind
 requestHeader: []
 definitions:
+- name: SecondaryDNSSettings
+  description: The secondary DNS Settings of the device.
+  kind: object
+  properties:
+  - description: The list of secondary DNS Server IP addresses.
+    types:
+    - uid: string
+    name: secondaryDnsServers
+- name: NetworkInterfaceData0Settings
+  description: The 'Data 0' network interface card settings.
+  kind: object
+  properties:
+  - description: The controller 0's IPv4 address.
+    types:
+    - uid: string
+    name: controllerZeroIp
+  - description: The controller 1's IPv4 address.
+    types:
+    - uid: string
+    name: controllerOneIp
+- name: ConfigureDeviceRequest
+  description: The mandatory device configuration request.
+  kind: object
+  properties:
+  - description: The friendly name for the device.
+    types:
+    - uid: string
+    name: properties.friendlyName
+  - description: The current name of the device.
+    types:
+    - uid: string
+    name: properties.currentDeviceName
+  - description: 'The device time zone. For eg: "Pacific Standard Time"'
+    types:
+    - uid: string
+    name: properties.timeZone
+  - description: The secondary DNS Settings of the device.
+    types:
+    - uid: SecondaryDNSSettings
+    name: properties.dnsSettings
+  - description: The 'Data 0' network interface card settings.
+    types:
+    - uid: NetworkInterfaceData0Settings
+    name: properties.networkInterfaceData0Settings
+  - isReadyOnly: true
+    description: The path ID that uniquely identifies the object.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: The name of the object.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: The hierarchical type of the object.
+    types:
+    - uid: string
+    name: type
+  - description: The Kind of the object. Currently only Series8000 is supported
+    types:
+    - uid: Kind
+    name: kind
 - name: Kind
   description: The Kind of the object. Currently only Series8000 is supported
   kind: enum
@@ -86,7 +149,18 @@ definitions:
 examples:
 - request:
     uri: POST https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/configureDevice?api-version=2017-06-01
-    requestBody: '{"properties":{"friendlyName":"Device001ForSDKTest","currentDeviceName":"Device001ForSDKTest","timeZone":"Pacific Standard Time","networkInterfaceData0Settings":{"controllerZeroIp":"10.168.220.227","controllerOneIp":"10.168.220.228"}}}'
+    body: >-
+      {
+        "properties": {
+          "friendlyName": "Device001ForSDKTest",
+          "currentDeviceName": "Device001ForSDKTest",
+          "timeZone": "Pacific Standard Time",
+          "networkInterfaceData0Settings": {
+            "controllerZeroIp": "10.168.220.227",
+            "controllerOneIp": "10.168.220.228"
+          }
+        }
+      }
   responses:
   - statusCode: "202"
     body: "\"\""

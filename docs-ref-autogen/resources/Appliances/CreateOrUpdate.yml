@@ -66,22 +66,22 @@ requestBody:
     description: The managed resource group Id.
     types:
     - uid: string
-    name: managedResourceGroupId
+    name: properties.managedResourceGroupId
   - in: body
     description: The fully qualified path of appliance definition Id.
     types:
     - uid: string
-    name: applianceDefinitionId
+    name: properties.applianceDefinitionId
   - in: body
     description: Name and value pairs that define the appliance parameters. It can be a JObject or a well formed JSON string.
     types:
     - uid: object
-    name: parameters
+    name: properties.parameters
   - in: body
     description: The blob URI where the UI definition file is located.
     types:
     - uid: string
-    name: uiDefinitionUri
+    name: properties.uiDefinitionUri
   - in: body
     description: ID of the resource that manages this resource.
     types:
@@ -113,127 +113,6 @@ requestBody:
     name: tags
 requestHeader: []
 definitions:
-- name: ProvisioningState
-  description: The appliance provisioning state.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Accepted
-  - types:
-    - uid: string
-    name: Running
-  - types:
-    - uid: string
-    name: Ready
-  - types:
-    - uid: string
-    name: Creating
-  - types:
-    - uid: string
-    name: Created
-  - types:
-    - uid: string
-    name: Deleting
-  - types:
-    - uid: string
-    name: Deleted
-  - types:
-    - uid: string
-    name: Canceled
-  - types:
-    - uid: string
-    name: Failed
-  - types:
-    - uid: string
-    name: Succeeded
-  - types:
-    - uid: string
-    name: Updating
-- name: ResourceIdentityType
-  description: The identity type.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: SystemAssigned
-- name: Appliance
-  description: Information about appliance.
-  kind: object
-  properties:
-  - description: The plan information.
-    types:
-    - uid: Plan
-    name: plan
-  - description: The kind of the appliance. Allowed values are MarketPlace and ServiceCatalog.
-    types:
-    - uid: string
-    name: kind
-  - description: The managed resource group Id.
-    types:
-    - uid: string
-    name: managedResourceGroupId
-  - description: The fully qualified path of appliance definition Id.
-    types:
-    - uid: string
-    name: applianceDefinitionId
-  - description: Name and value pairs that define the appliance parameters. It can be a JObject or a well formed JSON string.
-    types:
-    - uid: object
-    name: parameters
-  - isReadyOnly: true
-    description: Name and value pairs that define the appliance outputs.
-    types:
-    - uid: object
-    name: outputs
-  - isReadyOnly: true
-    description: The appliance provisioning state.
-    types:
-    - uid: ProvisioningState
-    name: provisioningState
-  - description: The blob URI where the UI definition file is located.
-    types:
-    - uid: string
-    name: uiDefinitionUri
-  - description: ID of the resource that manages this resource.
-    types:
-    - uid: string
-    name: managedBy
-  - description: The SKU of the resource.
-    types:
-    - uid: Sku
-    name: sku
-  - description: The identity of the resource.
-    types:
-    - uid: Identity
-    name: identity
-  - isReadyOnly: true
-    description: Resource ID
-    types:
-    - uid: string
-    name: id
-  - isReadyOnly: true
-    description: Resource name
-    types:
-    - uid: string
-    name: name
-  - isReadyOnly: true
-    description: Resource type
-    types:
-    - uid: string
-    name: type
-  - description: Resource location
-    types:
-    - uid: string
-    name: location
-  - description: Resource tags
-    types:
-    - isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-      uid: object
-    name: tags
 - name: Plan
   description: The plan information.
   kind: object
@@ -304,6 +183,83 @@ definitions:
     types:
     - uid: ResourceIdentityType
     name: type
+- name: Appliance
+  description: Information about appliance.
+  kind: object
+  properties:
+  - description: The plan information.
+    types:
+    - uid: Plan
+    name: plan
+  - description: The kind of the appliance. Allowed values are MarketPlace and ServiceCatalog.
+    types:
+    - uid: string
+    name: kind
+  - description: The managed resource group Id.
+    types:
+    - uid: string
+    name: properties.managedResourceGroupId
+  - description: The fully qualified path of appliance definition Id.
+    types:
+    - uid: string
+    name: properties.applianceDefinitionId
+  - description: Name and value pairs that define the appliance parameters. It can be a JObject or a well formed JSON string.
+    types:
+    - uid: object
+    name: properties.parameters
+  - isReadyOnly: true
+    description: Name and value pairs that define the appliance outputs.
+    types:
+    - uid: object
+    name: properties.outputs
+  - isReadyOnly: true
+    description: The appliance provisioning state.
+    types:
+    - uid: ProvisioningState
+    name: properties.provisioningState
+  - description: The blob URI where the UI definition file is located.
+    types:
+    - uid: string
+    name: properties.uiDefinitionUri
+  - description: ID of the resource that manages this resource.
+    types:
+    - uid: string
+    name: managedBy
+  - description: The SKU of the resource.
+    types:
+    - uid: Sku
+    name: sku
+  - description: The identity of the resource.
+    types:
+    - uid: Identity
+    name: identity
+  - isReadyOnly: true
+    description: Resource ID
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+    name: type
+  - description: Resource location
+    types:
+    - uid: string
+    name: location
+  - description: Resource tags
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
 - name: ErrorResponse
   description: Error reponse indicates ARM appliance is not able to process the incoming request. The reason is provided in the error message.
   kind: object
@@ -320,13 +276,87 @@ definitions:
     types:
     - uid: string
     name: errorMessage
+- name: ResourceIdentityType
+  description: The identity type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: SystemAssigned
+- name: ProvisioningState
+  description: The appliance provisioning state.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Accepted
+  - types:
+    - uid: string
+    name: Running
+  - types:
+    - uid: string
+    name: Ready
+  - types:
+    - uid: string
+    name: Creating
+  - types:
+    - uid: string
+    name: Created
+  - types:
+    - uid: string
+    name: Deleting
+  - types:
+    - uid: string
+    name: Deleted
+  - types:
+    - uid: string
+    name: Canceled
+  - types:
+    - uid: string
+    name: Failed
+  - types:
+    - uid: string
+    name: Succeeded
+  - types:
+    - uid: string
+    name: Updating
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/appliances/myAppliance?api-version=2016-09-01-preview
-    requestBody: '{"properties":{"applianceDefinitionId":"/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/applianceDefinitions/myAppDef","managedResourceGroupId":"/subscriptions/subid/resourceGroups/myManagedRG"},"name":"myAppliance","location":"East US 2","kind":"ServiceCatalog"}'
+    body: >-
+      {
+        "properties": {
+          "applianceDefinitionId": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/applianceDefinitions/myAppDef",
+          "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG"
+        },
+        "name": "myAppliance",
+        "location": "East US 2",
+        "kind": "ServiceCatalog"
+      }
   responses:
   - statusCode: "201"
-    body: '{"name":"myAppliance","id":"/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/appliances/myAppliance","type":"Microsoft.Solutions/appliances","location":"East US 2","managedBy":null,"resourceGroup":"rg","tags":null,"plan":null,"identity":null,"kind":"ServiceCatalog","sku":null,"properties":{"applianceDefinitionId":"/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/applianceDefinitions/myAppDef","managedResourceGroupId":"/subscriptions/subid/resourceGroups/myManagedRG","outputs":null,"parameters":null,"provisioningState":"Created","uiDefinitionUri":"https://path/to/applianceCreateUiDefinition.json"}}'
+    body: >-
+      {
+        "name": "myAppliance",
+        "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/appliances/myAppliance",
+        "type": "Microsoft.Solutions/appliances",
+        "location": "East US 2",
+        "managedBy": null,
+        "resourceGroup": "rg",
+        "tags": null,
+        "plan": null,
+        "identity": null,
+        "kind": "ServiceCatalog",
+        "sku": null,
+        "properties": {
+          "applianceDefinitionId": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/applianceDefinitions/myAppDef",
+          "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG",
+          "outputs": null,
+          "parameters": null,
+          "provisioningState": "Created",
+          "uiDefinitionUri": "https://path/to/applianceCreateUiDefinition.json"
+        }
+      }
   name: Create or update appliance
 security:
 - type: oauth2

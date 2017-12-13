@@ -48,12 +48,12 @@ requestBody:
     description: Allow users to sign up on a developer portal.
     types:
     - uid: boolean
-    name: enabled
+    name: properties.enabled
   - in: body
     description: Terms of service contract properties.
     types:
     - uid: TermsOfServiceProperties
-    name: termsOfService
+    name: properties.termsOfService
 requestHeader:
 - in: header
   isRequired: true
@@ -62,6 +62,22 @@ requestHeader:
   - uid: string
   name: If-Match
 definitions:
+- name: TermsOfServiceProperties
+  description: Terms of service contract properties.
+  kind: object
+  properties:
+  - description: A terms of service text.
+    types:
+    - uid: string
+    name: text
+  - description: Display terms of service during a sign-up process.
+    types:
+    - uid: boolean
+    name: enabled
+  - description: Ask user for concent.
+    types:
+    - uid: boolean
+    name: consentRequired
 - name: ErrorResponse
   description: Error Body contract.
   kind: object
@@ -76,9 +92,35 @@ definitions:
     name: message
   - description: The list of invalid fields send in request, in case of validation error.
     types:
-    - isArray: true
-      uid: ErrorFieldContract
+    - uid: ErrorFieldContract
     name: details
+- name: PortalSignupSettings
+  description: Sign-Up settings for a developer portal.
+  kind: object
+  properties:
+  - description: Allow users to sign up on a developer portal.
+    types:
+    - uid: boolean
+    name: properties.enabled
+  - description: Terms of service contract properties.
+    types:
+    - uid: TermsOfServiceProperties
+    name: properties.termsOfService
+  - isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type for API Management resource.
+    types:
+    - uid: string
+    name: type
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
@@ -98,7 +140,17 @@ definitions:
 examples:
 - request:
     uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/portalsettings/signup?api-version=2017-03-01
-    requestBody: '{"properties":{"enabled":true,"termsOfService":{"enabled":true,"text":"Terms of service text.","consentRequired":true}}}'
+    body: >-
+      {
+        "properties": {
+          "enabled": true,
+          "termsOfService": {
+            "enabled": true,
+            "text": "Terms of service text.",
+            "consentRequired": true
+          }
+        }
+      }
     headers:
     - value: '*'
       name: If-Match

@@ -58,8 +58,28 @@ definitions:
     types:
     - uid: UnavailableReason
     name: reason
+- name: ErrorResponse
+  description: Error reponse indicates ServiceBus service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
+- name: CheckNameAvailability
+  description: Description of a Check Name availability request properties.
+  kind: object
+  properties:
+  - description: The Name to check the namespce name availability and The namespace name can contain only letters, numbers, and hyphens. The namespace must start with a letter, and it must end with a letter or number.
+    types:
+    - uid: string
+    name: name
 - name: UnavailableReason
-  description: The reason for unavailability of a namespace.
+  description: Specifies the reason for the unavailability of the service.
   kind: enum
   properties:
   - types:
@@ -80,25 +100,21 @@ definitions:
   - types:
     - uid: string
     name: TooManyNamespaceInCurrentSubscription
-- name: ErrorResponse
-  description: Error reponse indicates ServiceBus service is not able to process the incoming request. The reason is provided in the error message.
-  kind: object
-  properties:
-  - description: Error code.
-    types:
-    - uid: string
-    name: code
-  - description: Error message indicating why the operation failed.
-    types:
-    - uid: string
-    name: message
 examples:
 - request:
     uri: POST https://management.azure.com/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/providers/Microsoft.ServiceBus/CheckNameAvailability?api-version=2017-04-01
-    requestBody: '{"name":"sdk-Namespace-2924"}'
+    body: >-
+      {
+        "name": "sdk-Namespace-2924"
+      }
   responses:
   - statusCode: "200"
-    body: '{"nameAvailable":true,"reason":"None","message":""}'
+    body: >-
+      {
+        "nameAvailable": true,
+        "reason": "None",
+        "message": ""
+      }
   name: NameSpaceCheckNameAvailability
 security:
 - type: oauth2

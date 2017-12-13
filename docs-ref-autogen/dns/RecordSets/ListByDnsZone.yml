@@ -64,14 +64,21 @@ definitions:
   properties:
   - description: Information about the record sets in the response.
     types:
-    - isArray: true
-      uid: RecordSet
+    - uid: RecordSet
     name: value
   - isReadyOnly: true
     description: The continuation token for the next page of results.
     types:
     - uid: string
     name: nextLink
+- name: CloudError
+  description: An error message
+  kind: object
+  properties:
+  - description: The error message body
+    types:
+    - uid: CloudErrorBody
+    name: error
 - name: RecordSet
   description: Describes a DNS record set (a collection of DNS records with the same name and type).
   kind: object
@@ -102,64 +109,76 @@ definitions:
       - uid: string
       - uid: string
       uid: object
-    name: metadata
+    name: properties.metadata
   - description: The TTL (time-to-live) of the records in the record set.
     types:
     - uid: integer
-    name: TTL
+    name: properties.TTL
   - isReadyOnly: true
     description: Fully qualified domain name of the record set.
     types:
     - uid: string
-    name: fqdn
+    name: properties.fqdn
   - description: The list of A records in the record set.
     types:
-    - isArray: true
-      uid: ARecord
-    name: ARecords
+    - uid: ARecord
+    name: properties.ARecords
   - description: The list of AAAA records in the record set.
     types:
-    - isArray: true
-      uid: AaaaRecord
-    name: AAAARecords
+    - uid: AaaaRecord
+    name: properties.AAAARecords
   - description: The list of MX records in the record set.
     types:
-    - isArray: true
-      uid: MxRecord
-    name: MXRecords
+    - uid: MxRecord
+    name: properties.MXRecords
   - description: The list of NS records in the record set.
     types:
-    - isArray: true
-      uid: NsRecord
-    name: NSRecords
+    - uid: NsRecord
+    name: properties.NSRecords
   - description: The list of PTR records in the record set.
     types:
-    - isArray: true
-      uid: PtrRecord
-    name: PTRRecords
+    - uid: PtrRecord
+    name: properties.PTRRecords
   - description: The list of SRV records in the record set.
     types:
-    - isArray: true
-      uid: SrvRecord
-    name: SRVRecords
+    - uid: SrvRecord
+    name: properties.SRVRecords
   - description: The list of TXT records in the record set.
     types:
-    - isArray: true
-      uid: TxtRecord
-    name: TXTRecords
+    - uid: TxtRecord
+    name: properties.TXTRecords
   - description: The CNAME record in the  record set.
     types:
     - uid: CnameRecord
-    name: CNAMERecord
+    name: properties.CNAMERecord
   - description: The SOA record in the record set.
     types:
     - uid: SoaRecord
-    name: SOARecord
+    name: properties.SOARecord
   - description: The list of CAA records in the record set.
     types:
-    - isArray: true
-      uid: CaaRecord
-    name: caaRecords
+    - uid: CaaRecord
+    name: properties.caaRecords
+- name: CloudErrorBody
+  description: The error message body
+  kind: object
+  properties:
+  - description: The error code
+    types:
+    - uid: string
+    name: code
+  - description: A description of what caused the error
+    types:
+    - uid: string
+    name: message
+  - description: The target resource of the error message
+    types:
+    - uid: string
+    name: target
+  - description: Extra error information
+    types:
+    - uid: Details
+    name: details
 - name: ARecord
   description: An A record.
   kind: object
@@ -230,11 +249,10 @@ definitions:
   properties:
   - description: The text value of this TXT record.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: value
 - name: CnameRecord
-  description: The CNAME record in the  record set.
+  description: A CNAME record.
   kind: object
   properties:
   - description: The canonical name for this CNAME record.
@@ -242,7 +260,7 @@ definitions:
     - uid: string
     name: cname
 - name: SoaRecord
-  description: The SOA record in the record set.
+  description: An SOA record.
   kind: object
   properties:
   - description: The domain name of the authoritative name server for this SOA record.
@@ -289,41 +307,71 @@ definitions:
     types:
     - uid: string
     name: value
-- name: CloudError
-  description: An error message
-  kind: object
-  properties:
-  - description: The error message body
-    types:
-    - uid: CloudErrorBody
-    name: error
-- name: CloudErrorBody
-  description: The error message body
-  kind: object
-  properties:
-  - description: The error code
-    types:
-    - uid: string
-    name: code
-  - description: A description of what caused the error
-    types:
-    - uid: string
-    name: message
-  - description: The target resource of the error message
-    types:
-    - uid: string
-    name: target
-  - description: Extra error information
-    types:
-    - isArray: true
-      uid: Details
-    name: details
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/recordsets?api-version=2017-09-01
   responses:
   - statusCode: "200"
-    body: '{"nextLink":"https://servicehost/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/CAA?api-version=2017-09-01&$skipToken=skipToken","value":[{"id":"/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/CAA/record1","etag":"00000000-0000-0000-0000-000000000000","name":"record1","type":"Microsoft.Network/dnsZones/CAA","properties":{"metadata":{"key1":"value1"},"TTL":3600,"fqdn":"record1.zone1","caaRecords":[{"flags":0,"tag":"issue","value":"ca.contoso.com"}]}},{"id":"/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/A/record1","etag":"00000000-0000-0000-0000-000000000000","name":"record1","type":"Microsoft.Network/dnsZones/A","properties":{"metadata":{"key1":"value1"},"TTL":3600,"fqdn":"record1.zone1","ARecords":[{"ipv4Address":"127.0.0.1"}]}},{"id":"/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/CNAME/record2","etag":"00000000-0000-0000-0000-000000000000","name":"record2","type":"Microsoft.Network/dnsZones/CNAME","properties":{"metadata":{"key1":"value1"},"TTL":3600,"fqdn":"record2.zone1","CNAMERecord":{"cname":"contoso.com"}}}]}'
+    body: >-
+      {
+        "nextLink": "https://servicehost/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/CAA?api-version=2017-09-01&$skipToken=skipToken",
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/CAA/record1",
+            "etag": "00000000-0000-0000-0000-000000000000",
+            "name": "record1",
+            "type": "Microsoft.Network/dnsZones/CAA",
+            "properties": {
+              "metadata": {
+                "key1": "value1"
+              },
+              "TTL": 3600,
+              "fqdn": "record1.zone1",
+              "caaRecords": [
+                {
+                  "flags": 0,
+                  "tag": "issue",
+                  "value": "ca.contoso.com"
+                }
+              ]
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/A/record1",
+            "etag": "00000000-0000-0000-0000-000000000000",
+            "name": "record1",
+            "type": "Microsoft.Network/dnsZones/A",
+            "properties": {
+              "metadata": {
+                "key1": "value1"
+              },
+              "TTL": 3600,
+              "fqdn": "record1.zone1",
+              "ARecords": [
+                {
+                  "ipv4Address": "127.0.0.1"
+                }
+              ]
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/CNAME/record2",
+            "etag": "00000000-0000-0000-0000-000000000000",
+            "name": "record2",
+            "type": "Microsoft.Network/dnsZones/CNAME",
+            "properties": {
+              "metadata": {
+                "key1": "value1"
+              },
+              "TTL": 3600,
+              "fqdn": "record2.zone1",
+              "CNAMERecord": {
+                "cname": "contoso.com"
+              }
+            }
+          }
+        ]
+      }
   name: List recordsets by zone
 security: []
 name: ListByDnsZone

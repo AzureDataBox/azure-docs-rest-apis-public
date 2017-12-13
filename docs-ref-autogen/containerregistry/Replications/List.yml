@@ -48,8 +48,7 @@ definitions:
   properties:
   - description: The list of replications. Since this list may be incomplete, the nextLink field should be used to request the next list of replications.
     types:
-    - isArray: true
-      uid: Replication
+    - uid: Replication
     name: value
   - description: The URI that can be used to request the next list of replications.
     types:
@@ -63,12 +62,12 @@ definitions:
     description: The provisioning state of the replication at the time the operation was called.
     types:
     - uid: ProvisioningState
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: The status of the replication at the time the operation was called.
     types:
     - uid: Status
-    name: status
+    name: properties.status
   - isReadyOnly: true
     description: The resource ID.
     types:
@@ -97,7 +96,7 @@ definitions:
       uid: object
     name: tags
 - name: ProvisioningState
-  description: The provisioning state of the replication at the time the operation was called.
+  description: The provisioning state of the container registry at the time the operation was called.
   kind: enum
   properties:
   - types:
@@ -119,7 +118,7 @@ definitions:
     - uid: string
     name: Canceled
 - name: Status
-  description: The status of the replication at the time the operation was called.
+  description: The status of the container registry at the time the operation was called.
   kind: object
   properties:
   - isReadyOnly: true
@@ -142,7 +141,28 @@ examples:
     uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/replications?api-version=2017-10-01
   responses:
   - statusCode: "200"
-    body: '{"value":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/replications/myReplication","name":"myReplication","type":"Microsoft.ContainerRegistry/registries/replications","location":"eastus","tags":{"key":"value"},"properties":{"provisioningState":"Succeeded","status":{"displayStatus":"Ready","message":"The replication is ready.","timestamp":"2017-03-01T23:15:37.0707808Z"}}}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/replications/myReplication",
+            "name": "myReplication",
+            "type": "Microsoft.ContainerRegistry/registries/replications",
+            "location": "eastus",
+            "tags": {
+              "key": "value"
+            },
+            "properties": {
+              "provisioningState": "Succeeded",
+              "status": {
+                "displayStatus": "Ready",
+                "message": "The replication is ready.",
+                "timestamp": "2017-03-01T23:15:37.0707808Z"
+              }
+            }
+          }
+        ]
+      }
   name: ReplicationList
 security:
 - type: oauth2

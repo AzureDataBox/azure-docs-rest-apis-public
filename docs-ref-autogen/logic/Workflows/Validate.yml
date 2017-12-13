@@ -49,22 +49,22 @@ requestBody:
     description: The state.
     types:
     - uid: WorkflowState
-    name: state
+    name: properties.state
   - in: body
     description: The sku.
     types:
     - uid: Sku
-    name: sku
+    name: properties.sku
   - in: body
     description: The integration account.
     types:
     - uid: ResourceReference
-    name: integrationAccount
+    name: properties.integrationAccount
   - in: body
     description: The definition.
     types:
     - uid: Object
-    name: definition
+    name: properties.definition
   - in: body
     description: The parameters.
     types:
@@ -73,7 +73,7 @@ requestBody:
       - uid: string
       - uid: WorkflowParameter
       uid: object
-    name: parameters
+    name: properties.parameters
   - in: body
     description: The resource location.
     types:
@@ -90,6 +90,151 @@ requestBody:
     name: tags
 requestHeader: []
 definitions:
+- name: Sku
+  description: The sku.
+  kind: object
+  properties:
+  - description: The name.
+    types:
+    - uid: SkuName
+    name: name
+  - description: The reference to plan.
+    types:
+    - uid: ResourceReference
+    name: plan
+- name: ResourceReference
+  description: The resource reference.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The resource id.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Gets the resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Gets the resource type.
+    types:
+    - uid: string
+    name: type
+- name: Object
+  kind: object
+  properties: []
+- name: Parameters
+  description: The parameters.
+  kind: object
+  properties:
+  - description: The workflow parameters.
+    types:
+    - uid: WorkflowOutputParameter
+    typesTitle: WorkflowParameter
+    name: ''
+- name: Workflow
+  description: The workflow type.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Gets the provisioning state.
+    types:
+    - uid: WorkflowProvisioningState
+    name: properties.provisioningState
+  - isReadyOnly: true
+    description: Gets the created time.
+    types:
+    - uid: string
+    name: properties.createdTime
+  - isReadyOnly: true
+    description: Gets the changed time.
+    types:
+    - uid: string
+    name: properties.changedTime
+  - description: The state.
+    types:
+    - uid: WorkflowState
+    name: properties.state
+  - isReadyOnly: true
+    description: Gets the version.
+    types:
+    - uid: string
+    name: properties.version
+  - isReadyOnly: true
+    description: Gets the access endpoint.
+    types:
+    - uid: string
+    name: properties.accessEndpoint
+  - description: The sku.
+    types:
+    - uid: Sku
+    name: properties.sku
+  - description: The integration account.
+    types:
+    - uid: ResourceReference
+    name: properties.integrationAccount
+  - description: The definition.
+    types:
+    - uid: Object
+    name: properties.definition
+  - description: The parameters.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: WorkflowParameter
+      uid: object
+    name: properties.parameters
+  - isReadyOnly: true
+    description: The resource id.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Gets the resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Gets the resource type.
+    types:
+    - uid: string
+    name: type
+  - description: The resource location.
+    types:
+    - uid: string
+    name: location
+  - description: The resource tags.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+- name: SkuName
+  description: The name.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NotSpecified
+  - types:
+    - uid: string
+    name: Free
+  - types:
+    - uid: string
+    name: Shared
+  - types:
+    - uid: string
+    name: Basic
+  - types:
+    - uid: string
+    name: Standard
+  - types:
+    - uid: string
+    name: Premium
 - name: WorkflowProvisioningState
   description: Gets the provisioning state.
   kind: enum
@@ -170,36 +315,31 @@ definitions:
   - types:
     - uid: string
     name: Suspended
-- name: SkuName
-  description: The name.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: NotSpecified
-  - types:
-    - uid: string
-    name: Free
-  - types:
-    - uid: string
-    name: Shared
-  - types:
-    - uid: string
-    name: Basic
-  - types:
-    - uid: string
-    name: Standard
-  - types:
-    - uid: string
-    name: Premium
-- name: Parameters
-  description: The parameters.
+- name: WorkflowOutputParameter
+  description: The workflow output parameter.
   kind: object
   properties:
-  - description: The workflow parameters.
+  - isReadyOnly: true
+    description: Gets the error.
     types:
-    - uid: WorkflowParameter
-    name: ''
+    - uid: Object
+    name: error
+  - description: The type.
+    types:
+    - uid: ParameterType
+    name: type
+  - description: The value.
+    types:
+    - uid: Object
+    name: value
+  - description: The metadata.
+    types:
+    - uid: Object
+    name: metadata
+  - description: The description.
+    types:
+    - uid: string
+    name: description
 - name: ParameterType
   description: The type.
   kind: enum

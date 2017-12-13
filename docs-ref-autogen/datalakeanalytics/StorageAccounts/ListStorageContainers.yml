@@ -54,8 +54,7 @@ definitions:
   - isReadyOnly: true
     description: the results of the list operation
     types:
-    - isArray: true
-      uid: StorageContainer
+    - uid: StorageContainer
     name: value
   - isReadyOnly: true
     description: the link (url) to the next page of results.
@@ -85,13 +84,26 @@ definitions:
     description: the last modified time of the blob container.
     types:
     - uid: string
-    name: lastModifiedTime
+    name: properties.lastModifiedTime
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/contosorg/providers/Microsoft.DataLakeAnalytics/accounts/contosoadla/StorageAccounts/test_storage/Containers?api-version=2016-11-01
   responses:
   - statusCode: "200"
-    body: '{"value":[{"id":"34adfa4f-cedf-4dc0-ba29-b6d1a69ab345","name":"test_storage","type":"test_type","properties":{"lastModifiedTime":"2017-04-14T20:21:56.6819037+00:00"}}],"nextLink":"https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/contosorg/providers/Microsoft.DataLakeAnalytics/accounts/contosoadla/jobPolicies?api-version=2016-11-01&%24skiptoken=<token>"}'
+    body: >-
+      {
+        "value": [
+          {
+            "id": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
+            "name": "test_storage",
+            "type": "test_type",
+            "properties": {
+              "lastModifiedTime": "2017-04-14T20:21:56.6819037+00:00"
+            }
+          }
+        ],
+        "nextLink": "https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/contosorg/providers/Microsoft.DataLakeAnalytics/accounts/contosoadla/jobPolicies?api-version=2016-11-01&%24skiptoken=<token>"
+      }
   name: Lists the Azure Storage containers
 security:
 - type: oauth2

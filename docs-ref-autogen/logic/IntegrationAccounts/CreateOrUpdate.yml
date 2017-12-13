@@ -66,19 +66,14 @@ requestBody:
     name: tags
 requestHeader: []
 definitions:
-- name: IntegrationAccountSkuName
-  description: The sku name.
-  kind: enum
+- name: IntegrationAccountSku
+  description: The sku.
+  kind: object
   properties:
-  - types:
-    - uid: string
-    name: NotSpecified
-  - types:
-    - uid: string
-    name: Free
-  - types:
-    - uid: string
-    name: Standard
+  - description: The sku name.
+    types:
+    - uid: IntegrationAccountSkuName
+    name: name
 - name: IntegrationAccount
   description: The integration account.
   kind: object
@@ -114,23 +109,54 @@ definitions:
       - uid: string
       uid: object
     name: tags
-- name: IntegrationAccountSku
-  description: The sku.
-  kind: object
+- name: IntegrationAccountSkuName
+  kind: enum
   properties:
-  - description: The sku name.
-    types:
-    - uid: IntegrationAccountSkuName
-    name: name
+  - types:
+    - uid: string
+    name: NotSpecified
+  - types:
+    - uid: string
+    name: Free
+  - types:
+    - uid: string
+    name: Standard
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testResourceGroup/providers/Microsoft.Logic/integrationAccounts/testIntegrationAccount?api-version=2016-06-01
-    requestBody: '{"properties":{},"sku":{"name":"Standard"},"location":"westus"}'
+    body: >-
+      {
+        "properties": {},
+        "sku": {
+          "name": "Standard"
+        },
+        "location": "westus"
+      }
   responses:
   - statusCode: "200"
-    body: '{"properties":{},"sku":{"name":"Standard"},"id":"/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testResourceGroup/providers/Microsoft.Logic/integrationAccounts/testIntegrationAccount","name":"testIntegrationAccount","type":"Microsoft.Logic/integrationAccounts","location":"westus"}'
+    body: >-
+      {
+        "properties": {},
+        "sku": {
+          "name": "Standard"
+        },
+        "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testResourceGroup/providers/Microsoft.Logic/integrationAccounts/testIntegrationAccount",
+        "name": "testIntegrationAccount",
+        "type": "Microsoft.Logic/integrationAccounts",
+        "location": "westus"
+      }
   - statusCode: "201"
-    body: '{"properties":{},"sku":{"name":"Standard"},"id":"/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testResourceGroup/providers/Microsoft.Logic/integrationAccounts/testIntegrationAccount","name":"testIntegrationAccount","type":"Microsoft.Logic/integrationAccounts","location":"westus"}'
+    body: >-
+      {
+        "properties": {},
+        "sku": {
+          "name": "Standard"
+        },
+        "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testResourceGroup/providers/Microsoft.Logic/integrationAccounts/testIntegrationAccount",
+        "name": "testIntegrationAccount",
+        "type": "Microsoft.Logic/integrationAccounts",
+        "location": "westus"
+      }
   name: Create or update an IntegrationAccount
 security:
 - type: oauth2

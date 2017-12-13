@@ -49,15 +49,33 @@ definitions:
   properties:
   - description: The list of availabilityStatuses.
     types:
-    - isArray: true
-      uid: availabilityStatus
+    - uid: availabilityStatus
     name: value
   - description: The URI to fetch the next page of availabilityStatuses. Call ListNext() with this URI to fetch the next page of availabilityStatuses.
     types:
     - uid: string
     name: nextLink
+- name: ErrorResponse
+  description: Error details.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+    name: code
+  - isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+    name: message
+  - isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: string
+    name: details
 - name: availabilityStatus
-  description: availabilityStatus of a resource.
+  description: The list of availabilityStatuses.
   kind: object
   properties:
   - description: Azure Resource Manager Identity for the availabilityStatuses resource.
@@ -126,13 +144,11 @@ definitions:
     name: recentlyResolvedState
   - description: Lists actions the user can take based on the current availabilityState of the resource.
     types:
-    - isArray: true
-      uid: recommendedAction
+    - uid: recommendedAction
     name: recommendedActions
   - description: Lists the service impacting events that may be affecting the health of the resource.
     types:
-    - isArray: true
-      uid: serviceImpactingEvent
+    - uid: serviceImpactingEvent
     name: serviceImpactingEvents
 - name: AvailabilityStateValues
   description: Availability status of the resource.
@@ -241,31 +257,62 @@ definitions:
     types:
     - uid: string
     name: incidentType
-- name: ErrorResponse
-  description: Error details.
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: The error code.
-    types:
-    - uid: string
-    name: code
-  - isReadyOnly: true
-    description: The error message.
-    types:
-    - uid: string
-    name: message
-  - isReadyOnly: true
-    description: The error details.
-    types:
-    - uid: string
-    name: details
 examples:
 - request:
     uri: GET https://management.azure.com/resourceUri/providers/Microsoft.ResourceHealth/availabilityStatuses?api-version=2015-01-01
   responses:
   - statusCode: "200"
-    body: "{\"value\":[{\"id\":\"/subscriptions/4abcdefgh-ijkl-mnop-qrstuvwxyz/resourceGroups/rhctestenv/providers/Microsoft.ClassicCompute/virtualMachines/rhctes tenvV1PI/providers/Microsoft.ResourceHealth/availabilityStatuses/current\",\"name\":\"current\",\"type\":\"Microsoft.ResourceHealth/AvailabilityStatuses\",\"location\":\"eastus\",\"properties\":{\"availabilityState\":\"Unavailable\",\"summary\":\"We're sorry, we couldn't automatically recover your virtual machine\",\"reasonType\":\"Unplanned\",\"reasonChronicity\":\"Persistent\",\"detailedStatus\":\"Disk problems are preventing us from automatically recovering your virtual machine\",\"occuredTime\":\"2016-03-29T09:12:00Z\",\"reportedTime\":\"2016-05-04T14:11:29.7598931Z\",\"rootCauseAttributionTime\":\"2016-03-29T09:13:00Z\",\"resolutionETA\":\"2016-03-29T09:37:00Z\",\"serviceImpactingEvents\":[{\"eventStartTime\":\"2016-05-02T19:23:13.7115125Z\",\"eventStatusLastModifiedTime\":\"2016-05-02T19:27:04.9543491Z\",\"correlationId\":\"b56d0180-2d6c-4f7b-b750-c1eca681874c\",\"status\":{\"value\":\"Resolved\"},\"incidentProperties\":{\"title\":\"Virtual Machines - West Europe [West Europe]\",\"service\":\"Virtual Machines\",\"region\":\"East US\",\"incidentType\":\"outage\"}}]}},{\"id\":\"/subscriptions/4abcdefgh-ijkl-mnop-qrstuvwxyz/resourceGroups/rhctestenv/providers/Microsoft.ClassicCompute/virtualMachines/rhctes tenvV1PI/providers/Microsoft.ResourceHealth/availabilityStatuses/2016-03-28+16%3a23%3a00Z\",\"name\":\"2016-03-28+16%3a23%3a00Z\",\"type\":\"Microsoft.ResourceHealth/AvailabilityStatuses\",\"location\":\"eastus\",\"properties\":{\"availabilityState\":\"Available\",\"summary\":\"This virtual machine is running normally\",\"reasonChronicity\":\"Persistent\",\"detailedStatus\":\"There aren’t any known Azure platform problems affecting this virtual machine\",\"occuredTime\":\"2016-03-28T16:23:00Z\"}}]}"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/4abcdefgh-ijkl-mnop-qrstuvwxyz/resourceGroups/rhctestenv/providers/Microsoft.ClassicCompute/virtualMachines/rhctes tenvV1PI/providers/Microsoft.ResourceHealth/availabilityStatuses/current",
+            "name": "current",
+            "type": "Microsoft.ResourceHealth/AvailabilityStatuses",
+            "location": "eastus",
+            "properties": {
+              "availabilityState": "Unavailable",
+              "summary": "We're sorry, we couldn't automatically recover your virtual machine",
+              "reasonType": "Unplanned",
+              "reasonChronicity": "Persistent",
+              "detailedStatus": "Disk problems are preventing us from automatically recovering your virtual machine",
+              "occuredTime": "2016-03-29T09:12:00Z",
+              "reportedTime": "2016-05-04T14:11:29.7598931Z",
+              "rootCauseAttributionTime": "2016-03-29T09:13:00Z",
+              "resolutionETA": "2016-03-29T09:37:00Z",
+              "serviceImpactingEvents": [
+                {
+                  "eventStartTime": "2016-05-02T19:23:13.7115125Z",
+                  "eventStatusLastModifiedTime": "2016-05-02T19:27:04.9543491Z",
+                  "correlationId": "b56d0180-2d6c-4f7b-b750-c1eca681874c",
+                  "status": {
+                    "value": "Resolved"
+                  },
+                  "incidentProperties": {
+                    "title": "Virtual Machines - West Europe [West Europe]",
+                    "service": "Virtual Machines",
+                    "region": "East US",
+                    "incidentType": "outage"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "id": "/subscriptions/4abcdefgh-ijkl-mnop-qrstuvwxyz/resourceGroups/rhctestenv/providers/Microsoft.ClassicCompute/virtualMachines/rhctes tenvV1PI/providers/Microsoft.ResourceHealth/availabilityStatuses/2016-03-28+16%3a23%3a00Z",
+            "name": "2016-03-28+16%3a23%3a00Z",
+            "type": "Microsoft.ResourceHealth/AvailabilityStatuses",
+            "location": "eastus",
+            "properties": {
+              "availabilityState": "Available",
+              "summary": "This virtual machine is running normally",
+              "reasonChronicity": "Persistent",
+              "detailedStatus": "There aren’t any known Azure platform problems affecting this virtual machine",
+              "occuredTime": "2016-03-28T16:23:00Z"
+            }
+          }
+        ]
+      }
   name: GetHealthHistoryByResource
 security:
 - type: oauth2

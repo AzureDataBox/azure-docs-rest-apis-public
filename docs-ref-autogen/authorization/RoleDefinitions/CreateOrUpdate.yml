@@ -44,6 +44,30 @@ requestBody:
     name: properties
 requestHeader: []
 definitions:
+- name: RoleDefinitionProperties
+  description: Role definition properties.
+  kind: object
+  properties:
+  - description: The role name.
+    types:
+    - uid: string
+    name: roleName
+  - description: The role definition description.
+    types:
+    - uid: string
+    name: description
+  - description: The role type.
+    types:
+    - uid: string
+    name: type
+  - description: Role definition permissions.
+    types:
+    - uid: Permission
+    name: permissions
+  - description: Role definition assignable scopes.
+    types:
+    - uid: string
+    name: assignableScopes
 - name: RoleDefinition
   description: Role definition.
   kind: object
@@ -67,53 +91,46 @@ definitions:
     types:
     - uid: RoleDefinitionProperties
     name: properties
-- name: RoleDefinitionProperties
-  description: Role definition properties.
-  kind: object
-  properties:
-  - description: The role name.
-    types:
-    - uid: string
-    name: roleName
-  - description: The role definition description.
-    types:
-    - uid: string
-    name: description
-  - description: The role type.
-    types:
-    - uid: string
-    name: type
-  - description: Role definition permissions.
-    types:
-    - isArray: true
-      uid: Permission
-    name: permissions
-  - description: Role definition assignable scopes.
-    types:
-    - isArray: true
-      uid: string
-    name: assignableScopes
 - name: Permission
   description: Role definition permissions.
   kind: object
   properties:
   - description: Allowed actions.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: actions
   - description: Denied actions.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: notActions
 examples:
 - request:
     uri: PUT https://management.azure.com/scope/providers/Microsoft.Authorization/roleDefinitions/roleDefinitionId?api-version=2015-07-01
-    requestBody: '{}'
+    body: '{}'
   responses:
   - statusCode: "201"
-    body: '{"properties":{"roleName":"Role name","type":"roletype","description":"Role description","assignableScopes":["/subscriptions/subId"],"permissions":[{"actions":["action"],"notActions":[]}]},"id":"/subscriptions/subID/providers/Microsoft.Authorization/roleDefinitions/roleDefinitionId","type":"Microsoft.Authorization/roleDefinitions","name":"roleDefinitionId"}'
+    body: >-
+      {
+        "properties": {
+          "roleName": "Role name",
+          "type": "roletype",
+          "description": "Role description",
+          "assignableScopes": [
+            "/subscriptions/subId"
+          ],
+          "permissions": [
+            {
+              "actions": [
+                "action"
+              ],
+              "notActions": []
+            }
+          ]
+        },
+        "id": "/subscriptions/subID/providers/Microsoft.Authorization/roleDefinitions/roleDefinitionId",
+        "type": "Microsoft.Authorization/roleDefinitions",
+        "name": "roleDefinitionId"
+      }
   name: GetConfigurations
 security:
 - type: oauth2

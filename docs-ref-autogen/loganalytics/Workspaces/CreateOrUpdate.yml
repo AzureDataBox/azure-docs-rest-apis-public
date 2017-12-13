@@ -55,32 +55,32 @@ requestBody:
     description: The provisioning state of the workspace.
     types:
     - uid: EntityStatus
-    name: provisioningState
+    name: properties.provisioningState
   - in: body
     description: The source of the workspace.  Source defines where the workspace was created. 'Azure' implies it was created in Azure.  'External' implies it was created via the Operational Insights Portal. This value is set on the service side and read-only on the client side.
     types:
     - uid: string
-    name: source
+    name: properties.source
   - in: body
     description: The ID associated with the workspace.  Setting this value at creation time allows the workspace being created to be linked to an existing workspace.
     types:
     - uid: string
-    name: customerId
+    name: properties.customerId
   - in: body
     description: The URL of the Operational Insights portal for this workspace.  This value is set on the service side and read-only on the client side.
     types:
     - uid: string
-    name: portalUrl
+    name: properties.portalUrl
   - in: body
     description: The SKU of the workspace.
     types:
     - uid: Sku
-    name: sku
+    name: properties.sku
   - in: body
     description: 'The workspace data retention in days. -1 means Unlimited retention for the Unlimited Sku. 730 days is the maximum allowed for all other Skus. '
     types:
     - uid: integer
-    name: retentionInDays
+    name: properties.retentionInDays
   - in: body
     isRequired: true
     description: Resource location
@@ -98,50 +98,14 @@ requestBody:
     name: tags
 requestHeader: []
 definitions:
-- name: EntityStatus
-  description: The provisioning state of the workspace.
-  kind: enum
+- name: Sku
+  description: The SKU (tier) of a workspace.
+  kind: object
   properties:
-  - types:
-    - uid: string
-    name: Creating
-  - types:
-    - uid: string
-    name: Succeeded
-  - types:
-    - uid: string
-    name: Failed
-  - types:
-    - uid: string
-    name: Canceled
-  - types:
-    - uid: string
-    name: Deleting
-  - types:
-    - uid: string
-    name: ProvisioningAccount
-- name: SkuNameEnum
-  description: The name of the SKU.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Free
-  - types:
-    - uid: string
-    name: Standard
-  - types:
-    - uid: string
-    name: Premium
-  - types:
-    - uid: string
-    name: Unlimited
-  - types:
-    - uid: string
-    name: PerNode
-  - types:
-    - uid: string
-    name: Standalone
+  - description: The name of the SKU.
+    types:
+    - uid: SkuNameEnum
+    name: name
 - name: Workspace
   description: The top level Workspace resource container.
   kind: object
@@ -153,27 +117,27 @@ definitions:
   - description: The provisioning state of the workspace.
     types:
     - uid: EntityStatus
-    name: provisioningState
+    name: properties.provisioningState
   - description: The source of the workspace.  Source defines where the workspace was created. 'Azure' implies it was created in Azure.  'External' implies it was created via the Operational Insights Portal. This value is set on the service side and read-only on the client side.
     types:
     - uid: string
-    name: source
+    name: properties.source
   - description: The ID associated with the workspace.  Setting this value at creation time allows the workspace being created to be linked to an existing workspace.
     types:
     - uid: string
-    name: customerId
+    name: properties.customerId
   - description: The URL of the Operational Insights portal for this workspace.  This value is set on the service side and read-only on the client side.
     types:
     - uid: string
-    name: portalUrl
+    name: properties.portalUrl
   - description: The SKU of the workspace.
     types:
     - uid: Sku
-    name: sku
+    name: properties.sku
   - description: 'The workspace data retention in days. -1 means Unlimited retention for the Unlimited Sku. 730 days is the maximum allowed for all other Skus. '
     types:
     - uid: integer
-    name: retentionInDays
+    name: properties.retentionInDays
   - isReadyOnly: true
     description: Resource Id
     types:
@@ -201,14 +165,50 @@ definitions:
       - uid: string
       uid: object
     name: tags
-- name: Sku
-  description: The SKU of the workspace.
-  kind: object
+- name: SkuNameEnum
+  description: The name of the SKU.
+  kind: enum
   properties:
-  - description: The name of the SKU.
-    types:
-    - uid: SkuNameEnum
-    name: name
+  - types:
+    - uid: string
+    name: Free
+  - types:
+    - uid: string
+    name: Standard
+  - types:
+    - uid: string
+    name: Premium
+  - types:
+    - uid: string
+    name: Unlimited
+  - types:
+    - uid: string
+    name: PerNode
+  - types:
+    - uid: string
+    name: Standalone
+- name: EntityStatus
+  description: The provisioning state of the workspace.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Creating
+  - types:
+    - uid: string
+    name: Succeeded
+  - types:
+    - uid: string
+    name: Failed
+  - types:
+    - uid: string
+    name: Canceled
+  - types:
+    - uid: string
+    name: Deleting
+  - types:
+    - uid: string
+    name: ProvisioningAccount
 examples: []
 security:
 - type: oauth2

@@ -54,38 +54,38 @@ definitions:
   - description: The map type.
     types:
     - uid: MapType
-    name: mapType
+    name: properties.mapType
   - description: The parameters schema of integration account map.
     types:
     - uid: ParametersSchema
-    name: parametersSchema
+    name: properties.parametersSchema
   - isReadyOnly: true
     description: The created time.
     types:
     - uid: string
-    name: createdTime
+    name: properties.createdTime
   - isReadyOnly: true
     description: The changed time.
     types:
     - uid: string
-    name: changedTime
+    name: properties.changedTime
   - description: The content.
     types:
     - uid: Content
-    name: content
+    name: properties.content
   - description: The content type.
     types:
     - uid: string
-    name: contentType
+    name: properties.contentType
   - isReadyOnly: true
     description: The content link.
     types:
     - uid: ContentLink
-    name: contentLink
+    name: properties.contentLink
   - description: The metadata.
     types:
     - uid: Metadata
-    name: metadata
+    name: properties.metadata
   - isReadyOnly: true
     description: The resource id.
     types:
@@ -136,7 +136,7 @@ definitions:
   kind: object
   properties: []
 - name: ContentLink
-  description: The content link.
+  description: Gets the link to input parameters.
   kind: object
   properties:
   - description: The content link URI.
@@ -159,6 +159,10 @@ definitions:
     types:
     - uid: Object
     name: metadata
+- name: Metadata
+  description: The metadata.
+  kind: object
+  properties: []
 - name: ContentHash
   description: The content hash.
   kind: object
@@ -172,11 +176,6 @@ definitions:
     - uid: string
     name: value
 - name: Object
-  description: The metadata.
-  kind: object
-  properties: []
-- name: Metadata
-  description: The metadata.
   kind: object
   properties: []
 examples:
@@ -184,7 +183,27 @@ examples:
     uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testResourceGroup/providers/Microsoft.Logic/integrationAccounts/testIntegrationAccount/maps/testMap?api-version=2016-06-01
   responses:
   - statusCode: "200"
-    body: '{"properties":{"mapType":"Xslt","contentLink":{"uri":"<Uri>","contentVersion":"\"0x8D45CE54B058881\"","contentSize":3056,"contentHash":{"algorithm":"md5","value":"A2avz/M0ov2FPI3+Je8vDw=="}},"createdTime":"2017-02-24T18:45:23.4129778Z","changedTime":"2017-02-24T18:45:23.4137139Z","metadata":{}},"id":"/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testResourceGroup/providers/Microsoft.Logic/integrationAccounts/testIntegrationAccount/maps/testMap","name":"testMap","type":"Microsoft.Logic/integrationAccounts/maps"}'
+    body: >-
+      {
+        "properties": {
+          "mapType": "Xslt",
+          "contentLink": {
+            "uri": "<Uri>",
+            "contentVersion": "\"0x8D45CE54B058881\"",
+            "contentSize": 3056,
+            "contentHash": {
+              "algorithm": "md5",
+              "value": "A2avz/M0ov2FPI3+Je8vDw=="
+            }
+          },
+          "createdTime": "2017-02-24T18:45:23.4129778Z",
+          "changedTime": "2017-02-24T18:45:23.4137139Z",
+          "metadata": {}
+        },
+        "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testResourceGroup/providers/Microsoft.Logic/integrationAccounts/testIntegrationAccount/maps/testMap",
+        "name": "testMap",
+        "type": "Microsoft.Logic/integrationAccounts/maps"
+      }
   name: Get map by name
 security:
 - type: oauth2

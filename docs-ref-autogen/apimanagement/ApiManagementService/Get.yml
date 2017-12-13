@@ -66,11 +66,11 @@ definitions:
   - description: Publisher email.
     types:
     - uid: string
-    name: publisherEmail
+    name: properties.publisherEmail
   - description: Publisher name.
     types:
     - uid: string
-    name: publisherName
+    name: properties.publisherName
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -97,67 +97,64 @@ definitions:
   - description: Email address from which the notification will be sent.
     types:
     - uid: string
-    name: notificationSenderEmail
+    name: properties.notificationSenderEmail
   - isReadyOnly: true
     description: 'The current provisioning state of the API Management service which can be one of the following: Created/Activating/Succeeded/Updating/Failed/Stopped/Terminating/TerminationFailed/Deleted.'
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: The provisioning state of the API Management service, which is targeted by the long running operation started on the service.
     types:
     - uid: string
-    name: targetProvisioningState
+    name: properties.targetProvisioningState
   - isReadyOnly: true
     description: 'Creation UTC date of the API Management service.The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.'
     types:
     - uid: string
-    name: createdAtUtc
+    name: properties.createdAtUtc
   - isReadyOnly: true
     description: Gateway URL of the API Management service.
     types:
     - uid: string
-    name: gatewayUrl
+    name: properties.gatewayUrl
   - isReadyOnly: true
     description: Gateway URL of the API Management service in the Default Region.
     types:
     - uid: string
-    name: gatewayRegionalUrl
+    name: properties.gatewayRegionalUrl
   - isReadyOnly: true
     description: Publisher portal endpoint Url of the API Management service.
     types:
     - uid: string
-    name: portalUrl
+    name: properties.portalUrl
   - isReadyOnly: true
     description: Management API endpoint URL of the API Management service.
     types:
     - uid: string
-    name: managementApiUrl
+    name: properties.managementApiUrl
   - isReadyOnly: true
     description: SCM endpoint URL of the API Management service.
     types:
     - uid: string
-    name: scmUrl
+    name: properties.scmUrl
   - description: Custom hostname configuration of the API Management service.
     types:
-    - isArray: true
-      uid: HostnameConfiguration
-    name: hostnameConfigurations
+    - uid: HostnameConfiguration
+    name: properties.hostnameConfigurations
   - isReadyOnly: true
     description: Static IP addresses of the API Management service virtual machines. Available only for Standard and Premium SKU.
     types:
-    - isArray: true
-      uid: string
-    name: staticIps
+    - uid: string
+    name: properties.staticIps
   - description: Virtual network configuration of the API Management service.
     types:
     - uid: VirtualNetworkConfiguration
-    name: virtualNetworkConfiguration
+    name: properties.virtualNetworkConfiguration
   - description: Additional datacenter locations of the API Management service.
     types:
-    - isArray: true
-      uid: AdditionalLocation
-    name: additionalLocations
+    - uid: AdditionalLocation
+    name: properties.additionalLocations
   - description: Custom properties of the API Management service. Setting `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TripleDes168` will disable the cipher TLS_RSA_WITH_3DES_EDE_CBC_SHA for all TLS(1.0, 1.1 and 1.2). Setting `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11` can be used to disable just TLS 1.1 and setting `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10` can be used to disable TLS 1.0 on an API Management service.
     types:
     - isDictionary: true
@@ -165,16 +162,15 @@ definitions:
       - uid: string
       - uid: string
       uid: object
-    name: customProperties
+    name: properties.customProperties
   - description: List of Certificates that need to be installed in the API Management service. Max supported certificates that can be installed is 10.
     types:
-    - isArray: true
-      uid: CertificateConfiguration
-    name: certificates
+    - uid: CertificateConfiguration
+    name: properties.certificates
   - description: The type of VPN in which API Managemet service needs to be configured in. None (Default Value) means the API Management service is not part of any Virtual Network, External means the API Management deployment is set up inside a Virtual Network having an Internet Facing Endpoint, and Internal means that API Management deployment is setup inside a Virtual Network having an Intranet Facing Endpoint only.
     types:
     - uid: VirtualNetworkType
-    name: virtualNetworkType
+    name: properties.virtualNetworkType
 - name: ApiManagementServiceSkuProperties
   description: SKU properties of the API Management service.
   kind: object
@@ -187,26 +183,6 @@ definitions:
     types:
     - uid: integer
     name: capacity
-- name: SkuType
-  description: Name of the Sku.
-  kind: enum
-  properties:
-  - description: Developer SKU of Api Management.
-    types:
-    - uid: string
-    name: Developer
-  - description: Standard SKU of Api Management.
-    types:
-    - uid: string
-    name: Standard
-  - description: Premium SKU of Api Management.
-    types:
-    - uid: string
-    name: Premium
-  - description: Basic SKU of Api Management.
-    types:
-    - uid: string
-    name: Basic
 - name: ApiManagementServiceIdentity
   description: Managed service identity of the Api Management service.
   kind: object
@@ -225,13 +201,6 @@ definitions:
     types:
     - uid: string
     name: tenantId
-- name: ApimIdentityType
-  description: The identity type. Currently the only supported type is 'SystemAssigned'.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: SystemAssigned
 - name: HostnameConfiguration
   description: Custom hostname configuration.
   kind: object
@@ -269,40 +238,8 @@ definitions:
     types:
     - uid: CertificateInformation
     name: certificate
-- name: HostnameType
-  description: Hostname type.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Proxy
-  - types:
-    - uid: string
-    name: Portal
-  - types:
-    - uid: string
-    name: Management
-  - types:
-    - uid: string
-    name: Scm
-- name: CertificateInformation
-  description: Certificate information.
-  kind: object
-  properties:
-  - description: 'Expiration date of the certificate. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.'
-    types:
-    - uid: string
-    name: expiry
-  - description: Thumbprint of the certificate.
-    types:
-    - uid: string
-    name: thumbprint
-  - description: Subject of the certificate.
-    types:
-    - uid: string
-    name: subject
 - name: VirtualNetworkConfiguration
-  description: Virtual network configuration of the API Management service.
+  description: Configuration of a virtual network to which API Management service is deployed.
   kind: object
   properties:
   - isReadyOnly: true
@@ -334,8 +271,7 @@ definitions:
   - isReadyOnly: true
     description: Static IP addresses of the location's virtual machines.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: staticIps
   - description: Virtual network configuration for the location.
     types:
@@ -369,15 +305,6 @@ definitions:
     types:
     - uid: CertificateInformation
     name: certificate
-- description: The local certificate store location. Only Root and CertificateAuthority are valid locations.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: CertificateAuthority
-  - types:
-    - uid: string
-    name: Root
 - name: VirtualNetworkType
   description: The type of VPN in which API Managemet service needs to be configured in. None (Default Value) means the API Management service is not part of any Virtual Network, External means the API Management deployment is set up inside a Virtual Network having an Internet Facing Endpoint, and Internal means that API Management deployment is setup inside a Virtual Network having an Intranet Facing Endpoint only.
   kind: enum
@@ -394,18 +321,200 @@ definitions:
     types:
     - uid: string
     name: Internal
+- name: SkuType
+  description: Name of the Sku.
+  kind: enum
+  properties:
+  - description: Developer SKU of Api Management.
+    types:
+    - uid: string
+    name: Developer
+  - description: Standard SKU of Api Management.
+    types:
+    - uid: string
+    name: Standard
+  - description: Premium SKU of Api Management.
+    types:
+    - uid: string
+    name: Premium
+  - description: Basic SKU of Api Management.
+    types:
+    - uid: string
+    name: Basic
+- name: ApimIdentityType
+  description: The identity type. Currently the only supported type is 'SystemAssigned'.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: SystemAssigned
+- name: HostnameType
+  description: Hostname type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Proxy
+  - types:
+    - uid: string
+    name: Portal
+  - types:
+    - uid: string
+    name: Management
+  - types:
+    - uid: string
+    name: Scm
+- name: CertificateInformation
+  description: SSL certificate information.
+  kind: object
+  properties:
+  - description: 'Expiration date of the certificate. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.'
+    types:
+    - uid: string
+    name: expiry
+  - description: Thumbprint of the certificate.
+    types:
+    - uid: string
+    name: thumbprint
+  - description: Subject of the certificate.
+    types:
+    - uid: string
+    name: subject
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1?api-version=2017-03-01
   responses:
   - statusCode: "200"
-    body: '{"id":"/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1","name":"apimService1","type":"Microsoft.ApiManagement/service","tags":{},"location":"Central US","etag":"AAAAAAAYP5M=","properties":{"publisherEmail":"contoso@microsoft.com","publisherName":"admin","notificationSenderEmail":"contoso@live.com","provisioningState":"Succeeded","targetProvisioningState":"","createdAtUtc":"2017-06-28T23:01:33.0667959Z","gatewayUrl":"https://apimService1.azure-api.net","gatewayRegionalUrl":"https://apimService1-centralus-01.regional.azure-api.net","portalUrl":"https://apimService1.portal.azure-api.net","managementApiUrl":"https://apimService1.management.azure-api.net","scmUrl":"https://apimService1.scm.azure-api.net","hostnameConfigurations":[{"type":"Proxy","hostName":"proxyhostname4.contoso.net","negotiateClientCertificate":false,"defaultSslBinding":true,"certificate":{"expiry":"2018-03-17T21:55:07+00:00","thumbprint":"918D7785B926AC5AEE66322778A147BCE7237CF3","subject":"CN=*.contoso.net"}},{"type":"Proxy","hostName":"proxyhostname9.contoso.net","negotiateClientCertificate":false,"defaultSslBinding":true,"certificate":{"expiry":"2018-03-17T21:55:07+00:00","thumbprint":"918D7785B926AC5AEE66322778A147BCE7237CF3","subject":"CN=*.contoso.net"}},{"type":"Portal","hostName":"portalhostname2.contoso.net","negotiateClientCertificate":false,"defaultSslBinding":false,"certificate":{"expiry":"2018-03-17T21:55:07+00:00","thumbprint":"918D7785B926AC5AEE66322778A147BCE7237CF3","subject":"CN=*.contoso.net"}}],"staticIps":["52.173.22.222"],"additionalLocations":[{"location":"West US","sku":{"name":"Premium","capacity":1},"staticIps":["40.78.99.244"],"gatewayRegionalUrl":"https://apimService1-westus-01.regional.azure-api.net"}],"virtualNetworkType":"None"},"sku":{"name":"Premium","capacity":1}}'
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1",
+        "name": "apimService1",
+        "type": "Microsoft.ApiManagement/service",
+        "tags": {},
+        "location": "Central US",
+        "etag": "AAAAAAAYP5M=",
+        "properties": {
+          "publisherEmail": "contoso@microsoft.com",
+          "publisherName": "admin",
+          "notificationSenderEmail": "contoso@live.com",
+          "provisioningState": "Succeeded",
+          "targetProvisioningState": "",
+          "createdAtUtc": "2017-06-28T23:01:33.0667959Z",
+          "gatewayUrl": "https://apimService1.azure-api.net",
+          "gatewayRegionalUrl": "https://apimService1-centralus-01.regional.azure-api.net",
+          "portalUrl": "https://apimService1.portal.azure-api.net",
+          "managementApiUrl": "https://apimService1.management.azure-api.net",
+          "scmUrl": "https://apimService1.scm.azure-api.net",
+          "hostnameConfigurations": [
+            {
+              "type": "Proxy",
+              "hostName": "proxyhostname4.contoso.net",
+              "negotiateClientCertificate": false,
+              "defaultSslBinding": true,
+              "certificate": {
+                "expiry": "2018-03-17T21:55:07+00:00",
+                "thumbprint": "918D7785B926AC5AEE66322778A147BCE7237CF3",
+                "subject": "CN=*.contoso.net"
+              }
+            },
+            {
+              "type": "Proxy",
+              "hostName": "proxyhostname9.contoso.net",
+              "negotiateClientCertificate": false,
+              "defaultSslBinding": true,
+              "certificate": {
+                "expiry": "2018-03-17T21:55:07+00:00",
+                "thumbprint": "918D7785B926AC5AEE66322778A147BCE7237CF3",
+                "subject": "CN=*.contoso.net"
+              }
+            },
+            {
+              "type": "Portal",
+              "hostName": "portalhostname2.contoso.net",
+              "negotiateClientCertificate": false,
+              "defaultSslBinding": false,
+              "certificate": {
+                "expiry": "2018-03-17T21:55:07+00:00",
+                "thumbprint": "918D7785B926AC5AEE66322778A147BCE7237CF3",
+                "subject": "CN=*.contoso.net"
+              }
+            }
+          ],
+          "staticIps": [
+            "52.173.22.222"
+          ],
+          "additionalLocations": [
+            {
+              "location": "West US",
+              "sku": {
+                "name": "Premium",
+                "capacity": 1
+              },
+              "staticIps": [
+                "40.78.99.244"
+              ],
+              "gatewayRegionalUrl": "https://apimService1-westus-01.regional.azure-api.net"
+            }
+          ],
+          "virtualNetworkType": "None"
+        },
+        "sku": {
+          "name": "Premium",
+          "capacity": 1
+        }
+      }
   name: ApiManagementServiceGetService
 - request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1?api-version=2017-03-01
   responses:
   - statusCode: "200"
-    body: '{"id":"/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1","name":"apimService1","type":"Microsoft.ApiManagement/service","tags":{},"location":"West US","etag":"AAAAAAC2jkE=","properties":{"publisherEmail":"admin@contoso.com","publisherName":"Contoso","notificationSenderEmail":"apimgmt-noreply@mail.windowsazure.com","provisioningState":"Succeeded","createdAtUtc":"2017-10-13T16:56:47.0174063Z","gatewayUrl":"https://apimService1.azure-api.net","gatewayRegionalUrl":"https://apimService1-westus-01.regional.azure-api.net","portalUrl":"https://apimService1.portal.azure-api.net","managementApiUrl":"https://apimService1.management.azure-api.net","scmUrl":"https://apimService1.scm.azure-api.net","hostnameConfigurations":[{"type":"Proxy","hostName":"foobar.msitesting.net","keyVaultId":"https://constoso-msi-keyvault.vault.azure.net/secrets/msitestingCert","negotiateClientCertificate":false,"certificate":{"expiry":"2036-01-01T07:00:00+00:00","thumbprint":"8E98XXX52CAXXXXXXX2C91F1D174FDB3A2","subject":"CN=*.msitesting.net"},"defaultSslBinding":true}],"staticIps":["13.xx.76.xxx"]},"sku":{"name":"Developer","capacity":1},"identity":{"type":"SystemAssigned","principalId":"ae7d906a-xxx-408a-xxxx-6b9d60e5756b","tenantId":"72f988bf-xxx-41af-xxxx-2d7cd011db47"}}'
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1",
+        "name": "apimService1",
+        "type": "Microsoft.ApiManagement/service",
+        "tags": {},
+        "location": "West US",
+        "etag": "AAAAAAC2jkE=",
+        "properties": {
+          "publisherEmail": "admin@contoso.com",
+          "publisherName": "Contoso",
+          "notificationSenderEmail": "apimgmt-noreply@mail.windowsazure.com",
+          "provisioningState": "Succeeded",
+          "createdAtUtc": "2017-10-13T16:56:47.0174063Z",
+          "gatewayUrl": "https://apimService1.azure-api.net",
+          "gatewayRegionalUrl": "https://apimService1-westus-01.regional.azure-api.net",
+          "portalUrl": "https://apimService1.portal.azure-api.net",
+          "managementApiUrl": "https://apimService1.management.azure-api.net",
+          "scmUrl": "https://apimService1.scm.azure-api.net",
+          "hostnameConfigurations": [
+            {
+              "type": "Proxy",
+              "hostName": "foobar.msitesting.net",
+              "keyVaultId": "https://constoso-msi-keyvault.vault.azure.net/secrets/msitestingCert",
+              "negotiateClientCertificate": false,
+              "certificate": {
+                "expiry": "2036-01-01T07:00:00+00:00",
+                "thumbprint": "8E98XXX52CAXXXXXXX2C91F1D174FDB3A2",
+                "subject": "CN=*.msitesting.net"
+              },
+              "defaultSslBinding": true
+            }
+          ],
+          "staticIps": [
+            "13.xx.76.xxx"
+          ]
+        },
+        "sku": {
+          "name": "Developer",
+          "capacity": 1
+        },
+        "identity": {
+          "type": "SystemAssigned",
+          "principalId": "ae7d906a-xxx-408a-xxxx-6b9d60e5756b",
+          "tenantId": "72f988bf-xxx-41af-xxxx-2d7cd011db47"
+        }
+      }
   name: ApiManagementServiceGetServiceHavingMsi
 security:
 - type: oauth2

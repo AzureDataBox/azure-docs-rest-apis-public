@@ -68,8 +68,24 @@ requestBody:
     name: properties
 requestHeader: []
 definitions:
+- name: CreateProtectionContainerMappingInputProperties
+  description: Configure protection input properties.
+  kind: object
+  properties:
+  - description: The target unique protection container name.
+    types:
+    - uid: string
+    name: targetProtectionContainerId
+  - description: Applicable policy.
+    types:
+    - uid: string
+    name: PolicyId
+  - description: Provider specific input for pairing.
+    types:
+    - uid: ReplicationProviderSpecificContainerMappingInput
+    name: providerSpecificInput
 - name: ProtectionContainerMapping
-  description: Protection container mapping object.
+  description: List of container mappings.
   kind: object
   properties:
   - description: The custom data.
@@ -95,6 +111,22 @@ definitions:
     types:
     - uid: string
     name: location
+- name: CreateProtectionContainerMappingInput
+  description: Configure pairing input.
+  kind: object
+  properties:
+  - description: Configure protection input properties.
+    types:
+    - uid: CreateProtectionContainerMappingInputProperties
+    name: properties
+- name: ReplicationProviderSpecificContainerMappingInput
+  description: Provider specific input for pairing.
+  kind: object
+  properties:
+  - description: The class type.
+    types:
+    - uid: string
+    name: instanceType
 - name: ProtectionContainerMappingProperties
   description: The custom data.
   kind: object
@@ -117,8 +149,7 @@ definitions:
     name: health
   - description: Health error.
     types:
-    - isArray: true
-      uid: HealthError
+    - uid: HealthError
     name: healthErrorDetails
   - description: Policy ARM Id.
     types:
@@ -154,7 +185,7 @@ definitions:
     - uid: string
     name: instanceType
 - name: HealthError
-  description: Health Error
+  description: The list of errors / warnings capturing details associated with the issue(s).
   kind: object
   properties:
   - description: Source of error.
@@ -199,16 +230,39 @@ definitions:
     name: entityId
   - description: The child health errors.
     types:
-    - isArray: true
-      uid: ChildErrors
+    - uid: ChildErrors
     name: childErrors
 examples:
 - request:
     uri: PUT https://management.azure.com/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1/replicationProtectionContainers/cloud_6d224fc6-f326-5d35-96de-fbf51efb3179/replicationProtectionContainerMappings/cloud1protectionprofile1?api-version=2016-08-10
-    requestBody: '{"properties":{"targetProtectionContainerId":"Microsoft Azure","PolicyId":"/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationPolicies/protectionprofile1","providerSpecificInput":{}}}'
+    body: >-
+      {
+        "properties": {
+          "targetProtectionContainerId": "Microsoft Azure",
+          "PolicyId": "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationPolicies/protectionprofile1",
+          "providerSpecificInput": {}
+        }
+      }
   responses:
   - statusCode: "200"
-    body: '{"id":"/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1/replicationProtectionContainers/cloud_6d224fc6-f326-5d35-96de-fbf51efb3179/replicationProtectionContainerMappings/cloud1protectionprofile1","name":"cloud1protectionprofile1","type":"Microsoft.RecoveryServices/vaults/replicationFabrics/replicationProtectionContainers/replicationProtectionContainerMappings","properties":{"targetProtectionContainerId":"Microsoft Azure","targetProtectionContainerFriendlyName":"Microsoft Azure","health":"Normal","healthErrorDetails":[],"policyId":"/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationPolicies/protectionprofile1","state":"Paired","sourceProtectionContainerFriendlyName":"cloud1","sourceFabricFriendlyName":"cloud1","targetFabricFriendlyName":"Microsoft Azure","policyFriendlyName":"protectionprofile1"}}'
+    body: >-
+      {
+        "id": "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1/replicationProtectionContainers/cloud_6d224fc6-f326-5d35-96de-fbf51efb3179/replicationProtectionContainerMappings/cloud1protectionprofile1",
+        "name": "cloud1protectionprofile1",
+        "type": "Microsoft.RecoveryServices/vaults/replicationFabrics/replicationProtectionContainers/replicationProtectionContainerMappings",
+        "properties": {
+          "targetProtectionContainerId": "Microsoft Azure",
+          "targetProtectionContainerFriendlyName": "Microsoft Azure",
+          "health": "Normal",
+          "healthErrorDetails": [],
+          "policyId": "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationPolicies/protectionprofile1",
+          "state": "Paired",
+          "sourceProtectionContainerFriendlyName": "cloud1",
+          "sourceFabricFriendlyName": "cloud1",
+          "targetFabricFriendlyName": "Microsoft Azure",
+          "policyFriendlyName": "protectionprofile1"
+        }
+      }
   - statusCode: "202"
   name: Create protection container mapping.
 security:

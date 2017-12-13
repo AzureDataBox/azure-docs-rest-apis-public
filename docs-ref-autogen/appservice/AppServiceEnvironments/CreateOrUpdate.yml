@@ -57,89 +57,87 @@ requestBody:
     description: Name of the App Service Environment.
     types:
     - uid: string
-    name: name
+    name: properties.name
   - in: body
     isRequired: true
     description: Location of the App Service Environment, e.g. "West US".
     types:
     - uid: string
-    name: location
+    name: properties.location
   - in: body
     description: Name of the Virtual Network for the App Service Environment.
     types:
     - uid: string
-    name: vnetName
+    name: properties.vnetName
   - in: body
     description: Resource group of the Virtual Network.
     types:
     - uid: string
-    name: vnetResourceGroupName
+    name: properties.vnetResourceGroupName
   - in: body
     description: Subnet of the Virtual Network.
     types:
     - uid: string
-    name: vnetSubnetName
+    name: properties.vnetSubnetName
   - in: body
     isRequired: true
     description: Description of the Virtual Network.
     types:
     - uid: VirtualNetworkProfile
-    name: virtualNetwork
+    name: properties.virtualNetwork
   - in: body
     description: Specifies which endpoints to serve internally in the Virtual Network for the App Service Environment.
     types:
     - uid: InternalLoadBalancingMode
-    name: internalLoadBalancingMode
+    name: properties.internalLoadBalancingMode
   - in: body
     description: Front-end VM size, e.g. "Medium", "Large".
     types:
     - uid: string
-    name: multiSize
+    name: properties.multiSize
   - in: body
     description: Number of front-end instances.
     types:
     - uid: integer
-    name: multiRoleCount
+    name: properties.multiRoleCount
   - in: body
     isRequired: true
     description: Description of worker pools with worker size IDs, VM sizes, and number of workers in each pool.
     types:
-    - isArray: true
-      uid: WorkerPool
-    name: workerPools
+    - uid: WorkerPool
+    name: properties.workerPools
   - in: body
     description: Number of IP SSL addresses reserved for the App Service Environment.
     types:
     - uid: integer
-    name: ipsslAddressCount
+    name: properties.ipsslAddressCount
   - in: body
     description: DNS suffix of the App Service Environment.
     types:
     - uid: string
-    name: dnsSuffix
+    name: properties.dnsSuffix
   - in: body
     description: Access control list for controlling traffic to the App Service Environment.
     types:
-    - isArray: true
-      uid: NetworkAccessControlEntry
-    name: networkAccessControlList
+    - uid: NetworkAccessControlEntry
+    name: properties.networkAccessControlList
   - in: body
     description: Scale factor for front-ends.
     types:
     - uid: integer
-    name: frontEndScaleFactor
+    name: properties.frontEndScaleFactor
   - in: body
     description: API Management Account associated with the App Service Environment.
     types:
     - uid: string
-    name: apiManagementAccountId
+    name: properties.apiManagementAccountId
   - in: body
     description: >-
       <code>true</code> if the App Service Environment is suspended; otherwise, <code>false</code>. The environment can be suspended, e.g. when the management endpoint is no longer available
        (most likely because NSG blocked the incoming traffic).
     types:
     - uid: boolean
-    name: suspended
+    name: properties.suspended
   - in: body
     description: >-
       True/false indicating whether the App Service Environment is suspended. The environment can be suspended e.g. when the management endpoint is no longer available
@@ -147,24 +145,28 @@ requestBody:
       (most likely because NSG blocked the incoming traffic).
     types:
     - uid: boolean
-    name: dynamicCacheEnabled
+    name: properties.dynamicCacheEnabled
   - in: body
     description: Custom settings for changing the behavior of the App Service Environment.
     types:
-    - isArray: true
-      uid: NameValuePair
-    name: clusterSettings
+    - uid: NameValuePair
+    name: properties.clusterSettings
   - in: body
     description: User added ip ranges to whitelist on ASE db
     types:
-    - isArray: true
-      uid: string
-    name: userWhitelistedIpRanges
+    - uid: string
+    name: properties.userWhitelistedIpRanges
   - in: body
     description: Kind of resource.
     types:
     - uid: string
     name: kind
+  - in: body
+    isRequired: true
+    description: Resource Location.
+    types:
+    - uid: string
+    name: location
   - in: body
     description: Resource tags.
     types:
@@ -176,54 +178,353 @@ requestBody:
     name: tags
 requestHeader: []
 definitions:
-- name: ProvisioningState
-  description: Provisioning state of the App Service Environment.
-  kind: enum
+- name: VirtualNetworkProfile
+  description: Description of the Virtual Network.
+  kind: object
   properties:
-  - types:
+  - description: Resource id of the Virtual Network.
+    types:
     - uid: string
-    name: Succeeded
-  - types:
+    name: id
+  - isReadyOnly: true
+    description: Name of the Virtual Network (read-only).
+    types:
     - uid: string
-    name: Failed
-  - types:
+    name: name
+  - isReadyOnly: true
+    description: Resource type of the Virtual Network (read-only).
+    types:
     - uid: string
-    name: Canceled
-  - types:
+    name: type
+  - description: Subnet within the Virtual Network.
+    types:
     - uid: string
-    name: InProgress
-  - types:
-    - uid: string
-    name: Deleting
-- name: HostingEnvironmentStatus
-  description: Current status of the App Service Environment.
-  kind: enum
+    name: subnet
+- name: WorkerPool
+  description: Description of worker pools with worker size IDs, VM sizes, and number of workers in each pool.
+  kind: object
   properties:
-  - types:
+  - description: Worker size ID for referencing this worker pool.
+    types:
+    - uid: integer
+    name: workerSizeId
+  - description: Shared or dedicated app hosting.
+    types:
+    - uid: ComputeModeOptions
+    name: computeMode
+  - description: VM size of the worker pool instances.
+    types:
     - uid: string
-    name: Preparing
-  - types:
+    name: workerSize
+  - description: Number of instances in the worker pool.
+    types:
+    - uid: integer
+    name: workerCount
+  - isReadyOnly: true
+    description: Names of all instances in the worker pool (read only).
+    types:
     - uid: string
-    name: Ready
-  - types:
-    - uid: string
-    name: Scaling
-  - types:
-    - uid: string
-    name: Deleting
-- name: InternalLoadBalancingMode
-  description: Specifies which endpoints to serve internally in the Virtual Network for the App Service Environment.
-  kind: enum
+    name: instanceNames
+- name: VirtualIPMapping
+  description: Additional virtual IPs.
+  kind: object
   properties:
-  - types:
+  - description: Virtual IP address.
+    types:
     - uid: string
-    name: None
-  - types:
+    name: virtualIP
+  - description: Internal HTTP port.
+    types:
+    - uid: integer
+    name: internalHttpPort
+  - description: Internal HTTPS port.
+    types:
+    - uid: integer
+    name: internalHttpsPort
+  - description: Is virtual IP mapping in use.
+    types:
+    - uid: boolean
+    name: inUse
+- name: StampCapacity
+  description: Current total, used, and available worker capacities.
+  kind: object
+  properties:
+  - description: Name of the stamp.
+    types:
     - uid: string
-    name: Web
-  - types:
+    name: name
+  - description: Available capacity (# of machines, bytes of storage etc...).
+    types:
+    - uid: integer
+    name: availableCapacity
+  - description: Total capacity (# of machines, bytes of storage etc...).
+    types:
+    - uid: integer
+    name: totalCapacity
+  - description: Name of the unit.
+    types:
     - uid: string
-    name: Publishing
+    name: unit
+  - description: Shared/dedicated workers.
+    types:
+    - uid: ComputeModeOptions
+    name: computeMode
+  - description: Size of the machines.
+    types:
+    - uid: WorkerSizeOptions
+    name: workerSize
+  - description: "Size ID of machines: \n0 - Small\n1 - Medium\n2 - Large"
+    types:
+    - uid: integer
+    name: workerSizeId
+  - description: >-
+      If <code>true</code>, it includes basic apps.
+
+      Basic apps are not used for capacity allocation.
+    types:
+    - uid: boolean
+    name: excludeFromCapacityAllocation
+  - description: <code>true</code> if capacity is applicable for all apps; otherwise, <code>false</code>.
+    types:
+    - uid: boolean
+    name: isApplicableForAllComputeModes
+  - description: Shared or Dedicated.
+    types:
+    - uid: string
+    name: siteMode
+- name: NetworkAccessControlEntry
+  description: Access control list for controlling traffic to the App Service Environment.
+  kind: object
+  properties:
+  - description: Action object.
+    types:
+    - uid: AccessControlEntryAction
+    name: action
+  - description: Description of network access control entry.
+    types:
+    - uid: string
+    name: description
+  - description: Order of precedence.
+    types:
+    - uid: integer
+    name: order
+  - description: Remote subnet.
+    types:
+    - uid: string
+    name: remoteSubnet
+- name: NameValuePair
+  description: Custom settings for changing the behavior of the App Service Environment.
+  kind: object
+  properties:
+  - description: Pair name.
+    types:
+    - uid: string
+    name: name
+  - description: Pair value.
+    types:
+    - uid: string
+    name: value
+- name: AppServiceEnvironmentResource
+  description: Collection of resources.
+  kind: object
+  properties:
+  - description: Name of the App Service Environment.
+    types:
+    - uid: string
+    name: properties.name
+  - description: Location of the App Service Environment, e.g. "West US".
+    types:
+    - uid: string
+    name: properties.location
+  - isReadyOnly: true
+    description: Provisioning state of the App Service Environment.
+    types:
+    - uid: ProvisioningState
+    name: properties.provisioningState
+  - isReadyOnly: true
+    description: Current status of the App Service Environment.
+    types:
+    - uid: HostingEnvironmentStatus
+    name: properties.status
+  - description: Name of the Virtual Network for the App Service Environment.
+    types:
+    - uid: string
+    name: properties.vnetName
+  - description: Resource group of the Virtual Network.
+    types:
+    - uid: string
+    name: properties.vnetResourceGroupName
+  - description: Subnet of the Virtual Network.
+    types:
+    - uid: string
+    name: properties.vnetSubnetName
+  - description: Description of the Virtual Network.
+    types:
+    - uid: VirtualNetworkProfile
+    name: properties.virtualNetwork
+  - description: Specifies which endpoints to serve internally in the Virtual Network for the App Service Environment.
+    types:
+    - uid: InternalLoadBalancingMode
+    name: properties.internalLoadBalancingMode
+  - description: Front-end VM size, e.g. "Medium", "Large".
+    types:
+    - uid: string
+    name: properties.multiSize
+  - description: Number of front-end instances.
+    types:
+    - uid: integer
+    name: properties.multiRoleCount
+  - description: Description of worker pools with worker size IDs, VM sizes, and number of workers in each pool.
+    types:
+    - uid: WorkerPool
+    name: properties.workerPools
+  - description: Number of IP SSL addresses reserved for the App Service Environment.
+    types:
+    - uid: integer
+    name: properties.ipsslAddressCount
+  - isReadyOnly: true
+    description: Edition of the metadata database for the App Service Environment, e.g. "Standard".
+    types:
+    - uid: string
+    name: properties.databaseEdition
+  - isReadyOnly: true
+    description: Service objective of the metadata database for the App Service Environment, e.g. "S0".
+    types:
+    - uid: string
+    name: properties.databaseServiceObjective
+  - isReadyOnly: true
+    description: Number of upgrade domains of the App Service Environment.
+    types:
+    - uid: integer
+    name: properties.upgradeDomains
+  - isReadyOnly: true
+    description: Subscription of the App Service Environment.
+    types:
+    - uid: string
+    name: properties.subscriptionId
+  - description: DNS suffix of the App Service Environment.
+    types:
+    - uid: string
+    name: properties.dnsSuffix
+  - isReadyOnly: true
+    description: Last deployment action on the App Service Environment.
+    types:
+    - uid: string
+    name: properties.lastAction
+  - isReadyOnly: true
+    description: Result of the last deployment action on the App Service Environment.
+    types:
+    - uid: string
+    name: properties.lastActionResult
+  - isReadyOnly: true
+    description: List of comma separated strings describing which VM sizes are allowed for front-ends.
+    types:
+    - uid: string
+    name: properties.allowedMultiSizes
+  - isReadyOnly: true
+    description: List of comma separated strings describing which VM sizes are allowed for workers.
+    types:
+    - uid: string
+    name: properties.allowedWorkerSizes
+  - isReadyOnly: true
+    description: Maximum number of VMs in the App Service Environment.
+    types:
+    - uid: integer
+    name: properties.maximumNumberOfMachines
+  - isReadyOnly: true
+    description: Description of IP SSL mapping for the App Service Environment.
+    types:
+    - uid: VirtualIPMapping
+    name: properties.vipMappings
+  - isReadyOnly: true
+    description: Current total, used, and available worker capacities.
+    types:
+    - uid: StampCapacity
+    name: properties.environmentCapacities
+  - description: Access control list for controlling traffic to the App Service Environment.
+    types:
+    - uid: NetworkAccessControlEntry
+    name: properties.networkAccessControlList
+  - isReadyOnly: true
+    description: True/false indicating whether the App Service Environment is healthy.
+    types:
+    - uid: boolean
+    name: properties.environmentIsHealthy
+  - isReadyOnly: true
+    description: Detailed message about with results of the last check of the App Service Environment.
+    types:
+    - uid: string
+    name: properties.environmentStatus
+  - isReadyOnly: true
+    description: Resource group of the App Service Environment.
+    types:
+    - uid: string
+    name: properties.resourceGroup
+  - description: Scale factor for front-ends.
+    types:
+    - uid: integer
+    name: properties.frontEndScaleFactor
+  - isReadyOnly: true
+    description: Default Scale Factor for FrontEnds.
+    types:
+    - uid: integer
+    name: properties.defaultFrontEndScaleFactor
+  - description: API Management Account associated with the App Service Environment.
+    types:
+    - uid: string
+    name: properties.apiManagementAccountId
+  - description: >-
+      <code>true</code> if the App Service Environment is suspended; otherwise, <code>false</code>. The environment can be suspended, e.g. when the management endpoint is no longer available
+       (most likely because NSG blocked the incoming traffic).
+    types:
+    - uid: boolean
+    name: properties.suspended
+  - description: >-
+      True/false indicating whether the App Service Environment is suspended. The environment can be suspended e.g. when the management endpoint is no longer available
+
+      (most likely because NSG blocked the incoming traffic).
+    types:
+    - uid: boolean
+    name: properties.dynamicCacheEnabled
+  - description: Custom settings for changing the behavior of the App Service Environment.
+    types:
+    - uid: NameValuePair
+    name: properties.clusterSettings
+  - description: User added ip ranges to whitelist on ASE db
+    types:
+    - uid: string
+    name: properties.userWhitelistedIpRanges
+  - isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+    name: name
+  - description: Kind of resource.
+    types:
+    - uid: string
+    name: kind
+  - description: Resource Location.
+    types:
+    - uid: string
+    name: location
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+  - description: Resource tags.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
 - name: ComputeModeOptions
   description: Shared or dedicated app hosting.
   kind: enum
@@ -272,351 +573,54 @@ definitions:
   - types:
     - uid: string
     name: Deny
-- name: AppServiceEnvironmentResource
-  description: App Service Environment ARM resource.
-  kind: object
+- name: ProvisioningState
+  description: Provisioning state of the App Service Environment.
+  kind: enum
   properties:
-  - description: Name of the App Service Environment.
-    types:
+  - types:
     - uid: string
-    name: name
-  - description: Location of the App Service Environment, e.g. "West US".
-    types:
+    name: Succeeded
+  - types:
     - uid: string
-    name: location
-  - isReadyOnly: true
-    description: Provisioning state of the App Service Environment.
-    types:
-    - uid: ProvisioningState
-    name: provisioningState
-  - isReadyOnly: true
-    description: Current status of the App Service Environment.
-    types:
-    - uid: HostingEnvironmentStatus
-    name: status
-  - description: Name of the Virtual Network for the App Service Environment.
-    types:
+    name: Failed
+  - types:
     - uid: string
-    name: vnetName
-  - description: Resource group of the Virtual Network.
-    types:
+    name: Canceled
+  - types:
     - uid: string
-    name: vnetResourceGroupName
-  - description: Subnet of the Virtual Network.
-    types:
+    name: InProgress
+  - types:
     - uid: string
-    name: vnetSubnetName
-  - description: Description of the Virtual Network.
-    types:
-    - uid: VirtualNetworkProfile
-    name: virtualNetwork
-  - description: Specifies which endpoints to serve internally in the Virtual Network for the App Service Environment.
-    types:
-    - uid: InternalLoadBalancingMode
-    name: internalLoadBalancingMode
-  - description: Front-end VM size, e.g. "Medium", "Large".
-    types:
-    - uid: string
-    name: multiSize
-  - description: Number of front-end instances.
-    types:
-    - uid: integer
-    name: multiRoleCount
-  - description: Description of worker pools with worker size IDs, VM sizes, and number of workers in each pool.
-    types:
-    - isArray: true
-      uid: WorkerPool
-    name: workerPools
-  - description: Number of IP SSL addresses reserved for the App Service Environment.
-    types:
-    - uid: integer
-    name: ipsslAddressCount
-  - isReadyOnly: true
-    description: Edition of the metadata database for the App Service Environment, e.g. "Standard".
-    types:
-    - uid: string
-    name: databaseEdition
-  - isReadyOnly: true
-    description: Service objective of the metadata database for the App Service Environment, e.g. "S0".
-    types:
-    - uid: string
-    name: databaseServiceObjective
-  - isReadyOnly: true
-    description: Number of upgrade domains of the App Service Environment.
-    types:
-    - uid: integer
-    name: upgradeDomains
-  - isReadyOnly: true
-    description: Subscription of the App Service Environment.
-    types:
-    - uid: string
-    name: subscriptionId
-  - description: DNS suffix of the App Service Environment.
-    types:
-    - uid: string
-    name: dnsSuffix
-  - isReadyOnly: true
-    description: Last deployment action on the App Service Environment.
-    types:
-    - uid: string
-    name: lastAction
-  - isReadyOnly: true
-    description: Result of the last deployment action on the App Service Environment.
-    types:
-    - uid: string
-    name: lastActionResult
-  - isReadyOnly: true
-    description: List of comma separated strings describing which VM sizes are allowed for front-ends.
-    types:
-    - uid: string
-    name: allowedMultiSizes
-  - isReadyOnly: true
-    description: List of comma separated strings describing which VM sizes are allowed for workers.
-    types:
-    - uid: string
-    name: allowedWorkerSizes
-  - isReadyOnly: true
-    description: Maximum number of VMs in the App Service Environment.
-    types:
-    - uid: integer
-    name: maximumNumberOfMachines
-  - isReadyOnly: true
-    description: Description of IP SSL mapping for the App Service Environment.
-    types:
-    - isArray: true
-      uid: VirtualIPMapping
-    name: vipMappings
-  - isReadyOnly: true
-    description: Current total, used, and available worker capacities.
-    types:
-    - isArray: true
-      uid: StampCapacity
-    name: environmentCapacities
-  - description: Access control list for controlling traffic to the App Service Environment.
-    types:
-    - isArray: true
-      uid: NetworkAccessControlEntry
-    name: networkAccessControlList
-  - isReadyOnly: true
-    description: True/false indicating whether the App Service Environment is healthy.
-    types:
-    - uid: boolean
-    name: environmentIsHealthy
-  - isReadyOnly: true
-    description: Detailed message about with results of the last check of the App Service Environment.
-    types:
-    - uid: string
-    name: environmentStatus
-  - isReadyOnly: true
-    description: Resource group of the App Service Environment.
-    types:
-    - uid: string
-    name: resourceGroup
-  - description: Scale factor for front-ends.
-    types:
-    - uid: integer
-    name: frontEndScaleFactor
-  - isReadyOnly: true
-    description: Default Scale Factor for FrontEnds.
-    types:
-    - uid: integer
-    name: defaultFrontEndScaleFactor
-  - description: API Management Account associated with the App Service Environment.
-    types:
-    - uid: string
-    name: apiManagementAccountId
-  - description: >-
-      <code>true</code> if the App Service Environment is suspended; otherwise, <code>false</code>. The environment can be suspended, e.g. when the management endpoint is no longer available
-       (most likely because NSG blocked the incoming traffic).
-    types:
-    - uid: boolean
-    name: suspended
-  - description: >-
-      True/false indicating whether the App Service Environment is suspended. The environment can be suspended e.g. when the management endpoint is no longer available
-
-      (most likely because NSG blocked the incoming traffic).
-    types:
-    - uid: boolean
-    name: dynamicCacheEnabled
-  - description: Custom settings for changing the behavior of the App Service Environment.
-    types:
-    - isArray: true
-      uid: NameValuePair
-    name: clusterSettings
-  - description: User added ip ranges to whitelist on ASE db
-    types:
-    - isArray: true
-      uid: string
-    name: userWhitelistedIpRanges
-  - isReadyOnly: true
-    description: Resource Id.
-    types:
-    - uid: string
-    name: id
-  - description: Kind of resource.
-    types:
-    - uid: string
-    name: kind
-  - isReadyOnly: true
-    description: Resource type.
-    types:
-    - uid: string
-    name: type
-  - description: Resource tags.
-    types:
-    - isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-      uid: object
-    name: tags
-- name: VirtualNetworkProfile
-  description: Description of the Virtual Network.
-  kind: object
+    name: Deleting
+- name: HostingEnvironmentStatus
+  description: Current status of the App Service Environment.
+  kind: enum
   properties:
-  - description: Resource id of the Virtual Network.
-    types:
+  - types:
     - uid: string
-    name: id
-  - isReadyOnly: true
-    description: Name of the Virtual Network (read-only).
-    types:
+    name: Preparing
+  - types:
     - uid: string
-    name: name
-  - isReadyOnly: true
-    description: Resource type of the Virtual Network (read-only).
-    types:
+    name: Ready
+  - types:
     - uid: string
-    name: type
-  - description: Subnet within the Virtual Network.
-    types:
+    name: Scaling
+  - types:
     - uid: string
-    name: subnet
-- name: WorkerPool
-  description: Worker pool of an App Service Environment.
-  kind: object
+    name: Deleting
+- name: InternalLoadBalancingMode
+  description: Specifies which endpoints to serve internally in the Virtual Network for the App Service Environment.
+  kind: enum
   properties:
-  - description: Worker size ID for referencing this worker pool.
-    types:
-    - uid: integer
-    name: workerSizeId
-  - description: Shared or dedicated app hosting.
-    types:
-    - uid: ComputeModeOptions
-    name: computeMode
-  - description: VM size of the worker pool instances.
-    types:
+  - types:
     - uid: string
-    name: workerSize
-  - description: Number of instances in the worker pool.
-    types:
-    - uid: integer
-    name: workerCount
-  - isReadyOnly: true
-    description: Names of all instances in the worker pool (read only).
-    types:
-    - isArray: true
-      uid: string
-    name: instanceNames
-- name: VirtualIPMapping
-  description: Virtual IP mapping.
-  kind: object
-  properties:
-  - description: Virtual IP address.
-    types:
+    name: None
+  - types:
     - uid: string
-    name: virtualIP
-  - description: Internal HTTP port.
-    types:
-    - uid: integer
-    name: internalHttpPort
-  - description: Internal HTTPS port.
-    types:
-    - uid: integer
-    name: internalHttpsPort
-  - description: Is virtual IP mapping in use.
-    types:
-    - uid: boolean
-    name: inUse
-- name: StampCapacity
-  description: Stamp capacity information.
-  kind: object
-  properties:
-  - description: Name of the stamp.
-    types:
+    name: Web
+  - types:
     - uid: string
-    name: name
-  - description: Available capacity (# of machines, bytes of storage etc...).
-    types:
-    - uid: integer
-    name: availableCapacity
-  - description: Total capacity (# of machines, bytes of storage etc...).
-    types:
-    - uid: integer
-    name: totalCapacity
-  - description: Name of the unit.
-    types:
-    - uid: string
-    name: unit
-  - description: Shared/dedicated workers.
-    types:
-    - uid: ComputeModeOptions
-    name: computeMode
-  - description: Size of the machines.
-    types:
-    - uid: WorkerSizeOptions
-    name: workerSize
-  - description: "Size ID of machines: \n0 - Small\n1 - Medium\n2 - Large"
-    types:
-    - uid: integer
-    name: workerSizeId
-  - description: >-
-      If <code>true</code>, it includes basic apps.
-
-      Basic apps are not used for capacity allocation.
-    types:
-    - uid: boolean
-    name: excludeFromCapacityAllocation
-  - description: <code>true</code> if capacity is applicable for all apps; otherwise, <code>false</code>.
-    types:
-    - uid: boolean
-    name: isApplicableForAllComputeModes
-  - description: Shared or Dedicated.
-    types:
-    - uid: string
-    name: siteMode
-- name: NetworkAccessControlEntry
-  description: Network access control entry.
-  kind: object
-  properties:
-  - description: Action object.
-    types:
-    - uid: AccessControlEntryAction
-    name: action
-  - description: Description of network access control entry.
-    types:
-    - uid: string
-    name: description
-  - description: Order of precedence.
-    types:
-    - uid: integer
-    name: order
-  - description: Remote subnet.
-    types:
-    - uid: string
-    name: remoteSubnet
-- name: NameValuePair
-  description: Name value pair.
-  kind: object
-  properties:
-  - description: Pair name.
-    types:
-    - uid: string
-    name: name
-  - description: Pair value.
-    types:
-    - uid: string
-    name: value
+    name: Publishing
 examples: []
 security:
 - type: oauth2

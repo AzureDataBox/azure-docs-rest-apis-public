@@ -48,7 +48,7 @@ responses:
 requestHeader: []
 definitions:
 - name: Alert
-  description: Implements the Alert class.
+  description: The list of alerts.
   kind: object
   properties:
   - description: Alert related data.
@@ -84,8 +84,7 @@ definitions:
     name: sendToOwners
   - description: The custom email address for sending emails.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: customEmailAddresses
   - description: The locale for the email notification.
     types:
@@ -96,7 +95,19 @@ examples:
     uri: GET https://management.azure.com/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationAlertSettings/defaultAlertSetting?api-version=2016-08-10
   responses:
   - statusCode: "200"
-    body: '{"type":"Microsoft.RecoveryServices/vaults/replicationAlertSettings","id":"/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationAlertSettings/defaultAlertSetting","name":"defaultAlertSetting","properties":{"sendToOwners":"false","customEmailAddresses":["ronehr@microsoft.com"],"locale":"en-US"}}'
+    body: >-
+      {
+        "type": "Microsoft.RecoveryServices/vaults/replicationAlertSettings",
+        "id": "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationAlertSettings/defaultAlertSetting",
+        "name": "defaultAlertSetting",
+        "properties": {
+          "sendToOwners": "false",
+          "customEmailAddresses": [
+            "ronehr@microsoft.com"
+          ],
+          "locale": "en-US"
+        }
+      }
   name: Gets an email notification(alert) configuration.
 security:
 - type: oauth2

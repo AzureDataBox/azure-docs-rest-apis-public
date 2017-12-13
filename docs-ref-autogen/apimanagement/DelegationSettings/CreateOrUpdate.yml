@@ -50,59 +50,24 @@ requestBody:
     description: A delegation Url.
     types:
     - uid: string
-    name: url
+    name: properties.url
   - in: body
     description: A base64-encoded validation key to validate, that a request is coming from Azure API Management.
     types:
     - uid: string
-    name: validationKey
+    name: properties.validationKey
   - in: body
     description: Subscriptions delegation settings.
     types:
     - uid: SubscriptionsDelegationSettingsProperties
-    name: subscriptions
+    name: properties.subscriptions
   - in: body
     description: User registration delegation settings.
     types:
     - uid: RegistrationDelegationSettingsProperties
-    name: userRegistration
+    name: properties.userRegistration
 requestHeader: []
 definitions:
-- name: PortalDelegationSettings
-  description: Delegation settings for a developer portal.
-  kind: object
-  properties:
-  - description: A delegation Url.
-    types:
-    - uid: string
-    name: url
-  - description: A base64-encoded validation key to validate, that a request is coming from Azure API Management.
-    types:
-    - uid: string
-    name: validationKey
-  - description: Subscriptions delegation settings.
-    types:
-    - uid: SubscriptionsDelegationSettingsProperties
-    name: subscriptions
-  - description: User registration delegation settings.
-    types:
-    - uid: RegistrationDelegationSettingsProperties
-    name: userRegistration
-  - isReadyOnly: true
-    description: Resource ID.
-    types:
-    - uid: string
-    name: id
-  - isReadyOnly: true
-    description: Resource name.
-    types:
-    - uid: string
-    name: name
-  - isReadyOnly: true
-    description: Resource type for API Management resource.
-    types:
-    - uid: string
-    name: type
 - name: SubscriptionsDelegationSettingsProperties
   description: Subscriptions delegation settings.
   kind: object
@@ -119,6 +84,41 @@ definitions:
     types:
     - uid: boolean
     name: enabled
+- name: PortalDelegationSettings
+  description: Delegation settings for a developer portal.
+  kind: object
+  properties:
+  - description: A delegation Url.
+    types:
+    - uid: string
+    name: properties.url
+  - description: A base64-encoded validation key to validate, that a request is coming from Azure API Management.
+    types:
+    - uid: string
+    name: properties.validationKey
+  - description: Subscriptions delegation settings.
+    types:
+    - uid: SubscriptionsDelegationSettingsProperties
+    name: properties.subscriptions
+  - description: User registration delegation settings.
+    types:
+    - uid: RegistrationDelegationSettingsProperties
+    name: properties.userRegistration
+  - isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type for API Management resource.
+    types:
+    - uid: string
+    name: type
 - name: ErrorResponse
   description: Error Body contract.
   kind: object
@@ -133,8 +133,7 @@ definitions:
     name: message
   - description: The list of invalid fields send in request, in case of validation error.
     types:
-    - isArray: true
-      uid: ErrorFieldContract
+    - uid: ErrorFieldContract
     name: details
 - name: ErrorFieldContract
   description: Error Field contract.
@@ -155,7 +154,19 @@ definitions:
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/portalsettings/delegation?api-version=2017-03-01
-    requestBody: '{"properties":{"url":"http://contoso.com/delegation","validationKey":"nVF7aKIvr9mV/RM5lOD0sYoi8ThXTRHQP7o66hvUmjCDkPKR3qxPu/otJcNciz2aQdqPuzJH3ECG4TU2yZjQ7Q==","subscriptions":{"enabled":true},"userRegistration":{"enabled":true}}}'
+    body: >-
+      {
+        "properties": {
+          "url": "http://contoso.com/delegation",
+          "validationKey": "nVF7aKIvr9mV/RM5lOD0sYoi8ThXTRHQP7o66hvUmjCDkPKR3qxPu/otJcNciz2aQdqPuzJH3ECG4TU2yZjQ7Q==",
+          "subscriptions": {
+            "enabled": true
+          },
+          "userRegistration": {
+            "enabled": true
+          }
+        }
+      }
   responses:
   - statusCode: "204"
   name: ApiManagementPortalSettingsUpdateDelegation

@@ -54,30 +54,45 @@ requestBody:
     description: Subject of the Template.
     types:
     - uid: string
-    name: subject
+    name: properties.subject
   - in: body
     description: Title of the Template.
     types:
     - uid: string
-    name: title
+    name: properties.title
   - in: body
     description: Description of the Email Template.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - in: body
     description: Email Template Body. This should be a valid XDocument
     types:
     - uid: string
-    name: body
+    name: properties.body
   - in: body
     description: Email Template Parameter values.
     types:
-    - isArray: true
-      uid: EmailTemplateParametersContractProperties
-    name: parameters
+    - uid: EmailTemplateParametersContractProperties
+    name: properties.parameters
 requestHeader: []
 definitions:
+- name: EmailTemplateParametersContractProperties
+  description: Email Template Parameter values.
+  kind: object
+  properties:
+  - description: Template parameter name.
+    types:
+    - uid: string
+    name: name
+  - description: Template parameter title.
+    types:
+    - uid: string
+    name: title
+  - description: Template parameter description.
+    types:
+    - uid: string
+    name: description
 - name: ErrorResponse
   description: Error Body contract.
   kind: object
@@ -92,9 +107,32 @@ definitions:
     name: message
   - description: The list of invalid fields send in request, in case of validation error.
     types:
-    - isArray: true
-      uid: ErrorFieldContract
+    - uid: ErrorFieldContract
     name: details
+- name: EmailTemplateUpdateParameters
+  description: Email Template update Parameters.
+  kind: object
+  properties:
+  - description: Subject of the Template.
+    types:
+    - uid: string
+    name: properties.subject
+  - description: Title of the Template.
+    types:
+    - uid: string
+    name: properties.title
+  - description: Description of the Email Template.
+    types:
+    - uid: string
+    name: properties.description
+  - description: Email Template Body. This should be a valid XDocument
+    types:
+    - uid: string
+    name: properties.body
+  - description: Email Template Parameter values.
+    types:
+    - uid: EmailTemplateParametersContractProperties
+    name: properties.parameters
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
@@ -114,7 +152,13 @@ definitions:
 examples:
 - request:
     uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/templates/applicationApprovedNotificationMessage?api-version=2017-03-01
-    requestBody: "{\"properties\":{\"subject\":\"Your application $AppName is published in the gallery\",\"body\":\"<!DOCTYPE html >\\r\\n<html>\\r\\n  <head />\\r\\n  <body>\\r\\n    <p style=\\\"font-size:12pt;font-family:'Segoe UI'\\\">Dear $DevFirstName $DevLastName,</p>\\r\\n    <p style=\\\"font-size:12pt;font-family:'Segoe UI'\\\">\\r\\n          We are happy to let you know that your request to publish the $AppName application in the gallery has been approved. Your application has been published and can be viewed <a href=\\\"http://$DevPortalUrl/Applications/Details/$AppId\\\">here</a>.\\r\\n        </p>\\r\\n    <p style=\\\"font-size:12pt;font-family:'Segoe UI'\\\">Best,</p>\\r\\n    <p style=\\\"font-size:12pt;font-family:'Segoe UI'\\\">The $OrganizationName API Team</p>\\r\\n  </body>\\r\\n</html>\"}}"
+    body: >-
+      {
+        "properties": {
+          "subject": "Your application $AppName is published in the gallery",
+          "body": "<!DOCTYPE html >\r\n<html>\r\n  <head />\r\n  <body>\r\n    <p style=\"font-size:12pt;font-family:'Segoe UI'\">Dear $DevFirstName $DevLastName,</p>\r\n    <p style=\"font-size:12pt;font-family:'Segoe UI'\">\r\n          We are happy to let you know that your request to publish the $AppName application in the gallery has been approved. Your application has been published and can be viewed <a href=\"http://$DevPortalUrl/Applications/Details/$AppId\">here</a>.\r\n        </p>\r\n    <p style=\"font-size:12pt;font-family:'Segoe UI'\">Best,</p>\r\n    <p style=\"font-size:12pt;font-family:'Segoe UI'\">The $OrganizationName API Team</p>\r\n  </body>\r\n</html>"
+        }
+      }
   responses:
   - statusCode: "204"
   name: ApiManagementUpdateEmailTemplate

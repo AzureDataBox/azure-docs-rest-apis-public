@@ -47,8 +47,7 @@ definitions:
   properties:
   - description: The list of elastic pools hosted in the server.
     types:
-    - isArray: true
-      uid: ElasticPool
+    - uid: ElasticPool
     name: value
 - name: ElasticPool
   description: Represents a database elastic pool.
@@ -63,36 +62,36 @@ definitions:
     description: The creation date of the elastic pool (ISO8601 format).
     types:
     - uid: string
-    name: creationDate
+    name: properties.creationDate
   - isReadyOnly: true
     description: The state of the elastic pool.
     types:
     - uid: ElasticPoolState
-    name: state
+    name: properties.state
   - description: The edition of the elastic pool.
     types:
     - uid: ElasticPoolEdition
-    name: edition
+    name: properties.edition
   - description: The total shared DTU for the database elastic pool.
     types:
     - uid: integer
-    name: dtu
+    name: properties.dtu
   - description: The maximum DTU any one database can consume.
     types:
     - uid: integer
-    name: databaseDtuMax
+    name: properties.databaseDtuMax
   - description: The minimum DTU all databases are guaranteed.
     types:
     - uid: integer
-    name: databaseDtuMin
+    name: properties.databaseDtuMin
   - description: Gets storage limit for the database elastic pool in MB.
     types:
     - uid: integer
-    name: storageMB
+    name: properties.storageMB
   - description: Whether or not this database elastic pool is zone redundant, which means the replicas of this database will be spread across multiple availability zones.
     types:
     - uid: boolean
-    name: zoneRedundant
+    name: properties.zoneRedundant
   - description: Resource tags.
     types:
     - isDictionary: true
@@ -134,7 +133,7 @@ definitions:
     - uid: string
     name: Disabled
 - name: ElasticPoolEdition
-  description: The edition of the elastic pool.
+  description: The edition of the recommended elastic pool. The ElasticPoolEdition enumeration contains all the valid editions.
   kind: enum
   properties:
   - types:
@@ -151,7 +150,59 @@ examples:
     uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-2369/providers/Microsoft.Sql/servers/sqlcrudtest-8069/elasticPools?api-version=2014-04-01
   responses:
   - statusCode: "200"
-    body: '{"value":[{"id":"/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-2369/providers/Microsoft.Sql/servers/sqlcrudtest-8069/elasticPools/sqlcrudtest-2729","name":"sqlcrudtest-2729","type":"Microsoft.Sql/servers/elasticPools","location":"Japan East","kind":null,"properties":{"creationDate":"2017-02-10T01:27:21.32Z","edition":"Basic","state":"Ready","dtu":50,"databaseDtuMin":0,"databaseDtuMax":5,"storageMB":5000}},{"id":"/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-2369/providers/Microsoft.Sql/servers/sqlcrudtest-8069/elasticPools/sqlcrudtest-3191","name":"sqlcrudtest-3191","type":"Microsoft.Sql/servers/elasticPools","location":"Japan East","kind":null,"properties":{"creationDate":"2017-02-10T01:26:26.45Z","edition":"Basic","state":"Ready","dtu":50,"databaseDtuMin":0,"databaseDtuMax":5,"storageMB":5000}},{"id":"/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-2369/providers/Microsoft.Sql/servers/sqlcrudtest-8069/elasticPools/sqlcrudtest-8102","name":"sqlcrudtest-8102","type":"Microsoft.Sql/servers/elasticPools","location":"Japan East","kind":null,"properties":{"creationDate":"2017-02-10T01:25:25.033Z","edition":"Basic","state":"Ready","dtu":50,"databaseDtuMin":0,"databaseDtuMax":5,"storageMB":5000}}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-2369/providers/Microsoft.Sql/servers/sqlcrudtest-8069/elasticPools/sqlcrudtest-2729",
+            "name": "sqlcrudtest-2729",
+            "type": "Microsoft.Sql/servers/elasticPools",
+            "location": "Japan East",
+            "kind": null,
+            "properties": {
+              "creationDate": "2017-02-10T01:27:21.32Z",
+              "edition": "Basic",
+              "state": "Ready",
+              "dtu": 50,
+              "databaseDtuMin": 0,
+              "databaseDtuMax": 5,
+              "storageMB": 5000
+            }
+          },
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-2369/providers/Microsoft.Sql/servers/sqlcrudtest-8069/elasticPools/sqlcrudtest-3191",
+            "name": "sqlcrudtest-3191",
+            "type": "Microsoft.Sql/servers/elasticPools",
+            "location": "Japan East",
+            "kind": null,
+            "properties": {
+              "creationDate": "2017-02-10T01:26:26.45Z",
+              "edition": "Basic",
+              "state": "Ready",
+              "dtu": 50,
+              "databaseDtuMin": 0,
+              "databaseDtuMax": 5,
+              "storageMB": 5000
+            }
+          },
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-2369/providers/Microsoft.Sql/servers/sqlcrudtest-8069/elasticPools/sqlcrudtest-8102",
+            "name": "sqlcrudtest-8102",
+            "type": "Microsoft.Sql/servers/elasticPools",
+            "location": "Japan East",
+            "kind": null,
+            "properties": {
+              "creationDate": "2017-02-10T01:25:25.033Z",
+              "edition": "Basic",
+              "state": "Ready",
+              "dtu": 50,
+              "databaseDtuMin": 0,
+              "databaseDtuMax": 5,
+              "storageMB": 5000
+            }
+          }
+        ]
+      }
   name: List elastic pools
 security: []
 name: ListByServer

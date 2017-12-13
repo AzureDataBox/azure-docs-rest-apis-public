@@ -47,15 +47,14 @@ definitions:
   properties:
   - description: The list of alerts.
     types:
-    - isArray: true
-      uid: Alert
+    - uid: Alert
     name: value
   - description: The value of next link.
     types:
     - uid: string
     name: nextLink
 - name: Alert
-  description: Implements the Alert class.
+  description: The list of alerts.
   kind: object
   properties:
   - description: Alert related data.
@@ -91,8 +90,7 @@ definitions:
     name: sendToOwners
   - description: The custom email address for sending emails.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: customEmailAddresses
   - description: The locale for the email notification.
     types:
@@ -103,7 +101,23 @@ examples:
     uri: GET https://management.azure.com/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationAlertSettings?api-version=2016-08-10
   responses:
   - statusCode: "200"
-    body: '{"value":[{"type":"Microsoft.RecoveryServices/vaults/replicationAlertSettings","id":"/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationAlertSettings/defaultAlertSetting","name":"defaultAlertSetting","properties":{"sendToOwners":"false","customEmailAddresses":["ronehr@microsoft.com"],"locale":"en-US"}}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "type": "Microsoft.RecoveryServices/vaults/replicationAlertSettings",
+            "id": "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationAlertSettings/defaultAlertSetting",
+            "name": "defaultAlertSetting",
+            "properties": {
+              "sendToOwners": "false",
+              "customEmailAddresses": [
+                "ronehr@microsoft.com"
+              ],
+              "locale": "en-US"
+            }
+          }
+        ]
+      }
   name: Gets the list of configured email notification(alert) configurations.
 security:
 - type: oauth2

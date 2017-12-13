@@ -60,12 +60,12 @@ requestBody:
     description: Value that indicates whether AutoInflate is enabled for eventhub namespace.
     types:
     - uid: boolean
-    name: isAutoInflateEnabled
+    name: properties.isAutoInflateEnabled
   - in: body
     description: Upper limit of throughput units when AutoInflate is enabled, vaule should be within 0 to 20 throughput units. ( '0' if AutoInflateEnabled = true)
     types:
     - uid: integer
-    name: maximumThroughputUnits
+    name: properties.maximumThroughputUnits
   - in: body
     description: Resource location
     types:
@@ -82,28 +82,24 @@ requestBody:
     name: tags
 requestHeader: []
 definitions:
-- name: SkuName
-  description: Name of this SKU.
-  kind: enum
+- name: Sku
+  description: Properties of sku resource
+  kind: object
   properties:
-  - types:
-    - uid: string
-    name: Basic
-  - types:
-    - uid: string
-    name: Standard
-- name: SkuTier
-  description: The billing tier of this particular SKU.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Basic
-  - types:
-    - uid: string
-    name: Standard
+  - description: Name of this SKU.
+    types:
+    - uid: SkuName
+    name: name
+  - description: The billing tier of this particular SKU.
+    types:
+    - uid: SkuTier
+    name: tier
+  - description: The Event Hubs throughput units, vaule should be 0 to 20 throughput units.
+    types:
+    - uid: integer
+    name: capacity
 - name: EHNamespace
-  description: Single Namespace item in List or Get Operation
+  description: Result of the List Namespace operation
   kind: object
   properties:
   - description: Properties of sku resource
@@ -114,35 +110,35 @@ definitions:
     description: Provisioning state of the Namespace.
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: The time the Namespace was created.
     types:
     - uid: string
-    name: createdAt
+    name: properties.createdAt
   - isReadyOnly: true
     description: The time the Namespace was updated.
     types:
     - uid: string
-    name: updatedAt
+    name: properties.updatedAt
   - isReadyOnly: true
     description: Endpoint you can use to perform Service Bus operations.
     types:
     - uid: string
-    name: serviceBusEndpoint
+    name: properties.serviceBusEndpoint
   - isReadyOnly: true
     description: Identifier for Azure Insights metrics.
     types:
     - uid: string
-    name: metricId
+    name: properties.metricId
   - description: Value that indicates whether AutoInflate is enabled for eventhub namespace.
     types:
     - uid: boolean
-    name: isAutoInflateEnabled
+    name: properties.isAutoInflateEnabled
   - description: Upper limit of throughput units when AutoInflate is enabled, vaule should be within 0 to 20 throughput units. ( '0' if AutoInflateEnabled = true)
     types:
     - uid: integer
-    name: maximumThroughputUnits
+    name: properties.maximumThroughputUnits
   - description: Resource location
     types:
     - uid: string
@@ -170,22 +166,6 @@ definitions:
     types:
     - uid: string
     name: type
-- name: Sku
-  description: Properties of sku resource
-  kind: object
-  properties:
-  - description: Name of this SKU.
-    types:
-    - uid: SkuName
-    name: name
-  - description: The billing tier of this particular SKU.
-    types:
-    - uid: SkuTier
-    name: tier
-  - description: The Event Hubs throughput units, vaule should be 0 to 20 throughput units.
-    types:
-    - uid: integer
-    name: capacity
 - name: ErrorResponse
   description: Error reponse indicates EventHub service is not able to process the incoming request. The reason is provided in the error message.
   kind: object
@@ -198,15 +178,90 @@ definitions:
     types:
     - uid: string
     name: message
+- name: SkuName
+  description: Name of this SKU.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Basic
+  - types:
+    - uid: string
+    name: Standard
+- name: SkuTier
+  description: The billing tier of this particular SKU.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Basic
+  - types:
+    - uid: string
+    name: Standard
 examples:
 - request:
     uri: PATCH https://management.azure.com/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.EventHub/namespaces/sdk-Namespace-3668?api-version=2017-04-01
-    requestBody: '{"location":"South Central US","tags":{"tag3":"value3","tag4":"value4"}}'
+    body: >-
+      {
+        "location": "South Central US",
+        "tags": {
+          "tag3": "value3",
+          "tag4": "value4"
+        }
+      }
   responses:
   - statusCode: "200"
-    body: '{"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.EventHub/namespaces/sdk-Namespace-3668","name":"sdk-Namespace-3668","type":"Microsoft.EventHub/Namespaces","location":"South Central US","tags":{"tag3":"value3","tag4":"value4"},"properties":{"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"provisioningState":"Updating","metricId":"5f750a97-50d9-4e36-8081-c9ee4c0210d4:sdk-namespace-3668","createdAt":"2017-06-01T21:37:04.46Z","updatedAt":"2017-06-01T21:37:53.413Z","serviceBusEndpoint":"https://sdk-Namespace-3668.servicebus.windows-int.net:443/"}}'
+    body: >-
+      {
+        "sku": {
+          "name": "Standard",
+          "tier": "Standard",
+          "capacity": 1
+        },
+        "id": "/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.EventHub/namespaces/sdk-Namespace-3668",
+        "name": "sdk-Namespace-3668",
+        "type": "Microsoft.EventHub/Namespaces",
+        "location": "South Central US",
+        "tags": {
+          "tag3": "value3",
+          "tag4": "value4"
+        },
+        "properties": {
+          "isAutoInflateEnabled": false,
+          "maximumThroughputUnits": 0,
+          "provisioningState": "Updating",
+          "metricId": "5f750a97-50d9-4e36-8081-c9ee4c0210d4:sdk-namespace-3668",
+          "createdAt": "2017-06-01T21:37:04.46Z",
+          "updatedAt": "2017-06-01T21:37:53.413Z",
+          "serviceBusEndpoint": "https://sdk-Namespace-3668.servicebus.windows-int.net:443/"
+        }
+      }
   - statusCode: "201"
-    body: '{"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.EventHub/namespaces/sdk-Namespace-3668","name":"sdk-Namespace-3668","type":"Microsoft.EventHub/Namespaces","location":"South Central US","tags":{"tag3":"value3","tag4":"value4"},"properties":{"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"provisioningState":"Updating","metricId":"5f750a97-50d9-4e36-8081-c9ee4c0210d4:sdk-namespace-3668","createdAt":"2017-06-01T21:37:04.46Z","updatedAt":"2017-06-01T21:37:53.413Z","serviceBusEndpoint":"https://sdk-Namespace-3668.servicebus.windows-int.net:443/"}}'
+    body: >-
+      {
+        "sku": {
+          "name": "Standard",
+          "tier": "Standard",
+          "capacity": 1
+        },
+        "id": "/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.EventHub/namespaces/sdk-Namespace-3668",
+        "name": "sdk-Namespace-3668",
+        "type": "Microsoft.EventHub/Namespaces",
+        "location": "South Central US",
+        "tags": {
+          "tag3": "value3",
+          "tag4": "value4"
+        },
+        "properties": {
+          "isAutoInflateEnabled": false,
+          "maximumThroughputUnits": 0,
+          "provisioningState": "Updating",
+          "metricId": "5f750a97-50d9-4e36-8081-c9ee4c0210d4:sdk-namespace-3668",
+          "createdAt": "2017-06-01T21:37:04.46Z",
+          "updatedAt": "2017-06-01T21:37:53.413Z",
+          "serviceBusEndpoint": "https://sdk-Namespace-3668.servicebus.windows-int.net:443/"
+        }
+      }
   - statusCode: "202"
   name: NamespacesUpdate
 security:

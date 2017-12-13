@@ -54,8 +54,24 @@ requestBody:
     name: properties
 requestHeader: []
 definitions:
+- name: ConfigureAlertRequestProperties
+  description: The properties of a configure alert request.
+  kind: object
+  properties:
+  - description: A value indicating whether to send email to subscription administrator.
+    types:
+    - uid: string
+    name: sendToOwners
+  - description: The custom email address for sending emails.
+    types:
+    - uid: string
+    name: customEmailAddresses
+  - description: The locale for the email notification.
+    types:
+    - uid: string
+    name: locale
 - name: Alert
-  description: Implements the Alert class.
+  description: The list of alerts.
   kind: object
   properties:
   - description: Alert related data.
@@ -81,6 +97,14 @@ definitions:
     types:
     - uid: string
     name: location
+- name: ConfigureAlertRequest
+  description: Request to configure alerts for the system.
+  kind: object
+  properties:
+  - description: The properties of a configure alert request.
+    types:
+    - uid: ConfigureAlertRequestProperties
+    name: properties
 - name: AlertProperties
   description: Alert related data.
   kind: object
@@ -91,8 +115,7 @@ definitions:
     name: sendToOwners
   - description: The custom email address for sending emails.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: customEmailAddresses
   - description: The locale for the email notification.
     types:
@@ -101,10 +124,31 @@ definitions:
 examples:
 - request:
     uri: PUT https://management.azure.com/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationAlertSettings/defaultAlertSetting?api-version=2016-08-10
-    requestBody: '{"properties":{"sendToOwners":"false","customEmailAddresses":["ronehr@microsoft.com"],"locale":""}}'
+    body: >-
+      {
+        "properties": {
+          "sendToOwners": "false",
+          "customEmailAddresses": [
+            "ronehr@microsoft.com"
+          ],
+          "locale": ""
+        }
+      }
   responses:
   - statusCode: "200"
-    body: '{"type":"Microsoft.RecoveryServices/vaults/replicationAlertSettings","id":"/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationAlertSettings/defaultAlertSetting","name":"defaultAlertSetting","properties":{"sendToOwners":"false","customEmailAddresses":["ronehr@microsoft.com"],"locale":"en-US"}}'
+    body: >-
+      {
+        "type": "Microsoft.RecoveryServices/vaults/replicationAlertSettings",
+        "id": "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationAlertSettings/defaultAlertSetting",
+        "name": "defaultAlertSetting",
+        "properties": {
+          "sendToOwners": "false",
+          "customEmailAddresses": [
+            "ronehr@microsoft.com"
+          ],
+          "locale": "en-US"
+        }
+      }
   name: Configures email notifications for this vault.
 security:
 - type: oauth2

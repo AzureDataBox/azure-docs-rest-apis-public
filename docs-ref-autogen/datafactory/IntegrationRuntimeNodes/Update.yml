@@ -166,6 +166,34 @@ definitions:
     types:
     - uid: integer
     name: maxConcurrentJobs
+- name: ErrorResponse
+  description: The object that defines the structure of an Azure Data Factory response.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: string
+    name: code
+  - description: Error message.
+    types:
+    - uid: string
+    name: message
+  - description: Property name/path in request associated with error.
+    types:
+    - uid: string
+    name: target
+  - description: Array with additional error details.
+    types:
+    - uid: ErrorResponse
+    name: details
+- name: UpdateIntegrationRuntimeNodeRequest
+  description: Update integration runtime node request.
+  kind: object
+  properties:
+  - description: The number of concurrent jobs permitted to run on the integration runtime node. Values between 1 and maxConcurrentJobs(inclusive) are allowed.
+    types:
+    - uid: integer
+    name: concurrentJobsLimit
 - name: SelfHostedIntegrationRuntimeNodeStatus
   description: Status of the integration runtime node.
   kind: enum
@@ -201,31 +229,13 @@ definitions:
   - types:
     - uid: string
     name: Fail
-- name: ErrorResponse
-  description: The object that defines the structure of an Azure Data Factory response.
-  kind: object
-  properties:
-  - description: Error code.
-    types:
-    - uid: string
-    name: code
-  - description: Error message.
-    types:
-    - uid: string
-    name: message
-  - description: Property name/path in request associated with error.
-    types:
-    - uid: string
-    name: target
-  - description: Array with additional error details.
-    types:
-    - isArray: true
-      uid: Details
-    name: details
 examples:
 - request:
     uri: PATCH https://management.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/integrationRuntimes/exampleIntegrationRuntime/nodes/Node_1?api-version=2017-09-01-preview
-    requestBody: '{"concurrentJobsLimit":2}'
+    body: >-
+      {
+        "concurrentJobsLimit": 2
+      }
   responses:
   - statusCode: "200"
     headers:
@@ -235,7 +245,206 @@ examples:
       name: x-ms-request-id
     - value: nosniff
       name: X-Content-Type-Options
-    body: '{"body":{"nodeName":"Node_1","machineName":"YANZHANG-02","hostServiceUri":"https://yanzhang-02.redmond.corp.microsoft.com:8050/HostServiceRemote.svc/","status":"Online","capabilities":{"serviceBusConnected":"True","httpsPortEnabled":"True","credentialInSync":"True","connectedToResourceManager":"True","nodeEnabled":"True"},"versionStatus":"UpToDate","version":"3.2.6519.3","registerTime":"2017-11-28T06:50:38.0809958Z","lastConnectTime":"2017-11-28T06:51:20.7868013Z","lastStartTime":"2017-11-28T06:51:20.7868013Z","lastUpdateResult":"None","isActiveDispatcher":true,"concurrentJobsLimit":2,"maxConcurrentJobs":48},"request":{"version":{"major":1,"minor":1,"build":-1,"revision":-1,"majorRevision":-1,"minorRevision":-1},"content":{"headers":[{"key":"Content-Type","value":["application/json; charset=utf-8"]},{"key":"Content-Length","value":["32"]}]},"method":{"method":"PATCH"},"requestUri":"https://wu.frontend.int.clouddatahub-int.net/subscriptions/12345678-1234-1234-12345678abc/datafactories/exampleFactoryName/IntegrationRuntimes/exampleIntegrationRuntime/nodes/Node_1?api-version=1.0","headers":[{"key":"x-ms-client-request-id","value":["eee2dbec-ee3b-4c5c-a040-d39c88f0f82b"]},{"key":"accept-language","value":["en-US"]},{"key":"User-Agent","value":["Microsoft.DataTransfer.IntegrationRuntimeService.Client.IntegrationRuntimeServiceClient/0.9.0.0"]}],"properties":{}},"response":{"version":{"major":1,"minor":1,"build":-1,"revision":-1,"majorRevision":-1,"minorRevision":-1},"content":{"headers":[{"key":"Content-Length","value":["607"]},{"key":"Content-Type","value":["application/json; charset=utf-8"]},{"key":"Expires","value":["-1"]}]},"statusCode":200,"reasonPhrase":"OK","headers":[{"key":"Pragma","value":["no-cache"]},{"key":"X-Content-Type-Options","value":["nosniff"]},{"key":"Cache-Control","value":["no-cache"]},{"key":"Date","value":["Tue, 28 Nov 2017 06:51:37 GMT"]},{"key":"Server","value":["Microsoft-IIS/8.5"]},{"key":"X-AspNet-Version","value":["4.0.30319"]}],"requestMessage":{"version":{"major":1,"minor":1,"build":-1,"revision":-1,"majorRevision":-1,"minorRevision":-1},"content":{"headers":[{"key":"Content-Type","value":["application/json; charset=utf-8"]},{"key":"Content-Length","value":["32"]}]},"method":{"method":"PATCH"},"requestUri":"https://wu.frontend.int.clouddatahub-int.net/subscriptions/12345678-1234-1234-12345678abc/datafactories/exampleFactoryName/IntegrationRuntimes/exampleIntegrationRuntime/nodes/Node_1?api-version=1.0","headers":[{"key":"x-ms-client-request-id","value":["eee2dbec-ee3b-4c5c-a040-d39c88f0f82b"]},{"key":"accept-language","value":["en-US"]},{"key":"User-Agent","value":["Microsoft.DataTransfer.IntegrationRuntimeService.Client.IntegrationRuntimeServiceClient/0.9.0.0"]}],"properties":{}},"isSuccessStatusCode":true}}'
+    body: >-
+      {
+        "body": {
+          "nodeName": "Node_1",
+          "machineName": "YANZHANG-02",
+          "hostServiceUri": "https://yanzhang-02.redmond.corp.microsoft.com:8050/HostServiceRemote.svc/",
+          "status": "Online",
+          "capabilities": {
+            "serviceBusConnected": "True",
+            "httpsPortEnabled": "True",
+            "credentialInSync": "True",
+            "connectedToResourceManager": "True",
+            "nodeEnabled": "True"
+          },
+          "versionStatus": "UpToDate",
+          "version": "3.2.6519.3",
+          "registerTime": "2017-11-28T06:50:38.0809958Z",
+          "lastConnectTime": "2017-11-28T06:51:20.7868013Z",
+          "lastStartTime": "2017-11-28T06:51:20.7868013Z",
+          "lastUpdateResult": "None",
+          "isActiveDispatcher": true,
+          "concurrentJobsLimit": 2,
+          "maxConcurrentJobs": 48
+        },
+        "request": {
+          "version": {
+            "major": 1,
+            "minor": 1,
+            "build": -1,
+            "revision": -1,
+            "majorRevision": -1,
+            "minorRevision": -1
+          },
+          "content": {
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": [
+                  "application/json; charset=utf-8"
+                ]
+              },
+              {
+                "key": "Content-Length",
+                "value": [
+                  "32"
+                ]
+              }
+            ]
+          },
+          "method": {
+            "method": "PATCH"
+          },
+          "requestUri": "https://wu.frontend.int.clouddatahub-int.net/subscriptions/12345678-1234-1234-12345678abc/datafactories/exampleFactoryName/IntegrationRuntimes/exampleIntegrationRuntime/nodes/Node_1?api-version=1.0",
+          "headers": [
+            {
+              "key": "x-ms-client-request-id",
+              "value": [
+                "eee2dbec-ee3b-4c5c-a040-d39c88f0f82b"
+              ]
+            },
+            {
+              "key": "accept-language",
+              "value": [
+                "en-US"
+              ]
+            },
+            {
+              "key": "User-Agent",
+              "value": [
+                "Microsoft.DataTransfer.IntegrationRuntimeService.Client.IntegrationRuntimeServiceClient/0.9.0.0"
+              ]
+            }
+          ],
+          "properties": {}
+        },
+        "response": {
+          "version": {
+            "major": 1,
+            "minor": 1,
+            "build": -1,
+            "revision": -1,
+            "majorRevision": -1,
+            "minorRevision": -1
+          },
+          "content": {
+            "headers": [
+              {
+                "key": "Content-Length",
+                "value": [
+                  "607"
+                ]
+              },
+              {
+                "key": "Content-Type",
+                "value": [
+                  "application/json; charset=utf-8"
+                ]
+              },
+              {
+                "key": "Expires",
+                "value": [
+                  "-1"
+                ]
+              }
+            ]
+          },
+          "statusCode": 200,
+          "reasonPhrase": "OK",
+          "headers": [
+            {
+              "key": "Pragma",
+              "value": [
+                "no-cache"
+              ]
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": [
+                "nosniff"
+              ]
+            },
+            {
+              "key": "Cache-Control",
+              "value": [
+                "no-cache"
+              ]
+            },
+            {
+              "key": "Date",
+              "value": [
+                "Tue, 28 Nov 2017 06:51:37 GMT"
+              ]
+            },
+            {
+              "key": "Server",
+              "value": [
+                "Microsoft-IIS/8.5"
+              ]
+            },
+            {
+              "key": "X-AspNet-Version",
+              "value": [
+                "4.0.30319"
+              ]
+            }
+          ],
+          "requestMessage": {
+            "version": {
+              "major": 1,
+              "minor": 1,
+              "build": -1,
+              "revision": -1,
+              "majorRevision": -1,
+              "minorRevision": -1
+            },
+            "content": {
+              "headers": [
+                {
+                  "key": "Content-Type",
+                  "value": [
+                    "application/json; charset=utf-8"
+                  ]
+                },
+                {
+                  "key": "Content-Length",
+                  "value": [
+                    "32"
+                  ]
+                }
+              ]
+            },
+            "method": {
+              "method": "PATCH"
+            },
+            "requestUri": "https://wu.frontend.int.clouddatahub-int.net/subscriptions/12345678-1234-1234-12345678abc/datafactories/exampleFactoryName/IntegrationRuntimes/exampleIntegrationRuntime/nodes/Node_1?api-version=1.0",
+            "headers": [
+              {
+                "key": "x-ms-client-request-id",
+                "value": [
+                  "eee2dbec-ee3b-4c5c-a040-d39c88f0f82b"
+                ]
+              },
+              {
+                "key": "accept-language",
+                "value": [
+                  "en-US"
+                ]
+              },
+              {
+                "key": "User-Agent",
+                "value": [
+                  "Microsoft.DataTransfer.IntegrationRuntimeService.Client.IntegrationRuntimeServiceClient/0.9.0.0"
+                ]
+              }
+            ],
+            "properties": {}
+          },
+          "isSuccessStatusCode": true
+        }
+      }
   name: IntegrationRuntimeNodes_Update
 security:
 - type: oauth2

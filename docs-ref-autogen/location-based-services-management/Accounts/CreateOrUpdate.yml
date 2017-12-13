@@ -72,6 +72,19 @@ requestBody:
     name: sku
 requestHeader: []
 definitions:
+- name: Sku
+  description: The SKU of this account.
+  kind: object
+  properties:
+  - description: The name of the SKU, in standard format (such as S0).
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Gets the sku tier. This is based on the SKU name.
+    types:
+    - uid: string
+    name: tier
 - name: LocationBasedServicesAccount
   description: An Azure resource which represents access to a suite of Location Based Services REST APIs.
   kind: object
@@ -110,19 +123,6 @@ definitions:
     types:
     - uid: string
     name: type
-- name: Sku
-  description: The SKU of this account.
-  kind: object
-  properties:
-  - description: The name of the SKU, in standard format (such as S0).
-    types:
-    - uid: string
-    name: name
-  - isReadyOnly: true
-    description: Gets the sku tier. This is based on the SKU name.
-    types:
-    - uid: string
-    name: tier
 - name: Error
   description: This object is returned when an error occurs in the Location Based Service API
   kind: object
@@ -145,10 +145,30 @@ definitions:
   - isReadyOnly: true
     description: If available, a list of additional details about the error.
     types:
-    - isArray: true
-      uid: Details
+    - uid: Details
     name: details
+- name: LocationBasedServicesAccountCreateParameters
+  description: Parameters used to create a new Location Based Services Account.
+  kind: object
+  properties:
+  - description: The location of the resource.
+    types:
+    - uid: string
+    name: location
+  - description: Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+  - description: The SKU of this account.
+    types:
+    - uid: Sku
+    name: sku
 - name: Details
+  description: If available, a list of additional details about the error.
   kind: object
   properties:
   - isReadyOnly: true
@@ -169,12 +189,47 @@ definitions:
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.LocationBasedServices/accounts/myLBSAccount?api-version=2017-01-01-preview
-    requestBody: '{"location":"global","sku":{"name":"S0"},"tags":{"test":"true"}}'
+    body: >-
+      {
+        "location": "global",
+        "sku": {
+          "name": "S0"
+        },
+        "tags": {
+          "test": "true"
+        }
+      }
   responses:
   - statusCode: "200"
-    body: '{"id":"/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.LocationBasedServices/accounts/myLBSAccount","name":"myLBSAccount","type":"Microsoft.LocationBasedServices/accounts","location":"global","tags":{"test":"true"},"sku":{"name":"S0","tier":"Standard"}}'
+    body: >-
+      {
+        "id": "/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.LocationBasedServices/accounts/myLBSAccount",
+        "name": "myLBSAccount",
+        "type": "Microsoft.LocationBasedServices/accounts",
+        "location": "global",
+        "tags": {
+          "test": "true"
+        },
+        "sku": {
+          "name": "S0",
+          "tier": "Standard"
+        }
+      }
   - statusCode: "201"
-    body: '{"id":"/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.LocationBasedServices/accounts/myLBSAccount","name":"myLBSAccount","type":"Microsoft.LocationBasedServices/accounts","location":"global","tags":{"test":"true"},"sku":{"name":"S0","tier":"Standard"}}'
+    body: >-
+      {
+        "id": "/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.LocationBasedServices/accounts/myLBSAccount",
+        "name": "myLBSAccount",
+        "type": "Microsoft.LocationBasedServices/accounts",
+        "location": "global",
+        "tags": {
+          "test": "true"
+        },
+        "sku": {
+          "name": "S0",
+          "tier": "Standard"
+        }
+      }
   name: CreateAccount
 security:
 - type: oauth2

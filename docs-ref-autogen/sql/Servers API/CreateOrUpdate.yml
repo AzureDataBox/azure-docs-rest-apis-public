@@ -111,17 +111,17 @@ requestBody:
     description: Administrator username for the server. Once created it cannot be changed.
     types:
     - uid: string
-    name: administratorLogin
+    name: properties.administratorLogin
   - in: body
     description: The administrator login password (required for server creation).
     types:
     - uid: string
-    name: administratorLoginPassword
+    name: properties.administratorLoginPassword
   - in: body
     description: The version of the server.
     types:
     - uid: string
-    name: version
+    name: properties.version
   - in: body
     isRequired: true
     description: Resource location.
@@ -139,15 +139,26 @@ requestBody:
     name: tags
 requestHeader: []
 definitions:
-- name: IdentityType
-  description: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource.
-  kind: enum
+- name: ResourceIdentity
+  description: The Azure Active Directory identity of the server.
+  kind: object
   properties:
-  - types:
+  - isReadyOnly: true
+    description: The Azure Active Directory principal id.
+    types:
     - uid: string
-    name: SystemAssigned
+    name: principalId
+  - description: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource.
+    types:
+    - uid: IdentityType
+    name: type
+  - isReadyOnly: true
+    description: The Azure Active Directory tenant id.
+    types:
+    - uid: string
+    name: tenantId
 - name: Server
-  description: An Azure SQL Database server.
+  description: Array of results.
   kind: object
   properties:
   - description: The Azure Active Directory identity of the server.
@@ -162,25 +173,25 @@ definitions:
   - description: Administrator username for the server. Once created it cannot be changed.
     types:
     - uid: string
-    name: administratorLogin
+    name: properties.administratorLogin
   - description: The administrator login password (required for server creation).
     types:
     - uid: string
-    name: administratorLoginPassword
+    name: properties.administratorLoginPassword
   - description: The version of the server.
     types:
     - uid: string
-    name: version
+    name: properties.version
   - isReadyOnly: true
     description: The state of the server.
     types:
     - uid: string
-    name: state
+    name: properties.state
   - isReadyOnly: true
     description: The fully qualified domain name of the server.
     types:
     - uid: string
-    name: fullyQualifiedDomainName
+    name: properties.fullyQualifiedDomainName
   - description: Resource location.
     types:
     - uid: string
@@ -208,43 +219,110 @@ definitions:
     types:
     - uid: string
     name: type
-- name: ResourceIdentity
-  description: The Azure Active Directory identity of the server.
-  kind: object
+- name: IdentityType
+  description: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource.
+  kind: enum
   properties:
-  - isReadyOnly: true
-    description: The Azure Active Directory principal id.
-    types:
+  - types:
     - uid: string
-    name: principalId
-  - description: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource.
-    types:
-    - uid: IdentityType
-    name: type
-  - isReadyOnly: true
-    description: The Azure Active Directory tenant id.
-    types:
-    - uid: string
-    name: tenantId
+    name: SystemAssigned
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645?api-version=2015-05-01-preview
-    requestBody: '{"tags":{"tagKey1":"TagValue1"},"location":"Japan East","properties":{"fullyQualifiedDomainName":"sqlcrudtest-4645.database.windows.net","administratorLogin":"dummylogin","administratorLoginPassword":"Un53cuRE!","version":"12.0","state":"Ready"}}'
+    body: >-
+      {
+        "tags": {
+          "tagKey1": "TagValue1"
+        },
+        "location": "Japan East",
+        "properties": {
+          "fullyQualifiedDomainName": "sqlcrudtest-4645.database.windows.net",
+          "administratorLogin": "dummylogin",
+          "administratorLoginPassword": "Un53cuRE!",
+          "version": "12.0",
+          "state": "Ready"
+        }
+      }
   responses:
   - statusCode: "200"
-    body: '{"tags":{"tagKey1":"TagValue1"},"id":"/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645","name":"sqlcrudtest-4645","type":"Microsoft.Sql/servers","location":"japaneast","kind":"v12.0","properties":{"fullyQualifiedDomainName":"sqlcrudtest-4645.database.windows.net","administratorLogin":"dummylogin","version":"12.0","state":"Ready"}}'
+    body: >-
+      {
+        "tags": {
+          "tagKey1": "TagValue1"
+        },
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645",
+        "name": "sqlcrudtest-4645",
+        "type": "Microsoft.Sql/servers",
+        "location": "japaneast",
+        "kind": "v12.0",
+        "properties": {
+          "fullyQualifiedDomainName": "sqlcrudtest-4645.database.windows.net",
+          "administratorLogin": "dummylogin",
+          "version": "12.0",
+          "state": "Ready"
+        }
+      }
   - statusCode: "201"
-    body: '{"tags":{"tagKey1":"TagValue1"},"id":"/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645","name":"sqlcrudtest-4645","type":"Microsoft.Sql/servers","location":"japaneast","kind":"v12.0","properties":{"fullyQualifiedDomainName":"sqlcrudtest-4645.database.windows.net","administratorLogin":"dummylogin","version":"12.0","state":"Ready"}}'
+    body: >-
+      {
+        "tags": {
+          "tagKey1": "TagValue1"
+        },
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645",
+        "name": "sqlcrudtest-4645",
+        "type": "Microsoft.Sql/servers",
+        "location": "japaneast",
+        "kind": "v12.0",
+        "properties": {
+          "fullyQualifiedDomainName": "sqlcrudtest-4645.database.windows.net",
+          "administratorLogin": "dummylogin",
+          "version": "12.0",
+          "state": "Ready"
+        }
+      }
   - statusCode: "202"
   name: Create server with all properties
 - request:
     uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645?api-version=2015-05-01-preview
-    requestBody: '{"properties":{"administratorLogin":"dummylogin","administratorLoginPassword":"Un53cuRE!"},"location":"Japan East"}'
+    body: >-
+      {
+        "properties": {
+          "administratorLogin": "dummylogin",
+          "administratorLoginPassword": "Un53cuRE!"
+        },
+        "location": "Japan East"
+      }
   responses:
   - statusCode: "200"
-    body: '{"id":"/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645","name":"sqlcrudtest-4645","type":"Microsoft.Sql/servers","location":"japaneast","kind":"v12.0","properties":{"fullyQualifiedDomainName":"sqlcrudtest-4645.database.windows.net","administratorLogin":"dummylogin","version":"12.0","state":"Ready"}}'
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645",
+        "name": "sqlcrudtest-4645",
+        "type": "Microsoft.Sql/servers",
+        "location": "japaneast",
+        "kind": "v12.0",
+        "properties": {
+          "fullyQualifiedDomainName": "sqlcrudtest-4645.database.windows.net",
+          "administratorLogin": "dummylogin",
+          "version": "12.0",
+          "state": "Ready"
+        }
+      }
   - statusCode: "201"
-    body: '{"id":"/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645","name":"sqlcrudtest-4645","type":"Microsoft.Sql/servers","location":"japaneast","kind":"v12.0","properties":{"fullyQualifiedDomainName":"sqlcrudtest-4645.database.windows.net","administratorLogin":"dummylogin","version":"12.0","state":"Ready"}}'
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645",
+        "name": "sqlcrudtest-4645",
+        "type": "Microsoft.Sql/servers",
+        "location": "japaneast",
+        "kind": "v12.0",
+        "properties": {
+          "fullyQualifiedDomainName": "sqlcrudtest-4645.database.windows.net",
+          "administratorLogin": "dummylogin",
+          "version": "12.0",
+          "state": "Ready"
+        }
+      }
   - statusCode: "202"
   name: Create server with minimal properties
 security: []

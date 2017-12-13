@@ -66,7 +66,7 @@ requestBody:
     description: The service URI for the webhook to post notifications.
     types:
     - uid: string
-    name: serviceUri
+    name: properties.serviceUri
   - in: body
     description: Custom headers that will be added to the webhook notifications.
     types:
@@ -75,35 +75,24 @@ requestBody:
       - uid: string
       - uid: string
       uid: object
-    name: customHeaders
+    name: properties.customHeaders
   - in: body
     description: The status of the webhook at the time the operation was called.
     types:
     - uid: WebhookStatus
-    name: status
+    name: properties.status
   - in: body
     description: The scope of repositories where the event can be triggered. For example, 'foo:*' means events for all tags under repository 'foo'. 'foo:bar' means events for 'foo:bar' only. 'foo' is equivalent to 'foo:latest'. Empty means all events.
     types:
     - uid: string
-    name: scope
+    name: properties.scope
   - in: body
     description: The list of actions that trigger the webhook to post notifications.
     types:
-    - isArray: true
-      uid: string
-    name: actions
+    - uid: string
+    name: properties.actions
 requestHeader: []
 definitions:
-- name: WebhookStatus
-  description: The status of the webhook at the time the operation was called.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: enabled
-  - types:
-    - uid: string
-    name: disabled
 - name: Webhook
   description: An object that represents a webhook for a container registry.
   kind: object
@@ -111,21 +100,20 @@ definitions:
   - description: The status of the webhook at the time the operation was called.
     types:
     - uid: WebhookStatus
-    name: status
+    name: properties.status
   - description: The scope of repositories where the event can be triggered. For example, 'foo:*' means events for all tags under repository 'foo'. 'foo:bar' means events for 'foo:bar' only. 'foo' is equivalent to 'foo:latest'. Empty means all events.
     types:
     - uid: string
-    name: scope
+    name: properties.scope
   - description: The list of actions that trigger the webhook to post notifications.
     types:
-    - isArray: true
-      uid: string
-    name: actions
+    - uid: string
+    name: properties.actions
   - isReadyOnly: true
     description: The provisioning state of the webhook at the time the operation was called.
     types:
     - uid: ProvisioningState
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: The resource ID.
     types:
@@ -153,8 +141,54 @@ definitions:
       - uid: string
       uid: object
     name: tags
+- name: WebhookUpdateParameters
+  description: The parameters for updating a webhook.
+  kind: object
+  properties:
+  - description: The tags for the webhook.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+  - description: The service URI for the webhook to post notifications.
+    types:
+    - uid: string
+    name: properties.serviceUri
+  - description: Custom headers that will be added to the webhook notifications.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: properties.customHeaders
+  - description: The status of the webhook at the time the operation was called.
+    types:
+    - uid: WebhookStatus
+    name: properties.status
+  - description: The scope of repositories where the event can be triggered. For example, 'foo:*' means events for all tags under repository 'foo'. 'foo:bar' means events for 'foo:bar' only. 'foo' is equivalent to 'foo:latest'. Empty means all events.
+    types:
+    - uid: string
+    name: properties.scope
+  - description: The list of actions that trigger the webhook to post notifications.
+    types:
+    - uid: string
+    name: properties.actions
+- name: WebhookStatus
+  description: The status of the webhook at the time the operation was called.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: enabled
+  - types:
+    - uid: string
+    name: disabled
 - name: ProvisioningState
-  description: The provisioning state of the webhook at the time the operation was called.
+  description: The provisioning state of the container registry at the time the operation was called.
   kind: enum
   properties:
   - types:
@@ -178,12 +212,62 @@ definitions:
 examples:
 - request:
     uri: PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/webhooks/myWebhook?api-version=2017-10-01
-    requestBody: '{"tags":{"key":"value"},"properties":{"serviceUri":"http://myservice.com","customHeaders":{"Authorization":"Basic 000000000000000000000000000000000000000000000000000"},"status":"enabled","scope":"myRepository","actions":["push"]}}'
+    body: >-
+      {
+        "tags": {
+          "key": "value"
+        },
+        "properties": {
+          "serviceUri": "http://myservice.com",
+          "customHeaders": {
+            "Authorization": "Basic 000000000000000000000000000000000000000000000000000"
+          },
+          "status": "enabled",
+          "scope": "myRepository",
+          "actions": [
+            "push"
+          ]
+        }
+      }
   responses:
   - statusCode: "200"
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/webhooks/myWebhook","name":"myWebhook","type":"Microsoft.ContainerRegistry/registries/webhooks","location":"westus","tags":{"key":"value"},"properties":{"status":"enabled","scope":"myRepository","actions":["push"],"provisioningState":"Succeeded"}}'
+    body: >-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/webhooks/myWebhook",
+        "name": "myWebhook",
+        "type": "Microsoft.ContainerRegistry/registries/webhooks",
+        "location": "westus",
+        "tags": {
+          "key": "value"
+        },
+        "properties": {
+          "status": "enabled",
+          "scope": "myRepository",
+          "actions": [
+            "push"
+          ],
+          "provisioningState": "Succeeded"
+        }
+      }
   - statusCode: "201"
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/webhooks/myWebhook","name":"myWebhook","type":"Microsoft.ContainerRegistry/registries/webhooks","location":"westus","tags":{"key":"value"},"properties":{"status":"enabled","scope":"myRepository","actions":["push"],"provisioningState":"Updating"}}'
+    body: >-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/webhooks/myWebhook",
+        "name": "myWebhook",
+        "type": "Microsoft.ContainerRegistry/registries/webhooks",
+        "location": "westus",
+        "tags": {
+          "key": "value"
+        },
+        "properties": {
+          "status": "enabled",
+          "scope": "myRepository",
+          "actions": [
+            "push"
+          ],
+          "provisioningState": "Updating"
+        }
+      }
   name: WebhookUpdate
 security:
 - type: oauth2

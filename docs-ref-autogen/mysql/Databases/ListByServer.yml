@@ -47,8 +47,7 @@ definitions:
   properties:
   - description: The list of databases housed in a server
     types:
-    - isArray: true
-      uid: Database
+    - uid: Database
     name: value
 - name: Database
   description: Represents a Database.
@@ -57,11 +56,11 @@ definitions:
   - description: The charset of the database.
     types:
     - uid: string
-    name: charset
+    name: properties.charset
   - description: The collation of the database.
     types:
     - uid: string
-    name: collation
+    name: properties.collation
   - isReadyOnly: true
     description: Resource ID
     types:
@@ -82,7 +81,29 @@ examples:
     uri: GET https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMySQL/servers/testserver/databases?api-version=2017-04-30-preview
   responses:
   - statusCode: "200"
-    body: '{"value":[{"id":"/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMySQL/servers/testserver/databases/db1","name":"db1","type":"Microsoft.DBforMySQL/servers/databases","properties":{"charset":"utf8","collation":"utf8_general_ci"}},{"id":"/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMySQL/servers/testserver/databases/db2","name":"db2","type":"Microsoft.DBforMySQL/servers/databases","properties":{"charset":"utf8","collation":"utf8_general_ci"}}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMySQL/servers/testserver/databases/db1",
+            "name": "db1",
+            "type": "Microsoft.DBforMySQL/servers/databases",
+            "properties": {
+              "charset": "utf8",
+              "collation": "utf8_general_ci"
+            }
+          },
+          {
+            "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMySQL/servers/testserver/databases/db2",
+            "name": "db2",
+            "type": "Microsoft.DBforMySQL/servers/databases",
+            "properties": {
+              "charset": "utf8",
+              "collation": "utf8_general_ci"
+            }
+          }
+        ]
+      }
   name: DatabaseList
 security:
 - type: oauth2

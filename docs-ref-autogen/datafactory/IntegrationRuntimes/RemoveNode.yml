@@ -79,13 +79,23 @@ definitions:
     name: target
   - description: Array with additional error details.
     types:
-    - isArray: true
-      uid: Details
+    - uid: ErrorResponse
     name: details
+- name: IntegrationRuntimeRemoveNodeRequest
+  description: Request to remove a node.
+  kind: object
+  properties:
+  - description: The name of the node to be removed.
+    types:
+    - uid: string
+    name: nodeName
 examples:
 - request:
     uri: POST https://management.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/integrationRuntimes/exampleIntegrationRuntime/removeNode?api-version=2017-09-01-preview
-    requestBody: '{"nodeName":"Node_1"}'
+    body: >-
+      {
+        "nodeName": "Node_1"
+      }
   responses:
   - statusCode: "200"
     headers:

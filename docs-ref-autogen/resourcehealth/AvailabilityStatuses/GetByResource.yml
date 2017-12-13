@@ -44,7 +44,7 @@ responses:
 requestHeader: []
 definitions:
 - name: availabilityStatus
-  description: availabilityStatus of a resource.
+  description: The list of availabilityStatuses.
   kind: object
   properties:
   - description: Azure Resource Manager Identity for the availabilityStatuses resource.
@@ -67,6 +67,25 @@ definitions:
     types:
     - uid: Properties
     name: properties
+- name: ErrorResponse
+  description: Error details.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+    name: code
+  - isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+    name: message
+  - isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: string
+    name: details
 - name: Properties
   description: Properties of availability state.
   kind: object
@@ -113,13 +132,11 @@ definitions:
     name: recentlyResolvedState
   - description: Lists actions the user can take based on the current availabilityState of the resource.
     types:
-    - isArray: true
-      uid: recommendedAction
+    - uid: recommendedAction
     name: recommendedActions
   - description: Lists the service impacting events that may be affecting the health of the resource.
     types:
-    - isArray: true
-      uid: serviceImpactingEvent
+    - uid: serviceImpactingEvent
     name: serviceImpactingEvents
 - name: AvailabilityStateValues
   description: Availability status of the resource.
@@ -228,31 +245,41 @@ definitions:
     types:
     - uid: string
     name: incidentType
-- name: ErrorResponse
-  description: Error details.
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: The error code.
-    types:
-    - uid: string
-    name: code
-  - isReadyOnly: true
-    description: The error message.
-    types:
-    - uid: string
-    name: message
-  - isReadyOnly: true
-    description: The error details.
-    types:
-    - uid: string
-    name: details
 examples:
 - request:
     uri: GET https://management.azure.com/resourceUri/providers/Microsoft.ResourceHealth/availabilityStatuses/current?api-version=2015-01-01&$expand=recommendedactions
   responses:
   - statusCode: "200"
-    body: "{\"id\":\"/subscriptions/4abcdefgh-ijkl-mnop-qrstuvwxyz/resourceGroups/rhctestenv/providers/Microsoft.ClassicCompute/virtualMachines /rhctestenvV1PI/providers/Microsoft.ResourceHealth/availabilityStatuses/current\",\"name\":\"current\",\"type\":\"Microsoft.ResourceHealth/AvailabilityStatuses\",\"location\":\"eastus\",\"properties\":{\"availabilityState\":\"Unavailable\",\"summary\":\"We're sorry, we couldn't automatically recover your virtual machine\",\"reasonType\":\"Unplanned\",\"reasonChronicity\":\"Persistent\",\"detailedStatus\":\"Disk problems are preventing us from automatically recovering your virtual machine\",\"occuredTime\":\"2016-03-29T09:12:00Z\",\"reportedTime\":\"2016-05-04T14:11:29.7598931Z\",\"rootCauseAttributionTime\":\"2016-03-29T09:13:00Z\",\"resolutionETA\":\"2016-03-29T09:37:00Z\",\"RecommendedActions\":[{\"Action\":\"To start this virtual machine, open the resource blade and click Start\",\"ActionUrl\":\"<#ResourceBlade>\",\"ActionUrlText\":\"resource blade\"},{\"Action\":\"If you are experiencing problems you believe are caused by Azure, contact support\",\"ActionUrl\":\"<#SupportCase>\",\"ActionUrlText\":\"contact support\"}]}}"
+    body: >-
+      {
+        "id": "/subscriptions/4abcdefgh-ijkl-mnop-qrstuvwxyz/resourceGroups/rhctestenv/providers/Microsoft.ClassicCompute/virtualMachines /rhctestenvV1PI/providers/Microsoft.ResourceHealth/availabilityStatuses/current",
+        "name": "current",
+        "type": "Microsoft.ResourceHealth/AvailabilityStatuses",
+        "location": "eastus",
+        "properties": {
+          "availabilityState": "Unavailable",
+          "summary": "We're sorry, we couldn't automatically recover your virtual machine",
+          "reasonType": "Unplanned",
+          "reasonChronicity": "Persistent",
+          "detailedStatus": "Disk problems are preventing us from automatically recovering your virtual machine",
+          "occuredTime": "2016-03-29T09:12:00Z",
+          "reportedTime": "2016-05-04T14:11:29.7598931Z",
+          "rootCauseAttributionTime": "2016-03-29T09:13:00Z",
+          "resolutionETA": "2016-03-29T09:37:00Z",
+          "RecommendedActions": [
+            {
+              "Action": "To start this virtual machine, open the resource blade and click Start",
+              "ActionUrl": "<#ResourceBlade>",
+              "ActionUrlText": "resource blade"
+            },
+            {
+              "Action": "If you are experiencing problems you believe are caused by Azure, contact support",
+              "ActionUrl": "<#SupportCase>",
+              "ActionUrlText": "contact support"
+            }
+          ]
+        }
+      }
   name: GetCurrentHealthByResource
 security:
 - type: oauth2

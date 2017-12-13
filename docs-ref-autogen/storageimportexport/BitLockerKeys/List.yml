@@ -56,11 +56,34 @@ definitions:
   properties:
   - description: drive status
     types:
-    - isArray: true
-      uid: DriveBitLockerKey
+    - uid: DriveBitLockerKey
     name: value
+- name: ErrorResponse
+  description: Response when errors occurred
+  kind: object
+  properties:
+  - description: Provides information about the error code.
+    types:
+    - uid: string
+    name: error.code
+  - description: Provides information about the error message.
+    types:
+    - uid: string
+    name: error.message
+  - description: Provides information about the error target.
+    types:
+    - uid: string
+    name: error.target
+  - description: Describes the error details if present.
+    types:
+    - uid: Details
+    name: error.details
+  - description: Inner error object if present.
+    types:
+    - uid: object
+    name: error.innererror
 - name: DriveBitLockerKey
-  description: BitLocker recovery key or password to the specified drive
+  description: drive status
   kind: object
   properties:
   - description: BitLocker recovery key or password
@@ -71,32 +94,8 @@ definitions:
     types:
     - uid: string
     name: driveId
-- name: ErrorResponse
-  description: Response when errors occurred
-  kind: object
-  properties:
-  - description: Provides information about the error code.
-    types:
-    - uid: string
-    name: code
-  - description: Provides information about the error message.
-    types:
-    - uid: string
-    name: message
-  - description: Provides information about the error target.
-    types:
-    - uid: string
-    name: target
-  - description: Describes the error details if present.
-    types:
-    - isArray: true
-      uid: Details
-    name: details
-  - description: Inner error object if present.
-    types:
-    - uid: object
-    name: innererror
 - name: Details
+  description: Describes the error details if present.
   kind: object
   properties:
   - description: Provides information about the error code.
@@ -116,7 +115,15 @@ examples:
     uri: POST https://management.azure.com/subscriptions/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/resourceGroups/Default-Storage-WestUS/providers/Microsoft.ImportExport/jobs/test-by1-import/listBitLockerKeys?api-version=2016-11-01
   responses:
   - statusCode: "200"
-    body: '{"value":[{"driveId":"9CA995BB","bitLockerKey":"000000-000000-111111-222222-333333-444444-555555-666666"}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "driveId": "9CA995BB",
+            "bitLockerKey": "000000-000000-111111-222222-333333-444444-555555-666666"
+          }
+        ]
+      }
   name: List BitLocker Keys for drives in a job
 security:
 - type: oauth2

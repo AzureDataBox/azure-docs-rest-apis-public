@@ -54,6 +54,27 @@ requestBody:
     name: shardId
 requestHeader: []
 definitions:
+- name: RedisForceRebootResponse
+  description: Response to force reboot for Redis cache.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Status message
+    types:
+    - uid: string
+    name: Message
+- name: RedisRebootParameters
+  description: Specifies which Redis node(s) to reboot.
+  kind: object
+  properties:
+  - description: Which Redis node(s) to reboot. Depending on this value data loss is possible.
+    types:
+    - uid: RebootType
+    name: rebootType
+  - description: If clustering is enabled, the ID of the shard to be rebooted.
+    types:
+    - uid: integer
+    name: shardId
 - name: RebootType
   description: Which Redis node(s) to reboot. Depending on this value data loss is possible.
   kind: enum
@@ -67,22 +88,20 @@ definitions:
   - types:
     - uid: string
     name: AllNodes
-- name: RedisForceRebootResponse
-  description: Response to force reboot for Redis cache.
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: Status message
-    types:
-    - uid: string
-    name: Message
 examples:
 - request:
     uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/forceReboot?api-version=2016-04-01
-    requestBody: '{"shardId":0,"rebootType":"AllNodes"}'
+    body: >-
+      {
+        "shardId": 0,
+        "rebootType": "AllNodes"
+      }
   responses:
   - statusCode: "200"
-    body: '{"Message":"reboot operation enqueued"}'
+    body: >-
+      {
+        "Message": "reboot operation enqueued"
+      }
   name: RedisCacheForceReboot
 security:
 - type: oauth2

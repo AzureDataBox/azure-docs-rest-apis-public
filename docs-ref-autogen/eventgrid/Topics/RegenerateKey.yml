@@ -68,13 +68,28 @@ definitions:
     types:
     - uid: string
     name: key2
+- name: TopicRegenerateKeyRequest
+  description: Topic regenerate share access key key request
+  kind: object
+  properties:
+  - description: Key name to regenerate key1 or key2
+    types:
+    - uid: string
+    name: keyName
 examples:
 - request:
     uri: POST https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2/regenerateKey?api-version=2017-06-15-preview
-    requestBody: '{"keyName":"key1"}'
+    body: >-
+      {
+        "keyName": "key1"
+      }
   responses:
   - statusCode: "200"
-    body: '{"key1":"Rqfq5wWxtQnIQJyswP0Uh/hqQfDDMUOYyQSYEpx5e5g=","key2":"sesymbkIXMtZVqXEFHarJmdGmZjjnY+BZC8yRD/FeuA="}'
+    body: >-
+      {
+        "key1": "Rqfq5wWxtQnIQJyswP0Uh/hqQfDDMUOYyQSYEpx5e5g=",
+        "key2": "sesymbkIXMtZVqXEFHarJmdGmZjjnY+BZC8yRD/FeuA="
+      }
   name: Topics_RegenerateKey
 security: []
 name: RegenerateKey

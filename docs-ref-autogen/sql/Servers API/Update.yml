@@ -111,21 +111,21 @@ requestBody:
     description: Administrator username for the server. Once created it cannot be changed.
     types:
     - uid: string
-    name: administratorLogin
+    name: properties.administratorLogin
   - in: body
     description: The administrator login password (required for server creation).
     types:
     - uid: string
-    name: administratorLoginPassword
+    name: properties.administratorLoginPassword
   - in: body
     description: The version of the server.
     types:
     - uid: string
-    name: version
+    name: properties.version
 requestHeader: []
 definitions:
 - name: Server
-  description: An Azure SQL Database server.
+  description: Array of results.
   kind: object
   properties:
   - description: The Azure Active Directory identity of the server.
@@ -140,25 +140,25 @@ definitions:
   - description: Administrator username for the server. Once created it cannot be changed.
     types:
     - uid: string
-    name: administratorLogin
+    name: properties.administratorLogin
   - description: The administrator login password (required for server creation).
     types:
     - uid: string
-    name: administratorLoginPassword
+    name: properties.administratorLoginPassword
   - description: The version of the server.
     types:
     - uid: string
-    name: version
+    name: properties.version
   - isReadyOnly: true
     description: The state of the server.
     types:
     - uid: string
-    name: state
+    name: properties.state
   - isReadyOnly: true
     description: The fully qualified domain name of the server.
     types:
     - uid: string
-    name: fullyQualifiedDomainName
+    name: properties.fullyQualifiedDomainName
   - description: Resource location.
     types:
     - uid: string
@@ -186,6 +186,40 @@ definitions:
     types:
     - uid: string
     name: type
+- name: ServerUpdate
+  description: An update request for an Azure SQL Database server.
+  kind: object
+  properties:
+  - description: Resource tags.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+  - description: Administrator username for the server. Once created it cannot be changed.
+    types:
+    - uid: string
+    name: properties.administratorLogin
+  - description: The administrator login password (required for server creation).
+    types:
+    - uid: string
+    name: properties.administratorLoginPassword
+  - description: The version of the server.
+    types:
+    - uid: string
+    name: properties.version
+  - isReadyOnly: true
+    description: The state of the server.
+    types:
+    - uid: string
+    name: properties.state
+  - isReadyOnly: true
+    description: The fully qualified domain name of the server.
+    types:
+    - uid: string
+    name: properties.fullyQualifiedDomainName
 - name: ResourceIdentity
   description: The Azure Active Directory identity of the server.
   kind: object
@@ -214,18 +248,70 @@ definitions:
 examples:
 - request:
     uri: PATCH https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645?api-version=2015-05-01-preview
-    requestBody: '{"tags":{"tagKey1":"TagValue1"},"location":"Japan East","properties":{"fullyQualifiedDomainName":"sqlcrudtest-4645.database.windows.net","administratorLogin":"dummylogin","administratorLoginPassword":"Un53cuRE!","version":"12.0","state":"Ready"}}'
+    body: >-
+      {
+        "tags": {
+          "tagKey1": "TagValue1"
+        },
+        "location": "Japan East",
+        "properties": {
+          "fullyQualifiedDomainName": "sqlcrudtest-4645.database.windows.net",
+          "administratorLogin": "dummylogin",
+          "administratorLoginPassword": "Un53cuRE!",
+          "version": "12.0",
+          "state": "Ready"
+        }
+      }
   responses:
   - statusCode: "200"
-    body: '{"tags":{"tagKey1":"TagValue1"},"id":"/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645","name":"sqlcrudtest-4645","type":"Microsoft.Sql/servers","location":"japaneast","kind":"v12.0","properties":{"fullyQualifiedDomainName":"sqlcrudtest-4645.database.windows.net","administratorLogin":"dummylogin","version":"12.0","state":"Ready"}}'
+    body: >-
+      {
+        "tags": {
+          "tagKey1": "TagValue1"
+        },
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645",
+        "name": "sqlcrudtest-4645",
+        "type": "Microsoft.Sql/servers",
+        "location": "japaneast",
+        "kind": "v12.0",
+        "properties": {
+          "fullyQualifiedDomainName": "sqlcrudtest-4645.database.windows.net",
+          "administratorLogin": "dummylogin",
+          "version": "12.0",
+          "state": "Ready"
+        }
+      }
   - statusCode: "202"
   name: Update a server with all properties
 - request:
     uri: PATCH https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645?api-version=2015-05-01-preview
-    requestBody: '{"properties":{"administratorLogin":"dummylogin","administratorLoginPassword":"Un53cuRE!"},"location":"Japan East"}'
+    body: >-
+      {
+        "properties": {
+          "administratorLogin": "dummylogin",
+          "administratorLoginPassword": "Un53cuRE!"
+        },
+        "location": "Japan East"
+      }
   responses:
   - statusCode: "200"
-    body: '{"tags":{"tagKey1":"TagValue1"},"id":"/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645","name":"sqlcrudtest-4645","type":"Microsoft.Sql/servers","location":"japaneast","kind":"v12.0","properties":{"fullyQualifiedDomainName":"sqlcrudtest-4645.database.windows.net","administratorLogin":"dummylogin","version":"12.0","state":"Ready"}}'
+    body: >-
+      {
+        "tags": {
+          "tagKey1": "TagValue1"
+        },
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645",
+        "name": "sqlcrudtest-4645",
+        "type": "Microsoft.Sql/servers",
+        "location": "japaneast",
+        "kind": "v12.0",
+        "properties": {
+          "fullyQualifiedDomainName": "sqlcrudtest-4645.database.windows.net",
+          "administratorLogin": "dummylogin",
+          "version": "12.0",
+          "state": "Ready"
+        }
+      }
   - statusCode: "202"
   name: Update a server with minimal properties
 security: []

@@ -65,8 +65,59 @@ requestBody:
     name: value
 requestHeader: []
 definitions:
+- name: KeyVerifyResult
+  description: The key verify result.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: True if the signature is verified, otherwise false.
+    types:
+    - uid: boolean
+    name: value
+- name: KeyVaultError
+  description: The key vault error exception.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
+    name: error
+- name: KeyVerifyParameters
+  description: The key verify parameters.
+  kind: object
+  properties:
+  - description: The signing/verification algorithm. For more information on possible algorithm types, see JsonWebKeySignatureAlgorithm.
+    types:
+    - uid: JsonWebKeySignatureAlgorithm
+    name: alg
+  - description: The digest used for signing.
+    types:
+    - uid: string
+    name: digest
+  - description: The signature to be verified.
+    types:
+    - uid: string
+    name: value
+- name: Error
+  description: Error encountered, if any, during the certificate operation.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+    name: code
+  - isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+    name: message
+  - types:
+    - {}
+    name: innererror
 - name: JsonWebKeySignatureAlgorithm
-  description: The signing/verification algorithm. For more information on possible algorithm types, see JsonWebKeySignatureAlgorithm.
+  description: The signing/verification algorithm identifier. For more information on possible algorithm types, see JsonWebKeySignatureAlgorithm.
   kind: enum
   properties:
   - types:
@@ -102,42 +153,7 @@ definitions:
   - types:
     - uid: string
     name: ECDSA256
-- name: KeyVerifyResult
-  description: The key verify result.
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: True if the signature is verified, otherwise false.
-    types:
-    - uid: boolean
-    name: value
-- name: KeyVaultError
-  description: The key vault error exception.
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: The key vault server error.
-    types:
-    - uid: Error
-    name: error
-- name: Error
-  description: The key vault server error.
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: The error code.
-    types:
-    - uid: string
-    name: code
-  - isReadyOnly: true
-    description: The error message.
-    types:
-    - uid: string
-    name: message
-  - types:
-    - {}
-    name: innererror
 examples: []
 security: []
 name: verify
-uid: .keyvault.verify.verify
+uid: keyvault.verify.verify

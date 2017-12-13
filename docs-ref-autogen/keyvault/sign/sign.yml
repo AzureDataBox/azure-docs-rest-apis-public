@@ -58,6 +58,56 @@ requestBody:
     name: value
 requestHeader: []
 definitions:
+- name: KeyOperationResult
+  description: The key operation result.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Key identifier
+    types:
+    - uid: string
+    name: kid
+  - isReadyOnly: true
+    types:
+    - uid: string
+    name: value
+- name: KeyVaultError
+  description: The key vault error exception.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
+    name: error
+- name: KeySignParameters
+  description: The key operations parameters.
+  kind: object
+  properties:
+  - description: The signing/verification algorithm identifier. For more information on possible algorithm types, see JsonWebKeySignatureAlgorithm.
+    types:
+    - uid: JsonWebKeySignatureAlgorithm
+    name: alg
+  - types:
+    - uid: string
+    name: value
+- name: Error
+  description: Error encountered, if any, during the certificate operation.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+    name: code
+  - isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+    name: message
+  - types:
+    - {}
+    name: innererror
 - name: JsonWebKeySignatureAlgorithm
   description: The signing/verification algorithm identifier. For more information on possible algorithm types, see JsonWebKeySignatureAlgorithm.
   kind: enum
@@ -95,46 +145,7 @@ definitions:
   - types:
     - uid: string
     name: ECDSA256
-- name: KeyOperationResult
-  description: The key operation result.
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: Key identifier
-    types:
-    - uid: string
-    name: kid
-  - isReadyOnly: true
-    types:
-    - uid: string
-    name: value
-- name: KeyVaultError
-  description: The key vault error exception.
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: The key vault server error.
-    types:
-    - uid: Error
-    name: error
-- name: Error
-  description: The key vault server error.
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: The error code.
-    types:
-    - uid: string
-    name: code
-  - isReadyOnly: true
-    description: The error message.
-    types:
-    - uid: string
-    name: message
-  - types:
-    - {}
-    name: innererror
 examples: []
 security: []
 name: sign
-uid: .keyvault.sign.sign
+uid: keyvault.sign.sign

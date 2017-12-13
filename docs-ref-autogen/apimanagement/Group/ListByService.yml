@@ -78,38 +78,37 @@ definitions:
   properties:
   - description: Page values.
     types:
-    - isArray: true
-      uid: GroupContract
+    - uid: GroupContract
     name: value
   - description: Next page link if any.
     types:
     - uid: string
     name: nextLink
 - name: GroupContract
-  description: Contract details.
+  description: Page values.
   kind: object
   properties:
   - description: Group name.
     types:
     - uid: string
-    name: displayName
+    name: properties.displayName
   - description: Group description. Can contain HTML formatting tags.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - isReadyOnly: true
     description: true if the group is one of the three system groups (Administrators, Developers, or Guests); otherwise false.
     types:
     - uid: boolean
-    name: builtIn
+    name: properties.builtIn
   - description: Group type.
     types:
     - uid: GroupType
-    name: type
+    name: properties.type
   - description: For external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null.
     types:
     - uid: string
-    name: externalId
+    name: properties.externalId
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -120,6 +119,11 @@ definitions:
     types:
     - uid: string
     name: name
+  - isReadyOnly: true
+    description: Resource type for API Management resource.
+    types:
+    - uid: string
+    name: type
 - name: GroupType
   description: Group type.
   kind: enum
@@ -138,7 +142,57 @@ examples:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/groups?api-version=2017-03-01
   responses:
   - statusCode: "200"
-    body: '{"value":[{"id":"/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/groups/5600b59375ff190048020001","type":"Microsoft.ApiManagement/service/groups","name":"5600b59375ff190048020001","properties":{"displayName":"Administrators","description":"Administrators is a built-in group. Its membership is managed by the system. Microsoft Azure subscription administrators fall into this group.","builtIn":true,"type":"system"}},{"id":"/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/groups/59306a29e4bbd510dc24e5f9","type":"Microsoft.ApiManagement/service/groups","name":"59306a29e4bbd510dc24e5f9","properties":{"displayName":"AwesomeGroup (samiraad.onmicrosoft.com)","description":"awesome group of people","builtIn":false,"type":"external","externalId":"aad://samiraad.onmicrosoft.com/groups/3773adf4-032e-4d25-9988-eaff9ca72eca"}},{"id":"/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/groups/5600b59375ff190048020002","type":"Microsoft.ApiManagement/service/groups","name":"5600b59375ff190048020002","properties":{"displayName":"Developers","description":"Developers is a built-in group. Its membership is managed by the system. Signed-in users fall into this group.","builtIn":true,"type":"system"}},{"id":"/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/groups/5600b59375ff190048020003","type":"Microsoft.ApiManagement/service/groups","name":"5600b59375ff190048020003","properties":{"displayName":"Guests","description":"Guests is a built-in group. Its membership is managed by the system. Unauthenticated users visiting the developer portal fall into this group.","builtIn":true,"type":"system"}}],"nextLink":""}'
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/groups/5600b59375ff190048020001",
+            "type": "Microsoft.ApiManagement/service/groups",
+            "name": "5600b59375ff190048020001",
+            "properties": {
+              "displayName": "Administrators",
+              "description": "Administrators is a built-in group. Its membership is managed by the system. Microsoft Azure subscription administrators fall into this group.",
+              "builtIn": true,
+              "type": "system"
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/groups/59306a29e4bbd510dc24e5f9",
+            "type": "Microsoft.ApiManagement/service/groups",
+            "name": "59306a29e4bbd510dc24e5f9",
+            "properties": {
+              "displayName": "AwesomeGroup (samiraad.onmicrosoft.com)",
+              "description": "awesome group of people",
+              "builtIn": false,
+              "type": "external",
+              "externalId": "aad://samiraad.onmicrosoft.com/groups/3773adf4-032e-4d25-9988-eaff9ca72eca"
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/groups/5600b59375ff190048020002",
+            "type": "Microsoft.ApiManagement/service/groups",
+            "name": "5600b59375ff190048020002",
+            "properties": {
+              "displayName": "Developers",
+              "description": "Developers is a built-in group. Its membership is managed by the system. Signed-in users fall into this group.",
+              "builtIn": true,
+              "type": "system"
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/groups/5600b59375ff190048020003",
+            "type": "Microsoft.ApiManagement/service/groups",
+            "name": "5600b59375ff190048020003",
+            "properties": {
+              "displayName": "Guests",
+              "description": "Guests is a built-in group. Its membership is managed by the system. Unauthenticated users visiting the developer portal fall into this group.",
+              "builtIn": true,
+              "type": "system"
+            }
+          }
+        ],
+        "nextLink": ""
+      }
   name: ApiManagementListGroups
 security:
 - type: oauth2

@@ -43,7 +43,7 @@ responses:
 requestHeader: []
 definitions:
 - name: DatabaseAccount
-  description: An Azure Cosmos DB database account.
+  description: List of database account and their properties.
   kind: object
   properties:
   - description: Indicates the type of database account. This can only be set at database account creation.
@@ -54,47 +54,44 @@ definitions:
     description: The status of the Cosmos DB account at the time the operation was called. The status can be one of following. 'Creating' – the Cosmos DB account is being created. When an account is in Creating state, only properties that are specified as input for the Create Cosmos DB account operation are returned. 'Succeeded' – the Cosmos DB account is active for use. 'Updating' – the Cosmos DB account is being updated. 'Deleting' – the Cosmos DB account is being deleted. 'Failed' – the Cosmos DB account failed creation.
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: The connection endpoint for the Cosmos DB database account.
     types:
     - uid: string
-    name: documentEndpoint
+    name: properties.documentEndpoint
   - isReadyOnly: true
     description: 'The offer type for the Cosmos DB database account. Default value: Standard.'
     types:
     - uid: DatabaseAccountOfferType
-    name: databaseAccountOfferType
+    name: properties.databaseAccountOfferType
   - description: 'Cosmos DB Firewall Support: This value specifies the set of IP addresses or IP address ranges in CIDR form to be included as the allowed list of client IPs for a given database account. IP addresses/ranges must be comma separated and must not contain any spaces.'
     types:
     - uid: string
-    name: ipRangeFilter
+    name: properties.ipRangeFilter
   - description: Enables automatic failover of the write region in the rare event that the region is unavailable due to an outage. Automatic failover will result in a new write region for the account and is chosen based on the failover priorities configured for the account.
     types:
     - uid: boolean
-    name: enableAutomaticFailover
+    name: properties.enableAutomaticFailover
   - description: The consistency policy for the Cosmos DB database account.
     types:
     - uid: ConsistencyPolicy
-    name: consistencyPolicy
+    name: properties.consistencyPolicy
   - isReadyOnly: true
     description: An array that contains the write location for the Cosmos DB account.
     types:
-    - isArray: true
-      uid: Location
-    name: writeLocations
+    - uid: Location
+    name: properties.writeLocations
   - isReadyOnly: true
     description: An array that contains of the read locations enabled for the Cosmos DB account.
     types:
-    - isArray: true
-      uid: Location
-    name: readLocations
+    - uid: Location
+    name: properties.readLocations
   - isReadyOnly: true
     description: An array that contains the regions ordered by their failover priorities.
     types:
-    - isArray: true
-      uid: FailoverPolicy
-    name: failoverPolicies
+    - uid: FailoverPolicy
+    name: properties.failoverPolicies
   - isReadyOnly: true
     description: The unique resource identifier of the database account.
     types:
@@ -158,27 +155,8 @@ definitions:
     types:
     - uid: integer
     name: maxIntervalInSeconds
-- name: DefaultConsistencyLevel
-  description: The default consistency level and configuration settings of the Cosmos DB account.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Eventual
-  - types:
-    - uid: string
-    name: Session
-  - types:
-    - uid: string
-    name: BoundedStaleness
-  - types:
-    - uid: string
-    name: Strong
-  - types:
-    - uid: string
-    name: ConsistentPrefix
 - name: Location
-  description: A region in which the Azure Cosmos DB database account is deployed.
+  description: An array that contains the write location for the Cosmos DB account.
   kind: object
   properties:
   - isReadyOnly: true
@@ -205,7 +183,7 @@ definitions:
     - uid: integer
     name: failoverPriority
 - name: FailoverPolicy
-  description: The failover policy for a given region of a database account.
+  description: An array that contains the regions ordered by their failover priorities.
   kind: object
   properties:
   - isReadyOnly: true
@@ -221,12 +199,75 @@ definitions:
     types:
     - uid: integer
     name: failoverPriority
+- name: DefaultConsistencyLevel
+  description: The default consistency level and configuration settings of the Cosmos DB account.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Eventual
+  - types:
+    - uid: string
+    name: Session
+  - types:
+    - uid: string
+    name: BoundedStaleness
+  - types:
+    - uid: string
+    name: Strong
+  - types:
+    - uid: string
+    name: ConsistentPrefix
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1?api-version=2015-04-08
   responses:
   - statusCode: "200"
-    body: '{"id":"/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1","name":"ddb1","location":"West US","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"properties":{"provisioningState":"Succeeded","documentEndpoint":"https://ddb1.documents.azure.com:443/","ipRangeFilter":"","databaseAccountOfferType":"Standard","consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"writeLocations":[{"id":"ddb1-eastus","locationName":"East US","documentEndpoint":"https://ddb1-eastus.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0}],"readLocations":[{"id":"ddb1-eastus","locationName":"East US","documentEndpoint":"https://ddb1-eastus.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0}],"failoverPolicies":[{"id":"ddb1-eastus","locationName":"East US","failoverPriority":0}]}}'
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1",
+        "name": "ddb1",
+        "location": "West US",
+        "type": "Microsoft.DocumentDB/databaseAccounts",
+        "kind": "GlobalDocumentDB",
+        "tags": {},
+        "properties": {
+          "provisioningState": "Succeeded",
+          "documentEndpoint": "https://ddb1.documents.azure.com:443/",
+          "ipRangeFilter": "",
+          "databaseAccountOfferType": "Standard",
+          "consistencyPolicy": {
+            "defaultConsistencyLevel": "Session",
+            "maxIntervalInSeconds": 5,
+            "maxStalenessPrefix": 100
+          },
+          "writeLocations": [
+            {
+              "id": "ddb1-eastus",
+              "locationName": "East US",
+              "documentEndpoint": "https://ddb1-eastus.documents.azure.com:443/",
+              "provisioningState": "Succeeded",
+              "failoverPriority": 0
+            }
+          ],
+          "readLocations": [
+            {
+              "id": "ddb1-eastus",
+              "locationName": "East US",
+              "documentEndpoint": "https://ddb1-eastus.documents.azure.com:443/",
+              "provisioningState": "Succeeded",
+              "failoverPriority": 0
+            }
+          ],
+          "failoverPolicies": [
+            {
+              "id": "ddb1-eastus",
+              "locationName": "East US",
+              "failoverPriority": 0
+            }
+          ]
+        }
+      }
   name: CosmosDBDatabaseAccountGet
 security:
 - type: oauth2

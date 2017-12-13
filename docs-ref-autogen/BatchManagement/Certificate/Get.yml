@@ -69,32 +69,32 @@ definitions:
        Failed - The user requested that the certificate be deleted, but there are pools that still have references to the certificate, or it is still installed on one or more compute nodes. (The latter can occur if the certificate has been removed from the pool, but the node has not yet restarted. Nodes refresh their certificates only when they restart.) You may use the cancel certificate delete operation to cancel the delete, or the delete certificate operation to retry the delete.
     types:
     - uid: CertificateProvisioningState
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: The time at which the certificate entered its current state.
     types:
     - uid: string
-    name: provisioningStateTransitionTime
+    name: properties.provisioningStateTransitionTime
   - isReadyOnly: true
     description: The previous provisioned state of the resource
     types:
     - uid: CertificateProvisioningState
-    name: previousProvisioningState
+    name: properties.previousProvisioningState
   - isReadyOnly: true
     description: The time at which the certificate entered its previous state.
     types:
     - uid: string
-    name: previousProvisioningStateTransitionTime
+    name: properties.previousProvisioningStateTransitionTime
   - isReadyOnly: true
     description: The public key of the certificate.
     types:
     - uid: string
-    name: publicData
+    name: properties.publicData
   - isReadyOnly: true
     description: This is only returned when the certificate provisioningState is 'Failed'.
     types:
     - uid: DeleteCertificateError
-    name: deleteCertificateError
+    name: properties.deleteCertificateError
   - isReadyOnly: true
     description: The ID of the resource.
     types:
@@ -118,15 +118,23 @@ definitions:
   - description: This must match the first portion of the certificate name. Currently required to be 'SHA1'.
     types:
     - uid: string
-    name: thumbprintAlgorithm
+    name: properties.thumbprintAlgorithm
   - description: This must match the thumbprint from the name.
     types:
     - uid: string
-    name: thumbprint
+    name: properties.thumbprint
   - description: The format of the certificate - either Pfx or Cer. If omitted, the default is Pfx.
     types:
     - uid: CertificateFormat
-    name: format
+    name: properties.format
+- name: CloudError
+  description: An error response from the Batch service.
+  kind: object
+  properties:
+  - description: An error response from the Batch service.
+    types:
+    - uid: CloudErrorBody
+    name: error
 - name: CertificateProvisioningState
   description: >-
     Values are:
@@ -163,8 +171,7 @@ definitions:
     name: target
   - description: A list of additional details about the error.
     types:
-    - isArray: true
-      uid: Details
+    - uid: Details
     name: details
 - name: CertificateFormat
   description: The format of the certificate - either Pfx or Cer. If omitted, the default is Pfx.
@@ -176,14 +183,6 @@ definitions:
   - types:
     - uid: string
     name: Cer
-- name: CloudError
-  description: An error response from the Batch service.
-  kind: object
-  properties:
-  - description: An error response from the Batch service.
-    types:
-    - uid: CloudErrorBody
-    name: error
 - name: CloudErrorBody
   description: An error response from the Batch service.
   kind: object
@@ -202,8 +201,7 @@ definitions:
     name: target
   - description: A list of additional details about the error.
     types:
-    - isArray: true
-      uid: Details
+    - uid: Details
     name: details
 examples:
 - request:
@@ -213,7 +211,21 @@ examples:
     headers:
     - value: W/"0x8D4EDD5118668F7"
       name: ETag
-    body: '{"id":"/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/samplecct/certificates/SHA1-0A0E4F50D51BEADEAC1D35AFC5116098E7902E6E","name":"SHA1-0A0E4F50D51BEADEAC1D35AFC5116098E7902E6E","type":"Microsoft.Batch/batchAccounts/certificates","etag":"W/\"0x8D4EDD5118668F7\"","properties":{"thumbprintAlgorithm":"SHA1","thumbprint":"0A0E4F50D51BEADEAC1D35AFC5116098E7902E6E","provisioningState":"Succeeded","provisioningStateTransitionTime":"2017-07-21T01:47:38.4420202Z","format":"Pfx","publicData":"MIICrjCCAZagAwI..."}}'
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/samplecct/certificates/SHA1-0A0E4F50D51BEADEAC1D35AFC5116098E7902E6E",
+        "name": "SHA1-0A0E4F50D51BEADEAC1D35AFC5116098E7902E6E",
+        "type": "Microsoft.Batch/batchAccounts/certificates",
+        "etag": "W/\"0x8D4EDD5118668F7\"",
+        "properties": {
+          "thumbprintAlgorithm": "SHA1",
+          "thumbprint": "0A0E4F50D51BEADEAC1D35AFC5116098E7902E6E",
+          "provisioningState": "Succeeded",
+          "provisioningStateTransitionTime": "2017-07-21T01:47:38.4420202Z",
+          "format": "Pfx",
+          "publicData": "MIICrjCCAZagAwI..."
+        }
+      }
   name: Get Certificate
 - request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/certificates/SHA1-0A0E4F50D51BEADEAC1D35AFC5116098E7902E6E?api-version=2017-09-01
@@ -222,7 +234,34 @@ examples:
     headers:
     - value: W/"0x8D4EDD5118668F7"
       name: ETag
-    body: '{"id":"/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/samplecct/certificates/SHA1-0A0E4F50D51BEADEAC1D35AFC5116098E7902E6E","name":"SHA1-0A0E4F50D51BEADEAC1D35AFC5116098E7902E6E","type":"Microsoft.Batch/batchAccounts/certificates","etag":"W/\"0x8D4EDD5118668F7\"","properties":{"thumbprintAlgorithm":"SHA1","thumbprint":"0A0E4F50D51BEADEAC1D35AFC5116098E7902E6E","provisioningState":"Failed","provisioningStateTransitionTime":"2017-07-21T01:47:38.4420202Z","previousProvisioningState":"Deleting","previousProvisioningStateTransitionTime":"2017-07-21T00:15:25.5625498Z","format":"Pfx","publicData":"MIICrjCCAZagAwI...","deleteCertificateError":{"code":"NodesReferencingCertificate","message":"The specified certificate is being used by the below mentioned node(s)\nRequestId:2dc78afc-b15b-42d2-8c85-39cb61a0799e\nTime:2017-08-28T10:22:52.8633406Z","target":"BatchAccount","details":[{"code":"Nodes","message":"node1, node3"}]}}}'
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/samplecct/certificates/SHA1-0A0E4F50D51BEADEAC1D35AFC5116098E7902E6E",
+        "name": "SHA1-0A0E4F50D51BEADEAC1D35AFC5116098E7902E6E",
+        "type": "Microsoft.Batch/batchAccounts/certificates",
+        "etag": "W/\"0x8D4EDD5118668F7\"",
+        "properties": {
+          "thumbprintAlgorithm": "SHA1",
+          "thumbprint": "0A0E4F50D51BEADEAC1D35AFC5116098E7902E6E",
+          "provisioningState": "Failed",
+          "provisioningStateTransitionTime": "2017-07-21T01:47:38.4420202Z",
+          "previousProvisioningState": "Deleting",
+          "previousProvisioningStateTransitionTime": "2017-07-21T00:15:25.5625498Z",
+          "format": "Pfx",
+          "publicData": "MIICrjCCAZagAwI...",
+          "deleteCertificateError": {
+            "code": "NodesReferencingCertificate",
+            "message": "The specified certificate is being used by the below mentioned node(s)\nRequestId:2dc78afc-b15b-42d2-8c85-39cb61a0799e\nTime:2017-08-28T10:22:52.8633406Z",
+            "target": "BatchAccount",
+            "details": [
+              {
+                "code": "Nodes",
+                "message": "node1, node3"
+              }
+            ]
+          }
+        }
+      }
   name: Get Certificate with Deletion Error
 security:
 - type: oauth2

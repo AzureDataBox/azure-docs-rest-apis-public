@@ -57,30 +57,30 @@ definitions:
   - description: Gets or sets the SKU of account.
     types:
     - uid: Sku
-    name: sku
+    name: properties.sku
   - description: Gets or sets the last modified by.
     types:
     - uid: string
-    name: lastModifiedBy
+    name: properties.lastModifiedBy
   - isReadyOnly: true
     description: Gets status of account.
     types:
     - uid: AutomationAccountState
-    name: state
+    name: properties.state
   - isReadyOnly: true
     description: Gets the creation time.
     types:
     - uid: string
-    name: creationTime
+    name: properties.creationTime
   - isReadyOnly: true
     description: Gets the last modified time.
     types:
     - uid: string
-    name: lastModifiedTime
+    name: properties.lastModifiedTime
   - description: Gets or sets the description.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - isReadyOnly: true
     description: Resource Id
     types:
@@ -108,8 +108,20 @@ definitions:
       - uid: string
       uid: object
     name: tags
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - description: Error code
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
 - name: Sku
-  description: Gets or sets the SKU of account.
+  description: The account SKU.
   kind: object
   properties:
   - description: Gets or sets the SKU name of the account.
@@ -124,16 +136,6 @@ definitions:
     types:
     - uid: integer
     name: capacity
-- name: SkuNameEnum
-  description: Gets or sets the SKU name of the account.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Free
-  - types:
-    - uid: string
-    name: Basic
 - name: AutomationAccountState
   description: Gets status of account.
   kind: enum
@@ -147,24 +149,41 @@ definitions:
   - types:
     - uid: string
     name: Suspended
-- name: ErrorResponse
-  description: Error response of an operation failure
-  kind: object
+- name: SkuNameEnum
+  description: Gets or sets the SKU name of the account.
+  kind: enum
   properties:
-  - description: Error code
-    types:
+  - types:
     - uid: string
-    name: code
-  - description: Error message indicating why the operation failed.
-    types:
+    name: Free
+  - types:
     - uid: string
-    name: message
+    name: Basic
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount9?api-version=2015-10-31
   responses:
   - statusCode: "200"
-    body: '{"name":"myAutomationAccount9","id":"/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount9","type":"Microsoft.Automation/AutomationAccounts","location":"East US 2","tags":{},"etag":null,"properties":{"sku":{"name":"Free","family":null,"capacity":null},"state":"Ok","creationTime":"2017-03-26T01:13:43.267+00:00","lastModifiedBy":"myEmailId@microsoft.com","lastModifiedTime":"2017-03-26T01:13:43.267+00:00"}}'
+    body: >-
+      {
+        "name": "myAutomationAccount9",
+        "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount9",
+        "type": "Microsoft.Automation/AutomationAccounts",
+        "location": "East US 2",
+        "tags": {},
+        "etag": null,
+        "properties": {
+          "sku": {
+            "name": "Free",
+            "family": null,
+            "capacity": null
+          },
+          "state": "Ok",
+          "creationTime": "2017-03-26T01:13:43.267+00:00",
+          "lastModifiedBy": "myEmailId@microsoft.com",
+          "lastModifiedTime": "2017-03-26T01:13:43.267+00:00"
+        }
+      }
   name: Get automation account
 security: []
 name: Get

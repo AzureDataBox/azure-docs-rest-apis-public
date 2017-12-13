@@ -67,60 +67,72 @@ definitions:
   - description: Gets or sets the start time of the schedule.
     types:
     - uid: string
-    name: startTime
+    name: properties.startTime
   - isReadyOnly: true
     description: Gets the start time's offset in minutes.
     types:
     - uid: number
-    name: startTimeOffsetMinutes
+    name: properties.startTimeOffsetMinutes
   - description: Gets or sets the end time of the schedule.
     types:
     - uid: string
-    name: expiryTime
+    name: properties.expiryTime
   - description: Gets or sets the expiry time's offset in minutes.
     types:
     - uid: number
-    name: expiryTimeOffsetMinutes
+    name: properties.expiryTimeOffsetMinutes
   - description: Gets or sets a value indicating whether this schedule is enabled.
     types:
     - uid: boolean
-    name: isEnabled
+    name: properties.isEnabled
   - description: Gets or sets the next run time of the schedule.
     types:
     - uid: string
-    name: nextRun
+    name: properties.nextRun
   - description: Gets or sets the next run time's offset in minutes.
     types:
     - uid: number
-    name: nextRunOffsetMinutes
+    name: properties.nextRunOffsetMinutes
   - description: Gets or sets the interval of the schedule.
     types:
     - {}
-    name: interval
+    name: properties.interval
   - description: Gets or sets the frequency of the schedule.
     types:
     - uid: ScheduleFrequency
-    name: frequency
+    name: properties.frequency
   - description: Gets or sets the time zone of the schedule.
     types:
     - uid: string
-    name: timeZone
+    name: properties.timeZone
   - description: Gets or sets the advanced schedule.
     types:
     - uid: AdvancedSchedule
-    name: advancedSchedule
+    name: properties.advancedSchedule
   - description: Gets or sets the creation time.
     types:
     - uid: string
-    name: creationTime
+    name: properties.creationTime
   - description: Gets or sets the last modified time.
     types:
     - uid: string
-    name: lastModifiedTime
+    name: properties.lastModifiedTime
   - description: Gets or sets the description.
     types:
     - uid: string
-    name: description
+    name: properties.description
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - description: Error code
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
 - name: ScheduleFrequency
   description: Gets or sets the frequency of the schedule.
   kind: enum
@@ -141,23 +153,20 @@ definitions:
     - uid: string
     name: Month
 - name: AdvancedSchedule
-  description: Gets or sets the advanced schedule.
+  description: The properties of the create Advanced Schedule.
   kind: object
   properties:
   - description: Days of the week that the job should execute on.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: weekDays
   - description: Days of the month that the job should execute on. Must be between 1 and 31.
     types:
-    - isArray: true
-      uid: integer
+    - uid: integer
     name: monthDays
   - description: Occurrences of days within a month.
     types:
-    - isArray: true
-      uid: AdvancedScheduleMonthlyOccurrence
+    - uid: AdvancedScheduleMonthlyOccurrence
     name: monthlyOccurrences
 - name: AdvancedScheduleMonthlyOccurrence
   description: The properties of the create advanced schedule monthly occurrence.
@@ -196,24 +205,32 @@ definitions:
   - types:
     - uid: string
     name: Sunday
-- name: ErrorResponse
-  description: Error response of an operation failure
-  kind: object
-  properties:
-  - description: Error code
-    types:
-    - uid: string
-    name: code
-  - description: Error message indicating why the operation failed.
-    types:
-    - uid: string
-    name: message
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/schedules/mySchedule?api-version=2015-10-31
   responses:
   - statusCode: "200"
-    body: '{"id":"/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/schedules/mySchedule","name":"mySchedule","properties":{"description":"my description of schedule goes here","startTime":"2017-03-27T17:28:00+00:00","startTimeOffsetMinutes":0,"expiryTime":"2017-04-01T17:28:00+00:00","expiryTimeOffsetMinutes":0,"isEnabled":true,"nextRun":"2017-03-27T17:28:00+00:00","nextRunOffsetMinutes":0,"interval":1,"frequency":"Hour","creationTime":"2017-03-27T16:59:22.697+00:00","lastModifiedTime":"2017-03-27T16:59:22.697+00:00","timeZone":"UTC","advancedSchedule":null}}'
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/schedules/mySchedule",
+        "name": "mySchedule",
+        "properties": {
+          "description": "my description of schedule goes here",
+          "startTime": "2017-03-27T17:28:00+00:00",
+          "startTimeOffsetMinutes": 0,
+          "expiryTime": "2017-04-01T17:28:00+00:00",
+          "expiryTimeOffsetMinutes": 0,
+          "isEnabled": true,
+          "nextRun": "2017-03-27T17:28:00+00:00",
+          "nextRunOffsetMinutes": 0,
+          "interval": 1,
+          "frequency": "Hour",
+          "creationTime": "2017-03-27T16:59:22.697+00:00",
+          "lastModifiedTime": "2017-03-27T16:59:22.697+00:00",
+          "timeZone": "UTC",
+          "advancedSchedule": null
+        }
+      }
   name: Get a schedule
 security: []
 name: Get

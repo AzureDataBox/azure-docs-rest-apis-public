@@ -59,9 +59,20 @@ definitions:
   properties:
   - description: Gets or sets a list of statistics.
     types:
-    - isArray: true
-      uid: Statistics
+    - uid: Statistics
     name: value
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - description: Error code
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
 - name: Statistics
   description: Definition of the statistic.
   kind: object
@@ -91,24 +102,107 @@ definitions:
     types:
     - uid: string
     name: id
-- name: ErrorResponse
-  description: Error response of an operation failure
-  kind: object
-  properties:
-  - description: Error code
-    types:
-    - uid: string
-    name: code
-  - description: Error message indicating why the operation failed.
-    types:
-    - uid: string
-    name: message
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount11/statistics?api-version=2015-10-31
   responses:
   - statusCode: "200"
-    body: '{"value":[{"id":"/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount11/statistics/New","counterProperty":"New","counterValue":0,"startTime":"2017-03-19T02:11:49.9879197+00:00","endTime":"2017-03-26T02:11:49.9879197+00:00"},{"id":"/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount11/statistics/Activating","counterProperty":"Activating","counterValue":0,"startTime":"2017-03-19T02:11:49.9879197+00:00","endTime":"2017-03-26T02:11:49.9879197+00:00"},{"id":"/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount11/statistics/Running","counterProperty":"Running","counterValue":0,"startTime":"2017-03-19T02:11:49.9879197+00:00","endTime":"2017-03-26T02:11:49.9879197+00:00"},{"id":"/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount11/statistics/Completed","counterProperty":"Completed","counterValue":0,"startTime":"2017-03-19T02:11:49.9879197+00:00","endTime":"2017-03-26T02:11:49.9879197+00:00"},{"id":"/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount11/statistics/Failed","counterProperty":"Failed","counterValue":0,"startTime":"2017-03-19T02:11:49.9879197+00:00","endTime":"2017-03-26T02:11:49.9879197+00:00"},{"id":"/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount11/statistics/Stopped","counterProperty":"Stopped","counterValue":0,"startTime":"2017-03-19T02:11:49.9879197+00:00","endTime":"2017-03-26T02:11:49.9879197+00:00"},{"id":"/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount11/statistics/Blocked","counterProperty":"Blocked","counterValue":0,"startTime":"2017-03-19T02:11:49.9879197+00:00","endTime":"2017-03-26T02:11:49.9879197+00:00"},{"id":"/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount11/statistics/Suspended","counterProperty":"Suspended","counterValue":0,"startTime":"2017-03-19T02:11:49.9879197+00:00","endTime":"2017-03-26T02:11:49.9879197+00:00"},{"id":"/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount11/statistics/Disconnected","counterProperty":"Disconnected","counterValue":0,"startTime":"2017-03-19T02:11:49.9879197+00:00","endTime":"2017-03-26T02:11:49.9879197+00:00"},{"id":"/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount11/statistics/Suspending","counterProperty":"Suspending","counterValue":0,"startTime":"2017-03-19T02:11:49.9879197+00:00","endTime":"2017-03-26T02:11:49.9879197+00:00"},{"id":"/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount11/statistics/Stopping","counterProperty":"Stopping","counterValue":0,"startTime":"2017-03-19T02:11:49.9879197+00:00","endTime":"2017-03-26T02:11:49.9879197+00:00"},{"id":"/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount11/statistics/Resuming","counterProperty":"Resuming","counterValue":0,"startTime":"2017-03-19T02:11:49.9879197+00:00","endTime":"2017-03-26T02:11:49.9879197+00:00"},{"id":"/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount11/statistics/Removing","counterProperty":"Removing","counterValue":0,"startTime":"2017-03-19T02:11:49.9879197+00:00","endTime":"2017-03-26T02:11:49.9879197+00:00"}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount11/statistics/New",
+            "counterProperty": "New",
+            "counterValue": 0,
+            "startTime": "2017-03-19T02:11:49.9879197+00:00",
+            "endTime": "2017-03-26T02:11:49.9879197+00:00"
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount11/statistics/Activating",
+            "counterProperty": "Activating",
+            "counterValue": 0,
+            "startTime": "2017-03-19T02:11:49.9879197+00:00",
+            "endTime": "2017-03-26T02:11:49.9879197+00:00"
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount11/statistics/Running",
+            "counterProperty": "Running",
+            "counterValue": 0,
+            "startTime": "2017-03-19T02:11:49.9879197+00:00",
+            "endTime": "2017-03-26T02:11:49.9879197+00:00"
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount11/statistics/Completed",
+            "counterProperty": "Completed",
+            "counterValue": 0,
+            "startTime": "2017-03-19T02:11:49.9879197+00:00",
+            "endTime": "2017-03-26T02:11:49.9879197+00:00"
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount11/statistics/Failed",
+            "counterProperty": "Failed",
+            "counterValue": 0,
+            "startTime": "2017-03-19T02:11:49.9879197+00:00",
+            "endTime": "2017-03-26T02:11:49.9879197+00:00"
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount11/statistics/Stopped",
+            "counterProperty": "Stopped",
+            "counterValue": 0,
+            "startTime": "2017-03-19T02:11:49.9879197+00:00",
+            "endTime": "2017-03-26T02:11:49.9879197+00:00"
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount11/statistics/Blocked",
+            "counterProperty": "Blocked",
+            "counterValue": 0,
+            "startTime": "2017-03-19T02:11:49.9879197+00:00",
+            "endTime": "2017-03-26T02:11:49.9879197+00:00"
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount11/statistics/Suspended",
+            "counterProperty": "Suspended",
+            "counterValue": 0,
+            "startTime": "2017-03-19T02:11:49.9879197+00:00",
+            "endTime": "2017-03-26T02:11:49.9879197+00:00"
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount11/statistics/Disconnected",
+            "counterProperty": "Disconnected",
+            "counterValue": 0,
+            "startTime": "2017-03-19T02:11:49.9879197+00:00",
+            "endTime": "2017-03-26T02:11:49.9879197+00:00"
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount11/statistics/Suspending",
+            "counterProperty": "Suspending",
+            "counterValue": 0,
+            "startTime": "2017-03-19T02:11:49.9879197+00:00",
+            "endTime": "2017-03-26T02:11:49.9879197+00:00"
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount11/statistics/Stopping",
+            "counterProperty": "Stopping",
+            "counterValue": 0,
+            "startTime": "2017-03-19T02:11:49.9879197+00:00",
+            "endTime": "2017-03-26T02:11:49.9879197+00:00"
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount11/statistics/Resuming",
+            "counterProperty": "Resuming",
+            "counterValue": 0,
+            "startTime": "2017-03-19T02:11:49.9879197+00:00",
+            "endTime": "2017-03-26T02:11:49.9879197+00:00"
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount11/statistics/Removing",
+            "counterProperty": "Removing",
+            "counterValue": 0,
+            "startTime": "2017-03-19T02:11:49.9879197+00:00",
+            "endTime": "2017-03-26T02:11:49.9879197+00:00"
+          }
+        ]
+      }
   name: Get statistics of an automation account
 security: []
 name: ListByAutomationAccount

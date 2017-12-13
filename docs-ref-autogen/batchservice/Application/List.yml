@@ -73,13 +73,28 @@ definitions:
   properties:
   - description: The list of applications available in the account.
     types:
-    - isArray: true
-      uid: ApplicationSummary
+    - uid: ApplicationSummary
     name: value
   - description: The URL to get the next set of results.
     types:
     - uid: string
     name: odata.nextLink
+- name: BatchError
+  description: The error encountered while attempting to add the task.
+  kind: object
+  properties:
+  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+    name: code
+  - description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: ErrorMessage
+    name: message
+  - description: A collection of key-value pairs containing additional details about the error.
+    types:
+    - uid: BatchErrorDetail
+    name: values
 - name: ApplicationSummary
   description: Contains information about an application in an Azure Batch account.
   kind: object
@@ -94,26 +109,8 @@ definitions:
     name: displayName
   - description: The list of available versions of the application.
     types:
-    - isArray: true
-      uid: string
-    name: versions
-- name: BatchError
-  description: An error response received from the Azure Batch service.
-  kind: object
-  properties:
-  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
-    types:
     - uid: string
-    name: code
-  - description: A message describing the error, intended to be suitable for display in a user interface.
-    types:
-    - uid: ErrorMessage
-    name: message
-  - description: A collection of key-value pairs containing additional details about the error.
-    types:
-    - isArray: true
-      uid: BatchErrorDetail
-    name: values
+    name: versions
 - name: ErrorMessage
   description: A message describing the error, intended to be suitable for display in a user interface.
   kind: object
@@ -127,7 +124,7 @@ definitions:
     - uid: string
     name: value
 - name: BatchErrorDetail
-  description: An item of additional information included in an Azure Batch error response.
+  description: A collection of key-value pairs containing additional details about the error.
   kind: object
   properties:
   - description: An identifier specifying the meaning of the Value property.

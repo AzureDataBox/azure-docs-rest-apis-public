@@ -50,15 +50,14 @@ definitions:
   - isReadyOnly: true
     description: VirtualNetwork usage stats.
     types:
-    - isArray: true
-      uid: VirtualNetworkUsage
+    - uid: VirtualNetworkUsage
     name: value
   - description: The URL to get the next set of results.
     types:
     - uid: string
     name: nextLink
 - name: VirtualNetworkUsage
-  description: Usage details for subnet.
+  description: VirtualNetwork usage stats.
   kind: object
   properties:
   - isReadyOnly: true
@@ -105,7 +104,31 @@ examples:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetName/usages?api-version=2017-09-01
   responses:
   - statusCode: "200"
-    body: '{"value":[{"currentValue":-1,"id":"/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetName/subnets/GatewaySubnet","limit":-1,"name":{"localizedValue":"Subnet size and usage","value":"SubnetSpace"},"unit":"Count"},{"currentValue":2,"id":"/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetName/subnets/newSubnet","limit":3,"name":{"localizedValue":"Subnet size and usage","value":"SubnetSpace"},"unit":"Count"}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "currentValue": -1,
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetName/subnets/GatewaySubnet",
+            "limit": -1,
+            "name": {
+              "localizedValue": "Subnet size and usage",
+              "value": "SubnetSpace"
+            },
+            "unit": "Count"
+          },
+          {
+            "currentValue": 2,
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetName/subnets/newSubnet",
+            "limit": 3,
+            "name": {
+              "localizedValue": "Subnet size and usage",
+              "value": "SubnetSpace"
+            },
+            "unit": "Count"
+          }
+        ]
+      }
   name: VnetGetUsage
 security:
 - type: oauth2

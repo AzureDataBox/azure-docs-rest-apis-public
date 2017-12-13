@@ -136,8 +136,7 @@ definitions:
     name: totalTasksSucceeded
   - description: This property is present only if at least one task has run on this node since it was assigned to the pool.
     types:
-    - isArray: true
-      uid: TaskInformation
+    - uid: TaskInformation
     name: recentTasks
   - description: The task specified to run on the compute node as it joins the pool.
     types:
@@ -149,13 +148,11 @@ definitions:
     name: startTaskInfo
   - description: For Windows compute nodes, the Batch service installs the certificates to the specified certificate store and location. For Linux compute nodes, the certificates are stored in a directory inside the task working directory and an environment variable AZ_BATCH_CERTIFICATES_DIR is supplied to the task to query for this location. For certificates with visibility of 'remoteUser', a 'certs' directory is created in the user's home directory (e.g., /home/{user-name}/certs) and certificates are placed in that directory.
     types:
-    - isArray: true
-      uid: CertificateReference
+    - uid: CertificateReference
     name: certificateReferences
   - description: The list of errors that are currently being encountered by the compute node.
     types:
-    - isArray: true
-      uid: ComputeNodeError
+    - uid: ComputeNodeError
     name: errors
   - description: Whether this compute node is a dedicated node. If false, the node is a low-priority node.
     types:
@@ -165,6 +162,22 @@ definitions:
     types:
     - uid: ComputeNodeEndpointConfiguration
     name: endpointConfiguration
+- name: BatchError
+  description: The error encountered while attempting to add the task.
+  kind: object
+  properties:
+  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+    name: code
+  - description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: ErrorMessage
+    name: message
+  - description: A collection of key-value pairs containing additional details about the error.
+    types:
+    - uid: BatchErrorDetail
+    name: values
 - name: ComputeNodeState
   description: The low-priority node has been preempted. Tasks which were running on the node when it was pre-empted will be rescheduled when another node becomes available.
   kind: enum
@@ -261,6 +274,150 @@ definitions:
     types:
     - uid: TaskExecutionInformation
     name: executionInfo
+- name: StartTask
+  description: A task which is run when a compute node joins a pool in the Azure Batch service, or when the compute node is rebooted or reimaged.
+  kind: object
+  properties:
+  - description: The command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux.
+    types:
+    - uid: string
+    name: commandLine
+  - description: When this is specified, all directories recursively below the AZ_BATCH_NODE_ROOT_DIR (the root of Azure Batch directories on the node) are mapped into the container, all task environment variables are mapped into the container, and the task command line is executed in the container.
+    types:
+    - uid: TaskContainerSettings
+    name: containerSettings
+  - description: Files listed under this element are located in the task's working directory.
+    types:
+    - uid: ResourceFile
+    name: resourceFiles
+  - description: A list of environment variable settings for the start task.
+    types:
+    - uid: EnvironmentSetting
+    name: environmentSettings
+  - description: If omitted, the task runs as a non-administrative user unique to the task.
+    types:
+    - uid: UserIdentity
+    name: userIdentity
+  - description: The Batch service retries a task if its exit code is nonzero. Note that this value specifically controls the number of retries. The Batch service will try the task once, and may then retry up to this limit. For example, if the maximum retry count is 3, Batch tries the task up to 4 times (one initial try and 3 retries). If the maximum retry count is 0, the Batch service does not retry the task. If the maximum retry count is -1, the Batch service retries the task without limit.
+    types:
+    - uid: integer
+    name: maxTaskRetryCount
+  - description: If true and the start task fails on a compute node, the Batch service retries the start task up to its maximum retry count (maxTaskRetryCount). If the task has still not completed successfully after all retries, then the Batch service marks the compute node unusable, and will not schedule tasks to it. This condition can be detected via the node state and failure info details. If false, the Batch service will not wait for the start task to complete. In this case, other tasks can start executing on the compute node while the start task is still running; and even if the start task fails, new tasks will continue to be scheduled on the node. The default is false.
+    types:
+    - uid: boolean
+    name: waitForSuccess
+- name: StartTaskInformation
+  description: Information about a start task running on a compute node.
+  kind: object
+  properties:
+  - description: The state of the start task on the compute node.
+    types:
+    - uid: StartTaskState
+    name: state
+  - description: This value is reset every time the task is restarted or retried (that is, this is the most recent time at which the start task started running).
+    types:
+    - uid: string
+    name: startTime
+  - description: This is the end time of the most recent run of the start task, if that run has completed (even if that run failed and a retry is pending). This element is not present if the start task is currently running.
+    types:
+    - uid: string
+    name: endTime
+  - description: This property is set only if the start task is in the completed state. In general, the exit code for a process reflects the specific convention implemented by the application developer for that process. If you use the exit code value to make decisions in your code, be sure that you know the exit code convention used by the application process. However, if the Batch service terminates the start task (due to timeout, or user termination via the API) you may see an operating system-defined exit code.
+    types:
+    - uid: integer
+    name: exitCode
+  - description: This property is set only if the task runs in a container context.
+    types:
+    - uid: TaskContainerExecutionInformation
+    name: containerInfo
+  - description: This property is set only if the task is in the completed state and encountered a failure.
+    types:
+    - uid: TaskFailureInformation
+    name: failureInfo
+  - description: Task application failures (non-zero exit code) are retried, pre-processing errors (the task could not be run) and file upload errors are not retried. The Batch service will retry the task up to the limit specified by the constraints.
+    types:
+    - uid: integer
+    name: retryCount
+  - description: This element is present only if the task was retried (i.e. retryCount is nonzero). If present, this is typically the same as startTime, but may be different if the task has been restarted for reasons other than retry; for example, if the compute node was rebooted during a retry, then the startTime is updated but the lastRetryTime is not.
+    types:
+    - uid: string
+    name: lastRetryTime
+  - description: If the value is 'failed', then the details of the failure can be found in the failureInfo property.
+    types:
+    - uid: TaskExecutionResult
+    name: result
+- name: CertificateReference
+  description: A reference to a certificate to be installed on compute nodes in a pool.
+  kind: object
+  properties:
+  - description: The thumbprint of the certificate.
+    types:
+    - uid: string
+    name: thumbprint
+  - description: The algorithm with which the thumbprint is associated. This must be sha1.
+    types:
+    - uid: string
+    name: thumbprintAlgorithm
+  - description: The default value is currentuser. This property is applicable only for pools configured with Windows nodes (that is, created with cloudServiceConfiguration, or with virtualMachineConfiguration using a Windows image reference). For Linux compute nodes, the certificates are stored in a directory inside the task working directory and an environment variable AZ_BATCH_CERTIFICATES_DIR is supplied to the task to query for this location. For certificates with visibility of 'remoteUser', a 'certs' directory is created in the user's home directory (e.g., /home/{user-name}/certs) and certificates are placed in that directory.
+    types:
+    - uid: CertificateStoreLocation
+    name: storeLocation
+  - description: 'This property is applicable only for pools configured with Windows nodes (that is, created with cloudServiceConfiguration, or with virtualMachineConfiguration using a Windows image reference). Common store names include: My, Root, CA, Trust, Disallowed, TrustedPeople, TrustedPublisher, AuthRoot, AddressBook, but any custom store name can also be used. The default value is My.'
+    types:
+    - uid: string
+    name: storeName
+  - description: You can specify more than one visibility in this collection. The default is all accounts.
+    types:
+    - uid: string
+    name: visibility
+- name: ComputeNodeError
+  description: An error encountered by a compute node.
+  kind: object
+  properties:
+  - description: An identifier for the compute node error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+    name: code
+  - description: A message describing the compute node error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+    name: message
+  - description: The list of additional error details related to the compute node error.
+    types:
+    - uid: NameValuePair
+    name: errorDetails
+- name: ComputeNodeEndpointConfiguration
+  description: The endpoint configuration for the compute node.
+  kind: object
+  properties:
+  - description: The list of inbound endpoints that are accessible on the compute node.
+    types:
+    - uid: InboundEndpoint
+    name: inboundEndpoints
+- name: ErrorMessage
+  description: A message describing the error, intended to be suitable for display in a user interface.
+  kind: object
+  properties:
+  - description: The language code of the error message
+    types:
+    - uid: string
+    name: lang
+  - description: The text of the message.
+    types:
+    - uid: string
+    name: value
+- name: BatchErrorDetail
+  description: A collection of key-value pairs containing additional details about the error.
+  kind: object
+  properties:
+  - description: An identifier specifying the meaning of the Value property.
+    types:
+    - uid: string
+    name: key
+  - description: The additional information included with the error response.
+    types:
+    - uid: string
+    name: value
 - name: TaskState
   description: The current state of the task.
   kind: enum
@@ -282,7 +439,7 @@ definitions:
     - uid: string
     name: completed
 - name: TaskExecutionInformation
-  description: Information about the execution of the task.
+  description: Information about the execution of a task.
   kind: object
   properties:
   - description: "'Running' corresponds to the running state, so if the task specifies resource files or application packages, then the start time reflects the time at which the task started downloading or deploying these. If the task has been restarted or retried, this is the most recent time at which the task started running. This property is present only for tasks that are in the running or completed state."
@@ -325,115 +482,8 @@ definitions:
     types:
     - uid: TaskExecutionResult
     name: result
-- name: TaskContainerExecutionInformation
-  description: This property is set only if the task runs in a container context.
-  kind: object
-  properties:
-  - description: The ID of the container.
-    types:
-    - uid: string
-    name: containerId
-  - description: This is the state of the container according to the Docker service. It is equivalent to the status field returned by "docker inspect".
-    types:
-    - uid: string
-    name: state
-  - description: This is the detailed error string from the Docker service, if available. It is equivalent to the error field returned by "docker inspect".
-    types:
-    - uid: string
-    name: error
-- name: TaskFailureInformation
-  description: This property is set only if the task is in the completed state and encountered a failure.
-  kind: object
-  properties:
-  - description: The category of the task error.
-    types:
-    - uid: ErrorCategory
-    name: category
-  - description: An identifier for the task error. Codes are invariant and are intended to be consumed programmatically.
-    types:
-    - uid: string
-    name: code
-  - description: A message describing the task error, intended to be suitable for display in a user interface.
-    types:
-    - uid: string
-    name: message
-  - description: A list of additional details related to the error.
-    types:
-    - isArray: true
-      uid: NameValuePair
-    name: details
-- name: ErrorCategory
-  description: The category of the task error.
-  kind: enum
-  properties:
-  - description: The error is due to a user issue, such as misconfiguration.
-    types:
-    - uid: string
-    name: usererror
-  - description: The error is due to an internal server issue.
-    types:
-    - uid: string
-    name: servererror
-- name: NameValuePair
-  description: Represents a name-value pair.
-  kind: object
-  properties:
-  - description: The name in the name-value pair.
-    types:
-    - uid: string
-    name: name
-  - description: The value in the name-value pair.
-    types:
-    - uid: string
-    name: value
-- name: TaskExecutionResult
-  description: If the value is 'failed', then the details of the failure can be found in the failureInfo property.
-  kind: enum
-  properties:
-  - description: The task ran successfully.
-    types:
-    - uid: string
-    name: success
-  - description: There was an error during processing of the task. The failure may have occurred before the task process was launched, while the task process was executing, or after the task process exited.
-    types:
-    - uid: string
-    name: failure
-- name: StartTask
-  description: The task specified to run on the compute node as it joins the pool.
-  kind: object
-  properties:
-  - description: The command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux.
-    types:
-    - uid: string
-    name: commandLine
-  - description: When this is specified, all directories recursively below the AZ_BATCH_NODE_ROOT_DIR (the root of Azure Batch directories on the node) are mapped into the container, all task environment variables are mapped into the container, and the task command line is executed in the container.
-    types:
-    - uid: TaskContainerSettings
-    name: containerSettings
-  - description: Files listed under this element are located in the task's working directory.
-    types:
-    - isArray: true
-      uid: ResourceFile
-    name: resourceFiles
-  - description: A list of environment variable settings for the start task.
-    types:
-    - isArray: true
-      uid: EnvironmentSetting
-    name: environmentSettings
-  - description: If omitted, the task runs as a non-administrative user unique to the task.
-    types:
-    - uid: UserIdentity
-    name: userIdentity
-  - description: The Batch service retries a task if its exit code is nonzero. Note that this value specifically controls the number of retries. The Batch service will try the task once, and may then retry up to this limit. For example, if the maximum retry count is 3, Batch tries the task up to 4 times (one initial try and 3 retries). If the maximum retry count is 0, the Batch service does not retry the task. If the maximum retry count is -1, the Batch service retries the task without limit.
-    types:
-    - uid: integer
-    name: maxTaskRetryCount
-  - description: If true and the start task fails on a compute node, the Batch service retries the start task up to its maximum retry count (maxTaskRetryCount). If the task has still not completed successfully after all retries, then the Batch service marks the compute node unusable, and will not schedule tasks to it. This condition can be detected via the node state and failure info details. If false, the Batch service will not wait for the start task to complete. In this case, other tasks can start executing on the compute node while the start task is still running; and even if the start task fails, new tasks will continue to be scheduled on the node. The default is false.
-    types:
-    - uid: boolean
-    name: waitForSuccess
 - name: TaskContainerSettings
-  description: When this is specified, all directories recursively below the AZ_BATCH_NODE_ROOT_DIR (the root of Azure Batch directories on the node) are mapped into the container, all task environment variables are mapped into the container, and the task command line is executed in the container.
+  description: The container settings for a task.
   kind: object
   properties:
   - description: These additional options are supplied as arguments to the "docker create" command, in addition to those controlled by the Batch Service.
@@ -448,22 +498,6 @@ definitions:
     types:
     - uid: ContainerRegistry
     name: registry
-- name: ContainerRegistry
-  description: This setting can be omitted if was already provided at pool creation.
-  kind: object
-  properties:
-  - description: If omitted, the default is "docker.io".
-    types:
-    - uid: string
-    name: registryServer
-  - description: The user name to log into the registry server.
-    types:
-    - uid: string
-    name: username
-  - description: The password to log into the registry server.
-    types:
-    - uid: string
-    name: password
 - name: ResourceFile
   description: A file to be downloaded from Azure blob storage to a compute node.
   kind: object
@@ -493,7 +527,7 @@ definitions:
     - uid: string
     name: value
 - name: UserIdentity
-  description: If omitted, the task runs as a non-administrative user unique to the task.
+  description: Specify either the userName or autoUser property, but not both.
   kind: object
   properties:
   - description: The userName and autoUser properties are mutually exclusive; you must specify one but not both.
@@ -504,82 +538,6 @@ definitions:
     types:
     - uid: AutoUserSpecification
     name: autoUser
-- name: AutoUserSpecification
-  description: The userName and autoUser properties are mutually exclusive; you must specify one but not both.
-  kind: object
-  properties:
-  - description: The default value is task.
-    types:
-    - uid: AutoUserScope
-    name: scope
-  - description: nonAdmin - The auto user is a standard user without elevated access. admin - The auto user is a user with elevated access and operates with full Administrator permissions. The default value is nonAdmin.
-    types:
-    - uid: ElevationLevel
-    name: elevationLevel
-- name: AutoUserScope
-  description: The default value is task.
-  kind: enum
-  properties:
-  - description: Specifies that the service should create a new user for the task.
-    types:
-    - uid: string
-    name: task
-  - description: Specifies that the task runs as the common auto user account which is created on every node in a pool.
-    types:
-    - uid: string
-    name: pool
-- name: ElevationLevel
-  description: nonAdmin - The auto user is a standard user without elevated access. admin - The auto user is a user with elevated access and operates with full Administrator permissions. The default value is nonAdmin.
-  kind: enum
-  properties:
-  - description: The user is a standard user without elevated access.
-    types:
-    - uid: string
-    name: nonadmin
-  - description: The user is a user with elevated access and operates with full Administrator permissions.
-    types:
-    - uid: string
-    name: admin
-- name: StartTaskInformation
-  description: Runtime information about the execution of the start task on the compute node.
-  kind: object
-  properties:
-  - description: The state of the start task on the compute node.
-    types:
-    - uid: StartTaskState
-    name: state
-  - description: This value is reset every time the task is restarted or retried (that is, this is the most recent time at which the start task started running).
-    types:
-    - uid: string
-    name: startTime
-  - description: This is the end time of the most recent run of the start task, if that run has completed (even if that run failed and a retry is pending). This element is not present if the start task is currently running.
-    types:
-    - uid: string
-    name: endTime
-  - description: This property is set only if the start task is in the completed state. In general, the exit code for a process reflects the specific convention implemented by the application developer for that process. If you use the exit code value to make decisions in your code, be sure that you know the exit code convention used by the application process. However, if the Batch service terminates the start task (due to timeout, or user termination via the API) you may see an operating system-defined exit code.
-    types:
-    - uid: integer
-    name: exitCode
-  - description: This property is set only if the task runs in a container context.
-    types:
-    - uid: TaskContainerExecutionInformation
-    name: containerInfo
-  - description: This property is set only if the task is in the completed state and encountered a failure.
-    types:
-    - uid: TaskFailureInformation
-    name: failureInfo
-  - description: Task application failures (non-zero exit code) are retried, pre-processing errors (the task could not be run) and file upload errors are not retried. The Batch service will retry the task up to the limit specified by the constraints.
-    types:
-    - uid: integer
-    name: retryCount
-  - description: This element is present only if the task was retried (i.e. retryCount is nonzero). If present, this is typically the same as startTime, but may be different if the task has been restarted for reasons other than retry; for example, if the compute node was rebooted during a retry, then the startTime is updated but the lastRetryTime is not.
-    types:
-    - uid: string
-    name: lastRetryTime
-  - description: If the value is 'failed', then the details of the failure can be found in the failureInfo property.
-    types:
-    - uid: TaskExecutionResult
-    name: result
 - name: StartTaskState
   description: The state of the start task on the compute node.
   kind: enum
@@ -592,31 +550,54 @@ definitions:
     types:
     - uid: string
     name: completed
-- name: CertificateReference
-  description: A reference to a certificate to be installed on compute nodes in a pool.
+- name: TaskContainerExecutionInformation
+  description: Contains information about the container which a task is executing.
   kind: object
   properties:
-  - description: The thumbprint of the certificate.
+  - description: The ID of the container.
     types:
     - uid: string
-    name: thumbprint
-  - description: The algorithm with which the thumbprint is associated. This must be sha1.
+    name: containerId
+  - description: This is the state of the container according to the Docker service. It is equivalent to the status field returned by "docker inspect".
     types:
     - uid: string
-    name: thumbprintAlgorithm
-  - description: The default value is currentuser. This property is applicable only for pools configured with Windows nodes (that is, created with cloudServiceConfiguration, or with virtualMachineConfiguration using a Windows image reference). For Linux compute nodes, the certificates are stored in a directory inside the task working directory and an environment variable AZ_BATCH_CERTIFICATES_DIR is supplied to the task to query for this location. For certificates with visibility of 'remoteUser', a 'certs' directory is created in the user's home directory (e.g., /home/{user-name}/certs) and certificates are placed in that directory.
-    types:
-    - uid: CertificateStoreLocation
-    name: storeLocation
-  - description: 'This property is applicable only for pools configured with Windows nodes (that is, created with cloudServiceConfiguration, or with virtualMachineConfiguration using a Windows image reference). Common store names include: My, Root, CA, Trust, Disallowed, TrustedPeople, TrustedPublisher, AuthRoot, AddressBook, but any custom store name can also be used. The default value is My.'
+    name: state
+  - description: This is the detailed error string from the Docker service, if available. It is equivalent to the error field returned by "docker inspect".
     types:
     - uid: string
-    name: storeName
-  - description: You can specify more than one visibility in this collection. The default is all accounts.
+    name: error
+- name: TaskFailureInformation
+  description: Information about a task failure.
+  kind: object
+  properties:
+  - description: The category of the task error.
     types:
-    - isArray: true
-      uid: string
-    name: visibility
+    - uid: ErrorCategory
+    name: category
+  - description: An identifier for the task error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+    name: code
+  - description: A message describing the task error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+    name: message
+  - description: A list of additional details related to the error.
+    types:
+    - uid: NameValuePair
+    name: details
+- name: TaskExecutionResult
+  description: If the value is 'failed', then the details of the failure can be found in the failureInfo property.
+  kind: enum
+  properties:
+  - description: The task ran successfully.
+    types:
+    - uid: string
+    name: success
+  - description: There was an error during processing of the task. The failure may have occurred before the task process was launched, while the task process was executing, or after the task process exited.
+    types:
+    - uid: string
+    name: failure
 - name: CertificateStoreLocation
   description: The default value is currentuser. This property is applicable only for pools configured with Windows nodes (that is, created with cloudServiceConfiguration, or with virtualMachineConfiguration using a Windows image reference). For Linux compute nodes, the certificates are stored in a directory inside the task working directory and an environment variable AZ_BATCH_CERTIFICATES_DIR is supplied to the task to query for this location. For certificates with visibility of 'remoteUser', a 'certs' directory is created in the user's home directory (e.g., /home/{user-name}/certs) and certificates are placed in that directory.
   kind: enum
@@ -629,34 +610,20 @@ definitions:
     types:
     - uid: string
     name: localmachine
-- name: ComputeNodeError
-  description: An error encountered by a compute node.
+- name: NameValuePair
+  description: Represents a name-value pair.
   kind: object
   properties:
-  - description: An identifier for the compute node error. Codes are invariant and are intended to be consumed programmatically.
+  - description: The name in the name-value pair.
     types:
     - uid: string
-    name: code
-  - description: A message describing the compute node error, intended to be suitable for display in a user interface.
+    name: name
+  - description: The value in the name-value pair.
     types:
     - uid: string
-    name: message
-  - description: The list of additional error details related to the compute node error.
-    types:
-    - isArray: true
-      uid: NameValuePair
-    name: errorDetails
-- name: ComputeNodeEndpointConfiguration
-  description: The endpoint configuration for the compute node.
-  kind: object
-  properties:
-  - description: The list of inbound endpoints that are accessible on the compute node.
-    types:
-    - isArray: true
-      uid: InboundEndpoint
-    name: inboundEndpoints
+    name: value
 - name: InboundEndpoint
-  description: An inbound endpoint on a compute node.
+  description: The list of inbound endpoints that are accessible on the compute node.
   kind: object
   properties:
   - description: The name of the endpoint.
@@ -683,6 +650,46 @@ definitions:
     types:
     - uid: integer
     name: backendPort
+- name: ContainerRegistry
+  description: This setting can be omitted if was already provided at pool creation.
+  kind: object
+  properties:
+  - description: If omitted, the default is "docker.io".
+    types:
+    - uid: string
+    name: registryServer
+  - description: The user name to log into the registry server.
+    types:
+    - uid: string
+    name: username
+  - description: The password to log into the registry server.
+    types:
+    - uid: string
+    name: password
+- name: AutoUserSpecification
+  description: Specifies the parameters for the auto user that runs a task on the Batch service.
+  kind: object
+  properties:
+  - description: The default value is task.
+    types:
+    - uid: AutoUserScope
+    name: scope
+  - description: nonAdmin - The auto user is a standard user without elevated access. admin - The auto user is a user with elevated access and operates with full Administrator permissions. The default value is nonAdmin.
+    types:
+    - uid: ElevationLevel
+    name: elevationLevel
+- name: ErrorCategory
+  description: The category of the job scheduling error.
+  kind: enum
+  properties:
+  - description: The error is due to a user issue, such as misconfiguration.
+    types:
+    - uid: string
+    name: usererror
+  - description: The error is due to an internal server issue.
+    types:
+    - uid: string
+    name: servererror
 - name: InboundEndpointProtocol
   description: The protocol of the endpoint.
   kind: enum
@@ -695,47 +702,30 @@ definitions:
     types:
     - uid: string
     name: udp
-- name: BatchError
-  description: An error response received from the Azure Batch service.
-  kind: object
+- name: AutoUserScope
+  description: The default value is task.
+  kind: enum
   properties:
-  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+  - description: Specifies that the service should create a new user for the task.
     types:
     - uid: string
-    name: code
-  - description: A message describing the error, intended to be suitable for display in a user interface.
+    name: task
+  - description: Specifies that the task runs as the common auto user account which is created on every node in a pool.
     types:
-    - uid: ErrorMessage
-    name: message
-  - description: A collection of key-value pairs containing additional details about the error.
-    types:
-    - isArray: true
-      uid: BatchErrorDetail
-    name: values
-- name: ErrorMessage
-  description: A message describing the error, intended to be suitable for display in a user interface.
-  kind: object
+    - uid: string
+    name: pool
+- name: ElevationLevel
+  description: nonAdmin - The auto user is a standard user without elevated access. admin - The auto user is a user with elevated access and operates with full Administrator permissions. The default value is nonAdmin.
+  kind: enum
   properties:
-  - description: The language code of the error message
+  - description: The user is a standard user without elevated access.
     types:
     - uid: string
-    name: lang
-  - description: The text of the message.
+    name: nonadmin
+  - description: The user is a user with elevated access and operates with full Administrator permissions.
     types:
     - uid: string
-    name: value
-- name: BatchErrorDetail
-  description: An item of additional information included in an Azure Batch error response.
-  kind: object
-  properties:
-  - description: An identifier specifying the meaning of the Value property.
-    types:
-    - uid: string
-    name: key
-  - description: The additional information included with the error response.
-    types:
-    - uid: string
-    name: value
+    name: admin
 examples:
 - request:
     uri: GET https://batch.core.windows.net/pools/poolId/nodes/tvm-1695681911_2-20161122t193202z?api-version=2017-09-01.6.0
@@ -744,7 +734,41 @@ examples:
       name: client-request-id
   responses:
   - statusCode: "200"
-    body: '{"id":"tvm-1695681911_2-20161122t193202z","url":"https://account.region.batch.azure.com/pools/poolId/nodes/tvm-1695681911_2-20161122t193202z","state":"idle","schedulingState":"enabled","stateTransitionTime":"2016-11-22T19:37:31.4285526Z","lastBootTime":"2016-11-22T19:37:28.623369Z","allocationTime":"2016-11-22T19:32:02.8155319Z","ipAddress":"1.1.1.1","affinityId":"TVM:tvm-1695681911_2-20161122t193202z","vmSize":"small","totalTasksRun":0,"totalTasksSucceeded":0,"runningTasksCount":0,"isDedicated":true,"startTask":{"commandLine":"cmd /c echo hello","userIdentity":{"autoUser":{"scope":"task","elevationLevel":"nonadmin"}},"maxTaskRetryCount":0,"waitForSuccess":false},"startTaskInfo":{"state":"completed","startTime":"2016-11-22T19:37:31.4285526Z","endTime":"2016-11-22T19:37:31.838028Z","exitCode":0,"retryCount":0}}'
+    body: >-
+      {
+        "id": "tvm-1695681911_2-20161122t193202z",
+        "url": "https://account.region.batch.azure.com/pools/poolId/nodes/tvm-1695681911_2-20161122t193202z",
+        "state": "idle",
+        "schedulingState": "enabled",
+        "stateTransitionTime": "2016-11-22T19:37:31.4285526Z",
+        "lastBootTime": "2016-11-22T19:37:28.623369Z",
+        "allocationTime": "2016-11-22T19:32:02.8155319Z",
+        "ipAddress": "1.1.1.1",
+        "affinityId": "TVM:tvm-1695681911_2-20161122t193202z",
+        "vmSize": "small",
+        "totalTasksRun": 0,
+        "totalTasksSucceeded": 0,
+        "runningTasksCount": 0,
+        "isDedicated": true,
+        "startTask": {
+          "commandLine": "cmd /c echo hello",
+          "userIdentity": {
+            "autoUser": {
+              "scope": "task",
+              "elevationLevel": "nonadmin"
+            }
+          },
+          "maxTaskRetryCount": 0,
+          "waitForSuccess": false
+        },
+        "startTaskInfo": {
+          "state": "completed",
+          "startTime": "2016-11-22T19:37:31.4285526Z",
+          "endTime": "2016-11-22T19:37:31.838028Z",
+          "exitCode": 0,
+          "retryCount": 0
+        }
+      }
   name: Node get
 security: []
 name: Get

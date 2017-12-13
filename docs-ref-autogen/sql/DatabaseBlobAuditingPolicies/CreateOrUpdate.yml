@@ -81,50 +81,39 @@ requestBody:
     description: Specifies the state of the policy. If state is Enabled, storageEndpoint and storageAccountAccessKey are required.
     types:
     - uid: BlobAuditingPolicyState
-    name: state
+    name: properties.state
   - in: body
     description: Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). If state is Enabled, storageEndpoint is required.
     types:
     - uid: string
-    name: storageEndpoint
+    name: properties.storageEndpoint
   - in: body
     description: Specifies the identifier key of the auditing storage account. If state is Enabled, storageAccountAccessKey is required.
     types:
     - uid: string
-    name: storageAccountAccessKey
+    name: properties.storageAccountAccessKey
   - in: body
     description: Specifies the number of days to keep in the audit logs.
     types:
     - uid: integer
-    name: retentionDays
+    name: properties.retentionDays
   - in: body
     description: Specifies the Actions and Actions-Groups to audit.
     types:
-    - isArray: true
-      uid: string
-    name: auditActionsAndGroups
+    - uid: string
+    name: properties.auditActionsAndGroups
   - in: body
     description: Specifies the blob storage subscription Id.
     types:
     - uid: string
-    name: storageAccountSubscriptionId
+    name: properties.storageAccountSubscriptionId
   - in: body
     description: Specifies whether storageAccountAccessKey value is the storage’s secondary key.
     types:
     - uid: boolean
-    name: isStorageSecondaryKeyInUse
+    name: properties.isStorageSecondaryKeyInUse
 requestHeader: []
 definitions:
-- name: BlobAuditingPolicyState
-  description: Specifies the state of the policy. If state is Enabled, storageEndpoint and storageAccountAccessKey are required.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Enabled
-  - types:
-    - uid: string
-    name: Disabled
 - name: DatabaseBlobAuditingPolicy
   description: A database blob auditing policy.
   kind: object
@@ -137,32 +126,31 @@ definitions:
   - description: Specifies the state of the policy. If state is Enabled, storageEndpoint and storageAccountAccessKey are required.
     types:
     - uid: BlobAuditingPolicyState
-    name: state
+    name: properties.state
   - description: Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). If state is Enabled, storageEndpoint is required.
     types:
     - uid: string
-    name: storageEndpoint
+    name: properties.storageEndpoint
   - description: Specifies the identifier key of the auditing storage account. If state is Enabled, storageAccountAccessKey is required.
     types:
     - uid: string
-    name: storageAccountAccessKey
+    name: properties.storageAccountAccessKey
   - description: Specifies the number of days to keep in the audit logs.
     types:
     - uid: integer
-    name: retentionDays
+    name: properties.retentionDays
   - description: Specifies the Actions and Actions-Groups to audit.
     types:
-    - isArray: true
-      uid: string
-    name: auditActionsAndGroups
+    - uid: string
+    name: properties.auditActionsAndGroups
   - description: Specifies the blob storage subscription Id.
     types:
     - uid: string
-    name: storageAccountSubscriptionId
+    name: properties.storageAccountSubscriptionId
   - description: Specifies whether storageAccountAccessKey value is the storage’s secondary key.
     types:
     - uid: boolean
-    name: isStorageSecondaryKeyInUse
+    name: properties.isStorageSecondaryKeyInUse
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -178,24 +166,132 @@ definitions:
     types:
     - uid: string
     name: type
+- name: BlobAuditingPolicyState
+  description: Specifies the state of the policy. If state is Enabled, storageEndpoint and storageAccountAccessKey are required.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Enabled
+  - types:
+    - uid: string
+    name: Disabled
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/blobauditingtest-4799/providers/Microsoft.Sql/servers/blobauditingtest-6440/databases/testdb/auditingSettings/default?api-version=2015-05-01-preview
-    requestBody: '{"properties":{"state":"Enabled","storageAccountAccessKey":"sdlfkjabc+sdlfkjsdlkfsjdfLDKFTERLKFDFKLjsdfksjdflsdkfD2342309432849328476458/3RSD==","storageEndpoint":"https://mystorage.blob.core.windows.net","retentionDays":6,"storageAccountSubscriptionId":"00000000-1234-0000-5678-000000000000","isStorageSecondaryKeyInUse":false,"auditActionsAndGroups":["DATABASE_LOGOUT_GROUP","DATABASE_ROLE_MEMBER_CHANGE_GROUP","UPDATE on database::TestDatabaseName by public"]}}'
+    body: >-
+      {
+        "properties": {
+          "state": "Enabled",
+          "storageAccountAccessKey": "sdlfkjabc+sdlfkjsdlkfsjdfLDKFTERLKFDFKLjsdfksjdflsdkfD2342309432849328476458/3RSD==",
+          "storageEndpoint": "https://mystorage.blob.core.windows.net",
+          "retentionDays": 6,
+          "storageAccountSubscriptionId": "00000000-1234-0000-5678-000000000000",
+          "isStorageSecondaryKeyInUse": false,
+          "auditActionsAndGroups": [
+            "DATABASE_LOGOUT_GROUP",
+            "DATABASE_ROLE_MEMBER_CHANGE_GROUP",
+            "UPDATE on database::TestDatabaseName by public"
+          ]
+        }
+      }
   responses:
   - statusCode: "200"
-    body: '{"id":"/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/blobauditingtest-4799/providers/Microsoft.Sql/servers/blobauditingtest-6440/databases/testdb","name":"default","type":"Microsoft.Sql/servers/databases/auditingSettings","kind":"V12","properties":{"state":"Enabled","storageEndpoint":"https://mystorage.blob.core.windows.net","storageAccountAccessKey":"","retentionDays":0,"storageAccountSubscriptionId":"00000000-1234-0000-5678-000000000000","isStorageSecondaryKeyInUse":false,"auditActionsAndGroups":["DATABASE_LOGOUT_GROUP","DATABASE_ROLE_MEMBER_CHANGE_GROUP","UPDATE on database::TestDatabaseName by public"]}}'
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/blobauditingtest-4799/providers/Microsoft.Sql/servers/blobauditingtest-6440/databases/testdb",
+        "name": "default",
+        "type": "Microsoft.Sql/servers/databases/auditingSettings",
+        "kind": "V12",
+        "properties": {
+          "state": "Enabled",
+          "storageEndpoint": "https://mystorage.blob.core.windows.net",
+          "storageAccountAccessKey": "",
+          "retentionDays": 0,
+          "storageAccountSubscriptionId": "00000000-1234-0000-5678-000000000000",
+          "isStorageSecondaryKeyInUse": false,
+          "auditActionsAndGroups": [
+            "DATABASE_LOGOUT_GROUP",
+            "DATABASE_ROLE_MEMBER_CHANGE_GROUP",
+            "UPDATE on database::TestDatabaseName by public"
+          ]
+        }
+      }
   - statusCode: "201"
-    body: '{"id":"/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/blobauditingtest-4799/providers/Microsoft.Sql/servers/blobauditingtest-6440/databases/testdb","name":"default","type":"Microsoft.Sql/servers/databases/auditingSettings","kind":"V12","properties":{"state":"Enabled","storageEndpoint":"https://mystorage.blob.core.windows.net","storageAccountAccessKey":"","retentionDays":0,"storageAccountSubscriptionId":"00000000-1234-0000-5678-000000000000","isStorageSecondaryKeyInUse":false,"auditActionsAndGroups":["DATABASE_LOGOUT_GROUP","DATABASE_ROLE_MEMBER_CHANGE_GROUP","UPDATE on database::TestDatabaseName by public"]}}'
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/blobauditingtest-4799/providers/Microsoft.Sql/servers/blobauditingtest-6440/databases/testdb",
+        "name": "default",
+        "type": "Microsoft.Sql/servers/databases/auditingSettings",
+        "kind": "V12",
+        "properties": {
+          "state": "Enabled",
+          "storageEndpoint": "https://mystorage.blob.core.windows.net",
+          "storageAccountAccessKey": "",
+          "retentionDays": 0,
+          "storageAccountSubscriptionId": "00000000-1234-0000-5678-000000000000",
+          "isStorageSecondaryKeyInUse": false,
+          "auditActionsAndGroups": [
+            "DATABASE_LOGOUT_GROUP",
+            "DATABASE_ROLE_MEMBER_CHANGE_GROUP",
+            "UPDATE on database::TestDatabaseName by public"
+          ]
+        }
+      }
   name: Create or update a database's blob auditing policy with all parameters
 - request:
     uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/blobauditingtest-4799/providers/Microsoft.Sql/servers/blobauditingtest-6440/databases/testdb/auditingSettings/default?api-version=2015-05-01-preview
-    requestBody: '{"properties":{"state":"Enabled","storageAccountAccessKey":"sdlfkjabc+sdlfkjsdlkfsjdfLDKFTERLKFDFKLjsdfksjdflsdkfD2342309432849328476458/3RSD==","storageEndpoint":"https://mystorage.blob.core.windows.net"}}'
+    body: >-
+      {
+        "properties": {
+          "state": "Enabled",
+          "storageAccountAccessKey": "sdlfkjabc+sdlfkjsdlkfsjdfLDKFTERLKFDFKLjsdfksjdflsdkfD2342309432849328476458/3RSD==",
+          "storageEndpoint": "https://mystorage.blob.core.windows.net"
+        }
+      }
   responses:
   - statusCode: "200"
-    body: '{"id":"/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/blobauditingtest-4799/providers/Microsoft.Sql/servers/blobauditingtest-6440/databases/testdb","name":"default","type":"Microsoft.Sql/servers/databases/auditingSettings","kind":"V12","properties":{"state":"Enabled","storageEndpoint":"https://mystorage.blob.core.windows.net","storageAccountAccessKey":"","retentionDays":0,"storageAccountSubscriptionId":"00000000-0000-0000-0000-000000000000","isStorageSecondaryKeyInUse":false,"auditActionsAndGroups":["SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP","FAILED_DATABASE_AUTHENTICATION_GROUP","BATCH_COMPLETED_GROUP"]}}'
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/blobauditingtest-4799/providers/Microsoft.Sql/servers/blobauditingtest-6440/databases/testdb",
+        "name": "default",
+        "type": "Microsoft.Sql/servers/databases/auditingSettings",
+        "kind": "V12",
+        "properties": {
+          "state": "Enabled",
+          "storageEndpoint": "https://mystorage.blob.core.windows.net",
+          "storageAccountAccessKey": "",
+          "retentionDays": 0,
+          "storageAccountSubscriptionId": "00000000-0000-0000-0000-000000000000",
+          "isStorageSecondaryKeyInUse": false,
+          "auditActionsAndGroups": [
+            "SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP",
+            "FAILED_DATABASE_AUTHENTICATION_GROUP",
+            "BATCH_COMPLETED_GROUP"
+          ]
+        }
+      }
   - statusCode: "201"
-    body: '{"id":"/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/blobauditingtest-4799/providers/Microsoft.Sql/servers/blobauditingtest-6440/databases/testdb","name":"default","type":"Microsoft.Sql/servers/databases/auditingSettings","kind":"V12","properties":{"state":"Enabled","storageEndpoint":"https://mystorage.blob.core.windows.net","storageAccountAccessKey":"","retentionDays":0,"storageAccountSubscriptionId":"00000000-0000-0000-0000-000000000000","isStorageSecondaryKeyInUse":false,"auditActionsAndGroups":["SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP","FAILED_DATABASE_AUTHENTICATION_GROUP","BATCH_COMPLETED_GROUP"]}}'
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/blobauditingtest-4799/providers/Microsoft.Sql/servers/blobauditingtest-6440/databases/testdb",
+        "name": "default",
+        "type": "Microsoft.Sql/servers/databases/auditingSettings",
+        "kind": "V12",
+        "properties": {
+          "state": "Enabled",
+          "storageEndpoint": "https://mystorage.blob.core.windows.net",
+          "storageAccountAccessKey": "",
+          "retentionDays": 0,
+          "storageAccountSubscriptionId": "00000000-0000-0000-0000-000000000000",
+          "isStorageSecondaryKeyInUse": false,
+          "auditActionsAndGroups": [
+            "SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP",
+            "FAILED_DATABASE_AUTHENTICATION_GROUP",
+            "BATCH_COMPLETED_GROUP"
+          ]
+        }
+      }
   name: Create or update a database's blob auditing policy with minimal parameters
 security: []
 name: CreateOrUpdate

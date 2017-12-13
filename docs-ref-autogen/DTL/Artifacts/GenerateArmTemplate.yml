@@ -65,8 +65,7 @@ requestBody:
   - in: body
     description: The parameters of the ARM template.
     types:
-    - isArray: true
-      uid: ParameterInfo
+    - uid: ParameterInfo
     name: parameters
   - in: body
     description: The location of the virtual machine.
@@ -80,16 +79,18 @@ requestBody:
     name: fileUploadOptions
 requestHeader: []
 definitions:
-- name: FileUploadOptions
-  description: Options for uploading the files for the artifact. UploadFilesAndGenerateSasTokens is the default value.
-  kind: enum
+- name: ParameterInfo
+  description: The parameters of the ARM template.
+  kind: object
   properties:
-  - types:
+  - description: The name of the artifact parameter.
+    types:
     - uid: string
-    name: UploadFilesAndGenerateSasTokens
-  - types:
+    name: name
+  - description: The value of the artifact parameter.
+    types:
     - uid: string
-    name: None
+    name: value
 - name: ArmTemplateInfo
   description: Information about a generated ARM template.
   kind: object
@@ -110,6 +111,26 @@ definitions:
     types:
     - uid: CloudErrorBody
     name: error
+- name: GenerateArmTemplateRequest
+  description: Parameters for generating an ARM template for deploying artifacts.
+  kind: object
+  properties:
+  - description: The resource name of the virtual machine.
+    types:
+    - uid: string
+    name: virtualMachineName
+  - description: The parameters of the ARM template.
+    types:
+    - uid: ParameterInfo
+    name: parameters
+  - description: The location of the virtual machine.
+    types:
+    - uid: string
+    name: location
+  - description: Options for uploading the files for the artifact. UploadFilesAndGenerateSasTokens is the default value.
+    types:
+    - uid: FileUploadOptions
+    name: fileUploadOptions
 - name: CloudErrorBody
   description: Body of an error from a REST request.
   kind: object
@@ -125,9 +146,18 @@ definitions:
     name: target
   - description: Inner errors.
     types:
-    - isArray: true
-      uid: Details
+    - uid: Details
     name: details
+- name: FileUploadOptions
+  description: Options for uploading the files for the artifact. UploadFilesAndGenerateSasTokens is the default value.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: UploadFilesAndGenerateSasTokens
+  - types:
+    - uid: string
+    name: None
 examples: []
 security:
 - type: oauth2

@@ -54,12 +54,12 @@ definitions:
   - description: The iSCSI initiator name (IQN).
     types:
     - uid: string
-    name: initiatorName
+    name: properties.initiatorName
   - isReadyOnly: true
     description: The number of volumes using the access control record.
     types:
     - uid: integer
-    name: volumeCount
+    name: properties.volumeCount
   - isReadyOnly: true
     description: The path ID that uniquely identifies the object.
     types:
@@ -91,7 +91,17 @@ examples:
     uri: GET https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/accessControlRecords/ACRForTest?api-version=2017-06-01
   responses:
   - statusCode: "200"
-    body: '{"properties":{"initiatorName":"iqn.2017-06.com.contoso:ForTest","volumeCount":0},"id":"/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/accessControlRecords/ACRForTest","name":"ACRForTest","type":"Microsoft.StorSimple/managers/accessControlRecords","kind":"Series8000"}'
+    body: >-
+      {
+        "properties": {
+          "initiatorName": "iqn.2017-06.com.contoso:ForTest",
+          "volumeCount": 0
+        },
+        "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/accessControlRecords/ACRForTest",
+        "name": "ACRForTest",
+        "type": "Microsoft.StorSimple/managers/accessControlRecords",
+        "kind": "Series8000"
+      }
   name: AccessControlRecordsGet
 security:
 - type: oauth2

@@ -74,8 +74,7 @@ definitions:
   properties:
   - description: Page values.
     types:
-    - isArray: true
-      uid: AuthorizationServerContract
+    - uid: AuthorizationServerContract
     name: value
   - description: Total record count number across all pages.
     types:
@@ -86,30 +85,29 @@ definitions:
     - uid: string
     name: nextLink
 - name: AuthorizationServerContract
-  description: External OAuth authorization server settings.
+  description: Page values.
   kind: object
   properties:
   - description: User-friendly authorization server name.
     types:
     - uid: string
-    name: displayName
+    name: properties.displayName
   - description: Optional reference to a page where client or app registration for this authorization server is performed. Contains absolute URL to entity being referenced.
     types:
     - uid: string
-    name: clientRegistrationEndpoint
+    name: properties.clientRegistrationEndpoint
   - description: OAuth authorization endpoint. See http://tools.ietf.org/html/rfc6749#section-3.2.
     types:
     - uid: string
-    name: authorizationEndpoint
+    name: properties.authorizationEndpoint
   - description: Form of an authorization grant, which the client uses to request the access token.
     types:
-    - isArray: true
-      uid: string
-    name: grantTypes
+    - uid: string
+    name: properties.grantTypes
   - description: Client or app id registered with this authorization server.
     types:
     - uid: string
-    name: clientId
+    name: properties.clientId
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -128,53 +126,49 @@ definitions:
   - description: Description of the authorization server. Can contain HTML formatting tags.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - description: HTTP verbs supported by the authorization endpoint. GET must be always present. POST is optional.
     types:
-    - isArray: true
-      uid: string
-    name: authorizationMethods
+    - uid: string
+    name: properties.authorizationMethods
   - description: Method of authentication supported by the token endpoint of this authorization server. Possible values are Basic and/or Body. When Body is specified, client credentials and other parameters are passed within the request body in the application/x-www-form-urlencoded format.
     types:
-    - isArray: true
-      uid: string
-    name: clientAuthenticationMethod
+    - uid: string
+    name: properties.clientAuthenticationMethod
   - description: 'Additional parameters required by the token endpoint of this authorization server represented as an array of JSON objects with name and value string properties, i.e. {"name" : "name value", "value": "a value"}.'
     types:
-    - isArray: true
-      uid: TokenBodyParameterContract
-    name: tokenBodyParameters
+    - uid: TokenBodyParameterContract
+    name: properties.tokenBodyParameters
   - description: OAuth token endpoint. Contains absolute URI to entity being referenced.
     types:
     - uid: string
-    name: tokenEndpoint
+    name: properties.tokenEndpoint
   - description: If true, authorization server will include state parameter from the authorization request to its response. Client may use state parameter to raise protocol security.
     types:
     - uid: boolean
-    name: supportState
+    name: properties.supportState
   - description: Access token scope that is going to be requested by default. Can be overridden at the API level. Should be provided in the form of a string containing space-delimited values.
     types:
     - uid: string
-    name: defaultScope
+    name: properties.defaultScope
   - description: 'Specifies the mechanism by which access token is passed to the API. '
     types:
-    - isArray: true
-      uid: string
-    name: bearerTokenSendingMethods
+    - uid: string
+    name: properties.bearerTokenSendingMethods
   - description: Client or app secret registered with this authorization server.
     types:
     - uid: string
-    name: clientSecret
+    name: properties.clientSecret
   - description: Can be optionally specified when resource owner password grant type is supported by this authorization server. Default resource owner username.
     types:
     - uid: string
-    name: resourceOwnerUsername
+    name: properties.resourceOwnerUsername
   - description: Can be optionally specified when resource owner password grant type is supported by this authorization server. Default resource owner password.
     types:
     - uid: string
-    name: resourceOwnerPassword
+    name: properties.resourceOwnerPassword
 - name: TokenBodyParameterContract
-  description: OAuth acquire token request body parameter (www-url-form-encoded).
+  description: 'Additional parameters required by the token endpoint of this authorization server represented as an array of JSON objects with name and value string properties, i.e. {"name" : "name value", "value": "a value"}.'
   kind: object
   properties:
   - description: body parameter name.
@@ -190,7 +184,71 @@ examples:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/authorizationServers?api-version=2017-03-01
   responses:
   - statusCode: "200"
-    body: '{"value":[{"id":"/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/authorizationServers/newauthServer","type":"Microsoft.ApiManagement/service/authorizationServers","name":"newauthServer","properties":{"displayName":"test2","description":"test server","clientRegistrationEndpoint":"https://www.contoso.com/apps","authorizationEndpoint":"https://www.contoso.com/oauth2/auth","authorizationMethods":["GET"],"tokenEndpoint":"https://www.contoso.com/oauth2/token","supportState":true,"defaultScope":"read write","grantTypes":["authorizationCode","implicit"],"bearerTokenSendingMethods":["authorizationHeader"],"clientId":"1","clientSecret":"2","resourceOwnerUsername":"un","resourceOwnerPassword":"pwd"}},{"id":"/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/authorizationServers/newauthServer2","type":"Microsoft.ApiManagement/service/authorizationServers","name":"newauthServer2","properties":{"displayName":"test3","description":"test server","clientRegistrationEndpoint":"https://www.contoso.com/apps","authorizationEndpoint":"https://www.contoso.com/oauth2/auth","authorizationMethods":["GET"],"clientAuthenticationMethod":["Basic"],"tokenEndpoint":"https://www.contoso.com/oauth2/token","supportState":true,"defaultScope":"read write","grantTypes":["authorizationCode","implicit"],"bearerTokenSendingMethods":["authorizationHeader"],"clientId":"1","clientSecret":"2","resourceOwnerUsername":"un","resourceOwnerPassword":"pwd"}}],"nextLink":""}'
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/authorizationServers/newauthServer",
+            "type": "Microsoft.ApiManagement/service/authorizationServers",
+            "name": "newauthServer",
+            "properties": {
+              "displayName": "test2",
+              "description": "test server",
+              "clientRegistrationEndpoint": "https://www.contoso.com/apps",
+              "authorizationEndpoint": "https://www.contoso.com/oauth2/auth",
+              "authorizationMethods": [
+                "GET"
+              ],
+              "tokenEndpoint": "https://www.contoso.com/oauth2/token",
+              "supportState": true,
+              "defaultScope": "read write",
+              "grantTypes": [
+                "authorizationCode",
+                "implicit"
+              ],
+              "bearerTokenSendingMethods": [
+                "authorizationHeader"
+              ],
+              "clientId": "1",
+              "clientSecret": "2",
+              "resourceOwnerUsername": "un",
+              "resourceOwnerPassword": "pwd"
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/authorizationServers/newauthServer2",
+            "type": "Microsoft.ApiManagement/service/authorizationServers",
+            "name": "newauthServer2",
+            "properties": {
+              "displayName": "test3",
+              "description": "test server",
+              "clientRegistrationEndpoint": "https://www.contoso.com/apps",
+              "authorizationEndpoint": "https://www.contoso.com/oauth2/auth",
+              "authorizationMethods": [
+                "GET"
+              ],
+              "clientAuthenticationMethod": [
+                "Basic"
+              ],
+              "tokenEndpoint": "https://www.contoso.com/oauth2/token",
+              "supportState": true,
+              "defaultScope": "read write",
+              "grantTypes": [
+                "authorizationCode",
+                "implicit"
+              ],
+              "bearerTokenSendingMethods": [
+                "authorizationHeader"
+              ],
+              "clientId": "1",
+              "clientSecret": "2",
+              "resourceOwnerUsername": "un",
+              "resourceOwnerPassword": "pwd"
+            }
+          }
+        ],
+        "nextLink": ""
+      }
   name: ApiManagementListAuthorizationServers
 security:
 - type: oauth2

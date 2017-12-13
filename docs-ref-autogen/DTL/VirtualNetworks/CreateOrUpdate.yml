@@ -58,41 +58,38 @@ requestBody:
   - in: body
     description: The allowed subnets of the virtual network.
     types:
-    - isArray: true
-      uid: Subnet
-    name: allowedSubnets
+    - uid: Subnet
+    name: properties.allowedSubnets
   - in: body
     description: The description of the virtual network.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - in: body
     description: The Microsoft.Network resource identifier of the virtual network.
     types:
     - uid: string
-    name: externalProviderResourceId
+    name: properties.externalProviderResourceId
   - in: body
     description: The external subnet properties.
     types:
-    - isArray: true
-      uid: ExternalSubnet
-    name: externalSubnets
+    - uid: ExternalSubnet
+    name: properties.externalSubnets
   - in: body
     description: The subnet overrides of the virtual network.
     types:
-    - isArray: true
-      uid: SubnetOverride
-    name: subnetOverrides
+    - uid: SubnetOverride
+    name: properties.subnetOverrides
   - in: body
     description: The provisioning status of the resource.
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - in: body
     description: The unique immutable identifier of a resource (Guid).
     types:
     - uid: string
-    name: uniqueIdentifier
+    name: properties.uniqueIdentifier
   - in: body
     description: The location of the resource.
     types:
@@ -109,98 +106,8 @@ requestBody:
     name: tags
 requestHeader: []
 definitions:
-- name: UsagePermissionType
-  description: The permission policy of the subnet for allowing public IP addresses (i.e. Allow, Deny)).
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Default
-  - types:
-    - uid: string
-    name: Deny
-  - types:
-    - uid: string
-    name: Allow
-- name: TransportProtocol
-  description: Protocol type of the port.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Tcp
-  - types:
-    - uid: string
-    name: Udp
-- name: VirtualNetwork
-  description: A virtual network.
-  kind: object
-  properties:
-  - description: The allowed subnets of the virtual network.
-    types:
-    - isArray: true
-      uid: Subnet
-    name: allowedSubnets
-  - description: The description of the virtual network.
-    types:
-    - uid: string
-    name: description
-  - description: The Microsoft.Network resource identifier of the virtual network.
-    types:
-    - uid: string
-    name: externalProviderResourceId
-  - description: The external subnet properties.
-    types:
-    - isArray: true
-      uid: ExternalSubnet
-    name: externalSubnets
-  - description: The subnet overrides of the virtual network.
-    types:
-    - isArray: true
-      uid: SubnetOverride
-    name: subnetOverrides
-  - isReadyOnly: true
-    description: The creation date of the virtual network.
-    types:
-    - uid: string
-    name: createdDate
-  - description: The provisioning status of the resource.
-    types:
-    - uid: string
-    name: provisioningState
-  - description: The unique immutable identifier of a resource (Guid).
-    types:
-    - uid: string
-    name: uniqueIdentifier
-  - isReadyOnly: true
-    description: The identifier of the resource.
-    types:
-    - uid: string
-    name: id
-  - isReadyOnly: true
-    description: The name of the resource.
-    types:
-    - uid: string
-    name: name
-  - isReadyOnly: true
-    description: The type of the resource.
-    types:
-    - uid: string
-    name: type
-  - description: The location of the resource.
-    types:
-    - uid: string
-    name: location
-  - description: The tags of the resource.
-    types:
-    - isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-      uid: object
-    name: tags
 - name: Subnet
-  description: Subnet information.
+  description: The allowed subnets of the virtual network.
   kind: object
   properties:
   - description: The resource ID of the subnet.
@@ -228,7 +135,7 @@ definitions:
     - uid: string
     name: name
 - name: SubnetOverride
-  description: Property overrides on a subnet of a virtual network.
+  description: The subnet overrides of the virtual network.
   kind: object
   properties:
   - description: The resource ID of the subnet.
@@ -255,27 +162,70 @@ definitions:
     types:
     - uid: string
     name: virtualNetworkPoolName
-- name: SubnetSharedPublicIpAddressConfiguration
-  description: Properties that virtual machines on this subnet will share.
+- name: VirtualNetwork
+  description: Results of the list operation.
   kind: object
   properties:
-  - description: Backend ports that virtual machines on this subnet are allowed to expose
+  - description: The allowed subnets of the virtual network.
     types:
-    - isArray: true
-      uid: Port
-    name: allowedPorts
-- name: Port
-  description: Properties of a network port.
-  kind: object
-  properties:
-  - description: Protocol type of the port.
+    - uid: Subnet
+    name: properties.allowedSubnets
+  - description: The description of the virtual network.
     types:
-    - uid: TransportProtocol
-    name: transportProtocol
-  - description: Backend port of the target virtual machine.
+    - uid: string
+    name: properties.description
+  - description: The Microsoft.Network resource identifier of the virtual network.
     types:
-    - uid: integer
-    name: backendPort
+    - uid: string
+    name: properties.externalProviderResourceId
+  - description: The external subnet properties.
+    types:
+    - uid: ExternalSubnet
+    name: properties.externalSubnets
+  - description: The subnet overrides of the virtual network.
+    types:
+    - uid: SubnetOverride
+    name: properties.subnetOverrides
+  - isReadyOnly: true
+    description: The creation date of the virtual network.
+    types:
+    - uid: string
+    name: properties.createdDate
+  - description: The provisioning status of the resource.
+    types:
+    - uid: string
+    name: properties.provisioningState
+  - description: The unique immutable identifier of a resource (Guid).
+    types:
+    - uid: string
+    name: properties.uniqueIdentifier
+  - isReadyOnly: true
+    description: The identifier of the resource.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+    name: type
+  - description: The location of the resource.
+    types:
+    - uid: string
+    name: location
+  - description: The tags of the resource.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
 - name: CloudError
   description: Error from a REST request.
   kind: object
@@ -284,6 +234,27 @@ definitions:
     types:
     - uid: CloudErrorBody
     name: error
+- name: UsagePermissionType
+  description: The permission policy of the subnet for allowing public IP addresses (i.e. Allow, Deny)).
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Default
+  - types:
+    - uid: string
+    name: Deny
+  - types:
+    - uid: string
+    name: Allow
+- name: SubnetSharedPublicIpAddressConfiguration
+  description: Properties that virtual machines on this subnet will share.
+  kind: object
+  properties:
+  - description: Backend ports that virtual machines on this subnet are allowed to expose
+    types:
+    - uid: Port
+    name: allowedPorts
 - name: CloudErrorBody
   description: Body of an error from a REST request.
   kind: object
@@ -299,9 +270,30 @@ definitions:
     name: target
   - description: Inner errors.
     types:
-    - isArray: true
-      uid: Details
+    - uid: Details
     name: details
+- name: Port
+  description: Properties of a network port.
+  kind: object
+  properties:
+  - description: Protocol type of the port.
+    types:
+    - uid: TransportProtocol
+    name: transportProtocol
+  - description: Backend port of the target virtual machine.
+    types:
+    - uid: integer
+    name: backendPort
+- name: TransportProtocol
+  description: The transport protocol for the endpoint.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Tcp
+  - types:
+    - uid: string
+    name: Udp
 examples: []
 security:
 - type: oauth2

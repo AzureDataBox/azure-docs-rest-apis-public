@@ -67,22 +67,22 @@ requestBody:
     description: Gets or sets the base64 encoded value of the certificate.
     types:
     - uid: string
-    name: base64Value
+    name: properties.base64Value
   - in: body
     description: Gets or sets the description of the certificate.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - in: body
     description: Gets or sets the thumbprint of the certificate.
     types:
     - uid: string
-    name: thumbprint
+    name: properties.thumbprint
   - in: body
     description: Gets or sets the is exportable flag of the certificate.
     types:
     - uid: boolean
-    name: isExportable
+    name: properties.isExportable
 requestHeader: []
 definitions:
 - name: Certificate
@@ -103,31 +103,31 @@ definitions:
     description: Gets the thumbprint of the certificate.
     types:
     - uid: string
-    name: thumbprint
+    name: properties.thumbprint
   - isReadyOnly: true
     description: Gets the expiry time of the certificate.
     types:
     - uid: string
-    name: expiryTime
+    name: properties.expiryTime
   - isReadyOnly: true
     description: Gets the is exportable flag of the certificate.
     types:
     - uid: boolean
-    name: isExportable
+    name: properties.isExportable
   - isReadyOnly: true
     description: Gets the creation time.
     types:
     - uid: string
-    name: creationTime
+    name: properties.creationTime
   - isReadyOnly: true
     description: Gets the last modified time.
     types:
     - uid: string
-    name: lastModifiedTime
+    name: properties.lastModifiedTime
   - description: Gets or sets the description.
     types:
     - uid: string
-    name: description
+    name: properties.description
 - name: ErrorResponse
   description: Error response of an operation failure
   kind: object
@@ -140,15 +140,72 @@ definitions:
     types:
     - uid: string
     name: message
+- name: CertificateCreateOrUpdateParameters
+  description: The parameters supplied to the create or update or replace certificate operation.
+  kind: object
+  properties:
+  - description: Gets or sets the name of the certificate.
+    types:
+    - uid: string
+    name: name
+  - description: Gets or sets the base64 encoded value of the certificate.
+    types:
+    - uid: string
+    name: properties.base64Value
+  - description: Gets or sets the description of the certificate.
+    types:
+    - uid: string
+    name: properties.description
+  - description: Gets or sets the thumbprint of the certificate.
+    types:
+    - uid: string
+    name: properties.thumbprint
+  - description: Gets or sets the is exportable flag of the certificate.
+    types:
+    - uid: boolean
+    name: properties.isExportable
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount18/certificates/testCert?api-version=2015-10-31
-    requestBody: '{"name":"testCert","properties":{"base64Value":"base 64 value of cert","description":"Sample Cert","thumbprint":"thumbprint of cert","isExportable":false}}'
+    body: >-
+      {
+        "name": "testCert",
+        "properties": {
+          "base64Value": "base 64 value of cert",
+          "description": "Sample Cert",
+          "thumbprint": "thumbprint of cert",
+          "isExportable": false
+        }
+      }
   responses:
   - statusCode: "201"
-    body: '{"id":"/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/certificates/testCert","name":"testCert","properties":{"description":"Sample Cert","isExportable":false,"thumbprint":"thumbprint of cert","expiryTime":"2018-03-29T17:25:45+00:00","creationTime":"2017-03-29T17:26:43.337+00:00","lastModifiedTime":"2017-03-29T17:26:43.337+00:00"}}'
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/certificates/testCert",
+        "name": "testCert",
+        "properties": {
+          "description": "Sample Cert",
+          "isExportable": false,
+          "thumbprint": "thumbprint of cert",
+          "expiryTime": "2018-03-29T17:25:45+00:00",
+          "creationTime": "2017-03-29T17:26:43.337+00:00",
+          "lastModifiedTime": "2017-03-29T17:26:43.337+00:00"
+        }
+      }
   - statusCode: "200"
-    body: '{"id":"/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/certificates/testCert","name":"testCert","properties":{"description":"sample certificate. Description updated","isExportable":false,"thumbprint":"thumbprint of cert","expiryTime":"2018-03-29T17:25:45+00:00","creationTime":"2017-03-29T17:26:43.337+00:00","lastModifiedTime":"2017-03-29T17:28:55.01+00:00"}}'
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/certificates/testCert",
+        "name": "testCert",
+        "properties": {
+          "description": "sample certificate. Description updated",
+          "isExportable": false,
+          "thumbprint": "thumbprint of cert",
+          "expiryTime": "2018-03-29T17:25:45+00:00",
+          "creationTime": "2017-03-29T17:26:43.337+00:00",
+          "lastModifiedTime": "2017-03-29T17:28:55.01+00:00"
+        }
+      }
   name: Create or update a certificate
 security: []
 name: CreateOrUpdate

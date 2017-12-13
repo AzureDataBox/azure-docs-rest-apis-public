@@ -52,15 +52,32 @@ requestBody:
     isRequired: true
     description: files to import.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: files
 requestHeader: []
-definitions: []
+definitions:
+- name: ImportRDBParameters
+  description: Parameters for Redis import operation.
+  kind: object
+  properties:
+  - description: File format.
+    types:
+    - uid: string
+    name: format
+  - description: files to import.
+    types:
+    - uid: string
+    name: files
 examples:
 - request:
     uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/import?api-version=2016-04-01
-    requestBody: '{"format":"RDB","files":["http://fileuris.contoso.com/pathtofile1"]}'
+    body: >-
+      {
+        "format": "RDB",
+        "files": [
+          "http://fileuris.contoso.com/pathtofile1"
+        ]
+      }
   responses:
   - statusCode: "200"
   - statusCode: "202"

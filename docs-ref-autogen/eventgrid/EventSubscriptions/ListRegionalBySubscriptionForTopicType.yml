@@ -53,8 +53,7 @@ definitions:
   properties:
   - description: A collection of EventSubscriptions
     types:
-    - isArray: true
-      uid: EventSubscription
+    - uid: EventSubscription
     name: value
 - name: EventSubscription
   description: Event Subscription
@@ -64,25 +63,24 @@ definitions:
     description: Name of the topic of the event subscription.
     types:
     - uid: string
-    name: topic
+    name: properties.topic
   - isReadyOnly: true
     description: Provisioning state of the event subscription.
     types:
     - uid: EventSubscriptionProvisioningState
-    name: provisioningState
+    name: properties.provisioningState
   - description: Information about the destination where events have to be delivered for the event subscription.
     types:
     - uid: EventSubscriptionDestination
-    name: destination
+    name: properties.destination
   - description: Information about the filter for the event subscription.
     types:
     - uid: EventSubscriptionFilter
-    name: filter
+    name: properties.filter
   - description: List of user defined labels.
     types:
-    - isArray: true
-      uid: string
-    name: labels
+    - uid: string
+    name: properties.labels
   - isReadyOnly: true
     description: Fully qualified identifier of the resource
     types:
@@ -131,19 +129,12 @@ definitions:
   - description: The URL that represents the endpoint of the destination of an event subscription.
     types:
     - uid: string
-    name: endpointUrl
+    name: properties.endpointUrl
   - isReadyOnly: true
     description: The base URL that represents the endpoint of the destination of an event subscription.
     types:
     - uid: string
-    name: endpointBaseUrl
-- name: EndpointType
-  description: Type of the endpoint for the event subscription destination
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: WebHook
+    name: properties.endpointBaseUrl
 - name: EventSubscriptionFilter
   description: Information about the filter for the event subscription.
   kind: object
@@ -161,19 +152,83 @@ definitions:
     name: subjectEndsWith
   - description: "A list of applicable event types that need to be part of the event subscription. \r\nIf it is desired to subscribe to all event types, the string \"all\" needs to be specified as an element in this list."
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: includedEventTypes
   - description: "Specifies if the SubjectBeginsWith and SubjectEndsWith properties of the filter \r\nshould be compared in a case sensitive manner."
     types:
     - uid: boolean
     name: isSubjectCaseSensitive
+- name: EndpointType
+  description: Type of the endpoint for the event subscription destination
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: WebHook
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/providers/Microsoft.EventGrid/locations/westus2/topicTypes/Microsoft.EventHub.namespaces/eventSubscriptions?api-version=2017-06-15-preview
   responses:
   - statusCode: "200"
-    body: '{"value":[{"properties":{"destination":{"properties":{"endpointBaseUrl":"https://requestb.in/15ksip71"},"endpointType":"WebHook"},"filter":{"includedEventTypes":["All"],"isSubjectCaseSensitive":false,"subjectBeginsWith":"ExamplePrefix","subjectEndsWith":"ExampleSuffix"},"labels":["Finance","HR"],"provisioningState":"Succeeded","topic":"/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/microsoft.eventhub/namespaces/examplenamespace1"},"id":"/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventHub/namespaces/examplenamespace1/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription10","name":"examplesubscription10","type":"Microsoft.EventGrid/eventSubscriptions"},{"properties":{"destination":{"properties":{"endpointBaseUrl":"https://requestb.in/15ksip71"},"endpointType":"WebHook"},"filter":{"includedEventTypes":["All"],"isSubjectCaseSensitive":false,"subjectBeginsWith":"ExamplePrefix","subjectEndsWith":"ExampleSuffix"},"labels":["Finance","HR"],"provisioningState":"Succeeded","topic":"/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/microsoft.eventhub/namespaces/examplenamespace1"},"id":"/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventHub/namespaces/examplenamespace1/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription11","name":"examplesubscription11","type":"Microsoft.EventGrid/eventSubscriptions"}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "destination": {
+                "properties": {
+                  "endpointBaseUrl": "https://requestb.in/15ksip71"
+                },
+                "endpointType": "WebHook"
+              },
+              "filter": {
+                "includedEventTypes": [
+                  "All"
+                ],
+                "isSubjectCaseSensitive": false,
+                "subjectBeginsWith": "ExamplePrefix",
+                "subjectEndsWith": "ExampleSuffix"
+              },
+              "labels": [
+                "Finance",
+                "HR"
+              ],
+              "provisioningState": "Succeeded",
+              "topic": "/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/microsoft.eventhub/namespaces/examplenamespace1"
+            },
+            "id": "/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventHub/namespaces/examplenamespace1/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription10",
+            "name": "examplesubscription10",
+            "type": "Microsoft.EventGrid/eventSubscriptions"
+          },
+          {
+            "properties": {
+              "destination": {
+                "properties": {
+                  "endpointBaseUrl": "https://requestb.in/15ksip71"
+                },
+                "endpointType": "WebHook"
+              },
+              "filter": {
+                "includedEventTypes": [
+                  "All"
+                ],
+                "isSubjectCaseSensitive": false,
+                "subjectBeginsWith": "ExamplePrefix",
+                "subjectEndsWith": "ExampleSuffix"
+              },
+              "labels": [
+                "Finance",
+                "HR"
+              ],
+              "provisioningState": "Succeeded",
+              "topic": "/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/microsoft.eventhub/namespaces/examplenamespace1"
+            },
+            "id": "/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventHub/namespaces/examplenamespace1/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription11",
+            "name": "examplesubscription11",
+            "type": "Microsoft.EventGrid/eventSubscriptions"
+          }
+        ]
+      }
   name: EventSubscriptions_ListRegionalBySubscriptionForTopicType
 security: []
 name: ListRegionalBySubscriptionForTopicType

@@ -62,8 +62,24 @@ requestBody:
     name: properties
 requestHeader: []
 definitions:
+- name: DiscoverProtectableItemRequestProperties
+  description: The properties of a discover protectable item request.
+  kind: object
+  properties:
+  - description: The friendly name of the physical machine.
+    types:
+    - uid: string
+    name: friendlyName
+  - description: The IP address of the physical machine to be discovered.
+    types:
+    - uid: string
+    name: ipAddress
+  - description: The OS type on the physical machine.
+    types:
+    - uid: string
+    name: osType
 - name: ProtectionContainer
-  description: Protection container details.
+  description: The Protection Container details.
   kind: object
   properties:
   - description: The custom data.
@@ -89,6 +105,14 @@ definitions:
     types:
     - uid: string
     name: location
+- name: DiscoverProtectableItemRequest
+  description: Request to add a physical machine as a protectable item in a container.
+  kind: object
+  properties:
+  - description: The properties of a discover protectable item request.
+    types:
+    - uid: DiscoverProtectableItemRequestProperties
+    name: properties
 - name: ProtectionContainerProperties
   description: The custom data.
   kind: object
@@ -133,10 +157,30 @@ definitions:
 examples:
 - request:
     uri: POST https://management.azure.com/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/MadhaviVRG/providers/Microsoft.RecoveryServices/vaults/MadhaviVault/replicationFabrics/V2A-W2K12-660/replicationProtectionContainers/cloud_7328549c-5c37-4459-a3c2-e35f9ef6893c/discoverProtectableItem?api-version=2016-08-10
-    requestBody: '{"properties":{"friendlyName":"Test","ipAddress":"10.150.2.3","osType":"Windows"}}'
+    body: >-
+      {
+        "properties": {
+          "friendlyName": "Test",
+          "ipAddress": "10.150.2.3",
+          "osType": "Windows"
+        }
+      }
   responses:
   - statusCode: "200"
-    body: '{"id":"/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/MadhaviVRG/providers/Microsoft.RecoveryServices/vaults/MadhaviVault/replicationFabrics/239f778f368e34f78216d81f030725cdf2033174b47879b9f2eeede06fdd9c4d/replicationProtectionContainers/cloud_7328549c-5c37-4459-a3c2-e35f9ef6893c","name":"cloud_7328549c-5c37-4459-a3c2-e35f9ef6893c","type":"Microsoft.RecoveryServices/vaults/replicationFabrics/replicationProtectionContainers","properties":{"fabricFriendlyName":"V2A-W2K12-660","friendlyName":"V2A-W2K12-660","fabricType":"VMware","protectedItemCount":2,"pairingStatus":"Paired","role":"Primary"}}'
+    body: >-
+      {
+        "id": "/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/MadhaviVRG/providers/Microsoft.RecoveryServices/vaults/MadhaviVault/replicationFabrics/239f778f368e34f78216d81f030725cdf2033174b47879b9f2eeede06fdd9c4d/replicationProtectionContainers/cloud_7328549c-5c37-4459-a3c2-e35f9ef6893c",
+        "name": "cloud_7328549c-5c37-4459-a3c2-e35f9ef6893c",
+        "type": "Microsoft.RecoveryServices/vaults/replicationFabrics/replicationProtectionContainers",
+        "properties": {
+          "fabricFriendlyName": "V2A-W2K12-660",
+          "friendlyName": "V2A-W2K12-660",
+          "fabricType": "VMware",
+          "protectedItemCount": 2,
+          "pairingStatus": "Paired",
+          "role": "Primary"
+        }
+      }
   - statusCode: "202"
   name: Adds a protectable item to the replication protection container.
 security:

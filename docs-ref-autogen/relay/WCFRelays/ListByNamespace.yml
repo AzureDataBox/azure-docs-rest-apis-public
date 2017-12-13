@@ -51,53 +51,64 @@ definitions:
   properties:
   - description: Result of the list WCF relay operation.
     types:
-    - isArray: true
-      uid: WcfRelay
+    - uid: WcfRelay
     name: value
   - description: Link to the next set of results. Not empty if value contains incomplete list of WCF relays.
     types:
     - uid: string
     name: nextLink
+- name: ErrorResponse
+  description: Error reponse indicates Relay service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
 - name: WcfRelay
-  description: Description of the WCF relay resource.
+  description: Result of the list WCF relay operation.
   kind: object
   properties:
   - isReadyOnly: true
     description: Returns true if the relay is dynamic; otherwise, false.
     types:
     - uid: boolean
-    name: isDynamic
+    name: properties.isDynamic
   - isReadyOnly: true
     description: The time the WCF relay was created.
     types:
     - uid: string
-    name: createdAt
+    name: properties.createdAt
   - isReadyOnly: true
     description: The time the namespace was updated.
     types:
     - uid: string
-    name: updatedAt
+    name: properties.updatedAt
   - isReadyOnly: true
     description: The number of listeners for this relay. Note that min :1 and max:25 are supported.
     types:
     - uid: integer
-    name: listenerCount
+    name: properties.listenerCount
   - description: WCF relay type.
     types:
     - uid: Relaytype
-    name: relayType
+    name: properties.relayType
   - description: Returns true if client authorization is needed for this relay; otherwise, false.
     types:
     - uid: boolean
-    name: requiresClientAuthorization
+    name: properties.requiresClientAuthorization
   - description: Returns true if transport security is needed for this relay; otherwise, false.
     types:
     - uid: boolean
-    name: requiresTransportSecurity
+    name: properties.requiresTransportSecurity
   - description: The usermetadata is a placeholder to store user-defined string data for the WCF Relay endpoint. For example, it can be used to store descriptive data, such as list of teams and their contact information. Also, user-defined configuration settings can be stored.
     types:
     - uid: string
-    name: userMetadata
+    name: properties.userMetadata
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -123,24 +134,30 @@ definitions:
   - types:
     - uid: string
     name: Http
-- name: ErrorResponse
-  description: Error reponse indicates Relay service is not able to process the incoming request. The reason is provided in the error message.
-  kind: object
-  properties:
-  - description: Error code.
-    types:
-    - uid: string
-    name: code
-  - description: Error message indicating why the operation failed.
-    types:
-    - uid: string
-    name: message
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/8c246e6a-cbc6-4a87-aff1-d6a886f376ef/resourceGroups/RG-eg/providers/Microsoft.Relay/namespaces/sdk-RelayNamespace-01/wcfRelays?api-version=2017-04-01
   responses:
   - statusCode: "200"
-    body: '{"value":[{"id":"/subscriptions/8c246e6a-cbc6-4a87-aff1-d6a886f376ef/resourceGroups/RG1-eg/providers/Microsoft.Relay/namespaces/sdk-RelayNamespace-01/WcfRelays/sdk-Relay-Wcf-01","name":"sdk-Relay-Wcf-01","type":"Microsoft.Relay/Namespaces/WcfRelays","properties":{"createdAt":"2017-01-24T00:46:27.0049983Z","updatedAt":"2017-01-24T00:46:27.0049983Z","relayType":"NetTcp","requiresClientAuthorization":true,"requiresTransportSecurity":true,"isDynamic":false,"userMetadata":"usermetadata is a placeholder to store user-defined string data for the HybridConnection endpoint.e.g. it can be used to store  descriptive data, such as list of teams and their contact information also user-defined configuration settings can be stored"}}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/8c246e6a-cbc6-4a87-aff1-d6a886f376ef/resourceGroups/RG1-eg/providers/Microsoft.Relay/namespaces/sdk-RelayNamespace-01/WcfRelays/sdk-Relay-Wcf-01",
+            "name": "sdk-Relay-Wcf-01",
+            "type": "Microsoft.Relay/Namespaces/WcfRelays",
+            "properties": {
+              "createdAt": "2017-01-24T00:46:27.0049983Z",
+              "updatedAt": "2017-01-24T00:46:27.0049983Z",
+              "relayType": "NetTcp",
+              "requiresClientAuthorization": true,
+              "requiresTransportSecurity": true,
+              "isDynamic": false,
+              "userMetadata": "usermetadata is a placeholder to store user-defined string data for the HybridConnection endpoint.e.g. it can be used to store  descriptive data, such as list of teams and their contact information also user-defined configuration settings can be stored"
+            }
+          }
+        ]
+      }
   name: RelayListAll
 security:
 - type: oauth2

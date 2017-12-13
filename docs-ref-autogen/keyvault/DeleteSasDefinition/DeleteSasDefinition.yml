@@ -84,8 +84,17 @@ definitions:
       - uid: string
       uid: object
     name: tags
+- name: KeyVaultError
+  description: The key vault error exception.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
+    name: error
 - name: SasDefinitionAttributes
-  description: The SAS definition attributes.
+  description: The SAS definition management attributes.
   kind: object
   properties:
   - description: the enabled state of the object.
@@ -102,17 +111,8 @@ definitions:
     types:
     - uid: integer
     name: updated
-- name: KeyVaultError
-  description: The key vault error exception.
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: The key vault server error.
-    types:
-    - uid: Error
-    name: error
 - name: Error
-  description: The key vault server error.
+  description: Error encountered, if any, during the certificate operation.
   kind: object
   properties:
   - isReadyOnly: true
@@ -133,8 +133,26 @@ examples:
     uri: DELETE https://{vaultBaseUrl}/storage/deletesas01/sas/deleteStrgSasDef01?api-version=2016-10-01
   responses:
   - statusCode: "200"
-    body: '{"id":"https://storage-sdk-test.vault-int.azure-int.net/storage/deletesas01/sas/deleteStrgSasDef01","sid":"https://storage-sdk-test.vault-int.azure-int.net/secrets/deletesas01-deleteStrgSasDef01","parameters":{"sasType":"account","signedProtocols":"https","signedServices":"bq","signedResourceTypes":"sco","signedPermissions":"rw","signedVersion":"2016-05-31","validityPeriod":"PT10H"},"attributes":{"enabled":true,"created":1490738438,"updated":1490738438}}'
+    body: >-
+      {
+        "id": "https://storage-sdk-test.vault-int.azure-int.net/storage/deletesas01/sas/deleteStrgSasDef01",
+        "sid": "https://storage-sdk-test.vault-int.azure-int.net/secrets/deletesas01-deleteStrgSasDef01",
+        "parameters": {
+          "sasType": "account",
+          "signedProtocols": "https",
+          "signedServices": "bq",
+          "signedResourceTypes": "sco",
+          "signedPermissions": "rw",
+          "signedVersion": "2016-05-31",
+          "validityPeriod": "PT10H"
+        },
+        "attributes": {
+          "enabled": true,
+          "created": 1490738438,
+          "updated": 1490738438
+        }
+      }
   name: Delete Storage Sas Definition
 security: []
 name: DeleteSasDefinition
-uid: .keyvault.deletesasdefinition.deletesasdefinition
+uid: keyvault.deletesasdefinition.deletesasdefinition

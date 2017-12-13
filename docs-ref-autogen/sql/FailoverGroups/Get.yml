@@ -194,31 +194,29 @@ definitions:
   - description: Read-write endpoint of the failover group instance.
     types:
     - uid: FailoverGroupReadWriteEndpoint
-    name: readWriteEndpoint
+    name: properties.readWriteEndpoint
   - description: Read-only endpoint of the failover group instance.
     types:
     - uid: FailoverGroupReadOnlyEndpoint
-    name: readOnlyEndpoint
+    name: properties.readOnlyEndpoint
   - isReadyOnly: true
     description: Local replication role of the failover group instance.
     types:
     - uid: FailoverGroupReplicationRole
-    name: replicationRole
+    name: properties.replicationRole
   - isReadyOnly: true
     description: Replication state of the failover group instance.
     types:
     - uid: string
-    name: replicationState
+    name: properties.replicationState
   - description: List of partner server information for the failover group.
     types:
-    - isArray: true
-      uid: PartnerInfo
-    name: partnerServers
+    - uid: PartnerInfo
+    name: properties.partnerServers
   - description: List of databases in the failover group.
     types:
-    - isArray: true
-      uid: string
-    name: databases
+    - uid: string
+    name: properties.databases
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -246,16 +244,6 @@ definitions:
     types:
     - uid: integer
     name: failoverWithDataLossGracePeriodMinutes
-- name: ReadWriteEndpointFailoverPolicy
-  description: Failover policy of the read-write endpoint for the failover group. If failoverPolicy is Automatic then failoverWithDataLossGracePeriodMinutes is required.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Manual
-  - types:
-    - uid: string
-    name: Automatic
 - name: FailoverGroupReadOnlyEndpoint
   description: Read-only endpoint of the failover group instance.
   kind: object
@@ -264,16 +252,6 @@ definitions:
     types:
     - uid: ReadOnlyEndpointFailoverPolicy
     name: failoverPolicy
-- name: ReadOnlyEndpointFailoverPolicy
-  description: Failover policy of the read-only endpoint for the failover group.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Disabled
-  - types:
-    - uid: string
-    name: Enabled
 - name: FailoverGroupReplicationRole
   description: Local replication role of the failover group instance.
   kind: enum
@@ -285,7 +263,7 @@ definitions:
     - uid: string
     name: Secondary
 - name: PartnerInfo
-  description: Partner server information for the failover group.
+  description: List of partner server information for the failover group.
   kind: object
   properties:
   - description: Resource identifier of the partner server.
@@ -302,12 +280,57 @@ definitions:
     types:
     - uid: FailoverGroupReplicationRole
     name: replicationRole
+- name: ReadWriteEndpointFailoverPolicy
+  description: Failover policy of the read-write endpoint for the failover group. If failoverPolicy is Automatic then failoverWithDataLossGracePeriodMinutes is required.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Manual
+  - types:
+    - uid: string
+    name: Automatic
+- name: ReadOnlyEndpointFailoverPolicy
+  description: Failover policy of the read-only endpoint for the failover group.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Disabled
+  - types:
+    - uid: string
+    name: Enabled
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/failover-group-primary-server/failoverGroups/failover-group-test?api-version=2015-05-01-preview
   responses:
   - statusCode: "200"
-    body: '{"id":"/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/failover-group-primary-server/failoverGroups/failover-group-test","name":"failover-group-test","type":"Microsoft.Sql/servers/failoverGroups","location":"Japan East","properties":{"readWriteEndpoint":{"failoverPolicy":"Automatic","failoverWithDataLossGracePeriodMinutes":480},"readOnlyEndpoint":{"failoverPolicy":"Disabled"},"replicationRole":"Primary","replicationState":"CATCH_UP","partnerServers":[{"id":"/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/failover-group-secondary-server","location":"Japan West","replicationRole":"Secondary"}],"databases":[]}}'
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/failover-group-primary-server/failoverGroups/failover-group-test",
+        "name": "failover-group-test",
+        "type": "Microsoft.Sql/servers/failoverGroups",
+        "location": "Japan East",
+        "properties": {
+          "readWriteEndpoint": {
+            "failoverPolicy": "Automatic",
+            "failoverWithDataLossGracePeriodMinutes": 480
+          },
+          "readOnlyEndpoint": {
+            "failoverPolicy": "Disabled"
+          },
+          "replicationRole": "Primary",
+          "replicationState": "CATCH_UP",
+          "partnerServers": [
+            {
+              "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/failover-group-secondary-server",
+              "location": "Japan West",
+              "replicationRole": "Secondary"
+            }
+          ],
+          "databases": []
+        }
+      }
   name: Get failover group
 security: []
 name: Get

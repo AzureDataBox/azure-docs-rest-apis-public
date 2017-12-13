@@ -64,35 +64,32 @@ definitions:
   - description: The address prefix for the subnet.
     types:
     - uid: string
-    name: addressPrefix
+    name: properties.addressPrefix
   - description: The reference of the NetworkSecurityGroup resource.
     types:
     - uid: SubResource
-    name: networkSecurityGroup
+    name: properties.networkSecurityGroup
   - description: The reference of the RouteTable resource.
     types:
     - uid: SubResource
-    name: routeTable
+    name: properties.routeTable
   - description: An array of service endpoints.
     types:
-    - isArray: true
-      uid: ServiceEndpointPropertiesFormat
-    name: serviceEndpoints
+    - uid: ServiceEndpointPropertiesFormat
+    name: properties.serviceEndpoints
   - isReadyOnly: true
     description: Gets an array of references to the network interface IP configurations using subnet.
     types:
-    - isArray: true
-      uid: SubResource
-    name: ipConfigurations
+    - uid: SubResource
+    name: properties.ipConfigurations
   - description: Gets an array of references to the external resources using subnet.
     types:
-    - isArray: true
-      uid: ResourceNavigationLink
-    name: resourceNavigationLinks
+    - uid: ResourceNavigationLink
+    name: properties.resourceNavigationLinks
   - description: The provisioning state of the resource.
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: Resource ID
     types:
@@ -107,7 +104,7 @@ definitions:
     - uid: string
     name: id
 - name: ServiceEndpointPropertiesFormat
-  description: The service endpoint properties.
+  description: An array of service endpoints.
   kind: object
   properties:
   - description: The type of the endpoint service.
@@ -116,8 +113,7 @@ definitions:
     name: service
   - description: A list of locations.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: locations
   - description: The provisioning state of the resource.
     types:
@@ -139,16 +135,16 @@ definitions:
   - description: Resource type of the linked resource.
     types:
     - uid: string
-    name: linkedResourceType
+    name: properties.linkedResourceType
   - description: Link to the external resource
     types:
     - uid: string
-    name: link
+    name: properties.link
   - isReadyOnly: true
     description: Provisioning state of the ResourceNavigationLink resource.
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: Resource ID
     types:
@@ -159,7 +155,15 @@ examples:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/subnet-test/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/subnet1?api-version=2017-09-01
   responses:
   - statusCode: "200"
-    body: '{"id":"/subscriptions/subid/resourceGroups/subnet-test/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/subnet1","name":"subnet1","properties":{"addressPrefix":"10.0.0.0/16","provisioningState":"Succeeded"}}'
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/subnet-test/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/subnet1",
+        "name": "subnet1",
+        "properties": {
+          "addressPrefix": "10.0.0.0/16",
+          "provisioningState": "Succeeded"
+        }
+      }
   name: Get subnet
 security:
 - type: oauth2

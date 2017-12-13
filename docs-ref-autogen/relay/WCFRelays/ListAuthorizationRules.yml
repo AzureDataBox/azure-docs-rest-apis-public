@@ -53,22 +53,20 @@ definitions:
   properties:
   - description: Result of the list authorization rules operation.
     types:
-    - isArray: true
-      uid: AuthorizationRule
+    - uid: AuthorizationRule
     name: value
   - description: Link to the next set of results. Not empty if value contains incomplete list of authorization rules.
     types:
     - uid: string
     name: nextLink
 - name: AuthorizationRule
-  description: Description of a namespace authorization rule.
+  description: Result of the list authorization rules operation.
   kind: object
   properties:
   - description: The rights associated with the rule.
     types:
-    - isArray: true
-      uid: string
-    name: rights
+    - uid: string
+    name: properties.rights
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -89,7 +87,22 @@ examples:
     uri: GET https://management.azure.com/subscriptions/8c246e6a-cbc6-4a87-aff1-d6a886f376ef/resourceGroups/RG-eg/providers/Microsoft.Relay/namespaces/sdk-RelayNamespace-01/wcfRelays/sdk-Relay-Wcf-01/authorizationRules?api-version=2017-04-01
   responses:
   - statusCode: "200"
-    body: '{"value":[{"id":"/subscriptions/8c246e6a-cbc6-4a87-aff1-d6a886f376ef/resourceGroups/RG-eg/providers/Microsoft.Relay/namespaces/sdk-RelayNamespace-01/WcfRelays/sdk-Relay-Wcf-01/AuthorizationRules/sdk-RelayAuthRules-01","name":"sdk-RelayAuthRules-01","type":"Microsoft.Relay/Namespaces/WcfRelay/AuthorizationRules","properties":{"rights":["Listen","Send"]}}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/8c246e6a-cbc6-4a87-aff1-d6a886f376ef/resourceGroups/RG-eg/providers/Microsoft.Relay/namespaces/sdk-RelayNamespace-01/WcfRelays/sdk-Relay-Wcf-01/AuthorizationRules/sdk-RelayAuthRules-01",
+            "name": "sdk-RelayAuthRules-01",
+            "type": "Microsoft.Relay/Namespaces/WcfRelay/AuthorizationRules",
+            "properties": {
+              "rights": [
+                "Listen",
+                "Send"
+              ]
+            }
+          }
+        ]
+      }
   name: RelayAutorizationRuleListAll
 security:
 - type: oauth2

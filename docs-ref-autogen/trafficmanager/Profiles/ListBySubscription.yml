@@ -39,9 +39,16 @@ definitions:
   properties:
   - description: Gets the list of Traffic manager profiles.
     types:
-    - isArray: true
-      uid: Profile
+    - uid: Profile
     name: value
+- name: CloudError
+  description: An error returned by the Azure Resource Manager
+  kind: object
+  properties:
+  - description: The content of the error.
+    types:
+    - uid: CloudErrorBody
+    name: error
 - name: Profile
   description: Class representing a Traffic Manager profile.
   kind: object
@@ -49,24 +56,23 @@ definitions:
   - description: The status of the Traffic Manager profile.
     types:
     - uid: ProfileStatus
-    name: profileStatus
+    name: properties.profileStatus
   - description: The traffic routing method of the Traffic Manager profile.
     types:
     - uid: TrafficRoutingMethod
-    name: trafficRoutingMethod
+    name: properties.trafficRoutingMethod
   - description: The DNS settings of the Traffic Manager profile.
     types:
     - uid: DnsConfig
-    name: dnsConfig
+    name: properties.dnsConfig
   - description: The endpoint monitoring settings of the Traffic Manager profile.
     types:
     - uid: MonitorConfig
-    name: monitorConfig
+    name: properties.monitorConfig
   - description: The list of endpoints in the Traffic Manager profile.
     types:
-    - isArray: true
-      uid: Endpoint
-    name: endpoints
+    - uid: Endpoint
+    name: properties.endpoints
   - description: Resource tags.
     types:
     - isDictionary: true
@@ -94,6 +100,26 @@ definitions:
     types:
     - uid: string
     name: type
+- name: CloudErrorBody
+  description: The content of the error.
+  kind: object
+  properties:
+  - description: Error code
+    types:
+    - uid: string
+    name: code
+  - description: Error message
+    types:
+    - uid: string
+    name: message
+  - description: Error target
+    types:
+    - uid: string
+    name: target
+  - description: Error details
+    types:
+    - uid: Details
+    name: details
 - name: ProfileStatus
   description: The status of the Traffic Manager profile.
   kind: enum
@@ -121,7 +147,7 @@ definitions:
     - uid: string
     name: Geographic
 - name: DnsConfig
-  description: The DNS settings of the Traffic Manager profile.
+  description: Class containing DNS settings in a Traffic Manager profile.
   kind: object
   properties:
   - description: The relative DNS name provided by this Traffic Manager profile. This value is combined with the DNS domain name used by Azure Traffic Manager to form the fully-qualified domain name (FQDN) of the profile.
@@ -138,7 +164,7 @@ definitions:
     - uid: integer
     name: ttl
 - name: MonitorConfig
-  description: The endpoint monitoring settings of the Traffic Manager profile.
+  description: Class containing endpoint monitoring settings in a Traffic Manager profile.
   kind: object
   properties:
   - description: The profile-level monitoring status of the Traffic Manager profile.
@@ -169,6 +195,61 @@ definitions:
     types:
     - uid: integer
     name: toleratedNumberOfFailures
+- name: Endpoint
+  description: Class representing a Traffic Manager endpoint.
+  kind: object
+  properties:
+  - description: The Azure Resource URI of the of the endpoint. Not applicable to endpoints of type 'ExternalEndpoints'.
+    types:
+    - uid: string
+    name: properties.targetResourceId
+  - description: The fully-qualified DNS name of the endpoint. Traffic Manager returns this value in DNS responses to direct traffic to this endpoint.
+    types:
+    - uid: string
+    name: properties.target
+  - description: The status of the endpoint. If the endpoint is Enabled, it is probed for endpoint health and is included in the traffic routing method.
+    types:
+    - uid: EndpointStatus
+    name: properties.endpointStatus
+  - description: The weight of this endpoint when using the 'Weighted' traffic routing method. Possible values are from 1 to 1000.
+    types:
+    - uid: integer
+    name: properties.weight
+  - description: The priority of this endpoint when using the ‘Priority’ traffic routing method. Possible values are from 1 to 1000, lower values represent higher priority. This is an optional parameter.  If specified, it must be specified on all endpoints, and no two endpoints can share the same priority value.
+    types:
+    - uid: integer
+    name: properties.priority
+  - description: Specifies the location of the external or nested endpoints when using the ‘Performance’ traffic routing method.
+    types:
+    - uid: string
+    name: properties.endpointLocation
+  - description: The monitoring status of the endpoint.
+    types:
+    - uid: EndpointMonitorStatus
+    name: properties.endpointMonitorStatus
+  - description: The minimum number of endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type 'NestedEndpoints'.
+    types:
+    - uid: integer
+    name: properties.minChildEndpoints
+  - description: The list of countries/regions mapped to this endpoint when using the ‘Geographic’ traffic routing method. Please consult Traffic Manager Geographic documentation for a full list of accepted values.
+    types:
+    - uid: string
+    name: properties.geoMapping
+  - isReadyOnly: true
+    description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: The type of the resource. Ex- Microsoft.Network/trafficmanagerProfiles.
+    types:
+    - uid: string
+    name: type
 - name: ProfileMonitorStatus
   description: The profile-level monitoring status of the Traffic Manager profile.
   kind: enum
@@ -201,62 +282,6 @@ definitions:
   - types:
     - uid: string
     name: TCP
-- name: Endpoint
-  description: Class representing a Traffic Manager endpoint.
-  kind: object
-  properties:
-  - description: The Azure Resource URI of the of the endpoint. Not applicable to endpoints of type 'ExternalEndpoints'.
-    types:
-    - uid: string
-    name: targetResourceId
-  - description: The fully-qualified DNS name of the endpoint. Traffic Manager returns this value in DNS responses to direct traffic to this endpoint.
-    types:
-    - uid: string
-    name: target
-  - description: The status of the endpoint. If the endpoint is Enabled, it is probed for endpoint health and is included in the traffic routing method.
-    types:
-    - uid: EndpointStatus
-    name: endpointStatus
-  - description: The weight of this endpoint when using the 'Weighted' traffic routing method. Possible values are from 1 to 1000.
-    types:
-    - uid: integer
-    name: weight
-  - description: The priority of this endpoint when using the ‘Priority’ traffic routing method. Possible values are from 1 to 1000, lower values represent higher priority. This is an optional parameter.  If specified, it must be specified on all endpoints, and no two endpoints can share the same priority value.
-    types:
-    - uid: integer
-    name: priority
-  - description: Specifies the location of the external or nested endpoints when using the ‘Performance’ traffic routing method.
-    types:
-    - uid: string
-    name: endpointLocation
-  - description: The monitoring status of the endpoint.
-    types:
-    - uid: EndpointMonitorStatus
-    name: endpointMonitorStatus
-  - description: The minimum number of endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type 'NestedEndpoints'.
-    types:
-    - uid: integer
-    name: minChildEndpoints
-  - description: The list of countries/regions mapped to this endpoint when using the ‘Geographic’ traffic routing method. Please consult Traffic Manager Geographic documentation for a full list of accepted values.
-    types:
-    - isArray: true
-      uid: string
-    name: geoMapping
-  - isReadyOnly: true
-    description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}
-    types:
-    - uid: string
-    name: id
-  - isReadyOnly: true
-    description: The name of the resource
-    types:
-    - uid: string
-    name: name
-  - isReadyOnly: true
-    description: The type of the resource. Ex- Microsoft.Network/trafficmanagerProfiles.
-    types:
-    - uid: string
-    name: type
 - name: EndpointStatus
   description: The status of the endpoint. If the endpoint is Enabled, it is probed for endpoint health and is included in the traffic routing method.
   kind: enum
@@ -289,41 +314,124 @@ definitions:
   - types:
     - uid: string
     name: Stopped
-- name: CloudError
-  description: An error returned by the Azure Resource Manager
-  kind: object
-  properties:
-  - description: The content of the error.
-    types:
-    - uid: CloudErrorBody
-    name: error
-- name: CloudErrorBody
-  description: The content of the error.
-  kind: object
-  properties:
-  - description: Error code
-    types:
-    - uid: string
-    name: code
-  - description: Error message
-    types:
-    - uid: string
-    name: message
-  - description: Error target
-    types:
-    - uid: string
-    name: target
-  - description: Error details
-    types:
-    - isArray: true
-      uid: Details
-    name: details
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/e68d4145-c9ae-4667-925d-c51c8d88ad73/providers/Microsoft.Network/trafficmanagerprofiles?api-version=2017-05-01
   responses:
   - statusCode: "200"
-    body: '{"value":[{"id":"/subscriptions/e68d4145-c9ae-4667-925d-c51c8d88ad73/resourceGroups/azsmnet1719/providers/Microsoft.Network/trafficManagerProfiles/azsmnet5183","name":"azsmnet5183","type":"Microsoft.Network/trafficManagerProfiles","location":"global","tags":{},"properties":{"profileStatus":"Enabled","trafficRoutingMethod":"Performance","dnsConfig":{"relativeName":"azsmnet4696","fqdn":"azsmnet4696.tmpreview.watmtest.azure-test.net","ttl":35},"monitorConfig":{"profileMonitorStatus":"Online","protocol":"HTTP","port":80,"path":"/testpath.aspx","intervalInSeconds":30,"toleratedNumberOfFailures":3,"timeoutInSeconds":10},"endpoints":[]}},{"id":"/subscriptions/e68d4145-c9ae-4667-925d-c51c8d88ad73/resourceGroups/azuresdkfornetautoresttrafficmanager5168/providers/Microsoft.Network/trafficManagerProfiles/azuresdkfornetautoresttrafficmanager3440","name":"azuresdkfornetautoresttrafficmanager3440","type":"Microsoft.Network/trafficManagerProfiles","location":"global","tags":{},"properties":{"profileStatus":"Enabled","trafficRoutingMethod":"Performance","dnsConfig":{"relativeName":"azuresdkfornetautoresttrafficmanager3440","fqdn":"azuresdkfornetautoresttrafficmanager3440.tmpreview.watmtest.azure-test.net","ttl":35},"monitorConfig":{"profileMonitorStatus":"Online","protocol":"HTTP","port":80,"path":"/testpath.aspx","intervalInSeconds":30,"toleratedNumberOfFailures":3,"timeoutInSeconds":10},"endpoints":[{"id":"/subscriptions/e68d4145-c9ae-4667-925d-c51c8d88ad73/resourceGroups/azuresdkfornetautoresttrafficmanager5168/providers/Microsoft.Network/trafficManagerProfiles/azuresdkfornetautoresttrafficmanager3440/externalEndpoints/My external endpoint","name":"My external endpoint","type":"Microsoft.Network/trafficManagerProfiles/externalEndpoints","properties":{"endpointStatus":"Enabled","endpointMonitorStatus":"Online","target":"foobar.contoso.com","weight":1,"priority":1,"endpointLocation":"North Europe"}}]}},{"id":"/subscriptions/e68d4145-c9ae-4667-925d-c51c8d88ad73/resourceGroups/onesdk9785/providers/Microsoft.Network/trafficManagerProfiles/onesdk8819","name":"onesdk8819","type":"Microsoft.Network/trafficManagerProfiles","location":"global","tags":{},"properties":{"profileStatus":"Enabled","trafficRoutingMethod":"Performance","dnsConfig":{"relativeName":"onesdk7242","fqdn":"onesdk7242.tmpreview.watmtest.azure-test.net","ttl":51},"monitorConfig":{"profileMonitorStatus":"Online","protocol":"HTTPS","port":111,"path":"/testparent.asp","intervalInSeconds":30,"toleratedNumberOfFailures":3,"timeoutInSeconds":10},"endpoints":[{"id":"/subscriptions/e68d4145-c9ae-4667-925d-c51c8d88ad73/resourceGroups/onesdk9785/providers/Microsoft.Network/trafficManagerProfiles/onesdk8819/nestedEndpoints/MyNestedEndpoint","name":"MyNestedEndpoint","type":"Microsoft.Network/trafficManagerProfiles/nestedEndpoints","properties":{"endpointStatus":"Enabled","endpointMonitorStatus":"Stopped","targetResourceId":"/subscriptions/e68d4145-c9ae-4667-925d-c51c8d88ad73/resourceGroups/onesdk9785/providers/Microsoft.Network/trafficManagerProfiles/onesdk1792","target":"onesdk4285.tmpreview.watmtest.azure-test.net","weight":1,"priority":1,"endpointLocation":"West Europe","minChildEndpoints":1}}]}}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/e68d4145-c9ae-4667-925d-c51c8d88ad73/resourceGroups/azsmnet1719/providers/Microsoft.Network/trafficManagerProfiles/azsmnet5183",
+            "name": "azsmnet5183",
+            "type": "Microsoft.Network/trafficManagerProfiles",
+            "location": "global",
+            "tags": {},
+            "properties": {
+              "profileStatus": "Enabled",
+              "trafficRoutingMethod": "Performance",
+              "dnsConfig": {
+                "relativeName": "azsmnet4696",
+                "fqdn": "azsmnet4696.tmpreview.watmtest.azure-test.net",
+                "ttl": 35
+              },
+              "monitorConfig": {
+                "profileMonitorStatus": "Online",
+                "protocol": "HTTP",
+                "port": 80,
+                "path": "/testpath.aspx",
+                "intervalInSeconds": 30,
+                "toleratedNumberOfFailures": 3,
+                "timeoutInSeconds": 10
+              },
+              "endpoints": []
+            }
+          },
+          {
+            "id": "/subscriptions/e68d4145-c9ae-4667-925d-c51c8d88ad73/resourceGroups/azuresdkfornetautoresttrafficmanager5168/providers/Microsoft.Network/trafficManagerProfiles/azuresdkfornetautoresttrafficmanager3440",
+            "name": "azuresdkfornetautoresttrafficmanager3440",
+            "type": "Microsoft.Network/trafficManagerProfiles",
+            "location": "global",
+            "tags": {},
+            "properties": {
+              "profileStatus": "Enabled",
+              "trafficRoutingMethod": "Performance",
+              "dnsConfig": {
+                "relativeName": "azuresdkfornetautoresttrafficmanager3440",
+                "fqdn": "azuresdkfornetautoresttrafficmanager3440.tmpreview.watmtest.azure-test.net",
+                "ttl": 35
+              },
+              "monitorConfig": {
+                "profileMonitorStatus": "Online",
+                "protocol": "HTTP",
+                "port": 80,
+                "path": "/testpath.aspx",
+                "intervalInSeconds": 30,
+                "toleratedNumberOfFailures": 3,
+                "timeoutInSeconds": 10
+              },
+              "endpoints": [
+                {
+                  "id": "/subscriptions/e68d4145-c9ae-4667-925d-c51c8d88ad73/resourceGroups/azuresdkfornetautoresttrafficmanager5168/providers/Microsoft.Network/trafficManagerProfiles/azuresdkfornetautoresttrafficmanager3440/externalEndpoints/My external endpoint",
+                  "name": "My external endpoint",
+                  "type": "Microsoft.Network/trafficManagerProfiles/externalEndpoints",
+                  "properties": {
+                    "endpointStatus": "Enabled",
+                    "endpointMonitorStatus": "Online",
+                    "target": "foobar.contoso.com",
+                    "weight": 1,
+                    "priority": 1,
+                    "endpointLocation": "North Europe"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "id": "/subscriptions/e68d4145-c9ae-4667-925d-c51c8d88ad73/resourceGroups/onesdk9785/providers/Microsoft.Network/trafficManagerProfiles/onesdk8819",
+            "name": "onesdk8819",
+            "type": "Microsoft.Network/trafficManagerProfiles",
+            "location": "global",
+            "tags": {},
+            "properties": {
+              "profileStatus": "Enabled",
+              "trafficRoutingMethod": "Performance",
+              "dnsConfig": {
+                "relativeName": "onesdk7242",
+                "fqdn": "onesdk7242.tmpreview.watmtest.azure-test.net",
+                "ttl": 51
+              },
+              "monitorConfig": {
+                "profileMonitorStatus": "Online",
+                "protocol": "HTTPS",
+                "port": 111,
+                "path": "/testparent.asp",
+                "intervalInSeconds": 30,
+                "toleratedNumberOfFailures": 3,
+                "timeoutInSeconds": 10
+              },
+              "endpoints": [
+                {
+                  "id": "/subscriptions/e68d4145-c9ae-4667-925d-c51c8d88ad73/resourceGroups/onesdk9785/providers/Microsoft.Network/trafficManagerProfiles/onesdk8819/nestedEndpoints/MyNestedEndpoint",
+                  "name": "MyNestedEndpoint",
+                  "type": "Microsoft.Network/trafficManagerProfiles/nestedEndpoints",
+                  "properties": {
+                    "endpointStatus": "Enabled",
+                    "endpointMonitorStatus": "Stopped",
+                    "targetResourceId": "/subscriptions/e68d4145-c9ae-4667-925d-c51c8d88ad73/resourceGroups/onesdk9785/providers/Microsoft.Network/trafficManagerProfiles/onesdk1792",
+                    "target": "onesdk4285.tmpreview.watmtest.azure-test.net",
+                    "weight": 1,
+                    "priority": 1,
+                    "endpointLocation": "West Europe",
+                    "minChildEndpoints": 1
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
   name: ListBySubscription
 security:
 - type: oauth2

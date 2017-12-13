@@ -48,14 +48,22 @@ definitions:
   - isReadyOnly: true
     description: A response message containing a list of deleted certificates in the vault along with a link to the next page of deleted certificates
     types:
-    - isArray: true
-      uid: DeletedCertificateItem
+    - uid: DeletedCertificateItem
     name: value
   - isReadyOnly: true
     description: The URL to get the next set of deleted certificates.
     types:
     - uid: string
     name: nextLink
+- name: KeyVaultError
+  description: The key vault error exception.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
+    name: error
 - name: DeletedCertificateItem
   description: The deleted certificate item containing metadata about the deleted certificate.
   kind: object
@@ -94,6 +102,23 @@ definitions:
     types:
     - uid: string
     name: x5t
+- name: Error
+  description: Error encountered, if any, during the certificate operation.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+    name: code
+  - isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+    name: message
+  - types:
+    - {}
+    name: innererror
 - name: CertificateAttributes
   description: The certificate management attributes.
   kind: object
@@ -126,7 +151,7 @@ definitions:
     - uid: integer
     name: updated
 - name: DeletionRecoveryLevel
-  description: Reflects the deletion recovery level currently in effect for certificates in the current vault. If it contains 'Purgeable', the certificate can be permanently deleted by a privileged user; otherwise, only the system can purge the certificate, at the end of the retention interval.
+  description: Reflects the deletion recovery level currently in effect for keys in the current vault. If it contains 'Purgeable' the key can be permanently deleted by a privileged user; otherwise, only the system can purge the key, at the end of the retention interval.
   kind: enum
   properties:
   - types:
@@ -141,33 +166,7 @@ definitions:
   - types:
     - uid: string
     name: Recoverable+ProtectedSubscription
-- name: KeyVaultError
-  description: The key vault error exception.
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: The key vault server error.
-    types:
-    - uid: Error
-    name: error
-- name: Error
-  description: The key vault server error.
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: The error code.
-    types:
-    - uid: string
-    name: code
-  - isReadyOnly: true
-    description: The error message.
-    types:
-    - uid: string
-    name: message
-  - types:
-    - {}
-    name: innererror
 examples: []
 security: []
 name: GetDeletedCertificates
-uid: .keyvault.getdeletedcertificates.getdeletedcertificates
+uid: keyvault.getdeletedcertificates.getdeletedcertificates

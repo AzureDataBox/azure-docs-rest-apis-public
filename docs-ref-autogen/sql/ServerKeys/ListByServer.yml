@@ -59,8 +59,7 @@ definitions:
   - isReadyOnly: true
     description: Array of results.
     types:
-    - isArray: true
-      uid: ServerKey
+    - uid: ServerKey
     name: value
   - isReadyOnly: true
     description: Link to retrieve next page of results.
@@ -68,7 +67,7 @@ definitions:
     - uid: string
     name: nextLink
 - name: ServerKey
-  description: A server key.
+  description: Array of results.
   kind: object
   properties:
   - description: Kind of encryption protector. This is metadata used for the Azure portal experience.
@@ -84,23 +83,23 @@ definitions:
     description: Subregion of the server key.
     types:
     - uid: string
-    name: subregion
+    name: properties.subregion
   - description: The server key type like 'ServiceManaged', 'AzureKeyVault'.
     types:
     - uid: ServerKeyType
-    name: serverKeyType
+    name: properties.serverKeyType
   - description: The URI of the server key.
     types:
     - uid: string
-    name: uri
+    name: properties.uri
   - description: Thumbprint of the server key.
     types:
     - uid: string
-    name: thumbprint
+    name: properties.thumbprint
   - description: The server key creation date.
     types:
     - uid: string
-    name: creationDate
+    name: properties.creationDate
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -131,7 +130,47 @@ examples:
     uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645/keys?api-version=2015-05-01-preview
   responses:
   - statusCode: "200"
-    body: '{"value":[{"id":"/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645/keys/someVault_someKey_01234567890123456789012345678901","name":"someVault_someKey_01234567890123456789012345678901","type":"Microsoft.Sql/servers/keys","location":"Japan East","kind":"azurekeyvault","properties":{"serverKeyType":"AzureKeyVault","uri":"https://someVault.vault.azure.net/keys/someKey/01234567890123456789012345678901","thumbprint":"00112233445566778899AABBCCDDEEFFAABBCCDD","creationDate":"2017-05-01T00:00:00Z"}},{"id":"/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645/keys/myVault_myKey_11111111111111111111111111111111","name":"myVault_myKey_11111111111111111111111111111111","type":"Microsoft.Sql/servers/keys","location":"Japan East","kind":"azurekeyvault","properties":{"serverKeyType":"AzureKeyVault","uri":"https://myVault.vault.azure.net/keys/myKey/11111111111111111111111111111111","thumbprint":"AAAAAAAAAAAAAAABBBBBBBBBBBBBBBBBBBBBBBBB","creationDate":"2017-05-01T00:00:00Z"}},{"id":"/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645/keys/ServiceManaged","name":"ServiceManaged","type":"Microsoft.Sql/servers/keys","location":"Japan East","kind":"servicemanaged","properties":{"serverKeyType":"ServiceManaged"}}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645/keys/someVault_someKey_01234567890123456789012345678901",
+            "name": "someVault_someKey_01234567890123456789012345678901",
+            "type": "Microsoft.Sql/servers/keys",
+            "location": "Japan East",
+            "kind": "azurekeyvault",
+            "properties": {
+              "serverKeyType": "AzureKeyVault",
+              "uri": "https://someVault.vault.azure.net/keys/someKey/01234567890123456789012345678901",
+              "thumbprint": "00112233445566778899AABBCCDDEEFFAABBCCDD",
+              "creationDate": "2017-05-01T00:00:00Z"
+            }
+          },
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645/keys/myVault_myKey_11111111111111111111111111111111",
+            "name": "myVault_myKey_11111111111111111111111111111111",
+            "type": "Microsoft.Sql/servers/keys",
+            "location": "Japan East",
+            "kind": "azurekeyvault",
+            "properties": {
+              "serverKeyType": "AzureKeyVault",
+              "uri": "https://myVault.vault.azure.net/keys/myKey/11111111111111111111111111111111",
+              "thumbprint": "AAAAAAAAAAAAAAABBBBBBBBBBBBBBBBBBBBBBBBB",
+              "creationDate": "2017-05-01T00:00:00Z"
+            }
+          },
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645/keys/ServiceManaged",
+            "name": "ServiceManaged",
+            "type": "Microsoft.Sql/servers/keys",
+            "location": "Japan East",
+            "kind": "servicemanaged",
+            "properties": {
+              "serverKeyType": "ServiceManaged"
+            }
+          }
+        ]
+      }
   name: List the server keys by server
 security: []
 name: ListByServer

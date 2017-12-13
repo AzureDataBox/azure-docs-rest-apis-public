@@ -30,8 +30,7 @@ definitions:
   - isReadyOnly: true
     description: the results of the list operation.
     types:
-    - isArray: true
-      uid: Operation
+    - uid: Operation
     name: value
   - isReadyOnly: true
     description: the link (url) to the next page of results.
@@ -57,7 +56,7 @@ definitions:
     - uid: OperationOrigin
     name: origin
 - name: OperationDisplay
-  description: the display information for the operation.
+  description: The display information for a particular operation
   kind: object
   properties:
   - isReadyOnly: true
@@ -98,7 +97,21 @@ examples:
     uri: GET https://management.azure.com/providers/Microsoft.DataLakeStore/operations?api-version=2016-11-01
   responses:
   - statusCode: "200"
-    body: '{"value":[{"name":"Microsoft.DataLakeStore/operations/read","display":{"provider":"Microsoft DataLakeStore","resource":"Available Operations","operation":"Get Available Operations","description":"Get available operations of DataLakeStore."}}],"nextLink":"https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/contosorg/providers/Microsoft.DataLakeAnalytics/accounts/contosoadla/jobPolicies?api-version=2016-11-01&%24skiptoken=<token>"}'
+    body: >-
+      {
+        "value": [
+          {
+            "name": "Microsoft.DataLakeStore/operations/read",
+            "display": {
+              "provider": "Microsoft DataLakeStore",
+              "resource": "Available Operations",
+              "operation": "Get Available Operations",
+              "description": "Get available operations of DataLakeStore."
+            }
+          }
+        ],
+        "nextLink": "https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/contosorg/providers/Microsoft.DataLakeAnalytics/accounts/contosoadla/jobPolicies?api-version=2016-11-01&%24skiptoken=<token>"
+      }
   name: Lists all of the available Data Lake Store REST API operations
 security:
 - type: oauth2

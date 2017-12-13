@@ -8,8 +8,8 @@ consumes:
 produces:
 - application/json
 paths:
-- content: PUT https://global.azure-devices-provisioning.net/{idScope}/registrations/{registrationId}/register
-- content: PUT https://global.azure-devices-provisioning.net/{idScope}/registrations/{registrationId}/register?forceRegistration={forceRegistration}
+- content: PUT https://global.azure-devices-provisioning.net/{idScope}/registrations/{registrationId}/register?api-version=2017-11-15
+- content: PUT https://global.azure-devices-provisioning.net/{idScope}/registrations/{registrationId}/register?forceRegistration={forceRegistration}&api-version=2017-11-15
   isOptional: true
 uriParameters:
 - in: path
@@ -28,6 +28,12 @@ uriParameters:
   types:
   - uid: boolean
   name: forceRegistration
+- in: query
+  isRequired: true
+  description: 'The API version to use for the request. Supported versions include: 2017-11-15'
+  types:
+  - uid: string
+  name: api-version
 responses:
 - headers:
   - value: string
@@ -49,6 +55,16 @@ requestBody:
     name: tpm
 requestHeader: []
 definitions:
+- name: TpmAttestation
+  description: Attestation via TPM.
+  kind: object
+  properties:
+  - types:
+    - uid: string
+    name: endorsementKey
+  - types:
+    - uid: string
+    name: storageRootKey
 - name: RegistrationOperationStatus
   description: Registration operation status.
   kind: object
@@ -70,24 +86,17 @@ definitions:
     types:
     - uid: DeviceRegistrationResult
     name: registrationState
-- description: Device enrollment status.
-  kind: enum
+- name: DeviceRegistration
+  description: Device registration.
+  kind: object
   properties:
   - types:
     - uid: string
-    name: unassigned
-  - types:
-    - uid: string
-    name: assigning
-  - types:
-    - uid: string
-    name: assigned
-  - types:
-    - uid: string
-    name: failed
-  - types:
-    - uid: string
-    name: disabled
+    name: registrationId
+  - description: Attestation via TPM.
+    types:
+    - uid: TpmAttestation
+    name: tpm
 - name: DeviceRegistrationResult
   description: Device registration status.
   kind: object

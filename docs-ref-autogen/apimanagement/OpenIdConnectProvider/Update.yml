@@ -55,27 +55,27 @@ requestBody:
     description: User-friendly OpenID Connect Provider name.
     types:
     - uid: string
-    name: displayName
+    name: properties.displayName
   - in: body
     description: User-friendly description of OpenID Connect Provider.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - in: body
     description: Metadata endpoint URI.
     types:
     - uid: string
-    name: metadataEndpoint
+    name: properties.metadataEndpoint
   - in: body
     description: Client ID of developer console which is the client application.
     types:
     - uid: string
-    name: clientId
+    name: properties.clientId
   - in: body
     description: Client Secret of developer console which is the client application.
     types:
     - uid: string
-    name: clientSecret
+    name: properties.clientSecret
 requestHeader:
 - in: header
   isRequired: true
@@ -98,9 +98,32 @@ definitions:
     name: message
   - description: The list of invalid fields send in request, in case of validation error.
     types:
-    - isArray: true
-      uid: ErrorFieldContract
+    - uid: ErrorFieldContract
     name: details
+- name: OpenidConnectProviderUpdateContract
+  description: Parameters supplied to the Update OpenID Connect Provider operation.
+  kind: object
+  properties:
+  - description: User-friendly OpenID Connect Provider name.
+    types:
+    - uid: string
+    name: properties.displayName
+  - description: User-friendly description of OpenID Connect Provider.
+    types:
+    - uid: string
+    name: properties.description
+  - description: Metadata endpoint URI.
+    types:
+    - uid: string
+    name: properties.metadataEndpoint
+  - description: Client ID of developer console which is the client application.
+    types:
+    - uid: string
+    name: properties.clientId
+  - description: Client Secret of developer console which is the client application.
+    types:
+    - uid: string
+    name: properties.clientSecret
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
@@ -120,7 +143,12 @@ definitions:
 examples:
 - request:
     uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/openidConnectProviders/templateOpenIdConnect2?api-version=2017-03-01
-    requestBody: '{"properties":{"clientSecret":"updatedsecret"}}'
+    body: >-
+      {
+        "properties": {
+          "clientSecret": "updatedsecret"
+        }
+      }
     headers:
     - value: '*'
       name: If-Match

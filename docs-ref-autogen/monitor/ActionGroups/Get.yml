@@ -52,26 +52,23 @@ definitions:
   - description: The short name of the action group. This will be used in SMS messages.
     types:
     - uid: string
-    name: groupShortName
+    name: properties.groupShortName
   - description: Indicates whether this action group is enabled. If an action group is not enabled, then none of its receivers will receive communications.
     types:
     - uid: boolean
-    name: enabled
+    name: properties.enabled
   - description: The list of email receivers that are part of this action group.
     types:
-    - isArray: true
-      uid: EmailReceiver
-    name: emailReceivers
+    - uid: EmailReceiver
+    name: properties.emailReceivers
   - description: The list of SMS receivers that are part of this action group.
     types:
-    - isArray: true
-      uid: SmsReceiver
-    name: smsReceivers
+    - uid: SmsReceiver
+    name: properties.smsReceivers
   - description: The list of webhook receivers that are part of this action group.
     types:
-    - isArray: true
-      uid: WebhookReceiver
-    name: webhookReceivers
+    - uid: WebhookReceiver
+    name: properties.webhookReceivers
   - isReadyOnly: true
     description: Azure resource Id
     types:
@@ -99,8 +96,20 @@ definitions:
       - uid: string
       uid: object
     name: tags
+- name: ErrorResponse
+  description: Describes the format of Error response.
+  kind: object
+  properties:
+  - description: Error code
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
 - name: EmailReceiver
-  description: An email receiver.
+  description: The list of email receivers that are part of this action group.
   kind: object
   properties:
   - description: The name of the email receiver. Names must be unique across all receivers within an action group.
@@ -116,21 +125,8 @@ definitions:
     types:
     - uid: ReceiverStatus
     name: status
-- name: ReceiverStatus
-  description: The receiver status of the e-mail.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: NotSpecified
-  - types:
-    - uid: string
-    name: Enabled
-  - types:
-    - uid: string
-    name: Disabled
 - name: SmsReceiver
-  description: An SMS receiver.
+  description: The list of SMS receivers that are part of this action group.
   kind: object
   properties:
   - description: The name of the SMS receiver. Names must be unique across all receivers within an action group.
@@ -151,7 +147,7 @@ definitions:
     - uid: ReceiverStatus
     name: status
 - name: WebhookReceiver
-  description: A webhook receiver.
+  description: The list of webhook receivers that are part of this action group.
   kind: object
   properties:
   - description: The name of the webhook receiver. Names must be unique across all receivers within an action group.
@@ -162,24 +158,68 @@ definitions:
     types:
     - uid: string
     name: serviceUri
-- name: ErrorResponse
-  description: Describes the format of Error response.
-  kind: object
+- name: ReceiverStatus
+  description: The receiver status of the e-mail.
+  kind: enum
   properties:
-  - description: Error code
-    types:
+  - types:
     - uid: string
-    name: code
-  - description: Error message indicating why the operation failed.
-    types:
+    name: NotSpecified
+  - types:
     - uid: string
-    name: message
+    name: Enabled
+  - types:
+    - uid: string
+    name: Disabled
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/Default-NotificationRules/providers/microsoft.insights/actionGroups/SampleActionGroup?api-version=2017-04-01
   responses:
   - statusCode: "200"
-    body: "{\"id\":\"/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/Default-NotificationRules/providers/microsoft.insights/actionGroups/SampleActionGroup\",\"type\":\"Microsoft.Insights/ActionGroups\",\"name\":\"SampleActionGroup\",\"location\":\"Global\",\"tags\":{},\"properties\":{\"groupShortName\":\"sample\",\"enabled\":true,\"emailReceivers\":[{\"name\":\"John Doe's email\",\"emailAddress\":\"johndoe@email.com\",\"status\":\"Enabled\"},{\"name\":\"Jane Smith's email\",\"emailAddress\":\"janesmith@email.com\",\"status\":\"Disabled\"}],\"smsReceivers\":[{\"name\":\"John Doe's mobile\",\"countryCode\":\"1\",\"phoneNumber\":\"1234567890\",\"status\":\"Disabled\"},{\"name\":\"Jane Smith's mobile\",\"countryCode\":\"1\",\"phoneNumber\":\"0987654321\",\"status\":\"Enabled\"}],\"webhookReceivers\":[{\"name\":\"Sample webhook\",\"serviceUri\":\"http://www.example.com/webhook\"}]}}"
+    body: >-
+      {
+        "id": "/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/Default-NotificationRules/providers/microsoft.insights/actionGroups/SampleActionGroup",
+        "type": "Microsoft.Insights/ActionGroups",
+        "name": "SampleActionGroup",
+        "location": "Global",
+        "tags": {},
+        "properties": {
+          "groupShortName": "sample",
+          "enabled": true,
+          "emailReceivers": [
+            {
+              "name": "John Doe's email",
+              "emailAddress": "johndoe@email.com",
+              "status": "Enabled"
+            },
+            {
+              "name": "Jane Smith's email",
+              "emailAddress": "janesmith@email.com",
+              "status": "Disabled"
+            }
+          ],
+          "smsReceivers": [
+            {
+              "name": "John Doe's mobile",
+              "countryCode": "1",
+              "phoneNumber": "1234567890",
+              "status": "Disabled"
+            },
+            {
+              "name": "Jane Smith's mobile",
+              "countryCode": "1",
+              "phoneNumber": "0987654321",
+              "status": "Enabled"
+            }
+          ],
+          "webhookReceivers": [
+            {
+              "name": "Sample webhook",
+              "serviceUri": "http://www.example.com/webhook"
+            }
+          ]
+        }
+      }
   name: Get an action group
 security:
 - type: oauth2

@@ -61,6 +61,34 @@ requestBody:
     name: destination
 requestHeader: []
 definitions:
+- name: ConnectivitySource
+  description: Parameters that define the source of the connection.
+  kind: object
+  properties:
+  - description: The ID of the resource from which a connectivity check will be initiated.
+    types:
+    - uid: string
+    name: resourceId
+  - description: The source port from which a connectivity check will be performed.
+    types:
+    - uid: integer
+    name: port
+- name: ConnectivityDestination
+  description: Parameters that define destination of connection.
+  kind: object
+  properties:
+  - description: The ID of the resource to which a connection attempt will be made.
+    types:
+    - uid: string
+    name: resourceId
+  - description: The IP address or URI the resource to which a connection attempt will be made.
+    types:
+    - uid: string
+    name: address
+  - description: Port on which check connectivity will be performed.
+    types:
+    - uid: integer
+    name: port
 - name: ConnectivityInformation
   description: Information on the connectivity status.
   kind: object
@@ -68,8 +96,7 @@ definitions:
   - isReadyOnly: true
     description: List of hops between the source and the destination.
     types:
-    - isArray: true
-      uid: ConnectivityHop
+    - uid: ConnectivityHop
     name: hops
   - isReadyOnly: true
     description: The connection status.
@@ -101,8 +128,20 @@ definitions:
     types:
     - uid: integer
     name: probesFailed
+- name: ConnectivityParameters
+  description: Parameters that determine how the connectivity check will be performed.
+  kind: object
+  properties:
+  - description: Parameters that define the source of the connection.
+    types:
+    - uid: ConnectivitySource
+    name: source
+  - description: Parameters that define destination of connection.
+    types:
+    - uid: ConnectivityDestination
+    name: destination
 - name: ConnectivityHop
-  description: Information about a hop between the source and the destination.
+  description: List of hops between the source and the destination.
   kind: object
   properties:
   - isReadyOnly: true
@@ -128,17 +167,31 @@ definitions:
   - isReadyOnly: true
     description: List of next hop identifiers.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: nextHopIds
   - isReadyOnly: true
     description: List of issues.
     types:
-    - isArray: true
-      uid: ConnectivityIssue
+    - uid: ConnectivityIssue
     name: issues
+- name: ConnectionStatus
+  description: The connection status.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Unknown
+  - types:
+    - uid: string
+    name: Connected
+  - types:
+    - uid: string
+    name: Disconnected
+  - types:
+    - uid: string
+    name: Degraded
 - name: ConnectivityIssue
-  description: Information about an issue encountered in the process of checking for connectivity.
+  description: List of issues.
   kind: object
   properties:
   - isReadyOnly: true
@@ -159,8 +212,7 @@ definitions:
   - isReadyOnly: true
     description: Provides additional context on the issue.
     types:
-    - isArray: true
-      uid: object
+    - uid: object
     name: context
 - name: Origin
   description: The origin of the issue.
@@ -216,22 +268,6 @@ definitions:
   - types:
     - uid: string
     name: Platform
-- name: ConnectionStatus
-  description: The connection status.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Unknown
-  - types:
-    - uid: string
-    name: Connected
-  - types:
-    - uid: string
-    name: Disconnected
-  - types:
-    - uid: string
-    name: Degraded
 examples: []
 security:
 - type: oauth2

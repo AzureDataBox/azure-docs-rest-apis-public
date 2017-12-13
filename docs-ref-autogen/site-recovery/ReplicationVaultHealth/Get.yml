@@ -74,8 +74,7 @@ definitions:
   properties:
   - description: The list of errors on the vault.
     types:
-    - isArray: true
-      uid: HealthError
+    - uid: HealthError
     name: vaultErrors
   - description: The list of the health detail of the protected items in the vault.
     types:
@@ -86,7 +85,7 @@ definitions:
     - uid: ResourceHealthSummary
     name: fabricsHealth
 - name: HealthError
-  description: Health Error
+  description: The list of errors / warnings capturing details associated with the issue(s).
   kind: object
   properties:
   - description: Source of error.
@@ -131,8 +130,7 @@ definitions:
     name: entityId
   - description: The child health errors.
     types:
-    - isArray: true
-      uid: ChildErrors
+    - uid: ChildErrors
     name: childErrors
 - name: ResourceHealthSummary
   description: The list of the health detail of the protected items in the vault.
@@ -144,11 +142,10 @@ definitions:
     name: resourceCount
   - description: The list of summary of health errors across the resources under the container.
     types:
-    - isArray: true
-      uid: HealthErrorSummary
+    - uid: HealthErrorSummary
     name: issues
 - name: HealthErrorSummary
-  description: class to define the summary of the health error details.
+  description: The list of summary of health errors across the resources under the container.
   kind: object
   properties:
   - description: The code of the health error.
@@ -177,8 +174,7 @@ definitions:
     name: affectedResourceSubtype
   - description: The list of affected resource correlation Ids. This can be used to uniquely identify the count of items affected by a specific category and severity as well as count of item affected by an specific issue.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: affectedResourceCorrelationIds
 - name: HealthErrorCategory
   description: The category of the health error.
@@ -214,7 +210,36 @@ examples:
     uri: GET https://management.azure.com/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationVaultHealth?api-version=2016-08-10
   responses:
   - statusCode: "200"
-    body: '{"name":"Default","type":"Microsoft.RecoveryServices/vaults/replicationVaultHealth","id":"/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationVaultHealth/Default","properties":{"vaultErrors":[],"protectedItemsHealth":{"resourceCount":6,"issues":[{"summaryCode":"10008","category":"Replication","severity":"Error","summaryMessage":"RPO Throttled","affectedResourceType":"replicationProtectedItems","affectedResourceSubtype":"","affectedResourceCorrelationIds":["c183865e-6077-46f2-a3b1-deb0f4f4650a","c183865e-6077-46f2-a3b1-ceb0a4c3751e"]}]},"fabricsHealth":{"resourceCount":1,"issues":[]}}}'
+    body: >-
+      {
+        "name": "Default",
+        "type": "Microsoft.RecoveryServices/vaults/replicationVaultHealth",
+        "id": "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationVaultHealth/Default",
+        "properties": {
+          "vaultErrors": [],
+          "protectedItemsHealth": {
+            "resourceCount": 6,
+            "issues": [
+              {
+                "summaryCode": "10008",
+                "category": "Replication",
+                "severity": "Error",
+                "summaryMessage": "RPO Throttled",
+                "affectedResourceType": "replicationProtectedItems",
+                "affectedResourceSubtype": "",
+                "affectedResourceCorrelationIds": [
+                  "c183865e-6077-46f2-a3b1-deb0f4f4650a",
+                  "c183865e-6077-46f2-a3b1-ceb0a4c3751e"
+                ]
+              }
+            ]
+          },
+          "fabricsHealth": {
+            "resourceCount": 1,
+            "issues": []
+          }
+        }
+      }
   name: Gets the health summary for the vault.
 security:
 - type: oauth2

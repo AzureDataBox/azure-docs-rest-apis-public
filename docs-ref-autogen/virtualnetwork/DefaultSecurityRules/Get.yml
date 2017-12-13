@@ -64,73 +64,67 @@ definitions:
   - description: A description for this rule. Restricted to 140 chars.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - description: Network protocol this rule applies to. Possible values are 'Tcp', 'Udp', and '*'.
     types:
     - uid: SecurityRuleProtocol
-    name: protocol
+    name: properties.protocol
   - description: The source port or range. Integer or range between 0 and 65535. Asterix '*' can also be used to match all ports.
     types:
     - uid: string
-    name: sourcePortRange
+    name: properties.sourcePortRange
   - description: The destination port or range. Integer or range between 0 and 65535. Asterix '*' can also be used to match all ports.
     types:
     - uid: string
-    name: destinationPortRange
+    name: properties.destinationPortRange
   - description: "The CIDR or source IP range. Asterix '*' can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used. If this is an ingress rule, specifies where network traffic originates from. "
     types:
     - uid: string
-    name: sourceAddressPrefix
+    name: properties.sourceAddressPrefix
   - description: The CIDR or source IP ranges.
     types:
-    - isArray: true
-      uid: string
-    name: sourceAddressPrefixes
+    - uid: string
+    name: properties.sourceAddressPrefixes
   - description: The application security group specified as source.
     types:
-    - isArray: true
-      uid: ApplicationSecurityGroup
-    name: sourceApplicationSecurityGroups
+    - uid: ApplicationSecurityGroup
+    name: properties.sourceApplicationSecurityGroups
   - description: The destination address prefix. CIDR or destination IP range. Asterix '*' can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used.
     types:
     - uid: string
-    name: destinationAddressPrefix
+    name: properties.destinationAddressPrefix
   - description: The destination address prefixes. CIDR or destination IP ranges.
     types:
-    - isArray: true
-      uid: string
-    name: destinationAddressPrefixes
+    - uid: string
+    name: properties.destinationAddressPrefixes
   - description: The application security group specified as destination.
     types:
-    - isArray: true
-      uid: ApplicationSecurityGroup
-    name: destinationApplicationSecurityGroups
+    - uid: ApplicationSecurityGroup
+    name: properties.destinationApplicationSecurityGroups
   - description: The source port ranges.
     types:
-    - isArray: true
-      uid: string
-    name: sourcePortRanges
+    - uid: string
+    name: properties.sourcePortRanges
   - description: The destination port ranges.
     types:
-    - isArray: true
-      uid: string
-    name: destinationPortRanges
+    - uid: string
+    name: properties.destinationPortRanges
   - description: "The network traffic is allowed or denied. Possible values are: 'Allow' and 'Deny'."
     types:
     - uid: SecurityRuleAccess
-    name: access
+    name: properties.access
   - description: The priority of the rule. The value can be between 100 and 4096. The priority number must be unique for each rule in the collection. The lower the priority number, the higher the priority of the rule.
     types:
     - uid: integer
-    name: priority
+    name: properties.priority
   - description: "The direction of the rule. The direction specifies if rule will be evaluated on incoming or outcoming traffic. Possible values are: 'Inbound' and 'Outbound'."
     types:
     - uid: SecurityRuleDirection
-    name: direction
+    name: properties.direction
   - description: "The provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: Resource ID
     types:
@@ -150,7 +144,7 @@ definitions:
     - uid: string
     name: '*'
 - name: ApplicationSecurityGroup
-  description: An application security group in a resource group.
+  description: The application security group specified as source.
   kind: object
   properties:
   - isReadyOnly: true
@@ -162,12 +156,12 @@ definitions:
     description: The resource GUID property of the application security group resource. It uniquely identifies a resource, even if the user changes its name or migrate the resource across subscriptions or resource groups.
     types:
     - uid: string
-    name: resourceGuid
+    name: properties.resourceGuid
   - isReadyOnly: true
     description: "The provisioning state of the application security group resource. Possible values are: 'Succeeded', 'Updating', 'Deleting', and 'Failed'."
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -220,7 +214,27 @@ examples:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/networkSecurityGroups/nsg1/defaultSecurityRules/AllowVnetInBound?api-version=2017-09-01
   responses:
   - statusCode: "200"
-    body: '{"name":"AllowVnetInBound","id":"/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/networkSecurityGroups/nsg1/defaultSecurityRules/AllowVnetInBound","properties":{"provisioningState":"Succeeded","description":"Allow inbound traffic from all VMs in VNET","protocol":"*","sourcePortRange":"*","destinationPortRange":"*","sourceAddressPrefix":"VirtualNetwork","destinationAddressPrefix":"VirtualNetwork","access":"Allow","priority":65000,"direction":"Inbound","sourcePortRanges":[],"destinationPortRanges":[],"sourceAddressPrefixes":[],"destinationAddressPrefixes":[]}}'
+    body: >-
+      {
+        "name": "AllowVnetInBound",
+        "id": "/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/networkSecurityGroups/nsg1/defaultSecurityRules/AllowVnetInBound",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "description": "Allow inbound traffic from all VMs in VNET",
+          "protocol": "*",
+          "sourcePortRange": "*",
+          "destinationPortRange": "*",
+          "sourceAddressPrefix": "VirtualNetwork",
+          "destinationAddressPrefix": "VirtualNetwork",
+          "access": "Allow",
+          "priority": 65000,
+          "direction": "Inbound",
+          "sourcePortRanges": [],
+          "destinationPortRanges": [],
+          "sourceAddressPrefixes": [],
+          "destinationAddressPrefixes": []
+        }
+      }
   name: DefaultSecurityRuleGet
 security:
 - type: oauth2

@@ -56,12 +56,12 @@ requestBody:
     description: Key Vault resource Id.
     types:
     - uid: string
-    name: keyVaultId
+    name: properties.keyVaultId
   - in: body
     description: Key Vault secret name.
     types:
     - uid: string
-    name: keyVaultSecretName
+    name: properties.keyVaultSecretName
   - in: body
     description: Kind of resource.
     types:
@@ -69,6 +69,90 @@ requestBody:
     name: kind
 requestHeader: []
 definitions:
+- name: AppServiceCertificateResource
+  description: Collection of resources.
+  kind: object
+  properties:
+  - description: Key Vault resource Id.
+    types:
+    - uid: string
+    name: properties.keyVaultId
+  - description: Key Vault secret name.
+    types:
+    - uid: string
+    name: properties.keyVaultSecretName
+  - isReadyOnly: true
+    description: Status of the Key Vault secret.
+    types:
+    - uid: KeyVaultSecretStatus
+    name: properties.provisioningState
+  - isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+    name: name
+  - description: Kind of resource.
+    types:
+    - uid: string
+    name: kind
+  - description: Resource Location.
+    types:
+    - uid: string
+    name: location
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+  - description: Resource tags.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+- name: AppServiceCertificatePatchResource
+  description: Key Vault container ARM resource for a certificate that is purchased through Azure.
+  kind: object
+  properties:
+  - description: Key Vault resource Id.
+    types:
+    - uid: string
+    name: properties.keyVaultId
+  - description: Key Vault secret name.
+    types:
+    - uid: string
+    name: properties.keyVaultSecretName
+  - isReadyOnly: true
+    description: Status of the Key Vault secret.
+    types:
+    - uid: KeyVaultSecretStatus
+    name: properties.provisioningState
+  - isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+    name: name
+  - description: Kind of resource.
+    types:
+    - uid: string
+    name: kind
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
 - name: KeyVaultSecretStatus
   description: Status of the Key Vault secret.
   kind: enum
@@ -106,54 +190,6 @@ definitions:
   - types:
     - uid: string
     name: Unknown
-- name: AppServiceCertificateResource
-  description: Key Vault container ARM resource for a certificate that is purchased through Azure.
-  kind: object
-  properties:
-  - description: Key Vault resource Id.
-    types:
-    - uid: string
-    name: keyVaultId
-  - description: Key Vault secret name.
-    types:
-    - uid: string
-    name: keyVaultSecretName
-  - isReadyOnly: true
-    description: Status of the Key Vault secret.
-    types:
-    - uid: KeyVaultSecretStatus
-    name: provisioningState
-  - isReadyOnly: true
-    description: Resource Id.
-    types:
-    - uid: string
-    name: id
-  - isReadyOnly: true
-    description: Resource Name.
-    types:
-    - uid: string
-    name: name
-  - description: Kind of resource.
-    types:
-    - uid: string
-    name: kind
-  - description: Resource Location.
-    types:
-    - uid: string
-    name: location
-  - isReadyOnly: true
-    description: Resource type.
-    types:
-    - uid: string
-    name: type
-  - description: Resource tags.
-    types:
-    - isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-      uid: object
-    name: tags
 examples: []
 security:
 - type: oauth2

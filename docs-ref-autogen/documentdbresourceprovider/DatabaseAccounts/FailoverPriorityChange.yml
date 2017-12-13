@@ -45,15 +45,51 @@ requestBody:
   - in: body
     description: List of failover policies.
     types:
-    - isArray: true
-      uid: FailoverPolicy
+    - uid: FailoverPolicy
     name: failoverPolicies
 requestHeader: []
-definitions: []
+definitions:
+- name: FailoverPolicy
+  description: An array that contains the regions ordered by their failover priorities.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: 'The unique identifier of the region in which the database account replicates to. Example: &lt;accountName&gt;-&lt;locationName&gt;.'
+    types:
+    - uid: string
+    name: id
+  - description: The name of the region in which the database account exists.
+    types:
+    - uid: string
+    name: locationName
+  - description: The failover priority of the region. A failover priority of 0 indicates a write region. The maximum value for a failover priority = (total number of regions - 1). Failover priority values must be unique for each of the regions in which the database account exists.
+    types:
+    - uid: integer
+    name: failoverPriority
+- name: FailoverPolicies
+  description: The list of new failover policies for the failover priority change.
+  kind: object
+  properties:
+  - description: List of failover policies.
+    types:
+    - uid: FailoverPolicy
+    name: failoverPolicies
 examples:
 - request:
     uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1-failover/failoverPriorityChange?api-version=2015-04-08
-    requestBody: '{"failoverPolicies":[{"locationName":"eastus","failoverPriority":0},{"locationName":"westus","failoverPriority":1}]}'
+    body: >-
+      {
+        "failoverPolicies": [
+          {
+            "locationName": "eastus",
+            "failoverPriority": 0
+          },
+          {
+            "locationName": "westus",
+            "failoverPriority": 1
+          }
+        ]
+      }
   responses:
   - statusCode: "202"
   - statusCode: "204"

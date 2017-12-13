@@ -57,63 +57,63 @@ responses:
 requestHeader: []
 definitions:
 - name: SubscriptionContract
-  description: Subscription details.
+  description: Page values.
   kind: object
   properties:
   - description: The user resource identifier of the subscription owner. The value is a valid relative URL in the format of /users/{uid} where {uid} is a user identifier.
     types:
     - uid: string
-    name: userId
+    name: properties.userId
   - description: The product resource identifier of the subscribed product. The value is a valid relative URL in the format of /products/{productId} where {productId} is a product identifier.
     types:
     - uid: string
-    name: productId
+    name: properties.productId
   - description: The name of the subscription, or null if the subscription has no name.
     types:
     - uid: string
-    name: displayName
+    name: properties.displayName
   - description: Subscription state. Possible states are * active – the subscription is active, * suspended – the subscription is blocked, and the subscriber cannot call any APIs of the product, * submitted – the subscription request has been made by the developer, but has not yet been approved or rejected, * rejected – the subscription request has been denied by an administrator, * cancelled – the subscription has been cancelled by the developer or administrator, * expired – the subscription reached its expiration date and was deactivated.
     types:
     - uid: SubscriptionState
-    name: state
+    name: properties.state
   - isReadyOnly: true
     description: >
       Subscription creation date. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.
     types:
     - uid: string
-    name: createdDate
+    name: properties.createdDate
   - description: >
       Subscription activation date. The setting is for audit purposes only and the subscription is not automatically activated. The subscription lifecycle can be managed by using the `state` property. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.
     types:
     - uid: string
-    name: startDate
+    name: properties.startDate
   - description: >
       Subscription expiration date. The setting is for audit purposes only and the subscription is not automatically expired. The subscription lifecycle can be managed by using the `state` property. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.
     types:
     - uid: string
-    name: expirationDate
+    name: properties.expirationDate
   - description: >
       Date when subscription was cancelled or expired. The setting is for audit purposes only and the subscription is not automatically cancelled. The subscription lifecycle can be managed by using the `state` property. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.
     types:
     - uid: string
-    name: endDate
+    name: properties.endDate
   - description: >
       Upcoming subscription expiration notification date. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.
     types:
     - uid: string
-    name: notificationDate
+    name: properties.notificationDate
   - description: Subscription primary key.
     types:
     - uid: string
-    name: primaryKey
+    name: properties.primaryKey
   - description: Subscription secondary key.
     types:
     - uid: string
-    name: secondaryKey
+    name: properties.secondaryKey
   - description: Optional subscription comment added by an administrator.
     types:
     - uid: string
-    name: stateComment
+    name: properties.stateComment
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -129,6 +129,22 @@ definitions:
     types:
     - uid: string
     name: type
+- name: ErrorResponse
+  description: Error Body contract.
+  kind: object
+  properties:
+  - description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+    name: code
+  - description: Human-readable representation of the error.
+    types:
+    - uid: string
+    name: message
+  - description: The list of invalid fields send in request, in case of validation error.
+    types:
+    - uid: ErrorFieldContract
+    name: details
 - name: SubscriptionState
   description: Subscription state. Possible states are * active – the subscription is active, * suspended – the subscription is blocked, and the subscriber cannot call any APIs of the product, * submitted – the subscription request has been made by the developer, but has not yet been approved or rejected, * rejected – the subscription request has been denied by an administrator, * cancelled – the subscription has been cancelled by the developer or administrator, * expired – the subscription reached its expiration date and was deactivated.
   kind: enum
@@ -151,23 +167,6 @@ definitions:
   - types:
     - uid: string
     name: cancelled
-- name: ErrorResponse
-  description: Error Body contract.
-  kind: object
-  properties:
-  - description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
-    types:
-    - uid: string
-    name: code
-  - description: Human-readable representation of the error.
-    types:
-    - uid: string
-    name: message
-  - description: The list of invalid fields send in request, in case of validation error.
-    types:
-    - isArray: true
-      uid: ErrorFieldContract
-    name: details
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
@@ -189,7 +188,21 @@ examples:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/subscriptions/5931a769d8d14f0ad8ce13b8?api-version=2017-03-01
   responses:
   - statusCode: "200"
-    body: '{"id":"/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/subscriptions/5931a769d8d14f0ad8ce13b8","type":"Microsoft.ApiManagement/service/subscriptions","name":"5931a769d8d14f0ad8ce13b8","properties":{"userId":"/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/5931a75ae4bbd512a88c680b","productId":"/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/5600b59475ff190048060002","displayName":"Unlimited","state":"submitted","createdDate":"2017-06-02T17:59:06.223Z","primaryKey":"6de0a3b2da204e459148d2f6785873f0","secondaryKey":"c6de00b451f64ea780db1eb8dcf30b62"}}'
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/subscriptions/5931a769d8d14f0ad8ce13b8",
+        "type": "Microsoft.ApiManagement/service/subscriptions",
+        "name": "5931a769d8d14f0ad8ce13b8",
+        "properties": {
+          "userId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/5931a75ae4bbd512a88c680b",
+          "productId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/5600b59475ff190048060002",
+          "displayName": "Unlimited",
+          "state": "submitted",
+          "createdDate": "2017-06-02T17:59:06.223Z",
+          "primaryKey": "6de0a3b2da204e459148d2f6785873f0",
+          "secondaryKey": "c6de00b451f64ea780db1eb8dcf30b62"
+        }
+      }
   name: ApiManagementGetSubscription
 security:
 - type: oauth2

@@ -55,36 +55,34 @@ requestBody:
     description: The appliance lock level.
     types:
     - uid: ApplianceLockLevel
-    name: lockLevel
+    name: properties.lockLevel
   - in: body
     description: The appliance definition display name.
     types:
     - uid: string
-    name: displayName
+    name: properties.displayName
   - in: body
     isRequired: true
     description: The appliance provider authorizations.
     types:
-    - isArray: true
-      uid: ApplianceProviderAuthorization
-    name: authorizations
+    - uid: ApplianceProviderAuthorization
+    name: properties.authorizations
   - in: body
     description: The collection of appliance artifacts. The portal will use the files specified as artifacts to construct the user experience of creating an appliance from an appliance definition.
     types:
-    - isArray: true
-      uid: ApplianceArtifact
-    name: artifacts
+    - uid: ApplianceArtifact
+    name: properties.artifacts
   - in: body
     description: The appliance definition description.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - in: body
     isRequired: true
     description: The appliance definition package file Uri.
     types:
     - uid: string
-    name: packageFileUri
+    name: properties.packageFileUri
   - in: body
     description: ID of the resource that manages this resource.
     types:
@@ -116,107 +114,8 @@ requestBody:
     name: tags
 requestHeader: []
 definitions:
-- name: ApplianceLockLevel
-  description: The appliance lock level.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: CanNotDelete
-  - types:
-    - uid: string
-    name: ReadOnly
-  - types:
-    - uid: string
-    name: None
-- name: ApplianceArtifactType
-  description: The the appliance artifact type.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Template
-  - types:
-    - uid: string
-    name: Custom
-- name: ResourceIdentityType
-  description: The identity type.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: SystemAssigned
-- name: ApplianceDefinition
-  description: Information about appliance definition.
-  kind: object
-  properties:
-  - description: The appliance lock level.
-    types:
-    - uid: ApplianceLockLevel
-    name: lockLevel
-  - description: The appliance definition display name.
-    types:
-    - uid: string
-    name: displayName
-  - description: The appliance provider authorizations.
-    types:
-    - isArray: true
-      uid: ApplianceProviderAuthorization
-    name: authorizations
-  - description: The collection of appliance artifacts. The portal will use the files specified as artifacts to construct the user experience of creating an appliance from an appliance definition.
-    types:
-    - isArray: true
-      uid: ApplianceArtifact
-    name: artifacts
-  - description: The appliance definition description.
-    types:
-    - uid: string
-    name: description
-  - description: The appliance definition package file Uri.
-    types:
-    - uid: string
-    name: packageFileUri
-  - description: ID of the resource that manages this resource.
-    types:
-    - uid: string
-    name: managedBy
-  - description: The SKU of the resource.
-    types:
-    - uid: Sku
-    name: sku
-  - description: The identity of the resource.
-    types:
-    - uid: Identity
-    name: identity
-  - isReadyOnly: true
-    description: Resource ID
-    types:
-    - uid: string
-    name: id
-  - isReadyOnly: true
-    description: Resource name
-    types:
-    - uid: string
-    name: name
-  - isReadyOnly: true
-    description: Resource type
-    types:
-    - uid: string
-    name: type
-  - description: Resource location
-    types:
-    - uid: string
-    name: location
-  - description: Resource tags
-    types:
-    - isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-      uid: object
-    name: tags
 - name: ApplianceProviderAuthorization
-  description: The appliance provider authorization.
+  description: The appliance provider authorizations.
   kind: object
   properties:
   - description: The provider's principal identifier. This is the identity that the provider will use to call ARM to manage the appliance resources.
@@ -228,7 +127,7 @@ definitions:
     - uid: string
     name: roleDefinitionId
 - name: ApplianceArtifact
-  description: Appliance artifact.
+  description: The collection of appliance artifacts. The portal will use the files specified as artifacts to construct the user experience of creating an appliance from an appliance definition.
   kind: object
   properties:
   - description: The appliance artifact name.
@@ -289,6 +188,73 @@ definitions:
     types:
     - uid: ResourceIdentityType
     name: type
+- name: ApplianceDefinition
+  description: Information about appliance definition.
+  kind: object
+  properties:
+  - description: The appliance lock level.
+    types:
+    - uid: ApplianceLockLevel
+    name: properties.lockLevel
+  - description: The appliance definition display name.
+    types:
+    - uid: string
+    name: properties.displayName
+  - description: The appliance provider authorizations.
+    types:
+    - uid: ApplianceProviderAuthorization
+    name: properties.authorizations
+  - description: The collection of appliance artifacts. The portal will use the files specified as artifacts to construct the user experience of creating an appliance from an appliance definition.
+    types:
+    - uid: ApplianceArtifact
+    name: properties.artifacts
+  - description: The appliance definition description.
+    types:
+    - uid: string
+    name: properties.description
+  - description: The appliance definition package file Uri.
+    types:
+    - uid: string
+    name: properties.packageFileUri
+  - description: ID of the resource that manages this resource.
+    types:
+    - uid: string
+    name: managedBy
+  - description: The SKU of the resource.
+    types:
+    - uid: Sku
+    name: sku
+  - description: The identity of the resource.
+    types:
+    - uid: Identity
+    name: identity
+  - isReadyOnly: true
+    description: Resource ID
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+    name: type
+  - description: Resource location
+    types:
+    - uid: string
+    name: location
+  - description: Resource tags
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
 - name: ErrorResponse
   description: Error reponse indicates ARM appliance is not able to process the incoming request. The reason is provided in the error message.
   kind: object
@@ -305,13 +271,93 @@ definitions:
     types:
     - uid: string
     name: errorMessage
+- name: ApplianceArtifactType
+  description: The the appliance artifact type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Template
+  - types:
+    - uid: string
+    name: Custom
+- name: ResourceIdentityType
+  description: The identity type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: SystemAssigned
+- name: ApplianceLockLevel
+  description: The appliance lock level.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: CanNotDelete
+  - types:
+    - uid: string
+    name: ReadOnly
+  - types:
+    - uid: string
+    name: None
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/applianceDefinitions/myApplianceDef?api-version=2016-09-01-preview
-    requestBody: '{"properties":{"lockLevel":"None","displayName":"myApplianceDef","description":"myApplianceDef description","authorizations":[{"principalId":"validprincipalguid","roleDefinitionId":"validroleguid"}],"packageFileUri":"https://path/to/packagezipfile"},"location":"East US 2"}'
+    body: >-
+      {
+        "properties": {
+          "lockLevel": "None",
+          "displayName": "myApplianceDef",
+          "description": "myApplianceDef description",
+          "authorizations": [
+            {
+              "principalId": "validprincipalguid",
+              "roleDefinitionId": "validroleguid"
+            }
+          ],
+          "packageFileUri": "https://path/to/packagezipfile"
+        },
+        "location": "East US 2"
+      }
   responses:
   - statusCode: "201"
-    body: '{"name":"myApplianceDef","id":"/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/applianceDefinitions/myApplianceDef","type":"Microsoft.Solutions/applianceDefinitions","location":"East US 2","managedBy":null,"resourceGroup":"rg","tags":null,"identity":null,"sku":null,"properties":{"artifacts":[{"name":"CreateUiDefinition","type":"Custom","uri":"https://path/to/applianceCreateUiDefinition.json"},{"name":"ApplianceResourceTemplate","type":"Template","uri":"https://path/to/mainTemplate.json"}],"authorizations":[{"principalId":"validprincipalguid","roleDefinitionId":"validroleguid"}],"description":"myApplianceDef description","displayName":"myApplianceDef","lockLevel":null,"packageFileUri":"https://path/to/packagezipfile"}}'
+    body: >-
+      {
+        "name": "myApplianceDef",
+        "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/applianceDefinitions/myApplianceDef",
+        "type": "Microsoft.Solutions/applianceDefinitions",
+        "location": "East US 2",
+        "managedBy": null,
+        "resourceGroup": "rg",
+        "tags": null,
+        "identity": null,
+        "sku": null,
+        "properties": {
+          "artifacts": [
+            {
+              "name": "CreateUiDefinition",
+              "type": "Custom",
+              "uri": "https://path/to/applianceCreateUiDefinition.json"
+            },
+            {
+              "name": "ApplianceResourceTemplate",
+              "type": "Template",
+              "uri": "https://path/to/mainTemplate.json"
+            }
+          ],
+          "authorizations": [
+            {
+              "principalId": "validprincipalguid",
+              "roleDefinitionId": "validroleguid"
+            }
+          ],
+          "description": "myApplianceDef description",
+          "displayName": "myApplianceDef",
+          "lockLevel": null,
+          "packageFileUri": "https://path/to/packagezipfile"
+        }
+      }
   name: Create or update appliance definition
 security:
 - type: oauth2

@@ -62,38 +62,37 @@ requestBody:
     description: Unique name of Property. It may contain only letters, digits, period, dash, and underscore characters.
     types:
     - uid: string
-    name: displayName
+    name: properties.displayName
   - in: body
     isRequired: true
     description: Value of the property. Can contain policy expressions. It may not be empty or consist only of whitespace.
     types:
     - uid: string
-    name: value
+    name: properties.value
   - in: body
     description: Optional tags that when provided can be used to filter the property list.
     types:
-    - isArray: true
-      uid: string
-    name: tags
+    - uid: string
+    name: properties.tags
   - in: body
     description: Determines whether the value is a secret and should be encrypted or not. Default value is false.
     types:
     - uid: boolean
-    name: secret
+    name: properties.secret
 requestHeader: []
 definitions:
 - name: PropertyContract
-  description: Property details.
+  description: Page values.
   kind: object
   properties:
   - description: Unique name of Property. It may contain only letters, digits, period, dash, and underscore characters.
     types:
     - uid: string
-    name: displayName
+    name: properties.displayName
   - description: Value of the property. Can contain policy expressions. It may not be empty or consist only of whitespace.
     types:
     - uid: string
-    name: value
+    name: properties.value
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -111,13 +110,12 @@ definitions:
     name: type
   - description: Optional tags that when provided can be used to filter the property list.
     types:
-    - isArray: true
-      uid: string
-    name: tags
+    - uid: string
+    name: properties.tags
   - description: Determines whether the value is a secret and should be encrypted or not. Default value is false.
     types:
     - uid: boolean
-    name: secret
+    name: properties.secret
 - name: ErrorResponse
   description: Error Body contract.
   kind: object
@@ -132,8 +130,7 @@ definitions:
     name: message
   - description: The list of invalid fields send in request, in case of validation error.
     types:
-    - isArray: true
-      uid: ErrorFieldContract
+    - uid: ErrorFieldContract
     name: details
 - name: ErrorFieldContract
   description: Error Field contract.
@@ -154,10 +151,35 @@ definitions:
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/properties/testprop2?api-version=2017-03-01
-    requestBody: '{"properties":{"displayName":"prop3name","value":"propValue","tags":["foo","bar"],"secret":true}}'
+    body: >-
+      {
+        "properties": {
+          "displayName": "prop3name",
+          "value": "propValue",
+          "tags": [
+            "foo",
+            "bar"
+          ],
+          "secret": true
+        }
+      }
   responses:
   - statusCode: "201"
-    body: '{"id":"/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/properties/testprop2","type":"Microsoft.ApiManagement/service/properties","name":"testprop2","properties":{"displayName":"prop3name","value":"propValue","tags":["foo","bar"],"secret":true}}'
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/properties/testprop2",
+        "type": "Microsoft.ApiManagement/service/properties",
+        "name": "testprop2",
+        "properties": {
+          "displayName": "prop3name",
+          "value": "propValue",
+          "tags": [
+            "foo",
+            "bar"
+          ],
+          "secret": true
+        }
+      }
   - statusCode: "200"
   name: ApiManagementCreateProperty
 security:

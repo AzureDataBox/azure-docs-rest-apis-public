@@ -60,36 +60,36 @@ definitions:
     description: The lab's default storage account.
     types:
     - uid: string
-    name: defaultStorageAccount
+    name: properties.defaultStorageAccount
   - isReadyOnly: true
     description: The lab's default premium storage account.
     types:
     - uid: string
-    name: defaultPremiumStorageAccount
+    name: properties.defaultPremiumStorageAccount
   - isReadyOnly: true
     description: The lab's artifact storage account.
     types:
     - uid: string
-    name: artifactsStorageAccount
+    name: properties.artifactsStorageAccount
   - isReadyOnly: true
     description: The lab's premium data disk storage account.
     types:
     - uid: string
-    name: premiumDataDiskStorageAccount
+    name: properties.premiumDataDiskStorageAccount
   - isReadyOnly: true
     description: The lab's Key vault.
     types:
     - uid: string
-    name: vaultName
+    name: properties.vaultName
   - description: Type of storage used by the lab. It can be either Premium or Standard. Default is Premium.
     types:
     - uid: StorageType
-    name: labStorageType
+    name: properties.labStorageType
   - isReadyOnly: true
     description: The creation date of the lab.
     types:
     - uid: string
-    name: createdDate
+    name: properties.createdDate
   - description: >-
       The setting to enable usage of premium data disks.
 
@@ -98,15 +98,15 @@ definitions:
       When its value is 'Disabled', only creation of standard data disks is allowed.
     types:
     - uid: PremiumDataDisk
-    name: premiumDataDisks
+    name: properties.premiumDataDisks
   - description: The provisioning status of the resource.
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - description: The unique immutable identifier of a resource (Guid).
     types:
     - uid: string
-    name: uniqueIdentifier
+    name: properties.uniqueIdentifier
   - isReadyOnly: true
     description: The identifier of the resource.
     types:
@@ -134,8 +134,16 @@ definitions:
       - uid: string
       uid: object
     name: tags
+- name: CloudError
+  description: Error from a REST request.
+  kind: object
+  properties:
+  - description: Body of an error from a REST request.
+    types:
+    - uid: CloudErrorBody
+    name: error
 - name: StorageType
-  description: Type of storage used by the lab. It can be either Premium or Standard. Default is Premium.
+  description: The storage type for the disk (i.e. Standard, Premium).
   kind: enum
   properties:
   - types:
@@ -159,14 +167,6 @@ definitions:
   - types:
     - uid: string
     name: Enabled
-- name: CloudError
-  description: Error from a REST request.
-  kind: object
-  properties:
-  - description: Body of an error from a REST request.
-    types:
-    - uid: CloudErrorBody
-    name: error
 - name: CloudErrorBody
   description: Body of an error from a REST request.
   kind: object
@@ -182,8 +182,7 @@ definitions:
     name: target
   - description: Inner errors.
     types:
-    - isArray: true
-      uid: Details
+    - uid: Details
     name: details
 examples: []
 security:

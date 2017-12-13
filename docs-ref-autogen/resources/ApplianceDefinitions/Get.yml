@@ -55,29 +55,27 @@ definitions:
   - description: The appliance lock level.
     types:
     - uid: ApplianceLockLevel
-    name: lockLevel
+    name: properties.lockLevel
   - description: The appliance definition display name.
     types:
     - uid: string
-    name: displayName
+    name: properties.displayName
   - description: The appliance provider authorizations.
     types:
-    - isArray: true
-      uid: ApplianceProviderAuthorization
-    name: authorizations
+    - uid: ApplianceProviderAuthorization
+    name: properties.authorizations
   - description: The collection of appliance artifacts. The portal will use the files specified as artifacts to construct the user experience of creating an appliance from an appliance definition.
     types:
-    - isArray: true
-      uid: ApplianceArtifact
-    name: artifacts
+    - uid: ApplianceArtifact
+    name: properties.artifacts
   - description: The appliance definition description.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - description: The appliance definition package file Uri.
     types:
     - uid: string
-    name: packageFileUri
+    name: properties.packageFileUri
   - description: ID of the resource that manages this resource.
     types:
     - uid: string
@@ -117,6 +115,22 @@ definitions:
       - uid: string
       uid: object
     name: tags
+- name: ErrorResponse
+  description: Error reponse indicates ARM appliance is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - description: Http status code.
+    types:
+    - uid: string
+    name: httpStatus
+  - description: Error code.
+    types:
+    - uid: string
+    name: errorCode
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: errorMessage
 - name: ApplianceLockLevel
   description: The appliance lock level.
   kind: enum
@@ -131,7 +145,7 @@ definitions:
     - uid: string
     name: None
 - name: ApplianceProviderAuthorization
-  description: The appliance provider authorization.
+  description: The appliance provider authorizations.
   kind: object
   properties:
   - description: The provider's principal identifier. This is the identity that the provider will use to call ARM to manage the appliance resources.
@@ -143,7 +157,7 @@ definitions:
     - uid: string
     name: roleDefinitionId
 - name: ApplianceArtifact
-  description: Appliance artifact.
+  description: The collection of appliance artifacts. The portal will use the files specified as artifacts to construct the user experience of creating an appliance from an appliance definition.
   kind: object
   properties:
   - description: The appliance artifact name.
@@ -158,16 +172,6 @@ definitions:
     types:
     - uid: ApplianceArtifactType
     name: type
-- name: ApplianceArtifactType
-  description: The the appliance artifact type.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Template
-  - types:
-    - uid: string
-    name: Custom
 - name: Sku
   description: The SKU of the resource.
   kind: object
@@ -214,6 +218,16 @@ definitions:
     types:
     - uid: ResourceIdentityType
     name: type
+- name: ApplianceArtifactType
+  description: The the appliance artifact type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Template
+  - types:
+    - uid: string
+    name: Custom
 - name: ResourceIdentityType
   description: The identity type.
   kind: enum
@@ -221,28 +235,47 @@ definitions:
   - types:
     - uid: string
     name: SystemAssigned
-- name: ErrorResponse
-  description: Error reponse indicates ARM appliance is not able to process the incoming request. The reason is provided in the error message.
-  kind: object
-  properties:
-  - description: Http status code.
-    types:
-    - uid: string
-    name: httpStatus
-  - description: Error code.
-    types:
-    - uid: string
-    name: errorCode
-  - description: Error message indicating why the operation failed.
-    types:
-    - uid: string
-    name: errorMessage
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/applianceDefinitions/{applianceDefinitionName}?api-version=2016-09-01-preview
   responses:
   - statusCode: "200"
-    body: '{"name":"myApplianceDef","id":"/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/applianceDefinitions/myApplianceDef","type":"Microsoft.Solutions/applianceDefinitions","location":"East US 2","managedBy":null,"resourceGroup":"rg","tags":null,"identity":null,"sku":null,"properties":{"artifacts":[{"name":"CreateUiDefinition","type":"Custom","uri":"https://path/to/applianceCreateUiDefinition.json"},{"name":"ApplianceResourceTemplate","type":"Template","uri":"https://path/to/mainTemplate.json"}],"authorizations":[{"principalId":"validprincipalguid","roleDefinitionId":"validroleguid"}],"description":"myApplianceDef description","displayName":"myApplianceDef","lockLevel":null,"packageFileUri":"https://path/to/packagezipfile"}}'
+    body: >-
+      {
+        "name": "myApplianceDef",
+        "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/applianceDefinitions/myApplianceDef",
+        "type": "Microsoft.Solutions/applianceDefinitions",
+        "location": "East US 2",
+        "managedBy": null,
+        "resourceGroup": "rg",
+        "tags": null,
+        "identity": null,
+        "sku": null,
+        "properties": {
+          "artifacts": [
+            {
+              "name": "CreateUiDefinition",
+              "type": "Custom",
+              "uri": "https://path/to/applianceCreateUiDefinition.json"
+            },
+            {
+              "name": "ApplianceResourceTemplate",
+              "type": "Template",
+              "uri": "https://path/to/mainTemplate.json"
+            }
+          ],
+          "authorizations": [
+            {
+              "principalId": "validprincipalguid",
+              "roleDefinitionId": "validroleguid"
+            }
+          ],
+          "description": "myApplianceDef description",
+          "displayName": "myApplianceDef",
+          "lockLevel": null,
+          "packageFileUri": "https://path/to/packagezipfile"
+        }
+      }
   name: Get appliance definition
 security:
 - type: oauth2

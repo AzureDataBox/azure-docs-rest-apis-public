@@ -83,8 +83,17 @@ definitions:
       - uid: string
       uid: object
     name: tags
+- name: KeyVaultError
+  description: The key vault error exception.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
+    name: error
 - name: StorageAccountAttributes
-  description: The storage account attributes.
+  description: The storage account management attributes.
   kind: object
   properties:
   - description: the enabled state of the object.
@@ -101,17 +110,8 @@ definitions:
     types:
     - uid: integer
     name: updated
-- name: KeyVaultError
-  description: The key vault error exception.
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: The key vault server error.
-    types:
-    - uid: Error
-    name: error
 - name: Error
-  description: The key vault server error.
+  description: Error encountered, if any, during the certificate operation.
   kind: object
   properties:
   - isReadyOnly: true
@@ -132,8 +132,24 @@ examples:
     uri: GET https://{vaultBaseUrl}/storage/readStrg01?api-version=2016-10-01
   responses:
   - statusCode: "200"
-    body: '{"id":"https://storage-sdk-test.vault-int.azure-int.net/storage/readStrg01","resourceId":"/subscriptions/{subId}/resourceGroups/{rgName}/providers/Microsoft.Storage/storageAccounts/kvstorageacc","activeKeyName":"key1","autoRegenerateKey":true,"regenerationPeriod":"P30D","attributes":{"enabled":true,"created":1490738386,"updated":1490738386},"tags":{"tag1":"val1","tag2":"val2"}}'
+    body: >-
+      {
+        "id": "https://storage-sdk-test.vault-int.azure-int.net/storage/readStrg01",
+        "resourceId": "/subscriptions/{subId}/resourceGroups/{rgName}/providers/Microsoft.Storage/storageAccounts/kvstorageacc",
+        "activeKeyName": "key1",
+        "autoRegenerateKey": true,
+        "regenerationPeriod": "P30D",
+        "attributes": {
+          "enabled": true,
+          "created": 1490738386,
+          "updated": 1490738386
+        },
+        "tags": {
+          "tag1": "val1",
+          "tag2": "val2"
+        }
+      }
   name: Get Storage account
 security: []
 name: GetStorageAccount
-uid: .keyvault.getstorageaccount.getstorageaccount
+uid: keyvault.getstorageaccount.getstorageaccount

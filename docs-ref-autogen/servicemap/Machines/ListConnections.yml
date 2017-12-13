@@ -73,13 +73,20 @@ definitions:
   properties:
   - description: Collection of Connection resources.
     types:
-    - isArray: true
-      uid: Connection
+    - uid: Connection
     name: value
   - description: The URL to the next set of resources.
     types:
     - uid: string
     name: nextLink
+- name: ErrorResponse
+  description: An error response from the API.
+  kind: object
+  properties:
+  - description: Error information.
+    types:
+    - uid: Error
+    name: error
 - name: Connection
   description: A network connection.
   kind: object
@@ -87,11 +94,11 @@ definitions:
   - description: Reference to the server port via which this connection has been established.
     types:
     - uid: PortReference
-    name: serverPort
+    name: properties.serverPort
   - description: Specifies whether there are only successful, failed or a mixture of both connections represented by this resource.
     types:
     - uid: ConnectionFailureState
-    name: failureState
+    name: properties.failureState
   - description: Additional resource type qualifier.
     types:
     - uid: rel:connection
@@ -119,7 +126,7 @@ definitions:
     - uid: PortReference
     - uid: MachineReferenceWithHints
     typesTitle: ResourceReference
-    name: source
+    name: properties.source
   - description: Destination resource of the relationship.
     types:
     - uid: MachineReference
@@ -127,33 +134,45 @@ definitions:
     - uid: PortReference
     - uid: MachineReferenceWithHints
     typesTitle: ResourceReference
-    name: destination
+    name: properties.destination
   - description: Relationship start time.
     types:
     - uid: string
-    name: startTime
+    name: properties.startTime
   - description: Relationship end time.
     types:
     - uid: string
-    name: endTime
+    name: properties.endTime
+- name: Error
+  description: Error information.
+  kind: object
+  properties:
+  - description: Error code identifying the specific error.
+    types:
+    - uid: string
+    name: code
+  - description: Error message in the caller's locale.
+    types:
+    - uid: string
+    name: message
 - name: PortReference
-  description: Reference to the server port via which this connection has been established.
+  description: Reference to a port.
   kind: object
   properties:
   - isReadyOnly: true
     description: Machine hosting the port.
     types:
     - uid: MachineReference
-    name: machine
+    name: properties.machine
   - isReadyOnly: true
     description: IP address of the port.
     types:
     - uid: string
-    name: ipAddress
+    name: properties.ipAddress
   - description: Port number.
     types:
     - uid: integer
-    name: portNumber
+    name: properties.portNumber
   - description: Resource URI.
     types:
     - uid: string
@@ -173,8 +192,21 @@ definitions:
     - uid: ref:port
     typesTitle: string
     name: kind
+- name: ConnectionFailureState
+  description: Specifies whether there are only successful, failed or a mixture of both connections represented by this resource.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: ok
+  - types:
+    - uid: string
+    name: failed
+  - types:
+    - uid: string
+    name: mixed
 - name: MachineReference
-  description: Machine hosting the port.
+  description: Reference to a machine.
   kind: object
   properties:
   - description: Resource URI.
@@ -196,39 +228,6 @@ definitions:
     - uid: ref:machine
     typesTitle: string
     name: kind
-- name: ConnectionFailureState
-  description: Specifies whether there are only successful, failed or a mixture of both connections represented by this resource.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: ok
-  - types:
-    - uid: string
-    name: failed
-  - types:
-    - uid: string
-    name: mixed
-- name: ErrorResponse
-  description: An error response from the API.
-  kind: object
-  properties:
-  - description: Error information.
-    types:
-    - uid: Error
-    name: error
-- name: Error
-  description: Error information.
-  kind: object
-  properties:
-  - description: Error code identifying the specific error.
-    types:
-    - uid: string
-    name: code
-  - description: Error message in the caller's locale.
-    types:
-    - uid: string
-    name: message
 - name: ProcessReference
   description: Reference to a process.
   kind: object
@@ -237,7 +236,7 @@ definitions:
     description: Machine hosting the process.
     types:
     - uid: MachineReference
-    name: machine
+    name: properties.machine
   - description: Resource URI.
     types:
     - uid: string
@@ -265,12 +264,12 @@ definitions:
     description: Last known display name.
     types:
     - uid: string
-    name: displayNameHint
+    name: properties.displayNameHint
   - isReadyOnly: true
     description: Last known operating system family.
     types:
     - uid: OperatingSystemFamily
-    name: osFamilyHint
+    name: properties.osFamilyHint
   - description: Resource URI.
     types:
     - uid: string

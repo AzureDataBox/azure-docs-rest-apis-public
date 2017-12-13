@@ -52,11 +52,11 @@ definitions:
   - description: Allow users to sign up on a developer portal.
     types:
     - uid: boolean
-    name: enabled
+    name: properties.enabled
   - description: Terms of service contract properties.
     types:
     - uid: TermsOfServiceProperties
-    name: termsOfService
+    name: properties.termsOfService
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -93,7 +93,17 @@ examples:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/portalsettings/signup?api-version=2017-03-01
   responses:
   - statusCode: "200"
-    body: '{"properties":{"enabled":true,"termsOfService":{"text":"Terms of service text.","enabled":true,"consentRequired":true}}}'
+    body: >-
+      {
+        "properties": {
+          "enabled": true,
+          "termsOfService": {
+            "text": "Terms of service text.",
+            "enabled": true,
+            "consentRequired": true
+          }
+        }
+      }
   name: ApiManagementPortalSettingsGetSignUp
 security:
 - type: oauth2

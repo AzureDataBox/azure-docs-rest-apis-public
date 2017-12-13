@@ -48,8 +48,7 @@ definitions:
   properties:
   - description: The list of workflows.
     types:
-    - isArray: true
-      uid: Workflow
+    - uid: Workflow
     name: value
   - description: The URL to get the next set of results.
     types:
@@ -63,43 +62,43 @@ definitions:
     description: Gets the provisioning state.
     types:
     - uid: WorkflowProvisioningState
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: Gets the created time.
     types:
     - uid: string
-    name: createdTime
+    name: properties.createdTime
   - isReadyOnly: true
     description: Gets the changed time.
     types:
     - uid: string
-    name: changedTime
+    name: properties.changedTime
   - description: The state.
     types:
     - uid: WorkflowState
-    name: state
+    name: properties.state
   - isReadyOnly: true
     description: Gets the version.
     types:
     - uid: string
-    name: version
+    name: properties.version
   - isReadyOnly: true
     description: Gets the access endpoint.
     types:
     - uid: string
-    name: accessEndpoint
+    name: properties.accessEndpoint
   - description: The sku.
     types:
     - uid: Sku
-    name: sku
+    name: properties.sku
   - description: The integration account.
     types:
     - uid: ResourceReference
-    name: integrationAccount
+    name: properties.integrationAccount
   - description: The definition.
     types:
     - uid: Object
-    name: definition
+    name: properties.definition
   - description: The parameters.
     types:
     - isDictionary: true
@@ -107,7 +106,7 @@ definitions:
       - uid: string
       - uid: WorkflowParameter
       uid: object
-    name: parameters
+    name: properties.parameters
   - isReadyOnly: true
     description: The resource id.
     types:
@@ -227,6 +226,37 @@ definitions:
     types:
     - uid: ResourceReference
     name: plan
+- name: ResourceReference
+  description: The resource reference.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The resource id.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Gets the resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Gets the resource type.
+    types:
+    - uid: string
+    name: type
+- name: Object
+  kind: object
+  properties: []
+- name: Parameters
+  description: The parameters.
+  kind: object
+  properties:
+  - description: The workflow parameters.
+    types:
+    - uid: WorkflowOutputParameter
+    typesTitle: WorkflowParameter
+    name: ''
 - name: SkuName
   description: The name.
   kind: enum
@@ -249,41 +279,15 @@ definitions:
   - types:
     - uid: string
     name: Premium
-- name: ResourceReference
-  description: The reference to plan.
+- name: WorkflowOutputParameter
+  description: The workflow output parameter.
   kind: object
   properties:
   - isReadyOnly: true
-    description: The resource id.
+    description: Gets the error.
     types:
-    - uid: string
-    name: id
-  - isReadyOnly: true
-    description: Gets the resource name.
-    types:
-    - uid: string
-    name: name
-  - isReadyOnly: true
-    description: Gets the resource type.
-    types:
-    - uid: string
-    name: type
-- name: Object
-  description: The definition.
-  kind: object
-  properties: []
-- name: Parameters
-  description: The parameters.
-  kind: object
-  properties:
-  - description: The workflow parameters.
-    types:
-    - uid: WorkflowParameter
-    name: ''
-- name: WorkflowParameter
-  description: The workflow parameters.
-  kind: object
-  properties:
+    - uid: Object
+    name: error
   - description: The type.
     types:
     - uid: ParameterType

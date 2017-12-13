@@ -49,15 +49,27 @@ requestBody:
     isRequired: true
     description: The list of email IDs to send the test alert email
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: emailList
 requestHeader: []
-definitions: []
+definitions:
+- name: SendTestAlertEmailRequest
+  description: The request for sending test alert email
+  kind: object
+  properties:
+  - description: The list of email IDs to send the test alert email
+    types:
+    - uid: string
+    name: emailList
 examples:
 - request:
     uri: POST https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/sendTestAlertEmail?api-version=2017-06-01
-    requestBody: '{"emailList":["testemailid@contoso.com"]}'
+    body: >-
+      {
+        "emailList": [
+          "testemailid@contoso.com"
+        ]
+      }
   responses:
   - statusCode: "204"
     body: "\"\""

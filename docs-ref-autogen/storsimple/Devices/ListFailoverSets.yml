@@ -53,8 +53,7 @@ definitions:
   properties:
   - description: The list of failover sets.
     types:
-    - isArray: true
-      uid: FailoverSet
+    - uid: FailoverSet
     name: value
 - name: FailoverSet
   description: The failover set on a device.
@@ -62,15 +61,14 @@ definitions:
   properties:
   - description: The list of meta data of volume containers, which are part of the failover set.
     types:
-    - isArray: true
-      uid: VolumeContainerFailoverMetadata
+    - uid: VolumeContainerFailoverMetadata
     name: volumeContainers
   - description: The eligibility result of the failover set, for failover.
     types:
     - uid: FailoverSetEligibilityResult
     name: eligibilityResult
 - name: VolumeContainerFailoverMetadata
-  description: The metadata of the volume container, that is being considered as part of a failover set.
+  description: The list of meta data of volume containers, which are part of the failover set.
   kind: object
   properties:
   - description: The path ID of the volume container.
@@ -79,11 +77,22 @@ definitions:
     name: volumeContainerId
   - description: The list of metadata of volumes inside the volume container, which contains valid cloud snapshots.
     types:
-    - isArray: true
-      uid: VolumeFailoverMetadata
+    - uid: VolumeFailoverMetadata
     name: volumes
+- name: FailoverSetEligibilityResult
+  description: The eligibility result of the failover set, for failover.
+  kind: object
+  properties:
+  - description: Represents if this failover set is eligible for failover or not.
+    types:
+    - uid: boolean
+    name: isEligibleForFailover
+  - description: The error message, if the failover set is not eligible for failover.
+    types:
+    - uid: string
+    name: errorMessage
 - name: VolumeFailoverMetadata
-  description: The metadata of a volume that has valid cloud snapshot.
+  description: The list of metadata of volumes inside the volume container, which contains valid cloud snapshots.
   kind: object
   properties:
   - description: The path ID of the volume.
@@ -115,7 +124,7 @@ definitions:
     - uid: string
     name: backupPolicyId
 - name: VolumeType
-  description: The type of the volume.
+  description: The volume type.
   kind: enum
   properties:
   - types:
@@ -127,24 +136,67 @@ definitions:
   - types:
     - uid: string
     name: LocallyPinned
-- name: FailoverSetEligibilityResult
-  description: The eligibility result of the failover set, for failover.
-  kind: object
-  properties:
-  - description: Represents if this failover set is eligible for failover or not.
-    types:
-    - uid: boolean
-    name: isEligibleForFailover
-  - description: The error message, if the failover set is not eligible for failover.
-    types:
-    - uid: string
-    name: errorMessage
 examples:
 - request:
     uri: POST https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/listFailoverSets?api-version=2017-06-01
   responses:
   - statusCode: "200"
-    body: '{"value":[{"volumeContainers":[{"volumeContainerId":"/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/volumeContainers/vcforsdktest","volumes":[{"volumeId":"/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/volumeContainers/vcforsdktest/volumes/jemVol1","volumeType":"Tiered","sizeInBytes":5368709120,"backupCreatedDate":"2017-06-20T06:30:03.794Z","backupElementId":"/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/backups/964d5a65-5294-4707-9c71-becb8850ea12/elements/2553386f-f39e-4223-b9fa-319adc5630fe_0000000000000000","backupId":"/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/backups/964d5a65-5294-4707-9c71-becb8850ea12","backupPolicyId":"/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/backupPolicies/jembkpolicy"}]}],"eligibilityResult":{"isEligibleForFailover":true}},{"volumeContainers":[{"volumeContainerId":"/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/volumeContainers/vcForOdataFilterTest","volumes":[{"volumeId":"/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/volumeContainers/vcForOdataFilterTest/volumes/vol01","volumeType":"Tiered","sizeInBytes":10737418240,"backupCreatedDate":"2017-06-10T10:29:37.215Z","backupElementId":"/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/backups/0874889e-f2a3-42d2-a643-f378fc199688/elements/5baae396-46f1-46a0-bc25-d8e2fcada7fa_0000000000000000","backupId":"/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/backups/0874889e-f2a3-42d2-a643-f378fc199688","backupPolicyId":"/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/backupPolicies/BkUpPolicyForSDKTest429326237"},{"volumeId":"/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/volumeContainers/vcForOdataFilterTest/volumes/vol%2540123","volumeType":"Tiered","sizeInBytes":10737418240,"backupCreatedDate":"2017-06-10T10:29:37.215Z","backupElementId":"/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/backups/0874889e-f2a3-42d2-a643-f378fc199688/elements/5c7eb677-d688-4afb-a352-ca62454d5921_0000000000000000","backupId":"/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/backups/0874889e-f2a3-42d2-a643-f378fc199688","backupPolicyId":"/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/backupPolicies/BkUpPolicyForSDKTest429326237"}]}],"eligibilityResult":{"isEligibleForFailover":true}}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "volumeContainers": [
+              {
+                "volumeContainerId": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/volumeContainers/vcforsdktest",
+                "volumes": [
+                  {
+                    "volumeId": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/volumeContainers/vcforsdktest/volumes/jemVol1",
+                    "volumeType": "Tiered",
+                    "sizeInBytes": 5368709120,
+                    "backupCreatedDate": "2017-06-20T06:30:03.794Z",
+                    "backupElementId": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/backups/964d5a65-5294-4707-9c71-becb8850ea12/elements/2553386f-f39e-4223-b9fa-319adc5630fe_0000000000000000",
+                    "backupId": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/backups/964d5a65-5294-4707-9c71-becb8850ea12",
+                    "backupPolicyId": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/backupPolicies/jembkpolicy"
+                  }
+                ]
+              }
+            ],
+            "eligibilityResult": {
+              "isEligibleForFailover": true
+            }
+          },
+          {
+            "volumeContainers": [
+              {
+                "volumeContainerId": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/volumeContainers/vcForOdataFilterTest",
+                "volumes": [
+                  {
+                    "volumeId": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/volumeContainers/vcForOdataFilterTest/volumes/vol01",
+                    "volumeType": "Tiered",
+                    "sizeInBytes": 10737418240,
+                    "backupCreatedDate": "2017-06-10T10:29:37.215Z",
+                    "backupElementId": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/backups/0874889e-f2a3-42d2-a643-f378fc199688/elements/5baae396-46f1-46a0-bc25-d8e2fcada7fa_0000000000000000",
+                    "backupId": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/backups/0874889e-f2a3-42d2-a643-f378fc199688",
+                    "backupPolicyId": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/backupPolicies/BkUpPolicyForSDKTest429326237"
+                  },
+                  {
+                    "volumeId": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/volumeContainers/vcForOdataFilterTest/volumes/vol%2540123",
+                    "volumeType": "Tiered",
+                    "sizeInBytes": 10737418240,
+                    "backupCreatedDate": "2017-06-10T10:29:37.215Z",
+                    "backupElementId": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/backups/0874889e-f2a3-42d2-a643-f378fc199688/elements/5c7eb677-d688-4afb-a352-ca62454d5921_0000000000000000",
+                    "backupId": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/backups/0874889e-f2a3-42d2-a643-f378fc199688",
+                    "backupPolicyId": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/backupPolicies/BkUpPolicyForSDKTest429326237"
+                  }
+                ]
+              }
+            ],
+            "eligibilityResult": {
+              "isEligibleForFailover": true
+            }
+          }
+        ]
+      }
   name: DevicesListFailoverSets
 security:
 - type: oauth2

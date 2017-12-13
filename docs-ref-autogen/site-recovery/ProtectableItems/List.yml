@@ -59,15 +59,14 @@ definitions:
   properties:
   - description: List of resources.
     types:
-    - isArray: true
-      uid: WorkloadProtectableItemResource
+    - uid: WorkloadProtectableItemResource
     name: value
   - description: The URI to GET the next page of resources. Call ListNext() gets the next page of resources.
     types:
     - uid: string
     name: nextLink
 - name: WorkloadProtectableItemResource
-  description: The base class for the backup item. Workload-specific backup items are derived from this class.
+  description: List of resources.
   kind: object
   properties:
   - description: The base class for backup item. Workload-specific backup items are derived from this class.
@@ -103,6 +102,56 @@ definitions:
     types:
     - uid: string
     name: eTag
+- name: AzureIaaSComputeVMProtectableItem
+  description: IaaS VM workload-specific backup item representing a Resource Manager VM.
+  kind: object
+  properties:
+  - description: The fully qualified Resource Manager ID of the virtual machine.
+    types:
+    - uid: string
+    name: virtualMachineId
+  - description: The backup managemenent type.
+    types:
+    - uid: string
+    name: backupManagementType
+  - description: The type of the backup item.
+    types:
+    - uid: Microsoft.Compute/virtualMachines
+    typesTitle: string
+    name: protectableItemType
+  - description: The friendly name of the backup item.
+    types:
+    - uid: string
+    name: friendlyName
+  - description: The state of the back up item.
+    types:
+    - uid: ProtectionStatus
+    name: protectionState
+- name: AzureIaaSClassicComputeVMProtectableItem
+  description: IaaS VM workload-specific backup item representing a classic VM.
+  kind: object
+  properties:
+  - description: The fully qualified Resource Manager ID of the virtual machine.
+    types:
+    - uid: string
+    name: virtualMachineId
+  - description: The backup managemenent type.
+    types:
+    - uid: string
+    name: backupManagementType
+  - description: The type of the backup item.
+    types:
+    - uid: Microsoft.ClassicCompute/virtualMachines
+    typesTitle: string
+    name: protectableItemType
+  - description: The friendly name of the backup item.
+    types:
+    - uid: string
+    name: friendlyName
+  - description: The state of the back up item.
+    types:
+    - uid: ProtectionStatus
+    name: protectionState
 - name: ProtectionStatus
   description: The state of the back up item.
   kind: enum
@@ -119,31 +168,6 @@ definitions:
   - types:
     - uid: string
     name: Protected
-- name: IaaSVMProtectableItem
-  description: This Azure VM workload-specific (also known as IaaS VM workload-specific) backup item can be backed up.
-  kind: object
-  properties:
-  - description: The fully qualified Resource Manager ID of the virtual machine.
-    types:
-    - uid: string
-    name: virtualMachineId
-  - description: The backup managemenent type.
-    types:
-    - uid: string
-    name: backupManagementType
-  - description: The type of the backup item.
-    types:
-    - {}
-    typesTitle: string
-    name: protectableItemType
-  - description: The friendly name of the backup item.
-    types:
-    - uid: string
-    name: friendlyName
-  - description: The state of the back up item.
-    types:
-    - uid: ProtectionStatus
-    name: protectionState
 examples: []
 security:
 - type: oauth2

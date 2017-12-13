@@ -42,7 +42,7 @@ responses:
 requestHeader: []
 definitions:
 - name: ManagedCluster
-  description: Managed cluster.
+  description: The list of managed clusters.
   kind: object
   properties:
   - isReadyOnly: true
@@ -104,8 +104,7 @@ definitions:
     name: accessProfiles
   - description: Properties of the agent pool.
     types:
-    - isArray: true
-      uid: ContainerServiceAgentPoolProfile
+    - uid: ContainerServiceAgentPoolProfile
     name: agentPoolProfiles
   - description: Profile for Linux VMs in the container service cluster.
     types:
@@ -127,14 +126,6 @@ definitions:
     types:
     - uid: AccessProfile
     name: clusterUser
-- name: AccessProfile
-  description: An access profile with administrative privileges to the cluster.
-  kind: object
-  properties:
-  - description: Base64-encoded Kubernetes configuration file.
-    types:
-    - uid: string
-    name: kubeConfig
 - name: ContainerServiceAgentPoolProfile
   description: Profile for the container service agent pool.
   kind: object
@@ -166,8 +157,7 @@ definitions:
     name: fqdn
   - description: Ports number array used to expose on this agent pool. The default opened ports are different based on your choice of orchestrator.
     types:
-    - isArray: true
-      uid: integer
+    - uid: integer
     name: ports
   - description: Storage profile specifies what kind of storage used. Choose from StorageAccount and ManagedDisks. Leave it empty, we will choose for you based on the orchestrator choice.
     types:
@@ -181,6 +171,42 @@ definitions:
     types:
     - uid: OSType
     name: osType
+- name: ContainerServiceLinuxProfile
+  description: Profile for Linux VMs in the container service cluster.
+  kind: object
+  properties:
+  - description: The administrator username to use for Linux VMs.
+    types:
+    - uid: string
+    name: adminUsername
+  - description: SSH configuration for Linux-based VMs running on Azure.
+    types:
+    - uid: ContainerServiceSshConfiguration
+    name: ssh
+- name: ContainerServiceServicePrincipalProfile
+  description: Information about a service principal identity for the cluster to use for manipulating Azure APIs. Either secret or keyVaultSecretRef must be specified.
+  kind: object
+  properties:
+  - description: The ID for the service principal.
+    types:
+    - uid: string
+    name: clientId
+  - description: The secret password associated with the service principal in plain text.
+    types:
+    - uid: string
+    name: secret
+  - description: Reference to a secret stored in Azure Key Vault.
+    types:
+    - uid: KeyVaultSecretRef
+    name: keyVaultSecretRef
+- name: AccessProfile
+  description: An access profile with administrative privileges to the cluster.
+  kind: object
+  properties:
+  - description: Base64-encoded Kubernetes configuration file.
+    types:
+    - uid: string
+    name: kubeConfig
 - name: ContainerServiceVMSizeTypes
   description: Size of agent VMs.
   kind: enum
@@ -595,51 +621,14 @@ definitions:
   - types:
     - uid: string
     name: Windows
-- name: ContainerServiceLinuxProfile
-  description: Profile for Linux VMs in the container service cluster.
-  kind: object
-  properties:
-  - description: The administrator username to use for Linux VMs.
-    types:
-    - uid: string
-    name: adminUsername
-  - description: SSH configuration for Linux-based VMs running on Azure.
-    types:
-    - uid: ContainerServiceSshConfiguration
-    name: ssh
 - name: ContainerServiceSshConfiguration
   description: SSH configuration for Linux-based VMs running on Azure.
   kind: object
   properties:
   - description: The list of SSH public keys used to authenticate with Linux-based VMs. Only expect one key specified.
     types:
-    - isArray: true
-      uid: ContainerServiceSshPublicKey
+    - uid: ContainerServiceSshPublicKey
     name: publicKeys
-- name: ContainerServiceSshPublicKey
-  description: Contains information about SSH certificate public key data.
-  kind: object
-  properties:
-  - description: Certificate public key used to authenticate with VMs through SSH. The certificate must be in PEM format with or without headers.
-    types:
-    - uid: string
-    name: keyData
-- name: ContainerServiceServicePrincipalProfile
-  description: Information about a service principal identity for the cluster to use for manipulating Azure APIs. Either secret or keyVaultSecretRef must be specified.
-  kind: object
-  properties:
-  - description: The ID for the service principal.
-    types:
-    - uid: string
-    name: clientId
-  - description: The secret password associated with the service principal in plain text.
-    types:
-    - uid: string
-    name: secret
-  - description: Reference to a secret stored in Azure Key Vault.
-    types:
-    - uid: KeyVaultSecretRef
-    name: keyVaultSecretRef
 - name: KeyVaultSecretRef
   description: Reference to a secret stored in Azure Key Vault.
   kind: object
@@ -656,12 +645,70 @@ definitions:
     types:
     - uid: string
     name: version
+- name: ContainerServiceSshPublicKey
+  description: The list of SSH public keys used to authenticate with Linux-based VMs. Only expect one key specified.
+  kind: object
+  properties:
+  - description: Certificate public key used to authenticate with VMs through SSH. The certificate must be in PEM format with or without headers.
+    types:
+    - uid: string
+    name: keyData
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2017-08-31
   responses:
   - statusCode: "200"
-    body: '{"id":"/subscriptions/subid1/resourcegroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1","location":"location1","name":"mycluster1","properties":{"accessProfiles":{"clusterAdmin":{"kubeConfig":"kubeConfig1"},"clusterUser":{"kubeConfig":"kubeConfig2"}},"agentPoolProfiles":[{"count":1,"dnsPrefix":"agentpool1dnsPrefix","fqdn":"agentpool1fqdn","name":"agentpool1","osType":"Linux","ports":[1],"storageProfile":"ManagedDisks","vmSize":"Standard_D2_v2"}],"dnsPrefix":"dnsprefix1","fqdn":"dnsprefix1-123456.abc.location1.azmk8s.io","kubernetesVersion":"1.7.7","linuxProfile":{"adminUsername":"azureuser","ssh":{"publicKeys":[{"keyData":"keydata"}]}},"provisioningState":"Succeeded","servicePrincipalProfile":{"clientId":"clientid","keyVaultSecretRef":null,"secret":"secret"}},"tags":"managed-cluster","type":"Microsoft.ContainerService/ManagedClusters"}'
+    body: >-
+      {
+        "id": "/subscriptions/subid1/resourcegroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1",
+        "location": "location1",
+        "name": "mycluster1",
+        "properties": {
+          "accessProfiles": {
+            "clusterAdmin": {
+              "kubeConfig": "kubeConfig1"
+            },
+            "clusterUser": {
+              "kubeConfig": "kubeConfig2"
+            }
+          },
+          "agentPoolProfiles": [
+            {
+              "count": 1,
+              "dnsPrefix": "agentpool1dnsPrefix",
+              "fqdn": "agentpool1fqdn",
+              "name": "agentpool1",
+              "osType": "Linux",
+              "ports": [
+                1
+              ],
+              "storageProfile": "ManagedDisks",
+              "vmSize": "Standard_D2_v2"
+            }
+          ],
+          "dnsPrefix": "dnsprefix1",
+          "fqdn": "dnsprefix1-123456.abc.location1.azmk8s.io",
+          "kubernetesVersion": "1.7.7",
+          "linuxProfile": {
+            "adminUsername": "azureuser",
+            "ssh": {
+              "publicKeys": [
+                {
+                  "keyData": "keydata"
+                }
+              ]
+            }
+          },
+          "provisioningState": "Succeeded",
+          "servicePrincipalProfile": {
+            "clientId": "clientid",
+            "keyVaultSecretRef": null,
+            "secret": "secret"
+          }
+        },
+        "tags": "managed-cluster",
+        "type": "Microsoft.ContainerService/ManagedClusters"
+      }
   name: Get Managed Cluster
 security:
 - type: oauth2

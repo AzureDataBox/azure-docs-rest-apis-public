@@ -63,33 +63,45 @@ definitions:
   properties:
   - description: Result of the List Rules operation.
     types:
-    - isArray: true
-      uid: Rule
+    - uid: Rule
     name: value
   - description: Link to the next set of results. Not empty if Value contains incomplete list of rules
     types:
     - uid: string
     name: nextLink
+- name: ErrorResponse
+  description: Error reponse indicates ServiceBus service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
 - name: Rule
   description: Description of Rule Resource.
   kind: object
   properties:
   - description: Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter expression.
     types:
-    - uid: Action
-    name: action
+    - uid: SqlRuleAction
+    typesTitle: Action
+    name: properties.action
   - description: Filter type that is evaluated against a BrokeredMessage.
     types:
     - uid: FilterType
-    name: filterType
+    name: properties.filterType
   - description: Properties of sqlFilter
     types:
     - uid: SqlFilter
-    name: sqlFilter
+    name: properties.sqlFilter
   - description: Properties of correlationFilter
     types:
     - uid: CorrelationFilter
-    name: correlationFilter
+    name: properties.correlationFilter
   - isReadyOnly: true
     description: Resource Id
     types:
@@ -105,22 +117,6 @@ definitions:
     types:
     - uid: string
     name: type
-- name: Action
-  description: Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter expression.
-  kind: object
-  properties:
-  - description: SQL expression. e.g. MyProperty='ABC'
-    types:
-    - uid: string
-    name: sqlExpression
-  - description: This property is reserved for future use. An integer value showing the compatibility level, currently hard-coded to 20.
-    types:
-    - uid: integer
-    name: compatibilityLevel
-  - description: Value that indicates whether the rule action requires preprocessing.
-    types:
-    - uid: boolean
-    name: requiresPreprocessing
 - name: FilterType
   description: Filter type that is evaluated against a BrokeredMessage.
   kind: enum
@@ -188,24 +184,45 @@ definitions:
     types:
     - uid: boolean
     name: requiresPreprocessing
-- name: ErrorResponse
-  description: Error reponse indicates ServiceBus service is not able to process the incoming request. The reason is provided in the error message.
+- name: SqlRuleAction
+  description: 'Represents set of actions written in SQL language-based syntax that is performed against a ServiceBus.Messaging.BrokeredMessage '
   kind: object
   properties:
-  - description: Error code.
+  - description: SQL expression. e.g. MyProperty='ABC'
     types:
     - uid: string
-    name: code
-  - description: Error message indicating why the operation failed.
+    name: sqlExpression
+  - description: This property is reserved for future use. An integer value showing the compatibility level, currently hard-coded to 20.
     types:
-    - uid: string
-    name: message
+    - uid: integer
+    name: compatibilityLevel
+  - description: Value that indicates whether the rule action requires preprocessing.
+    types:
+    - uid: boolean
+    name: requiresPreprocessing
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-1319/topics/sdk-Topics-2081/subscriptions/sdk-Subscriptions-8691/rules?api-version=2017-04-01
   responses:
   - statusCode: "200"
-    body: '{"value":[{"id":"/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-1319/topics/sdk-Topics-2081/subscriptions/sdk-Subscriptions-8691/rules/sdk-Rules-6571","name":"sdk-Rules-6571","type":"Microsoft.ServiceBus/Namespaces/Topics/Subscriptions/Rules","properties":{"action":{},"filterType":"SqlFilter","sqlFilter":{"sqlExpression":"1=1","compatibilityLevel":20}}}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-1319/topics/sdk-Topics-2081/subscriptions/sdk-Subscriptions-8691/rules/sdk-Rules-6571",
+            "name": "sdk-Rules-6571",
+            "type": "Microsoft.ServiceBus/Namespaces/Topics/Subscriptions/Rules",
+            "properties": {
+              "action": {},
+              "filterType": "SqlFilter",
+              "sqlFilter": {
+                "sqlExpression": "1=1",
+                "compatibilityLevel": 20
+              }
+            }
+          }
+        ]
+      }
   name: RulesListBySubscriptions
 security:
 - type: oauth2

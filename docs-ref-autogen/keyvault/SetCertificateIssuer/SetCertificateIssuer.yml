@@ -62,6 +62,48 @@ requestBody:
     name: attributes
 requestHeader: []
 definitions:
+- name: IssuerCredentials
+  description: The credentials to be used for the issuer.
+  kind: object
+  properties:
+  - description: The user name/account name/account id.
+    types:
+    - uid: string
+    name: account_id
+  - description: The password/secret/account key.
+    types:
+    - uid: string
+    name: pwd
+- name: OrganizationDetails
+  description: Details of the organization as provided to the issuer.
+  kind: object
+  properties:
+  - description: Id of the organization.
+    types:
+    - uid: string
+    name: id
+  - description: Details of the organization administrator.
+    types:
+    - uid: AdministratorDetails
+    name: admin_details
+- name: IssuerAttributes
+  description: Attributes of the issuer object.
+  kind: object
+  properties:
+  - description: Determines whether the issuer is enabled.
+    types:
+    - uid: boolean
+    name: enabled
+  - isReadyOnly: true
+    description: Creation time in UTC.
+    types:
+    - uid: integer
+    name: created
+  - isReadyOnly: true
+    description: Last updated time in UTC.
+    types:
+    - uid: integer
+    name: updated
 - name: IssuerBundle
   description: The issuer for Key Vault certificate.
   kind: object
@@ -87,33 +129,37 @@ definitions:
     types:
     - uid: IssuerAttributes
     name: attributes
-- name: IssuerCredentials
-  description: The credentials to be used for the issuer.
+- name: KeyVaultError
+  description: The key vault error exception.
   kind: object
   properties:
-  - description: The user name/account name/account id.
+  - isReadyOnly: true
+    description: The key vault server error.
     types:
-    - uid: string
-    name: account_id
-  - description: The password/secret/account key.
-    types:
-    - uid: string
-    name: pwd
-- name: OrganizationDetails
-  description: Details of the organization as provided to the issuer.
+    - uid: Error
+    name: error
+- name: CertificateIssuerSetParameters
+  description: The certificate issuer set parameters.
   kind: object
   properties:
-  - description: Id of the organization.
+  - description: The issuer provider.
     types:
     - uid: string
-    name: id
-  - description: Details of the organization administrator.
+    name: provider
+  - description: The credentials to be used for the issuer.
     types:
-    - isArray: true
-      uid: AdministratorDetails
-    name: admin_details
+    - uid: IssuerCredentials
+    name: credentials
+  - description: Details of the organization as provided to the issuer.
+    types:
+    - uid: OrganizationDetails
+    name: org_details
+  - description: Attributes of the issuer object.
+    types:
+    - uid: IssuerAttributes
+    name: attributes
 - name: AdministratorDetails
-  description: Details of the organization administrator of the certificate issuer.
+  description: Details of the organization administrator.
   kind: object
   properties:
   - description: First name.
@@ -132,35 +178,8 @@ definitions:
     types:
     - uid: string
     name: phone
-- name: IssuerAttributes
-  description: Attributes of the issuer object.
-  kind: object
-  properties:
-  - description: Determines whether the issuer is enabled.
-    types:
-    - uid: boolean
-    name: enabled
-  - isReadyOnly: true
-    description: Creation time in UTC.
-    types:
-    - uid: integer
-    name: created
-  - isReadyOnly: true
-    description: Last updated time in UTC.
-    types:
-    - uid: integer
-    name: updated
-- name: KeyVaultError
-  description: The key vault error exception.
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: The key vault server error.
-    types:
-    - uid: Error
-    name: error
 - name: Error
-  description: The key vault server error.
+  description: Error encountered, if any, during the certificate operation.
   kind: object
   properties:
   - isReadyOnly: true
@@ -179,4 +198,4 @@ definitions:
 examples: []
 security: []
 name: SetCertificateIssuer
-uid: .keyvault.setcertificateissuer.setcertificateissuer
+uid: keyvault.setcertificateissuer.setcertificateissuer

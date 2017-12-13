@@ -47,8 +47,7 @@ definitions:
   properties:
   - description: The list of recommended elastic pools hosted in the server.
     types:
-    - isArray: true
-      uid: RecommendedElasticPool
+    - uid: RecommendedElasticPool
     name: value
 - name: RecommendedElasticPool
   description: Represents a recommented elastic pool.
@@ -58,55 +57,53 @@ definitions:
     description: The edition of the recommended elastic pool. The ElasticPoolEdition enumeration contains all the valid editions.
     types:
     - uid: ElasticPoolEdition
-    name: databaseEdition
+    name: properties.databaseEdition
   - description: The DTU for the recommended elastic pool.
     types:
     - uid: number
-    name: dtu
+    name: properties.dtu
   - description: The minimum DTU for the database.
     types:
     - uid: number
-    name: databaseDtuMin
+    name: properties.databaseDtuMin
   - description: The maximum DTU for the database.
     types:
     - uid: number
-    name: databaseDtuMax
+    name: properties.databaseDtuMax
   - description: Gets storage size in megabytes.
     types:
     - uid: number
-    name: storageMB
+    name: properties.storageMB
   - isReadyOnly: true
     description: The observation period start (ISO8601 format).
     types:
     - uid: string
-    name: observationPeriodStart
+    name: properties.observationPeriodStart
   - isReadyOnly: true
     description: The observation period start (ISO8601 format).
     types:
     - uid: string
-    name: observationPeriodEnd
+    name: properties.observationPeriodEnd
   - isReadyOnly: true
     description: Gets maximum observed DTU.
     types:
     - uid: number
-    name: maxObservedDtu
+    name: properties.maxObservedDtu
   - isReadyOnly: true
     description: Gets maximum observed storage in megabytes.
     types:
     - uid: number
-    name: maxObservedStorageMB
+    name: properties.maxObservedStorageMB
   - isReadyOnly: true
     description: The list of databases in this pool. Expanded property
     types:
-    - isArray: true
-      uid: Database
-    name: databases
+    - uid: Database
+    name: properties.databases
   - isReadyOnly: true
     description: The list of databases housed in the server. Expanded property
     types:
-    - isArray: true
-      uid: RecommendedElasticPoolMetric
-    name: metrics
+    - uid: RecommendedElasticPoolMetric
+    name: properties.metrics
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -136,7 +133,7 @@ definitions:
     - uid: string
     name: Premium
 - name: Database
-  description: Represents a database.
+  description: The list of databases in this pool. Expanded property
   kind: object
   properties:
   - isReadyOnly: true
@@ -147,32 +144,32 @@ definitions:
   - description: The collation of the database. If createMode is not Default, this value is ignored.
     types:
     - uid: string
-    name: collation
+    name: properties.collation
   - isReadyOnly: true
     description: The creation date of the database (ISO8601 format).
     types:
     - uid: string
-    name: creationDate
+    name: properties.creationDate
   - isReadyOnly: true
     description: The containment state of the database.
     types:
     - uid: integer
-    name: containmentState
+    name: properties.containmentState
   - isReadyOnly: true
     description: The current service level objective ID of the database. This is the ID of the service level objective that is currently active.
     types:
     - uid: string
-    name: currentServiceObjectiveId
+    name: properties.currentServiceObjectiveId
   - isReadyOnly: true
     description: The ID of the database.
     types:
     - uid: string
-    name: databaseId
+    name: properties.databaseId
   - isReadyOnly: true
     description: This records the earliest start date and time that restore is available for this database (ISO8601 format).
     types:
     - uid: string
-    name: earliestRestoreDate
+    name: properties.earliestRestoreDate
   - description: >-
       Specifies the mode of database creation.
 
@@ -201,93 +198,90 @@ definitions:
       Copy, NonReadableSecondary, OnlineSecondary and RestoreLongTermRetentionBackup are not supported for DataWarehouse edition.
     types:
     - uid: CreateMode
-    name: createMode
+    name: properties.createMode
   - description: Conditional. If createMode is Copy, NonReadableSecondary, OnlineSecondary, PointInTimeRestore, Recovery, or Restore, then this value is required. Specifies the resource ID of the source database. If createMode is NonReadableSecondary or OnlineSecondary, the name of the source database must be the same as the new database being created.
     types:
     - uid: string
-    name: sourceDatabaseId
+    name: properties.sourceDatabaseId
   - description: Conditional. If createMode is Restore and sourceDatabaseId is the deleted database's original resource id when it existed (as opposed to its current restorable dropped database id), then this value is required. Specifies the time that the database was deleted.
     types:
     - uid: string
-    name: sourceDatabaseDeletionDate
+    name: properties.sourceDatabaseDeletionDate
   - description: Conditional. If createMode is PointInTimeRestore, this value is required. If createMode is Restore, this value is optional. Specifies the point in time (ISO8601 format) of the source database that will be restored to create the new database. Must be greater than or equal to the source database's earliestRestoreDate value.
     types:
     - uid: string
-    name: restorePointInTime
+    name: properties.restorePointInTime
   - description: Conditional. If createMode is RestoreLongTermRetentionBackup, then this value is required. Specifies the resource ID of the recovery point to restore from.
     types:
     - uid: string
-    name: recoveryServicesRecoveryPointResourceId
+    name: properties.recoveryServicesRecoveryPointResourceId
   - description: 'The edition of the database. The DatabaseEditions enumeration contains all the valid editions. If createMode is NonReadableSecondary or OnlineSecondary, this value is ignored. To see possible values, query the capabilities API (/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationID}/capabilities) referred to by operationId: "Capabilities_ListByLocation."'
     types:
     - uid: DatabaseEdition
-    name: edition
+    name: properties.edition
   - description: 'The max size of the database expressed in bytes. If createMode is not Default, this value is ignored. To see possible values, query the capabilities API (/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationID}/capabilities) referred to by operationId: "Capabilities_ListByLocation."'
     types:
     - uid: string
-    name: maxSizeBytes
+    name: properties.maxSizeBytes
   - description: 'The configured service level objective ID of the database. This is the service level objective that is in the process of being applied to the database. Once successfully updated, it will match the value of currentServiceObjectiveId property. If requestedServiceObjectiveId and requestedServiceObjectiveName are both updated, the value of requestedServiceObjectiveId overrides the value of requestedServiceObjectiveName. To see possible values, query the capabilities API (/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationID}/capabilities) referred to by operationId: "Capabilities_ListByLocation."'
     types:
     - uid: string
-    name: requestedServiceObjectiveId
+    name: properties.requestedServiceObjectiveId
   - description: 'The name of the configured service level objective of the database. This is the service level objective that is in the process of being applied to the database. Once successfully updated, it will match the value of serviceLevelObjective property. To see possible values, query the capabilities API (/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationID}/capabilities) referred to by operationId: "Capabilities_ListByLocation."'
     types:
     - uid: ServiceObjectiveName
-    name: requestedServiceObjectiveName
+    name: properties.requestedServiceObjectiveName
   - isReadyOnly: true
     description: The current service level objective of the database.
     types:
     - uid: ServiceObjectiveName
-    name: serviceLevelObjective
+    name: properties.serviceLevelObjective
   - isReadyOnly: true
     description: The status of the database.
     types:
     - uid: string
-    name: status
+    name: properties.status
   - description: The name of the elastic pool the database is in. If elasticPoolName and requestedServiceObjectiveName are both updated, the value of requestedServiceObjectiveName is ignored. Not supported for DataWarehouse edition.
     types:
     - uid: string
-    name: elasticPoolName
+    name: properties.elasticPoolName
   - isReadyOnly: true
     description: The default secondary region for this database.
     types:
     - uid: string
-    name: defaultSecondaryLocation
+    name: properties.defaultSecondaryLocation
   - isReadyOnly: true
     description: The list of service tier advisors for this database. Expanded property
     types:
-    - isArray: true
-      uid: ServiceTierAdvisor
-    name: serviceTierAdvisors
+    - uid: ServiceTierAdvisor
+    name: properties.serviceTierAdvisors
   - isReadyOnly: true
     description: The transparent data encryption info for this database.
     types:
-    - isArray: true
-      uid: TransparentDataEncryption
-    name: transparentDataEncryption
+    - uid: TransparentDataEncryption
+    name: properties.transparentDataEncryption
   - isReadyOnly: true
     description: The recommended indices for this database.
     types:
-    - isArray: true
-      uid: RecommendedIndex
-    name: recommendedIndex
+    - uid: RecommendedIndex
+    name: properties.recommendedIndex
   - isReadyOnly: true
     description: The resource identifier of the failover group containing this database.
     types:
     - uid: string
-    name: failoverGroupId
+    name: properties.failoverGroupId
   - description: Conditional. If the database is a geo-secondary, readScale indicates whether read-only connections are allowed to this database or not. Not supported for DataWarehouse edition.
     types:
     - uid: ReadScale
-    name: readScale
+    name: properties.readScale
   - description: Indicates the name of the sample schema to apply when creating this database. If createMode is not Default, this value is ignored. Not supported for DataWarehouse edition.
     types:
     - uid: SampleName
-    name: sampleName
+    name: properties.sampleName
   - description: Whether or not this database is zone redundant, which means the replicas of this database will be spread across multiple availability zones.
     types:
     - uid: boolean
-    name: zoneRedundant
+    name: properties.zoneRedundant
   - description: Resource tags.
     types:
     - isDictionary: true
@@ -315,6 +309,22 @@ definitions:
     types:
     - uid: string
     name: type
+- name: RecommendedElasticPoolMetric
+  description: Represents recommended elastic pool metric.
+  kind: object
+  properties:
+  - description: The time of metric (ISO8601 format).
+    types:
+    - uid: string
+    name: dateTime
+  - description: Gets or sets the DTUs (Database Transaction Units). See https://azure.microsoft.com/documentation/articles/sql-database-what-is-a-dtu/
+    types:
+    - uid: number
+    name: dtu
+  - description: Gets or sets size in gigabytes.
+    types:
+    - uid: number
+    name: sizeGB
 - name: CreateMode
   description: >-
     Specifies the mode of database creation.
@@ -452,105 +462,104 @@ definitions:
     - uid: string
     name: ElasticPool
 - name: ServiceTierAdvisor
-  description: Represents a Service Tier Advisor.
+  description: The list of service tier advisors for this database. Expanded property
   kind: object
   properties:
   - isReadyOnly: true
     description: The observation period start (ISO8601 format).
     types:
     - uid: string
-    name: observationPeriodStart
+    name: properties.observationPeriodStart
   - isReadyOnly: true
     description: The observation period start (ISO8601 format).
     types:
     - uid: string
-    name: observationPeriodEnd
+    name: properties.observationPeriodEnd
   - isReadyOnly: true
     description: The activeTimeRatio for service tier advisor.
     types:
     - uid: number
-    name: activeTimeRatio
+    name: properties.activeTimeRatio
   - isReadyOnly: true
     description: Gets or sets minDtu for service tier advisor.
     types:
     - uid: number
-    name: minDtu
+    name: properties.minDtu
   - isReadyOnly: true
     description: Gets or sets avgDtu for service tier advisor.
     types:
     - uid: number
-    name: avgDtu
+    name: properties.avgDtu
   - isReadyOnly: true
     description: Gets or sets maxDtu for service tier advisor.
     types:
     - uid: number
-    name: maxDtu
+    name: properties.maxDtu
   - isReadyOnly: true
     description: Gets or sets maxSizeInGB for service tier advisor.
     types:
     - uid: number
-    name: maxSizeInGB
+    name: properties.maxSizeInGB
   - isReadyOnly: true
     description: Gets or sets serviceLevelObjectiveUsageMetrics for the service tier advisor.
     types:
-    - isArray: true
-      uid: SloUsageMetric
-    name: serviceLevelObjectiveUsageMetrics
+    - uid: SloUsageMetric
+    name: properties.serviceLevelObjectiveUsageMetrics
   - isReadyOnly: true
     description: Gets or sets currentServiceLevelObjective for service tier advisor.
     types:
     - uid: string
-    name: currentServiceLevelObjective
+    name: properties.currentServiceLevelObjective
   - isReadyOnly: true
     description: Gets or sets currentServiceLevelObjectiveId for service tier advisor.
     types:
     - uid: string
-    name: currentServiceLevelObjectiveId
+    name: properties.currentServiceLevelObjectiveId
   - isReadyOnly: true
     description: Gets or sets usageBasedRecommendationServiceLevelObjective for service tier advisor.
     types:
     - uid: string
-    name: usageBasedRecommendationServiceLevelObjective
+    name: properties.usageBasedRecommendationServiceLevelObjective
   - isReadyOnly: true
     description: Gets or sets usageBasedRecommendationServiceLevelObjectiveId for service tier advisor.
     types:
     - uid: string
-    name: usageBasedRecommendationServiceLevelObjectiveId
+    name: properties.usageBasedRecommendationServiceLevelObjectiveId
   - isReadyOnly: true
     description: Gets or sets databaseSizeBasedRecommendationServiceLevelObjective for service tier advisor.
     types:
     - uid: string
-    name: databaseSizeBasedRecommendationServiceLevelObjective
+    name: properties.databaseSizeBasedRecommendationServiceLevelObjective
   - isReadyOnly: true
     description: Gets or sets databaseSizeBasedRecommendationServiceLevelObjectiveId for service tier advisor.
     types:
     - uid: string
-    name: databaseSizeBasedRecommendationServiceLevelObjectiveId
+    name: properties.databaseSizeBasedRecommendationServiceLevelObjectiveId
   - isReadyOnly: true
     description: Gets or sets disasterPlanBasedRecommendationServiceLevelObjective for service tier advisor.
     types:
     - uid: string
-    name: disasterPlanBasedRecommendationServiceLevelObjective
+    name: properties.disasterPlanBasedRecommendationServiceLevelObjective
   - isReadyOnly: true
     description: Gets or sets disasterPlanBasedRecommendationServiceLevelObjectiveId for service tier advisor.
     types:
     - uid: string
-    name: disasterPlanBasedRecommendationServiceLevelObjectiveId
+    name: properties.disasterPlanBasedRecommendationServiceLevelObjectiveId
   - isReadyOnly: true
     description: Gets or sets overallRecommendationServiceLevelObjective for service tier advisor.
     types:
     - uid: string
-    name: overallRecommendationServiceLevelObjective
+    name: properties.overallRecommendationServiceLevelObjective
   - isReadyOnly: true
     description: Gets or sets overallRecommendationServiceLevelObjectiveId for service tier advisor.
     types:
     - uid: string
-    name: overallRecommendationServiceLevelObjectiveId
+    name: properties.overallRecommendationServiceLevelObjectiveId
   - isReadyOnly: true
     description: Gets or sets confidence for service tier advisor.
     types:
     - uid: number
-    name: confidence
+    name: properties.confidence
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -566,8 +575,132 @@ definitions:
     types:
     - uid: string
     name: type
+- name: TransparentDataEncryption
+  description: The transparent data encryption info for this database.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Resource location.
+    types:
+    - uid: string
+    name: location
+  - description: The status of the database transparent data encryption.
+    types:
+    - uid: TransparentDataEncryptionStatus
+    name: properties.status
+  - isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+- name: RecommendedIndex
+  description: The recommended indices for this database.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The proposed index action. You can create a missing index, drop an unused index, or rebuild an existing index to improve its performance.
+    types:
+    - uid: RecommendedIndexAction
+    name: properties.action
+  - isReadyOnly: true
+    description: The current recommendation state.
+    types:
+    - uid: RecommendedIndexState
+    name: properties.state
+  - isReadyOnly: true
+    description: The UTC datetime showing when this resource was created (ISO8601 format).
+    types:
+    - uid: string
+    name: properties.created
+  - isReadyOnly: true
+    description: The UTC datetime of when was this resource last changed (ISO8601 format).
+    types:
+    - uid: string
+    name: properties.lastModified
+  - isReadyOnly: true
+    description: The type of index (CLUSTERED, NONCLUSTERED, COLUMNSTORE, CLUSTERED COLUMNSTORE)
+    types:
+    - uid: RecommendedIndexType
+    name: properties.indexType
+  - isReadyOnly: true
+    description: The schema where table to build index over resides
+    types:
+    - uid: string
+    name: properties.schema
+  - isReadyOnly: true
+    description: The table on which to build index.
+    types:
+    - uid: string
+    name: properties.table
+  - isReadyOnly: true
+    description: Columns over which to build index
+    types:
+    - uid: string
+    name: properties.columns
+  - isReadyOnly: true
+    description: The list of column names to be included in the index
+    types:
+    - uid: string
+    name: properties.includedColumns
+  - isReadyOnly: true
+    description: The full build index script
+    types:
+    - uid: string
+    name: properties.indexScript
+  - isReadyOnly: true
+    description: The estimated impact of doing recommended index action.
+    types:
+    - uid: OperationImpact
+    name: properties.estimatedImpact
+  - isReadyOnly: true
+    description: The values reported after index action is complete.
+    types:
+    - uid: OperationImpact
+    name: properties.reportedImpact
+  - isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+- name: ReadScale
+  description: Conditional. If the database is a geo-secondary, readScale indicates whether read-only connections are allowed to this database or not. Not supported for DataWarehouse edition.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Enabled
+  - types:
+    - uid: string
+    name: Disabled
+- name: SampleName
+  description: Indicates the name of the sample schema to apply when creating this database. If createMode is not Default, this value is ignored. Not supported for DataWarehouse edition.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: AdventureWorksLT
 - name: SloUsageMetric
-  description: A Slo Usage Metric.
+  description: Gets or sets serviceLevelObjectiveUsageMetrics for the service tier advisor.
   kind: object
   properties:
   - isReadyOnly: true
@@ -585,34 +718,6 @@ definitions:
     types:
     - uid: number
     name: inRangeTimeRatio
-- name: TransparentDataEncryption
-  description: Represents a database transparent data encryption configuration.
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: Resource location.
-    types:
-    - uid: string
-    name: location
-  - description: The status of the database transparent data encryption.
-    types:
-    - uid: TransparentDataEncryptionStatus
-    name: status
-  - isReadyOnly: true
-    description: Resource ID.
-    types:
-    - uid: string
-    name: id
-  - isReadyOnly: true
-    description: Resource name.
-    types:
-    - uid: string
-    name: name
-  - isReadyOnly: true
-    description: Resource type.
-    types:
-    - uid: string
-    name: type
 - name: TransparentDataEncryptionStatus
   description: The status of the database transparent data encryption.
   kind: enum
@@ -623,89 +728,6 @@ definitions:
   - types:
     - uid: string
     name: Disabled
-- name: RecommendedIndex
-  description: Represents a database recommended index.
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: The proposed index action. You can create a missing index, drop an unused index, or rebuild an existing index to improve its performance.
-    types:
-    - uid: RecommendedIndexAction
-    name: action
-  - isReadyOnly: true
-    description: The current recommendation state.
-    types:
-    - uid: RecommendedIndexState
-    name: state
-  - isReadyOnly: true
-    description: The UTC datetime showing when this resource was created (ISO8601 format).
-    types:
-    - uid: string
-    name: created
-  - isReadyOnly: true
-    description: The UTC datetime of when was this resource last changed (ISO8601 format).
-    types:
-    - uid: string
-    name: lastModified
-  - isReadyOnly: true
-    description: The type of index (CLUSTERED, NONCLUSTERED, COLUMNSTORE, CLUSTERED COLUMNSTORE)
-    types:
-    - uid: RecommendedIndexType
-    name: indexType
-  - isReadyOnly: true
-    description: The schema where table to build index over resides
-    types:
-    - uid: string
-    name: schema
-  - isReadyOnly: true
-    description: The table on which to build index.
-    types:
-    - uid: string
-    name: table
-  - isReadyOnly: true
-    description: Columns over which to build index
-    types:
-    - isArray: true
-      uid: string
-    name: columns
-  - isReadyOnly: true
-    description: The list of column names to be included in the index
-    types:
-    - isArray: true
-      uid: string
-    name: includedColumns
-  - isReadyOnly: true
-    description: The full build index script
-    types:
-    - uid: string
-    name: indexScript
-  - isReadyOnly: true
-    description: The estimated impact of doing recommended index action.
-    types:
-    - isArray: true
-      uid: OperationImpact
-    name: estimatedImpact
-  - isReadyOnly: true
-    description: The values reported after index action is complete.
-    types:
-    - isArray: true
-      uid: OperationImpact
-    name: reportedImpact
-  - isReadyOnly: true
-    description: Resource ID.
-    types:
-    - uid: string
-    name: id
-  - isReadyOnly: true
-    description: Resource name.
-    types:
-    - uid: string
-    name: name
-  - isReadyOnly: true
-    description: Resource type.
-    types:
-    - uid: string
-    name: type
 - name: RecommendedIndexAction
   description: The proposed index action. You can create a missing index, drop an unused index, or rebuild an existing index to improve its performance.
   kind: enum
@@ -773,7 +795,7 @@ definitions:
     - uid: string
     name: CLUSTERED COLUMNSTORE
 - name: OperationImpact
-  description: The impact of an operation, both in absolute and relative terms.
+  description: The estimated impact of doing recommended index action.
   kind: object
   properties:
   - isReadyOnly: true
@@ -796,45 +818,95 @@ definitions:
     types:
     - uid: number
     name: changeValueRelative
-- name: ReadScale
-  description: Conditional. If the database is a geo-secondary, readScale indicates whether read-only connections are allowed to this database or not. Not supported for DataWarehouse edition.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Enabled
-  - types:
-    - uid: string
-    name: Disabled
-- name: SampleName
-  description: Indicates the name of the sample schema to apply when creating this database. If createMode is not Default, this value is ignored. Not supported for DataWarehouse edition.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: AdventureWorksLT
-- name: RecommendedElasticPoolMetric
-  description: Represents recommended elastic pool metric.
-  kind: object
-  properties:
-  - description: The time of metric (ISO8601 format).
-    types:
-    - uid: string
-    name: dateTime
-  - description: Gets or sets the DTUs (Database Transaction Units). See https://azure.microsoft.com/documentation/articles/sql-database-what-is-a-dtu/
-    types:
-    - uid: number
-    name: dtu
-  - description: Gets or sets size in gigabytes.
-    types:
-    - uid: number
-    name: sizeGB
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-6852/providers/Microsoft.Sql/servers/sqlcrudtest-2080/recommendedElasticPools?api-version=2014-04-01
   responses:
   - statusCode: "200"
-    body: '{"value":[{"id":"/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-6852/providers/Microsoft.Sql/servers/sqlcrudtest-2080/recommendedElasticPools/ElasticPool1","name":"ElasticPool1","type":"Microsoft.Sql/servers/recommendedElasticPools","properties":{"databaseEdition":"Standard","dtu":1000,"databaseDtuMin":100.6,"databaseDtuMax":200.5,"storageMB":1000.3,"observationPeriodStart":"2014-11-01T00:00:00Z","observationPeriodEnd":"2014-11-15T00:00:00Z","maxObservedDtu":900.2,"maxObservedStorageMB":350,"databases":[],"metrics":[{"dateTime":"2015-04-01T00:00:00Z","dtu":100.5,"sizeGB":15.4},{"dateTime":"2015-04-02T00:00:00Z","dtu":135,"sizeGB":12.754},{"dateTime":"2015-04-03T00:00:00Z","dtu":135,"sizeGB":12.754}]}},{"id":"/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-6852/providers/Microsoft.Sql/servers/sqlcrudtest-2080/recommendedElasticPools/ElasticPool2","name":"ElasticPool2","type":"Microsoft.Sql/servers/recommendedElasticPools","properties":{"databaseEdition":"Standard","dtu":1000,"databaseDtuMin":100,"databaseDtuMax":200,"storageMB":1000,"observationPeriodStart":"2014-11-01T00:00:00Z","observationPeriodEnd":"2014-11-15T00:00:00Z","maxObservedDtu":450,"maxObservedStorageMB":900,"databases":[{"id":"/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-6852/providers/Microsoft.Sql/servers/sqlcrudtest-2080/databases/master","name":"master","type":"Microsoft.Sql/servers/databases","location":"Southeast Asia","properties":{"databaseId":"28acaef5-d228-4660-bb67-546ec8482496","edition":"System","status":"Online","serviceLevelObjective":"System2","collation":"SQL_Latin1_General_CP1_CI_AS","maxSizeBytes":"5368709120","creationDate":"2015-04-17T08:36:48.237Z","currentServiceObjectiveId":"620323bf-2879-4807-b30d-c2e6d7b3b3aa","requestedServiceObjectiveId":"620323bf-2879-4807-b30d-c2e6d7b3b3aa","requestedServiceObjectiveName":null,"createMode":null,"sourceDatabaseId":null,"defaultSecondaryLocation":"Japan East","earliestRestoreDate":null,"restorePointInTime":null,"sourceDatabaseDeletionDate":null,"blobUriAndSasKey":null,"resourcePoolName":null,"kind":"v12.0,system"}}]}}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-6852/providers/Microsoft.Sql/servers/sqlcrudtest-2080/recommendedElasticPools/ElasticPool1",
+            "name": "ElasticPool1",
+            "type": "Microsoft.Sql/servers/recommendedElasticPools",
+            "properties": {
+              "databaseEdition": "Standard",
+              "dtu": 1000,
+              "databaseDtuMin": 100.6,
+              "databaseDtuMax": 200.5,
+              "storageMB": 1000.3,
+              "observationPeriodStart": "2014-11-01T00:00:00Z",
+              "observationPeriodEnd": "2014-11-15T00:00:00Z",
+              "maxObservedDtu": 900.2,
+              "maxObservedStorageMB": 350,
+              "databases": [],
+              "metrics": [
+                {
+                  "dateTime": "2015-04-01T00:00:00Z",
+                  "dtu": 100.5,
+                  "sizeGB": 15.4
+                },
+                {
+                  "dateTime": "2015-04-02T00:00:00Z",
+                  "dtu": 135,
+                  "sizeGB": 12.754
+                },
+                {
+                  "dateTime": "2015-04-03T00:00:00Z",
+                  "dtu": 135,
+                  "sizeGB": 12.754
+                }
+              ]
+            }
+          },
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-6852/providers/Microsoft.Sql/servers/sqlcrudtest-2080/recommendedElasticPools/ElasticPool2",
+            "name": "ElasticPool2",
+            "type": "Microsoft.Sql/servers/recommendedElasticPools",
+            "properties": {
+              "databaseEdition": "Standard",
+              "dtu": 1000,
+              "databaseDtuMin": 100,
+              "databaseDtuMax": 200,
+              "storageMB": 1000,
+              "observationPeriodStart": "2014-11-01T00:00:00Z",
+              "observationPeriodEnd": "2014-11-15T00:00:00Z",
+              "maxObservedDtu": 450,
+              "maxObservedStorageMB": 900,
+              "databases": [
+                {
+                  "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-6852/providers/Microsoft.Sql/servers/sqlcrudtest-2080/databases/master",
+                  "name": "master",
+                  "type": "Microsoft.Sql/servers/databases",
+                  "location": "Southeast Asia",
+                  "properties": {
+                    "databaseId": "28acaef5-d228-4660-bb67-546ec8482496",
+                    "edition": "System",
+                    "status": "Online",
+                    "serviceLevelObjective": "System2",
+                    "collation": "SQL_Latin1_General_CP1_CI_AS",
+                    "maxSizeBytes": "5368709120",
+                    "creationDate": "2015-04-17T08:36:48.237Z",
+                    "currentServiceObjectiveId": "620323bf-2879-4807-b30d-c2e6d7b3b3aa",
+                    "requestedServiceObjectiveId": "620323bf-2879-4807-b30d-c2e6d7b3b3aa",
+                    "requestedServiceObjectiveName": null,
+                    "createMode": null,
+                    "sourceDatabaseId": null,
+                    "defaultSecondaryLocation": "Japan East",
+                    "earliestRestoreDate": null,
+                    "restorePointInTime": null,
+                    "sourceDatabaseDeletionDate": null,
+                    "blobUriAndSasKey": null,
+                    "resourcePoolName": null,
+                    "kind": "v12.0,system"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
   name: List recommended elastic pools
 security: []
 name: ListByServer

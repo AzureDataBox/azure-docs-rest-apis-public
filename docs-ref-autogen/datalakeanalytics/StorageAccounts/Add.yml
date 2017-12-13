@@ -50,18 +50,36 @@ requestBody:
     description: the access key associated with this Azure Storage account that will be used to connect to it.
     types:
     - uid: string
-    name: accessKey
+    name: properties.accessKey
   - in: body
     description: the optional suffix for the storage account.
     types:
     - uid: string
-    name: suffix
+    name: properties.suffix
 requestHeader: []
-definitions: []
+definitions:
+- name: AddStorageAccountParameters
+  description: Storage account parameters for a storage account being added to a Data Lake Analytics account.
+  kind: object
+  properties:
+  - description: the access key associated with this Azure Storage account that will be used to connect to it.
+    types:
+    - uid: string
+    name: properties.accessKey
+  - description: the optional suffix for the storage account.
+    types:
+    - uid: string
+    name: properties.suffix
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/contosorg/providers/Microsoft.DataLakeAnalytics/accounts/contosoadla/StorageAccounts/test_storage?api-version=2016-11-01
-    requestBody: '{"properties":{"accessKey":"34adfa4f-cedf-4dc0-ba29-b6d1a69ab346","suffix":"test_suffix"}}'
+    body: >-
+      {
+        "properties": {
+          "accessKey": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab346",
+          "suffix": "test_suffix"
+        }
+      }
   responses:
   - statusCode: "200"
   name: Adds an Azure Storage account

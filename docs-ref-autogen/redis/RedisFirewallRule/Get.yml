@@ -69,17 +69,26 @@ definitions:
   - description: lowest IP address included in the range
     types:
     - uid: string
-    name: startIP
+    name: properties.startIP
   - description: highest IP address included in the range
     types:
     - uid: string
-    name: endIP
+    name: properties.endIP
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/firewallRules/rule1?api-version=2016-04-01
   responses:
   - statusCode: "200"
-    body: '{"id":"/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/firewallRules/rule1","name":"cache1/rule1","type":"Microsoft.Cache/Redis/firewallRules","properties":{"startIP":"192.168.1.1","endIP":"192.168.1.4"}}'
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/firewallRules/rule1",
+        "name": "cache1/rule1",
+        "type": "Microsoft.Cache/Redis/firewallRules",
+        "properties": {
+          "startIP": "192.168.1.1",
+          "endIP": "192.168.1.4"
+        }
+      }
   name: RedisCacheFirewallRuleGet
 security:
 - type: oauth2

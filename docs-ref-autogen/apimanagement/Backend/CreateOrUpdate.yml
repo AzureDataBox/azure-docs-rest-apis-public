@@ -62,117 +62,50 @@ requestBody:
     description: Runtime Url of the Backend.
     types:
     - uid: string
-    name: url
+    name: properties.url
   - in: body
     isRequired: true
     description: Backend communication protocol.
     types:
     - uid: BackendProtocol
-    name: protocol
+    name: properties.protocol
   - in: body
     description: Backend Title.
     types:
     - uid: string
-    name: title
+    name: properties.title
   - in: body
     description: Backend Description.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - in: body
     description: Management Uri of the Resource in External System. This url can be the Arm Resource Id of Logic Apps, Function Apps or Api Apps.
     types:
     - uid: string
-    name: resourceId
+    name: properties.resourceId
   - in: body
     description: Backend Properties contract
     types:
     - uid: BackendProperties
-    name: properties
+    name: properties.properties
   - in: body
     description: Backend Credentials Contract Properties
     types:
     - uid: BackendCredentialsContract
-    name: credentials
+    name: properties.credentials
   - in: body
     description: Backend Proxy Contract Properties
     types:
     - uid: BackendProxyContract
-    name: proxy
+    name: properties.proxy
   - in: body
     description: Backend TLS Properties
     types:
     - uid: BackendTlsProperties
-    name: tls
+    name: properties.tls
 requestHeader: []
 definitions:
-- name: BackendProtocol
-  description: Backend communication protocol.
-  kind: enum
-  properties:
-  - description: The Backend is a RESTful service.
-    types:
-    - uid: string
-    name: http
-  - description: The Backend is a SOAP service.
-    types:
-    - uid: string
-    name: soap
-- name: BackendContract
-  description: Backend details.
-  kind: object
-  properties:
-  - description: Runtime Url of the Backend.
-    types:
-    - uid: string
-    name: url
-  - description: Backend communication protocol.
-    types:
-    - uid: BackendProtocol
-    name: protocol
-  - isReadyOnly: true
-    description: Resource ID.
-    types:
-    - uid: string
-    name: id
-  - isReadyOnly: true
-    description: Resource name.
-    types:
-    - uid: string
-    name: name
-  - isReadyOnly: true
-    description: Resource type for API Management resource.
-    types:
-    - uid: string
-    name: type
-  - description: Backend Title.
-    types:
-    - uid: string
-    name: title
-  - description: Backend Description.
-    types:
-    - uid: string
-    name: description
-  - description: Management Uri of the Resource in External System. This url can be the Arm Resource Id of Logic Apps, Function Apps or Api Apps.
-    types:
-    - uid: string
-    name: resourceId
-  - description: Backend Properties contract
-    types:
-    - uid: BackendProperties
-    name: properties
-  - description: Backend Credentials Contract Properties
-    types:
-    - uid: BackendCredentialsContract
-    name: credentials
-  - description: Backend Proxy Contract Properties
-    types:
-    - uid: BackendProxyContract
-    name: proxy
-  - description: Backend TLS Properties
-    types:
-    - uid: BackendTlsProperties
-    name: tls
 - name: BackendProperties
   description: Backend Properties contract
   kind: object
@@ -181,53 +114,13 @@ definitions:
     types:
     - uid: BackendServiceFabricClusterProperties
     name: serviceFabricCluster
-- name: BackendServiceFabricClusterProperties
-  description: Backend Service Fabric Cluster Properties
-  kind: object
-  properties:
-  - description: The client certificate thumbprint for the management endpoint.
-    types:
-    - uid: string
-    name: clientCertificatethumbprint
-  - description: Maximum number of retries while attempting resolve the parition.
-    types:
-    - uid: integer
-    name: maxPartitionResolutionRetries
-  - description: The cluster management endpoint.
-    types:
-    - isArray: true
-      uid: string
-    name: managementEndpoints
-  - description: Thumbprints of certificates cluster management service uses for tls communication
-    types:
-    - isArray: true
-      uid: string
-    name: serverCertificateThumbprints
-  - description: Server X509 Certificate Names Collection
-    types:
-    - isArray: true
-      uid: X509CertificateName
-    name: serverX509Names
-- name: X509CertificateName
-  description: Properties of server X509Names.
-  kind: object
-  properties:
-  - description: Common Name of the Certificate.
-    types:
-    - uid: string
-    name: name
-  - description: Thumbprint for the Issuer of the Certificate.
-    types:
-    - uid: string
-    name: issuerCertificateThumbprint
 - name: BackendCredentialsContract
   description: Backend Credentials Contract Properties
   kind: object
   properties:
   - description: List of Client Certificate Thumbprint.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: certificate
   - description: Query Parameter description.
     types:
@@ -249,18 +142,6 @@ definitions:
     types:
     - uid: BackendAuthorizationHeaderCredentials
     name: authorization
-- name: BackendAuthorizationHeaderCredentials
-  description: Authorization header authentication
-  kind: object
-  properties:
-  - description: Authentication Scheme name.
-    types:
-    - uid: string
-    name: scheme
-  - description: Authentication Parameter value.
-    types:
-    - uid: string
-    name: parameter
 - name: BackendProxyContract
   description: Backend Proxy Contract Properties
   kind: object
@@ -289,6 +170,61 @@ definitions:
     types:
     - uid: boolean
     name: validateCertificateName
+- name: BackendContract
+  description: Backend values.
+  kind: object
+  properties:
+  - description: Runtime Url of the Backend.
+    types:
+    - uid: string
+    name: properties.url
+  - description: Backend communication protocol.
+    types:
+    - uid: BackendProtocol
+    name: properties.protocol
+  - isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type for API Management resource.
+    types:
+    - uid: string
+    name: type
+  - description: Backend Title.
+    types:
+    - uid: string
+    name: properties.title
+  - description: Backend Description.
+    types:
+    - uid: string
+    name: properties.description
+  - description: Management Uri of the Resource in External System. This url can be the Arm Resource Id of Logic Apps, Function Apps or Api Apps.
+    types:
+    - uid: string
+    name: properties.resourceId
+  - description: Backend Properties contract
+    types:
+    - uid: BackendProperties
+    name: properties.properties
+  - description: Backend Credentials Contract Properties
+    types:
+    - uid: BackendCredentialsContract
+    name: properties.credentials
+  - description: Backend Proxy Contract Properties
+    types:
+    - uid: BackendProxyContract
+    name: properties.proxy
+  - description: Backend TLS Properties
+    types:
+    - uid: BackendTlsProperties
+    name: properties.tls
 - name: ErrorResponse
   description: Error Body contract.
   kind: object
@@ -303,9 +239,56 @@ definitions:
     name: message
   - description: The list of invalid fields send in request, in case of validation error.
     types:
-    - isArray: true
-      uid: ErrorFieldContract
+    - uid: ErrorFieldContract
     name: details
+- name: BackendServiceFabricClusterProperties
+  description: Backend Service Fabric Cluster Properties
+  kind: object
+  properties:
+  - description: The client certificate thumbprint for the management endpoint.
+    types:
+    - uid: string
+    name: clientCertificatethumbprint
+  - description: Maximum number of retries while attempting resolve the parition.
+    types:
+    - uid: integer
+    name: maxPartitionResolutionRetries
+  - description: The cluster management endpoint.
+    types:
+    - uid: string
+    name: managementEndpoints
+  - description: Thumbprints of certificates cluster management service uses for tls communication
+    types:
+    - uid: string
+    name: serverCertificateThumbprints
+  - description: Server X509 Certificate Names Collection
+    types:
+    - uid: X509CertificateName
+    name: serverX509Names
+- name: BackendAuthorizationHeaderCredentials
+  description: Authorization header information.
+  kind: object
+  properties:
+  - description: Authentication Scheme name.
+    types:
+    - uid: string
+    name: scheme
+  - description: Authentication Parameter value.
+    types:
+    - uid: string
+    name: parameter
+- name: BackendProtocol
+  description: Backend communication protocol.
+  kind: enum
+  properties:
+  - description: The Backend is a RESTful service.
+    types:
+    - uid: string
+    name: http
+  - description: The Backend is a SOAP service.
+    types:
+    - uid: string
+    name: soap
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
@@ -322,24 +305,219 @@ definitions:
     types:
     - uid: string
     name: target
+- name: X509CertificateName
+  description: Server X509 Certificate Names Collection
+  kind: object
+  properties:
+  - description: Common Name of the Certificate.
+    types:
+    - uid: string
+    name: name
+  - description: Thumbprint for the Issuer of the Certificate.
+    types:
+    - uid: string
+    name: issuerCertificateThumbprint
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/backends/sfbackend?api-version=2017-03-01
-    requestBody: '{"properties":{"description":"Service Fabric Test App 1","protocol":"http","url":"fabric:/mytestapp/mytestservice","properties":{"serviceFabricCluster":{"managementEndpoints":["https://somecluster.com"],"clientCertificatethumbprint":"EBA029198AA3E76EF0D70482626E5BCF148594A6","serverX509Names":[{"name":"ServerCommonName1","issuerCertificateThumbprint":"IssuerCertificateThumbprint1"}],"maxPartitionResolutionRetries":5}}}}'
+    body: >-
+      {
+        "properties": {
+          "description": "Service Fabric Test App 1",
+          "protocol": "http",
+          "url": "fabric:/mytestapp/mytestservice",
+          "properties": {
+            "serviceFabricCluster": {
+              "managementEndpoints": [
+                "https://somecluster.com"
+              ],
+              "clientCertificatethumbprint": "EBA029198AA3E76EF0D70482626E5BCF148594A6",
+              "serverX509Names": [
+                {
+                  "name": "ServerCommonName1",
+                  "issuerCertificateThumbprint": "IssuerCertificateThumbprint1"
+                }
+              ],
+              "maxPartitionResolutionRetries": 5
+            }
+          }
+        }
+      }
   responses:
   - statusCode: "201"
-    body: '{"id":"/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/backends/sfbackend","type":"Microsoft.ApiManagement/service/backends","name":"sfbackend","properties":{"description":"Service Fabric Test App 1","url":"fabric:/mytestapp/mytestservice","protocol":"http","properties":{"serviceFabricCluster":{"managementEndpoints":["https://somecluster.com"],"clientCertificatethumbprint":"EBA029198AA3E76EF0D70482626E5BCF148594A6","serverX509Names":[{"name":"ServerCommonName1","issuerCertificateThumbprint":"IssuerCertificateThumbprint1"}],"maxPartitionResolutionRetries":5}}}}'
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/backends/sfbackend",
+        "type": "Microsoft.ApiManagement/service/backends",
+        "name": "sfbackend",
+        "properties": {
+          "description": "Service Fabric Test App 1",
+          "url": "fabric:/mytestapp/mytestservice",
+          "protocol": "http",
+          "properties": {
+            "serviceFabricCluster": {
+              "managementEndpoints": [
+                "https://somecluster.com"
+              ],
+              "clientCertificatethumbprint": "EBA029198AA3E76EF0D70482626E5BCF148594A6",
+              "serverX509Names": [
+                {
+                  "name": "ServerCommonName1",
+                  "issuerCertificateThumbprint": "IssuerCertificateThumbprint1"
+                }
+              ],
+              "maxPartitionResolutionRetries": 5
+            }
+          }
+        }
+      }
   - statusCode: "200"
-    body: '{"id":"/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/backends/sfbackend","type":"Microsoft.ApiManagement/service/backends","name":"sfbackend","properties":{"description":"Service Fabric Test App 1","url":"fabric:/mytestapp/mytestservice","protocol":"http","properties":{"serviceFabricCluster":{"managementEndpoints":["https://somecluster.com"],"clientCertificatethumbprint":"EBA029198AA3E76EF0D70482626E5BCF148594A6","serverX509Names":[{"name":"ServerCommonName1","issuerCertificateThumbprint":"IssuerCertificateThumbprint1"}],"maxPartitionResolutionRetries":5}}}}'
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/backends/sfbackend",
+        "type": "Microsoft.ApiManagement/service/backends",
+        "name": "sfbackend",
+        "properties": {
+          "description": "Service Fabric Test App 1",
+          "url": "fabric:/mytestapp/mytestservice",
+          "protocol": "http",
+          "properties": {
+            "serviceFabricCluster": {
+              "managementEndpoints": [
+                "https://somecluster.com"
+              ],
+              "clientCertificatethumbprint": "EBA029198AA3E76EF0D70482626E5BCF148594A6",
+              "serverX509Names": [
+                {
+                  "name": "ServerCommonName1",
+                  "issuerCertificateThumbprint": "IssuerCertificateThumbprint1"
+                }
+              ],
+              "maxPartitionResolutionRetries": 5
+            }
+          }
+        }
+      }
   name: ApiManagementCreateBackendServiceFabric
 - request:
     uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/backends/proxybackend?api-version=2017-03-01
-    requestBody: '{"properties":{"description":"description5308","url":"https://backendname2644/","protocol":"http","tls":{"validateCertificateChain":true,"validateCertificateName":true},"proxy":{"url":"http://192.168.1.1:8080","username":"Contoso\\admin","password":"opensesame"},"credentials":{"query":{"sv":["xx","bb","cc"]},"header":{"x-my-1":["val1","val2"]},"authorization":{"scheme":"Basic","parameter":"opensesma"}}}}'
+    body: >-
+      {
+        "properties": {
+          "description": "description5308",
+          "url": "https://backendname2644/",
+          "protocol": "http",
+          "tls": {
+            "validateCertificateChain": true,
+            "validateCertificateName": true
+          },
+          "proxy": {
+            "url": "http://192.168.1.1:8080",
+            "username": "Contoso\\admin",
+            "password": "opensesame"
+          },
+          "credentials": {
+            "query": {
+              "sv": [
+                "xx",
+                "bb",
+                "cc"
+              ]
+            },
+            "header": {
+              "x-my-1": [
+                "val1",
+                "val2"
+              ]
+            },
+            "authorization": {
+              "scheme": "Basic",
+              "parameter": "opensesma"
+            }
+          }
+        }
+      }
   responses:
   - statusCode: "201"
-    body: '{"id":"/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/backends/proxybackend","type":"Microsoft.ApiManagement/service/backends","name":"proxybackend","properties":{"description":"description5308","url":"https://backendname2644/","protocol":"http","credentials":{"query":{"sv":["xx","bb","cc"]},"header":{"x-my-1":["val1","val2"]},"authorization":{"scheme":"Basic","parameter":"opensesma"}},"proxy":{"url":"http://192.168.1.1:8080","username":"Contoso\\admin","password":"opensesame"},"tls":{"validateCertificateChain":false,"validateCertificateName":false}}}'
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/backends/proxybackend",
+        "type": "Microsoft.ApiManagement/service/backends",
+        "name": "proxybackend",
+        "properties": {
+          "description": "description5308",
+          "url": "https://backendname2644/",
+          "protocol": "http",
+          "credentials": {
+            "query": {
+              "sv": [
+                "xx",
+                "bb",
+                "cc"
+              ]
+            },
+            "header": {
+              "x-my-1": [
+                "val1",
+                "val2"
+              ]
+            },
+            "authorization": {
+              "scheme": "Basic",
+              "parameter": "opensesma"
+            }
+          },
+          "proxy": {
+            "url": "http://192.168.1.1:8080",
+            "username": "Contoso\\admin",
+            "password": "opensesame"
+          },
+          "tls": {
+            "validateCertificateChain": false,
+            "validateCertificateName": false
+          }
+        }
+      }
   - statusCode: "200"
-    body: '{"id":"/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/backends/proxybackend","type":"Microsoft.ApiManagement/service/backends","name":"proxybackend","properties":{"description":"description5308","url":"https://backendname2644/","protocol":"http","credentials":{"query":{"sv":["xx","bb","cc"]},"header":{"x-my-1":["val1","val2"]},"authorization":{"scheme":"Basic","parameter":"opensesma"}},"proxy":{"url":"http://192.168.1.1:8080","username":"Contoso\\admin","password":"opensesame"},"tls":{"validateCertificateChain":false,"validateCertificateName":false}}}'
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/backends/proxybackend",
+        "type": "Microsoft.ApiManagement/service/backends",
+        "name": "proxybackend",
+        "properties": {
+          "description": "description5308",
+          "url": "https://backendname2644/",
+          "protocol": "http",
+          "credentials": {
+            "query": {
+              "sv": [
+                "xx",
+                "bb",
+                "cc"
+              ]
+            },
+            "header": {
+              "x-my-1": [
+                "val1",
+                "val2"
+              ]
+            },
+            "authorization": {
+              "scheme": "Basic",
+              "parameter": "opensesma"
+            }
+          },
+          "proxy": {
+            "url": "http://192.168.1.1:8080",
+            "username": "Contoso\\admin",
+            "password": "opensesame"
+          },
+          "tls": {
+            "validateCertificateChain": false,
+            "validateCertificateName": false
+          }
+        }
+      }
   name: ApiManagementCreateBackendProxyBackend
 security:
 - type: oauth2

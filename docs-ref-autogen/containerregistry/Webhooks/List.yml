@@ -48,8 +48,7 @@ definitions:
   properties:
   - description: The list of webhooks. Since this list may be incomplete, the nextLink field should be used to request the next list of webhooks.
     types:
-    - isArray: true
-      uid: Webhook
+    - uid: Webhook
     name: value
   - description: The URI that can be used to request the next list of webhooks.
     types:
@@ -62,21 +61,20 @@ definitions:
   - description: The status of the webhook at the time the operation was called.
     types:
     - uid: WebhookStatus
-    name: status
+    name: properties.status
   - description: The scope of repositories where the event can be triggered. For example, 'foo:*' means events for all tags under repository 'foo'. 'foo:bar' means events for 'foo:bar' only. 'foo' is equivalent to 'foo:latest'. Empty means all events.
     types:
     - uid: string
-    name: scope
+    name: properties.scope
   - description: The list of actions that trigger the webhook to post notifications.
     types:
-    - isArray: true
-      uid: string
-    name: actions
+    - uid: string
+    name: properties.actions
   - isReadyOnly: true
     description: The provisioning state of the webhook at the time the operation was called.
     types:
     - uid: ProvisioningState
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: The resource ID.
     types:
@@ -115,7 +113,7 @@ definitions:
     - uid: string
     name: disabled
 - name: ProvisioningState
-  description: The provisioning state of the webhook at the time the operation was called.
+  description: The provisioning state of the container registry at the time the operation was called.
   kind: enum
   properties:
   - types:
@@ -141,7 +139,28 @@ examples:
     uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/webhooks?api-version=2017-10-01
   responses:
   - statusCode: "200"
-    body: '{"value":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/webhooks/myWebhook","name":"myWebhook","type":"Microsoft.ContainerRegistry/registries/webhooks","location":"westus","tags":{"key":"value"},"properties":{"status":"enabled","scope":"myRepository","actions":["push"],"provisioningState":"Succeeded"}}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/webhooks/myWebhook",
+            "name": "myWebhook",
+            "type": "Microsoft.ContainerRegistry/registries/webhooks",
+            "location": "westus",
+            "tags": {
+              "key": "value"
+            },
+            "properties": {
+              "status": "enabled",
+              "scope": "myRepository",
+              "actions": [
+                "push"
+              ],
+              "provisioningState": "Succeeded"
+            }
+          }
+        ]
+      }
   name: WebhookList
 security:
 - type: oauth2

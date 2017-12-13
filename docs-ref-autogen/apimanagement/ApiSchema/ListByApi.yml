@@ -62,25 +62,40 @@ definitions:
   properties:
   - description: Api Schema Contract value.
     types:
-    - isArray: true
-      uid: SchemaContract
+    - uid: SchemaContract
     name: value
   - description: Next page link if any.
     types:
     - uid: string
     name: nextLink
+- name: ErrorResponse
+  description: Error Body contract.
+  kind: object
+  properties:
+  - description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+    name: code
+  - description: Human-readable representation of the error.
+    types:
+    - uid: string
+    name: message
+  - description: The list of invalid fields send in request, in case of validation error.
+    types:
+    - uid: ErrorFieldContract
+    name: details
 - name: SchemaContract
-  description: Schema Contract details.
+  description: Api Schema Contract value.
   kind: object
   properties:
   - description: Must be a valid a media type used in a Content-Type header as defined in the RFC 2616. Media type of the schema document (e.g. application/json, application/xml).
     types:
     - uid: string
-    name: contentType
+    name: properties.contentType
   - description: Json escaped string defining the document representing the Schema.
     types:
     - uid: string
-    name: value
+    name: properties.document.value
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -96,23 +111,6 @@ definitions:
     types:
     - uid: string
     name: type
-- name: ErrorResponse
-  description: Error Body contract.
-  kind: object
-  properties:
-  - description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
-    types:
-    - uid: string
-    name: code
-  - description: Human-readable representation of the error.
-    types:
-    - uid: string
-    name: message
-  - description: The list of invalid fields send in request, in case of validation error.
-    types:
-    - isArray: true
-      uid: ErrorFieldContract
-    name: details
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
@@ -134,7 +132,20 @@ examples:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/59d5b28d1f7fab116c282650/schemas?api-version=2017-03-01
   responses:
   - statusCode: "200"
-    body: '{"value":[{"id":"/subscriptions/subid/resourcegroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/59d5b28d1f7fab116c282650/schemas/59d5b28e1f7fab116402044e","type":"Microsoft.ApiManagement/service/apis/schemas","name":"59d5b28e1f7fab116402044e","properties":{"contentType":"application/vnd.ms-azure-apim.swagger.definitions+json"}}],"nextLink":""}'
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourcegroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/59d5b28d1f7fab116c282650/schemas/59d5b28e1f7fab116402044e",
+            "type": "Microsoft.ApiManagement/service/apis/schemas",
+            "name": "59d5b28e1f7fab116402044e",
+            "properties": {
+              "contentType": "application/vnd.ms-azure-apim.swagger.definitions+json"
+            }
+          }
+        ],
+        "nextLink": ""
+      }
   name: ApiManagementListApiSchemas
 security:
 - type: oauth2

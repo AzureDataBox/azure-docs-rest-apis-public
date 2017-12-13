@@ -57,6 +57,22 @@ requestBody:
     name: sku
 requestHeader: []
 definitions:
+- name: ResourceSku
+  description: The SKU of a resource.
+  kind: object
+  properties:
+  - description: The scale-out capacity of the resource. 1 is 1x, 2 is 2x, etc. This impacts the quantities and cost of any commitment plan resource.
+    types:
+    - uid: integer
+    name: capacity
+  - description: The SKU name. Along with tier, uniquely identifies the SKU.
+    types:
+    - uid: string
+    name: name
+  - description: The SKU tier. Along with name, uniquely identifies the SKU.
+    types:
+    - uid: string
+    name: tier
 - name: CommitmentPlan
   description: An Azure ML commitment plan resource.
   kind: object
@@ -101,6 +117,22 @@ definitions:
       - uid: string
       uid: object
     name: tags
+- name: CommitmentPlanPatchPayload
+  description: The properties of a commitment plan which may be updated via PATCH.
+  kind: object
+  properties:
+  - description: User-defined tags for the commitment plan.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+  - description: The commitment plan SKU.
+    types:
+    - uid: ResourceSku
+    name: sku
 - name: CommitmentPlanProperties
   description: The commitment plan properties.
   kind: object
@@ -191,22 +223,6 @@ definitions:
     types:
     - uid: string
     name: overageMeter
-- name: ResourceSku
-  description: The commitment plan SKU.
-  kind: object
-  properties:
-  - description: The scale-out capacity of the resource. 1 is 1x, 2 is 2x, etc. This impacts the quantities and cost of any commitment plan resource.
-    types:
-    - uid: integer
-    name: capacity
-  - description: The SKU name. Along with tier, uniquely identifies the SKU.
-    types:
-    - uid: string
-    name: name
-  - description: The SKU tier. Along with name, uniquely identifies the SKU.
-    types:
-    - uid: string
-    name: tier
 examples: []
 security: []
 name: Patch

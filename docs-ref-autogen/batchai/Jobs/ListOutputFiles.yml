@@ -74,13 +74,20 @@ definitions:
   - isReadyOnly: true
     description: The collection of returned job files.
     types:
-    - isArray: true
-      uid: File
+    - uid: File
     name: value
   - description: The continuation token.
     types:
     - uid: string
     name: nextLink
+- name: CloudError
+  description: An error response from the Batch AI service.
+  kind: object
+  properties:
+  - description: An error response from the Batch AI service.
+    types:
+    - uid: CloudErrorBody
+    name: error
 - name: File
   description: Properties of the file.
   kind: object
@@ -96,19 +103,11 @@ definitions:
   - description: The time at which the file was last modified.
     types:
     - uid: string
-    name: lastModified
+    name: properties.lastModified
   - description: The file size.
     types:
     - uid: integer
-    name: contentLength
-- name: CloudError
-  description: An error response from the Batch AI service.
-  kind: object
-  properties:
-  - description: An error response from the Batch AI service.
-    types:
-    - uid: CloudErrorBody
-    name: error
+    name: properties.contentLength
 - name: CloudErrorBody
   description: An error response from the Batch AI service.
   kind: object
@@ -127,15 +126,50 @@ definitions:
     name: target
   - description: A list of additional details about the error.
     types:
-    - isArray: true
-      uid: Details
+    - uid: Details
     name: details
 examples:
 - request:
     uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/demo_resource_group/providers/Microsoft.BatchAI/jobs/demo_job/listOutputFiles?outputdirectoryid=stdouterr&api-version=2017-09-01-preview
   responses:
   - statusCode: "200"
-    body: '{"value":[{"name":"stderr-job_prep.txt","downloadUrl":"https://storage_account_name.file.core.windows.net/share/00000000-0000-0000-0000-000000000000/test_mgmt_batchai_jobs_test_job_preparation_hoste0e613b6/jobs/job/host_prep_stderr.txt?sv=2016-05-31&sr=f&sig=CNPJmjDQT9Anld9%2FdnQ52ZBpfOff2el8r4el6J%2BnpJE%3D&se=2017-09-28T01%3A22%3A35Z&sp=rl","properties":{"lastModified":"2017-09-28T00:22:19Z","contentLength":0}},{"name":"stdout-job_prep.txt","downloadUrl":"https://storage_account_name.file.core.windows.net/share/00000000-0000-0000-0000-000000000000/test_mgmt_batchai_jobs_test_job_preparation_hoste0e613b6/jobs/job/host_prep_stdout.txt?sv=2016-05-31&sr=f&sig=yK%2F5acWSTdcmBZGGL9%2F3IqeZ7N%2B1sRXfwB%2FaCkoRS%2Bc%3D&se=2017-09-28T01%3A22%3A35Z&sp=rl","properties":{"lastModified":"2017-09-28T00:22:19Z","contentLength":720}},{"name":"stderr.txt","downloadUrl":"https://storage_account_name.file.core.windows.net/share/00000000-0000-0000-0000-000000000000/test_mgmt_batchai_jobs_test_job_preparation_hoste0e613b6/jobs/job/stderr.txt?sv=2016-05-31&sr=f&sig=TdvHhdQjvWWA0Z7aPb0oZpPgGbBPOyDarNXWHFnRS3c%3D&se=2017-09-28T01%3A22%3A35Z&sp=rl","properties":{"lastModified":"2017-09-28T00:22:19Z","contentLength":0}},{"name":"stdout.txt","downloadUrl":"https://storage_account_name.file.core.windows.net/share/00000000-0000-0000-0000-000000000000/test_mgmt_batchai_jobs_test_job_preparation_hoste0e613b6/jobs/job/stdout.txt?sv=2016-05-31&sr=f&sig=nyydEjNnYpQfovknJc%2B5G%2F05g0IV4acWKlfkM35lh00%3D&se=2017-09-28T01%3A22%3A35Z&sp=rl","properties":{"lastModified":"2017-09-28T00:22:19Z","contentLength":32}}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "name": "stderr-job_prep.txt",
+            "downloadUrl": "https://storage_account_name.file.core.windows.net/share/00000000-0000-0000-0000-000000000000/test_mgmt_batchai_jobs_test_job_preparation_hoste0e613b6/jobs/job/host_prep_stderr.txt?sv=2016-05-31&sr=f&sig=CNPJmjDQT9Anld9%2FdnQ52ZBpfOff2el8r4el6J%2BnpJE%3D&se=2017-09-28T01%3A22%3A35Z&sp=rl",
+            "properties": {
+              "lastModified": "2017-09-28T00:22:19Z",
+              "contentLength": 0
+            }
+          },
+          {
+            "name": "stdout-job_prep.txt",
+            "downloadUrl": "https://storage_account_name.file.core.windows.net/share/00000000-0000-0000-0000-000000000000/test_mgmt_batchai_jobs_test_job_preparation_hoste0e613b6/jobs/job/host_prep_stdout.txt?sv=2016-05-31&sr=f&sig=yK%2F5acWSTdcmBZGGL9%2F3IqeZ7N%2B1sRXfwB%2FaCkoRS%2Bc%3D&se=2017-09-28T01%3A22%3A35Z&sp=rl",
+            "properties": {
+              "lastModified": "2017-09-28T00:22:19Z",
+              "contentLength": 720
+            }
+          },
+          {
+            "name": "stderr.txt",
+            "downloadUrl": "https://storage_account_name.file.core.windows.net/share/00000000-0000-0000-0000-000000000000/test_mgmt_batchai_jobs_test_job_preparation_hoste0e613b6/jobs/job/stderr.txt?sv=2016-05-31&sr=f&sig=TdvHhdQjvWWA0Z7aPb0oZpPgGbBPOyDarNXWHFnRS3c%3D&se=2017-09-28T01%3A22%3A35Z&sp=rl",
+            "properties": {
+              "lastModified": "2017-09-28T00:22:19Z",
+              "contentLength": 0
+            }
+          },
+          {
+            "name": "stdout.txt",
+            "downloadUrl": "https://storage_account_name.file.core.windows.net/share/00000000-0000-0000-0000-000000000000/test_mgmt_batchai_jobs_test_job_preparation_hoste0e613b6/jobs/job/stdout.txt?sv=2016-05-31&sr=f&sig=nyydEjNnYpQfovknJc%2B5G%2F05g0IV4acWKlfkM35lh00%3D&se=2017-09-28T01%3A22%3A35Z&sp=rl",
+            "properties": {
+              "lastModified": "2017-09-28T00:22:19Z",
+              "contentLength": 32
+            }
+          }
+        ]
+      }
   name: List a job's files
 security:
 - type: oauth2

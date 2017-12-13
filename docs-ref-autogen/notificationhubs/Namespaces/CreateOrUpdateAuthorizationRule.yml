@@ -77,28 +77,46 @@ requestBody:
     name: sku
 requestHeader: []
 definitions:
-- name: SkuName
-  description: Name of the notification hub sku
-  kind: enum
+- name: SharedAccessAuthorizationRuleProperties
+  description: SharedAccessAuthorizationRule properties.
+  kind: object
   properties:
-  - types:
+  - description: The rights associated with the rule.
+    types:
     - uid: string
-    name: Free
-  - types:
+    name: rights
+- name: Sku
+  description: The sku of the created namespace
+  kind: object
+  properties:
+  - description: Name of the notification hub sku
+    types:
+    - uid: SkuName
+    name: name
+  - description: The tier of particular sku
+    types:
     - uid: string
-    name: Basic
-  - types:
+    name: tier
+  - description: The Sku size
+    types:
     - uid: string
-    name: Standard
+    name: size
+  - description: The Sku Family
+    types:
+    - uid: string
+    name: family
+  - description: The capacity of the resource
+    types:
+    - uid: integer
+    name: capacity
 - name: SharedAccessAuthorizationRuleResource
   description: Description of a Namespace AuthorizationRules.
   kind: object
   properties:
   - description: The rights associated with the rule.
     types:
-    - isArray: true
-      uid: string
-    name: rights
+    - uid: string
+    name: properties.rights
   - isReadyOnly: true
     description: Resource Id
     types:
@@ -130,30 +148,58 @@ definitions:
     types:
     - uid: Sku
     name: sku
-- name: Sku
-  description: The sku of the created namespace
+- name: SharedAccessAuthorizationRuleCreateOrUpdateParameters
+  description: Parameters supplied to the CreateOrUpdate Namespace AuthorizationRules.
   kind: object
   properties:
-  - description: Name of the notification hub sku
+  - description: Properties of the Namespace AuthorizationRules.
     types:
-    - uid: SkuName
+    - uid: SharedAccessAuthorizationRuleProperties
+    name: properties
+  - isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
     name: name
-  - description: The tier of particular sku
+  - isReadyOnly: true
+    description: Resource type
     types:
     - uid: string
-    name: tier
-  - description: The Sku size
+    name: type
+  - description: Resource location
     types:
     - uid: string
-    name: size
-  - description: The Sku Family
+    name: location
+  - description: Resource tags
     types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+  - description: The sku of the created namespace
+    types:
+    - uid: Sku
+    name: sku
+- name: SkuName
+  description: Name of the notification hub sku
+  kind: enum
+  properties:
+  - types:
     - uid: string
-    name: family
-  - description: The capacity of the resource
-    types:
-    - uid: integer
-    name: capacity
+    name: Free
+  - types:
+    - uid: string
+    name: Basic
+  - types:
+    - uid: string
+    name: Standard
 examples: []
 security:
 - type: oauth2

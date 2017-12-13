@@ -45,10 +45,33 @@ responses:
   name: Other Status Codes
 requestHeader: []
 definitions:
-- name: CertificateBundle
-  description: A certificate bundle consists of a certificate (X509) plus its attributes.
+- name: KeyVaultError
+  description: The key vault error exception.
   kind: object
   properties:
+  - isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
+    name: error
+- name: DeletedCertificateBundle
+  description: A Deleted Certificate consisting of its previous id, attributes and its tags, as well as information on when it will be purged.
+  kind: object
+  properties:
+  - description: The url of the recovery object, used to identify and recover the deleted certificate.
+    types:
+    - uid: string
+    name: recoveryId
+  - isReadyOnly: true
+    description: The time when the certificate is scheduled to be purged, in UTC
+    types:
+    - uid: integer
+    name: scheduledPurgeDate
+  - isReadyOnly: true
+    description: The time when the certificate was deleted, in UTC
+    types:
+    - uid: integer
+    name: deletedDate
   - isReadyOnly: true
     description: The certificate id.
     types:
@@ -94,6 +117,23 @@ definitions:
       - uid: string
       uid: object
     name: tags
+- name: Error
+  description: Error encountered, if any, during the certificate operation.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+    name: code
+  - isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+    name: message
+  - types:
+    - {}
+    name: innererror
 - name: CertificatePolicy
   description: The management policy.
   kind: object
@@ -117,8 +157,7 @@ definitions:
     name: x509_props
   - description: Actions that will be performed by Key Vault over the lifetime of a certificate.
     types:
-    - isArray: true
-      uid: LifetimeAction
+    - uid: LifetimeAction
     name: lifetime_actions
   - description: Parameters for the issuer of the X509 component of a certificate.
     types:
@@ -128,6 +167,37 @@ definitions:
     types:
     - uid: CertificateAttributes
     name: attributes
+- name: CertificateAttributes
+  description: The certificate management attributes.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Reflects the deletion recovery level currently in effect for certificates in the current vault. If it contains 'Purgeable', the certificate can be permanently deleted by a privileged user; otherwise, only the system can purge the certificate, at the end of the retention interval.
+    types:
+    - uid: DeletionRecoveryLevel
+    name: recoveryLevel
+  - description: Determines whether the object is enabled.
+    types:
+    - uid: boolean
+    name: enabled
+  - description: Not before date in UTC.
+    types:
+    - uid: integer
+    name: nbf
+  - description: Expiry date in UTC.
+    types:
+    - uid: integer
+    name: exp
+  - isReadyOnly: true
+    description: Creation time in UTC.
+    types:
+    - uid: integer
+    name: created
+  - isReadyOnly: true
+    description: Last updated time in UTC.
+    types:
+    - uid: integer
+    name: updated
 - name: KeyProperties
   description: Properties of the key backing a certificate.
   kind: object
@@ -166,8 +236,7 @@ definitions:
     name: subject
   - description: The enhanced key usage.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: ekus
   - description: The subject alternative names.
     types:
@@ -175,34 +244,14 @@ definitions:
     name: sans
   - description: List of key usages.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: key_usage
   - description: The duration that the ceritifcate is valid in months.
     types:
     - uid: integer
     name: validity_months
-- name: SubjectAlternativeNames
-  description: The subject alternative names.
-  kind: object
-  properties:
-  - description: Email addresses.
-    types:
-    - isArray: true
-      uid: string
-    name: emails
-  - description: Domain names.
-    types:
-    - isArray: true
-      uid: string
-    name: dns_names
-  - description: User principal names.
-    types:
-    - isArray: true
-      uid: string
-    name: upns
 - name: LifetimeAction
-  description: Action and its trigger that will be performed by Key Vault over the lifetime of a certificate.
+  description: Actions that will be performed by Key Vault over the lifetime of a certificate.
   kind: object
   properties:
   - description: The condition that will execute the action.
@@ -213,6 +262,50 @@ definitions:
     types:
     - uid: Action
     name: action
+- name: IssuerParameters
+  description: Parameters for the issuer of the X509 component of a certificate.
+  kind: object
+  properties:
+  - description: Name of the referenced issuer object or reserved names; for example, 'Self' or 'Unknown'.
+    types:
+    - uid: string
+    name: name
+  - description: Type of certificate to be requested from the issuer provider.
+    types:
+    - uid: string
+    name: cty
+- name: DeletionRecoveryLevel
+  description: Reflects the deletion recovery level currently in effect for keys in the current vault. If it contains 'Purgeable' the key can be permanently deleted by a privileged user; otherwise, only the system can purge the key, at the end of the retention interval.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Purgeable
+  - types:
+    - uid: string
+    name: Recoverable+Purgeable
+  - types:
+    - uid: string
+    name: Recoverable
+  - types:
+    - uid: string
+    name: Recoverable+ProtectedSubscription
+- name: SubjectAlternativeNames
+  description: The subject alternative names.
+  kind: object
+  properties:
+  - description: Email addresses.
+    types:
+    - uid: string
+    name: emails
+  - description: Domain names.
+    types:
+    - uid: string
+    name: dns_names
+  - description: User principal names.
+    types:
+    - uid: string
+    name: upns
 - name: Trigger
   description: The condition that will execute the action.
   kind: object
@@ -243,92 +336,7 @@ definitions:
   - types:
     - uid: string
     name: AutoRenew
-- name: IssuerParameters
-  description: Parameters for the issuer of the X509 component of a certificate.
-  kind: object
-  properties:
-  - description: Name of the referenced issuer object or reserved names; for example, 'Self' or 'Unknown'.
-    types:
-    - uid: string
-    name: name
-  - description: Type of certificate to be requested from the issuer provider.
-    types:
-    - uid: string
-    name: cty
-- name: CertificateAttributes
-  description: The certificate attributes.
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: Reflects the deletion recovery level currently in effect for certificates in the current vault. If it contains 'Purgeable', the certificate can be permanently deleted by a privileged user; otherwise, only the system can purge the certificate, at the end of the retention interval.
-    types:
-    - uid: DeletionRecoveryLevel
-    name: recoveryLevel
-  - description: Determines whether the object is enabled.
-    types:
-    - uid: boolean
-    name: enabled
-  - description: Not before date in UTC.
-    types:
-    - uid: integer
-    name: nbf
-  - description: Expiry date in UTC.
-    types:
-    - uid: integer
-    name: exp
-  - isReadyOnly: true
-    description: Creation time in UTC.
-    types:
-    - uid: integer
-    name: created
-  - isReadyOnly: true
-    description: Last updated time in UTC.
-    types:
-    - uid: integer
-    name: updated
-- name: DeletionRecoveryLevel
-  description: Reflects the deletion recovery level currently in effect for certificates in the current vault. If it contains 'Purgeable', the certificate can be permanently deleted by a privileged user; otherwise, only the system can purge the certificate, at the end of the retention interval.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Purgeable
-  - types:
-    - uid: string
-    name: Recoverable+Purgeable
-  - types:
-    - uid: string
-    name: Recoverable
-  - types:
-    - uid: string
-    name: Recoverable+ProtectedSubscription
-- name: KeyVaultError
-  description: The key vault error exception.
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: The key vault server error.
-    types:
-    - uid: Error
-    name: error
-- name: Error
-  description: The key vault server error.
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: The error code.
-    types:
-    - uid: string
-    name: code
-  - isReadyOnly: true
-    description: The error message.
-    types:
-    - uid: string
-    name: message
-  - types:
-    - {}
-    name: innererror
 examples: []
 security: []
 name: GetCertificate
-uid: .keyvault.getcertificate.getcertificate
+uid: keyvault.getcertificate.getcertificate

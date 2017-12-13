@@ -78,10 +78,24 @@ definitions:
   - isReadyOnly: true
     description: TimeZones array
     types:
-    - isArray: true
-      uid: TimeZones
+    - uid: TimeZones
     name: timeZones
+- name: Error
+  description: This object is returned when an error occurs in the Location Based Service API
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+    name: statuscode
+  - isReadyOnly: true
+    description: If available, a human readable description of the error.
+    types:
+    - uid: string
+    name: message
 - name: TimeZones
+  description: TimeZones array
   kind: object
   properties:
   - isReadyOnly: true
@@ -128,36 +142,59 @@ definitions:
     types:
     - uid: string
     name: PosixTz
-- name: Error
-  description: This object is returned when an error occurs in the Location Based Service API
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: Error code.
-    types:
-    - uid: string
-    name: statuscode
-  - isReadyOnly: true
-    description: If available, a human readable description of the error.
-    types:
-    - uid: string
-    name: message
 examples:
 - request:
     uri: GET https://atlas.microsoft.com/timezone/byCoordinates/json?api-version=1.0&query=47.0,-122
   responses:
   - statusCode: "200"
-    body: '{"version":"2017b","referenceUtcTimestamp":"2017-09-07T17:49:15.253742Z","timeZones":[{"Id":"America/Los_Angeles","ReferenceTime":{"Tag":"PDT","StandardOffset":"-08:00:00","DaylightSavings":"01:00:00","WallTime":"2017-09-07T17:49:15.253742+00:00","PosixTzValidYear":2017,"PosixTz":"PST+8PDT,M3.2.0,M11.1.0"}}]}'
+    body: >-
+      {
+        "version": "2017b",
+        "referenceUtcTimestamp": "2017-09-07T17:49:15.253742Z",
+        "timeZones": [
+          {
+            "Id": "America/Los_Angeles",
+            "ReferenceTime": {
+              "Tag": "PDT",
+              "StandardOffset": "-08:00:00",
+              "DaylightSavings": "01:00:00",
+              "WallTime": "2017-09-07T17:49:15.253742+00:00",
+              "PosixTzValidYear": 2017,
+              "PosixTz": "PST+8PDT,M3.2.0,M11.1.0"
+            }
+          }
+        ]
+      }
   - statusCode: "400"
-    body: '{"statuscode":"400","message":"Bad request: one or more parameters were incorrectly specified or are mutually exclusive."}'
+    body: >-
+      {
+        "statuscode": "400",
+        "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
+      }
   - statusCode: "401"
-    body: '{"statuscode":"401","message":"Unauthorized: Access is denied due to invalid credentials."}'
+    body: >-
+      {
+        "statuscode": "401",
+        "message": "Unauthorized: Access is denied due to invalid credentials."
+      }
   - statusCode: "403"
-    body: '{"statuscode":"403","message":"Permission, capacity, or authentication issues."}'
+    body: >-
+      {
+        "statuscode": "403",
+        "message": "Permission, capacity, or authentication issues."
+      }
   - statusCode: "404"
-    body: '{"statuscode":"404","message":"Not Found: the requested resource could not be found, but it may be available again in the future."}'
+    body: >-
+      {
+        "statuscode": "404",
+        "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
+      }
   - statusCode: "500"
-    body: '{"statuscode":"500","message":"An error occurred while processing the request. Please try again later."}'
+    body: >-
+      {
+        "statuscode": "500",
+        "message": "An error occurred while processing the request. Please try again later."
+      }
   name: GetTimezoneByCoordinates
 security:
 - type: apiKey

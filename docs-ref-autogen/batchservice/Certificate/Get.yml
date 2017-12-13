@@ -118,6 +118,22 @@ definitions:
     types:
     - uid: DeleteCertificateError
     name: deleteCertificateError
+- name: BatchError
+  description: The error encountered while attempting to add the task.
+  kind: object
+  properties:
+  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+    name: code
+  - description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: ErrorMessage
+    name: message
+  - description: A collection of key-value pairs containing additional details about the error.
+    types:
+    - uid: BatchErrorDetail
+    name: values
 - name: CertificateState
   description: The current state of the certificate.
   kind: enum
@@ -135,7 +151,7 @@ definitions:
     - uid: string
     name: deletefailed
 - name: DeleteCertificateError
-  description: This property is set only if the certificate is in the DeleteFailed state.
+  description: An error encountered by the Batch service when deleting a certificate.
   kind: object
   properties:
   - description: An identifier for the certificate deletion error. Codes are invariant and are intended to be consumed programmatically.
@@ -148,37 +164,7 @@ definitions:
     name: message
   - description: This list includes details such as the active pools and nodes referencing this certificate. However, if a large number of resources reference the certificate, the list contains only about the first hundred.
     types:
-    - isArray: true
-      uid: NameValuePair
-    name: values
-- name: NameValuePair
-  description: Represents a name-value pair.
-  kind: object
-  properties:
-  - description: The name in the name-value pair.
-    types:
-    - uid: string
-    name: name
-  - description: The value in the name-value pair.
-    types:
-    - uid: string
-    name: value
-- name: BatchError
-  description: An error response received from the Azure Batch service.
-  kind: object
-  properties:
-  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
-    types:
-    - uid: string
-    name: code
-  - description: A message describing the error, intended to be suitable for display in a user interface.
-    types:
-    - uid: ErrorMessage
-    name: message
-  - description: A collection of key-value pairs containing additional details about the error.
-    types:
-    - isArray: true
-      uid: BatchErrorDetail
+    - uid: NameValuePair
     name: values
 - name: ErrorMessage
   description: A message describing the error, intended to be suitable for display in a user interface.
@@ -193,7 +179,7 @@ definitions:
     - uid: string
     name: value
 - name: BatchErrorDetail
-  description: An item of additional information included in an Azure Batch error response.
+  description: A collection of key-value pairs containing additional details about the error.
   kind: object
   properties:
   - description: An identifier specifying the meaning of the Value property.
@@ -201,6 +187,18 @@ definitions:
     - uid: string
     name: key
   - description: The additional information included with the error response.
+    types:
+    - uid: string
+    name: value
+- name: NameValuePair
+  description: Represents a name-value pair.
+  kind: object
+  properties:
+  - description: The name in the name-value pair.
+    types:
+    - uid: string
+    name: name
+  - description: The value in the name-value pair.
     types:
     - uid: string
     name: value
@@ -212,7 +210,27 @@ examples:
       name: client-request-id
   responses:
   - statusCode: "200"
-    body: '{"thumbprint":"0123456789abcdef0123456789abcdef01234567","thumbprintAlgorithm":"sha1","url":"https://account.region.batch.azure.com/certificates(thumbprintAlgorithm=sha1,thumbprint=0123456789abcdef0123456789abcdef01234567)","state":"deletefailed","stateTransitionTime":"2014-07-31T21:12:58.236Z","previousState":"deleting","previousStateTransitionTime":"2014-07-31T21:11:58.236Z","publicData":"#####...","deleteCertificateError":{"code":"PoolsReferencingCertificate","message":"The specified certificate is being used by the below mentioned pool(s)","values":[{"name":"Pools","value":"mypool1"}]}}'
+    body: >-
+      {
+        "thumbprint": "0123456789abcdef0123456789abcdef01234567",
+        "thumbprintAlgorithm": "sha1",
+        "url": "https://account.region.batch.azure.com/certificates(thumbprintAlgorithm=sha1,thumbprint=0123456789abcdef0123456789abcdef01234567)",
+        "state": "deletefailed",
+        "stateTransitionTime": "2014-07-31T21:12:58.236Z",
+        "previousState": "deleting",
+        "previousStateTransitionTime": "2014-07-31T21:11:58.236Z",
+        "publicData": "#####...",
+        "deleteCertificateError": {
+          "code": "PoolsReferencingCertificate",
+          "message": "The specified certificate is being used by the below mentioned pool(s)",
+          "values": [
+            {
+              "name": "Pools",
+              "value": "mypool1"
+            }
+          ]
+        }
+      }
   name: Certificate get
 security: []
 name: Get

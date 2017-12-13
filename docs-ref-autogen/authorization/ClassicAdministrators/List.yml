@@ -37,8 +37,7 @@ definitions:
   properties:
   - description: An array of administrators.
     types:
-    - isArray: true
-      uid: ClassicAdministrator
+    - uid: ClassicAdministrator
     name: value
   - description: The URL to use for getting the next set of results.
     types:
@@ -65,7 +64,7 @@ definitions:
     - uid: ClassicAdministratorProperties
     name: properties
 - name: ClassicAdministratorProperties
-  description: Properties for the classic administrator.
+  description: Classic Administrator properties.
   kind: object
   properties:
   - description: The email address of the administrator.
@@ -81,7 +80,29 @@ examples:
     uri: GET https://management.azure.com/subscriptions/subId/providers/Microsoft.Authorization/classicAdministrators?api-version=2015-07-01
   responses:
   - statusCode: "200"
-    body: '{"value":[{"properties":{"emailAddress":"test@test.com","role":"ServiceAdministrator;AccountAdministrator"},"id":"/subscriptions/subId/providers/Microsoft.Authorization/classicAdministrators/classicadminid","type":"Microsoft.Authorization/classicAdministrators","name":"classicadminid"},{"properties":{"emailAddress":"coadmin@test.com","role":"CoAdministrator"},"id":"/subscriptions/subId/providers/Microsoft.Authorization/classicAdministrators/classicadminid2","type":"Microsoft.Authorization/classicAdministrators","name":"classicadminid2"}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "emailAddress": "test@test.com",
+              "role": "ServiceAdministrator;AccountAdministrator"
+            },
+            "id": "/subscriptions/subId/providers/Microsoft.Authorization/classicAdministrators/classicadminid",
+            "type": "Microsoft.Authorization/classicAdministrators",
+            "name": "classicadminid"
+          },
+          {
+            "properties": {
+              "emailAddress": "coadmin@test.com",
+              "role": "CoAdministrator"
+            },
+            "id": "/subscriptions/subId/providers/Microsoft.Authorization/classicAdministrators/classicadminid2",
+            "type": "Microsoft.Authorization/classicAdministrators",
+            "name": "classicadminid2"
+          }
+        ]
+      }
   name: GetConfigurations
 security:
 - type: oauth2

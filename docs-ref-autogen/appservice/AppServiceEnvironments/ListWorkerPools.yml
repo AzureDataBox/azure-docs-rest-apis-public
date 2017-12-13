@@ -48,15 +48,14 @@ definitions:
   properties:
   - description: Collection of resources.
     types:
-    - isArray: true
-      uid: WorkerPoolResource
+    - uid: WorkerPoolResource
     name: value
   - description: Link to next page of resources.
     types:
     - uid: string
     name: nextLink
 - name: WorkerPoolResource
-  description: Worker pool of an App Service Environment ARM resource.
+  description: Collection of resources.
   kind: object
   properties:
   - description: Description of a SKU for a scalable resource.
@@ -66,25 +65,24 @@ definitions:
   - description: Worker size ID for referencing this worker pool.
     types:
     - uid: integer
-    name: workerSizeId
+    name: properties.workerSizeId
   - description: Shared or dedicated app hosting.
     types:
     - uid: ComputeModeOptions
-    name: computeMode
+    name: properties.computeMode
   - description: VM size of the worker pool instances.
     types:
     - uid: string
-    name: workerSize
+    name: properties.workerSize
   - description: Number of instances in the worker pool.
     types:
     - uid: integer
-    name: workerCount
+    name: properties.workerCount
   - isReadyOnly: true
     description: Names of all instances in the worker pool (read only).
     types:
-    - isArray: true
-      uid: string
-    name: instanceNames
+    - uid: string
+    name: properties.instanceNames
   - isReadyOnly: true
     description: Resource Id.
     types:
@@ -105,7 +103,7 @@ definitions:
     - uid: string
     name: type
 - name: SkuDescription
-  description: Description of a SKU for a scalable resource.
+  description: Name and tier of the SKU.
   kind: object
   properties:
   - description: Name of the resource SKU.
@@ -134,14 +132,25 @@ definitions:
     name: skuCapacity
   - description: Locations of the SKU.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: locations
   - description: Capabilities of the SKU, e.g., is traffic manager enabled?
     types:
-    - isArray: true
-      uid: Capability
+    - uid: Capability
     name: capabilities
+- name: ComputeModeOptions
+  description: Shared or dedicated app hosting.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Shared
+  - types:
+    - uid: string
+    name: Dedicated
+  - types:
+    - uid: string
+    name: Dynamic
 - name: SkuCapacity
   description: Min, max, and default scale values of the SKU.
   kind: object
@@ -163,7 +172,7 @@ definitions:
     - uid: string
     name: scaleType
 - name: Capability
-  description: Describes the capabilities/features allowed for a specific SKU.
+  description: Capabilities of the SKU, e.g., is traffic manager enabled?
   kind: object
   properties:
   - description: Name of the SKU capability.
@@ -178,19 +187,6 @@ definitions:
     types:
     - uid: string
     name: reason
-- name: ComputeModeOptions
-  description: Shared or dedicated app hosting.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Shared
-  - types:
-    - uid: string
-    name: Dedicated
-  - types:
-    - uid: string
-    name: Dynamic
 examples: []
 security:
 - type: oauth2

@@ -64,14 +64,122 @@ requestBody:
     description: The value that indicates whether the admin user is enabled.
     types:
     - uid: boolean
-    name: adminUserEnabled
+    name: properties.adminUserEnabled
   - in: body
     description: The parameters of a storage account for the container registry. Only applicable to Classic SKU. If specified, the storage account must be in the same physical location as the container registry.
     types:
     - uid: StorageAccountProperties
-    name: storageAccount
+    name: properties.storageAccount
 requestHeader: []
 definitions:
+- name: Sku
+  description: The SKU of the container registry.
+  kind: object
+  properties:
+  - description: The SKU name of the container registry. Required for registry creation.
+    types:
+    - uid: SkuName
+    name: name
+  - isReadyOnly: true
+    description: The SKU tier based on the SKU name.
+    types:
+    - uid: SkuTier
+    name: tier
+- name: StorageAccountProperties
+  description: The properties of the storage account for the container registry. Only applicable to Classic SKU.
+  kind: object
+  properties:
+  - description: The resource ID of the storage account.
+    types:
+    - uid: string
+    name: id
+- name: Registry
+  description: An object that represents a container registry.
+  kind: object
+  properties:
+  - description: The SKU of the container registry.
+    types:
+    - uid: Sku
+    name: sku
+  - isReadyOnly: true
+    description: The URL that can be used to log into the container registry.
+    types:
+    - uid: string
+    name: properties.loginServer
+  - isReadyOnly: true
+    description: The creation date of the container registry in ISO8601 format.
+    types:
+    - uid: string
+    name: properties.creationDate
+  - isReadyOnly: true
+    description: The provisioning state of the container registry at the time the operation was called.
+    types:
+    - uid: ProvisioningState
+    name: properties.provisioningState
+  - isReadyOnly: true
+    description: The status of the container registry at the time the operation was called.
+    types:
+    - uid: Status
+    name: properties.status
+  - description: The value that indicates whether the admin user is enabled.
+    types:
+    - uid: boolean
+    name: properties.adminUserEnabled
+  - description: The properties of the storage account for the container registry. Only applicable to Classic SKU.
+    types:
+    - uid: StorageAccountProperties
+    name: properties.storageAccount
+  - isReadyOnly: true
+    description: The resource ID.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+    name: type
+  - description: The location of the resource. This cannot be changed after the resource is created.
+    types:
+    - uid: string
+    name: location
+  - description: The tags of the resource.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+- name: RegistryUpdateParameters
+  description: The parameters for updating a container registry.
+  kind: object
+  properties:
+  - description: The tags for the container registry.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+  - description: The SKU of the container registry.
+    types:
+    - uid: Sku
+    name: sku
+  - description: The value that indicates whether the admin user is enabled.
+    types:
+    - uid: boolean
+    name: properties.adminUserEnabled
+  - description: The parameters of a storage account for the container registry. Only applicable to Classic SKU. If specified, the storage account must be in the same physical location as the container registry.
+    types:
+    - uid: StorageAccountProperties
+    name: properties.storageAccount
 - name: SkuName
   description: The SKU name of the container registry. Required for registry creation.
   kind: enum
@@ -104,82 +212,6 @@ definitions:
   - types:
     - uid: string
     name: Premium
-- name: Registry
-  description: An object that represents a container registry.
-  kind: object
-  properties:
-  - description: The SKU of the container registry.
-    types:
-    - uid: Sku
-    name: sku
-  - isReadyOnly: true
-    description: The URL that can be used to log into the container registry.
-    types:
-    - uid: string
-    name: loginServer
-  - isReadyOnly: true
-    description: The creation date of the container registry in ISO8601 format.
-    types:
-    - uid: string
-    name: creationDate
-  - isReadyOnly: true
-    description: The provisioning state of the container registry at the time the operation was called.
-    types:
-    - uid: ProvisioningState
-    name: provisioningState
-  - isReadyOnly: true
-    description: The status of the container registry at the time the operation was called.
-    types:
-    - uid: Status
-    name: status
-  - description: The value that indicates whether the admin user is enabled.
-    types:
-    - uid: boolean
-    name: adminUserEnabled
-  - description: The properties of the storage account for the container registry. Only applicable to Classic SKU.
-    types:
-    - uid: StorageAccountProperties
-    name: storageAccount
-  - isReadyOnly: true
-    description: The resource ID.
-    types:
-    - uid: string
-    name: id
-  - isReadyOnly: true
-    description: The name of the resource.
-    types:
-    - uid: string
-    name: name
-  - isReadyOnly: true
-    description: The type of the resource.
-    types:
-    - uid: string
-    name: type
-  - description: The location of the resource. This cannot be changed after the resource is created.
-    types:
-    - uid: string
-    name: location
-  - description: The tags of the resource.
-    types:
-    - isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-      uid: object
-    name: tags
-- name: Sku
-  description: The SKU of the container registry.
-  kind: object
-  properties:
-  - description: The SKU name of the container registry. Required for registry creation.
-    types:
-    - uid: SkuName
-    name: name
-  - isReadyOnly: true
-    description: The SKU tier based on the SKU name.
-    types:
-    - uid: SkuTier
-    name: tier
 - name: ProvisioningState
   description: The provisioning state of the container registry at the time the operation was called.
   kind: enum
@@ -221,23 +253,74 @@ definitions:
     types:
     - uid: string
     name: timestamp
-- name: StorageAccountProperties
-  description: The properties of the storage account for the container registry. Only applicable to Classic SKU.
-  kind: object
-  properties:
-  - description: The resource ID of the storage account.
-    types:
-    - uid: string
-    name: id
 examples:
 - request:
     uri: PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry?api-version=2017-10-01
-    requestBody: '{"tags":{"key":"value"},"sku":{"name":"Standard"},"properties":{"adminUserEnabled":true}}'
+    body: >-
+      {
+        "tags": {
+          "key": "value"
+        },
+        "sku": {
+          "name": "Standard"
+        },
+        "properties": {
+          "adminUserEnabled": true
+        }
+      }
   responses:
   - statusCode: "200"
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry","name":"myRegistry","type":"Microsoft.ContainerRegistry/registries","location":"westus","tags":{"key":"value"},"sku":{"name":"Standard","tier":"Standard"},"properties":{"loginServer":"myregistry.azurecr.io","creationDate":"2017-03-01T23:14:37.0707808Z","provisioningState":"Succeeded","status":{"displayStatus":"Ready","message":"The registry is ready.","timestamp":"2017-03-01T23:15:37.0707808Z"},"adminUserEnabled":true}}'
+    body: >-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry",
+        "name": "myRegistry",
+        "type": "Microsoft.ContainerRegistry/registries",
+        "location": "westus",
+        "tags": {
+          "key": "value"
+        },
+        "sku": {
+          "name": "Standard",
+          "tier": "Standard"
+        },
+        "properties": {
+          "loginServer": "myregistry.azurecr.io",
+          "creationDate": "2017-03-01T23:14:37.0707808Z",
+          "provisioningState": "Succeeded",
+          "status": {
+            "displayStatus": "Ready",
+            "message": "The registry is ready.",
+            "timestamp": "2017-03-01T23:15:37.0707808Z"
+          },
+          "adminUserEnabled": true
+        }
+      }
   - statusCode: "201"
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry","name":"myRegistry","type":"Microsoft.ContainerRegistry/registries","location":"westus","tags":{"key":"value"},"sku":{"name":"Standard","tier":"Standard"},"properties":{"loginServer":"myregistry.azurecr.io","creationDate":"2017-03-01T23:14:37.0707808Z","provisioningState":"Updating","status":{"displayStatus":"Provisioning","message":"The registry is provisioning.","timestamp":"2017-03-01T23:15:37.0707808Z"},"adminUserEnabled":true}}'
+    body: >-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry",
+        "name": "myRegistry",
+        "type": "Microsoft.ContainerRegistry/registries",
+        "location": "westus",
+        "tags": {
+          "key": "value"
+        },
+        "sku": {
+          "name": "Standard",
+          "tier": "Standard"
+        },
+        "properties": {
+          "loginServer": "myregistry.azurecr.io",
+          "creationDate": "2017-03-01T23:14:37.0707808Z",
+          "provisioningState": "Updating",
+          "status": {
+            "displayStatus": "Provisioning",
+            "message": "The registry is provisioning.",
+            "timestamp": "2017-03-01T23:15:37.0707808Z"
+          },
+          "adminUserEnabled": true
+        }
+      }
   name: RegistryUpdate
 security:
 - type: oauth2

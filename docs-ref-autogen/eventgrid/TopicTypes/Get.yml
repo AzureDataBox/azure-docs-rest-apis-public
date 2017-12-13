@@ -38,29 +38,29 @@ responses:
 requestHeader: []
 definitions:
 - name: TopicTypeInfo
-  description: Properties of a topic type info.
+  description: A collection of topic types
   kind: object
   properties:
   - description: Namespace of the provider of the topic type.
     types:
     - uid: string
-    name: provider
+    name: properties.provider
   - description: Display Name for the topic type.
     types:
     - uid: string
-    name: displayName
+    name: properties.displayName
   - description: Description of the topic type.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - description: Region type of the resource.
     types:
     - uid: ResourceRegionType
-    name: resourceRegionType
+    name: properties.resourceRegionType
   - description: Provisioning state of the topic type
     types:
     - uid: TopicTypeProvisioningState
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: Fully qualified identifier of the resource
     types:
@@ -113,7 +113,19 @@ examples:
     uri: GET https://management.azure.com/providers/Microsoft.EventGrid/topicTypes/Microsoft.Storage.StorageAccounts?api-version=2017-06-15-preview
   responses:
   - statusCode: "200"
-    body: '{"properties":{"description":"Microsoft Storage service events.","displayName":"Storage Accounts","provider":"Microsoft.Storage","provisioningState":"Succeeded","resourceRegionType":"RegionalResource"},"id":"providers/Microsoft.EventGrid/topicTypes/Microsoft.Storage.StorageAccounts","name":"Microsoft.Storage.StorageAccounts","type":"Microsoft.EventGrid/topicTypes"}'
+    body: >-
+      {
+        "properties": {
+          "description": "Microsoft Storage service events.",
+          "displayName": "Storage Accounts",
+          "provider": "Microsoft.Storage",
+          "provisioningState": "Succeeded",
+          "resourceRegionType": "RegionalResource"
+        },
+        "id": "providers/Microsoft.EventGrid/topicTypes/Microsoft.Storage.StorageAccounts",
+        "name": "Microsoft.Storage.StorageAccounts",
+        "type": "Microsoft.EventGrid/topicTypes"
+      }
   name: TopicTypes_Get
 security: []
 name: Get

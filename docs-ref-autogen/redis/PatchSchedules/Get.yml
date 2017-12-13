@@ -67,9 +67,8 @@ definitions:
     name: location
   - description: List of patch schedules for a Redis cache.
     types:
-    - isArray: true
-      uid: ScheduleEntry
-    name: scheduleEntries
+    - uid: ScheduleEntry
+    name: properties.scheduleEntries
 - name: ScheduleEntry
   description: Patch schedule entry for a Premium Redis Cache.
   kind: object
@@ -122,7 +121,26 @@ examples:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/patchSchedules/default?api-version=2016-04-01
   responses:
   - statusCode: "200"
-    body: '{"id":"/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/patchSchedules/default","location":"West US","name":"default","type":"Microsoft.Cache/Redis/patchSchedules","properties":{"scheduleEntries":[{"dayOfWeek":"Monday","startHourUtc":12,"maintenanceWindow":"PT3H"},{"dayOfWeek":"Tuesday","startHourUtc":12}]}}'
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/patchSchedules/default",
+        "location": "West US",
+        "name": "default",
+        "type": "Microsoft.Cache/Redis/patchSchedules",
+        "properties": {
+          "scheduleEntries": [
+            {
+              "dayOfWeek": "Monday",
+              "startHourUtc": 12,
+              "maintenanceWindow": "PT3H"
+            },
+            {
+              "dayOfWeek": "Tuesday",
+              "startHourUtc": 12
+            }
+          ]
+        }
+      }
   name: RedisCachePatchSchedulesGet
 security:
 - type: oauth2

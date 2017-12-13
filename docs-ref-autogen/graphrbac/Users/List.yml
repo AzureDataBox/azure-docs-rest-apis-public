@@ -48,13 +48,24 @@ definitions:
   properties:
   - description: the list of users.
     types:
-    - isArray: true
-      uid: User
+    - uid: User
     name: value
   - description: The URL to get the next set of results.
     types:
     - uid: string
     name: odata.nextLink
+- name: GraphError
+  description: Active Directory error information.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: string
+    name: odata.error.code
+  - description: Error message value.
+    types:
+    - uid: string
+    name: odata.error.message.value
 - name: User
   description: Active Directory user information.
   kind: object
@@ -101,8 +112,7 @@ definitions:
     name: mail
   - description: The sign-in names of the user.
     types:
-    - isArray: true
-      uid: SignInName
+    - uid: SignInName
     name: signInNames
   - isReadyOnly: true
     description: The object ID.
@@ -112,8 +122,7 @@ definitions:
   - isReadyOnly: true
     description: The object type.
     types:
-    - {}
-    typesTitle: string
+    - uid: string
     name: objectType
   - isReadyOnly: true
     description: The time at which the directory object was deleted.
@@ -131,7 +140,7 @@ definitions:
     - uid: string
     name: Guest
 - name: SignInName
-  description: Contains information about a sign-in name of a local account user in an Azure Active Directory B2C tenant.
+  description: The sign-in names of the user.
   kind: object
   properties:
   - description: A string value that can be used to classify user sign-in types in your directory, such as 'emailAddress' or 'userName'.
@@ -139,18 +148,6 @@ definitions:
     - uid: string
     name: type
   - description: The sign-in used by the local account. Must be unique across the company/tenant. For example, 'johnc@example.com'.
-    types:
-    - uid: string
-    name: value
-- name: GraphError
-  description: Active Directory error information.
-  kind: object
-  properties:
-  - description: Error code.
-    types:
-    - uid: string
-    name: code
-  - description: Error message value.
     types:
     - uid: string
     name: value

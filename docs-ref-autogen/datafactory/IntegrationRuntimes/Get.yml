@@ -55,7 +55,7 @@ responses:
 requestHeader: []
 definitions:
 - name: IntegrationRuntimeResource
-  description: Integration runtime resource type.
+  description: List of integration runtimes.
   kind: object
   properties:
   - description: Integration runtime properties.
@@ -102,8 +102,7 @@ definitions:
     name: target
   - description: Array with additional error details.
     types:
-    - isArray: true
-      uid: Details
+    - uid: ErrorResponse
     name: details
 - name: SelfHostedIntegrationRuntime
   description: Self-hosted integration runtime.
@@ -130,11 +129,11 @@ definitions:
   - description: The compute resource for managed integration runtime.
     types:
     - uid: IntegrationRuntimeComputeProperties
-    name: computeProperties
+    name: typeProperties.computeProperties
   - description: SSIS properties for managed integration runtime.
     types:
     - uid: IntegrationRuntimeSsisProperties
-    name: ssisProperties
+    name: typeProperties.ssisProperties
   - description: Type of integration runtime.
     types:
     - uid: Managed
@@ -144,8 +143,18 @@ definitions:
     types:
     - uid: string
     name: description
+- name: IntegrationRuntimeType
+  description: The type of integration runtime.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Managed
+  - types:
+    - uid: string
+    name: SelfHosted
 - name: IntegrationRuntimeState
-  description: Integration runtime state, only valid for managed dedicated integration runtime.
+  description: The state of integration runtime.
   kind: enum
   properties:
   - types:
@@ -176,7 +185,7 @@ definitions:
     - uid: string
     name: Offline
 - name: IntegrationRuntimeComputeProperties
-  description: The compute resource for managed integration runtime.
+  description: The compute resource properties for managed integration runtime.
   kind: object
   properties:
   - description: The location for managed integration runtime. The supported regions could be found on https://docs.microsoft.com/en-us/azure/data-factory/data-factory-data-movement-activities
@@ -199,18 +208,6 @@ definitions:
     types:
     - uid: IntegrationRuntimeVNetProperties
     name: vNetProperties
-- name: IntegrationRuntimeVNetProperties
-  description: VNet properties for managed integration runtime.
-  kind: object
-  properties:
-  - description: The ID of the VNet that this integration runtime will join.
-    types:
-    - uid: string
-    name: vNetId
-  - description: The name of the subnet this integration runtime will join.
-    types:
-    - uid: string
-    name: subnet
 - name: IntegrationRuntimeSsisProperties
   description: SSIS properties for managed integration runtime.
   kind: object
@@ -223,6 +220,18 @@ definitions:
     types:
     - uid: IntegrationRuntimeLicenseType
     name: licenseType
+- name: IntegrationRuntimeVNetProperties
+  description: VNet properties for managed integration runtime.
+  kind: object
+  properties:
+  - description: The ID of the VNet that this integration runtime will join.
+    types:
+    - uid: string
+    name: vNetId
+  - description: The name of the subnet this integration runtime will join.
+    types:
+    - uid: string
+    name: subnet
 - name: IntegrationRuntimeSsisCatalogInfo
   description: Catalog information for managed dedicated integration runtime.
   kind: object
@@ -243,8 +252,18 @@ definitions:
     types:
     - uid: IntegrationRuntimeSsisCatalogPricingTier
     name: catalogPricingTier
+- name: IntegrationRuntimeLicenseType
+  description: License type for bringing your own license scenario.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: BasePrice
+  - types:
+    - uid: string
+    name: LicenseIncluded
 - name: SecureString
-  description: The password of the administrator user account of the catalog database.
+  description: Azure Data Factory secure string definition. The string value will be masked with asterisks '*' during Get or List API calls.
   kind: object
   properties:
   - description: Value of secure string.
@@ -272,16 +291,6 @@ definitions:
   - types:
     - uid: string
     name: PremiumRS
-- name: IntegrationRuntimeLicenseType
-  description: License type for bringing your own license scenario.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: BasePrice
-  - types:
-    - uid: string
-    name: LicenseIncluded
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/integrationRuntimes/exampleIntegrationRuntime?api-version=2017-09-01-preview
@@ -294,7 +303,36 @@ examples:
       name: x-ms-request-id
     - value: nosniff
       name: X-Content-Type-Options
-    body: '{"id":"/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/integrationruntimes/exampleIntegrationRuntime","name":"exampleIntegrationRuntime","properties":{"type":"Managed","typeProperties":{"computeProperties":{"location":"West US","nodeSize":"Standard_D1_v2","numberOfNodes":1,"maxParallelExecutionsPerNode":1},"ssisProperties":{"catalogInfo":{"catalogServerEndpoint":"yandongtestsvr.database.windows.net","catalogAdminUserName":"yanzhang","catalogAdminPassword":{"type":"SecureString","value":"**********"},"catalogPricingTier":"S1"}}},"description":"A managed reserved integration runtime","state":"Initial"},"etag":"0100333d-0000-0000-0000-5a1d0ab80000"}'
+    body: >-
+      {
+        "id": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/integrationruntimes/exampleIntegrationRuntime",
+        "name": "exampleIntegrationRuntime",
+        "properties": {
+          "type": "Managed",
+          "typeProperties": {
+            "computeProperties": {
+              "location": "West US",
+              "nodeSize": "Standard_D1_v2",
+              "numberOfNodes": 1,
+              "maxParallelExecutionsPerNode": 1
+            },
+            "ssisProperties": {
+              "catalogInfo": {
+                "catalogServerEndpoint": "yandongtestsvr.database.windows.net",
+                "catalogAdminUserName": "yanzhang",
+                "catalogAdminPassword": {
+                  "type": "SecureString",
+                  "value": "**********"
+                },
+                "catalogPricingTier": "S1"
+              }
+            }
+          },
+          "description": "A managed reserved integration runtime",
+          "state": "Initial"
+        },
+        "etag": "0100333d-0000-0000-0000-5a1d0ab80000"
+      }
   name: IntegrationRuntimes_Get
 security:
 - type: oauth2

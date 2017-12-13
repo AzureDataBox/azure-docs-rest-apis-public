@@ -48,15 +48,13 @@ requestBody:
   - in: body
     description: Collection of RouteFilterRules contained within a route filter.
     types:
-    - isArray: true
-      uid: RouteFilterRule
-    name: rules
+    - uid: RouteFilterRule
+    name: properties.rules
   - in: body
     description: A collection of references to express route circuit peerings.
     types:
-    - isArray: true
-      uid: SubResource
-    name: peerings
+    - uid: SubResource
+    name: properties.peerings
   - in: body
     isRequired: true
     description: Resource location.
@@ -74,74 +72,6 @@ requestBody:
     name: tags
 requestHeader: []
 definitions:
-- name: Access
-  description: "The access type of the rule. Valid values are: 'Allow', 'Deny'"
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Allow
-  - types:
-    - uid: string
-    name: Deny
-- name: RouteFilterRuleType
-  description: "The rule type of the rule. Valid value is: 'Community'"
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Community
-- name: RouteFilter
-  description: Route Filter Resource.
-  kind: object
-  properties:
-  - isReadyOnly: true
-    description: Gets a unique read-only string that changes whenever the resource is updated.
-    types:
-    - uid: string
-    name: etag
-  - description: Collection of RouteFilterRules contained within a route filter.
-    types:
-    - isArray: true
-      uid: RouteFilterRule
-    name: rules
-  - description: A collection of references to express route circuit peerings.
-    types:
-    - isArray: true
-      uid: SubResource
-    name: peerings
-  - isReadyOnly: true
-    description: "The provisioning state of the resource. Possible values are: 'Updating', 'Deleting', 'Succeeded' and 'Failed'."
-    types:
-    - uid: string
-    name: provisioningState
-  - isReadyOnly: true
-    description: Resource ID.
-    types:
-    - uid: string
-    name: id
-  - isReadyOnly: true
-    description: Resource name.
-    types:
-    - uid: string
-    name: name
-  - isReadyOnly: true
-    description: Resource type.
-    types:
-    - uid: string
-    name: type
-  - description: Resource location.
-    types:
-    - uid: string
-    name: location
-  - description: Resource tags.
-    types:
-    - isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-      uid: object
-    name: tags
 - name: RouteFilterRule
   description: Route Filter Rule Resource
   kind: object
@@ -170,43 +100,190 @@ definitions:
   - description: "The access type of the rule. Valid values are: 'Allow', 'Deny'"
     types:
     - uid: Access
-    name: access
+    name: properties.access
   - description: "The rule type of the rule. Valid value is: 'Community'"
     types:
     - uid: RouteFilterRuleType
-    name: routeFilterRuleType
+    name: properties.routeFilterRuleType
   - description: The collection for bgp community values to filter on. e.g. ['12076:5010','12076:5020']
     types:
-    - isArray: true
-      uid: string
-    name: communities
+    - uid: string
+    name: properties.communities
   - isReadyOnly: true
     description: "The provisioning state of the resource. Possible values are: 'Updating', 'Deleting', 'Succeeded' and 'Failed'."
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: Resource ID
     types:
     - uid: string
     name: id
 - name: SubResource
-  description: Reference to another subresource.
+  description: A collection of references to express route circuit peerings.
   kind: object
   properties:
   - description: Resource ID.
     types:
     - uid: string
     name: id
+- name: RouteFilter
+  description: Route Filter Resource.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Gets a unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+    name: etag
+  - description: Collection of RouteFilterRules contained within a route filter.
+    types:
+    - uid: RouteFilterRule
+    name: properties.rules
+  - description: A collection of references to express route circuit peerings.
+    types:
+    - uid: SubResource
+    name: properties.peerings
+  - isReadyOnly: true
+    description: "The provisioning state of the resource. Possible values are: 'Updating', 'Deleting', 'Succeeded' and 'Failed'."
+    types:
+    - uid: string
+    name: properties.provisioningState
+  - isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+  - description: Resource location.
+    types:
+    - uid: string
+    name: location
+  - description: Resource tags.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+- name: Access
+  description: "The access type of the rule. Valid values are: 'Allow', 'Deny'"
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Allow
+  - types:
+    - uid: string
+    name: Deny
+- name: RouteFilterRuleType
+  description: "The rule type of the rule. Valid value is: 'Community'"
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Community
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/routeFilters/filterName?api-version=2017-09-01
-    requestBody: '{"location":"West US","tags":{"key1":"value1"},"properties":{"rules":[{"name":"ruleName","properties":{"access":"Allow","routeFilterRuleType":"Community","communities":["12076:5030","12076:5040"]}}],"peerings":[]}}'
+    body: >-
+      {
+        "location": "West US",
+        "tags": {
+          "key1": "value1"
+        },
+        "properties": {
+          "rules": [
+            {
+              "name": "ruleName",
+              "properties": {
+                "access": "Allow",
+                "routeFilterRuleType": "Community",
+                "communities": [
+                  "12076:5030",
+                  "12076:5040"
+                ]
+              }
+            }
+          ],
+          "peerings": []
+        }
+      }
   responses:
   - statusCode: "201"
-    body: '{"id":"/subscriptions/subid/resourceGroups/rg1/providers/Microsofot.Network/routeFilters/filterName","etag":"w/\\00000000-0000-0000-0000-000000000000\\","location":"West US","name":"filterName","type":"Microsofot.Network/routeFilters","tags":{"key1":"value1"},"properties":{"provisioningState":"Succeeded","rules":[{"id":"/subscriptions/subid/resourceGroups/rg1/providers/Microsofot.Network/routeFilters/filterName/routeFilterRules/ruleName","etag":"w/\\00000000-0000-0000-0000-000000000000\\","name":"ruleName","properties":{"provisioningState":"Succeeded","access":"Allow","routeFilterRuleType":"Community","communities":["12076:5030","12076:5040"]}}],"peerings":[]}}'
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsofot.Network/routeFilters/filterName",
+        "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+        "location": "West US",
+        "name": "filterName",
+        "type": "Microsofot.Network/routeFilters",
+        "tags": {
+          "key1": "value1"
+        },
+        "properties": {
+          "provisioningState": "Succeeded",
+          "rules": [
+            {
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsofot.Network/routeFilters/filterName/routeFilterRules/ruleName",
+              "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+              "name": "ruleName",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "access": "Allow",
+                "routeFilterRuleType": "Community",
+                "communities": [
+                  "12076:5030",
+                  "12076:5040"
+                ]
+              }
+            }
+          ],
+          "peerings": []
+        }
+      }
   - statusCode: "200"
-    body: '{"id":"/subscriptions/subid/resourceGroups/rg1/providers/Microsofot.Network/routeFilters/filterName","etag":"w/\\00000000-0000-0000-0000-000000000000\\","location":"West US","name":"filterName","type":"Microsofot.Network/routeFilters","tags":{"key1":"value1"},"properties":{"provisioningState":"Succeeded","rules":[{"id":"/subscriptions/subid/resourceGroups/rg1/providers/Microsofot.Network/routeFilters/filterName/routeFilterRules/ruleName","etag":"w/\\00000000-0000-0000-0000-000000000000\\","name":"ruleName","properties":{"provisioningState":"Succeeded","access":"Allow","routeFilterRuleType":"Community","communities":["12076:5030","12076:5040"]}}],"peerings":[]}}'
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsofot.Network/routeFilters/filterName",
+        "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+        "location": "West US",
+        "name": "filterName",
+        "type": "Microsofot.Network/routeFilters",
+        "tags": {
+          "key1": "value1"
+        },
+        "properties": {
+          "provisioningState": "Succeeded",
+          "rules": [
+            {
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsofot.Network/routeFilters/filterName/routeFilterRules/ruleName",
+              "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+              "name": "ruleName",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "access": "Allow",
+                "routeFilterRuleType": "Community",
+                "communities": [
+                  "12076:5030",
+                  "12076:5040"
+                ]
+              }
+            }
+          ],
+          "peerings": []
+        }
+      }
   name: RouteFilterCreate
 security:
 - type: oauth2

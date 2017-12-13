@@ -67,8 +67,7 @@ definitions:
   properties:
   - description: Page values.
     types:
-    - isArray: true
-      uid: ReportRecordContract
+    - uid: ReportRecordContract
     name: value
   - description: Total record count number across all pages.
     types:
@@ -79,7 +78,7 @@ definitions:
     - uid: string
     name: nextLink
 - name: ReportRecordContract
-  description: Report data.
+  description: Page values.
   kind: object
   properties:
   - description: Name depending on report endpoint specifies product, API, operation or developer name.
@@ -194,7 +193,32 @@ examples:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/reports/byGeoId?$filter=timestamp ge datetime'2017-06-01T00:00:00' and timestamp le datetime'2017-06-04T00:00:00'&api-version=2017-03-01
   responses:
   - statusCode: "200"
-    body: '{"value":[{"country":"US","region":"WA","zip":"98052","callCountSuccess":13,"callCountBlocked":1,"callCountFailed":0,"callCountOther":0,"callCountTotal":14,"bandwidth":11019,"cacheHitCount":0,"cacheMissCount":0,"apiTimeAvg":1015.7607923076923,"apiTimeMin":330.3206,"apiTimeMax":1819.2173,"serviceTimeAvg":957.094776923077,"serviceTimeMin":215.24,"serviceTimeMax":1697.3612}],"count":1,"nextLink":""}'
+    body: >-
+      {
+        "value": [
+          {
+            "country": "US",
+            "region": "WA",
+            "zip": "98052",
+            "callCountSuccess": 13,
+            "callCountBlocked": 1,
+            "callCountFailed": 0,
+            "callCountOther": 0,
+            "callCountTotal": 14,
+            "bandwidth": 11019,
+            "cacheHitCount": 0,
+            "cacheMissCount": 0,
+            "apiTimeAvg": 1015.7607923076923,
+            "apiTimeMin": 330.3206,
+            "apiTimeMax": 1819.2173,
+            "serviceTimeAvg": 957.094776923077,
+            "serviceTimeMin": 215.24,
+            "serviceTimeMax": 1697.3612
+          }
+        ],
+        "count": 1,
+        "nextLink": ""
+      }
   name: ApiManagementGetReportsByGeo
 security:
 - type: oauth2

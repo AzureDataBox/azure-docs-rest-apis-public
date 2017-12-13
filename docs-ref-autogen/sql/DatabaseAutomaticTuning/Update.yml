@@ -80,7 +80,7 @@ requestBody:
     description: Automatic tuning desired state.
     types:
     - uid: AutomaticTuningMode
-    name: desiredState
+    name: properties.desiredState
   - in: body
     description: Automatic tuning options definition.
     types:
@@ -89,9 +89,76 @@ requestBody:
       - uid: string
       - uid: AutomaticTuningOptions
       uid: object
-    name: options
+    name: properties.options
 requestHeader: []
 definitions:
+- name: Options
+  description: Automatic tuning options definition.
+  kind: object
+  properties:
+  - description: Automatic tuning properties for individual advisors.
+    types:
+    - uid: AutomaticTuningOptions
+    name: ''
+- name: DatabaseAutomaticTuning
+  description: Database-level Automatic Tuning.
+  kind: object
+  properties:
+  - description: Automatic tuning desired state.
+    types:
+    - uid: AutomaticTuningMode
+    name: properties.desiredState
+  - isReadyOnly: true
+    description: Automatic tuning actual state.
+    types:
+    - uid: AutomaticTuningMode
+    name: properties.actualState
+  - description: Automatic tuning options definition.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: AutomaticTuningOptions
+      uid: object
+    name: properties.options
+  - isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+- name: AutomaticTuningOptions
+  description: Automatic tuning properties for individual advisors.
+  kind: object
+  properties:
+  - description: Automatic tuning option desired state.
+    types:
+    - uid: AutomaticTuningOptionModeDesired
+    name: desiredState
+  - isReadyOnly: true
+    description: Automatic tuning option actual state.
+    types:
+    - uid: AutomaticTuningOptionModeActual
+    name: actualState
+  - isReadyOnly: true
+    description: Reason code if desired and actual state are different.
+    types:
+    - uid: integer
+    name: reasonCode
+  - isReadyOnly: true
+    description: Reason description if desired and actual state are different.
+    types:
+    - uid: AutomaticTuningDisabledReason
+    name: reasonDesc
 - name: AutomaticTuningMode
   description: Automatic tuning desired state.
   kind: enum
@@ -108,14 +175,6 @@ definitions:
   - types:
     - uid: string
     name: Unspecified
-- name: Options
-  description: Automatic tuning options definition.
-  kind: object
-  properties:
-  - description: Automatic tuning properties for individual advisors.
-    types:
-    - uid: AutomaticTuningOptions
-    name: ''
 - name: AutomaticTuningOptionModeDesired
   description: Automatic tuning option desired state.
   kind: enum
@@ -164,79 +223,107 @@ definitions:
   - types:
     - uid: string
     name: NotSupported
-- name: DatabaseAutomaticTuning
-  description: Database-level Automatic Tuning.
-  kind: object
-  properties:
-  - description: Automatic tuning desired state.
-    types:
-    - uid: AutomaticTuningMode
-    name: desiredState
-  - isReadyOnly: true
-    description: Automatic tuning actual state.
-    types:
-    - uid: AutomaticTuningMode
-    name: actualState
-  - description: Automatic tuning options definition.
-    types:
-    - isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: AutomaticTuningOptions
-      uid: object
-    name: options
-  - isReadyOnly: true
-    description: Resource ID.
-    types:
-    - uid: string
-    name: id
-  - isReadyOnly: true
-    description: Resource name.
-    types:
-    - uid: string
-    name: name
-  - isReadyOnly: true
-    description: Resource type.
-    types:
-    - uid: string
-    name: type
-- name: AutomaticTuningOptions
-  description: Automatic tuning properties for individual advisors.
-  kind: object
-  properties:
-  - description: Automatic tuning option desired state.
-    types:
-    - uid: AutomaticTuningOptionModeDesired
-    name: desiredState
-  - isReadyOnly: true
-    description: Automatic tuning option actual state.
-    types:
-    - uid: AutomaticTuningOptionModeActual
-    name: actualState
-  - isReadyOnly: true
-    description: Reason code if desired and actual state are different.
-    types:
-    - uid: integer
-    name: reasonCode
-  - isReadyOnly: true
-    description: Reason description if desired and actual state are different.
-    types:
-    - uid: AutomaticTuningDisabledReason
-    name: reasonDesc
 examples:
 - request:
     uri: PATCH https://management.azure.com/subscriptions/c3aa9078-0000-0000-0000-e36f151182d7/resourceGroups/default-sql-onebox/providers/Microsoft.Sql/servers/testsvr11/databases/db1/automaticTuning/current?api-version=2015-05-01-preview
-    requestBody: '{"properties":{"desiredState":"Auto"}}'
+    body: >-
+      {
+        "properties": {
+          "desiredState": "Auto"
+        }
+      }
   responses:
   - statusCode: "200"
-    body: '{"id":"/subscriptions/c3aa9078-0000-0000-0000-e36f151182d7/resourceGroups/default-sql-onebox/providers/Microsoft.Sql/servers/testsvr11/databases/db1/automaticTuning/current","name":"current","type":"Microsoft.Sql/servers/databases/automaticTuning","properties":{"desiredState":"Auto","actualState":"Auto","options":{"forceLastGoodPlan":{"desiredState":"Default","actualState":"On","reasonCode":2,"reasonDesc":"AutoConfigured"},"createIndex":{"desiredState":"Default","actualState":"On","reasonCode":2,"reasonDesc":"AutoConfigured"},"dropIndex":{"desiredState":"Default","actualState":"Off","reasonCode":2,"reasonDesc":"AutoConfigured"},"maintainIndex":{"desiredState":"Default","actualState":"Off","reasonCode":2,"reasonDesc":"AutoConfigured"}}}}'
+    body: >-
+      {
+        "id": "/subscriptions/c3aa9078-0000-0000-0000-e36f151182d7/resourceGroups/default-sql-onebox/providers/Microsoft.Sql/servers/testsvr11/databases/db1/automaticTuning/current",
+        "name": "current",
+        "type": "Microsoft.Sql/servers/databases/automaticTuning",
+        "properties": {
+          "desiredState": "Auto",
+          "actualState": "Auto",
+          "options": {
+            "forceLastGoodPlan": {
+              "desiredState": "Default",
+              "actualState": "On",
+              "reasonCode": 2,
+              "reasonDesc": "AutoConfigured"
+            },
+            "createIndex": {
+              "desiredState": "Default",
+              "actualState": "On",
+              "reasonCode": 2,
+              "reasonDesc": "AutoConfigured"
+            },
+            "dropIndex": {
+              "desiredState": "Default",
+              "actualState": "Off",
+              "reasonCode": 2,
+              "reasonDesc": "AutoConfigured"
+            },
+            "maintainIndex": {
+              "desiredState": "Default",
+              "actualState": "Off",
+              "reasonCode": 2,
+              "reasonDesc": "AutoConfigured"
+            }
+          }
+        }
+      }
   name: Updates database automatic tuning settings with minimal properties
 - request:
     uri: PATCH https://management.azure.com/subscriptions/c3aa9078-0000-0000-0000-e36f151182d7/resourceGroups/default-sql-onebox/providers/Microsoft.Sql/servers/testsvr11/databases/db1/automaticTuning/current?api-version=2015-05-01-preview
-    requestBody: '{"properties":{"desiredState":"Auto","options":{"createIndex":{"desiredState":"Off"},"dropIndex":{"desiredState":"On"},"forceLastGoodPlan":{"desiredState":"Default"}}}}'
+    body: >-
+      {
+        "properties": {
+          "desiredState": "Auto",
+          "options": {
+            "createIndex": {
+              "desiredState": "Off"
+            },
+            "dropIndex": {
+              "desiredState": "On"
+            },
+            "forceLastGoodPlan": {
+              "desiredState": "Default"
+            }
+          }
+        }
+      }
   responses:
   - statusCode: "200"
-    body: '{"id":"/subscriptions/c3aa9078-0000-0000-0000-e36f151182d7/resourceGroups/default-sql-onebox/providers/Microsoft.Sql/servers/testsvr11/databases/db1/automaticTuning/current","name":"current","type":"Microsoft.Sql/servers/databases/automaticTuning","properties":{"desiredState":"Auto","actualState":"Auto","options":{"forceLastGoodPlan":{"desiredState":"Default","actualState":"On","reasonCode":2,"reasonDesc":"AutoConfigured"},"createIndex":{"desiredState":"Off","actualState":"Off"},"dropIndex":{"desiredState":"On","actualState":"On"},"maintainIndex":{"desiredState":"Default","actualState":"Off","reasonCode":2,"reasonDesc":"AutoConfigured"}}}}'
+    body: >-
+      {
+        "id": "/subscriptions/c3aa9078-0000-0000-0000-e36f151182d7/resourceGroups/default-sql-onebox/providers/Microsoft.Sql/servers/testsvr11/databases/db1/automaticTuning/current",
+        "name": "current",
+        "type": "Microsoft.Sql/servers/databases/automaticTuning",
+        "properties": {
+          "desiredState": "Auto",
+          "actualState": "Auto",
+          "options": {
+            "forceLastGoodPlan": {
+              "desiredState": "Default",
+              "actualState": "On",
+              "reasonCode": 2,
+              "reasonDesc": "AutoConfigured"
+            },
+            "createIndex": {
+              "desiredState": "Off",
+              "actualState": "Off"
+            },
+            "dropIndex": {
+              "desiredState": "On",
+              "actualState": "On"
+            },
+            "maintainIndex": {
+              "desiredState": "Default",
+              "actualState": "Off",
+              "reasonCode": 2,
+              "reasonDesc": "AutoConfigured"
+            }
+          }
+        }
+      }
   name: Updates database automatic tuning settings with all properties
 security: []
 name: Update

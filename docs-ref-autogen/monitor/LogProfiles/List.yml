@@ -35,8 +35,7 @@ definitions:
   properties:
   - description: the values of the log profiles.
     types:
-    - isArray: true
-      uid: LogProfileResource
+    - uid: LogProfileResource
     name: value
 - name: LogProfileResource
   description: The log profile resource.
@@ -45,25 +44,23 @@ definitions:
   - description: the resource id of the storage account to which you would like to send the Activity Log.
     types:
     - uid: string
-    name: storageAccountId
+    name: properties.storageAccountId
   - description: "The service bus rule ID of the service bus namespace in which you would like to have Event Hubs created for streaming the Activity Log. The rule ID is of the format: '{service bus resource ID}/authorizationrules/{key name}'."
     types:
     - uid: string
-    name: serviceBusRuleId
+    name: properties.serviceBusRuleId
   - description: List of regions for which Activity Log events should be stored or streamed. It is a comma separated list of valid ARM locations including the 'global' location.
     types:
-    - isArray: true
-      uid: string
-    name: locations
+    - uid: string
+    name: properties.locations
   - description: "the categories of the logs. These categories are created as is convenient to the user. Some values are: 'Write', 'Delete', and/or 'Action.'"
     types:
-    - isArray: true
-      uid: string
-    name: categories
+    - uid: string
+    name: properties.categories
   - description: the retention policy for the events in the log.
     types:
     - uid: RetentionPolicy
-    name: retentionPolicy
+    name: properties.retentionPolicy
   - isReadyOnly: true
     description: Azure resource Id
     types:
@@ -92,7 +89,7 @@ definitions:
       uid: object
     name: tags
 - name: RetentionPolicy
-  description: the retention policy for the events in the log.
+  description: Specifies the retention policy for the log.
   kind: object
   properties:
   - description: a value indicating whether the retention policy is enabled.
@@ -108,7 +105,57 @@ examples:
     uri: GET https://management.azure.com/subscriptions/df602c9c-7aa0-407d-a6fb-eb20c8bd1192/providers/microsoft.insights/logprofiles?api-version=2016-03-01
   responses:
   - statusCode: "200"
-    body: '{"value":[{"id":"/subscriptions/df602c9c-7aa0-407d-a6fb-eb20c8bd1192/providers/microsoft.insights/logprofiles/default","type":"","name":"default","location":"","tags":null,"properties":{"storageAccountId":"/subscriptions/df602c9c-7aa0-407d-a6fb-eb20c8bd1192/resourceGroups/JohnKemTest/providers/Microsoft.Storage/storageAccounts/johnkemtest8162","serviceBusRuleId":"","locations":["global"],"categories":["Delete","Write","Action"],"retentionPolicy":{"enabled":true,"days":3}}},{"id":"/subscriptions/df602c9c-7aa0-407d-a6fb-eb20c8bd1192/providers/microsoft.insights/logprofiles/default2","type":"","name":"default2","location":"","tags":null,"properties":{"storageAccountId":"/subscriptions/df602c9c-7aa0-407d-a6fb-eb20c8bd1192/resourceGroups/JohnKemTest/providers/Microsoft.Storage/storageAccounts/johnkemtest8165","serviceBusRuleId":"","locations":["global"],"categories":["Delete","Write","Action"],"retentionPolicy":{"enabled":true,"days":15}}}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/df602c9c-7aa0-407d-a6fb-eb20c8bd1192/providers/microsoft.insights/logprofiles/default",
+            "type": "",
+            "name": "default",
+            "location": "",
+            "tags": null,
+            "properties": {
+              "storageAccountId": "/subscriptions/df602c9c-7aa0-407d-a6fb-eb20c8bd1192/resourceGroups/JohnKemTest/providers/Microsoft.Storage/storageAccounts/johnkemtest8162",
+              "serviceBusRuleId": "",
+              "locations": [
+                "global"
+              ],
+              "categories": [
+                "Delete",
+                "Write",
+                "Action"
+              ],
+              "retentionPolicy": {
+                "enabled": true,
+                "days": 3
+              }
+            }
+          },
+          {
+            "id": "/subscriptions/df602c9c-7aa0-407d-a6fb-eb20c8bd1192/providers/microsoft.insights/logprofiles/default2",
+            "type": "",
+            "name": "default2",
+            "location": "",
+            "tags": null,
+            "properties": {
+              "storageAccountId": "/subscriptions/df602c9c-7aa0-407d-a6fb-eb20c8bd1192/resourceGroups/JohnKemTest/providers/Microsoft.Storage/storageAccounts/johnkemtest8165",
+              "serviceBusRuleId": "",
+              "locations": [
+                "global"
+              ],
+              "categories": [
+                "Delete",
+                "Write",
+                "Action"
+              ],
+              "retentionPolicy": {
+                "enabled": true,
+                "days": 15
+              }
+            }
+          }
+        ]
+      }
   name: List log profiles
 security:
 - type: oauth2

@@ -79,6 +79,24 @@ requestBody:
     name: tags
 requestHeader: []
 definitions:
+- name: StorageAccountAttributes
+  description: The storage account management attributes.
+  kind: object
+  properties:
+  - description: the enabled state of the object.
+    types:
+    - uid: boolean
+    name: enabled
+  - isReadyOnly: true
+    description: Creation time in UTC.
+    types:
+    - uid: integer
+    name: created
+  - isReadyOnly: true
+    description: Last updated time in UTC.
+    types:
+    - uid: integer
+    name: updated
 - name: StorageBundle
   description: A Storage account bundle consists of key vault storage account details plus its attributes.
   kind: object
@@ -122,24 +140,6 @@ definitions:
       - uid: string
       uid: object
     name: tags
-- name: StorageAccountAttributes
-  description: The storage account attributes.
-  kind: object
-  properties:
-  - description: the enabled state of the object.
-    types:
-    - uid: boolean
-    name: enabled
-  - isReadyOnly: true
-    description: Creation time in UTC.
-    types:
-    - uid: integer
-    name: created
-  - isReadyOnly: true
-    description: Last updated time in UTC.
-    types:
-    - uid: integer
-    name: updated
 - name: KeyVaultError
   description: The key vault error exception.
   kind: object
@@ -149,8 +149,40 @@ definitions:
     types:
     - uid: Error
     name: error
+- name: StorageAccountCreateParameters
+  description: The storage account create parameters.
+  kind: object
+  properties:
+  - description: Storage account resource id.
+    types:
+    - uid: string
+    name: resourceId
+  - description: Current active storage account key name.
+    types:
+    - uid: string
+    name: activeKeyName
+  - description: whether keyvault should manage the storage account for the user.
+    types:
+    - uid: boolean
+    name: autoRegenerateKey
+  - description: The key regeneration time duration specified in ISO-8601 format.
+    types:
+    - uid: string
+    name: regenerationPeriod
+  - description: The attributes of the storage account.
+    types:
+    - uid: StorageAccountAttributes
+    name: attributes
+  - description: Application specific metadata in the form of key-value pairs.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
 - name: Error
-  description: The key vault server error.
+  description: Error encountered, if any, during the certificate operation.
   kind: object
   properties:
   - isReadyOnly: true
@@ -169,11 +201,40 @@ definitions:
 examples:
 - request:
     uri: PUT https://{vaultBaseUrl}/storage/setStrg01?api-version=2016-10-01
-    requestBody: '{"resourceId":"/subscriptions/{subId}/resourceGroups/{rgName}/providers/Microsoft.Storage/storageAccounts/kvstorageacc","activeKeyName":"key2","autoRegenerateKey":true,"regenerationPeriod":"P15D","attributes":{"enabled":true},"tags":{"tag1":"val1","tag2":"val2"}}'
+    body: >-
+      {
+        "resourceId": "/subscriptions/{subId}/resourceGroups/{rgName}/providers/Microsoft.Storage/storageAccounts/kvstorageacc",
+        "activeKeyName": "key2",
+        "autoRegenerateKey": true,
+        "regenerationPeriod": "P15D",
+        "attributes": {
+          "enabled": true
+        },
+        "tags": {
+          "tag1": "val1",
+          "tag2": "val2"
+        }
+      }
   responses:
   - statusCode: "200"
-    body: '{"id":"https://storage-sdk-test.vault-int.azure-int.net/storage/setStrg01","resourceId":"/subscriptions/{subId}/resourceGroups/{rgName}/providers/Microsoft.Storage/storageAccounts/kvstorageacc","activeKeyName":"key2","autoRegenerateKey":true,"regenerationPeriod":"P15D","attributes":{"enabled":true,"created":1490738386,"updated":1490738386},"tags":{"tag1":"val1","tag2":"val2"}}'
+    body: >-
+      {
+        "id": "https://storage-sdk-test.vault-int.azure-int.net/storage/setStrg01",
+        "resourceId": "/subscriptions/{subId}/resourceGroups/{rgName}/providers/Microsoft.Storage/storageAccounts/kvstorageacc",
+        "activeKeyName": "key2",
+        "autoRegenerateKey": true,
+        "regenerationPeriod": "P15D",
+        "attributes": {
+          "enabled": true,
+          "created": 1490738386,
+          "updated": 1490738386
+        },
+        "tags": {
+          "tag1": "val1",
+          "tag2": "val2"
+        }
+      }
   name: Set Storage account
 security: []
 name: SetStorageAccount
-uid: .keyvault.setstorageaccount.setstorageaccount
+uid: keyvault.setstorageaccount.setstorageaccount

@@ -55,22 +55,22 @@ requestBody:
     description: Group name.
     types:
     - uid: string
-    name: displayName
+    name: properties.displayName
   - in: body
     description: Group description.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - in: body
     description: Group type.
     types:
     - uid: GroupType
-    name: type
+    name: properties.type
   - in: body
     description: Identifier of the external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null.
     types:
     - uid: string
-    name: externalId
+    name: properties.externalId
 requestHeader:
 - in: header
   isRequired: true
@@ -79,19 +79,6 @@ requestHeader:
   - uid: string
   name: If-Match
 definitions:
-- name: GroupType
-  description: Group type.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: custom
-  - types:
-    - uid: string
-    name: system
-  - types:
-    - uid: string
-    name: external
 - name: ErrorResponse
   description: Error Body contract.
   kind: object
@@ -106,9 +93,28 @@ definitions:
     name: message
   - description: The list of invalid fields send in request, in case of validation error.
     types:
-    - isArray: true
-      uid: ErrorFieldContract
+    - uid: ErrorFieldContract
     name: details
+- name: GroupUpdateParameters
+  description: Parameters supplied to the Update Group operation.
+  kind: object
+  properties:
+  - description: Group name.
+    types:
+    - uid: string
+    name: properties.displayName
+  - description: Group description.
+    types:
+    - uid: string
+    name: properties.description
+  - description: Group type.
+    types:
+    - uid: GroupType
+    name: properties.type
+  - description: Identifier of the external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null.
+    types:
+    - uid: string
+    name: properties.externalId
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
@@ -125,10 +131,28 @@ definitions:
     types:
     - uid: string
     name: target
+- name: GroupType
+  description: Group type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: custom
+  - types:
+    - uid: string
+    name: system
+  - types:
+    - uid: string
+    name: external
 examples:
 - request:
     uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/groups/tempgroup?api-version=2017-03-01
-    requestBody: '{"properties":{"displayName":"temp group"}}'
+    body: >-
+      {
+        "properties": {
+          "displayName": "temp group"
+        }
+      }
     headers:
     - value: '*'
       name: If-Match

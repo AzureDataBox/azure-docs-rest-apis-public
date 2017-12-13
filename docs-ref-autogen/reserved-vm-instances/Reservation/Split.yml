@@ -41,14 +41,13 @@ requestBody:
   - in: body
     description: List of the quantities in the new reservations to create.
     types:
-    - isArray: true
-      uid: integer
-    name: quantities
+    - uid: integer
+    name: properties.quantities
   - in: body
     description: Resource id of the reservation to be split. Format of the resource id should be /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}
     types:
     - uid: string
-    name: reservationId
+    name: properties.reservationId
 requestHeader: []
 definitions:
 - name: ReservationResponse
@@ -86,6 +85,23 @@ definitions:
     types:
     - uid: string
     name: type
+- name: Error
+  kind: object
+  properties:
+  - types:
+    - uid: ExtendedErrorInfo
+    name: error
+- name: SplitRequest
+  kind: object
+  properties:
+  - description: List of the quantities in the new reservations to create.
+    types:
+    - uid: integer
+    name: properties.quantities
+  - description: Resource id of the reservation to be split. Format of the resource id should be /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}
+    types:
+    - uid: string
+    name: properties.reservationId
 - name: Location
   description: Location in which the Resources needs to be reserved. It cannot be changed after the resource has been created.
   kind: enum
@@ -184,8 +200,7 @@ definitions:
     name: displayName
   - description: List of the subscriptions that the benefit will be applied. Do not specify if AppliedScopeType is Shared.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: appliedScopes
   - description: Type of the Applied Scope.
     types:
@@ -221,6 +236,15 @@ definitions:
   - types:
     - uid: ReservationMergeProperties
     name: mergeProperties
+- name: ExtendedErrorInfo
+  kind: object
+  properties:
+  - types:
+    - uid: ErrorResponseCode
+    name: code
+  - types:
+    - uid: string
+    name: message
 - name: AppliedScopeType
   description: Type of the Applied Scope.
   kind: enum
@@ -284,43 +308,12 @@ definitions:
     types:
     - uid: string
     name: message
-- name: ReservationStatusCode
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: None
-  - types:
-    - uid: string
-    name: Pending
-  - types:
-    - uid: string
-    name: Active
-  - types:
-    - uid: string
-    name: PurchaseError
-  - types:
-    - uid: string
-    name: PaymentInstrumentError
-  - types:
-    - uid: string
-    name: Split
-  - types:
-    - uid: string
-    name: Merged
-  - types:
-    - uid: string
-    name: Expired
-  - types:
-    - uid: string
-    name: Succeeded
 - name: ReservationSplitProperties
   kind: object
   properties:
   - description: List of destination Resource Id that are created due to split. Format of the resource Id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: splitDestinations
   - description: Resource Id of the Reservation from which this is split. Format of the resource Id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}
     types:
@@ -335,24 +328,8 @@ definitions:
     name: mergeDestination
   - description: Resource Ids of the Source Reservation's merged to form this Reservation. Format of the resource Id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}
     types:
-    - isArray: true
-      uid: string
-    name: mergeSources
-- name: Error
-  kind: object
-  properties:
-  - types:
-    - uid: ExtendedErrorInfo
-    name: error
-- name: ExtendedErrorInfo
-  kind: object
-  properties:
-  - types:
-    - uid: ErrorResponseCode
-    name: code
-  - types:
     - uid: string
-    name: message
+    name: mergeSources
 - name: ErrorResponseCode
   kind: enum
   properties:
@@ -521,13 +498,136 @@ definitions:
   - types:
     - uid: string
     name: CalculatePriceFailed
+- name: ReservationStatusCode
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: None
+  - types:
+    - uid: string
+    name: Pending
+  - types:
+    - uid: string
+    name: Active
+  - types:
+    - uid: string
+    name: PurchaseError
+  - types:
+    - uid: string
+    name: PaymentInstrumentError
+  - types:
+    - uid: string
+    name: Split
+  - types:
+    - uid: string
+    name: Merged
+  - types:
+    - uid: string
+    name: Expired
+  - types:
+    - uid: string
+    name: Succeeded
 examples:
 - request:
     uri: POST https://management.azure.com/providers/Microsoft.Capacity/reservationOrders/276e7ae4-84d0-4da6-ab4b-d6b94f3557da/split?api-version=2017-11-01
-    requestBody: '{"properties":{"quantities":[1,2],"reservationId":"/providers/Microsoft.Capacity/reservationOrders/276e7ae4-84d0-4da6-ab4b-d6b94f3557da/reservations/bcae77cd-3119-4766-919f-b50d36c75c7a"}}'
+    body: >-
+      {
+        "properties": {
+          "quantities": [
+            1,
+            2
+          ],
+          "reservationId": "/providers/Microsoft.Capacity/reservationOrders/276e7ae4-84d0-4da6-ab4b-d6b94f3557da/reservations/bcae77cd-3119-4766-919f-b50d36c75c7a"
+        }
+      }
   responses:
   - statusCode: "200"
-    body: '[{"sku":{"name":"Standard_DS1_v2"},"id":"/providers/microsoft.capacity/reservationOrders/276e7ae4-84d0-4da6-ab4b-d6b94f3557da/reservations/00238563-7312-4c20-a134-8c030bf938a7","type":"Microsoft.Capacity/reservationOrders/reservations","name":"276e7ae4-84d0-4da6-ab4b-d6b94f3557da/00238563-7312-4c20-a134-8c030bf938a7","etag":2,"location":"eastus","properties":{"appliedScopes":["/subscriptions/98df3792-7962-4f18-8be2-d5576f122de3"],"appliedScopeType":"Single","quantity":1,"provisioningState":"Succeeded","expiryDate":"2018-09-22","displayName":"cabri_test","effectiveDateTime":"2017-09-22T01:00:30.9253826Z","lastUpdatedDateTime":"2017-09-22T01:00:36.3191627Z","splitProperties":{"splitSource":"/providers/microsoft.capacity/reservationOrders/276e7ae4-84d0-4da6-ab4b-d6b94f3557da/reservations/bcae77cd-3119-4766-919f-b50d36c75c7a"}}},{"sku":{"name":"Standard_DS1_v2"},"id":"/providers/microsoft.capacity/reservationOrders/276e7ae4-84d0-4da6-ab4b-d6b94f3557da/reservations/e0e4b4f5-77ea-4984-9ee4-6bf9850ee6de","type":"Microsoft.Capacity/reservationOrders/reservations","name":"276e7ae4-84d0-4da6-ab4b-d6b94f3557da/e0e4b4f5-77ea-4984-9ee4-6bf9850ee6de","etag":2,"location":"eastus","properties":{"appliedScopes":["/subscriptions/98df3792-7962-4f18-8be2-d5576f122de3"],"appliedScopeType":"Single","quantity":2,"provisioningState":"Succeeded","expiryDate":"2018-09-22","displayName":"cabri_test","effectiveDateTime":"2017-09-22T01:00:30.9253826Z","lastUpdatedDateTime":"2017-09-22T01:00:36.3191627Z","splitProperties":{"splitSource":"/providers/microsoft.capacity/reservationOrders/276e7ae4-84d0-4da6-ab4b-d6b94f3557da/reservations/bcae77cd-3119-4766-919f-b50d36c75c7a"}}},{"sku":{"name":"Standard_DS1_v2"},"id":"/providers/microsoft.capacity/reservationOrders/276e7ae4-84d0-4da6-ab4b-d6b94f3557da/reservations/bcae77cd-3119-4766-919f-b50d36c75c7a","type":"Microsoft.Capacity/reservationOrders/reservations","name":"276e7ae4-84d0-4da6-ab4b-d6b94f3557da/bcae77cd-3119-4766-919f-b50d36c75c7a","etag":10,"location":"eastus","properties":{"appliedScopes":["/subscriptions/98df3792-7962-4f18-8be2-d5576f122de3"],"appliedScopeType":"Single","quantity":3,"provisioningState":"Cancelled","expiryDate":"2018-09-22","displayName":"cabri_test","effectiveDateTime":"2017-09-22T01:00:30.9253826Z","extendedStatusInfo":{"statusCode":"Split","message":"This reservation was split and is no longer active."},"lastUpdatedDateTime":"2017-09-22T01:00:36.3191627Z","splitProperties":{"splitDestinations":["/providers/microsoft.capacity/reservationOrders/276e7ae4-84d0-4da6-ab4b-d6b94f3557da/reservations/00238563-7312-4c20-a134-8c030bf938a7","/providers/microsoft.capacity/reservationOrders/276e7ae4-84d0-4da6-ab4b-d6b94f3557da/reservations/e0e4b4f5-77ea-4984-9ee4-6bf9850ee6de"]}}}]'
+    body: >-
+      [
+        {
+          "sku": {
+            "name": "Standard_DS1_v2"
+          },
+          "id": "/providers/microsoft.capacity/reservationOrders/276e7ae4-84d0-4da6-ab4b-d6b94f3557da/reservations/00238563-7312-4c20-a134-8c030bf938a7",
+          "type": "Microsoft.Capacity/reservationOrders/reservations",
+          "name": "276e7ae4-84d0-4da6-ab4b-d6b94f3557da/00238563-7312-4c20-a134-8c030bf938a7",
+          "etag": 2,
+          "location": "eastus",
+          "properties": {
+            "appliedScopes": [
+              "/subscriptions/98df3792-7962-4f18-8be2-d5576f122de3"
+            ],
+            "appliedScopeType": "Single",
+            "quantity": 1,
+            "provisioningState": "Succeeded",
+            "expiryDate": "2018-09-22",
+            "displayName": "cabri_test",
+            "effectiveDateTime": "2017-09-22T01:00:30.9253826Z",
+            "lastUpdatedDateTime": "2017-09-22T01:00:36.3191627Z",
+            "splitProperties": {
+              "splitSource": "/providers/microsoft.capacity/reservationOrders/276e7ae4-84d0-4da6-ab4b-d6b94f3557da/reservations/bcae77cd-3119-4766-919f-b50d36c75c7a"
+            }
+          }
+        },
+        {
+          "sku": {
+            "name": "Standard_DS1_v2"
+          },
+          "id": "/providers/microsoft.capacity/reservationOrders/276e7ae4-84d0-4da6-ab4b-d6b94f3557da/reservations/e0e4b4f5-77ea-4984-9ee4-6bf9850ee6de",
+          "type": "Microsoft.Capacity/reservationOrders/reservations",
+          "name": "276e7ae4-84d0-4da6-ab4b-d6b94f3557da/e0e4b4f5-77ea-4984-9ee4-6bf9850ee6de",
+          "etag": 2,
+          "location": "eastus",
+          "properties": {
+            "appliedScopes": [
+              "/subscriptions/98df3792-7962-4f18-8be2-d5576f122de3"
+            ],
+            "appliedScopeType": "Single",
+            "quantity": 2,
+            "provisioningState": "Succeeded",
+            "expiryDate": "2018-09-22",
+            "displayName": "cabri_test",
+            "effectiveDateTime": "2017-09-22T01:00:30.9253826Z",
+            "lastUpdatedDateTime": "2017-09-22T01:00:36.3191627Z",
+            "splitProperties": {
+              "splitSource": "/providers/microsoft.capacity/reservationOrders/276e7ae4-84d0-4da6-ab4b-d6b94f3557da/reservations/bcae77cd-3119-4766-919f-b50d36c75c7a"
+            }
+          }
+        },
+        {
+          "sku": {
+            "name": "Standard_DS1_v2"
+          },
+          "id": "/providers/microsoft.capacity/reservationOrders/276e7ae4-84d0-4da6-ab4b-d6b94f3557da/reservations/bcae77cd-3119-4766-919f-b50d36c75c7a",
+          "type": "Microsoft.Capacity/reservationOrders/reservations",
+          "name": "276e7ae4-84d0-4da6-ab4b-d6b94f3557da/bcae77cd-3119-4766-919f-b50d36c75c7a",
+          "etag": 10,
+          "location": "eastus",
+          "properties": {
+            "appliedScopes": [
+              "/subscriptions/98df3792-7962-4f18-8be2-d5576f122de3"
+            ],
+            "appliedScopeType": "Single",
+            "quantity": 3,
+            "provisioningState": "Cancelled",
+            "expiryDate": "2018-09-22",
+            "displayName": "cabri_test",
+            "effectiveDateTime": "2017-09-22T01:00:30.9253826Z",
+            "extendedStatusInfo": {
+              "statusCode": "Split",
+              "message": "This reservation was split and is no longer active."
+            },
+            "lastUpdatedDateTime": "2017-09-22T01:00:36.3191627Z",
+            "splitProperties": {
+              "splitDestinations": [
+                "/providers/microsoft.capacity/reservationOrders/276e7ae4-84d0-4da6-ab4b-d6b94f3557da/reservations/00238563-7312-4c20-a134-8c030bf938a7",
+                "/providers/microsoft.capacity/reservationOrders/276e7ae4-84d0-4da6-ab4b-d6b94f3557da/reservations/e0e4b4f5-77ea-4984-9ee4-6bf9850ee6de"
+              ]
+            }
+          }
+        }
+      ]
   - statusCode: "202"
     body: "\"\""
   name: Split

@@ -43,25 +43,24 @@ definitions:
   properties:
   - description: A collection of event types
     types:
-    - isArray: true
-      uid: EventType
+    - uid: EventType
     name: value
 - name: EventType
-  description: Event Type for a subject under a topic
+  description: A collection of event types
   kind: object
   properties:
   - description: Display name of the event type.
     types:
     - uid: string
-    name: displayName
+    name: properties.displayName
   - description: Description of the event type.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - description: Url of the schema for this event type.
     types:
     - uid: string
-    name: schemaUrl
+    name: properties.schemaUrl
   - isReadyOnly: true
     description: Fully qualified identifier of the resource
     types:
@@ -82,7 +81,31 @@ examples:
     uri: GET https://management.azure.com/providers/Microsoft.EventGrid/topicTypes/Microsoft.Storage.StorageAccounts/eventTypes?api-version=2017-06-15-preview
   responses:
   - statusCode: "200"
-    body: '{"value":[{"properties":{"displayName":"Blob Created","description":"Raised when a blob is created.","schemaUrl":"tbd"},"id":"providers/Microsoft.EventGrid/topicTypes/Microsoft.Storage.StorageAccounts/eventTypes/Microsoft.Storage.BlobCreated","name":"Microsoft.Storage.BlobCreated","type":"Microsoft.EventGrid/topicTypes/eventTypes"},{"properties":{"description":"Raised when a blob is deleted.","schemaUrl":"tbd","displayName":"Blob Deleted"},"id":"providers/Microsoft.EventGrid/topicTypes/Microsoft.Storage.StorageAccounts/eventTypes/Microsoft.Storage.BlobDeleted","name":"Microsoft.Storage.BlobDeleted","type":"Microsoft.EventGrid/topicTypes/eventTypes"}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "displayName": "Blob Created",
+              "description": "Raised when a blob is created.",
+              "schemaUrl": "tbd"
+            },
+            "id": "providers/Microsoft.EventGrid/topicTypes/Microsoft.Storage.StorageAccounts/eventTypes/Microsoft.Storage.BlobCreated",
+            "name": "Microsoft.Storage.BlobCreated",
+            "type": "Microsoft.EventGrid/topicTypes/eventTypes"
+          },
+          {
+            "properties": {
+              "description": "Raised when a blob is deleted.",
+              "schemaUrl": "tbd",
+              "displayName": "Blob Deleted"
+            },
+            "id": "providers/Microsoft.EventGrid/topicTypes/Microsoft.Storage.StorageAccounts/eventTypes/Microsoft.Storage.BlobDeleted",
+            "name": "Microsoft.Storage.BlobDeleted",
+            "type": "Microsoft.EventGrid/topicTypes/eventTypes"
+          }
+        ]
+      }
   name: TopicTypes_ListEventTypes
 security: []
 name: ListEventTypes

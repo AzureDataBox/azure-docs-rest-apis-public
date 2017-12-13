@@ -36,8 +36,7 @@ definitions:
   properties:
   - description: Gets or sets the list of Storage Resource Usages.
     types:
-    - isArray: true
-      uid: Usage
+    - uid: Usage
     name: value
 - name: Usage
   description: Describes Storage Resource Usage.
@@ -86,7 +85,7 @@ definitions:
     - uid: string
     name: BytesPerSecond
 - name: UsageName
-  description: Gets the name of the type of usage.
+  description: The usage names that can be used; currently limited to StorageAccount.
   kind: object
   properties:
   - isReadyOnly: true
@@ -104,7 +103,20 @@ examples:
     uri: GET https://management.azure.com/subscriptions/27de630f-e1ee-42de-8849-90def4986454/providers/Microsoft.Storage/usages?api-version=2017-06-01
   responses:
   - statusCode: "200"
-    body: '{"value":[{"unit":"Count","currentValue":51,"limit":250,"name":{"value":"StorageAccounts","localizedValue":"Storage Accounts"}}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "unit": "Count",
+            "currentValue": 51,
+            "limit": 250,
+            "name": {
+              "value": "StorageAccounts",
+              "localizedValue": "Storage Accounts"
+            }
+          }
+        ]
+      }
   name: UsageList
 security:
 - type: oauth2

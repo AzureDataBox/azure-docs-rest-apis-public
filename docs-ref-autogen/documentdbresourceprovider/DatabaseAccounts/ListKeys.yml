@@ -60,18 +60,26 @@ definitions:
     description: Base 64 encoded value of the primary read-only key.
     types:
     - uid: string
-    name: primaryReadonlyMasterKey
+    name: properties.primaryReadonlyMasterKey
   - isReadyOnly: true
     description: Base 64 encoded value of the secondary read-only key.
     types:
     - uid: string
-    name: secondaryReadonlyMasterKey
+    name: properties.secondaryReadonlyMasterKey
 examples:
 - request:
     uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1/listKeys?api-version=2015-04-08
   responses:
   - statusCode: "200"
-    body: '{"primaryMasterKey":"primaryMasterKey","secondaryMasterKey":"secondaryMasterKey","properties":{"primaryReadonlyMasterKey":"primaryReadonlyMasterKey","secondaryReadonlyMasterKey":"secondaryReadonlyMasterKey"}}'
+    body: >-
+      {
+        "primaryMasterKey": "primaryMasterKey",
+        "secondaryMasterKey": "secondaryMasterKey",
+        "properties": {
+          "primaryReadonlyMasterKey": "primaryReadonlyMasterKey",
+          "secondaryReadonlyMasterKey": "secondaryReadonlyMasterKey"
+        }
+      }
   name: CosmosDBDatabaseAccountListKeys
 security:
 - type: oauth2

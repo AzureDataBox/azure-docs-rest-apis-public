@@ -54,17 +54,17 @@ requestBody:
     description: Represents the type of StorSimple Manager.
     types:
     - uid: ManagerIntrinsicSettings
-    name: cisIntrinsicSettings
+    name: properties.cisIntrinsicSettings
   - in: body
     description: Specifies the Sku.
     types:
     - uid: ManagerSku
-    name: sku
+    name: properties.sku
   - in: body
     description: Specifies the state of the resource as it is getting provisioned. Value of "Succeeded" means the Manager was successfully created.
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - in: body
     isRequired: true
     description: The geo location of the resource.
@@ -82,23 +82,22 @@ requestBody:
     name: tags
 requestHeader: []
 definitions:
-- name: ManagerType
-  description: The type of StorSimple Manager.
-  kind: enum
+- name: ManagerIntrinsicSettings
+  description: Represents the type of StorSimple Manager.
+  kind: object
   properties:
-  - types:
-    - uid: string
-    name: GardaV1
-  - types:
-    - uid: string
-    name: HelsinkiV1
-- name: ManagerSkuType
-  description: Refers to the sku name which should be "Standard"
-  kind: enum
+  - description: The type of StorSimple Manager.
+    types:
+    - uid: ManagerType
+    name: type
+- name: ManagerSku
+  description: Specifies the Sku.
+  kind: object
   properties:
-  - types:
-    - uid: string
-    name: Standard
+  - description: Refers to the sku name which should be "Standard"
+    types:
+    - uid: ManagerSkuType
+    name: name
 - name: Manager
   description: The StorSimple Manager.
   kind: object
@@ -110,15 +109,15 @@ definitions:
   - description: Represents the type of StorSimple Manager.
     types:
     - uid: ManagerIntrinsicSettings
-    name: cisIntrinsicSettings
+    name: properties.cisIntrinsicSettings
   - description: Specifies the Sku.
     types:
     - uid: ManagerSku
-    name: sku
+    name: properties.sku
   - description: Specifies the state of the resource as it is getting provisioned. Value of "Succeeded" means the Manager was successfully created.
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: The resource ID.
     types:
@@ -146,31 +145,75 @@ definitions:
       - uid: string
       uid: object
     name: tags
-- name: ManagerIntrinsicSettings
-  description: Represents the type of StorSimple Manager.
-  kind: object
+- name: ManagerType
+  description: The type of StorSimple Manager.
+  kind: enum
   properties:
-  - description: The type of StorSimple Manager.
-    types:
-    - uid: ManagerType
-    name: type
-- name: ManagerSku
-  description: Specifies the Sku.
-  kind: object
+  - types:
+    - uid: string
+    name: GardaV1
+  - types:
+    - uid: string
+    name: HelsinkiV1
+- name: ManagerSkuType
+  description: Refers to the sku name which should be "Standard"
+  kind: enum
   properties:
-  - description: Refers to the sku name which should be "Standard"
-    types:
-    - uid: ManagerSkuType
-    name: name
+  - types:
+    - uid: string
+    name: Standard
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest2?api-version=2017-06-01
-    requestBody: '{"properties":{"cisIntrinsicSettings":{"type":"GardaV1"},"sku":{"name":"Standard"}},"location":"westus"}'
+    body: >-
+      {
+        "properties": {
+          "cisIntrinsicSettings": {
+            "type": "GardaV1"
+          },
+          "sku": {
+            "name": "Standard"
+          }
+        },
+        "location": "westus"
+      }
   responses:
   - statusCode: "201"
-    body: "{\"location\":\"westus\",\"name\":\"ManagerForSDKTest2\",\"etag\":\"W/\\\"datetime'2017-06-18T16%3A13%3A18.5925197Z'\\\"\",\"properties\":{\"cisIntrinsicSettings\":{\"type\":\"GardaV1\"},\"sku\":{\"name\":\"Standard\"},\"provisioningState\":\"Succeeded\"},\"id\":\"/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/Managers/ManagerForSDKTest2\",\"type\":\"Microsoft.StorSimple/Managers\"}"
+    body: >-
+      {
+        "location": "westus",
+        "name": "ManagerForSDKTest2",
+        "etag": "W/\"datetime'2017-06-18T16%3A13%3A18.5925197Z'\"",
+        "properties": {
+          "cisIntrinsicSettings": {
+            "type": "GardaV1"
+          },
+          "sku": {
+            "name": "Standard"
+          },
+          "provisioningState": "Succeeded"
+        },
+        "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/Managers/ManagerForSDKTest2",
+        "type": "Microsoft.StorSimple/Managers"
+      }
   - statusCode: "200"
-    body: "{\"location\":\"westus\",\"name\":\"ManagerForSDKTest2\",\"etag\":\"W/\\\"datetime'2017-06-19T16%3A13%3A18.5925197Z'\\\"\",\"properties\":{\"cisIntrinsicSettings\":{\"type\":\"GardaV1\"},\"sku\":{\"name\":\"Standard\"},\"provisioningState\":\"Succeeded\"},\"id\":\"/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/Managers/ManagerForSDKTest2\",\"type\":\"Microsoft.StorSimple/Managers\"}"
+    body: >-
+      {
+        "location": "westus",
+        "name": "ManagerForSDKTest2",
+        "etag": "W/\"datetime'2017-06-19T16%3A13%3A18.5925197Z'\"",
+        "properties": {
+          "cisIntrinsicSettings": {
+            "type": "GardaV1"
+          },
+          "sku": {
+            "name": "Standard"
+          },
+          "provisioningState": "Succeeded"
+        },
+        "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/Managers/ManagerForSDKTest2",
+        "type": "Microsoft.StorSimple/Managers"
+      }
   name: ManagersCreateOrUpdate
 security:
 - type: oauth2

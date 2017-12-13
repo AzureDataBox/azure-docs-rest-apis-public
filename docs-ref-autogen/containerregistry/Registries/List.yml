@@ -35,8 +35,7 @@ definitions:
   properties:
   - description: The list of container registries. Since this list may be incomplete, the nextLink field should be used to request the next list of container registries.
     types:
-    - isArray: true
-      uid: Registry
+    - uid: Registry
     name: value
   - description: The URI that can be used to request the next list of container registries.
     types:
@@ -54,30 +53,30 @@ definitions:
     description: The URL that can be used to log into the container registry.
     types:
     - uid: string
-    name: loginServer
+    name: properties.loginServer
   - isReadyOnly: true
     description: The creation date of the container registry in ISO8601 format.
     types:
     - uid: string
-    name: creationDate
+    name: properties.creationDate
   - isReadyOnly: true
     description: The provisioning state of the container registry at the time the operation was called.
     types:
     - uid: ProvisioningState
-    name: provisioningState
+    name: properties.provisioningState
   - isReadyOnly: true
     description: The status of the container registry at the time the operation was called.
     types:
     - uid: Status
-    name: status
+    name: properties.status
   - description: The value that indicates whether the admin user is enabled.
     types:
     - uid: boolean
-    name: adminUserEnabled
+    name: properties.adminUserEnabled
   - description: The properties of the storage account for the container registry. Only applicable to Classic SKU.
     types:
     - uid: StorageAccountProperties
-    name: storageAccount
+    name: properties.storageAccount
   - isReadyOnly: true
     description: The resource ID.
     types:
@@ -118,38 +117,6 @@ definitions:
     types:
     - uid: SkuTier
     name: tier
-- name: SkuName
-  description: The SKU name of the container registry. Required for registry creation.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Classic
-  - types:
-    - uid: string
-    name: Basic
-  - types:
-    - uid: string
-    name: Standard
-  - types:
-    - uid: string
-    name: Premium
-- name: SkuTier
-  description: The SKU tier based on the SKU name.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Classic
-  - types:
-    - uid: string
-    name: Basic
-  - types:
-    - uid: string
-    name: Standard
-  - types:
-    - uid: string
-    name: Premium
 - name: ProvisioningState
   description: The provisioning state of the container registry at the time the operation was called.
   kind: enum
@@ -199,12 +166,72 @@ definitions:
     types:
     - uid: string
     name: id
+- name: SkuName
+  description: The SKU name of the container registry. Required for registry creation.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Classic
+  - types:
+    - uid: string
+    name: Basic
+  - types:
+    - uid: string
+    name: Standard
+  - types:
+    - uid: string
+    name: Premium
+- name: SkuTier
+  description: The SKU tier based on the SKU name.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Classic
+  - types:
+    - uid: string
+    name: Basic
+  - types:
+    - uid: string
+    name: Standard
+  - types:
+    - uid: string
+    name: Premium
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerRegistry/registries?api-version=2017-10-01
   responses:
   - statusCode: "200"
-    body: '{"value":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry","name":"myRegistry","type":"Microsoft.ContainerRegistry/registries","location":"westus","tags":{"key":"value"},"sku":{"name":"Standard","tier":"Standard"},"properties":{"loginServer":"myregistry.azurecr.io","creationDate":"2017-03-01T23:14:37.0707808Z","provisioningState":"Succeeded","status":{"displayStatus":"Ready","message":"The registry is ready.","timestamp":"2017-03-01T23:15:37.0707808Z"},"adminUserEnabled":true}}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry",
+            "name": "myRegistry",
+            "type": "Microsoft.ContainerRegistry/registries",
+            "location": "westus",
+            "tags": {
+              "key": "value"
+            },
+            "sku": {
+              "name": "Standard",
+              "tier": "Standard"
+            },
+            "properties": {
+              "loginServer": "myregistry.azurecr.io",
+              "creationDate": "2017-03-01T23:14:37.0707808Z",
+              "provisioningState": "Succeeded",
+              "status": {
+                "displayStatus": "Ready",
+                "message": "The registry is ready.",
+                "timestamp": "2017-03-01T23:15:37.0707808Z"
+              },
+              "adminUserEnabled": true
+            }
+          }
+        ]
+      }
   name: RegistryList
 security:
 - type: oauth2

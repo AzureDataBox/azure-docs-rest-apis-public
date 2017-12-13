@@ -55,52 +55,52 @@ requestBody:
     description: The artifact source's display name.
     types:
     - uid: string
-    name: displayName
+    name: properties.displayName
   - in: body
     description: The artifact source's URI.
     types:
     - uid: string
-    name: uri
+    name: properties.uri
   - in: body
     description: The artifact source's type.
     types:
     - uid: SourceControlType
-    name: sourceType
+    name: properties.sourceType
   - in: body
     description: The folder containing artifacts.
     types:
     - uid: string
-    name: folderPath
+    name: properties.folderPath
   - in: body
     description: The folder containing Azure Resource Manager templates.
     types:
     - uid: string
-    name: armTemplateFolderPath
+    name: properties.armTemplateFolderPath
   - in: body
     description: The artifact source's branch reference.
     types:
     - uid: string
-    name: branchRef
+    name: properties.branchRef
   - in: body
     description: The security token to authenticate to the artifact source.
     types:
     - uid: string
-    name: securityToken
+    name: properties.securityToken
   - in: body
     description: 'Indicates if the artifact source is enabled (values: Enabled, Disabled).'
     types:
     - uid: EnableStatus
-    name: status
+    name: properties.status
   - in: body
     description: The provisioning status of the resource.
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - in: body
     description: The unique immutable identifier of a resource (Guid).
     types:
     - uid: string
-    name: uniqueIdentifier
+    name: properties.uniqueIdentifier
   - in: body
     description: The location of the resource.
     types:
@@ -117,26 +117,6 @@ requestBody:
     name: tags
 requestHeader: []
 definitions:
-- name: SourceControlType
-  description: The artifact source's type.
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: VsoGit
-  - types:
-    - uid: string
-    name: GitHub
-- name: EnableStatus
-  description: 'Indicates if the artifact source is enabled (values: Enabled, Disabled).'
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Enabled
-  - types:
-    - uid: string
-    name: Disabled
 - name: ArtifactSource
   description: Properties of an artifact source.
   kind: object
@@ -144,48 +124,48 @@ definitions:
   - description: The artifact source's display name.
     types:
     - uid: string
-    name: displayName
+    name: properties.displayName
   - description: The artifact source's URI.
     types:
     - uid: string
-    name: uri
+    name: properties.uri
   - description: The artifact source's type.
     types:
     - uid: SourceControlType
-    name: sourceType
+    name: properties.sourceType
   - description: The folder containing artifacts.
     types:
     - uid: string
-    name: folderPath
+    name: properties.folderPath
   - description: The folder containing Azure Resource Manager templates.
     types:
     - uid: string
-    name: armTemplateFolderPath
+    name: properties.armTemplateFolderPath
   - description: The artifact source's branch reference.
     types:
     - uid: string
-    name: branchRef
+    name: properties.branchRef
   - description: The security token to authenticate to the artifact source.
     types:
     - uid: string
-    name: securityToken
+    name: properties.securityToken
   - description: 'Indicates if the artifact source is enabled (values: Enabled, Disabled).'
     types:
     - uid: EnableStatus
-    name: status
+    name: properties.status
   - isReadyOnly: true
     description: The artifact source's creation date.
     types:
     - uid: string
-    name: createdDate
+    name: properties.createdDate
   - description: The provisioning status of the resource.
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - description: The unique immutable identifier of a resource (Guid).
     types:
     - uid: string
-    name: uniqueIdentifier
+    name: properties.uniqueIdentifier
   - isReadyOnly: true
     description: The identifier of the resource.
     types:
@@ -221,6 +201,97 @@ definitions:
     types:
     - uid: CloudErrorBody
     name: error
+- name: ArtifactSourceFragment
+  description: Properties of an artifact source.
+  kind: object
+  properties:
+  - description: The artifact source's display name.
+    types:
+    - uid: string
+    name: properties.displayName
+  - description: The artifact source's URI.
+    types:
+    - uid: string
+    name: properties.uri
+  - description: The artifact source's type.
+    types:
+    - uid: SourceControlType
+    name: properties.sourceType
+  - description: The folder containing artifacts.
+    types:
+    - uid: string
+    name: properties.folderPath
+  - description: The folder containing Azure Resource Manager templates.
+    types:
+    - uid: string
+    name: properties.armTemplateFolderPath
+  - description: The artifact source's branch reference.
+    types:
+    - uid: string
+    name: properties.branchRef
+  - description: The security token to authenticate to the artifact source.
+    types:
+    - uid: string
+    name: properties.securityToken
+  - description: 'Indicates if the artifact source is enabled (values: Enabled, Disabled).'
+    types:
+    - uid: EnableStatus
+    name: properties.status
+  - description: The provisioning status of the resource.
+    types:
+    - uid: string
+    name: properties.provisioningState
+  - description: The unique immutable identifier of a resource (Guid).
+    types:
+    - uid: string
+    name: properties.uniqueIdentifier
+  - isReadyOnly: true
+    description: The identifier of the resource.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+    name: type
+  - description: The location of the resource.
+    types:
+    - uid: string
+    name: location
+  - description: The tags of the resource.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+- name: SourceControlType
+  description: The artifact source's type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: VsoGit
+  - types:
+    - uid: string
+    name: GitHub
+- name: EnableStatus
+  description: The status of the schedule (i.e. Enabled, Disabled)
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Enabled
+  - types:
+    - uid: string
+    name: Disabled
 - name: CloudErrorBody
   description: Body of an error from a REST request.
   kind: object
@@ -236,8 +307,7 @@ definitions:
     name: target
   - description: Inner errors.
     types:
-    - isArray: true
-      uid: Details
+    - uid: Details
     name: details
 examples: []
 security:

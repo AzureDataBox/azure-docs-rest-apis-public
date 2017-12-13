@@ -52,13 +52,24 @@ definitions:
   properties:
   - description: Gets or sets a list of certificates.
     types:
-    - isArray: true
-      uid: Certificate
+    - uid: Certificate
     name: value
   - description: Gets or sets the next link.
     types:
     - uid: string
     name: nextLink
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - description: Error code
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
 - name: Certificate
   description: Definition of the certificate.
   kind: object
@@ -77,49 +88,53 @@ definitions:
     description: Gets the thumbprint of the certificate.
     types:
     - uid: string
-    name: thumbprint
+    name: properties.thumbprint
   - isReadyOnly: true
     description: Gets the expiry time of the certificate.
     types:
     - uid: string
-    name: expiryTime
+    name: properties.expiryTime
   - isReadyOnly: true
     description: Gets the is exportable flag of the certificate.
     types:
     - uid: boolean
-    name: isExportable
+    name: properties.isExportable
   - isReadyOnly: true
     description: Gets the creation time.
     types:
     - uid: string
-    name: creationTime
+    name: properties.creationTime
   - isReadyOnly: true
     description: Gets the last modified time.
     types:
     - uid: string
-    name: lastModifiedTime
+    name: properties.lastModifiedTime
   - description: Gets or sets the description.
     types:
     - uid: string
-    name: description
-- name: ErrorResponse
-  description: Error response of an operation failure
-  kind: object
-  properties:
-  - description: Error code
-    types:
-    - uid: string
-    name: code
-  - description: Error message indicating why the operation failed.
-    types:
-    - uid: string
-    name: message
+    name: properties.description
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/certificates?api-version=2015-10-31
   responses:
   - statusCode: "200"
-    body: '{"value":[{"id":"/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/certificates/testCert","name":"testCert","properties":{"description":"Sample Cert","isExportable":false,"thumbprint":"thumbprint of cert","expiryTime":"2018-03-29T17:25:45+00:00","creationTime":"2017-03-29T17:26:43.337+00:00","lastModifiedTime":"2017-03-29T17:28:55.01+00:00"}}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/certificates/testCert",
+            "name": "testCert",
+            "properties": {
+              "description": "Sample Cert",
+              "isExportable": false,
+              "thumbprint": "thumbprint of cert",
+              "expiryTime": "2018-03-29T17:25:45+00:00",
+              "creationTime": "2017-03-29T17:26:43.337+00:00",
+              "lastModifiedTime": "2017-03-29T17:28:55.01+00:00"
+            }
+          }
+        ]
+      }
   name: List certificates
 security: []
 name: ListByAutomationAccount

@@ -58,13 +58,13 @@ requestBody:
     description: The ID for the storage account to save the troubleshoot result.
     types:
     - uid: string
-    name: storageId
+    name: properties.storageId
   - in: body
     isRequired: true
     description: The path to the blob to save the troubleshoot result in.
     types:
     - uid: string
-    name: storagePath
+    name: properties.storagePath
 requestHeader: []
 definitions:
 - name: TroubleshootingResult
@@ -85,11 +85,26 @@ definitions:
     name: code
   - description: Information from troubleshooting.
     types:
-    - isArray: true
-      uid: TroubleshootingDetails
+    - uid: TroubleshootingDetails
     name: results
+- name: TroubleshootingParameters
+  description: Parameters that define the resource to troubleshoot.
+  kind: object
+  properties:
+  - description: The target resource to troubleshoot.
+    types:
+    - uid: string
+    name: targetResourceId
+  - description: The ID for the storage account to save the troubleshoot result.
+    types:
+    - uid: string
+    name: properties.storageId
+  - description: The path to the blob to save the troubleshoot result in.
+    types:
+    - uid: string
+    name: properties.storagePath
 - name: TroubleshootingDetails
-  description: Information gained from troubleshooting of specified resource.
+  description: Information from troubleshooting.
   kind: object
   properties:
   - description: The id of the get troubleshoot operation.
@@ -110,11 +125,10 @@ definitions:
     name: detail
   - description: List of recommended actions.
     types:
-    - isArray: true
-      uid: TroubleshootingRecommendedActions
+    - uid: TroubleshootingRecommendedActions
     name: recommendedActions
 - name: TroubleshootingRecommendedActions
-  description: Recommended actions based on discovered issues.
+  description: List of recommended actions.
   kind: object
   properties:
   - description: ID of the recommended action.

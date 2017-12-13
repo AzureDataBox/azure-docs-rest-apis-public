@@ -59,13 +59,24 @@ definitions:
   properties:
   - description: Gets or sets a list of dsc nodes.
     types:
-    - isArray: true
-      uid: DscNode
+    - uid: DscNode
     name: value
   - description: Gets or sets the next link.
     types:
     - uid: string
     name: nextLink
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - description: Error code
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
 - name: DscNode
   description: Definition of the dsc node type.
   kind: object
@@ -104,8 +115,7 @@ definitions:
     name: etag
   - description: Gets or sets the list of extensionHandler properties for a Node.
     types:
-    - isArray: true
-      uid: DscNodeExtensionHandlerAssociationProperty
+    - uid: DscNodeExtensionHandlerAssociationProperty
     name: extensionHandler
   - isReadyOnly: true
     description: Resource Id
@@ -135,7 +145,7 @@ definitions:
       uid: object
     name: tags
 - name: DscNodeConfigurationAssociationProperty
-  description: Gets or sets the configuration of the node.
+  description: The dsc nodeconfiguration property associated with the entity.
   kind: object
   properties:
   - description: Gets or sets the name of the dsc nodeconfiguration.
@@ -154,24 +164,28 @@ definitions:
     types:
     - uid: string
     name: version
-- name: ErrorResponse
-  description: Error response of an operation failure
-  kind: object
-  properties:
-  - description: Error code
-    types:
-    - uid: string
-    name: code
-  - description: Error message indicating why the operation failed.
-    types:
-    - uid: string
-    name: message
 examples:
 - request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodes?api-version=2015-10-31
   responses:
   - statusCode: "200"
-    body: '{"value":[{"id":"/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodes/nodeId","name":"DSCCOMP","ip":"172.16.2.5;127.0.0.1;fe80::4c51:9518:aa3c:256a%5;::2000:0:0:0;::1;::2000:0:0:0;2001:0:9d38:78cf:106b:130a:53ef:fdfa;fe80::106b:1","lastSeen":"2017-03-28T23:16:30.3192468+00:00","registrationTime":"2017-03-28T20:19:24.7915026+00:00","nodeId":"nodeId","status":"Pending","nodeConfiguration":{"name":"SetupServer.localhost"}}]}'
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodes/nodeId",
+            "name": "DSCCOMP",
+            "ip": "172.16.2.5;127.0.0.1;fe80::4c51:9518:aa3c:256a%5;::2000:0:0:0;::1;::2000:0:0:0;2001:0:9d38:78cf:106b:130a:53ef:fdfa;fe80::106b:1",
+            "lastSeen": "2017-03-28T23:16:30.3192468+00:00",
+            "registrationTime": "2017-03-28T20:19:24.7915026+00:00",
+            "nodeId": "nodeId",
+            "status": "Pending",
+            "nodeConfiguration": {
+              "name": "SetupServer.localhost"
+            }
+          }
+        ]
+      }
   name: List DSC nodes by Automation Account
 security: []
 name: ListByAutomationAccount

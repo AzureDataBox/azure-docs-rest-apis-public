@@ -59,54 +59,54 @@ responses:
 requestHeader: []
 definitions:
 - name: Schedule
-  description: A schedule.
+  description: The auto-shutdown schedule, if one has been set at the lab or lab resource level.
   kind: object
   properties:
   - description: The status of the schedule (i.e. Enabled, Disabled)
     types:
     - uid: EnableStatus
-    name: status
+    name: properties.status
   - description: The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
     types:
     - uid: string
-    name: taskType
+    name: properties.taskType
   - description: If the schedule will occur only some days of the week, specify the weekly recurrence.
     types:
     - uid: WeekDetails
-    name: weeklyRecurrence
+    name: properties.weeklyRecurrence
   - description: If the schedule will occur once each day of the week, specify the daily recurrence.
     types:
     - uid: DayDetails
-    name: dailyRecurrence
+    name: properties.dailyRecurrence
   - description: If the schedule will occur multiple times a day, specify the hourly recurrence.
     types:
     - uid: HourDetails
-    name: hourlyRecurrence
+    name: properties.hourlyRecurrence
   - description: The time zone ID (e.g. Pacific Standard time).
     types:
     - uid: string
-    name: timeZoneId
+    name: properties.timeZoneId
   - description: Notification settings.
     types:
     - uid: NotificationSettings
-    name: notificationSettings
+    name: properties.notificationSettings
   - isReadyOnly: true
     description: The creation date of the schedule.
     types:
     - uid: string
-    name: createdDate
+    name: properties.createdDate
   - description: The resource ID to which the schedule belongs
     types:
     - uid: string
-    name: targetResourceId
+    name: properties.targetResourceId
   - description: The provisioning status of the resource.
     types:
     - uid: string
-    name: provisioningState
+    name: properties.provisioningState
   - description: The unique immutable identifier of a resource (Guid).
     types:
     - uid: string
-    name: uniqueIdentifier
+    name: properties.uniqueIdentifier
   - isReadyOnly: true
     description: The identifier of the resource.
     types:
@@ -134,6 +134,14 @@ definitions:
       - uid: string
       uid: object
     name: tags
+- name: CloudError
+  description: Error from a REST request.
+  kind: object
+  properties:
+  - description: Body of an error from a REST request.
+    types:
+    - uid: CloudErrorBody
+    name: error
 - name: EnableStatus
   description: The status of the schedule (i.e. Enabled, Disabled)
   kind: enum
@@ -150,8 +158,7 @@ definitions:
   properties:
   - description: The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: weekdays
   - description: The time of the day the schedule will occur.
     types:
@@ -189,24 +196,6 @@ definitions:
     types:
     - uid: string
     name: webhookUrl
-- name: NotificationStatus
-  description: If notifications are enabled for this schedule (i.e. Enabled, Disabled).
-  kind: enum
-  properties:
-  - types:
-    - uid: string
-    name: Disabled
-  - types:
-    - uid: string
-    name: Enabled
-- name: CloudError
-  description: Error from a REST request.
-  kind: object
-  properties:
-  - description: Body of an error from a REST request.
-    types:
-    - uid: CloudErrorBody
-    name: error
 - name: CloudErrorBody
   description: Body of an error from a REST request.
   kind: object
@@ -222,9 +211,18 @@ definitions:
     name: target
   - description: Inner errors.
     types:
-    - isArray: true
-      uid: Details
+    - uid: Details
     name: details
+- name: NotificationStatus
+  description: If notifications are enabled for this schedule (i.e. Enabled, Disabled).
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Disabled
+  - types:
+    - uid: string
+    name: Enabled
 examples: []
 security:
 - type: oauth2

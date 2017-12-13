@@ -56,26 +56,22 @@ requestBody:
     isRequired: true
     description: A collection of URIs for the application.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: identifierUris
   - in: body
     description: A collection of reply URLs for the application.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: replyUrls
   - in: body
     description: The list of KeyCredential objects.
     types:
-    - isArray: true
-      uid: KeyCredential
+    - uid: KeyCredential
     name: keyCredentials
   - in: body
     description: The list of PasswordCredential objects.
     types:
-    - isArray: true
-      uid: PasswordCredential
+    - uid: PasswordCredential
     name: passwordCredentials
   - in: body
     description: Whether to allow implicit grant flow for OAuth2
@@ -85,11 +81,70 @@ requestBody:
   - in: body
     description: Specifies resources that this application requires access to and the set of OAuth permission scopes and application roles that it needs under each of those resources. This pre-configuration of required resource access drives the consent experience.
     types:
-    - isArray: true
-      uid: RequiredResourceAccess
+    - uid: RequiredResourceAccess
     name: requiredResourceAccess
 requestHeader: []
 definitions:
+- name: KeyCredential
+  description: Active Directory Key Credential information.
+  kind: object
+  properties:
+  - description: Start date.
+    types:
+    - uid: string
+    name: startDate
+  - description: End date.
+    types:
+    - uid: string
+    name: endDate
+  - description: Key value.
+    types:
+    - uid: string
+    name: value
+  - description: Key ID.
+    types:
+    - uid: string
+    name: keyId
+  - description: Usage. Acceptable values are 'Verify' and 'Sign'.
+    types:
+    - uid: string
+    name: usage
+  - description: Type. Acceptable values are 'AsymmetricX509Cert' and 'Symmetric'.
+    types:
+    - uid: string
+    name: type
+- name: PasswordCredential
+  description: Active Directory Password Credential information.
+  kind: object
+  properties:
+  - description: Start date.
+    types:
+    - uid: string
+    name: startDate
+  - description: End date.
+    types:
+    - uid: string
+    name: endDate
+  - description: Key ID.
+    types:
+    - uid: string
+    name: keyId
+  - description: Key value.
+    types:
+    - uid: string
+    name: value
+- name: RequiredResourceAccess
+  description: Specifies the set of OAuth 2.0 permission scopes and app roles under the specified resource that an application requires access to. The specified OAuth 2.0 permission scopes may be requested by client applications (through the requiredResourceAccess collection) when calling a resource application. The requiredResourceAccess property of the Application entity is a collection of ReqiredResourceAccess.
+  kind: object
+  properties:
+  - description: The list of OAuth2.0 permission scopes and app roles that the application requires from the specified resource.
+    types:
+    - uid: ResourceAccess
+    name: resourceAccess
+  - description: The unique identifier for the resource that the application requires access to. This should be equal to the appId declared on the target resource application.
+    types:
+    - uid: string
+    name: resourceAppId
 - name: Application
   description: Active Directory application information.
   kind: object
@@ -100,8 +155,7 @@ definitions:
     name: appId
   - description: The application permissions.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: appPermissions
   - description: Whether the application is be available to other tenants.
     types:
@@ -113,13 +167,11 @@ definitions:
     name: displayName
   - description: A collection of URIs for the application.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: identifierUris
   - description: A collection of reply URLs for the application.
     types:
-    - isArray: true
-      uid: string
+    - uid: string
     name: replyUrls
   - description: The home page of the application.
     types:
@@ -137,8 +189,7 @@ definitions:
   - isReadyOnly: true
     description: The object type.
     types:
-    - {}
-    typesTitle: string
+    - uid: string
     name: objectType
   - isReadyOnly: true
     description: The time at which the directory object was deleted.
@@ -152,11 +203,63 @@ definitions:
   - description: Error code.
     types:
     - uid: string
-    name: code
+    name: odata.error.code
   - description: Error message value.
     types:
     - uid: string
-    name: value
+    name: odata.error.message.value
+- name: ApplicationCreateParameters
+  description: Request parameters for creating a new application.
+  kind: object
+  properties:
+  - description: Whether the application is available to other tenants.
+    types:
+    - uid: boolean
+    name: availableToOtherTenants
+  - description: The display name of the application.
+    types:
+    - uid: string
+    name: displayName
+  - description: The home page of the application.
+    types:
+    - uid: string
+    name: homepage
+  - description: A collection of URIs for the application.
+    types:
+    - uid: string
+    name: identifierUris
+  - description: A collection of reply URLs for the application.
+    types:
+    - uid: string
+    name: replyUrls
+  - description: The list of KeyCredential objects.
+    types:
+    - uid: KeyCredential
+    name: keyCredentials
+  - description: The list of PasswordCredential objects.
+    types:
+    - uid: PasswordCredential
+    name: passwordCredentials
+  - description: Whether to allow implicit grant flow for OAuth2
+    types:
+    - uid: boolean
+    name: oauth2AllowImplicitFlow
+  - description: Specifies resources that this application requires access to and the set of OAuth permission scopes and application roles that it needs under each of those resources. This pre-configuration of required resource access drives the consent experience.
+    types:
+    - uid: RequiredResourceAccess
+    name: requiredResourceAccess
+- name: ResourceAccess
+  description: The list of OAuth2.0 permission scopes and app roles that the application requires from the specified resource.
+  kind: object
+  properties:
+  - description: The unique identifier for one of the OAuth2Permission or AppRole instances that the resource application exposes.
+    types:
+    - uid: string
+    name: id
+  - description: Specifies whether the id property references an OAuth2Permission or an AppRole. Possible values are "scope" or "role".
+    types:
+    - uid: string
+    name: type
 examples: []
 security:
 - type: oauth2

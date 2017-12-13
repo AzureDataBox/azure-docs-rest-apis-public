@@ -71,26 +71,25 @@ definitions:
   - description: First name.
     types:
     - uid: string
-    name: firstName
+    name: properties.firstName
   - description: Last name.
     types:
     - uid: string
-    name: lastName
+    name: properties.lastName
   - description: Email address.
     types:
     - uid: string
-    name: email
+    name: properties.email
   - description: >
       Date of user registration. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.
     types:
     - uid: string
-    name: registrationDate
+    name: properties.registrationDate
   - isReadyOnly: true
     description: Collection of groups user is part of.
     types:
-    - isArray: true
-      uid: GroupContract
-    name: groups
+    - uid: GroupContract
+    name: properties.groups
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -109,42 +108,57 @@ definitions:
   - description: Account state. Specifies whether the user is active or not. Blocked users are unable to sign into the developer portal or call any APIs of subscribed products. Default state is Active.
     types:
     - uid: UserState
-    name: state
+    name: properties.state
   - description: Optional note about a user set by the administrator.
     types:
     - uid: string
-    name: note
+    name: properties.note
   - isReadyOnly: true
     description: Collection of user identities.
     types:
-    - isArray: true
-      uid: UserIdentityContract
-    name: identities
+    - uid: UserIdentityContract
+    name: properties.identities
+- name: ErrorResponse
+  description: Error Body contract.
+  kind: object
+  properties:
+  - description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+    name: code
+  - description: Human-readable representation of the error.
+    types:
+    - uid: string
+    name: message
+  - description: The list of invalid fields send in request, in case of validation error.
+    types:
+    - uid: ErrorFieldContract
+    name: details
 - name: GroupContract
-  description: Contract details.
+  description: Page values.
   kind: object
   properties:
   - description: Group name.
     types:
     - uid: string
-    name: displayName
+    name: properties.displayName
   - description: Group description. Can contain HTML formatting tags.
     types:
     - uid: string
-    name: description
+    name: properties.description
   - isReadyOnly: true
     description: true if the group is one of the three system groups (Administrators, Developers, or Guests); otherwise false.
     types:
     - uid: boolean
-    name: builtIn
+    name: properties.builtIn
   - description: Group type.
     types:
     - uid: GroupType
-    name: type
+    name: properties.type
   - description: For external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null.
     types:
     - uid: string
-    name: externalId
+    name: properties.externalId
   - isReadyOnly: true
     description: Resource ID.
     types:
@@ -155,19 +169,11 @@ definitions:
     types:
     - uid: string
     name: name
-- name: GroupType
-  description: Group type.
-  kind: enum
-  properties:
-  - types:
+  - isReadyOnly: true
+    description: Resource type for API Management resource.
+    types:
     - uid: string
-    name: custom
-  - types:
-    - uid: string
-    name: system
-  - types:
-    - uid: string
-    name: external
+    name: type
 - name: UserState
   description: Account state. Specifies whether the user is active or not. Blocked users are unable to sign into the developer portal or call any APIs of subscribed products. Default state is Active.
   kind: enum
@@ -190,23 +196,6 @@ definitions:
     types:
     - uid: string
     name: id
-- name: ErrorResponse
-  description: Error Body contract.
-  kind: object
-  properties:
-  - description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
-    types:
-    - uid: string
-    name: code
-  - description: Human-readable representation of the error.
-    types:
-    - uid: string
-    name: message
-  - description: The list of invalid fields send in request, in case of validation error.
-    types:
-    - isArray: true
-      uid: ErrorFieldContract
-    name: details
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
@@ -223,14 +212,55 @@ definitions:
     types:
     - uid: string
     name: target
+- name: GroupType
+  description: Group type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: custom
+  - types:
+    - uid: string
+    name: system
+  - types:
+    - uid: string
+    name: external
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/groups/tempgroup/users/59307d350af58404d8a26300?api-version=2017-03-01
   responses:
   - statusCode: "201"
-    body: '{"id":"/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/59307d350af58404d8a26300","type":"Microsoft.ApiManagement/service/groups/users","name":"59307d350af58404d8a26300","properties":{"firstName":"test","lastName":"user","email":"testuser1@live.com","state":"active","registrationDate":"2017-06-01T20:46:45.437Z","groups":[],"identities":[]}}'
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/59307d350af58404d8a26300",
+        "type": "Microsoft.ApiManagement/service/groups/users",
+        "name": "59307d350af58404d8a26300",
+        "properties": {
+          "firstName": "test",
+          "lastName": "user",
+          "email": "testuser1@live.com",
+          "state": "active",
+          "registrationDate": "2017-06-01T20:46:45.437Z",
+          "groups": [],
+          "identities": []
+        }
+      }
   - statusCode: "200"
-    body: '{"id":"/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/59307d350af58404d8a26300","type":"Microsoft.ApiManagement/service/groups/users","name":"59307d350af58404d8a26300","properties":{"firstName":"test","lastName":"user","email":"testuser1@live.com","state":"active","registrationDate":"2017-06-01T20:46:45.437Z","groups":[],"identities":[]}}'
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/59307d350af58404d8a26300",
+        "type": "Microsoft.ApiManagement/service/groups/users",
+        "name": "59307d350af58404d8a26300",
+        "properties": {
+          "firstName": "test",
+          "lastName": "user",
+          "email": "testuser1@live.com",
+          "state": "active",
+          "registrationDate": "2017-06-01T20:46:45.437Z",
+          "groups": [],
+          "identities": []
+        }
+      }
   name: ApiManagementCreateGroupUser
 security:
 - type: oauth2
