@@ -355,428 +355,233 @@ definitions:
 examples:
 - request:
     uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2017-09-01
-    requestBody: >-
+    body: >-
       {
-
         "properties": {
-
           "addressSpace": {
-
             "addressPrefixes": [
-
               "10.0.0.0/16"
-
             ]
-
           }
-
         }
-
       }
   responses:
   - statusCode: "200"
     body: >-
       {
-
         "name": "test-vnet",
-
         "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet",
-
         "type": "Microsoft.Network/virtualNetworks",
-
         "location": "westus",
-
         "properties": {
-
           "provisioningState": "Succeeded",
-
           "addressSpace": {
-
             "addressPrefixes": [
-
               "10.0.0.0/16"
-
             ]
-
           },
-
           "subnets": [],
-
           "virtualNetworkPeerings": []
-
         }
-
       }
   - statusCode: "201"
     body: >-
       {
-
         "name": "test-vnet",
-
         "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet",
-
         "type": "Microsoft.Network/virtualNetworks",
-
         "location": "westus",
-
         "properties": {
-
           "provisioningState": "Succeeded",
-
           "addressSpace": {
-
             "addressPrefixes": [
-
               "10.0.0.0/16"
-
             ]
-
           },
-
           "subnets": [],
-
           "virtualNetworkPeerings": []
-
         }
-
       }
   name: Create virtual network
 - request:
     uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2017-09-01
-    requestBody: >-
+    body: >-
       {
-
         "properties": {
-
           "addressSpace": {
-
             "addressPrefixes": [
-
               "10.0.0.0/16"
-
             ]
-
           },
-
           "subnets": [
-
             {
-
               "name": "test-1",
-
               "properties": {
-
                 "addressPrefix": "10.0.0.0/24"
-
               }
-
             }
-
           ]
-
         }
-
       }
   responses:
   - statusCode: "200"
     body: >-
       {
-
         "name": "test-vnet",
-
         "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet",
-
         "type": "Microsoft.Network/virtualNetworks",
-
         "location": "westus",
-
         "properties": {
-
           "provisioningState": "Succeeded",
-
           "addressSpace": {
-
             "addressPrefixes": [
-
               "10.0.0.0/16"
-
             ]
-
           },
-
           "subnets": [
-
             {
-
               "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/test-1",
-
               "name": "test-1",
-
               "properties": {
-
                 "addressPrefix": "10.0.0.0/24",
-
                 "provisioningState": "Succeeded"
-
               }
-
             }
-
           ],
-
           "virtualNetworkPeerings": []
-
         }
-
       }
   - statusCode: "201"
     body: >-
       {
-
         "name": "test-vnet",
-
         "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet",
-
         "type": "Microsoft.Network/virtualNetworks",
-
         "location": "westus",
-
         "properties": {
-
           "provisioningState": "Succeeded",
-
           "addressSpace": {
-
             "addressPrefixes": [
-
               "10.0.0.0/16"
-
             ]
-
           },
-
           "subnets": [
-
             {
-
               "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/test-1",
-
               "name": "test-1",
-
               "properties": {
-
                 "addressPrefix": "10.0.0.0/24",
-
                 "provisioningState": "Succeeded"
-
               }
-
             }
-
           ],
-
           "virtualNetworkPeerings": []
-
         }
-
       }
   name: Create virtual network with subnet
 - request:
     uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/vnetTest/providers/Microsoft.Network/virtualNetworks/vnet1?api-version=2017-09-01
-    requestBody: >-
+    body: >-
       {
-
         "properties": {
-
           "addressSpace": {
-
             "addressPrefixes": [
-
               "10.0.0.0/16"
-
             ]
-
           },
-
           "subnets": [
-
             {
-
               "name": "test-1",
-
               "properties": {
-
                 "addressPrefix": "10.0.0.0/16",
-
                 "serviceEndpoints": [
-
                   {
-
                     "service": "Microsoft.Storage"
-
                   }
-
                 ]
-
               }
-
             }
-
           ]
-
         }
-
       }
   responses:
   - statusCode: "200"
     body: >-
       {
-
         "name": "vnet1",
-
         "id": "/subscriptions/subid/resourceGroups/vnetTest/providers/Microsoft.Network/virtualNetworks/vnet1",
-
         "type": "Microsoft.Network/virtualNetworks",
-
         "location": "westus",
-
         "properties": {
-
           "provisioningState": "Succeeded",
-
           "addressSpace": {
-
             "addressPrefixes": [
-
               "10.0.0.0/16"
-
             ]
-
           },
-
           "subnets": [
-
             {
-
               "name": "test-1",
-
               "id": "/subscriptions/subid/resourceGroups/vnetTest/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/test-1",
-
               "properties": {
-
                 "addressPrefix": "10.0.0.0/16",
-
                 "ipConfigurations": [],
-
                 "resourceNavigationLinks": [],
-
                 "serviceEndpoints": [
-
                   {
-
                     "provisioningState": "Succeeded",
-
                     "service": "Microsoft.Storage",
-
                     "locations": [
-
                       "eastus2(stage)",
-
                       "usnorth(stage)"
-
                     ]
-
                   }
-
                 ],
-
                 "provisioningState": "Succeeded"
-
               }
-
             }
-
           ],
-
           "virtualNetworkPeerings": []
-
         }
-
       }
   - statusCode: "201"
     body: >-
       {
-
         "name": "vnet1",
-
         "id": "/subscriptions/subid/resourceGroups/vnetTest/providers/Microsoft.Network/virtualNetworks/vnet1",
-
         "type": "Microsoft.Network/virtualNetworks",
-
         "location": "westus",
-
         "properties": {
-
           "provisioningState": "Succeeded",
-
           "addressSpace": {
-
             "addressPrefixes": [
-
               "10.0.0.0/16"
-
             ]
-
           },
-
           "subnets": [
-
             {
-
               "name": "test-1",
-
               "id": "/subscriptions/subid/resourceGroups/vnetTest/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/test-1",
-
               "properties": {
-
                 "addressPrefix": "10.0.0.0/16",
-
                 "ipConfigurations": [],
-
                 "resourceNavigationLinks": [],
-
                 "serviceEndpoints": [
-
                   {
-
                     "provisioningState": "Succeeded",
-
                     "service": "Microsoft.Storage",
-
                     "locations": [
-
                       "eastus2(stage)",
-
                       "usnorth(stage)"
-
                     ]
-
                   }
-
                 ],
-
                 "provisioningState": "Succeeded"
-
               }
-
             }
-
           ],
-
           "virtualNetworkPeerings": []
-
         }
-
       }
   name: Create virtual network with service endpoints
 security:

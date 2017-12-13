@@ -597,13 +597,10 @@ definitions:
 examples:
 - request:
     uri: POST https://batch.core.windows.net/jobs/jobId/tasks?api-version=2017-09-01.6.0
-    requestBody: >-
+    body: >-
       {
-
         "id": "task1",
-
         "commandLine": "cmd /c echo task1"
-
       }
     headers:
     - value: 00000000-0000-0000-0000-000000000000
@@ -614,47 +611,27 @@ examples:
   name: Add a basic task
 - request:
     uri: POST https://batch.core.windows.net/jobs/jobId/tasks?api-version=2017-09-01.6.0
-    requestBody: >-
+    body: >-
       {
-
         "id": "taskId",
-
         "commandLine": "cmd /c exit 3",
-
         "exitConditions": {
-
           "exitCodeRanges": [
-
             {
-
               "start": 2,
-
               "end": 4,
-
               "exitOptions": {
-
                 "jobAction": "terminate"
-
               }
-
             }
-
           ]
-
         },
-
         "userIdentity": {
-
           "autoUser": {
-
             "scope": "task",
-
             "elevationLevel": "nonadmin"
-
           }
-
         }
-
       }
     headers:
     - value: 00000000-0000-0000-0000-000000000000
@@ -665,33 +642,20 @@ examples:
   name: Add a task with exit conditions
 - request:
     uri: POST https://batch.core.windows.net/jobs/jobId/tasks?api-version=2017-09-01.6.0
-    requestBody: >-
+    body: >-
       {
-
         "id": "taskId",
-
         "commandLine": "bash -c 'echo hello'",
-
         "containerSettings": {
-
           "imageName": "ubuntu",
-
           "containerRunOptions": "--rm"
-
         },
-
         "userIdentity": {
-
           "autoUser": {
-
             "scope": "task",
-
             "elevationLevel": "nonadmin"
-
           }
-
         }
-
       }
     headers:
     - value: 00000000-0000-0000-0000-000000000000
