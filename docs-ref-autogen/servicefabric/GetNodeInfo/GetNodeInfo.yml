@@ -1,0 +1,1008 @@
+### YamlMime:RESTOperation
+summary: Gets the list of nodes in the Service Fabric cluster. Gets the information about a specific node in the Service Fabric Cluster.The respons include the name, status, id, health, uptime and other details about the node.
+service: Service Fabric
+apiVersion: 6.0.0.1
+groupName: Get Node Info
+produces:
+- application/json
+paths:
+- content: GET http://localhost:19080/Nodes/{nodeName}?api-version=6.0.0.1
+- content: GET http://localhost:19080/Nodes/{nodeName}?api-version=6.0.0.1&timeout={timeout}
+  isOptional: true
+uriParameters:
+- in: path
+  isRequired: true
+  description: The name of the node.
+  types:
+  - uid: string
+  name: nodeName
+- in: query
+  isRequired: true
+  description: The version of the API. This is a required parameter and it's value must be "6.0".
+  types:
+  - uid: string
+  name: api-version
+- in: query
+  description: The server timeout for performing the operation in seconds. This specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
+  types:
+  - uid: integer
+  format: int64
+  name: timeout
+responses:
+- description: A successful operation will return information about the node with the specified nodeName.
+  types:
+  - uid: NodeInfo
+  name: 200 OK
+- description: An empty response is returned if the specified nodeName is not found.
+  name: 204 No Content
+- description: The detailed error response.
+  types:
+  - uid: FabricError
+  name: Other Status Codes
+requestHeader: []
+definitions:
+- name: NodeInfo
+  description: Information about a node in Service Fabric cluster.
+  kind: object
+  properties:
+  - description: The name of a Service Fabric node.
+    types:
+    - uid: string
+    name: Name
+  - description: The IP address or fully qualified domain name of the node.
+    types:
+    - uid: string
+    name: IpAddressOrFQDN
+  - description: The type of the node.
+    types:
+    - uid: string
+    name: Type
+  - description: The version of Service Fabric binaries that the node is running.
+    types:
+    - uid: string
+    name: CodeVersion
+  - description: The version of Service Fabric cluster manifest that the node is using.
+    types:
+    - uid: string
+    name: ConfigVersion
+  - description: >
+      The status of the node. Possible values are following.
+
+        - Invalid - Indicates the node status is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+        - Up - Indicates the node is up. The value is 1.
+        - Down - Indicates the node is down. The value is 2.
+        - Enabling - Indicates the node is in process of being enabled. The value is 3.
+        - Disabling - Indicates the node is in the process of being disabled. The value is 4.
+        - Disabled - Indicates the node is disabled. The value is 5.
+        - Unknown - Indicates the node is unknown. A node would be in Unknown state if Service Fabric does not have authoritative information about that node. This can happen if the system learns about a node at runtime.The value is 6.
+        - Removed - Indicates the node is removed. A node would be in Removed state if NodeStateRemoved API has been called for this node. In other words, Service Fabric has been informed that the persisted state on the node has been permanently lost. The value is 7.
+    types:
+    - uid: NodeStatus
+    name: NodeStatus
+  - description: Time in seconds since the node has been in NodeStatus Up. Value ero indicates that the node is not Up.
+    types:
+    - uid: string
+    name: NodeUpTimeInSeconds
+  - description: >
+      The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+
+        - Invalid - Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
+        - Ok - Indicates the health state is okay. The value is 1.
+        - Warning - Indicates the health state is at a warning level. The value is 2.
+        - Error - Indicates the health state is at an error level. Error health state should be investigated, as they can impact the correct functionality of the cluster. The value is 3.
+        - Unknown - Indicates an unknown health status. The value is 65535.
+    types:
+    - uid: HealthState
+    name: HealthState
+  - description: Indicates if the node is a seed node or not. Returns true if the node is a seed node, otherwise false. A quorum of seed nodes are required for proper operation of Service Fabric cluster.
+    types:
+    - uid: boolean
+    name: IsSeedNode
+  - description: The upgrade domain of the node.
+    types:
+    - uid: string
+    name: UpgradeDomain
+  - description: The fault domain of the node.
+    types:
+    - uid: string
+    name: FaultDomain
+  - description: An internal ID used by Service Fabric to uniquely identify a node. Node Id is deterministically generated from node name.
+    types:
+    - uid: NodeId
+    name: Id
+  - description: The id representing the node instance. While the Id of the node is deterministically generated from the node name and remains same across restarts, the InstanceId changes every time node restarts.
+    types:
+    - uid: string
+    name: InstanceId
+  - description: Information about the node deactivation. This information is valid for a node that is undergoing deactivation or has already been deactivated.
+    types:
+    - uid: NodeDeactivationInfo
+    name: NodeDeactivationInfo
+  - description: Indicates if the node is stopped by calling stop node API or not. Returns true if the node is stopped, otherwise false.
+    types:
+    - uid: boolean
+    name: IsStopped
+  - description: Time in seconds since the node has been in NodeStatus Down. Value zero indicates node is not NodeStatus Down.
+    types:
+    - uid: string
+    name: NodeDownTimeInSeconds
+  - description: Date time in UTC when the node came up. If the node has never been up then this value will be zero date time.
+    types:
+    - uid: string
+    name: NodeUpAt
+  - description: Date time in UTC when the node went down. If node has never been down then this value will be zero date time.
+    types:
+    - uid: string
+    name: NodeDownAt
+- name: FabricError
+  description: >
+    The REST API operations for Service Fabric return standard HTTP status codes. This type defines the additional information returned from the Service Fabric API operations that are not successful.
+  kind: object
+  properties:
+  - description: Error object containing error code and error message.
+    types:
+    - uid: FabricError_Error
+    name: Error
+- name: NodeStatus
+  description: >
+    The status of the node. Possible values are following.
+
+      - Invalid - Indicates the node status is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+      - Up - Indicates the node is up. The value is 1.
+      - Down - Indicates the node is down. The value is 2.
+      - Enabling - Indicates the node is in process of being enabled. The value is 3.
+      - Disabling - Indicates the node is in the process of being disabled. The value is 4.
+      - Disabled - Indicates the node is disabled. The value is 5.
+      - Unknown - Indicates the node is unknown. A node would be in Unknown state if Service Fabric does not have authoritative information about that node. This can happen if the system learns about a node at runtime.The value is 6.
+      - Removed - Indicates the node is removed. A node would be in Removed state if NodeStateRemoved API has been called for this node. In other words, Service Fabric has been informed that the persisted state on the node has been permanently lost. The value is 7.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Invalid
+  - types:
+    - uid: string
+    name: Up
+  - types:
+    - uid: string
+    name: Down
+  - types:
+    - uid: string
+    name: Enabling
+  - types:
+    - uid: string
+    name: Disabling
+  - types:
+    - uid: string
+    name: Disabled
+  - types:
+    - uid: string
+    name: Unknown
+  - types:
+    - uid: string
+    name: Removed
+- name: HealthState
+  description: >
+    The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+
+      - Invalid - Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
+      - Ok - Indicates the health state is okay. The value is 1.
+      - Warning - Indicates the health state is at a warning level. The value is 2.
+      - Error - Indicates the health state is at an error level. Error health state should be investigated, as they can impact the correct functionality of the cluster. The value is 3.
+      - Unknown - Indicates an unknown health status. The value is 65535.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Invalid
+  - types:
+    - uid: string
+    name: Ok
+  - types:
+    - uid: string
+    name: Warning
+  - types:
+    - uid: string
+    name: Error
+  - types:
+    - uid: string
+    name: Unknown
+- name: NodeId
+  description: An internal ID used by Service Fabric to uniquely identify a node. Node Id is deterministically generated from node name.
+  kind: object
+  properties:
+  - description: Value of the node Id. This is a 128 bit integer.
+    types:
+    - uid: string
+    name: Id
+- name: NodeDeactivationInfo
+  description: Information about the node deactivation. This information is valid for a node that is undergoing deactivation or has already been deactivated.
+  kind: object
+  properties:
+  - description: >
+      The intent or the reason for deactivating the node. Following are the possible values for it.
+
+        - Invalid - Indicates the node deactivation intent is invalid. All Service Fabric enumerations have the invalid type. The value is zero. This value is not used.
+        - Pause - Indicates that the node should be paused. The value is 1.
+        - Restart - Indicates that the intent is for the node to be restarted after a short period of time. Service Fabric does not restart the node, this action is done outside of Service Fabric. The value is 2.
+        - RemoveData - Indicates that the intent is to reimage the node. Service Fabric does not reimage the node, this action is done outside of Service Fabric. The value is 3.
+        - RemoveNode - Indicates that the node is being decommissioned and is not expected to return. Service Fabric does not decommission the node, this action is done outside of Service Fabric. The value is 4.
+    types:
+    - uid: NodeDeactivationIntent
+    name: NodeDeactivationIntent
+  - description: >
+      The status of node deactivation operation. Following are the possible values.
+
+        - None - No status is associated with the task. The value is zero.
+        - SafetyCheckInProgress - When a node is deactivated Service Fabric performs checks to ensure that the operation is safe to proceed to ensure avaiablity of the service and reliability of the state. This value indicates that one or more safety checks are in progress. The value is 1.
+        - SafetyCheckComplete - When a node is deactivated Service Fabric performs checks to ensure that the operation is safe to proceed to ensure avaiablity of the service and reliability of the state. This value indicates that all safety checks have been completed. The value is 2.
+        - Completed - The task is completed. The value is 3.
+    types:
+    - uid: NodeDeactivationStatus
+    name: NodeDeactivationStatus
+  - description: List of tasks representing the deactivation operation on the node.
+    types:
+    - uid: NodeDeactivationTask
+    name: NodeDeactivationTask
+  - description: List of pending safety checks
+    types:
+    - uid: SafetyCheckWrapper
+    name: PendingSafetyChecks
+- name: FabricError_Error
+  description: Error object containing error code and error message.
+  kind: object
+  properties:
+  - description: >
+      Defines the fabric error codes that be returned as part of the error object in response to Service Fabric API operations that are not successful. Following are the error code values that can be returned for a specific HTTP status code.
+
+        - Possible values of the error code for HTTP status code 400 (Bad Request)
+          - "FABRIC_E_INVALID_PARTITION_KEY"
+          - "FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR"
+          - "FABRIC_E_INVALID_ADDRESS"
+          - "FABRIC_E_APPLICATION_NOT_UPGRADING"
+          - "FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR"
+          - "FABRIC_E_FABRIC_NOT_UPGRADING"
+          - "FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR"
+          - "FABRIC_E_INVALID_CONFIGURATION"
+          - "FABRIC_E_INVALID_NAME_URI"
+          - "FABRIC_E_PATH_TOO_LONG"
+          - "FABRIC_E_KEY_TOO_LARGE"
+          - "FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED"
+          - "FABRIC_E_INVALID_ATOMIC_GROUP"
+          - "FABRIC_E_VALUE_EMPTY"
+
+        - Possible values of the error code for HTTP status code 404 (Not Found)
+          - "FABRIC_E_NODE_NOT_FOUND"
+          - "FABRIC_E_APPLICATION_TYPE_NOT_FOUND"
+          - "FABRIC_E_APPLICATION_NOT_FOUND"
+          - "FABRIC_E_SERVICE_TYPE_NOT_FOUND"
+          - "FABRIC_E_SERVICE_DOES_NOT_EXIST"
+          - "FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND"
+          - "FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND"
+          - "FABRIC_E_PARTITION_NOT_FOUND"
+          - "FABRIC_E_REPLICA_DOES_NOT_EXIST"
+          - "FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST"
+          - "FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND"
+          - "FABRIC_E_DIRECTORY_NOT_FOUND"
+          - "FABRIC_E_FABRIC_VERSION_NOT_FOUND"
+          - "FABRIC_E_FILE_NOT_FOUND"
+          - "FABRIC_E_NAME_DOES_NOT_EXIST"
+          - "FABRIC_E_PROPERTY_DOES_NOT_EXIST"
+          - "FABRIC_E_ENUMERATION_COMPLETED"
+          - "FABRIC_E_SERVICE_MANIFEST_NOT_FOUND"
+          - "FABRIC_E_KEY_NOT_FOUND"
+          - "FABRIC_E_HEALTH_ENTITY_NOT_FOUND"
+
+        - Possible values of the error code for HTTP status code 409 (Conflict)
+          - "FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION"
+          - "FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS"
+          - "FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS"
+          - "FABRIC_E_SERVICE_ALREADY_EXISTS"
+          - "FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_TYPE_IN_USE"
+          - "FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION"
+          - "FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS"
+          - "FABRIC_E_FABRIC_VERSION_IN_USE"
+          - "FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS"
+          - "FABRIC_E_NAME_ALREADY_EXISTS"
+          - "FABRIC_E_NAME_NOT_EMPTY"
+          - "FABRIC_E_PROPERTY_CHECK_FAILED"
+          - "FABRIC_E_SERVICE_METADATA_MISMATCH"
+          - "FABRIC_E_SERVICE_TYPE_MISMATCH"
+          - "FABRIC_E_HEALTH_STALE_REPORT"
+          - "FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED"
+          - "FABRIC_E_NODE_HAS_NOT_STOPPED_YET"
+          - "FABRIC_E_INSTANCE_ID_MISMATCH"
+
+        - Possible values of the error code for HTTP status code 413 (Request Entity Too Large)
+          - "FABRIC_E_VALUE_TOO_LARGE"
+
+        - Possible values of the error code for HTTP status code 500 (Internal Server Error)
+          - "FABRIC_E_NODE_IS_UP"
+
+        - Possible values of the error code for HTTP status code 503 (Service Unavailable)
+          - "FABRIC_E_NO_WRITE_QUORUM"
+          - "FABRIC_E_NOT_PRIMARY"
+          - "FABRIC_E_NOT_READY"
+          - "FABRIC_E_RECONFIGURATION_PENDING"
+          - "FABRIC_E_SERVICE_OFFLINE"
+          - "E_ABORT"
+          - "FABRIC_E_VALUE_TOO_LARGE"
+
+        - Possible values of the error code for HTTP status code 504 (Gateway Timeout)
+          - "FABRIC_E_COMMUNICATION_ERROR"
+          - "FABRIC_E_OPERATION_NOT_COMPLETE"
+          - "FABRIC_E_TIMEOUT"
+    types:
+    - uid: FabricErrorCodes
+    name: Code
+  - description: Error message.
+    types:
+    - uid: string
+    name: Message
+- name: NodeDeactivationIntent
+  description: >
+    The intent or the reason for deactivating the node. Following are the possible values for it.
+
+      - Invalid - Indicates the node deactivation intent is invalid. All Service Fabric enumerations have the invalid type. The value is zero. This value is not used.
+      - Pause - Indicates that the node should be paused. The value is 1.
+      - Restart - Indicates that the intent is for the node to be restarted after a short period of time. Service Fabric does not restart the node, this action is done outside of Service Fabric. The value is 2.
+      - RemoveData - Indicates that the intent is to reimage the node. Service Fabric does not reimage the node, this action is done outside of Service Fabric. The value is 3.
+      - RemoveNode - Indicates that the node is being decommissioned and is not expected to return. Service Fabric does not decommission the node, this action is done outside of Service Fabric. The value is 4.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Invalid
+  - types:
+    - uid: string
+    name: Pause
+  - types:
+    - uid: string
+    name: Restart
+  - types:
+    - uid: string
+    name: RemoveData
+  - types:
+    - uid: string
+    name: RemoveNode
+- name: NodeDeactivationStatus
+  description: >
+    The status of node deactivation operation. Following are the possible values.
+
+      - None - No status is associated with the task. The value is zero.
+      - SafetyCheckInProgress - When a node is deactivated Service Fabric performs checks to ensure that the operation is safe to proceed to ensure avaiablity of the service and reliability of the state. This value indicates that one or more safety checks are in progress. The value is 1.
+      - SafetyCheckComplete - When a node is deactivated Service Fabric performs checks to ensure that the operation is safe to proceed to ensure avaiablity of the service and reliability of the state. This value indicates that all safety checks have been completed. The value is 2.
+      - Completed - The task is completed. The value is 3.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: None
+  - types:
+    - uid: string
+    name: SafetyCheckInProgress
+  - types:
+    - uid: string
+    name: SafetyCheckComplete
+  - types:
+    - uid: string
+    name: Completed
+- name: NodeDeactivationTask
+  description: List of tasks representing the deactivation operation on the node.
+  kind: object
+  properties:
+  - description: Identity of the task related to deactivation operation on the node.
+    types:
+    - uid: NodeDeactivationTaskId
+    name: NodeDeactivationTaskId
+  - description: >
+      The intent or the reason for deactivating the node. Following are the possible values for it.
+
+        - Invalid - Indicates the node deactivation intent is invalid. All Service Fabric enumerations have the invalid type. The value is zero. This value is not used.
+        - Pause - Indicates that the node should be paused. The value is 1.
+        - Restart - Indicates that the intent is for the node to be restarted after a short period of time. Service Fabric does not restart the node, this action is done outside of Service Fabric. The value is 2.
+        - RemoveData - Indicates that the intent is to reimage the node. Service Fabric does not reimage the node, this action is done outside of Service Fabric. The value is 3.
+        - RemoveNode - Indicates that the node is being decommissioned and is not expected to return. Service Fabric does not decommission the node, this action is done outside of Service Fabric. The value is 4.
+    types:
+    - uid: NodeDeactivationIntent
+    name: NodeDeactivationIntent
+- name: SafetyCheckWrapper
+  description: List of pending safety checks
+  kind: object
+  properties:
+  - description: Represents a safety check performed by service fabric before continuing with the operations. These checks ensure the availability of the service and the reliability of the state.
+    types:
+    - uid: PartitionSafetyCheck
+    - uid: SeedNodeSafetyCheck
+    typesTitle: SafetyCheck
+    name: SafetyCheck
+- name: FabricErrorCodes
+  description: >
+    Defines the fabric error codes that be returned as part of the error object in response to Service Fabric API operations that are not successful. Following are the error code values that can be returned for a specific HTTP status code.
+
+      - Possible values of the error code for HTTP status code 400 (Bad Request)
+        - "FABRIC_E_INVALID_PARTITION_KEY"
+        - "FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR"
+        - "FABRIC_E_INVALID_ADDRESS"
+        - "FABRIC_E_APPLICATION_NOT_UPGRADING"
+        - "FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR"
+        - "FABRIC_E_FABRIC_NOT_UPGRADING"
+        - "FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR"
+        - "FABRIC_E_INVALID_CONFIGURATION"
+        - "FABRIC_E_INVALID_NAME_URI"
+        - "FABRIC_E_PATH_TOO_LONG"
+        - "FABRIC_E_KEY_TOO_LARGE"
+        - "FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED"
+        - "FABRIC_E_INVALID_ATOMIC_GROUP"
+        - "FABRIC_E_VALUE_EMPTY"
+
+      - Possible values of the error code for HTTP status code 404 (Not Found)
+        - "FABRIC_E_NODE_NOT_FOUND"
+        - "FABRIC_E_APPLICATION_TYPE_NOT_FOUND"
+        - "FABRIC_E_APPLICATION_NOT_FOUND"
+        - "FABRIC_E_SERVICE_TYPE_NOT_FOUND"
+        - "FABRIC_E_SERVICE_DOES_NOT_EXIST"
+        - "FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND"
+        - "FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND"
+        - "FABRIC_E_PARTITION_NOT_FOUND"
+        - "FABRIC_E_REPLICA_DOES_NOT_EXIST"
+        - "FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST"
+        - "FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND"
+        - "FABRIC_E_DIRECTORY_NOT_FOUND"
+        - "FABRIC_E_FABRIC_VERSION_NOT_FOUND"
+        - "FABRIC_E_FILE_NOT_FOUND"
+        - "FABRIC_E_NAME_DOES_NOT_EXIST"
+        - "FABRIC_E_PROPERTY_DOES_NOT_EXIST"
+        - "FABRIC_E_ENUMERATION_COMPLETED"
+        - "FABRIC_E_SERVICE_MANIFEST_NOT_FOUND"
+        - "FABRIC_E_KEY_NOT_FOUND"
+        - "FABRIC_E_HEALTH_ENTITY_NOT_FOUND"
+
+      - Possible values of the error code for HTTP status code 409 (Conflict)
+        - "FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION"
+        - "FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS"
+        - "FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS"
+        - "FABRIC_E_SERVICE_ALREADY_EXISTS"
+        - "FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_TYPE_IN_USE"
+        - "FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION"
+        - "FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS"
+        - "FABRIC_E_FABRIC_VERSION_IN_USE"
+        - "FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS"
+        - "FABRIC_E_NAME_ALREADY_EXISTS"
+        - "FABRIC_E_NAME_NOT_EMPTY"
+        - "FABRIC_E_PROPERTY_CHECK_FAILED"
+        - "FABRIC_E_SERVICE_METADATA_MISMATCH"
+        - "FABRIC_E_SERVICE_TYPE_MISMATCH"
+        - "FABRIC_E_HEALTH_STALE_REPORT"
+        - "FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED"
+        - "FABRIC_E_NODE_HAS_NOT_STOPPED_YET"
+        - "FABRIC_E_INSTANCE_ID_MISMATCH"
+
+      - Possible values of the error code for HTTP status code 413 (Request Entity Too Large)
+        - "FABRIC_E_VALUE_TOO_LARGE"
+
+      - Possible values of the error code for HTTP status code 500 (Internal Server Error)
+        - "FABRIC_E_NODE_IS_UP"
+
+      - Possible values of the error code for HTTP status code 503 (Service Unavailable)
+        - "FABRIC_E_NO_WRITE_QUORUM"
+        - "FABRIC_E_NOT_PRIMARY"
+        - "FABRIC_E_NOT_READY"
+        - "FABRIC_E_RECONFIGURATION_PENDING"
+        - "FABRIC_E_SERVICE_OFFLINE"
+        - "E_ABORT"
+        - "FABRIC_E_VALUE_TOO_LARGE"
+
+      - Possible values of the error code for HTTP status code 504 (Gateway Timeout)
+        - "FABRIC_E_COMMUNICATION_ERROR"
+        - "FABRIC_E_OPERATION_NOT_COMPLETE"
+        - "FABRIC_E_TIMEOUT"
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: FABRIC_E_INVALID_PARTITION_KEY
+  - types:
+    - uid: string
+    name: FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR
+  - types:
+    - uid: string
+    name: FABRIC_E_INVALID_ADDRESS
+  - types:
+    - uid: string
+    name: FABRIC_E_APPLICATION_NOT_UPGRADING
+  - types:
+    - uid: string
+    name: FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR
+  - types:
+    - uid: string
+    name: FABRIC_E_FABRIC_NOT_UPGRADING
+  - types:
+    - uid: string
+    name: FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR
+  - types:
+    - uid: string
+    name: FABRIC_E_INVALID_CONFIGURATION
+  - types:
+    - uid: string
+    name: FABRIC_E_INVALID_NAME_URI
+  - types:
+    - uid: string
+    name: FABRIC_E_PATH_TOO_LONG
+  - types:
+    - uid: string
+    name: FABRIC_E_KEY_TOO_LARGE
+  - types:
+    - uid: string
+    name: FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED
+  - types:
+    - uid: string
+    name: FABRIC_E_INVALID_ATOMIC_GROUP
+  - types:
+    - uid: string
+    name: FABRIC_E_VALUE_EMPTY
+  - types:
+    - uid: string
+    name: FABRIC_E_NODE_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_APPLICATION_TYPE_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_APPLICATION_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_SERVICE_TYPE_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_SERVICE_DOES_NOT_EXIST
+  - types:
+    - uid: string
+    name: FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_PARTITION_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_REPLICA_DOES_NOT_EXIST
+  - types:
+    - uid: string
+    name: FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST
+  - types:
+    - uid: string
+    name: FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_DIRECTORY_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_FABRIC_VERSION_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_FILE_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_NAME_DOES_NOT_EXIST
+  - types:
+    - uid: string
+    name: FABRIC_E_PROPERTY_DOES_NOT_EXIST
+  - types:
+    - uid: string
+    name: FABRIC_E_ENUMERATION_COMPLETED
+  - types:
+    - uid: string
+    name: FABRIC_E_SERVICE_MANIFEST_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_KEY_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_HEALTH_ENTITY_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS
+  - types:
+    - uid: string
+    name: FABRIC_E_APPLICATION_ALREADY_EXISTS
+  - types:
+    - uid: string
+    name: FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION
+  - types:
+    - uid: string
+    name: FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS
+  - types:
+    - uid: string
+    name: FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS
+  - types:
+    - uid: string
+    name: FABRIC_E_SERVICE_ALREADY_EXISTS
+  - types:
+    - uid: string
+    name: FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS
+  - types:
+    - uid: string
+    name: FABRIC_E_APPLICATION_TYPE_IN_USE
+  - types:
+    - uid: string
+    name: FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION
+  - types:
+    - uid: string
+    name: FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS
+  - types:
+    - uid: string
+    name: FABRIC_E_FABRIC_VERSION_IN_USE
+  - types:
+    - uid: string
+    name: FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS
+  - types:
+    - uid: string
+    name: FABRIC_E_NAME_ALREADY_EXISTS
+  - types:
+    - uid: string
+    name: FABRIC_E_NAME_NOT_EMPTY
+  - types:
+    - uid: string
+    name: FABRIC_E_PROPERTY_CHECK_FAILED
+  - types:
+    - uid: string
+    name: FABRIC_E_SERVICE_METADATA_MISMATCH
+  - types:
+    - uid: string
+    name: FABRIC_E_SERVICE_TYPE_MISMATCH
+  - types:
+    - uid: string
+    name: FABRIC_E_HEALTH_STALE_REPORT
+  - types:
+    - uid: string
+    name: FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED
+  - types:
+    - uid: string
+    name: FABRIC_E_NODE_HAS_NOT_STOPPED_YET
+  - types:
+    - uid: string
+    name: FABRIC_E_INSTANCE_ID_MISMATCH
+  - types:
+    - uid: string
+    name: FABRIC_E_VALUE_TOO_LARGE
+  - types:
+    - uid: string
+    name: FABRIC_E_NO_WRITE_QUORUM
+  - types:
+    - uid: string
+    name: FABRIC_E_NOT_PRIMARY
+  - types:
+    - uid: string
+    name: FABRIC_E_NOT_READY
+  - types:
+    - uid: string
+    name: FABRIC_E_RECONFIGURATION_PENDING
+  - types:
+    - uid: string
+    name: FABRIC_E_SERVICE_OFFLINE
+  - types:
+    - uid: string
+    name: E_ABORT
+  - types:
+    - uid: string
+    name: FABRIC_E_COMMUNICATION_ERROR
+  - types:
+    - uid: string
+    name: FABRIC_E_OPERATION_NOT_COMPLETE
+  - types:
+    - uid: string
+    name: FABRIC_E_TIMEOUT
+  - types:
+    - uid: string
+    name: FABRIC_E_NODE_IS_UP
+- name: NodeDeactivationTaskId
+  description: Identity of the task related to deactivation operation on the node.
+  kind: object
+  properties:
+  - description: Value of the task id.
+    types:
+    - uid: string
+    name: Id
+  - description: >
+      The type of the task that performed the node deactivation. Following are the possible values.
+
+        - Invalid - Indicates the node deactivation task type is invalid. All Service Fabric enumerations have the invalid type. The value is zero. This value is not used.
+        - Infrastructure - Specifies the task created by Infrastructure hosting the nodes. The value is 1.
+        - Repair - Specifies the task that was created by the Repair Manager service. The value is 2.
+        - Client - Specifies that the task was created by using the public API. The value is 3.
+    types:
+    - uid: NodeDeactivationTaskType
+    name: NodeDeactivationTaskType
+- name: NodeDeactivationTaskType
+  description: >
+    The type of the task that performed the node deactivation. Following are the possible values.
+
+      - Invalid - Indicates the node deactivation task type is invalid. All Service Fabric enumerations have the invalid type. The value is zero. This value is not used.
+      - Infrastructure - Specifies the task created by Infrastructure hosting the nodes. The value is 1.
+      - Repair - Specifies the task that was created by the Repair Manager service. The value is 2.
+      - Client - Specifies that the task was created by using the public API. The value is 3.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Invalid
+  - types:
+    - uid: string
+    name: Infrastructure
+  - types:
+    - uid: string
+    name: Repair
+  - types:
+    - uid: string
+    name: Client
+- name: SeedNodeSafetyCheck
+  description: Represents a safety check for the seed nodes being performed by service fabric before continuing with node level operations.
+  kind: object
+  properties:
+  - description: >
+      The kind of safety check performed by service fabric before continuing with the operations. These checks ensure the availability of the service and the reliability of the state. Following are the kinds of safety checks.
+
+
+      - Invalid - Indicates that the upgrade safety check kind is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+
+      - EnsureSeedNodeQuorum - Indicates that if we bring down the node then this will result in global seed node quorum loss. The value is 1.
+
+      - EnsurePartitionQuorum - Indicates that there is some partition for which if we bring down the replica on the node, it will result in quorum loss for that partition. The value is 2.
+
+      - WaitForPrimaryPlacement - Indicates that there is some replica on the node that was moved out of this node due to upgrade. Service Fabric is now waiting for the primary to be moved back to this node. The value is 3.
+
+      - WaitForPrimarySwap - Indicates that Service Fabric is waiting for a primary replica to be moved out of the node before starting upgrade on that node. The value is 4.
+
+      - WaitForReconfiguration - Indicates that there is some replica on the node that is involved in a reconfiguration. Service Fabric is waiting for the reconfiguration to be complete before staring upgrade on that node. The value is 5.
+
+      - WaitForInbuildReplica - Indicates that there is either a replica on the node that is going through copy, or there is a primary replica on the node that is copying data to some other replica. In both cases, bringing down the replica on the node due to upgrade will abort the copy. The value is 6.
+
+      - EnsureAvailability - Indicates that there is either a stateless service partition on the node having exactly one instance, or there is a primary replica on the node for which the partition is quorum loss. In both cases, bringing down the replicas due to upgrade will result in loss of availability. The value is 7.
+    types:
+    - uid: EnsureSeedNodeQuorum
+    typesTitle: string
+    name: Kind
+- name: EnsureAvailabilitySafetyCheck
+  description: Safety check that waits to ensure the availability of the partition. It waits until there are replicas available such that bringing down this replica will not cause availability loss for the partition.
+  kind: object
+  properties:
+  - description: >
+      The kind of safety check performed by service fabric before continuing with the operations. These checks ensure the availability of the service and the reliability of the state. Following are the kinds of safety checks.
+
+
+      - Invalid - Indicates that the upgrade safety check kind is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+
+      - EnsureSeedNodeQuorum - Indicates that if we bring down the node then this will result in global seed node quorum loss. The value is 1.
+
+      - EnsurePartitionQuorum - Indicates that there is some partition for which if we bring down the replica on the node, it will result in quorum loss for that partition. The value is 2.
+
+      - WaitForPrimaryPlacement - Indicates that there is some replica on the node that was moved out of this node due to upgrade. Service Fabric is now waiting for the primary to be moved back to this node. The value is 3.
+
+      - WaitForPrimarySwap - Indicates that Service Fabric is waiting for a primary replica to be moved out of the node before starting upgrade on that node. The value is 4.
+
+      - WaitForReconfiguration - Indicates that there is some replica on the node that is involved in a reconfiguration. Service Fabric is waiting for the reconfiguration to be complete before staring upgrade on that node. The value is 5.
+
+      - WaitForInbuildReplica - Indicates that there is either a replica on the node that is going through copy, or there is a primary replica on the node that is copying data to some other replica. In both cases, bringing down the replica on the node due to upgrade will abort the copy. The value is 6.
+
+      - EnsureAvailability - Indicates that there is either a stateless service partition on the node having exactly one instance, or there is a primary replica on the node for which the partition is quorum loss. In both cases, bringing down the replicas due to upgrade will result in loss of availability. The value is 7.
+    types:
+    - uid: EnsureAvailability
+    typesTitle: string
+    name: Kind
+  - description: An internal ID used by Service Fabric to uniquely identify a partition. This is a randomly generated GUID when the service was created. The partition id is unique and does not change for the lifetime of the service. If the same service was deleted and recreated the ids of its partitions would be different.
+    types:
+    - uid: string
+    name: PartitionId
+- name: EnsurePartitionQurumSafetyCheck
+  description: Safety check that ensures that a quorum of replicas are not lost for a partition.
+  kind: object
+  properties:
+  - description: >
+      The kind of safety check performed by service fabric before continuing with the operations. These checks ensure the availability of the service and the reliability of the state. Following are the kinds of safety checks.
+
+
+      - Invalid - Indicates that the upgrade safety check kind is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+
+      - EnsureSeedNodeQuorum - Indicates that if we bring down the node then this will result in global seed node quorum loss. The value is 1.
+
+      - EnsurePartitionQuorum - Indicates that there is some partition for which if we bring down the replica on the node, it will result in quorum loss for that partition. The value is 2.
+
+      - WaitForPrimaryPlacement - Indicates that there is some replica on the node that was moved out of this node due to upgrade. Service Fabric is now waiting for the primary to be moved back to this node. The value is 3.
+
+      - WaitForPrimarySwap - Indicates that Service Fabric is waiting for a primary replica to be moved out of the node before starting upgrade on that node. The value is 4.
+
+      - WaitForReconfiguration - Indicates that there is some replica on the node that is involved in a reconfiguration. Service Fabric is waiting for the reconfiguration to be complete before staring upgrade on that node. The value is 5.
+
+      - WaitForInbuildReplica - Indicates that there is either a replica on the node that is going through copy, or there is a primary replica on the node that is copying data to some other replica. In both cases, bringing down the replica on the node due to upgrade will abort the copy. The value is 6.
+
+      - EnsureAvailability - Indicates that there is either a stateless service partition on the node having exactly one instance, or there is a primary replica on the node for which the partition is quorum loss. In both cases, bringing down the replicas due to upgrade will result in loss of availability. The value is 7.
+    types:
+    - uid: EnsurePartitionQuorum
+    typesTitle: string
+    name: Kind
+  - description: An internal ID used by Service Fabric to uniquely identify a partition. This is a randomly generated GUID when the service was created. The partition id is unique and does not change for the lifetime of the service. If the same service was deleted and recreated the ids of its partitions would be different.
+    types:
+    - uid: string
+    name: PartitionId
+- name: WaitForInbuildReplicaSafetyCheck
+  description: Safety check that waits for the replica build operation to finish. This indiciates that there is a replica that is going through the copy or is providing data for building another replica. Bring the node down will abort this copy operation which are typoically expensive involving data movements.
+  kind: object
+  properties:
+  - description: >
+      The kind of safety check performed by service fabric before continuing with the operations. These checks ensure the availability of the service and the reliability of the state. Following are the kinds of safety checks.
+
+
+      - Invalid - Indicates that the upgrade safety check kind is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+
+      - EnsureSeedNodeQuorum - Indicates that if we bring down the node then this will result in global seed node quorum loss. The value is 1.
+
+      - EnsurePartitionQuorum - Indicates that there is some partition for which if we bring down the replica on the node, it will result in quorum loss for that partition. The value is 2.
+
+      - WaitForPrimaryPlacement - Indicates that there is some replica on the node that was moved out of this node due to upgrade. Service Fabric is now waiting for the primary to be moved back to this node. The value is 3.
+
+      - WaitForPrimarySwap - Indicates that Service Fabric is waiting for a primary replica to be moved out of the node before starting upgrade on that node. The value is 4.
+
+      - WaitForReconfiguration - Indicates that there is some replica on the node that is involved in a reconfiguration. Service Fabric is waiting for the reconfiguration to be complete before staring upgrade on that node. The value is 5.
+
+      - WaitForInbuildReplica - Indicates that there is either a replica on the node that is going through copy, or there is a primary replica on the node that is copying data to some other replica. In both cases, bringing down the replica on the node due to upgrade will abort the copy. The value is 6.
+
+      - EnsureAvailability - Indicates that there is either a stateless service partition on the node having exactly one instance, or there is a primary replica on the node for which the partition is quorum loss. In both cases, bringing down the replicas due to upgrade will result in loss of availability. The value is 7.
+    types:
+    - uid: WaitForInbuildReplica
+    typesTitle: string
+    name: Kind
+  - description: An internal ID used by Service Fabric to uniquely identify a partition. This is a randomly generated GUID when the service was created. The partition id is unique and does not change for the lifetime of the service. If the same service was deleted and recreated the ids of its partitions would be different.
+    types:
+    - uid: string
+    name: PartitionId
+- name: WaitForPrimaryPlacementSafetyCheck
+  description: Safety check that waits for the primary replica that was moved out of the node due to upgrade to be placed back again on that node.
+  kind: object
+  properties:
+  - description: >
+      The kind of safety check performed by service fabric before continuing with the operations. These checks ensure the availability of the service and the reliability of the state. Following are the kinds of safety checks.
+
+
+      - Invalid - Indicates that the upgrade safety check kind is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+
+      - EnsureSeedNodeQuorum - Indicates that if we bring down the node then this will result in global seed node quorum loss. The value is 1.
+
+      - EnsurePartitionQuorum - Indicates that there is some partition for which if we bring down the replica on the node, it will result in quorum loss for that partition. The value is 2.
+
+      - WaitForPrimaryPlacement - Indicates that there is some replica on the node that was moved out of this node due to upgrade. Service Fabric is now waiting for the primary to be moved back to this node. The value is 3.
+
+      - WaitForPrimarySwap - Indicates that Service Fabric is waiting for a primary replica to be moved out of the node before starting upgrade on that node. The value is 4.
+
+      - WaitForReconfiguration - Indicates that there is some replica on the node that is involved in a reconfiguration. Service Fabric is waiting for the reconfiguration to be complete before staring upgrade on that node. The value is 5.
+
+      - WaitForInbuildReplica - Indicates that there is either a replica on the node that is going through copy, or there is a primary replica on the node that is copying data to some other replica. In both cases, bringing down the replica on the node due to upgrade will abort the copy. The value is 6.
+
+      - EnsureAvailability - Indicates that there is either a stateless service partition on the node having exactly one instance, or there is a primary replica on the node for which the partition is quorum loss. In both cases, bringing down the replicas due to upgrade will result in loss of availability. The value is 7.
+    types:
+    - uid: WaitForPrimaryPlacement
+    typesTitle: string
+    name: Kind
+  - description: An internal ID used by Service Fabric to uniquely identify a partition. This is a randomly generated GUID when the service was created. The partition id is unique and does not change for the lifetime of the service. If the same service was deleted and recreated the ids of its partitions would be different.
+    types:
+    - uid: string
+    name: PartitionId
+- name: WaitForPrimarySwapSafetyCheck
+  description: Safety check that waits for the primary replica to be moved out of the node before starting an upgrade to ensure the availability of the primary replica for the partition.
+  kind: object
+  properties:
+  - description: >
+      The kind of safety check performed by service fabric before continuing with the operations. These checks ensure the availability of the service and the reliability of the state. Following are the kinds of safety checks.
+
+
+      - Invalid - Indicates that the upgrade safety check kind is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+
+      - EnsureSeedNodeQuorum - Indicates that if we bring down the node then this will result in global seed node quorum loss. The value is 1.
+
+      - EnsurePartitionQuorum - Indicates that there is some partition for which if we bring down the replica on the node, it will result in quorum loss for that partition. The value is 2.
+
+      - WaitForPrimaryPlacement - Indicates that there is some replica on the node that was moved out of this node due to upgrade. Service Fabric is now waiting for the primary to be moved back to this node. The value is 3.
+
+      - WaitForPrimarySwap - Indicates that Service Fabric is waiting for a primary replica to be moved out of the node before starting upgrade on that node. The value is 4.
+
+      - WaitForReconfiguration - Indicates that there is some replica on the node that is involved in a reconfiguration. Service Fabric is waiting for the reconfiguration to be complete before staring upgrade on that node. The value is 5.
+
+      - WaitForInbuildReplica - Indicates that there is either a replica on the node that is going through copy, or there is a primary replica on the node that is copying data to some other replica. In both cases, bringing down the replica on the node due to upgrade will abort the copy. The value is 6.
+
+      - EnsureAvailability - Indicates that there is either a stateless service partition on the node having exactly one instance, or there is a primary replica on the node for which the partition is quorum loss. In both cases, bringing down the replicas due to upgrade will result in loss of availability. The value is 7.
+    types:
+    - uid: WaitForPrimarySwap
+    typesTitle: string
+    name: Kind
+  - description: An internal ID used by Service Fabric to uniquely identify a partition. This is a randomly generated GUID when the service was created. The partition id is unique and does not change for the lifetime of the service. If the same service was deleted and recreated the ids of its partitions would be different.
+    types:
+    - uid: string
+    name: PartitionId
+- name: WaitForReconfigurationSafetyCheck
+  description: Safety check that waits for the current reconfiguration of the partition to be completed before starting an upgrade.
+  kind: object
+  properties:
+  - description: >
+      The kind of safety check performed by service fabric before continuing with the operations. These checks ensure the availability of the service and the reliability of the state. Following are the kinds of safety checks.
+
+
+      - Invalid - Indicates that the upgrade safety check kind is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+
+      - EnsureSeedNodeQuorum - Indicates that if we bring down the node then this will result in global seed node quorum loss. The value is 1.
+
+      - EnsurePartitionQuorum - Indicates that there is some partition for which if we bring down the replica on the node, it will result in quorum loss for that partition. The value is 2.
+
+      - WaitForPrimaryPlacement - Indicates that there is some replica on the node that was moved out of this node due to upgrade. Service Fabric is now waiting for the primary to be moved back to this node. The value is 3.
+
+      - WaitForPrimarySwap - Indicates that Service Fabric is waiting for a primary replica to be moved out of the node before starting upgrade on that node. The value is 4.
+
+      - WaitForReconfiguration - Indicates that there is some replica on the node that is involved in a reconfiguration. Service Fabric is waiting for the reconfiguration to be complete before staring upgrade on that node. The value is 5.
+
+      - WaitForInbuildReplica - Indicates that there is either a replica on the node that is going through copy, or there is a primary replica on the node that is copying data to some other replica. In both cases, bringing down the replica on the node due to upgrade will abort the copy. The value is 6.
+
+      - EnsureAvailability - Indicates that there is either a stateless service partition on the node having exactly one instance, or there is a primary replica on the node for which the partition is quorum loss. In both cases, bringing down the replicas due to upgrade will result in loss of availability. The value is 7.
+    types:
+    - uid: WaitForReconfiguration
+    typesTitle: string
+    name: Kind
+  - description: An internal ID used by Service Fabric to uniquely identify a partition. This is a randomly generated GUID when the service was created. The partition id is unique and does not change for the lifetime of the service. If the same service was deleted and recreated the ids of its partitions would be different.
+    types:
+    - uid: string
+    name: PartitionId
+- name: SafetyCheckKind
+  description: >
+    The kind of safety check performed by service fabric before continuing with the operations. These checks ensure the availability of the service and the reliability of the state. Following are the kinds of safety checks.
+
+
+    - Invalid - Indicates that the upgrade safety check kind is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+
+    - EnsureSeedNodeQuorum - Indicates that if we bring down the node then this will result in global seed node quorum loss. The value is 1.
+
+    - EnsurePartitionQuorum - Indicates that there is some partition for which if we bring down the replica on the node, it will result in quorum loss for that partition. The value is 2.
+
+    - WaitForPrimaryPlacement - Indicates that there is some replica on the node that was moved out of this node due to upgrade. Service Fabric is now waiting for the primary to be moved back to this node. The value is 3.
+
+    - WaitForPrimarySwap - Indicates that Service Fabric is waiting for a primary replica to be moved out of the node before starting upgrade on that node. The value is 4.
+
+    - WaitForReconfiguration - Indicates that there is some replica on the node that is involved in a reconfiguration. Service Fabric is waiting for the reconfiguration to be complete before staring upgrade on that node. The value is 5.
+
+    - WaitForInbuildReplica - Indicates that there is either a replica on the node that is going through copy, or there is a primary replica on the node that is copying data to some other replica. In both cases, bringing down the replica on the node due to upgrade will abort the copy. The value is 6.
+
+    - EnsureAvailability - Indicates that there is either a stateless service partition on the node having exactly one instance, or there is a primary replica on the node for which the partition is quorum loss. In both cases, bringing down the replicas due to upgrade will result in loss of availability. The value is 7.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Invalid
+  - types:
+    - uid: string
+    name: EnsureSeedNodeQuorum
+  - types:
+    - uid: string
+    name: EnsurePartitionQuorum
+  - types:
+    - uid: string
+    name: WaitForPrimaryPlacement
+  - types:
+    - uid: string
+    name: WaitForPrimarySwap
+  - types:
+    - uid: string
+    name: WaitForReconfiguration
+  - types:
+    - uid: string
+    name: WaitForInbuildReplica
+  - types:
+    - uid: string
+    name: EnsureAvailability
+examples: []
+security: []
+name: GetNodeInfo
+uid: localhost:19080.servicefabric.getnodeinfo.getnodeinfo

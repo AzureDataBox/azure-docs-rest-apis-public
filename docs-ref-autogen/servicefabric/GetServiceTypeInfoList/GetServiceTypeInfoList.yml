@@ -1,0 +1,736 @@
+### YamlMime:RESTOperation
+summary: Gets the list containing the information about service types that are supported by a provisioned application type in a Service Fabric cluster. Gets the list containing the information about service types that are supported by a provisioned application type in a Service Fabric cluster. The response includes the name of the service type, the name and version of the service manifest the type is defined in, kind (stateless or stateless) of the service type and other information about it.
+service: Service Fabric
+apiVersion: 6.0.0.1
+groupName: Get Service Type Info List
+produces:
+- application/json
+paths:
+- content: GET http://localhost:19080/ApplicationTypes/{applicationTypeName}/$/GetServiceTypes?api-version=6.0.0.1&ApplicationTypeVersion={ApplicationTypeVersion}
+- content: GET http://localhost:19080/ApplicationTypes/{applicationTypeName}/$/GetServiceTypes?api-version=6.0.0.1&ApplicationTypeVersion={ApplicationTypeVersion}&timeout={timeout}
+  isOptional: true
+uriParameters:
+- in: path
+  isRequired: true
+  description: The name of the application type.
+  types:
+  - uid: string
+  name: applicationTypeName
+- in: query
+  isRequired: true
+  description: The version of the API. This is a required parameter and it's value must be "6.0".
+  types:
+  - uid: string
+  name: api-version
+- in: query
+  isRequired: true
+  description: The version of the application type.
+  types:
+  - uid: string
+  name: ApplicationTypeVersion
+- in: query
+  description: The server timeout for performing the operation in seconds. This specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
+  types:
+  - uid: integer
+  format: int64
+  name: timeout
+responses:
+- description: List of service types that are supported by a provisioned application type.
+  types:
+  - isArray: true
+    uid: ServiceTypeInfo
+  name: 200 OK
+- description: The detailed error response.
+  types:
+  - uid: FabricError
+  name: Other Status Codes
+requestHeader: []
+definitions:
+- name: ServiceTypeInfo
+  description: Information about a service type that is defined in a service manifest of a provisioned application type.
+  kind: object
+  properties:
+  - description: Describes a service type defined in the service manifest of a provisioned application type. The properties the the ones defined in the service manifest.
+    types:
+    - uid: StatefulServiceTypeDescription
+    - uid: StatelessServiceTypeDescription
+    typesTitle: ServiceTypeDescription
+    name: ServiceTypeDescription
+  - description: The name of the service manifest.
+    types:
+    - uid: string
+    name: ServiceManifestName
+  - description: The version of the service manifest in which this service type is defined.
+    types:
+    - uid: string
+    name: ServiceManifestVersion
+  - description: Indicates whether the service is a service group. If it is, the property value is true otherwise false.
+    types:
+    - uid: boolean
+    name: IsServiceGroup
+- name: FabricError
+  description: >
+    The REST API operations for Service Fabric return standard HTTP status codes. This type defines the additional information returned from the Service Fabric API operations that are not successful.
+  kind: object
+  properties:
+  - description: Error object containing error code and error message.
+    types:
+    - uid: FabricError_Error
+    name: Error
+- name: FabricError_Error
+  description: Error object containing error code and error message.
+  kind: object
+  properties:
+  - description: >
+      Defines the fabric error codes that be returned as part of the error object in response to Service Fabric API operations that are not successful. Following are the error code values that can be returned for a specific HTTP status code.
+
+        - Possible values of the error code for HTTP status code 400 (Bad Request)
+          - "FABRIC_E_INVALID_PARTITION_KEY"
+          - "FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR"
+          - "FABRIC_E_INVALID_ADDRESS"
+          - "FABRIC_E_APPLICATION_NOT_UPGRADING"
+          - "FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR"
+          - "FABRIC_E_FABRIC_NOT_UPGRADING"
+          - "FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR"
+          - "FABRIC_E_INVALID_CONFIGURATION"
+          - "FABRIC_E_INVALID_NAME_URI"
+          - "FABRIC_E_PATH_TOO_LONG"
+          - "FABRIC_E_KEY_TOO_LARGE"
+          - "FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED"
+          - "FABRIC_E_INVALID_ATOMIC_GROUP"
+          - "FABRIC_E_VALUE_EMPTY"
+
+        - Possible values of the error code for HTTP status code 404 (Not Found)
+          - "FABRIC_E_NODE_NOT_FOUND"
+          - "FABRIC_E_APPLICATION_TYPE_NOT_FOUND"
+          - "FABRIC_E_APPLICATION_NOT_FOUND"
+          - "FABRIC_E_SERVICE_TYPE_NOT_FOUND"
+          - "FABRIC_E_SERVICE_DOES_NOT_EXIST"
+          - "FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND"
+          - "FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND"
+          - "FABRIC_E_PARTITION_NOT_FOUND"
+          - "FABRIC_E_REPLICA_DOES_NOT_EXIST"
+          - "FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST"
+          - "FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND"
+          - "FABRIC_E_DIRECTORY_NOT_FOUND"
+          - "FABRIC_E_FABRIC_VERSION_NOT_FOUND"
+          - "FABRIC_E_FILE_NOT_FOUND"
+          - "FABRIC_E_NAME_DOES_NOT_EXIST"
+          - "FABRIC_E_PROPERTY_DOES_NOT_EXIST"
+          - "FABRIC_E_ENUMERATION_COMPLETED"
+          - "FABRIC_E_SERVICE_MANIFEST_NOT_FOUND"
+          - "FABRIC_E_KEY_NOT_FOUND"
+          - "FABRIC_E_HEALTH_ENTITY_NOT_FOUND"
+
+        - Possible values of the error code for HTTP status code 409 (Conflict)
+          - "FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION"
+          - "FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS"
+          - "FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS"
+          - "FABRIC_E_SERVICE_ALREADY_EXISTS"
+          - "FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_TYPE_IN_USE"
+          - "FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION"
+          - "FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS"
+          - "FABRIC_E_FABRIC_VERSION_IN_USE"
+          - "FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS"
+          - "FABRIC_E_NAME_ALREADY_EXISTS"
+          - "FABRIC_E_NAME_NOT_EMPTY"
+          - "FABRIC_E_PROPERTY_CHECK_FAILED"
+          - "FABRIC_E_SERVICE_METADATA_MISMATCH"
+          - "FABRIC_E_SERVICE_TYPE_MISMATCH"
+          - "FABRIC_E_HEALTH_STALE_REPORT"
+          - "FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED"
+          - "FABRIC_E_NODE_HAS_NOT_STOPPED_YET"
+          - "FABRIC_E_INSTANCE_ID_MISMATCH"
+
+        - Possible values of the error code for HTTP status code 413 (Request Entity Too Large)
+          - "FABRIC_E_VALUE_TOO_LARGE"
+
+        - Possible values of the error code for HTTP status code 500 (Internal Server Error)
+          - "FABRIC_E_NODE_IS_UP"
+
+        - Possible values of the error code for HTTP status code 503 (Service Unavailable)
+          - "FABRIC_E_NO_WRITE_QUORUM"
+          - "FABRIC_E_NOT_PRIMARY"
+          - "FABRIC_E_NOT_READY"
+          - "FABRIC_E_RECONFIGURATION_PENDING"
+          - "FABRIC_E_SERVICE_OFFLINE"
+          - "E_ABORT"
+          - "FABRIC_E_VALUE_TOO_LARGE"
+
+        - Possible values of the error code for HTTP status code 504 (Gateway Timeout)
+          - "FABRIC_E_COMMUNICATION_ERROR"
+          - "FABRIC_E_OPERATION_NOT_COMPLETE"
+          - "FABRIC_E_TIMEOUT"
+    types:
+    - uid: FabricErrorCodes
+    name: Code
+  - description: Error message.
+    types:
+    - uid: string
+    name: Message
+- name: StatefulServiceTypeDescription
+  description: Describes a stateful service type defined in the service manifest of a provisioned application type.
+  kind: object
+  properties:
+  - description: A flag indicating whether this is a persistent service which stores states on the local disk. If it is then the value of this property is true, if not it is false.
+    types:
+    - uid: boolean
+    name: HasPersistedState
+  - description: >
+      The kind of service (Stateless or Stateful). Following are the possible values.
+
+
+      - Invalid - Indicates the service kind is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+
+      - Stateless - Does not use Service Fabric to make its state highly available or reliable. The value is 1.
+
+      - Stateful - Uses Service Fabric to make its state or part of its state highly available and reliable. The value is 2.
+    types:
+    - uid: Stateful
+    typesTitle: string
+    name: Kind
+  - description: Indicates whether the service type is a stateful service type or a stateless service type. This property is true if the service type is a stateful service type, false otherwise.
+    types:
+    - uid: boolean
+    name: IsStateful
+  - description: Name of the service type as specified in the service manifest.
+    types:
+    - uid: string
+    name: ServiceTypeName
+  - description: The placement constraint to be used when instantiating this service in a Service Fabric cluster.
+    types:
+    - uid: string
+    name: PlacementConstraints
+  - description: List of service placement policy descriptions.
+    types:
+    - isArray: true
+      uid: ServicePlacementInvalidDomainPolicyDescription
+    - isArray: true
+      uid: ServicePlacementNonPartiallyPlaceServicePolicyDescription
+    - isArray: true
+      uid: ServicePlacementPreferPrimaryDomainPolicyDescription
+    - isArray: true
+      uid: ServicePlacementRequiredDomainPolicyDescription
+    - isArray: true
+      uid: ServicePlacementRequireDomainDistributionPolicyDescription
+    typesTitle: ServicePlacementPolicyDescription[]
+    name: ServicePlacementPolicies
+  - description: List of service type extensions.
+    types:
+    - uid: ServiceTypeExtensionDescription
+    name: Extensions
+- name: StatelessServiceTypeDescription
+  description: Describes a stateless service type defined in the service manifest of a provisioned application type.
+  kind: object
+  properties:
+  - description: A flag indicating if this type is not implemented and hosted by a user service process, but is implicitly hosted by a system created process. This value is true for services using the guest executable services, false otherwise.
+    types:
+    - uid: boolean
+    name: UseImplicitHost
+  - description: >
+      The kind of service (Stateless or Stateful). Following are the possible values.
+
+
+      - Invalid - Indicates the service kind is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+
+      - Stateless - Does not use Service Fabric to make its state highly available or reliable. The value is 1.
+
+      - Stateful - Uses Service Fabric to make its state or part of its state highly available and reliable. The value is 2.
+    types:
+    - uid: Stateless
+    typesTitle: string
+    name: Kind
+  - description: Indicates whether the service type is a stateful service type or a stateless service type. This property is true if the service type is a stateful service type, false otherwise.
+    types:
+    - uid: boolean
+    name: IsStateful
+  - description: Name of the service type as specified in the service manifest.
+    types:
+    - uid: string
+    name: ServiceTypeName
+  - description: The placement constraint to be used when instantiating this service in a Service Fabric cluster.
+    types:
+    - uid: string
+    name: PlacementConstraints
+  - description: List of service placement policy descriptions.
+    types:
+    - isArray: true
+      uid: ServicePlacementInvalidDomainPolicyDescription
+    - isArray: true
+      uid: ServicePlacementNonPartiallyPlaceServicePolicyDescription
+    - isArray: true
+      uid: ServicePlacementPreferPrimaryDomainPolicyDescription
+    - isArray: true
+      uid: ServicePlacementRequiredDomainPolicyDescription
+    - isArray: true
+      uid: ServicePlacementRequireDomainDistributionPolicyDescription
+    typesTitle: ServicePlacementPolicyDescription[]
+    name: ServicePlacementPolicies
+  - description: List of service type extensions.
+    types:
+    - uid: ServiceTypeExtensionDescription
+    name: Extensions
+- name: FabricErrorCodes
+  description: >
+    Defines the fabric error codes that be returned as part of the error object in response to Service Fabric API operations that are not successful. Following are the error code values that can be returned for a specific HTTP status code.
+
+      - Possible values of the error code for HTTP status code 400 (Bad Request)
+        - "FABRIC_E_INVALID_PARTITION_KEY"
+        - "FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR"
+        - "FABRIC_E_INVALID_ADDRESS"
+        - "FABRIC_E_APPLICATION_NOT_UPGRADING"
+        - "FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR"
+        - "FABRIC_E_FABRIC_NOT_UPGRADING"
+        - "FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR"
+        - "FABRIC_E_INVALID_CONFIGURATION"
+        - "FABRIC_E_INVALID_NAME_URI"
+        - "FABRIC_E_PATH_TOO_LONG"
+        - "FABRIC_E_KEY_TOO_LARGE"
+        - "FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED"
+        - "FABRIC_E_INVALID_ATOMIC_GROUP"
+        - "FABRIC_E_VALUE_EMPTY"
+
+      - Possible values of the error code for HTTP status code 404 (Not Found)
+        - "FABRIC_E_NODE_NOT_FOUND"
+        - "FABRIC_E_APPLICATION_TYPE_NOT_FOUND"
+        - "FABRIC_E_APPLICATION_NOT_FOUND"
+        - "FABRIC_E_SERVICE_TYPE_NOT_FOUND"
+        - "FABRIC_E_SERVICE_DOES_NOT_EXIST"
+        - "FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND"
+        - "FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND"
+        - "FABRIC_E_PARTITION_NOT_FOUND"
+        - "FABRIC_E_REPLICA_DOES_NOT_EXIST"
+        - "FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST"
+        - "FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND"
+        - "FABRIC_E_DIRECTORY_NOT_FOUND"
+        - "FABRIC_E_FABRIC_VERSION_NOT_FOUND"
+        - "FABRIC_E_FILE_NOT_FOUND"
+        - "FABRIC_E_NAME_DOES_NOT_EXIST"
+        - "FABRIC_E_PROPERTY_DOES_NOT_EXIST"
+        - "FABRIC_E_ENUMERATION_COMPLETED"
+        - "FABRIC_E_SERVICE_MANIFEST_NOT_FOUND"
+        - "FABRIC_E_KEY_NOT_FOUND"
+        - "FABRIC_E_HEALTH_ENTITY_NOT_FOUND"
+
+      - Possible values of the error code for HTTP status code 409 (Conflict)
+        - "FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION"
+        - "FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS"
+        - "FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS"
+        - "FABRIC_E_SERVICE_ALREADY_EXISTS"
+        - "FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_TYPE_IN_USE"
+        - "FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION"
+        - "FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS"
+        - "FABRIC_E_FABRIC_VERSION_IN_USE"
+        - "FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS"
+        - "FABRIC_E_NAME_ALREADY_EXISTS"
+        - "FABRIC_E_NAME_NOT_EMPTY"
+        - "FABRIC_E_PROPERTY_CHECK_FAILED"
+        - "FABRIC_E_SERVICE_METADATA_MISMATCH"
+        - "FABRIC_E_SERVICE_TYPE_MISMATCH"
+        - "FABRIC_E_HEALTH_STALE_REPORT"
+        - "FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED"
+        - "FABRIC_E_NODE_HAS_NOT_STOPPED_YET"
+        - "FABRIC_E_INSTANCE_ID_MISMATCH"
+
+      - Possible values of the error code for HTTP status code 413 (Request Entity Too Large)
+        - "FABRIC_E_VALUE_TOO_LARGE"
+
+      - Possible values of the error code for HTTP status code 500 (Internal Server Error)
+        - "FABRIC_E_NODE_IS_UP"
+
+      - Possible values of the error code for HTTP status code 503 (Service Unavailable)
+        - "FABRIC_E_NO_WRITE_QUORUM"
+        - "FABRIC_E_NOT_PRIMARY"
+        - "FABRIC_E_NOT_READY"
+        - "FABRIC_E_RECONFIGURATION_PENDING"
+        - "FABRIC_E_SERVICE_OFFLINE"
+        - "E_ABORT"
+        - "FABRIC_E_VALUE_TOO_LARGE"
+
+      - Possible values of the error code for HTTP status code 504 (Gateway Timeout)
+        - "FABRIC_E_COMMUNICATION_ERROR"
+        - "FABRIC_E_OPERATION_NOT_COMPLETE"
+        - "FABRIC_E_TIMEOUT"
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: FABRIC_E_INVALID_PARTITION_KEY
+  - types:
+    - uid: string
+    name: FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR
+  - types:
+    - uid: string
+    name: FABRIC_E_INVALID_ADDRESS
+  - types:
+    - uid: string
+    name: FABRIC_E_APPLICATION_NOT_UPGRADING
+  - types:
+    - uid: string
+    name: FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR
+  - types:
+    - uid: string
+    name: FABRIC_E_FABRIC_NOT_UPGRADING
+  - types:
+    - uid: string
+    name: FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR
+  - types:
+    - uid: string
+    name: FABRIC_E_INVALID_CONFIGURATION
+  - types:
+    - uid: string
+    name: FABRIC_E_INVALID_NAME_URI
+  - types:
+    - uid: string
+    name: FABRIC_E_PATH_TOO_LONG
+  - types:
+    - uid: string
+    name: FABRIC_E_KEY_TOO_LARGE
+  - types:
+    - uid: string
+    name: FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED
+  - types:
+    - uid: string
+    name: FABRIC_E_INVALID_ATOMIC_GROUP
+  - types:
+    - uid: string
+    name: FABRIC_E_VALUE_EMPTY
+  - types:
+    - uid: string
+    name: FABRIC_E_NODE_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_APPLICATION_TYPE_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_APPLICATION_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_SERVICE_TYPE_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_SERVICE_DOES_NOT_EXIST
+  - types:
+    - uid: string
+    name: FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_PARTITION_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_REPLICA_DOES_NOT_EXIST
+  - types:
+    - uid: string
+    name: FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST
+  - types:
+    - uid: string
+    name: FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_DIRECTORY_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_FABRIC_VERSION_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_FILE_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_NAME_DOES_NOT_EXIST
+  - types:
+    - uid: string
+    name: FABRIC_E_PROPERTY_DOES_NOT_EXIST
+  - types:
+    - uid: string
+    name: FABRIC_E_ENUMERATION_COMPLETED
+  - types:
+    - uid: string
+    name: FABRIC_E_SERVICE_MANIFEST_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_KEY_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_HEALTH_ENTITY_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS
+  - types:
+    - uid: string
+    name: FABRIC_E_APPLICATION_ALREADY_EXISTS
+  - types:
+    - uid: string
+    name: FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION
+  - types:
+    - uid: string
+    name: FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS
+  - types:
+    - uid: string
+    name: FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS
+  - types:
+    - uid: string
+    name: FABRIC_E_SERVICE_ALREADY_EXISTS
+  - types:
+    - uid: string
+    name: FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS
+  - types:
+    - uid: string
+    name: FABRIC_E_APPLICATION_TYPE_IN_USE
+  - types:
+    - uid: string
+    name: FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION
+  - types:
+    - uid: string
+    name: FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS
+  - types:
+    - uid: string
+    name: FABRIC_E_FABRIC_VERSION_IN_USE
+  - types:
+    - uid: string
+    name: FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS
+  - types:
+    - uid: string
+    name: FABRIC_E_NAME_ALREADY_EXISTS
+  - types:
+    - uid: string
+    name: FABRIC_E_NAME_NOT_EMPTY
+  - types:
+    - uid: string
+    name: FABRIC_E_PROPERTY_CHECK_FAILED
+  - types:
+    - uid: string
+    name: FABRIC_E_SERVICE_METADATA_MISMATCH
+  - types:
+    - uid: string
+    name: FABRIC_E_SERVICE_TYPE_MISMATCH
+  - types:
+    - uid: string
+    name: FABRIC_E_HEALTH_STALE_REPORT
+  - types:
+    - uid: string
+    name: FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED
+  - types:
+    - uid: string
+    name: FABRIC_E_NODE_HAS_NOT_STOPPED_YET
+  - types:
+    - uid: string
+    name: FABRIC_E_INSTANCE_ID_MISMATCH
+  - types:
+    - uid: string
+    name: FABRIC_E_VALUE_TOO_LARGE
+  - types:
+    - uid: string
+    name: FABRIC_E_NO_WRITE_QUORUM
+  - types:
+    - uid: string
+    name: FABRIC_E_NOT_PRIMARY
+  - types:
+    - uid: string
+    name: FABRIC_E_NOT_READY
+  - types:
+    - uid: string
+    name: FABRIC_E_RECONFIGURATION_PENDING
+  - types:
+    - uid: string
+    name: FABRIC_E_SERVICE_OFFLINE
+  - types:
+    - uid: string
+    name: E_ABORT
+  - types:
+    - uid: string
+    name: FABRIC_E_COMMUNICATION_ERROR
+  - types:
+    - uid: string
+    name: FABRIC_E_OPERATION_NOT_COMPLETE
+  - types:
+    - uid: string
+    name: FABRIC_E_TIMEOUT
+  - types:
+    - uid: string
+    name: FABRIC_E_NODE_IS_UP
+- name: ServiceKind
+  description: >
+    The kind of service (Stateless or Stateful). Following are the possible values.
+
+
+    - Invalid - Indicates the service kind is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+
+    - Stateless - Does not use Service Fabric to make its state highly available or reliable. The value is 1.
+
+    - Stateful - Uses Service Fabric to make its state or part of its state highly available and reliable. The value is 2.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Invalid
+  - types:
+    - uid: string
+    name: Stateless
+  - types:
+    - uid: string
+    name: Stateful
+- name: ServiceTypeExtensionDescription
+  description: List of service type extensions.
+  kind: object
+  properties:
+  - description: The name of the extension.
+    types:
+    - uid: string
+    name: Key
+  - description: The extension value.
+    types:
+    - uid: string
+    name: Value
+- name: ServicePlacementInvalidDomainPolicyDescription
+  description: Describes the policy to be used for placement of a Service Fabric service where a particular fault or upgrade domain should not be used for placement of the instances or replicas of that service.
+  kind: object
+  properties:
+  - description: >
+      The type of placement policy for a service fabric service. Following are the possible values.
+
+        - Invalid - Indicates the type of the placement policy is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+        - InvalidDomain - Indicates that the ServicePlacementPolicyDescription is of type ServicePlacementInvalidDomainPolicyDescription, which indicates that a particular fault or upgrade domain cannot be used for placement of this service. The value is 1.
+        - RequiredDomain - Indicates that the ServicePlacementPolicyDescription is of type ServicePlacementRequireDomainDistributionPolicyDescription indicating that the replicas of the service must be placed in a specific domain. The value is 2.
+        - PreferredPrimaryDomain - Indicates that the ServicePlacementPolicyDescription is of type ServicePlacementPreferPrimaryDomainPolicyDescription, which indicates that if possible the Primary replica for the partitions of the service should be located in a particular domain as an optimization. The value is 3.
+        - RequiredDomainDistribution - Indicates that the ServicePlacementPolicyDescription is of type ServicePlacementRequireDomainDistributionPolicyDescription, indicating that the system will disallow placement of any two replicas from the same partition in the same domain at any time. The value is 4.
+        - NonPartiallyPlaceService - Indicates that the ServicePlacementPolicyDescription is of type ServicePlacementNonPartiallyPlaceServicePolicyDescription, which indicates that if possible all replicas of a particular partition of the service should be placed atomically. The value is 5.
+    types:
+    - uid: InvalidDomain
+    typesTitle: string
+    name: Type
+  - description: The name of the domain that should not be used for placement.
+    types:
+    - uid: string
+    name: DomainName
+- name: ServicePlacementNonPartiallyPlaceServicePolicyDescription
+  description: >
+    Describes the policy to be used for placement of a Service Fabric service where all replicas must be able to be placed in order for any replicas to be created.
+  kind: object
+  properties:
+  - description: >
+      The type of placement policy for a service fabric service. Following are the possible values.
+
+        - Invalid - Indicates the type of the placement policy is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+        - InvalidDomain - Indicates that the ServicePlacementPolicyDescription is of type ServicePlacementInvalidDomainPolicyDescription, which indicates that a particular fault or upgrade domain cannot be used for placement of this service. The value is 1.
+        - RequiredDomain - Indicates that the ServicePlacementPolicyDescription is of type ServicePlacementRequireDomainDistributionPolicyDescription indicating that the replicas of the service must be placed in a specific domain. The value is 2.
+        - PreferredPrimaryDomain - Indicates that the ServicePlacementPolicyDescription is of type ServicePlacementPreferPrimaryDomainPolicyDescription, which indicates that if possible the Primary replica for the partitions of the service should be located in a particular domain as an optimization. The value is 3.
+        - RequiredDomainDistribution - Indicates that the ServicePlacementPolicyDescription is of type ServicePlacementRequireDomainDistributionPolicyDescription, indicating that the system will disallow placement of any two replicas from the same partition in the same domain at any time. The value is 4.
+        - NonPartiallyPlaceService - Indicates that the ServicePlacementPolicyDescription is of type ServicePlacementNonPartiallyPlaceServicePolicyDescription, which indicates that if possible all replicas of a particular partition of the service should be placed atomically. The value is 5.
+    types:
+    - uid: NonPartiallyPlaceService
+    typesTitle: string
+    name: Type
+- name: ServicePlacementPreferPrimaryDomainPolicyDescription
+  description: >
+    Describes the policy to be used for placement of a Service Fabric service where the service's Primary replicas should optimally be placed in a particular domain.
+
+
+    This placement policy is usually used with fault domains in scenarios where the Service Fabric cluster is geographically distributed in order to indicate that a service's primary replica should be located in a particular fault domain, which in geo-distributed scenarios usually aligns with regional or datacenter boundaries. Note that since this is an optimization it is possible that the Primary replica may not end up located in this domain due to failures, capacity limits, or other constraints.
+  kind: object
+  properties:
+  - description: >
+      The type of placement policy for a service fabric service. Following are the possible values.
+
+        - Invalid - Indicates the type of the placement policy is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+        - InvalidDomain - Indicates that the ServicePlacementPolicyDescription is of type ServicePlacementInvalidDomainPolicyDescription, which indicates that a particular fault or upgrade domain cannot be used for placement of this service. The value is 1.
+        - RequiredDomain - Indicates that the ServicePlacementPolicyDescription is of type ServicePlacementRequireDomainDistributionPolicyDescription indicating that the replicas of the service must be placed in a specific domain. The value is 2.
+        - PreferredPrimaryDomain - Indicates that the ServicePlacementPolicyDescription is of type ServicePlacementPreferPrimaryDomainPolicyDescription, which indicates that if possible the Primary replica for the partitions of the service should be located in a particular domain as an optimization. The value is 3.
+        - RequiredDomainDistribution - Indicates that the ServicePlacementPolicyDescription is of type ServicePlacementRequireDomainDistributionPolicyDescription, indicating that the system will disallow placement of any two replicas from the same partition in the same domain at any time. The value is 4.
+        - NonPartiallyPlaceService - Indicates that the ServicePlacementPolicyDescription is of type ServicePlacementNonPartiallyPlaceServicePolicyDescription, which indicates that if possible all replicas of a particular partition of the service should be placed atomically. The value is 5.
+    types:
+    - uid: PreferPrimaryDomain
+    typesTitle: string
+    name: Type
+  - description: The name of the domain that should used for placement as per this policy.
+    types:
+    - uid: string
+    name: DomainName
+- name: ServicePlacementRequiredDomainPolicyDescription
+  description: Describes the policy to be used for placement of a Service Fabric service where the instances or replicas of that service must be placed in a particular domain
+  kind: object
+  properties:
+  - description: >
+      The type of placement policy for a service fabric service. Following are the possible values.
+
+        - Invalid - Indicates the type of the placement policy is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+        - InvalidDomain - Indicates that the ServicePlacementPolicyDescription is of type ServicePlacementInvalidDomainPolicyDescription, which indicates that a particular fault or upgrade domain cannot be used for placement of this service. The value is 1.
+        - RequiredDomain - Indicates that the ServicePlacementPolicyDescription is of type ServicePlacementRequireDomainDistributionPolicyDescription indicating that the replicas of the service must be placed in a specific domain. The value is 2.
+        - PreferredPrimaryDomain - Indicates that the ServicePlacementPolicyDescription is of type ServicePlacementPreferPrimaryDomainPolicyDescription, which indicates that if possible the Primary replica for the partitions of the service should be located in a particular domain as an optimization. The value is 3.
+        - RequiredDomainDistribution - Indicates that the ServicePlacementPolicyDescription is of type ServicePlacementRequireDomainDistributionPolicyDescription, indicating that the system will disallow placement of any two replicas from the same partition in the same domain at any time. The value is 4.
+        - NonPartiallyPlaceService - Indicates that the ServicePlacementPolicyDescription is of type ServicePlacementNonPartiallyPlaceServicePolicyDescription, which indicates that if possible all replicas of a particular partition of the service should be placed atomically. The value is 5.
+    types:
+    - uid: RequireDomain
+    typesTitle: string
+    name: Type
+  - description: The name of the domain that should used for placement as per this policy.
+    types:
+    - uid: string
+    name: DomainName
+- name: ServicePlacementRequireDomainDistributionPolicyDescription
+  description: >
+    Describes the policy to be used for placement of a Service Fabric service where two replicas from the same partition should never be placed in the same fault or upgrade domain.
+
+
+    While this is not common it can expose the service to an increased risk of concurrent failures due to unplanned outages or other cases of subsequent/concurrent failures. As an example, consider a case where replicas are deployed across different data center, with one replica per location. In the event that one of the datacenters goes offline, normally the replica that was placed in that datacenter will be packed into one of the remaining datacenters. If this is not desirable then this policy should be set.
+  kind: object
+  properties:
+  - description: >
+      The type of placement policy for a service fabric service. Following are the possible values.
+
+        - Invalid - Indicates the type of the placement policy is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+        - InvalidDomain - Indicates that the ServicePlacementPolicyDescription is of type ServicePlacementInvalidDomainPolicyDescription, which indicates that a particular fault or upgrade domain cannot be used for placement of this service. The value is 1.
+        - RequiredDomain - Indicates that the ServicePlacementPolicyDescription is of type ServicePlacementRequireDomainDistributionPolicyDescription indicating that the replicas of the service must be placed in a specific domain. The value is 2.
+        - PreferredPrimaryDomain - Indicates that the ServicePlacementPolicyDescription is of type ServicePlacementPreferPrimaryDomainPolicyDescription, which indicates that if possible the Primary replica for the partitions of the service should be located in a particular domain as an optimization. The value is 3.
+        - RequiredDomainDistribution - Indicates that the ServicePlacementPolicyDescription is of type ServicePlacementRequireDomainDistributionPolicyDescription, indicating that the system will disallow placement of any two replicas from the same partition in the same domain at any time. The value is 4.
+        - NonPartiallyPlaceService - Indicates that the ServicePlacementPolicyDescription is of type ServicePlacementNonPartiallyPlaceServicePolicyDescription, which indicates that if possible all replicas of a particular partition of the service should be placed atomically. The value is 5.
+    types:
+    - uid: RequireDomainDistribution
+    typesTitle: string
+    name: Type
+  - description: The name of the domain that should used for placement as per this policy.
+    types:
+    - uid: string
+    name: DomainName
+- name: ServicePlacementPolicyType
+  description: >
+    The type of placement policy for a service fabric service. Following are the possible values.
+
+      - Invalid - Indicates the type of the placement policy is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+      - InvalidDomain - Indicates that the ServicePlacementPolicyDescription is of type ServicePlacementInvalidDomainPolicyDescription, which indicates that a particular fault or upgrade domain cannot be used for placement of this service. The value is 1.
+      - RequiredDomain - Indicates that the ServicePlacementPolicyDescription is of type ServicePlacementRequireDomainDistributionPolicyDescription indicating that the replicas of the service must be placed in a specific domain. The value is 2.
+      - PreferredPrimaryDomain - Indicates that the ServicePlacementPolicyDescription is of type ServicePlacementPreferPrimaryDomainPolicyDescription, which indicates that if possible the Primary replica for the partitions of the service should be located in a particular domain as an optimization. The value is 3.
+      - RequiredDomainDistribution - Indicates that the ServicePlacementPolicyDescription is of type ServicePlacementRequireDomainDistributionPolicyDescription, indicating that the system will disallow placement of any two replicas from the same partition in the same domain at any time. The value is 4.
+      - NonPartiallyPlaceService - Indicates that the ServicePlacementPolicyDescription is of type ServicePlacementNonPartiallyPlaceServicePolicyDescription, which indicates that if possible all replicas of a particular partition of the service should be placed atomically. The value is 5.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Invalid
+  - types:
+    - uid: string
+    name: InvalidDomain
+  - types:
+    - uid: string
+    name: RequiredDomain
+  - types:
+    - uid: string
+    name: PreferredPrimaryDomain
+  - types:
+    - uid: string
+    name: RequiredDomainDistribution
+  - types:
+    - uid: string
+    name: NonPartiallyPlaceService
+examples: []
+security: []
+name: GetServiceTypeInfoList
+uid: localhost:19080.servicefabric.getservicetypeinfolist.getservicetypeinfolist

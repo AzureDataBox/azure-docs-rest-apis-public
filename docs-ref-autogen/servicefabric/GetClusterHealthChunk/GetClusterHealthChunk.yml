@@ -1,0 +1,747 @@
+### YamlMime:RESTOperation
+summary: >
+  Gets the health of a Service Fabric cluster using health chunks. Gets the health of a Service Fabric cluster using health chunks. Includes the aggregated health state of the cluster, but none of the cluster entities.
+
+  To expand the cluster health and get the health state of all or some of the entities, use the POST URI and specify the cluster health chunk query description.
+service: Service Fabric
+apiVersion: 6.0.0.1
+groupName: Get Cluster Health Chunk
+produces:
+- application/json
+paths:
+- content: GET http://localhost:19080/$/GetClusterHealthChunk?api-version=6.0.0.1
+- content: GET http://localhost:19080/$/GetClusterHealthChunk?api-version=6.0.0.1&timeout={timeout}
+  isOptional: true
+uriParameters:
+- in: query
+  isRequired: true
+  description: The version of the API. This is a required parameter and it's value must be "6.0".
+  types:
+  - uid: string
+  name: api-version
+- in: query
+  description: The server timeout for performing the operation in seconds. This specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
+  types:
+  - uid: integer
+  format: int64
+  name: timeout
+responses:
+- description: A successful operation will return 200 status code and the requested cluster health chunk information.
+  types:
+  - uid: ClusterHealthChunk
+  name: 200 OK
+- description: The detailed error response.
+  types:
+  - uid: FabricError
+  name: Other Status Codes
+requestHeader: []
+definitions:
+- name: ClusterHealthChunk
+  description: >
+    Represents the health chunk of the cluster.
+
+    Contains the cluster aggregated health state, and the cluster entities that respect the input filter.
+  kind: object
+  properties:
+  - description: >
+      The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+
+        - Invalid - Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
+        - Ok - Indicates the health state is okay. The value is 1.
+        - Warning - Indicates the health state is at a warning level. The value is 2.
+        - Error - Indicates the health state is at an error level. Error health state should be investigated, as they can impact the correct functionality of the cluster. The value is 3.
+        - Unknown - Indicates an unknown health status. The value is 65535.
+    types:
+    - uid: HealthState
+    name: HealthState
+  - description: >
+      The list of node health state chunks in the cluster that respect the input filters in the chunk query. Returned by get cluster health state chunks query.
+    types:
+    - uid: NodeHealthStateChunkList
+    name: NodeHealthStateChunks
+  - description: >
+      The list of application health state chunks in the cluster that respect the input filters in the chunk query. Returned by get cluster health state chunks query.
+    types:
+    - uid: ApplicationHealthStateChunkList
+    name: ApplicationHealthStateChunks
+- name: FabricError
+  description: >
+    The REST API operations for Service Fabric return standard HTTP status codes. This type defines the additional information returned from the Service Fabric API operations that are not successful.
+  kind: object
+  properties:
+  - description: Error object containing error code and error message.
+    types:
+    - uid: FabricError_Error
+    name: Error
+- name: HealthState
+  description: >
+    The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+
+      - Invalid - Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
+      - Ok - Indicates the health state is okay. The value is 1.
+      - Warning - Indicates the health state is at a warning level. The value is 2.
+      - Error - Indicates the health state is at an error level. Error health state should be investigated, as they can impact the correct functionality of the cluster. The value is 3.
+      - Unknown - Indicates an unknown health status. The value is 65535.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Invalid
+  - types:
+    - uid: string
+    name: Ok
+  - types:
+    - uid: string
+    name: Warning
+  - types:
+    - uid: string
+    name: Error
+  - types:
+    - uid: string
+    name: Unknown
+- name: NodeHealthStateChunkList
+  description: >
+    The list of node health state chunks in the cluster that respect the input filters in the chunk query. Returned by get cluster health state chunks query.
+  kind: object
+  properties:
+  - description: >
+      Total number of entity health state objects that match the specified filters from the cluster health chunk query description.
+    types:
+    - uid: integer
+    name: TotalCount
+  - description: >
+      The list of node health state chunks that respect the input filters in the chunk query.
+    types:
+    - uid: NodeHealthStateChunk
+    name: Items
+- name: ApplicationHealthStateChunkList
+  description: >
+    The list of application health state chunks in the cluster that respect the input filters in the chunk query. Returned by get cluster health state chunks query.
+  kind: object
+  properties:
+  - description: >
+      Total number of entity health state objects that match the specified filters from the cluster health chunk query description.
+    types:
+    - uid: integer
+    name: TotalCount
+  - description: >
+      The list of application health state chunks that respect the input filters in the chunk query.
+    types:
+    - uid: ApplicationHealthStateChunk
+    name: Items
+- name: FabricError_Error
+  description: Error object containing error code and error message.
+  kind: object
+  properties:
+  - description: >
+      Defines the fabric error codes that be returned as part of the error object in response to Service Fabric API operations that are not successful. Following are the error code values that can be returned for a specific HTTP status code.
+
+        - Possible values of the error code for HTTP status code 400 (Bad Request)
+          - "FABRIC_E_INVALID_PARTITION_KEY"
+          - "FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR"
+          - "FABRIC_E_INVALID_ADDRESS"
+          - "FABRIC_E_APPLICATION_NOT_UPGRADING"
+          - "FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR"
+          - "FABRIC_E_FABRIC_NOT_UPGRADING"
+          - "FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR"
+          - "FABRIC_E_INVALID_CONFIGURATION"
+          - "FABRIC_E_INVALID_NAME_URI"
+          - "FABRIC_E_PATH_TOO_LONG"
+          - "FABRIC_E_KEY_TOO_LARGE"
+          - "FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED"
+          - "FABRIC_E_INVALID_ATOMIC_GROUP"
+          - "FABRIC_E_VALUE_EMPTY"
+
+        - Possible values of the error code for HTTP status code 404 (Not Found)
+          - "FABRIC_E_NODE_NOT_FOUND"
+          - "FABRIC_E_APPLICATION_TYPE_NOT_FOUND"
+          - "FABRIC_E_APPLICATION_NOT_FOUND"
+          - "FABRIC_E_SERVICE_TYPE_NOT_FOUND"
+          - "FABRIC_E_SERVICE_DOES_NOT_EXIST"
+          - "FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND"
+          - "FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND"
+          - "FABRIC_E_PARTITION_NOT_FOUND"
+          - "FABRIC_E_REPLICA_DOES_NOT_EXIST"
+          - "FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST"
+          - "FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND"
+          - "FABRIC_E_DIRECTORY_NOT_FOUND"
+          - "FABRIC_E_FABRIC_VERSION_NOT_FOUND"
+          - "FABRIC_E_FILE_NOT_FOUND"
+          - "FABRIC_E_NAME_DOES_NOT_EXIST"
+          - "FABRIC_E_PROPERTY_DOES_NOT_EXIST"
+          - "FABRIC_E_ENUMERATION_COMPLETED"
+          - "FABRIC_E_SERVICE_MANIFEST_NOT_FOUND"
+          - "FABRIC_E_KEY_NOT_FOUND"
+          - "FABRIC_E_HEALTH_ENTITY_NOT_FOUND"
+
+        - Possible values of the error code for HTTP status code 409 (Conflict)
+          - "FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION"
+          - "FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS"
+          - "FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS"
+          - "FABRIC_E_SERVICE_ALREADY_EXISTS"
+          - "FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_TYPE_IN_USE"
+          - "FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION"
+          - "FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS"
+          - "FABRIC_E_FABRIC_VERSION_IN_USE"
+          - "FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS"
+          - "FABRIC_E_NAME_ALREADY_EXISTS"
+          - "FABRIC_E_NAME_NOT_EMPTY"
+          - "FABRIC_E_PROPERTY_CHECK_FAILED"
+          - "FABRIC_E_SERVICE_METADATA_MISMATCH"
+          - "FABRIC_E_SERVICE_TYPE_MISMATCH"
+          - "FABRIC_E_HEALTH_STALE_REPORT"
+          - "FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED"
+          - "FABRIC_E_NODE_HAS_NOT_STOPPED_YET"
+          - "FABRIC_E_INSTANCE_ID_MISMATCH"
+
+        - Possible values of the error code for HTTP status code 413 (Request Entity Too Large)
+          - "FABRIC_E_VALUE_TOO_LARGE"
+
+        - Possible values of the error code for HTTP status code 500 (Internal Server Error)
+          - "FABRIC_E_NODE_IS_UP"
+
+        - Possible values of the error code for HTTP status code 503 (Service Unavailable)
+          - "FABRIC_E_NO_WRITE_QUORUM"
+          - "FABRIC_E_NOT_PRIMARY"
+          - "FABRIC_E_NOT_READY"
+          - "FABRIC_E_RECONFIGURATION_PENDING"
+          - "FABRIC_E_SERVICE_OFFLINE"
+          - "E_ABORT"
+          - "FABRIC_E_VALUE_TOO_LARGE"
+
+        - Possible values of the error code for HTTP status code 504 (Gateway Timeout)
+          - "FABRIC_E_COMMUNICATION_ERROR"
+          - "FABRIC_E_OPERATION_NOT_COMPLETE"
+          - "FABRIC_E_TIMEOUT"
+    types:
+    - uid: FabricErrorCodes
+    name: Code
+  - description: Error message.
+    types:
+    - uid: string
+    name: Message
+- name: NodeHealthStateChunk
+  description: >
+    The list of node health state chunks that respect the input filters in the chunk query.
+  kind: object
+  properties:
+  - description: >
+      The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+
+        - Invalid - Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
+        - Ok - Indicates the health state is okay. The value is 1.
+        - Warning - Indicates the health state is at a warning level. The value is 2.
+        - Error - Indicates the health state is at an error level. Error health state should be investigated, as they can impact the correct functionality of the cluster. The value is 3.
+        - Unknown - Indicates an unknown health status. The value is 65535.
+    types:
+    - uid: HealthState
+    name: HealthState
+  - description: The name of a Service Fabric node.
+    types:
+    - uid: string
+    name: NodeName
+- name: ApplicationHealthStateChunk
+  description: >
+    Represents the health state chunk of a application.
+
+    The application health state chunk contains the application name, its aggregated health state and any children services and deployed applications that respect the filters in cluster health chunk query description.
+  kind: object
+  properties:
+  - description: >
+      The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+
+        - Invalid - Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
+        - Ok - Indicates the health state is okay. The value is 1.
+        - Warning - Indicates the health state is at a warning level. The value is 2.
+        - Error - Indicates the health state is at an error level. Error health state should be investigated, as they can impact the correct functionality of the cluster. The value is 3.
+        - Unknown - Indicates an unknown health status. The value is 65535.
+    types:
+    - uid: HealthState
+    name: HealthState
+  - description: The name of the application, including the 'fabric:' URI scheme.
+    types:
+    - uid: string
+    name: ApplicationName
+  - description: The application type name as defined in the application manifest.
+    types:
+    - uid: string
+    name: ApplicationTypeName
+  - description: >
+      The list of service health state chunks that respect the input filters in the chunk query. Returned by get cluster health state chunks query.
+    types:
+    - uid: ServiceHealthStateChunkList
+    name: ServiceHealthStateChunks
+  - description: >
+      The list of deployed application health state chunks that respect the input filters in the chunk query. Returned by get cluster health state chunks query.
+    types:
+    - uid: DeployedApplicationHealthStateChunkList
+    name: DeployedApplicationHealthStateChunks
+- name: FabricErrorCodes
+  description: >
+    Defines the fabric error codes that be returned as part of the error object in response to Service Fabric API operations that are not successful. Following are the error code values that can be returned for a specific HTTP status code.
+
+      - Possible values of the error code for HTTP status code 400 (Bad Request)
+        - "FABRIC_E_INVALID_PARTITION_KEY"
+        - "FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR"
+        - "FABRIC_E_INVALID_ADDRESS"
+        - "FABRIC_E_APPLICATION_NOT_UPGRADING"
+        - "FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR"
+        - "FABRIC_E_FABRIC_NOT_UPGRADING"
+        - "FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR"
+        - "FABRIC_E_INVALID_CONFIGURATION"
+        - "FABRIC_E_INVALID_NAME_URI"
+        - "FABRIC_E_PATH_TOO_LONG"
+        - "FABRIC_E_KEY_TOO_LARGE"
+        - "FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED"
+        - "FABRIC_E_INVALID_ATOMIC_GROUP"
+        - "FABRIC_E_VALUE_EMPTY"
+
+      - Possible values of the error code for HTTP status code 404 (Not Found)
+        - "FABRIC_E_NODE_NOT_FOUND"
+        - "FABRIC_E_APPLICATION_TYPE_NOT_FOUND"
+        - "FABRIC_E_APPLICATION_NOT_FOUND"
+        - "FABRIC_E_SERVICE_TYPE_NOT_FOUND"
+        - "FABRIC_E_SERVICE_DOES_NOT_EXIST"
+        - "FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND"
+        - "FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND"
+        - "FABRIC_E_PARTITION_NOT_FOUND"
+        - "FABRIC_E_REPLICA_DOES_NOT_EXIST"
+        - "FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST"
+        - "FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND"
+        - "FABRIC_E_DIRECTORY_NOT_FOUND"
+        - "FABRIC_E_FABRIC_VERSION_NOT_FOUND"
+        - "FABRIC_E_FILE_NOT_FOUND"
+        - "FABRIC_E_NAME_DOES_NOT_EXIST"
+        - "FABRIC_E_PROPERTY_DOES_NOT_EXIST"
+        - "FABRIC_E_ENUMERATION_COMPLETED"
+        - "FABRIC_E_SERVICE_MANIFEST_NOT_FOUND"
+        - "FABRIC_E_KEY_NOT_FOUND"
+        - "FABRIC_E_HEALTH_ENTITY_NOT_FOUND"
+
+      - Possible values of the error code for HTTP status code 409 (Conflict)
+        - "FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION"
+        - "FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS"
+        - "FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS"
+        - "FABRIC_E_SERVICE_ALREADY_EXISTS"
+        - "FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_TYPE_IN_USE"
+        - "FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION"
+        - "FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS"
+        - "FABRIC_E_FABRIC_VERSION_IN_USE"
+        - "FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS"
+        - "FABRIC_E_NAME_ALREADY_EXISTS"
+        - "FABRIC_E_NAME_NOT_EMPTY"
+        - "FABRIC_E_PROPERTY_CHECK_FAILED"
+        - "FABRIC_E_SERVICE_METADATA_MISMATCH"
+        - "FABRIC_E_SERVICE_TYPE_MISMATCH"
+        - "FABRIC_E_HEALTH_STALE_REPORT"
+        - "FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED"
+        - "FABRIC_E_NODE_HAS_NOT_STOPPED_YET"
+        - "FABRIC_E_INSTANCE_ID_MISMATCH"
+
+      - Possible values of the error code for HTTP status code 413 (Request Entity Too Large)
+        - "FABRIC_E_VALUE_TOO_LARGE"
+
+      - Possible values of the error code for HTTP status code 500 (Internal Server Error)
+        - "FABRIC_E_NODE_IS_UP"
+
+      - Possible values of the error code for HTTP status code 503 (Service Unavailable)
+        - "FABRIC_E_NO_WRITE_QUORUM"
+        - "FABRIC_E_NOT_PRIMARY"
+        - "FABRIC_E_NOT_READY"
+        - "FABRIC_E_RECONFIGURATION_PENDING"
+        - "FABRIC_E_SERVICE_OFFLINE"
+        - "E_ABORT"
+        - "FABRIC_E_VALUE_TOO_LARGE"
+
+      - Possible values of the error code for HTTP status code 504 (Gateway Timeout)
+        - "FABRIC_E_COMMUNICATION_ERROR"
+        - "FABRIC_E_OPERATION_NOT_COMPLETE"
+        - "FABRIC_E_TIMEOUT"
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: FABRIC_E_INVALID_PARTITION_KEY
+  - types:
+    - uid: string
+    name: FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR
+  - types:
+    - uid: string
+    name: FABRIC_E_INVALID_ADDRESS
+  - types:
+    - uid: string
+    name: FABRIC_E_APPLICATION_NOT_UPGRADING
+  - types:
+    - uid: string
+    name: FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR
+  - types:
+    - uid: string
+    name: FABRIC_E_FABRIC_NOT_UPGRADING
+  - types:
+    - uid: string
+    name: FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR
+  - types:
+    - uid: string
+    name: FABRIC_E_INVALID_CONFIGURATION
+  - types:
+    - uid: string
+    name: FABRIC_E_INVALID_NAME_URI
+  - types:
+    - uid: string
+    name: FABRIC_E_PATH_TOO_LONG
+  - types:
+    - uid: string
+    name: FABRIC_E_KEY_TOO_LARGE
+  - types:
+    - uid: string
+    name: FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED
+  - types:
+    - uid: string
+    name: FABRIC_E_INVALID_ATOMIC_GROUP
+  - types:
+    - uid: string
+    name: FABRIC_E_VALUE_EMPTY
+  - types:
+    - uid: string
+    name: FABRIC_E_NODE_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_APPLICATION_TYPE_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_APPLICATION_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_SERVICE_TYPE_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_SERVICE_DOES_NOT_EXIST
+  - types:
+    - uid: string
+    name: FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_PARTITION_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_REPLICA_DOES_NOT_EXIST
+  - types:
+    - uid: string
+    name: FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST
+  - types:
+    - uid: string
+    name: FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_DIRECTORY_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_FABRIC_VERSION_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_FILE_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_NAME_DOES_NOT_EXIST
+  - types:
+    - uid: string
+    name: FABRIC_E_PROPERTY_DOES_NOT_EXIST
+  - types:
+    - uid: string
+    name: FABRIC_E_ENUMERATION_COMPLETED
+  - types:
+    - uid: string
+    name: FABRIC_E_SERVICE_MANIFEST_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_KEY_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_HEALTH_ENTITY_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS
+  - types:
+    - uid: string
+    name: FABRIC_E_APPLICATION_ALREADY_EXISTS
+  - types:
+    - uid: string
+    name: FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION
+  - types:
+    - uid: string
+    name: FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS
+  - types:
+    - uid: string
+    name: FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS
+  - types:
+    - uid: string
+    name: FABRIC_E_SERVICE_ALREADY_EXISTS
+  - types:
+    - uid: string
+    name: FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS
+  - types:
+    - uid: string
+    name: FABRIC_E_APPLICATION_TYPE_IN_USE
+  - types:
+    - uid: string
+    name: FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION
+  - types:
+    - uid: string
+    name: FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS
+  - types:
+    - uid: string
+    name: FABRIC_E_FABRIC_VERSION_IN_USE
+  - types:
+    - uid: string
+    name: FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS
+  - types:
+    - uid: string
+    name: FABRIC_E_NAME_ALREADY_EXISTS
+  - types:
+    - uid: string
+    name: FABRIC_E_NAME_NOT_EMPTY
+  - types:
+    - uid: string
+    name: FABRIC_E_PROPERTY_CHECK_FAILED
+  - types:
+    - uid: string
+    name: FABRIC_E_SERVICE_METADATA_MISMATCH
+  - types:
+    - uid: string
+    name: FABRIC_E_SERVICE_TYPE_MISMATCH
+  - types:
+    - uid: string
+    name: FABRIC_E_HEALTH_STALE_REPORT
+  - types:
+    - uid: string
+    name: FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED
+  - types:
+    - uid: string
+    name: FABRIC_E_NODE_HAS_NOT_STOPPED_YET
+  - types:
+    - uid: string
+    name: FABRIC_E_INSTANCE_ID_MISMATCH
+  - types:
+    - uid: string
+    name: FABRIC_E_VALUE_TOO_LARGE
+  - types:
+    - uid: string
+    name: FABRIC_E_NO_WRITE_QUORUM
+  - types:
+    - uid: string
+    name: FABRIC_E_NOT_PRIMARY
+  - types:
+    - uid: string
+    name: FABRIC_E_NOT_READY
+  - types:
+    - uid: string
+    name: FABRIC_E_RECONFIGURATION_PENDING
+  - types:
+    - uid: string
+    name: FABRIC_E_SERVICE_OFFLINE
+  - types:
+    - uid: string
+    name: E_ABORT
+  - types:
+    - uid: string
+    name: FABRIC_E_COMMUNICATION_ERROR
+  - types:
+    - uid: string
+    name: FABRIC_E_OPERATION_NOT_COMPLETE
+  - types:
+    - uid: string
+    name: FABRIC_E_TIMEOUT
+  - types:
+    - uid: string
+    name: FABRIC_E_NODE_IS_UP
+- name: ServiceHealthStateChunkList
+  description: >
+    The list of service health state chunks that respect the input filters in the chunk query. Returned by get cluster health state chunks query.
+  kind: object
+  properties:
+  - description: >
+      The list of service health state chunks that respect the input filters in the chunk query.
+    types:
+    - uid: ServiceHealthStateChunk
+    name: Items
+- name: DeployedApplicationHealthStateChunkList
+  description: >
+    The list of deployed application health state chunks that respect the input filters in the chunk query. Returned by get cluster health state chunks query.
+  kind: object
+  properties:
+  - description: >
+      The list of deployed application health state chunks that respect the input filters in the chunk query.
+    types:
+    - uid: DeployedApplicationHealthStateChunk
+    name: Items
+- name: ServiceHealthStateChunk
+  description: >
+    The list of service health state chunks that respect the input filters in the chunk query.
+  kind: object
+  properties:
+  - description: >
+      The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+
+        - Invalid - Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
+        - Ok - Indicates the health state is okay. The value is 1.
+        - Warning - Indicates the health state is at a warning level. The value is 2.
+        - Error - Indicates the health state is at an error level. Error health state should be investigated, as they can impact the correct functionality of the cluster. The value is 3.
+        - Unknown - Indicates an unknown health status. The value is 65535.
+    types:
+    - uid: HealthState
+    name: HealthState
+  - description: The full name of the service with 'fabric:' URI scheme.
+    types:
+    - uid: string
+    name: ServiceName
+  - description: >
+      The list of partition health state chunks that respect the input filters in the chunk query description.
+
+      Returned by get cluster health state chunks query as part of the parent application hierarchy.
+    types:
+    - uid: PartitionHealthStateChunkList
+    name: PartitionHealthStateChunks
+- name: DeployedApplicationHealthStateChunk
+  description: >
+    The list of deployed application health state chunks that respect the input filters in the chunk query.
+  kind: object
+  properties:
+  - description: >
+      The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+
+        - Invalid - Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
+        - Ok - Indicates the health state is okay. The value is 1.
+        - Warning - Indicates the health state is at a warning level. The value is 2.
+        - Error - Indicates the health state is at an error level. Error health state should be investigated, as they can impact the correct functionality of the cluster. The value is 3.
+        - Unknown - Indicates an unknown health status. The value is 65535.
+    types:
+    - uid: HealthState
+    name: HealthState
+  - description: The name of node where the application is deployed.
+    types:
+    - uid: string
+    name: NodeName
+  - description: >
+      The list of deployed service package health state chunks that respect the input filters in the chunk query. Returned by get cluster health state chunks query.
+    types:
+    - uid: DeployedServicePackageHealthStateChunkList
+    name: DeployedServicePackageHealthStateChunks
+- name: PartitionHealthStateChunkList
+  description: >
+    The list of partition health state chunks that respect the input filters in the chunk query description.
+
+    Returned by get cluster health state chunks query as part of the parent application hierarchy.
+  kind: object
+  properties:
+  - description: >
+      The list of partition health state chunks that respect the input filters in the chunk query.
+    types:
+    - uid: PartitionHealthStateChunk
+    name: Items
+- name: DeployedServicePackageHealthStateChunkList
+  description: >
+    The list of deployed service package health state chunks that respect the input filters in the chunk query. Returned by get cluster health state chunks query.
+  kind: object
+  properties:
+  - description: >
+      The list of deployed service package health state chunks that respect the input filters in the chunk query.
+    types:
+    - uid: DeployedServicePackageHealthStateChunk
+    name: Items
+- name: PartitionHealthStateChunk
+  description: >
+    The list of partition health state chunks that respect the input filters in the chunk query.
+  kind: object
+  properties:
+  - description: >
+      The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+
+        - Invalid - Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
+        - Ok - Indicates the health state is okay. The value is 1.
+        - Warning - Indicates the health state is at a warning level. The value is 2.
+        - Error - Indicates the health state is at an error level. Error health state should be investigated, as they can impact the correct functionality of the cluster. The value is 3.
+        - Unknown - Indicates an unknown health status. The value is 65535.
+    types:
+    - uid: HealthState
+    name: HealthState
+  - description: An internal ID used by Service Fabric to uniquely identify a partition. This is a randomly generated GUID when the service was created. The partition id is unique and does not change for the lifetime of the service. If the same service was deleted and recreated the ids of its partitions would be different.
+    types:
+    - uid: string
+    name: PartitionId
+  - description: >
+      The list of replica health state chunks that respect the input filters in the chunk query. Returned by get cluster health state chunks query.
+    types:
+    - uid: ReplicaHealthStateChunkList
+    name: ReplicaHealthStateChunks
+- name: DeployedServicePackageHealthStateChunk
+  description: >
+    The list of deployed service package health state chunks that respect the input filters in the chunk query.
+  kind: object
+  properties:
+  - description: >
+      The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+
+        - Invalid - Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
+        - Ok - Indicates the health state is okay. The value is 1.
+        - Warning - Indicates the health state is at a warning level. The value is 2.
+        - Error - Indicates the health state is at an error level. Error health state should be investigated, as they can impact the correct functionality of the cluster. The value is 3.
+        - Unknown - Indicates an unknown health status. The value is 65535.
+    types:
+    - uid: HealthState
+    name: HealthState
+  - description: The name of the service manifest.
+    types:
+    - uid: string
+    name: ServiceManifestName
+  - description: >
+      The ActivationId of a deployed service package. If ServicePackageActivationMode specified at the time of creating the service
+
+      is 'SharedProcess' (or if it is not specified, in which case it defaults to 'SharedProcess'), then value of ServicePackageActivationId
+
+      is always an empty string.
+    types:
+    - uid: string
+    name: ServicePackageActivationId
+- name: ReplicaHealthStateChunkList
+  description: >
+    The list of replica health state chunks that respect the input filters in the chunk query. Returned by get cluster health state chunks query.
+  kind: object
+  properties:
+  - description: >
+      The list of replica health state chunks that respect the input filters in the chunk query.
+    types:
+    - uid: ReplicaHealthStateChunk
+    name: Items
+- name: ReplicaHealthStateChunk
+  description: >
+    The list of replica health state chunks that respect the input filters in the chunk query.
+  kind: object
+  properties:
+  - description: >
+      The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+
+        - Invalid - Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
+        - Ok - Indicates the health state is okay. The value is 1.
+        - Warning - Indicates the health state is at a warning level. The value is 2.
+        - Error - Indicates the health state is at an error level. Error health state should be investigated, as they can impact the correct functionality of the cluster. The value is 3.
+        - Unknown - Indicates an unknown health status. The value is 65535.
+    types:
+    - uid: HealthState
+    name: HealthState
+  - description: Id of a stateful service replica or a stateless service instance. This id is used in the queries that apply to both stateful and stateless services. It is used by Service Fabric to uniquely identify a replica of a partition of a stateful service or an instance of a stateless service partition. It is unique within a partition and does not change for the lifetime of the replica or the instance. If a stateful replica gets dropped and another replica gets created on the same node for the same partition, it will get a different value for the id. If a staless instance is failed over on the same or different node it will get a different value for the id.
+    types:
+    - uid: string
+    name: ReplicaOrInstanceId
+examples: []
+security: []
+name: GetClusterHealthChunk
+uid: localhost:19080.servicefabric.getclusterhealthchunk.getclusterhealthchunk

@@ -1,0 +1,1020 @@
+### YamlMime:RESTOperation
+summary: >
+  Updates the execution state of a repair task. This API supports the Service Fabric platform; it is not meant to be used directly from your code.
+service: Service Fabric
+apiVersion: 6.0.0.1
+groupName: Update Repair Execution State
+produces:
+- application/json
+paths:
+- content: POST http://localhost:19080/$/UpdateRepairExecutionState?api-version=6.0.0.1
+uriParameters:
+- in: query
+  isRequired: true
+  description: The version of the API. This is a required parameter and it's value must be "6.0".
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: >
+    A successful operation will return 200 status code.
+
+    The response body provides information about the updated repair task.
+  types:
+  - uid: RepairTaskUpdateInfo
+  name: 200 OK
+- description: The detailed error response.
+  types:
+  - uid: FabricError
+  name: Other Status Codes
+requestBody:
+- parameters:
+  - in: body
+    isRequired: true
+    description: The ID of the repair task.
+    types:
+    - uid: string
+    name: TaskId
+  - in: body
+    description: "The version of the repair task.\nWhen creating a new repair task, the version must be set to zero.  When updating a repair task, \nthe version is used for optimistic concurrency checks.  If the version is \nset to zero, the update will not check for write conflicts.  If the version is set to a non-zero value, then the \nupdate will only succeed if the actual current version of the repair task matches this value.\n"
+    types:
+    - uid: string
+    name: Version
+  - in: body
+    description: >
+      A description of the purpose of the repair task, or other informational details.
+
+      May be set when the repair task is created, and is immutable once set.
+    types:
+    - uid: string
+    name: Description
+  - in: body
+    isRequired: true
+    description: >
+      The workflow state of the repair task. Valid initial states are Created, Claimed, and Preparing.
+
+
+      - Invalid - Indicates that the repair task state is invalid. All Service Fabric enumerations have the invalid value.
+
+      - Created - Indicates that the repair task has been created.
+
+      - Claimed - Indicates that the repair task has been claimed by a repair executor.
+
+      - Preparing - Indicates that the Repair Manager is preparing the system to handle the impact of the repair task, usually by taking resources offline gracefully.
+
+      - Approved - Indicates that the repair task has been approved by the Repair Manager and is safe to execute.
+
+      - Executing - Indicates that execution of the repair task is in progress.
+
+      - Restoring - Indicates that the Repair Manager is restoring the system to its pre-repair state, usually by bringing resources back online.
+
+      - Completed - Indicates that the repair task has completed, and no further state changes will occur.
+    types:
+    - uid: Invalid
+    - uid: Created
+    - uid: Claimed
+    - uid: Preparing
+    - uid: Approved
+    - uid: Executing
+    - uid: Restoring
+    - uid: Completed
+    typesTitle: enum
+    name: State
+  - in: body
+    description: >
+      A bitwise-OR of the following values, which gives additional details about the status of the repair task.
+
+      - 1 - Cancellation of the repair has been requested
+
+      - 2 - Abort of the repair has been requested
+
+      - 4 - Approval of the repair was forced via client request
+    types:
+    - uid: integer
+    name: Flags
+  - in: body
+    isRequired: true
+    description: >
+      The requested repair action. Must be specified when the repair task is created, and is immutable once set.
+    types:
+    - uid: string
+    name: Action
+  - in: body
+    description: >
+      Describes the entities targeted by a repair action.
+
+
+      This type supports the Service Fabric platform; it is not meant to be used directly from your code.
+    types:
+    - uid: NodeRepairTargetDescription
+    typesTitle: RepairTargetDescriptionBase
+    name: Target
+  - in: body
+    description: The name of the repair executor. Must be specified in Claimed and later states, and is immutable once set.
+    types:
+    - uid: string
+    name: Executor
+  - in: body
+    description: A data string that the repair executor can use to store its internal state.
+    types:
+    - uid: string
+    name: ExecutorData
+  - in: body
+    description: >
+      Describes the expected impact of executing a repair task.
+
+
+      This type supports the Service Fabric platform; it is not meant to be used directly from your code.
+    types:
+    - uid: NodeRepairImpactDescription
+    typesTitle: RepairImpactDescriptionBase
+    name: Impact
+  - in: body
+    description: >
+      A value describing the overall result of the repair task execution.
+
+      Must be specified in the Restoring and later states, and is immutable once set.
+
+
+      - Invalid - Indicates that the repair task result is invalid. All Service Fabric enumerations have the invalid value.
+
+      - Succeeded - Indicates that the repair task completed execution successfully.
+
+      - Cancelled - Indicates that the repair task was cancelled prior to execution.
+
+      - Interrupted - Indicates that execution of the repair task was interrupted by a cancellation request after some work had already been performed.
+
+      - Failed - Indicates that there was a failure during execution of the repair task. Some work may have been performed.
+
+      - Pending - Indicates that the repair task result is not yet available, because the repair task has not finished executing.
+    types:
+    - uid: Invalid
+    - uid: Succeeded
+    - uid: Cancelled
+    - uid: Interrupted
+    - uid: Failed
+    - uid: Pending
+    typesTitle: enum
+    name: ResultStatus
+  - in: body
+    description: >
+      A numeric value providing additional details about the result of the repair task execution.
+
+      May be specified in the Restoring and later states, and is immutable once set.
+    types:
+    - uid: integer
+    name: ResultCode
+  - in: body
+    description: >
+      A string providing additional details about the result of the repair task execution.
+
+      May be specified in the Restoring and later states, and is immutable once set.
+    types:
+    - uid: string
+    name: ResultDetails
+  - in: body
+    description: >
+      A record of the times when the repair task entered each state.
+
+
+      This type supports the Service Fabric platform; it is not meant to be used directly from your code.
+    types:
+    - uid: RepairTaskHistory
+    name: History
+  - in: body
+    description: >
+      Specifies the workflow state of a repair task's health check.
+
+
+      - NotStarted - Indicates that the health check has not started.
+
+      - InProgress - Indicates that the health check is in progress.
+
+      - Succeeded - Indicates that the health check succeeded.
+
+      - Skipped - Indicates that the health check was skipped.
+
+      - TimedOut - Indicates that the health check timed out.
+
+
+      This type supports the Service Fabric platform; it is not meant to be used directly from your code.
+    types:
+    - uid: RepairTaskHealthCheckState
+    name: PreparingHealthCheckState
+  - in: body
+    description: >
+      Specifies the workflow state of a repair task's health check.
+
+
+      - NotStarted - Indicates that the health check has not started.
+
+      - InProgress - Indicates that the health check is in progress.
+
+      - Succeeded - Indicates that the health check succeeded.
+
+      - Skipped - Indicates that the health check was skipped.
+
+      - TimedOut - Indicates that the health check timed out.
+
+
+      This type supports the Service Fabric platform; it is not meant to be used directly from your code.
+    types:
+    - uid: RepairTaskHealthCheckState
+    name: RestoringHealthCheckState
+  - in: body
+    description: A value to determine if health checks will be performed when the repair task enters the Preparing state.
+    types:
+    - uid: boolean
+    name: PerformPreparingHealthCheck
+  - in: body
+    description: A value to determine if health checks will be performed when the repair task enters the Restoring state.
+    types:
+    - uid: boolean
+    name: PerformRestoringHealthCheck
+requestHeader: []
+definitions:
+- name: RepairTaskHistory
+  description: >
+    A record of the times when the repair task entered each state.
+
+
+    This type supports the Service Fabric platform; it is not meant to be used directly from your code.
+  kind: object
+  properties:
+  - description: The time when the repair task entered the Created state.
+    types:
+    - uid: string
+    name: CreatedUtcTimestamp
+  - description: The time when the repair task entered the Claimed state.
+    types:
+    - uid: string
+    name: ClaimedUtcTimestamp
+  - description: The time when the repair task entered the Preparing state.
+    types:
+    - uid: string
+    name: PreparingUtcTimestamp
+  - description: The time when the repair task entered the Approved state
+    types:
+    - uid: string
+    name: ApprovedUtcTimestamp
+  - description: The time when the repair task entered the Executing state
+    types:
+    - uid: string
+    name: ExecutingUtcTimestamp
+  - description: The time when the repair task entered the Restoring state
+    types:
+    - uid: string
+    name: RestoringUtcTimestamp
+  - description: The time when the repair task entered the Completed state
+    types:
+    - uid: string
+    name: CompletedUtcTimestamp
+  - description: The time when the repair task started the health check in the Preparing state.
+    types:
+    - uid: string
+    name: PreparingHealthCheckStartUtcTimestamp
+  - description: The time when the repair task completed the health check in the Preparing state.
+    types:
+    - uid: string
+    name: PreparingHealthCheckEndUtcTimestamp
+  - description: The time when the repair task started the health check in the Restoring state.
+    types:
+    - uid: string
+    name: RestoringHealthCheckStartUtcTimestamp
+  - description: The time when the repair task completed the health check in the Restoring state.
+    types:
+    - uid: string
+    name: RestoringHealthCheckEndUtcTimestamp
+- name: RepairTaskUpdateInfo
+  description: >
+    Describes the result of an operation that created or updated a repair task.
+
+
+    This type supports the Service Fabric platform; it is not meant to be used directly from your code.
+  kind: object
+  properties:
+  - description: The new version of the repair task.
+    types:
+    - uid: string
+    name: Version
+- name: FabricError
+  description: >
+    The REST API operations for Service Fabric return standard HTTP status codes. This type defines the additional information returned from the Service Fabric API operations that are not successful.
+  kind: object
+  properties:
+  - description: Error object containing error code and error message.
+    types:
+    - uid: FabricError_Error
+    name: Error
+- name: RepairTask
+  description: >
+    Represents a repair task, which includes information about what kind of repair was requested, what its progress is, and what its final result was.
+
+
+    This type supports the Service Fabric platform; it is not meant to be used directly from your code.
+  kind: object
+  properties:
+  - description: The ID of the repair task.
+    types:
+    - uid: string
+    name: TaskId
+  - description: "The version of the repair task.\nWhen creating a new repair task, the version must be set to zero.  When updating a repair task, \nthe version is used for optimistic concurrency checks.  If the version is \nset to zero, the update will not check for write conflicts.  If the version is set to a non-zero value, then the \nupdate will only succeed if the actual current version of the repair task matches this value.\n"
+    types:
+    - uid: string
+    name: Version
+  - description: >
+      A description of the purpose of the repair task, or other informational details.
+
+      May be set when the repair task is created, and is immutable once set.
+    types:
+    - uid: string
+    name: Description
+  - description: >
+      The workflow state of the repair task. Valid initial states are Created, Claimed, and Preparing.
+
+
+      - Invalid - Indicates that the repair task state is invalid. All Service Fabric enumerations have the invalid value.
+
+      - Created - Indicates that the repair task has been created.
+
+      - Claimed - Indicates that the repair task has been claimed by a repair executor.
+
+      - Preparing - Indicates that the Repair Manager is preparing the system to handle the impact of the repair task, usually by taking resources offline gracefully.
+
+      - Approved - Indicates that the repair task has been approved by the Repair Manager and is safe to execute.
+
+      - Executing - Indicates that execution of the repair task is in progress.
+
+      - Restoring - Indicates that the Repair Manager is restoring the system to its pre-repair state, usually by bringing resources back online.
+
+      - Completed - Indicates that the repair task has completed, and no further state changes will occur.
+    types:
+    - uid: Invalid
+    - uid: Created
+    - uid: Claimed
+    - uid: Preparing
+    - uid: Approved
+    - uid: Executing
+    - uid: Restoring
+    - uid: Completed
+    typesTitle: enum
+    name: State
+  - description: >
+      A bitwise-OR of the following values, which gives additional details about the status of the repair task.
+
+      - 1 - Cancellation of the repair has been requested
+
+      - 2 - Abort of the repair has been requested
+
+      - 4 - Approval of the repair was forced via client request
+    types:
+    - uid: integer
+    name: Flags
+  - description: >
+      The requested repair action. Must be specified when the repair task is created, and is immutable once set.
+    types:
+    - uid: string
+    name: Action
+  - description: >
+      Describes the entities targeted by a repair action.
+
+
+      This type supports the Service Fabric platform; it is not meant to be used directly from your code.
+    types:
+    - uid: NodeRepairTargetDescription
+    typesTitle: RepairTargetDescriptionBase
+    name: Target
+  - description: The name of the repair executor. Must be specified in Claimed and later states, and is immutable once set.
+    types:
+    - uid: string
+    name: Executor
+  - description: A data string that the repair executor can use to store its internal state.
+    types:
+    - uid: string
+    name: ExecutorData
+  - description: >
+      Describes the expected impact of executing a repair task.
+
+
+      This type supports the Service Fabric platform; it is not meant to be used directly from your code.
+    types:
+    - uid: NodeRepairImpactDescription
+    typesTitle: RepairImpactDescriptionBase
+    name: Impact
+  - description: >
+      A value describing the overall result of the repair task execution.
+
+      Must be specified in the Restoring and later states, and is immutable once set.
+
+
+      - Invalid - Indicates that the repair task result is invalid. All Service Fabric enumerations have the invalid value.
+
+      - Succeeded - Indicates that the repair task completed execution successfully.
+
+      - Cancelled - Indicates that the repair task was cancelled prior to execution.
+
+      - Interrupted - Indicates that execution of the repair task was interrupted by a cancellation request after some work had already been performed.
+
+      - Failed - Indicates that there was a failure during execution of the repair task. Some work may have been performed.
+
+      - Pending - Indicates that the repair task result is not yet available, because the repair task has not finished executing.
+    types:
+    - uid: Invalid
+    - uid: Succeeded
+    - uid: Cancelled
+    - uid: Interrupted
+    - uid: Failed
+    - uid: Pending
+    typesTitle: enum
+    name: ResultStatus
+  - description: >
+      A numeric value providing additional details about the result of the repair task execution.
+
+      May be specified in the Restoring and later states, and is immutable once set.
+    types:
+    - uid: integer
+    name: ResultCode
+  - description: >
+      A string providing additional details about the result of the repair task execution.
+
+      May be specified in the Restoring and later states, and is immutable once set.
+    types:
+    - uid: string
+    name: ResultDetails
+  - description: >
+      A record of the times when the repair task entered each state.
+
+
+      This type supports the Service Fabric platform; it is not meant to be used directly from your code.
+    types:
+    - uid: RepairTaskHistory
+    name: History
+  - description: >
+      Specifies the workflow state of a repair task's health check.
+
+
+      - NotStarted - Indicates that the health check has not started.
+
+      - InProgress - Indicates that the health check is in progress.
+
+      - Succeeded - Indicates that the health check succeeded.
+
+      - Skipped - Indicates that the health check was skipped.
+
+      - TimedOut - Indicates that the health check timed out.
+
+
+      This type supports the Service Fabric platform; it is not meant to be used directly from your code.
+    types:
+    - uid: RepairTaskHealthCheckState
+    name: PreparingHealthCheckState
+  - description: >
+      Specifies the workflow state of a repair task's health check.
+
+
+      - NotStarted - Indicates that the health check has not started.
+
+      - InProgress - Indicates that the health check is in progress.
+
+      - Succeeded - Indicates that the health check succeeded.
+
+      - Skipped - Indicates that the health check was skipped.
+
+      - TimedOut - Indicates that the health check timed out.
+
+
+      This type supports the Service Fabric platform; it is not meant to be used directly from your code.
+    types:
+    - uid: RepairTaskHealthCheckState
+    name: RestoringHealthCheckState
+  - description: A value to determine if health checks will be performed when the repair task enters the Preparing state.
+    types:
+    - uid: boolean
+    name: PerformPreparingHealthCheck
+  - description: A value to determine if health checks will be performed when the repair task enters the Restoring state.
+    types:
+    - uid: boolean
+    name: PerformRestoringHealthCheck
+- name: NodeRepairTargetDescription
+  description: >
+    Describes the list of nodes targeted by a repair action.
+
+
+    This type supports the Service Fabric platform; it is not meant to be used directly from your code.
+  kind: object
+  properties:
+  - description: >
+      Specifies the kind of the repair target.
+
+      - Invalid - The repair target is not valid or is of an unknown type.
+
+      - Node - The repair target is a set of Service Fabric nodes.
+
+
+      This type supports the Service Fabric platform; it is not meant to be used directly from your code.
+    types:
+    - uid: Node
+    typesTitle: string
+    name: Kind
+  - description: The list of nodes targeted by a repair action.
+    types:
+    - uid: string
+    name: NodeNames
+- name: NodeRepairImpactDescription
+  description: >
+    Describes the expected impact of a repair on a set of nodes.
+
+
+    This type supports the Service Fabric platform; it is not meant to be used directly from your code.
+  kind: object
+  properties:
+  - description: >
+      Specifies the kind of the impact.
+
+      - Invalid - The repair impact is not valid or is of an unknown type.
+
+      - Node - The repair impact affects a set of Service Fabric nodes.
+
+
+      This type supports the Service Fabric platform; it is not meant to be used directly from your code.
+    types:
+    - uid: Node
+    typesTitle: string
+    name: Kind
+  - description: The list of nodes impacted by a repair action and their respective expected impact.
+    types:
+    - uid: NodeImpact
+    name: NodeImpactList
+- name: FabricError_Error
+  description: Error object containing error code and error message.
+  kind: object
+  properties:
+  - description: >
+      Defines the fabric error codes that be returned as part of the error object in response to Service Fabric API operations that are not successful. Following are the error code values that can be returned for a specific HTTP status code.
+
+        - Possible values of the error code for HTTP status code 400 (Bad Request)
+          - "FABRIC_E_INVALID_PARTITION_KEY"
+          - "FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR"
+          - "FABRIC_E_INVALID_ADDRESS"
+          - "FABRIC_E_APPLICATION_NOT_UPGRADING"
+          - "FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR"
+          - "FABRIC_E_FABRIC_NOT_UPGRADING"
+          - "FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR"
+          - "FABRIC_E_INVALID_CONFIGURATION"
+          - "FABRIC_E_INVALID_NAME_URI"
+          - "FABRIC_E_PATH_TOO_LONG"
+          - "FABRIC_E_KEY_TOO_LARGE"
+          - "FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED"
+          - "FABRIC_E_INVALID_ATOMIC_GROUP"
+          - "FABRIC_E_VALUE_EMPTY"
+
+        - Possible values of the error code for HTTP status code 404 (Not Found)
+          - "FABRIC_E_NODE_NOT_FOUND"
+          - "FABRIC_E_APPLICATION_TYPE_NOT_FOUND"
+          - "FABRIC_E_APPLICATION_NOT_FOUND"
+          - "FABRIC_E_SERVICE_TYPE_NOT_FOUND"
+          - "FABRIC_E_SERVICE_DOES_NOT_EXIST"
+          - "FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND"
+          - "FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND"
+          - "FABRIC_E_PARTITION_NOT_FOUND"
+          - "FABRIC_E_REPLICA_DOES_NOT_EXIST"
+          - "FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST"
+          - "FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND"
+          - "FABRIC_E_DIRECTORY_NOT_FOUND"
+          - "FABRIC_E_FABRIC_VERSION_NOT_FOUND"
+          - "FABRIC_E_FILE_NOT_FOUND"
+          - "FABRIC_E_NAME_DOES_NOT_EXIST"
+          - "FABRIC_E_PROPERTY_DOES_NOT_EXIST"
+          - "FABRIC_E_ENUMERATION_COMPLETED"
+          - "FABRIC_E_SERVICE_MANIFEST_NOT_FOUND"
+          - "FABRIC_E_KEY_NOT_FOUND"
+          - "FABRIC_E_HEALTH_ENTITY_NOT_FOUND"
+
+        - Possible values of the error code for HTTP status code 409 (Conflict)
+          - "FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION"
+          - "FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS"
+          - "FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS"
+          - "FABRIC_E_SERVICE_ALREADY_EXISTS"
+          - "FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_TYPE_IN_USE"
+          - "FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION"
+          - "FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS"
+          - "FABRIC_E_FABRIC_VERSION_IN_USE"
+          - "FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS"
+          - "FABRIC_E_NAME_ALREADY_EXISTS"
+          - "FABRIC_E_NAME_NOT_EMPTY"
+          - "FABRIC_E_PROPERTY_CHECK_FAILED"
+          - "FABRIC_E_SERVICE_METADATA_MISMATCH"
+          - "FABRIC_E_SERVICE_TYPE_MISMATCH"
+          - "FABRIC_E_HEALTH_STALE_REPORT"
+          - "FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED"
+          - "FABRIC_E_NODE_HAS_NOT_STOPPED_YET"
+          - "FABRIC_E_INSTANCE_ID_MISMATCH"
+
+        - Possible values of the error code for HTTP status code 413 (Request Entity Too Large)
+          - "FABRIC_E_VALUE_TOO_LARGE"
+
+        - Possible values of the error code for HTTP status code 500 (Internal Server Error)
+          - "FABRIC_E_NODE_IS_UP"
+
+        - Possible values of the error code for HTTP status code 503 (Service Unavailable)
+          - "FABRIC_E_NO_WRITE_QUORUM"
+          - "FABRIC_E_NOT_PRIMARY"
+          - "FABRIC_E_NOT_READY"
+          - "FABRIC_E_RECONFIGURATION_PENDING"
+          - "FABRIC_E_SERVICE_OFFLINE"
+          - "E_ABORT"
+          - "FABRIC_E_VALUE_TOO_LARGE"
+
+        - Possible values of the error code for HTTP status code 504 (Gateway Timeout)
+          - "FABRIC_E_COMMUNICATION_ERROR"
+          - "FABRIC_E_OPERATION_NOT_COMPLETE"
+          - "FABRIC_E_TIMEOUT"
+    types:
+    - uid: FabricErrorCodes
+    name: Code
+  - description: Error message.
+    types:
+    - uid: string
+    name: Message
+- name: RepairTaskHealthCheckState
+  description: >
+    Specifies the workflow state of a repair task's health check.
+
+
+    - NotStarted - Indicates that the health check has not started.
+
+    - InProgress - Indicates that the health check is in progress.
+
+    - Succeeded - Indicates that the health check succeeded.
+
+    - Skipped - Indicates that the health check was skipped.
+
+    - TimedOut - Indicates that the health check timed out.
+
+
+    This type supports the Service Fabric platform; it is not meant to be used directly from your code.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NotStarted
+  - types:
+    - uid: string
+    name: InProgress
+  - types:
+    - uid: string
+    name: Succeeded
+  - types:
+    - uid: string
+    name: Skipped
+  - types:
+    - uid: string
+    name: TimedOut
+- name: RepairTargetKind
+  description: >
+    Specifies the kind of the repair target.
+
+    - Invalid - The repair target is not valid or is of an unknown type.
+
+    - Node - The repair target is a set of Service Fabric nodes.
+
+
+    This type supports the Service Fabric platform; it is not meant to be used directly from your code.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Invalid
+  - types:
+    - uid: string
+    name: Node
+- name: RepairImpactKind
+  description: >
+    Specifies the kind of the impact.
+
+    - Invalid - The repair impact is not valid or is of an unknown type.
+
+    - Node - The repair impact affects a set of Service Fabric nodes.
+
+
+    This type supports the Service Fabric platform; it is not meant to be used directly from your code.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Invalid
+  - types:
+    - uid: string
+    name: Node
+- name: NodeImpact
+  description: >
+    Describes the expected impact of a repair to a particular node.
+
+
+    This type supports the Service Fabric platform; it is not meant to be used directly from your code.
+  kind: object
+  properties:
+  - description: The name of the impacted node.
+    types:
+    - uid: string
+    name: NodeName
+  - description: The level of impact expected.
+    types:
+    - uid: Invalid
+    - uid: None
+    - uid: Restart
+    - uid: RemoveData
+    - uid: RemoveNode
+    typesTitle: enum
+    name: ImpactLevel
+- name: FabricErrorCodes
+  description: >
+    Defines the fabric error codes that be returned as part of the error object in response to Service Fabric API operations that are not successful. Following are the error code values that can be returned for a specific HTTP status code.
+
+      - Possible values of the error code for HTTP status code 400 (Bad Request)
+        - "FABRIC_E_INVALID_PARTITION_KEY"
+        - "FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR"
+        - "FABRIC_E_INVALID_ADDRESS"
+        - "FABRIC_E_APPLICATION_NOT_UPGRADING"
+        - "FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR"
+        - "FABRIC_E_FABRIC_NOT_UPGRADING"
+        - "FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR"
+        - "FABRIC_E_INVALID_CONFIGURATION"
+        - "FABRIC_E_INVALID_NAME_URI"
+        - "FABRIC_E_PATH_TOO_LONG"
+        - "FABRIC_E_KEY_TOO_LARGE"
+        - "FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED"
+        - "FABRIC_E_INVALID_ATOMIC_GROUP"
+        - "FABRIC_E_VALUE_EMPTY"
+
+      - Possible values of the error code for HTTP status code 404 (Not Found)
+        - "FABRIC_E_NODE_NOT_FOUND"
+        - "FABRIC_E_APPLICATION_TYPE_NOT_FOUND"
+        - "FABRIC_E_APPLICATION_NOT_FOUND"
+        - "FABRIC_E_SERVICE_TYPE_NOT_FOUND"
+        - "FABRIC_E_SERVICE_DOES_NOT_EXIST"
+        - "FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND"
+        - "FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND"
+        - "FABRIC_E_PARTITION_NOT_FOUND"
+        - "FABRIC_E_REPLICA_DOES_NOT_EXIST"
+        - "FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST"
+        - "FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND"
+        - "FABRIC_E_DIRECTORY_NOT_FOUND"
+        - "FABRIC_E_FABRIC_VERSION_NOT_FOUND"
+        - "FABRIC_E_FILE_NOT_FOUND"
+        - "FABRIC_E_NAME_DOES_NOT_EXIST"
+        - "FABRIC_E_PROPERTY_DOES_NOT_EXIST"
+        - "FABRIC_E_ENUMERATION_COMPLETED"
+        - "FABRIC_E_SERVICE_MANIFEST_NOT_FOUND"
+        - "FABRIC_E_KEY_NOT_FOUND"
+        - "FABRIC_E_HEALTH_ENTITY_NOT_FOUND"
+
+      - Possible values of the error code for HTTP status code 409 (Conflict)
+        - "FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION"
+        - "FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS"
+        - "FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS"
+        - "FABRIC_E_SERVICE_ALREADY_EXISTS"
+        - "FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_TYPE_IN_USE"
+        - "FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION"
+        - "FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS"
+        - "FABRIC_E_FABRIC_VERSION_IN_USE"
+        - "FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS"
+        - "FABRIC_E_NAME_ALREADY_EXISTS"
+        - "FABRIC_E_NAME_NOT_EMPTY"
+        - "FABRIC_E_PROPERTY_CHECK_FAILED"
+        - "FABRIC_E_SERVICE_METADATA_MISMATCH"
+        - "FABRIC_E_SERVICE_TYPE_MISMATCH"
+        - "FABRIC_E_HEALTH_STALE_REPORT"
+        - "FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED"
+        - "FABRIC_E_NODE_HAS_NOT_STOPPED_YET"
+        - "FABRIC_E_INSTANCE_ID_MISMATCH"
+
+      - Possible values of the error code for HTTP status code 413 (Request Entity Too Large)
+        - "FABRIC_E_VALUE_TOO_LARGE"
+
+      - Possible values of the error code for HTTP status code 500 (Internal Server Error)
+        - "FABRIC_E_NODE_IS_UP"
+
+      - Possible values of the error code for HTTP status code 503 (Service Unavailable)
+        - "FABRIC_E_NO_WRITE_QUORUM"
+        - "FABRIC_E_NOT_PRIMARY"
+        - "FABRIC_E_NOT_READY"
+        - "FABRIC_E_RECONFIGURATION_PENDING"
+        - "FABRIC_E_SERVICE_OFFLINE"
+        - "E_ABORT"
+        - "FABRIC_E_VALUE_TOO_LARGE"
+
+      - Possible values of the error code for HTTP status code 504 (Gateway Timeout)
+        - "FABRIC_E_COMMUNICATION_ERROR"
+        - "FABRIC_E_OPERATION_NOT_COMPLETE"
+        - "FABRIC_E_TIMEOUT"
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: FABRIC_E_INVALID_PARTITION_KEY
+  - types:
+    - uid: string
+    name: FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR
+  - types:
+    - uid: string
+    name: FABRIC_E_INVALID_ADDRESS
+  - types:
+    - uid: string
+    name: FABRIC_E_APPLICATION_NOT_UPGRADING
+  - types:
+    - uid: string
+    name: FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR
+  - types:
+    - uid: string
+    name: FABRIC_E_FABRIC_NOT_UPGRADING
+  - types:
+    - uid: string
+    name: FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR
+  - types:
+    - uid: string
+    name: FABRIC_E_INVALID_CONFIGURATION
+  - types:
+    - uid: string
+    name: FABRIC_E_INVALID_NAME_URI
+  - types:
+    - uid: string
+    name: FABRIC_E_PATH_TOO_LONG
+  - types:
+    - uid: string
+    name: FABRIC_E_KEY_TOO_LARGE
+  - types:
+    - uid: string
+    name: FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED
+  - types:
+    - uid: string
+    name: FABRIC_E_INVALID_ATOMIC_GROUP
+  - types:
+    - uid: string
+    name: FABRIC_E_VALUE_EMPTY
+  - types:
+    - uid: string
+    name: FABRIC_E_NODE_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_APPLICATION_TYPE_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_APPLICATION_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_SERVICE_TYPE_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_SERVICE_DOES_NOT_EXIST
+  - types:
+    - uid: string
+    name: FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_PARTITION_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_REPLICA_DOES_NOT_EXIST
+  - types:
+    - uid: string
+    name: FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST
+  - types:
+    - uid: string
+    name: FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_DIRECTORY_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_FABRIC_VERSION_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_FILE_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_NAME_DOES_NOT_EXIST
+  - types:
+    - uid: string
+    name: FABRIC_E_PROPERTY_DOES_NOT_EXIST
+  - types:
+    - uid: string
+    name: FABRIC_E_ENUMERATION_COMPLETED
+  - types:
+    - uid: string
+    name: FABRIC_E_SERVICE_MANIFEST_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_KEY_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_HEALTH_ENTITY_NOT_FOUND
+  - types:
+    - uid: string
+    name: FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS
+  - types:
+    - uid: string
+    name: FABRIC_E_APPLICATION_ALREADY_EXISTS
+  - types:
+    - uid: string
+    name: FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION
+  - types:
+    - uid: string
+    name: FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS
+  - types:
+    - uid: string
+    name: FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS
+  - types:
+    - uid: string
+    name: FABRIC_E_SERVICE_ALREADY_EXISTS
+  - types:
+    - uid: string
+    name: FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS
+  - types:
+    - uid: string
+    name: FABRIC_E_APPLICATION_TYPE_IN_USE
+  - types:
+    - uid: string
+    name: FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION
+  - types:
+    - uid: string
+    name: FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS
+  - types:
+    - uid: string
+    name: FABRIC_E_FABRIC_VERSION_IN_USE
+  - types:
+    - uid: string
+    name: FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS
+  - types:
+    - uid: string
+    name: FABRIC_E_NAME_ALREADY_EXISTS
+  - types:
+    - uid: string
+    name: FABRIC_E_NAME_NOT_EMPTY
+  - types:
+    - uid: string
+    name: FABRIC_E_PROPERTY_CHECK_FAILED
+  - types:
+    - uid: string
+    name: FABRIC_E_SERVICE_METADATA_MISMATCH
+  - types:
+    - uid: string
+    name: FABRIC_E_SERVICE_TYPE_MISMATCH
+  - types:
+    - uid: string
+    name: FABRIC_E_HEALTH_STALE_REPORT
+  - types:
+    - uid: string
+    name: FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED
+  - types:
+    - uid: string
+    name: FABRIC_E_NODE_HAS_NOT_STOPPED_YET
+  - types:
+    - uid: string
+    name: FABRIC_E_INSTANCE_ID_MISMATCH
+  - types:
+    - uid: string
+    name: FABRIC_E_VALUE_TOO_LARGE
+  - types:
+    - uid: string
+    name: FABRIC_E_NO_WRITE_QUORUM
+  - types:
+    - uid: string
+    name: FABRIC_E_NOT_PRIMARY
+  - types:
+    - uid: string
+    name: FABRIC_E_NOT_READY
+  - types:
+    - uid: string
+    name: FABRIC_E_RECONFIGURATION_PENDING
+  - types:
+    - uid: string
+    name: FABRIC_E_SERVICE_OFFLINE
+  - types:
+    - uid: string
+    name: E_ABORT
+  - types:
+    - uid: string
+    name: FABRIC_E_COMMUNICATION_ERROR
+  - types:
+    - uid: string
+    name: FABRIC_E_OPERATION_NOT_COMPLETE
+  - types:
+    - uid: string
+    name: FABRIC_E_TIMEOUT
+  - types:
+    - uid: string
+    name: FABRIC_E_NODE_IS_UP
+examples: []
+security: []
+name: UpdateRepairExecutionState
+uid: localhost:19080.servicefabric.updaterepairexecutionstate.updaterepairexecutionstate
