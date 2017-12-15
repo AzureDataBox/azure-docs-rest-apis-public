@@ -227,7 +227,10 @@ definitions:
       uid: MetadataItem
     name: metadata
 - name: MetadataItem
-  description: A name-value pair associated with a Batch service resource.
+  description: >-
+    A name-value pair associated with a Batch service resource.
+
+    The Batch service does not assign any meaning to this metadata; it is solely for the use of user code.
   kind: object
   properties:
   - description: The name of the metadata item.
@@ -324,7 +327,10 @@ definitions:
     - uid: integer
     name: maxTaskRetryCount
 - name: JobManagerTask
-  description: Specifies details of a Job Manager task.
+  description: >-
+    Specifies details of a Job Manager task.
+
+    The Job Manager task is automatically started when the job is created. The Batch service tries to schedule the Job Manager task before any other tasks in the job. When shrinking a pool, the Batch service tries to preserve compute nodes where Job Manager tasks are running for as long as possible (that is, nodes running 'normal' tasks are removed before nodes running Job Manager tasks). When a Job Manager task fails and needs to be restarted, the system tries to schedule it at the highest priority. If there are no idle nodes available, the system may terminate one of the running tasks in the pool and return it to the queue in order to make room for the Job Manager task to restart. Note that a Job Manager task in one job does not have priority over tasks in other jobs. Across jobs, only job level priorities are observed. For example, if a Job Manager in a priority 0 job needs to be restarted, it will not displace tasks of a priority 1 job.
   kind: object
   properties:
   - description: >-
@@ -415,7 +421,10 @@ definitions:
     - uid: boolean
     name: allowLowPriorityNode
 - name: JobPreparationTask
-  description: A Job Preparation task to run before any tasks of the job on any given compute node.
+  description: >-
+    A Job Preparation task to run before any tasks of the job on any given compute node.
+
+    You can use Job Preparation to prepare a compute node to run tasks for the job. Activities commonly performed in Job Preparation include: Downloading common resource files used by all the tasks in the job. The Job Preparation task can download these common resource files to the shared location on the compute node. (AZ_BATCH_NODE_ROOT_DIR\shared), or starting a local service on the compute node so that all tasks of that job can communicate with it. If the Job Preparation task fails (that is, exhausts its retry count before exiting with exit code 0), Batch will not run tasks of this job on the compute node. The node remains ineligible to run tasks of this job until it is reimaged. The node remains active and can be used for other jobs. The Job Preparation task can run multiple times on the same compute node. Therefore, you should write the Job Preparation task to handle re-execution. If the compute node is rebooted, the Job Preparation task is run again on the node before scheduling any other task of the job, if rerunOnNodeRebootAfterSuccess is true or if the Job Preparation task did not previously complete. If the compute node is reimaged, the Job Preparation task is run again before scheduling any task of the job.
   kind: object
   properties:
   - description: >-
@@ -475,7 +484,10 @@ definitions:
     - uid: boolean
     name: rerunOnNodeRebootAfterSuccess
 - name: JobReleaseTask
-  description: A Job Release task to run on job completion on any compute node where the job has run.
+  description: >-
+    A Job Release task to run on job completion on any compute node where the job has run.
+
+    The Job Release task runs when the job ends, because of one of the following: The user calls the Terminate Job API, or the Delete Job API while the job is still active, the job's maximum wall clock time constraint is reached, and the job is still active, or the job's Job Manager task completed, and the job is configured to terminate when the Job Manager completes. The Job Release task runs on each compute node where tasks of the job have run and the Job Preparation task ran and completed. If you reimage a compute node after it has run the Job Preparation task, and the job ends without any further tasks of the job running on that compute node (and hence the Job Preparation task does not re-run), then the Job Release task does not run on that node. If a compute node reboots while the Job Release task is still running, the Job Release task runs again when the compute node starts up. The job is not marked as complete until all Job Release tasks have completed. The Job Release task runs in the background. It does not occupy a scheduling slot; that is, it does not count towards the maxTasksPerNode limit specified on the pool.
   kind: object
   properties:
   - description: >-
@@ -629,7 +641,10 @@ definitions:
     - uid: string
     name: fileMode
 - name: OutputFile
-  description: A list of files that the Batch service will upload from the compute node after running the command line.
+  description: >-
+    A list of files that the Batch service will upload from the compute node after running the command line.
+
+    For multi-instance tasks, the files will only be uploaded from the compute node on which the primary task is executed.
   kind: object
   properties:
   - description: >-
@@ -673,7 +688,10 @@ definitions:
     - uid: integer
     name: maxTaskRetryCount
 - name: UserIdentity
-  description: The definition of the user identity under which the task is run.
+  description: >-
+    The definition of the user identity under which the task is run.
+
+    Specify either the userName or autoUser property, but not both.
   kind: object
   properties:
   - description: >-
@@ -744,7 +762,10 @@ definitions:
     - uid: PoolSpecification
     name: pool
 - name: ContainerRegistry
-  description: The private registry which contains the container image.
+  description: >-
+    The private registry which contains the container image.
+
+    This setting can be omitted if was already provided at pool creation.
   kind: object
   properties:
   - description: >-
@@ -1004,7 +1025,10 @@ definitions:
     - uid: string
     name: admin
 - name: CloudServiceConfiguration
-  description: The cloud service configuration for the pool.
+  description: >-
+    The cloud service configuration for the pool.
+
+    This property must be specified if the pool needs to be created with Azure PaaS VMs. This property and virtualMachineConfiguration are mutually exclusive and one of the properties must be specified. If neither is specified then the Batch service returns an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request). This property cannot be specified if the Batch account was created with its poolAllocationMode property set to 'UserSubscription'.
   kind: object
   properties:
   - description: >-
@@ -1030,7 +1054,10 @@ definitions:
     - uid: string
     name: currentOSVersion
 - name: VirtualMachineConfiguration
-  description: The virtual machine configuration for the pool.
+  description: >-
+    The virtual machine configuration for the pool.
+
+    This property must be specified if the pool needs to be created with Azure IaaS VMs. This property and cloudServiceConfiguration are mutually exclusive and one of the properties must be specified. If neither is specified then the Batch service returns an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request).
   kind: object
   properties:
   - description: A reference to the Azure Virtual Machines Marketplace image or the custom Virtual Machine image to use.
@@ -1086,7 +1113,10 @@ definitions:
     - uid: ComputeNodeFillType
     name: nodeFillType
 - name: NetworkConfiguration
-  description: The network configuration for the pool.
+  description: >-
+    The network configuration for the pool.
+
+    The network configuration for a pool.
   kind: object
   properties:
   - description: >-
@@ -1213,7 +1243,10 @@ definitions:
     - uid: LinuxUserConfiguration
     name: linuxUserConfiguration
 - name: ImageReference
-  description: The list of Azure Marketplace images verified to be compatible with this node agent SKU.
+  description: >-
+    The list of Azure Marketplace images verified to be compatible with this node agent SKU.
+
+    This collection is not exhaustive (the node agent may be compatible with other images).
   kind: object
   properties:
   - description: >-
@@ -1263,7 +1296,10 @@ definitions:
     - uid: CachingType
     name: caching
 - name: WindowsConfiguration
-  description: Windows operating system settings on the virtual machine.
+  description: >-
+    Windows operating system settings on the virtual machine.
+
+    This property must not be specified if the imageReference or osDisk property specifies a Linux OS image.
   kind: object
   properties:
   - description: >-
@@ -1274,7 +1310,10 @@ definitions:
     - uid: boolean
     name: enableAutomaticUpdates
 - name: DataDisk
-  description: The configuration for data disks attached to the comptue nodes in the pool.
+  description: >-
+    The configuration for data disks attached to the comptue nodes in the pool.
+
+    This property must be specified if the compute nodes in the pool need to have empty data disks attached to them. This cannot be updated. Each node gets its own disk (the disk is not a file share). Existing disks cannot be attached, each attached disk is empty. When the node is removed from the pool, the disk and all data associated with it is also deleted. The disk is not formatted after being attached, it must be formatted before use - for more information see https://docs.microsoft.com/en-us/azure/virtual-machines/linux/classic/attach-disk#initialize-a-new-data-disk-in-linux and https://docs.microsoft.com/en-us/azure/virtual-machines/windows/attach-disk-ps#add-an-empty-data-disk-to-a-virtual-machine.
   kind: object
   properties:
   - description: >-
@@ -1303,7 +1342,10 @@ definitions:
     - uid: StorageAccountType
     name: storageAccountType
 - name: ContainerConfiguration
-  description: The container configuration for the pool.
+  description: >-
+    The container configuration for the pool.
+
+    If specified, setup is performed on each node in the pool to allow tasks to run in containers. All regular tasks and job manager tasks run on this pool must specify the containerSettings property, and all other tasks may specify it.
   kind: object
   properties:
   - description: The container technology to be used.
@@ -1336,7 +1378,10 @@ definitions:
     - uid: string
     name: pack
 - name: PoolEndpointConfiguration
-  description: The configuration for endpoints on compute nodes in the Batch pool.
+  description: >-
+    The configuration for endpoints on compute nodes in the Batch pool.
+
+    Pool endpoint configuration is only supported on pools with the virtualMachineConfiguration property.
   kind: object
   properties:
   - description: A inbound NAT pool that can be used to address specific ports on compute nodes in a Batch pool externally.
@@ -1418,7 +1463,10 @@ definitions:
     - uid: string
     name: docker
 - name: InboundNATPool
-  description: A list of inbound NAT pools that can be used to address specific ports on an individual compute node externally.
+  description: >-
+    A list of inbound NAT pools that can be used to address specific ports on an individual compute node externally.
+
+    The maximum number of inbound NAT pools per Batch pool is 5. If the maximum number of inbound NAT pools is exceeded the request fails with HTTP status code 400.
   kind: object
   properties:
   - description: >-
@@ -1471,7 +1519,10 @@ definitions:
     - uid: string
     name: udp
 - name: NetworkSecurityGroupRule
-  description: A list of network security group rules that will be applied to the endpoint.
+  description: >-
+    A list of network security group rules that will be applied to the endpoint.
+
+    The maximum number of rules that can be specified across all the endpoints on a Batch pool is 25. If no network security group rules are specified, a default rule will be created to allow inbound access to the specified backendPort. If the maximum number of network security group rules is exceeded the request fails with HTTP status code 400.
   kind: object
   properties:
   - description: >-

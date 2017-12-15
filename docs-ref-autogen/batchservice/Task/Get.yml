@@ -372,7 +372,10 @@ definitions:
     - uid: string
     name: fileMode
 - name: OutputFile
-  description: A list of files that the Batch service will upload from the compute node after running the command line.
+  description: >-
+    A list of files that the Batch service will upload from the compute node after running the command line.
+
+    For multi-instance tasks, the files will only be uploaded from the compute node on which the primary task is executed.
   kind: object
   properties:
   - description: >-
@@ -439,7 +442,10 @@ definitions:
     - uid: integer
     name: maxTaskRetryCount
 - name: UserIdentity
-  description: The definition of the user identity under which the task is run.
+  description: >-
+    The definition of the user identity under which the task is run.
+
+    Specify either the userName or autoUser property, but not both.
   kind: object
   properties:
   - description: >-
@@ -559,7 +565,10 @@ definitions:
     - uid: string
     name: taskRootDirectoryUrl
 - name: MultiInstanceSettings
-  description: Settings which specify how to run a multi-instance task.
+  description: >-
+    Settings which specify how to run a multi-instance task.
+
+    Multi-instance tasks are commonly used to support MPI tasks.
   kind: object
   properties:
   - description: >-
@@ -750,7 +759,10 @@ definitions:
     - uid: DependencyAction
     name: dependencyAction
 - name: ContainerRegistry
-  description: The private registry which contains the container image.
+  description: >-
+    The private registry which contains the container image.
+
+    This setting can be omitted if was already provided at pool creation.
   kind: object
   properties:
   - description: >-

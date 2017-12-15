@@ -222,7 +222,7 @@ definitions:
   - description: A list of additional details about the error.
     types:
     - isArray: true
-      uid: Details
+      uid: CloudErrorBody
     name: details
 - name: VmPriority
   description: dedicated or lowpriority.
@@ -235,7 +235,10 @@ definitions:
     - uid: string
     name: lowpriority
 - name: ScaleSettings
-  description: Desired scale for the cluster.
+  description: >-
+    Desired scale for the cluster.
+
+    At least one of manual or autoScale settings must be specified. Only one of manual or autoScale settings can be specified. If autoScale settings are specified, the system automatically scales the cluster up and down (within the supplied limits) based on the pending jobs on the cluster.
   kind: object
   properties:
   - description: >-
@@ -253,7 +256,10 @@ definitions:
     - uid: AutoScaleSettings
     name: autoScale
 - name: VirtualMachineConfiguration
-  description: Settings for OS image and mounted data volumes.
+  description: >-
+    Settings for OS image and mounted data volumes.
+
+    Settings for OS image.
   kind: object
   properties:
   - description: >-
@@ -264,7 +270,10 @@ definitions:
     - uid: ImageReference
     name: imageReference
 - name: NodeSetup
-  description: Setup to be done on all compute nodes in the cluster.
+  description: >-
+    Setup to be done on all compute nodes in the cluster.
+
+    Use this to prepare the VM. NOTE: The volumes specified in mountVolumes are mounted first and then the setupTask is run. Therefore the setup task can use local mountPaths in its execution.
   kind: object
   properties:
   - description: >-
@@ -282,7 +291,10 @@ definitions:
     - uid: MountVolumes
     name: mountVolumes
 - name: UserAccountSettings
-  description: Settings for user account of VMs.
+  description: >-
+    Settings for user account of VMs.
+
+    Settings for user account that gets created on each on the nodes of a cluster.
   kind: object
   properties:
   - description: Specifies the name of the administrator account.
@@ -298,7 +310,10 @@ definitions:
     - uid: string
     name: adminUserPassword
 - name: ResourceId
-  description: Specifies the identifier of the subnet.
+  description: >-
+    Specifies the identifier of the subnet.
+
+    Represents a resource ID. For example, for a subnet, it is the resource URL for the subnet.
   kind: object
   properties:
   - description: The ID of the resource
@@ -332,7 +347,10 @@ definitions:
     - uid: string
     name: resizing
 - name: BatchAIError
-  description: Contains details of various errors on the cluster including resize and node setup task
+  description: >-
+    Contains details of various errors on the cluster including resize and node setup task
+
+    This element contains all the errors encountered by various compute nodes during node setup.
   kind: object
   properties:
   - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
@@ -373,7 +391,10 @@ definitions:
     - uid: integer
     name: leavingNodeCount
 - name: ManualScaleSettings
-  description: The scale for the cluster by manual settings
+  description: >-
+    The scale for the cluster by manual settings
+
+    Manual scale settings for the cluster.
   kind: object
   properties:
   - description: >-
@@ -391,7 +412,10 @@ definitions:
     - uid: DeallocationOption
     name: nodeDeallocationOption
 - name: AutoScaleSettings
-  description: The scale for the cluster by autoscale settings
+  description: >-
+    The scale for the cluster by autoscale settings
+
+    The system automatically scales the cluster up and down (within minimumNodeCount and maximumNodeCount) based on the pending and running jobs on the cluster.
   kind: object
   properties:
   - description: Specifies the minimum number of compute nodes the cluster can have.
@@ -407,7 +431,10 @@ definitions:
     - uid: integer
     name: initialNodeCount
 - name: ImageReference
-  description: Reference to OS image.
+  description: >-
+    Reference to OS image.
+
+    The image reference.
   kind: object
   properties:
   - description: Publisher of the image.
@@ -427,7 +454,10 @@ definitions:
     - uid: string
     name: version
 - name: SetupTask
-  description: Specifies a setup task which can be used to customize the compute nodes of the cluster. The NodeSetup task runs everytime a VM is rebooted. For that reason the task code needs to be idempotent. Generally it is used to either download static data that is required for all jobs that run on the cluster VMs or to download/install software.
+  description: >-
+    Specifies a setup task which can be used to customize the compute nodes of the cluster. The NodeSetup task runs everytime a VM is rebooted. For that reason the task code needs to be idempotent. Generally it is used to either download static data that is required for all jobs that run on the cluster VMs or to download/install software.
+
+    Specifies a setup task which can be used to customize the compute nodes of the cluster.
   kind: object
   properties:
   - description: Command Line to start Setup process.
@@ -448,7 +478,10 @@ definitions:
     - uid: string
     name: stdOutErrPathPrefix
 - name: MountVolumes
-  description: Information on shared volumes to be used by jobs.
+  description: >-
+    Information on shared volumes to be used by jobs.
+
+    Details of volumes to mount on the cluster.
   kind: object
   properties:
   - description: Details of the Azure File Share to mount on the cluster.
@@ -512,7 +545,10 @@ definitions:
     - uid: string
     name: value
 - name: AzureFileShareReference
-  description: Azure File Share setup configuration.
+  description: >-
+    Azure File Share setup configuration.
+
+    References to Azure File Shares that are to be mounted to the cluster nodes.
   kind: object
   properties:
   - description: Name of the storage account.
@@ -552,7 +588,10 @@ definitions:
     - uid: string
     name: directoryMode
 - name: AzureBlobFileSystemReference
-  description: Azure Blob FileSystem setup configuration.
+  description: >-
+    Azure Blob FileSystem setup configuration.
+
+    References to Azure Blob FUSE that are to be mounted to the cluster nodes.
   kind: object
   properties:
   - description: Name of the Azure Blob Storage account.
@@ -626,7 +665,10 @@ definitions:
     - uid: string
     name: relativeMountPath
 - name: AzureStorageCredentialsInfo
-  description: Information of the Azure File credentials.
+  description: >-
+    Information of the Azure File credentials.
+
+    Credentials to access Azure File Share.
   kind: object
   properties:
   - description: >-

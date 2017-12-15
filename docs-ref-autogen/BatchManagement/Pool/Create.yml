@@ -171,7 +171,10 @@ requestHeader:
   name: If-None-Match
 definitions:
 - name: DeploymentConfiguration
-  description: This property describes how the pool nodes will be deployed - using Cloud Services or Virtual Machines.
+  description: >-
+    This property describes how the pool nodes will be deployed - using Cloud Services or Virtual Machines.
+
+    Using CloudServiceConfiguration specifies that the nodes should be creating using Azure Cloud Services (PaaS), while VirtualMachineConfiguration uses Azure Virtual Machines (IaaS).
   kind: object
   properties:
   - description: >-
@@ -189,7 +192,10 @@ definitions:
     - uid: VirtualMachineConfiguration
     name: virtualMachineConfiguration
 - name: ScaleSettings
-  description: Settings which configure the number of nodes in the pool.
+  description: >-
+    Settings which configure the number of nodes in the pool.
+
+    Defines the desired size of the pool. This can either be 'fixedScale' where the requested targetDedicatedNodes is specified, or 'autoScale' which defines a formula which is periodically reevaluated. If this property is not specified, the pool will have a fixed scale with 0 targetDedicatedNodes.
   kind: object
   properties:
   - description: >-
@@ -207,7 +213,10 @@ definitions:
     - uid: AutoScaleSettings
     name: autoScale
 - name: AutoScaleRun
-  description: The results and errors from the last execution of the autoscale formula.
+  description: >-
+    The results and errors from the last execution of the autoscale formula.
+
+    This property is set only if the pool automatically scales, i.e. autoScaleSettings are used.
   kind: object
   properties:
   - description: The time at which the autoscale formula was last evaluated.
@@ -226,7 +235,10 @@ definitions:
     - uid: AutoScaleRunError
     name: error
 - name: NetworkConfiguration
-  description: The network configuration for the pool.
+  description: >-
+    The network configuration for the pool.
+
+    The network configuration for a pool.
   kind: object
   properties:
   - description: >-
@@ -278,7 +290,10 @@ definitions:
     - uid: LinuxUserConfiguration
     name: linuxUserConfiguration
 - name: MetadataItem
-  description: A list of name-value pairs associated with the pool as metadata.
+  description: >-
+    A list of name-value pairs associated with the pool as metadata.
+
+    The Batch service does not assign any meaning to metadata; it is solely for the use of user code.
   kind: object
   properties:
   - description: The name of the metadata item.
@@ -290,7 +305,10 @@ definitions:
     - uid: string
     name: value
 - name: StartTask
-  description: A task specified to run on each compute node as it joins the pool.
+  description: >-
+    A task specified to run on each compute node as it joins the pool.
+
+    In an PATCH (update) operation, this property can be set to an empty object to remove the start task from the pool.
   kind: object
   properties:
   - description: >-
@@ -332,7 +350,10 @@ definitions:
     - uid: boolean
     name: waitForSuccess
 - name: CertificateReference
-  description: The list of certificates to be installed on each compute node in the pool.
+  description: >-
+    The list of certificates to be installed on each compute node in the pool.
+
+    For Windows compute nodes, the Batch service installs the certificates to the specified certificate store and location. For Linux compute nodes, the certificates are stored in a directory inside the task working directory and an environment variable AZ_BATCH_CERTIFICATES_DIR is supplied to the task to query for this location. For certificates with visibility of 'remoteUser', a 'certs' directory is created in the user's home directory (e.g., /home/{user-name}/certs) and certificates are placed in that directory.
   kind: object
   properties:
   - description: The fully qualified ID of the certificate to install on the pool. This must be inside the same batch account as the pool.
@@ -368,7 +389,10 @@ definitions:
       uid: string
     name: visibility
 - name: ApplicationPackageReference
-  description: The list of application packages to be installed on each compute node in the pool.
+  description: >-
+    The list of application packages to be installed on each compute node in the pool.
+
+    Changes to application packages affect all new compute nodes joining the pool, but do not affect compute nodes that are already in the pool until they are rebooted or reimaged.
   kind: object
   properties:
   - description: The ID of the application package to install. This must be inside the same batch account as the pool. This can either be a reference to a specific version or the default version if one exists.
@@ -383,7 +407,10 @@ definitions:
     - uid: string
     name: version
 - name: ResizeOperationStatus
-  description: Contains details about the current or last completed resize operation.
+  description: >-
+    Contains details about the current or last completed resize operation.
+
+    Describes either the current operation (if the pool AllocationState is Resizing) or the previously completed operation (if the AllocationState is Steady).
   kind: object
   properties:
   - description: The desired number of dedicated compute nodes in the pool.
@@ -610,7 +637,10 @@ definitions:
     - uid: CloudErrorBody
     name: error
 - name: CloudServiceConfiguration
-  description: The cloud service configuration for the pool.
+  description: >-
+    The cloud service configuration for the pool.
+
+    This property and virtualMachineConfiguration are mutually exclusive and one of the properties must be specified. This property cannot be specified if the Batch account was created with its poolAllocationMode property set to 'UserSubscription'.
   kind: object
   properties:
   - description: >-
@@ -635,7 +665,10 @@ definitions:
     - uid: string
     name: currentOSVersion
 - name: VirtualMachineConfiguration
-  description: The virtual machine configuration for the pool.
+  description: >-
+    The virtual machine configuration for the pool.
+
+    This property and cloudServiceConfiguration are mutually exclusive and one of the properties must be specified.
   kind: object
   properties:
   - description: A reference to the Azure Virtual Machines Marketplace Image or the custom Virtual Machine Image to use.
@@ -676,7 +709,10 @@ definitions:
     - uid: string
     name: licenseType
 - name: FixedScaleSettings
-  description: Fixed scale settings for the pool.
+  description: >-
+    Fixed scale settings for the pool.
+
+    This property and autoScale are mutually exclusive and one of the properties must be specified.
   kind: object
   properties:
   - description: >-
@@ -708,7 +744,10 @@ definitions:
     - uid: ComputeNodeDeallocationOption
     name: nodeDeallocationOption
 - name: AutoScaleSettings
-  description: AutoScale settings for the pool.
+  description: >-
+    AutoScale settings for the pool.
+
+    This property and fixedScale are mutually exclusive and one of the properties must be specified.
   kind: object
   properties:
   - description: A formula for the desired number of compute nodes in the pool.
@@ -737,10 +776,13 @@ definitions:
   - description: Additional details about the error.
     types:
     - isArray: true
-      uid: Details
+      uid: AutoScaleRunError
     name: details
 - name: PoolEndpointConfiguration
-  description: The configuration for endpoints on compute nodes in the Batch pool.
+  description: >-
+    The configuration for endpoints on compute nodes in the Batch pool.
+
+    Pool endpoint configuration is only supported on pools with the virtualMachineConfiguration property.
   kind: object
   properties:
   - description: A inbound NAT pool that can be used to address specific ports on compute nodes in a Batch pool externally.
@@ -769,7 +811,10 @@ definitions:
     - uid: string
     name: Admin
 - name: LinuxUserConfiguration
-  description: The Linux-specific user configuration for the user account.
+  description: >-
+    The Linux-specific user configuration for the user account.
+
+    This property is ignored if specified on a Windows pool. If not specified, the user is created with the default options.
   kind: object
   properties:
   - description: >-
@@ -828,7 +873,10 @@ definitions:
     - uid: string
     name: value
 - name: UserIdentity
-  description: The user identity under which the start task runs.
+  description: >-
+    The user identity under which the start task runs.
+
+    If omitted, the task runs as a non-administrative user unique to the task.
   kind: object
   properties:
   - description: >-
@@ -872,7 +920,10 @@ definitions:
     - uid: string
     name: RetainedData
 - name: ResizeError
-  description: Details of any errors encountered while performing the last resize on the pool.
+  description: >-
+    Details of any errors encountered while performing the last resize on the pool.
+
+    This property is set only if an error occurred during the last pool resize, and only when the pool allocationState is Steady.
   kind: object
   properties:
   - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
@@ -886,7 +937,7 @@ definitions:
   - description: Additional details about the error.
     types:
     - isArray: true
-      uid: Details
+      uid: ResizeError
     name: details
 - name: PoolProvisioningState
   description: The current state of the pool.
@@ -940,7 +991,7 @@ definitions:
   - description: A list of additional details about the error.
     types:
     - isArray: true
-      uid: Details
+      uid: CloudErrorBody
     name: details
 - name: ImageReference
   description: A reference to the Azure Virtual Machines Marketplace Image or the custom Virtual Machine Image to use.
@@ -993,7 +1044,10 @@ definitions:
     - uid: CachingType
     name: caching
 - name: WindowsConfiguration
-  description: Windows operating system settings on the virtual machine.
+  description: >-
+    Windows operating system settings on the virtual machine.
+
+    This property must not be specified if the imageReference specifies a Linux OS image.
   kind: object
   properties:
   - description: >-
@@ -1004,7 +1058,10 @@ definitions:
     - uid: boolean
     name: enableAutomaticUpdates
 - name: DataDisk
-  description: The configuration for data disks attached to the comptue nodes in the pool.
+  description: >-
+    The configuration for data disks attached to the comptue nodes in the pool.
+
+    This property must be specified if the compute nodes in the pool need to have empty data disks attached to them.
   kind: object
   properties:
   - description: >-
@@ -1042,7 +1099,10 @@ definitions:
     - uid: StorageAccountType
     name: storageAccountType
 - name: InboundNatPool
-  description: A list of inbound NAT pools that can be used to address specific ports on an individual compute node externally.
+  description: >-
+    A list of inbound NAT pools that can be used to address specific ports on an individual compute node externally.
+
+    The maximum number of inbound NAT pools per Batch pool is 5. If the maximum number of inbound NAT pools is exceeded the request fails with HTTP status code 400.
   kind: object
   properties:
   - description: >-
@@ -1083,7 +1143,10 @@ definitions:
       uid: NetworkSecurityGroupRule
     name: networkSecurityGroupRules
 - name: AutoUserSpecification
-  description: The auto user under which the task is run.
+  description: >-
+    The auto user under which the task is run.
+
+    The userName and autoUser properties are mutually exclusive; you must specify one but not both.
   kind: object
   properties:
   - description: >-
@@ -1134,7 +1197,10 @@ definitions:
     - uid: string
     name: UDP
 - name: NetworkSecurityGroupRule
-  description: A list of network security group rules that will be applied to the endpoint.
+  description: >-
+    A list of network security group rules that will be applied to the endpoint.
+
+    The maximum number of rules that can be specified across all the endpoints on a Batch pool is 25. If no network security group rules are specified, a default rule will be created to allow inbound access to the specified backendPort. If the maximum number of network security group rules is exceeded the request fails with HTTP status code 400.
   kind: object
   properties:
   - description: >-
