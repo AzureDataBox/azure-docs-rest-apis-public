@@ -53,9 +53,10 @@ definitions:
   description: Collection of App Service apps.
   kind: object
   properties:
-  - description: Collection of resources.
+  - description: A web app, a mobile app backend, or an API app.
     types:
-    - uid: Site
+    - isArray: true
+      uid: Site
     name: value
   - description: Link to next page of resources.
     types:
@@ -77,7 +78,8 @@ definitions:
   - isReadyOnly: true
     description: Hostnames associated with the app.
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: properties.hostNames
   - isReadyOnly: true
     description: Name of the repository site.
@@ -99,16 +101,18 @@ definitions:
 
       the app is not served on those hostnames.
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: properties.enabledHostNames
   - isReadyOnly: true
     description: Management information availability state for the app.
     types:
     - uid: SiteAvailabilityState
     name: properties.availabilityState
-  - description: Hostname SSL states are used to manage the SSL bindings for app's hostnames.
+  - description: SSL-enabled hostname.
     types:
-    - uid: HostNameSslState
+    - isArray: true
+      uid: HostNameSslState
     name: properties.hostNameSslStates
   - description: 'Resource ID of the associated App Service plan, formatted as: "/subscriptions/{subscriptionID}/resourceGroups/{groupName}/providers/Microsoft.Web/serverfarms/{appServicePlanName}".'
     types:
@@ -130,7 +134,8 @@ definitions:
   - isReadyOnly: true
     description: Azure Traffic Manager hostnames associated with the app. Read-only.
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: properties.trafficManagerHostNames
   - description: <code>true</code> to stop SCM (KUDU) site when the app is stopped; otherwise, <code>false</code>. The default is <code>false</code>.
     types:
@@ -335,7 +340,8 @@ definitions:
     name: numberOfWorkers
   - description: Default documents.
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: defaultDocuments
   - description: .NET Framework version.
     types:
@@ -389,22 +395,25 @@ definitions:
     types:
     - uid: string
     name: publishingUsername
-  - description: Application settings.
+  - description: Name value pair.
     types:
-    - uid: NameValuePair
+    - isArray: true
+      uid: NameValuePair
     name: appSettings
-  - description: Connection strings.
+  - description: Database connection string information.
     types:
-    - uid: ConnStringInfo
+    - isArray: true
+      uid: ConnStringInfo
     name: connectionStrings
   - isReadyOnly: true
     description: Site MachineKey.
     types:
     - uid: SiteMachineKey
     name: machineKey
-  - description: Handler mappings.
+  - description: "The IIS handler mappings used to define which handler processes HTTP requests with certain extension. \nFor example, it is used to configure php-cgi.exe process to handle all HTTP requests with *.php extension."
     types:
-    - uid: HandlerMapping
+    - isArray: true
+      uid: HandlerMapping
     name: handlerMappings
   - description: Document root.
     types:
@@ -446,9 +455,10 @@ definitions:
     types:
     - uid: ManagedPipelineMode
     name: managedPipelineMode
-  - description: Virtual applications.
+  - description: Virtual application in an app.
     types:
-    - uid: VirtualApplication
+    - isArray: true
+      uid: VirtualApplication
     name: virtualApplications
   - description: Site load balancing.
     types:
@@ -498,9 +508,10 @@ definitions:
     types:
     - uid: boolean
     name: localMySqlEnabled
-  - description: IP security restrictions.
+  - description: IP security restriction on an app.
     types:
-    - uid: IpSecurityRestriction
+    - isArray: true
+      uid: IpSecurityRestriction
     name: ipSecurityRestrictions
 - name: HostingEnvironmentProfile
   description: Specification for an App Service Environment to use for this resource.
@@ -803,9 +814,10 @@ definitions:
     types:
     - uid: boolean
     name: preloadEnabled
-  - description: Virtual directories for virtual application.
+  - description: Directory for virtual application.
     types:
-    - uid: VirtualDirectory
+    - isArray: true
+      uid: VirtualDirectory
     name: virtualDirectories
 - name: SiteLoadBalancing
   description: Site load balancing.
@@ -830,9 +842,10 @@ definitions:
   description: Routing rules in production experiments.
   kind: object
   properties:
-  - description: List of ramp-up rules.
+  - description: Routing rules for ramp up testing. This rule allows to redirect static traffic % to a slot or to gradually change routing % based on performance.
     types:
-    - uid: RampUpRule
+    - isArray: true
+      uid: RampUpRule
     name: rampUpRules
 - name: SiteLimits
   description: Metric limits set on an app.
@@ -871,7 +884,8 @@ definitions:
 
       calls (for example: http://example.com:12345). Use "*" to allow all.
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: allowedOrigins
 - name: PushSettings
   description: Push settings for the App.
@@ -1044,9 +1058,10 @@ definitions:
     types:
     - uid: integer
     name: privateBytesInKB
-  - description: A rule based on status codes.
+  - description: Trigger based on status code.
     types:
-    - uid: StatusCodesBasedTrigger
+    - isArray: true
+      uid: StatusCodesBasedTrigger
     name: statusCodes
   - description: A rule based on request execution time.
     types:

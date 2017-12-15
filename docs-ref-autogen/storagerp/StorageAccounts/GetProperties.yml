@@ -183,16 +183,19 @@ definitions:
   - isReadyOnly: true
     description: The set of locations that the SKU is available. This will be supported and registered Azure Geo Regions (e.g. West US, East US, Southeast Asia, etc.).
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: locations
   - isReadyOnly: true
     description: The capability information in the specified sku, including file encryption, network acls, change notification, etc.
     types:
-    - uid: SKUCapability
+    - isArray: true
+      uid: SKUCapability
     name: capabilities
-  - description: The restrictions because of which SKU cannot be used. This is empty if there are no restrictions.
+  - description: The restriction because of which SKU cannot be used.
     types:
-    - uid: Restriction
+    - isArray: true
+      uid: Restriction
     name: restrictions
 - name: Kind
   description: Indicates the type of storage account.
@@ -315,13 +318,15 @@ definitions:
     types:
     - uid: Bypass
     name: bypass
-  - description: Sets the virtual network rules
+  - description: Virtual Network rule.
     types:
-    - uid: VirtualNetworkRule
+    - isArray: true
+      uid: VirtualNetworkRule
     name: virtualNetworkRules
-  - description: Sets the IP ACL rules
+  - description: IP rule with specific IP or IP range in CIDR format.
     types:
-    - uid: IPRule
+    - isArray: true
+      uid: IPRule
     name: ipRules
   - description: Specifies the default action of allow or deny when no other rules match.
     types:
@@ -382,7 +387,8 @@ definitions:
   - isReadyOnly: true
     description: The value of restrictions. If the restriction type is set to location. This would be different locations where the SKU is restricted.
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: values
   - description: The reason for the restriction. As of now this can be “QuotaId” or “NotAvailableForSubscription”. Quota Id is set when the SKU has requiredQuotas parameter as the subscription does not belong to that quota. The “NotAvailableForSubscription” is related to capacity at DC.
     types:

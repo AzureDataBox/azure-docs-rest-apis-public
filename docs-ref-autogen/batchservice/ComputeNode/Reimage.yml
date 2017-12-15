@@ -57,7 +57,10 @@ responses:
 requestBody:
 - parameters:
   - in: body
-    description: The default value is requeue.
+    description: >-
+      When to reimage the compute node and what to do with currently running tasks.
+
+      The default value is requeue.
     types:
     - uid: ComputeNodeReimageOption
     name: nodeReimageOption
@@ -92,15 +95,19 @@ definitions:
     types:
     - uid: ErrorMessage
     name: message
-  - description: A collection of key-value pairs containing additional details about the error.
+  - description: An item of additional information included in an Azure Batch error response.
     types:
-    - uid: BatchErrorDetail
+    - isArray: true
+      uid: BatchErrorDetail
     name: values
 - name: NodeReimageParameter
   description: Options for reimaging a compute node.
   kind: object
   properties:
-  - description: The default value is requeue.
+  - description: >-
+      When to reimage the compute node and what to do with currently running tasks.
+
+      The default value is requeue.
     types:
     - uid: ComputeNodeReimageOption
     name: nodeReimageOption
@@ -129,7 +136,7 @@ definitions:
     - uid: string
     name: value
 - name: ComputeNodeReimageOption
-  description: The default value is requeue.
+  description: When to reimage the compute node and what to do with currently running tasks.
   kind: enum
   properties:
   - description: Terminate running task processes and requeue the tasks. The tasks will run again when a node is available. Reimage the node as soon as tasks have been terminated.

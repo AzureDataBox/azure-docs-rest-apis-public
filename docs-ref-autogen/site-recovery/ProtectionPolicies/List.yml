@@ -52,9 +52,10 @@ definitions:
   description: The list of ProtectionPolicy resources.
   kind: object
   properties:
-  - description: The list of resources.
+  - description: The base class for backup policy. Workload-specific backup policies are derived from this class.
     types:
-    - uid: ProtectionPolicyResource
+    - isArray: true
+      uid: ProtectionPolicyResource
     name: value
   - description: The URI to GET the next page of resources. Call ListNext() gets the next page of resources.
     types:
@@ -186,11 +187,13 @@ definitions:
     name: scheduleRunFrequency
   - description: This list is the days of the week when the schedule runs.
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: scheduleRunDays
   - description: List of times, during a day, when the schedule runs.
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: scheduleRunTimes
   - description: The number of times per week the schedule runs.
     types:
@@ -256,7 +259,7 @@ definitions:
   description: Retention duration of the protection policy.
   kind: object
   properties:
-  - description: "Count of the duration types. Retention duration is determined by the combining the Count times and durationType. \r\n   For example, if Count = 3 and durationType = Weeks, then the retention duration is three weeks."
+  - description: "Count of the duration types. Retention duration is determined by the combining the Count times and durationType. \n   For example, if Count = 3 and durationType = Weeks, then the retention duration is three weeks."
     types:
     - uid: integer
     name: count
@@ -270,7 +273,8 @@ definitions:
   properties:
   - description: The retention times of retention policy.
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: retentionTimes
   - description: The retention duration of retention policy.
     types:
@@ -282,11 +286,13 @@ definitions:
   properties:
   - description: List of the days of the week for the weekly retention policy.
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: daysOfTheWeek
   - description: Retention times of the retention policy.
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: retentionTimes
   - description: Retention duration of retention policy.
     types:
@@ -310,7 +316,8 @@ definitions:
     name: retentionScheduleWeekly
   - description: Retention times of the retention policy.
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: retentionTimes
   - description: Retention duration of the retention policy.
     types:
@@ -326,7 +333,8 @@ definitions:
     name: retentionScheduleFormatType
   - description: List of the months of year for the yearly retention policy.
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: monthsOfYear
   - description: Daily retention format for the yearly retention policy.
     types:
@@ -338,7 +346,8 @@ definitions:
     name: retentionScheduleWeekly
   - description: Retention times for the retention policy.
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: retentionTimes
   - description: Retention duration for the retention policy.
     types:
@@ -380,9 +389,10 @@ definitions:
   description: Daily retention format for the monthly retention policy.
   kind: object
   properties:
-  - description: List of days of the month.
+  - description: Day of the week.
     types:
-    - uid: Day
+    - isArray: true
+      uid: Day
     name: daysOfTheMonth
 - name: WeeklyRetentionFormat
   description: Weekly retention format for the monthly retention policy.
@@ -390,20 +400,24 @@ definitions:
   properties:
   - description: List of days of the week.
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: daysOfTheWeek
   - description: List of weeks of the month.
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: weeksOfTheMonth
 - name: Day
   description: List of days of the month.
   kind: object
   properties:
-  - types:
+  - description: ''
+    types:
     - uid: integer
     name: date
-  - types:
+  - description: ''
+    types:
     - uid: boolean
     name: isLast
 examples: []

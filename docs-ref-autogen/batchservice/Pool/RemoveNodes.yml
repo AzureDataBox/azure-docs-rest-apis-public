@@ -54,15 +54,22 @@ requestBody:
     isRequired: true
     description: A list containing the IDs of the compute nodes to be removed from the specified pool.
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: nodeList
   - in: body
-    description: The default value is 15 minutes. The minimum value is 5 minutes. If you specify a value less than 5 minutes, the Batch service returns an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request).
+    description: >-
+      The timeout for removal of compute nodes to the pool.
+
+      The default value is 15 minutes. The minimum value is 5 minutes. If you specify a value less than 5 minutes, the Batch service returns an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request).
     types:
     - uid: string
     name: resizeTimeout
   - in: body
-    description: The default value is requeue.
+    description: >-
+      Determines what to do with a node and its running task(s) after it has been selected for deallocation.
+
+      The default value is requeue.
     types:
     - uid: ComputeNodeDeallocationOption
     name: nodeDeallocationOption
@@ -119,9 +126,10 @@ definitions:
     types:
     - uid: ErrorMessage
     name: message
-  - description: A collection of key-value pairs containing additional details about the error.
+  - description: An item of additional information included in an Azure Batch error response.
     types:
-    - uid: BatchErrorDetail
+    - isArray: true
+      uid: BatchErrorDetail
     name: values
 - name: NodeRemoveParameter
   description: Options for removing compute nodes from a pool.
@@ -129,13 +137,20 @@ definitions:
   properties:
   - description: A list containing the IDs of the compute nodes to be removed from the specified pool.
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: nodeList
-  - description: The default value is 15 minutes. The minimum value is 5 minutes. If you specify a value less than 5 minutes, the Batch service returns an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request).
+  - description: >-
+      The timeout for removal of compute nodes to the pool.
+
+      The default value is 15 minutes. The minimum value is 5 minutes. If you specify a value less than 5 minutes, the Batch service returns an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request).
     types:
     - uid: string
     name: resizeTimeout
-  - description: The default value is requeue.
+  - description: >-
+      Determines what to do with a node and its running task(s) after it has been selected for deallocation.
+
+      The default value is requeue.
     types:
     - uid: ComputeNodeDeallocationOption
     name: nodeDeallocationOption
@@ -164,7 +179,7 @@ definitions:
     - uid: string
     name: value
 - name: ComputeNodeDeallocationOption
-  description: The default value is requeue.
+  description: Determines what to do with a node and its running task(s) if the pool size is decreasing.
   kind: enum
   properties:
   - description: Terminate running task processes and requeue the tasks. The tasks will run again when a node is available. Remove nodes as soon as tasks have been terminated.

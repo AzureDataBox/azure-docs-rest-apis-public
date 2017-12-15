@@ -50,9 +50,10 @@ definitions:
   description: Result of the request to list endpoints. It contains a list of endpoint objects and a URL link to get the the next set of results.
   kind: object
   properties:
-  - description: List of CDN endpoints within a profile
+  - description: CDN endpoint is the entity within a CDN profile containing configuration information such as origin, protocol, content caching and delivery behavior. The CDN endpoint uses the URL format <endpointname>.azureedge.net.
     types:
-    - uid: Endpoint
+    - isArray: true
+      uid: Endpoint
     name: value
   - description: URL to get the next set of endpoint objects if there are any.
     types:
@@ -79,9 +80,10 @@ definitions:
     types:
     - uid: string
     name: properties.hostName
-  - description: The source of the content being delivered via CDN.
+  - description: Origin to be added when creating a CDN endpoint.
     types:
-    - uid: DeepCreatedOrigin
+    - isArray: true
+      uid: DeepCreatedOrigin
     name: properties.origins
   - isReadyOnly: true
     description: Resource status of the endpoint.
@@ -130,7 +132,8 @@ definitions:
     name: properties.originPath
   - description: List of content types on which compression applies. The value should be a valid MIME type.
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: properties.contentTypesToCompress
   - description: Indicates whether content compression is enabled on CDN. Default value is false. If compression is enabled, content will be served as compressed if user requests for a compressed version. Content won't be compressed on CDN when requested content is smaller than 1 byte or larger than 1 MB.
     types:
@@ -152,9 +155,10 @@ definitions:
     types:
     - uid: OptimizationType
     name: properties.optimizationType
-  - description: List of rules defining user geo access within a CDN endpoint. Each geo filter defines an acess rule to a specified path or content, e.g. block APAC for path /pictures/
+  - description: Rules defining user geo access within a CDN endpoint.
     types:
-    - uid: GeoFilter
+    - isArray: true
+      uid: GeoFilter
     name: properties.geoFilters
 - name: DeepCreatedOrigin
   description: The source of the content being delivered via CDN.
@@ -247,7 +251,8 @@ definitions:
     name: action
   - description: Two letter country codes defining user country access in a geo filter, e.g. AU, MX, US.
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: countryCodes
 - name: GeoFilterActions
   description: Action of the geo filter, i.e. allow or block access.

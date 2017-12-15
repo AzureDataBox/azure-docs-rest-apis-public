@@ -37,9 +37,10 @@ definitions:
   description: Values returned by the List operation.
   kind: object
   properties:
-  - description: The collection of Batch accounts returned by the listing operation.
+  - description: Contains information about an Azure Batch account.
     types:
-    - uid: BatchAccount
+    - isArray: true
+      uid: BatchAccount
     name: value
   - description: The continuation token.
     types:
@@ -68,17 +69,26 @@ definitions:
     - uid: ProvisioningState
     name: properties.provisioningState
   - isReadyOnly: true
-    description: The allocation mode for creating pools in the Batch account.
+    description: >-
+      The allocation mode to use for creating pools in the Batch account.
+
+      The allocation mode for creating pools in the Batch account.
     types:
     - uid: PoolAllocationMode
     name: properties.poolAllocationMode
   - isReadyOnly: true
-    description: Identifies the Azure key vault associated with a Batch account.
+    description: >-
+      A reference to the Azure key vault associated with the Batch account.
+
+      Identifies the Azure key vault associated with a Batch account.
     types:
     - uid: KeyVaultReference
     name: properties.keyVaultReference
   - isReadyOnly: true
-    description: Contains information about the auto-storage account associated with a Batch account.
+    description: >-
+      The properties and status of any auto-storage account associated with the Batch account.
+
+      Contains information about the auto-storage account associated with a Batch account.
     types:
     - uid: AutoStorageProperties
     name: properties.autoStorage
@@ -149,7 +159,8 @@ definitions:
     name: target
   - description: A list of additional details about the error.
     types:
-    - uid: Details
+    - isArray: true
+      uid: Details
     name: details
 - name: ProvisioningState
   description: The provisioned state of the resource
@@ -174,7 +185,7 @@ definitions:
     - uid: string
     name: Cancelled
 - name: PoolAllocationMode
-  description: The pool allocation mode also affects how clients may authenticate to the Batch Service API. If the mode is BatchService, clients may authenticate using access keys or Azure Active Directory. If the mode is UserSubscription, clients must use Azure Active Directory. The default is BatchService.
+  description: The allocation mode to use for creating pools in the Batch account.
   kind: enum
   properties:
   - types:

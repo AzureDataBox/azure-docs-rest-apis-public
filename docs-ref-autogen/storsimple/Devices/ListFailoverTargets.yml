@@ -50,7 +50,8 @@ requestBody:
   - in: body
     description: The list of path IDs of the volume containers that needs to be failed-over, for which we want to fetch the eligible targets.
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: volumeContainers
 requestHeader: []
 definitions:
@@ -58,9 +59,10 @@ definitions:
   description: The list of all devices in a resource and their eligibility status as a failover target device.
   kind: object
   properties:
-  - description: The list of all the failover targets.
+  - description: Represents the eligibility of a device as a failover target device.
     types:
-    - uid: FailoverTarget
+    - isArray: true
+      uid: FailoverTarget
     name: value
 - name: ListFailoverTargetsRequest
   description: The request object for fetching the list of failover targets (eligible devices for failover).
@@ -68,7 +70,8 @@ definitions:
   properties:
   - description: The list of path IDs of the volume containers that needs to be failed-over, for which we want to fetch the eligible targets.
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: volumeContainers
 - name: FailoverTarget
   description: Represents the eligibility of a device as a failover target device.
@@ -163,9 +166,10 @@ definitions:
     types:
     - uid: TargetEligibilityStatus
     name: eligibilityStatus
-  - description: The list of error messages, if a device does not qualify as a failover target device.
+  - description: The error/warning message due to which the device is ineligible as a failover target device.
     types:
-    - uid: TargetEligibilityErrorMessage
+    - isArray: true
+      uid: TargetEligibilityErrorMessage
     name: messages
 - name: TargetEligibilityStatus
   description: The eligibility status of device, as a failover target device.

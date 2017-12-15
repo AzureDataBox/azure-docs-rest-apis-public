@@ -62,9 +62,10 @@ requestBody:
 - parameters:
   - in: body
     isRequired: true
-    description: The source of the content being delivered via CDN.
+    description: Origin to be added when creating a CDN endpoint.
     types:
-    - uid: DeepCreatedOrigin
+    - isArray: true
+      uid: DeepCreatedOrigin
     name: properties.origins
   - in: body
     isRequired: true
@@ -94,7 +95,8 @@ requestBody:
   - in: body
     description: List of content types on which compression applies. The value should be a valid MIME type.
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: properties.contentTypesToCompress
   - in: body
     description: Indicates whether content compression is enabled on CDN. Default value is false. If compression is enabled, content will be served as compressed if user requests for a compressed version. Content won't be compressed on CDN when requested content is smaller than 1 byte or larger than 1 MB.
@@ -122,9 +124,10 @@ requestBody:
     - uid: OptimizationType
     name: properties.optimizationType
   - in: body
-    description: List of rules defining user geo access within a CDN endpoint. Each geo filter defines an acess rule to a specified path or content, e.g. block APAC for path /pictures/
+    description: Rules defining user geo access within a CDN endpoint.
     types:
-    - uid: GeoFilter
+    - isArray: true
+      uid: GeoFilter
     name: properties.geoFilters
 requestHeader: []
 definitions:
@@ -162,7 +165,8 @@ definitions:
     name: action
   - description: Two letter country codes defining user country access in a geo filter, e.g. AU, MX, US.
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: countryCodes
 - name: Endpoint
   description: CDN endpoint is the entity within a CDN profile containing configuration information such as origin, protocol, content caching and delivery behavior. The CDN endpoint uses the URL format <endpointname>.azureedge.net.
@@ -173,9 +177,10 @@ definitions:
     types:
     - uid: string
     name: properties.hostName
-  - description: The source of the content being delivered via CDN.
+  - description: Origin to be added when creating a CDN endpoint.
     types:
-    - uid: DeepCreatedOrigin
+    - isArray: true
+      uid: DeepCreatedOrigin
     name: properties.origins
   - isReadyOnly: true
     description: Resource status of the endpoint.
@@ -224,7 +229,8 @@ definitions:
     name: properties.originPath
   - description: List of content types on which compression applies. The value should be a valid MIME type.
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: properties.contentTypesToCompress
   - description: Indicates whether content compression is enabled on CDN. Default value is false. If compression is enabled, content will be served as compressed if user requests for a compressed version. Content won't be compressed on CDN when requested content is smaller than 1 byte or larger than 1 MB.
     types:
@@ -246,9 +252,10 @@ definitions:
     types:
     - uid: OptimizationType
     name: properties.optimizationType
-  - description: List of rules defining user geo access within a CDN endpoint. Each geo filter defines an acess rule to a specified path or content, e.g. block APAC for path /pictures/
+  - description: Rules defining user geo access within a CDN endpoint.
     types:
-    - uid: GeoFilter
+    - isArray: true
+      uid: GeoFilter
     name: properties.geoFilters
 - name: ErrorResponse
   description: Error reponse indicates CDN service is not able to process the incoming request. The reason is provided in the error message.

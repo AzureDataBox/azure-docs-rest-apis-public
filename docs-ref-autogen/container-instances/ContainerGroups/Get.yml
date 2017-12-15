@@ -77,15 +77,17 @@ definitions:
     types:
     - uid: string
     name: properties.provisioningState
-  - description: The containers within the container group.
+  - description: A container instance.
     types:
-    - uid: Container
+    - isArray: true
+      uid: Container
     name: properties.containers
-  - description: The image registry credentials by which the container group is created from.
+  - description: Image registry credential.
     types:
-    - uid: ImageRegistryCredential
+    - isArray: true
+      uid: ImageRegistryCredential
     name: properties.imageRegistryCredentials
-  - description: "Restart policy for all containers within the container group. \n- `Always` Always restart\n- `OnFailure` Restart on failure\n- `Never` Never restart\n"
+  - description: "Restart policy for all containers within the container group. \n- `Always` Always restart\n- `OnFailure` Restart on failure\n- `Never` Never restart"
     types:
     - uid: ContainerGroupRestartPolicy
     name: properties.restartPolicy
@@ -97,9 +99,10 @@ definitions:
     types:
     - uid: OperatingSystemTypes
     name: properties.osType
-  - description: The list of volumes that can be mounted by containers in this container group.
+  - description: The properties of the volume.
     types:
-    - uid: Volume
+    - isArray: true
+      uid: Volume
     name: properties.volumes
   - isReadyOnly: true
     description: The instance view of the container group. Only valid in response.
@@ -120,15 +123,18 @@ definitions:
     name: properties.image
   - description: The commands to execute within the container instance in exec form.
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: properties.command
-  - description: The exposed ports on the container instance.
+  - description: The port exposed on the container instance.
     types:
-    - uid: ContainerPort
+    - isArray: true
+      uid: ContainerPort
     name: properties.ports
-  - description: The environment variables to set in the container instance.
+  - description: The environment variable to set within the container instance.
     types:
-    - uid: EnvironmentVariable
+    - isArray: true
+      uid: EnvironmentVariable
     name: properties.environmentVariables
   - isReadyOnly: true
     description: The instance view of the container instance. Only valid in response.
@@ -139,9 +145,10 @@ definitions:
     types:
     - uid: ResourceRequirements
     name: properties.resources
-  - description: The volume mounts available to the container instance.
+  - description: The properties of the volume mount.
     types:
-    - uid: VolumeMount
+    - isArray: true
+      uid: VolumeMount
     name: properties.volumeMounts
 - name: ImageRegistryCredential
   description: The image registry credentials by which the container group is created from.
@@ -176,9 +183,10 @@ definitions:
   description: The IP address type of the container group.
   kind: object
   properties:
-  - description: The list of ports exposed on the container group.
+  - description: The port exposed on the container group.
     types:
-    - uid: Port
+    - isArray: true
+      uid: Port
     name: ports
   - description: Specifies if the IP is exposed to the public internet.
     types:
@@ -234,9 +242,10 @@ definitions:
     - uid: ContainerState
     name: previousState
   - isReadyOnly: true
-    description: The events of the container instance.
+    description: A container group or container instance event.
     types:
-    - uid: Event
+    - isArray: true
+      uid: Event
     name: events
 - name: ContainerPort
   description: The exposed ports on the container instance.

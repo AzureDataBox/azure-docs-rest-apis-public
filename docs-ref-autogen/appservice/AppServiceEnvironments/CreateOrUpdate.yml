@@ -102,9 +102,10 @@ requestBody:
     name: properties.multiRoleCount
   - in: body
     isRequired: true
-    description: Description of worker pools with worker size IDs, VM sizes, and number of workers in each pool.
+    description: Worker pool of an App Service Environment.
     types:
-    - uid: WorkerPool
+    - isArray: true
+      uid: WorkerPool
     name: properties.workerPools
   - in: body
     description: Number of IP SSL addresses reserved for the App Service Environment.
@@ -117,9 +118,10 @@ requestBody:
     - uid: string
     name: properties.dnsSuffix
   - in: body
-    description: Access control list for controlling traffic to the App Service Environment.
+    description: Network access control entry.
     types:
-    - uid: NetworkAccessControlEntry
+    - isArray: true
+      uid: NetworkAccessControlEntry
     name: properties.networkAccessControlList
   - in: body
     description: Scale factor for front-ends.
@@ -147,14 +149,16 @@ requestBody:
     - uid: boolean
     name: properties.dynamicCacheEnabled
   - in: body
-    description: Custom settings for changing the behavior of the App Service Environment.
+    description: Name value pair.
     types:
-    - uid: NameValuePair
+    - isArray: true
+      uid: NameValuePair
     name: properties.clusterSettings
   - in: body
     description: User added ip ranges to whitelist on ASE db
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: properties.userWhitelistedIpRanges
   - in: body
     description: Kind of resource.
@@ -223,7 +227,8 @@ definitions:
   - isReadyOnly: true
     description: Names of all instances in the worker pool (read only).
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: instanceNames
 - name: VirtualIPMapping
   description: Additional virtual IPs.
@@ -374,9 +379,10 @@ definitions:
     types:
     - uid: integer
     name: properties.multiRoleCount
-  - description: Description of worker pools with worker size IDs, VM sizes, and number of workers in each pool.
+  - description: Worker pool of an App Service Environment.
     types:
-    - uid: WorkerPool
+    - isArray: true
+      uid: WorkerPool
     name: properties.workerPools
   - description: Number of IP SSL addresses reserved for the App Service Environment.
     types:
@@ -432,18 +438,21 @@ definitions:
     - uid: integer
     name: properties.maximumNumberOfMachines
   - isReadyOnly: true
-    description: Description of IP SSL mapping for the App Service Environment.
+    description: Virtual IP mapping.
     types:
-    - uid: VirtualIPMapping
+    - isArray: true
+      uid: VirtualIPMapping
     name: properties.vipMappings
   - isReadyOnly: true
-    description: Current total, used, and available worker capacities.
+    description: Stamp capacity information.
     types:
-    - uid: StampCapacity
+    - isArray: true
+      uid: StampCapacity
     name: properties.environmentCapacities
-  - description: Access control list for controlling traffic to the App Service Environment.
+  - description: Network access control entry.
     types:
-    - uid: NetworkAccessControlEntry
+    - isArray: true
+      uid: NetworkAccessControlEntry
     name: properties.networkAccessControlList
   - isReadyOnly: true
     description: True/false indicating whether the App Service Environment is healthy.
@@ -486,13 +495,15 @@ definitions:
     types:
     - uid: boolean
     name: properties.dynamicCacheEnabled
-  - description: Custom settings for changing the behavior of the App Service Environment.
+  - description: Name value pair.
     types:
-    - uid: NameValuePair
+    - isArray: true
+      uid: NameValuePair
     name: properties.clusterSettings
   - description: User added ip ranges to whitelist on ASE db
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: properties.userWhitelistedIpRanges
   - isReadyOnly: true
     description: Resource Id.

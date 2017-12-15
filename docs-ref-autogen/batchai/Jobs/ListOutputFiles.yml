@@ -72,9 +72,10 @@ definitions:
   kind: object
   properties:
   - isReadyOnly: true
-    description: The collection of returned job files.
+    description: Properties of the file.
     types:
-    - uid: File
+    - isArray: true
+      uid: File
     name: value
   - description: The continuation token.
     types:
@@ -96,15 +97,24 @@ definitions:
     types:
     - uid: string
     name: name
-  - description: This will be returned only if the model has been archived. During job run, this won't be returned and customers can use SSH tunneling to download. Users can use Get Remote Login Information API to get the IP address and port information of all the compute nodes running the job.
+  - description: >-
+      file downloand url, example: https://mystg.blob.core.windows.net/mycontainer/myModel_1.dnn
+
+      This will be returned only if the model has been archived. During job run, this won't be returned and customers can use SSH tunneling to download. Users can use Get Remote Login Information API to get the IP address and port information of all the compute nodes running the job.
     types:
     - uid: string
     name: downloadUrl
-  - description: The time at which the file was last modified.
+  - description: >-
+      The time at which the file was last modified.
+
+      The time at which the file was last modified.
     types:
     - uid: string
     name: properties.lastModified
-  - description: The file size.
+  - description: >-
+      The file size.
+
+      The file size.
     types:
     - uid: integer
     name: properties.contentLength
@@ -126,7 +136,8 @@ definitions:
     name: target
   - description: A list of additional details about the error.
     types:
-    - uid: Details
+    - isArray: true
+      uid: Details
     name: details
 examples:
 - request:

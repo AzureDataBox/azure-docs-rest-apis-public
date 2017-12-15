@@ -58,39 +58,46 @@ requestBody:
     - uid: string
     name: etag
   - in: body
-    description: Object representing the frontend IPs to be used for the load balancer
+    description: Frontend IP address of the load balancer.
     types:
-    - uid: FrontendIPConfiguration
+    - isArray: true
+      uid: FrontendIPConfiguration
     name: properties.frontendIPConfigurations
   - in: body
-    description: Collection of backend address pools used by a load balancer
+    description: Pool of backend IP addresses.
     types:
-    - uid: BackendAddressPool
+    - isArray: true
+      uid: BackendAddressPool
     name: properties.backendAddressPools
   - in: body
-    description: 'Object collection representing the load balancing rules Gets the provisioning '
+    description: A load balancing rule for a load balancer.
     types:
-    - uid: LoadBalancingRule
+    - isArray: true
+      uid: LoadBalancingRule
     name: properties.loadBalancingRules
   - in: body
-    description: Collection of probe objects used in the load balancer
+    description: A load balancer probe.
     types:
-    - uid: Probe
+    - isArray: true
+      uid: Probe
     name: properties.probes
   - in: body
-    description: Collection of inbound NAT Rules used by a load balancer. Defining inbound NAT rules on your load balancer is mutually exclusive with defining an inbound NAT pool. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an Inbound NAT pool. They have to reference individual inbound NAT rules.
+    description: Inbound NAT rule of the load balancer.
     types:
-    - uid: InboundNatRule
+    - isArray: true
+      uid: InboundNatRule
     name: properties.inboundNatRules
   - in: body
-    description: Defines an external port range for inbound NAT to a single backend port on NICs associated with a load balancer. Inbound NAT rules are created automatically for each NIC associated with the Load Balancer using an external port from this range. Defining an Inbound NAT pool on your Load Balancer is mutually exclusive with defining inbound Nat rules. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT rules.
+    description: Inbound NAT pool of the load balancer.
     types:
-    - uid: InboundNatPool
+    - isArray: true
+      uid: InboundNatPool
     name: properties.inboundNatPools
   - in: body
-    description: The outbound NAT rules.
+    description: Outbound NAT pool of the load balancer.
     types:
-    - uid: OutboundNatRule
+    - isArray: true
+      uid: OutboundNatRule
     name: properties.outboundNatRules
   - in: body
     description: The resource GUID property of the load balancer resource.
@@ -141,27 +148,32 @@ definitions:
     name: etag
   - description: A list of availability zones denoting the IP allocated for the resource needs to come from.
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: zones
   - isReadyOnly: true
-    description: Read only. Inbound rules URIs that use this frontend IP.
+    description: Reference to another subresource.
     types:
-    - uid: SubResource
+    - isArray: true
+      uid: SubResource
     name: properties.inboundNatRules
   - isReadyOnly: true
-    description: Read only. Inbound pools URIs that use this frontend IP.
+    description: Reference to another subresource.
     types:
-    - uid: SubResource
+    - isArray: true
+      uid: SubResource
     name: properties.inboundNatPools
   - isReadyOnly: true
-    description: Read only. Outbound rules URIs that use this frontend IP.
+    description: Reference to another subresource.
     types:
-    - uid: SubResource
+    - isArray: true
+      uid: SubResource
     name: properties.outboundNatRules
   - isReadyOnly: true
-    description: Gets load balancing rules URIs that use this frontend IP.
+    description: Reference to another subresource.
     types:
-    - uid: SubResource
+    - isArray: true
+      uid: SubResource
     name: properties.loadBalancingRules
   - description: The private IP address of the IP configuration.
     types:
@@ -201,14 +213,16 @@ definitions:
     - uid: string
     name: etag
   - isReadyOnly: true
-    description: Gets collection of references to IP addresses defined in network interfaces.
+    description: Reference to another subresource.
     types:
-    - uid: SubResource
+    - isArray: true
+      uid: SubResource
     name: properties.backendIPConfigurations
   - isReadyOnly: true
-    description: Gets load balancing rules that use this backend address pool.
+    description: Reference to another subresource.
     types:
-    - uid: SubResource
+    - isArray: true
+      uid: SubResource
     name: properties.loadBalancingRules
   - isReadyOnly: true
     description: Gets outbound rules that use this backend address pool.
@@ -298,9 +312,10 @@ definitions:
     - uid: string
     name: etag
   - isReadyOnly: true
-    description: The load balancer rules that use this probe.
+    description: Reference to another subresource.
     types:
-    - uid: SubResource
+    - isArray: true
+      uid: SubResource
     name: properties.loadBalancingRules
   - description: "The protocol of the end point. Possible values are: 'Http' or 'Tcp'. If 'Tcp' is specified, a received ACK is required for the probe to be successful. If 'Http' is specified, a 200 OK response from the specifies URI is required for the probe to be successful."
     types:
@@ -438,9 +453,10 @@ definitions:
     types:
     - uid: integer
     name: properties.allocatedOutboundPorts
-  - description: The Frontend IP addresses of the load balancer.
+  - description: Reference to another subresource.
     types:
-    - uid: SubResource
+    - isArray: true
+      uid: SubResource
     name: properties.frontendIPConfigurations
   - description: A reference to a pool of DIPs. Outbound traffic is randomly load balanced across IPs in the backend IPs.
     types:
@@ -467,33 +483,40 @@ definitions:
     types:
     - uid: string
     name: etag
-  - description: Object representing the frontend IPs to be used for the load balancer
+  - description: Frontend IP address of the load balancer.
     types:
-    - uid: FrontendIPConfiguration
+    - isArray: true
+      uid: FrontendIPConfiguration
     name: properties.frontendIPConfigurations
-  - description: Collection of backend address pools used by a load balancer
+  - description: Pool of backend IP addresses.
     types:
-    - uid: BackendAddressPool
+    - isArray: true
+      uid: BackendAddressPool
     name: properties.backendAddressPools
-  - description: 'Object collection representing the load balancing rules Gets the provisioning '
+  - description: A load balancing rule for a load balancer.
     types:
-    - uid: LoadBalancingRule
+    - isArray: true
+      uid: LoadBalancingRule
     name: properties.loadBalancingRules
-  - description: Collection of probe objects used in the load balancer
+  - description: A load balancer probe.
     types:
-    - uid: Probe
+    - isArray: true
+      uid: Probe
     name: properties.probes
-  - description: Collection of inbound NAT Rules used by a load balancer. Defining inbound NAT rules on your load balancer is mutually exclusive with defining an inbound NAT pool. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an Inbound NAT pool. They have to reference individual inbound NAT rules.
+  - description: Inbound NAT rule of the load balancer.
     types:
-    - uid: InboundNatRule
+    - isArray: true
+      uid: InboundNatRule
     name: properties.inboundNatRules
-  - description: Defines an external port range for inbound NAT to a single backend port on NICs associated with a load balancer. Inbound NAT rules are created automatically for each NIC associated with the Load Balancer using an external port from this range. Defining an Inbound NAT pool on your Load Balancer is mutually exclusive with defining inbound Nat rules. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT rules.
+  - description: Inbound NAT pool of the load balancer.
     types:
-    - uid: InboundNatPool
+    - isArray: true
+      uid: InboundNatPool
     name: properties.inboundNatPools
-  - description: The outbound NAT rules.
+  - description: Outbound NAT pool of the load balancer.
     types:
-    - uid: OutboundNatRule
+    - isArray: true
+      uid: OutboundNatRule
     name: properties.outboundNatRules
   - description: The resource GUID property of the load balancer resource.
     types:

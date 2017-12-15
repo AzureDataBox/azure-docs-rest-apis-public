@@ -52,9 +52,10 @@ responses:
 requestBody:
 - parameters:
   - in: body
-    description: The allowed subnets of the virtual network.
+    description: Subnet information.
     types:
-    - uid: SubnetFragment
+    - isArray: true
+      uid: SubnetFragment
     name: properties.allowedSubnets
   - in: body
     description: The description of the virtual network.
@@ -67,14 +68,16 @@ requestBody:
     - uid: string
     name: properties.externalProviderResourceId
   - in: body
-    description: The external subnet properties.
+    description: Subnet information as returned by the Microsoft.Network API.
     types:
-    - uid: ExternalSubnetFragment
+    - isArray: true
+      uid: ExternalSubnetFragment
     name: properties.externalSubnets
   - in: body
-    description: The subnet overrides of the virtual network.
+    description: Property overrides on a subnet of a virtual network.
     types:
-    - uid: SubnetOverrideFragment
+    - isArray: true
+      uid: SubnetOverrideFragment
     name: properties.subnetOverrides
   - in: body
     description: The provisioning status of the resource.
@@ -162,9 +165,10 @@ definitions:
   description: Results of the list operation.
   kind: object
   properties:
-  - description: The allowed subnets of the virtual network.
+  - description: Subnet information.
     types:
-    - uid: Subnet
+    - isArray: true
+      uid: Subnet
     name: properties.allowedSubnets
   - description: The description of the virtual network.
     types:
@@ -174,13 +178,15 @@ definitions:
     types:
     - uid: string
     name: properties.externalProviderResourceId
-  - description: The external subnet properties.
+  - description: Subnet information as returned by the Microsoft.Network API.
     types:
-    - uid: ExternalSubnet
+    - isArray: true
+      uid: ExternalSubnet
     name: properties.externalSubnets
-  - description: The subnet overrides of the virtual network.
+  - description: Property overrides on a subnet of a virtual network.
     types:
-    - uid: SubnetOverride
+    - isArray: true
+      uid: SubnetOverride
     name: properties.subnetOverrides
   - isReadyOnly: true
     description: The creation date of the virtual network.
@@ -234,9 +240,10 @@ definitions:
   description: A virtual network.
   kind: object
   properties:
-  - description: The allowed subnets of the virtual network.
+  - description: Subnet information.
     types:
-    - uid: SubnetFragment
+    - isArray: true
+      uid: SubnetFragment
     name: properties.allowedSubnets
   - description: The description of the virtual network.
     types:
@@ -246,13 +253,15 @@ definitions:
     types:
     - uid: string
     name: properties.externalProviderResourceId
-  - description: The external subnet properties.
+  - description: Subnet information as returned by the Microsoft.Network API.
     types:
-    - uid: ExternalSubnetFragment
+    - isArray: true
+      uid: ExternalSubnetFragment
     name: properties.externalSubnets
-  - description: The subnet overrides of the virtual network.
+  - description: Property overrides on a subnet of a virtual network.
     types:
-    - uid: SubnetOverrideFragment
+    - isArray: true
+      uid: SubnetOverrideFragment
     name: properties.subnetOverrides
   - description: The provisioning status of the resource.
     types:
@@ -306,9 +315,10 @@ definitions:
   description: Properties that virtual machines on this subnet will share.
   kind: object
   properties:
-  - description: Backend ports that virtual machines on this subnet are allowed to expose
+  - description: Properties of a network port.
     types:
-    - uid: PortFragment
+    - isArray: true
+      uid: PortFragment
     name: allowedPorts
 - name: Subnet
   description: The allowed subnets of the virtual network.
@@ -370,18 +380,22 @@ definitions:
   description: Body of an error from a REST request.
   kind: object
   properties:
-  - types:
+  - description: ''
+    types:
     - uid: string
     name: code
-  - types:
+  - description: ''
+    types:
     - uid: string
     name: message
-  - types:
+  - description: ''
+    types:
     - uid: string
     name: target
   - description: Inner errors.
     types:
-    - uid: Details
+    - isArray: true
+      uid: Details
     name: details
 - name: PortFragment
   description: Properties of a network port.
@@ -399,9 +413,10 @@ definitions:
   description: Properties that virtual machines on this subnet will share.
   kind: object
   properties:
-  - description: Backend ports that virtual machines on this subnet are allowed to expose
+  - description: Properties of a network port.
     types:
-    - uid: Port
+    - isArray: true
+      uid: Port
     name: allowedPorts
 - name: TransportProtocol
   description: The transport protocol for the endpoint.

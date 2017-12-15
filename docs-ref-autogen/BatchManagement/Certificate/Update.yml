@@ -58,22 +58,34 @@ requestBody:
 - parameters:
   - in: body
     isRequired: true
-    description: The maximum size is 10KB.
+    description: >-
+      The base64-encoded contents of the certificate.
+
+      The maximum size is 10KB.
     types:
     - uid: string
     name: properties.data
   - in: body
-    description: This is required if the certificate format is pfx and must be omitted if the certificate format is cer.
+    description: >-
+      The password to access the certificate's private key.
+
+      This is required if the certificate format is pfx and must be omitted if the certificate format is cer.
     types:
     - uid: string
     name: properties.password
   - in: body
-    description: This must match the first portion of the certificate name. Currently required to be 'SHA1'.
+    description: >-
+      The algorithm of the certificate thumbprint
+
+      This must match the first portion of the certificate name. Currently required to be 'SHA1'.
     types:
     - uid: string
     name: properties.thumbprintAlgorithm
   - in: body
-    description: This must match the thumbprint from the name.
+    description: >-
+      The thumbprint of the certificate
+
+      This must match the thumbprint from the name.
     types:
     - uid: string
     name: properties.thumbprint
@@ -95,6 +107,8 @@ definitions:
   properties:
   - isReadyOnly: true
     description: >-
+      The provisioned state of the resource
+
       Values are:
 
        Succeeded - The certificate is available for use in pools.
@@ -124,7 +138,10 @@ definitions:
     - uid: string
     name: properties.publicData
   - isReadyOnly: true
-    description: This is only returned when the certificate provisioningState is 'Failed'.
+    description: >-
+      The error which occurred while deleting the certificate
+
+      This is only returned when the certificate provisioningState is 'Failed'.
     types:
     - uid: DeleteCertificateError
     name: properties.deleteCertificateError
@@ -148,11 +165,17 @@ definitions:
     types:
     - uid: string
     name: etag
-  - description: This must match the first portion of the certificate name. Currently required to be 'SHA1'.
+  - description: >-
+      The algorithm of the certificate thumbprint
+
+      This must match the first portion of the certificate name. Currently required to be 'SHA1'.
     types:
     - uid: string
     name: properties.thumbprintAlgorithm
-  - description: This must match the thumbprint from the name.
+  - description: >-
+      The thumbprint of the certificate
+
+      This must match the thumbprint from the name.
     types:
     - uid: string
     name: properties.thumbprint
@@ -172,11 +195,17 @@ definitions:
   description: Contains information about a certificate.
   kind: object
   properties:
-  - description: The maximum size is 10KB.
+  - description: >-
+      The base64-encoded contents of the certificate.
+
+      The maximum size is 10KB.
     types:
     - uid: string
     name: properties.data
-  - description: This is required if the certificate format is pfx and must be omitted if the certificate format is cer.
+  - description: >-
+      The password to access the certificate's private key.
+
+      This is required if the certificate format is pfx and must be omitted if the certificate format is cer.
     types:
     - uid: string
     name: properties.password
@@ -200,11 +229,17 @@ definitions:
     types:
     - uid: string
     name: etag
-  - description: This must match the first portion of the certificate name. Currently required to be 'SHA1'.
+  - description: >-
+      The algorithm of the certificate thumbprint
+
+      This must match the first portion of the certificate name. Currently required to be 'SHA1'.
     types:
     - uid: string
     name: properties.thumbprintAlgorithm
-  - description: This must match the thumbprint from the name.
+  - description: >-
+      The thumbprint of the certificate
+
+      This must match the thumbprint from the name.
     types:
     - uid: string
     name: properties.thumbprint
@@ -213,12 +248,7 @@ definitions:
     - uid: CertificateFormat
     name: properties.format
 - name: CertificateProvisioningState
-  description: >-
-    Values are:
-
-     Succeeded - The certificate is available for use in pools.
-     Deleting - The user has requested that the certificate be deleted, but the delete operation has not yet completed. You may not reference the certificate when creating or updating pools.
-     Failed - The user requested that the certificate be deleted, but there are pools that still have references to the certificate, or it is still installed on one or more compute nodes. (The latter can occur if the certificate has been removed from the pool, but the node has not yet restarted. Nodes refresh their certificates only when they restart.) You may use the cancel certificate delete operation to cancel the delete, or the delete certificate operation to retry the delete.
+  description: The provisioned state of the resource
   kind: enum
   properties:
   - types:
@@ -231,7 +261,7 @@ definitions:
     - uid: string
     name: Failed
 - name: DeleteCertificateError
-  description: This is only returned when the certificate provisioningState is 'Failed'.
+  description: The error which occurred while deleting the certificate
   kind: object
   properties:
   - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
@@ -248,7 +278,8 @@ definitions:
     name: target
   - description: A list of additional details about the error.
     types:
-    - uid: Details
+    - isArray: true
+      uid: Details
     name: details
 - name: CertificateFormat
   description: The format of the certificate - either Pfx or Cer. If omitted, the default is Pfx.
@@ -278,7 +309,8 @@ definitions:
     name: target
   - description: A list of additional details about the error.
     types:
-    - uid: Details
+    - isArray: true
+      uid: Details
     name: details
 examples:
 - request:

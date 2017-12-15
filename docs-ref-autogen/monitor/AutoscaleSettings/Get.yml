@@ -61,13 +61,15 @@ definitions:
   description: The autoscale setting resource.
   kind: object
   properties:
-  - description: the collection of automatic scaling profiles that specify different scaling parameters for different time periods. A maximum of 20 profiles can be specified.
+  - description: Autoscale profile.
     types:
-    - uid: AutoscaleProfile
+    - isArray: true
+      uid: AutoscaleProfile
     name: properties.profiles
-  - description: the collection of notifications.
+  - description: Autoscale notification.
     types:
-    - uid: AutoscaleNotification
+    - isArray: true
+      uid: AutoscaleNotification
     name: properties.notifications
   - description: the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is 'true'.
     types:
@@ -120,9 +122,10 @@ definitions:
     types:
     - uid: ScaleCapacity
     name: capacity
-  - description: the collection of rules that provide the triggers and parameters for the scaling action. A maximum of 10 rules can be specified.
+  - description: A rule that provide the triggers and parameters for the scaling action.
     types:
-    - uid: ScaleRule
+    - isArray: true
+      uid: ScaleRule
     name: rules
   - description: the specific date-time for the profile. This element is not used if the Recurrence element is used.
     types:
@@ -144,9 +147,10 @@ definitions:
     types:
     - uid: EmailNotification
     name: email
-  - description: the collection of webhook notifications.
+  - description: Webhook notification of an autoscale event.
     types:
-    - uid: WebhookNotification
+    - isArray: true
+      uid: WebhookNotification
     name: webhooks
 - name: ScaleCapacity
   description: The number of instances that can be used during this profile.
@@ -225,7 +229,8 @@ definitions:
     name: sendToSubscriptionCoAdministrators
   - description: the custom e-mails list. This value can be null or empty, in which case this attribute will be ignored.
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: customEmails
 - name: WebhookNotification
   description: Webhook notification of an autoscale event.
@@ -337,15 +342,18 @@ definitions:
     name: timeZone
   - description: the collection of days that the profile takes effect on. Possible values are Sunday through Saturday.
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: days
   - description: A collection of hours that the profile takes effect on. Values supported are 0 to 23 on the 24-hour clock (AM/PM times are not supported).
     types:
-    - uid: integer
+    - isArray: true
+      uid: integer
     name: hours
   - description: A collection of minutes at which the profile takes effect at.
     types:
-    - uid: integer
+    - isArray: true
+      uid: integer
     name: minutes
 - name: MetricStatisticType
   description: the metric statistic type. How the metrics from multiple instances are combined.

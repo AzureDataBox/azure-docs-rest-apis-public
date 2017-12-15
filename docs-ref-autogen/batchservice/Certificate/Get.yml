@@ -102,11 +102,17 @@ definitions:
     types:
     - uid: string
     name: stateTransitionTime
-  - description: This property is not set if the certificate is in its initial active state.
+  - description: >-
+      The previous state of the certificate.
+
+      This property is not set if the certificate is in its initial active state.
     types:
     - uid: CertificateState
     name: previousState
-  - description: This property is not set if the certificate is in its initial Active state.
+  - description: >-
+      The time at which the certificate entered its previous state.
+
+      This property is not set if the certificate is in its initial Active state.
     types:
     - uid: string
     name: previousStateTransitionTime
@@ -114,7 +120,10 @@ definitions:
     types:
     - uid: string
     name: publicData
-  - description: This property is set only if the certificate is in the DeleteFailed state.
+  - description: >-
+      The error that occurred on the last attempt to delete this certificate.
+
+      This property is set only if the certificate is in the DeleteFailed state.
     types:
     - uid: DeleteCertificateError
     name: deleteCertificateError
@@ -130,9 +139,10 @@ definitions:
     types:
     - uid: ErrorMessage
     name: message
-  - description: A collection of key-value pairs containing additional details about the error.
+  - description: An item of additional information included in an Azure Batch error response.
     types:
-    - uid: BatchErrorDetail
+    - isArray: true
+      uid: BatchErrorDetail
     name: values
 - name: CertificateState
   description: The current state of the certificate.
@@ -162,9 +172,10 @@ definitions:
     types:
     - uid: string
     name: message
-  - description: This list includes details such as the active pools and nodes referencing this certificate. However, if a large number of resources reference the certificate, the list contains only about the first hundred.
+  - description: Represents a name-value pair.
     types:
-    - uid: NameValuePair
+    - isArray: true
+      uid: NameValuePair
     name: values
 - name: ErrorMessage
   description: A message describing the error, intended to be suitable for display in a user interface.

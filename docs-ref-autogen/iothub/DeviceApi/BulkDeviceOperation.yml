@@ -36,6 +36,7 @@ requestBody:
     - uid: string
     name: id
   - in: body
+    description: ''
     types:
     - uid: string
     name: eTag
@@ -104,11 +105,14 @@ definitions:
   description: Encapsulates the result of a bulk device identity operation. The "errors" array contains an entry for each error encountered during the bulk device identity operation.
   kind: object
   properties:
-  - types:
+  - description: ''
+    types:
     - uid: boolean
     name: isSuccessful
-  - types:
-    - uid: DeviceRegistryOperationError
+  - description: Encapsulated device identity operation error details.
+    types:
+    - isArray: true
+      uid: DeviceRegistryOperationError
     name: errors
 - name: ExportImportDevice
   description: Container of IoT Hub device properties and their accessors for import and export scenarios
@@ -118,7 +122,8 @@ definitions:
     types:
     - uid: string
     name: id
-  - types:
+  - description: ''
+    types:
     - uid: string
     name: eTag
   - description: Identifies the behavior when merging a device to the registry during import actions.
@@ -153,10 +158,12 @@ definitions:
   description: Primary and secondary shared access signature symmetric keys of a device. If specified, both primary key and secondary key are required. The keys must be in valid base-64 format with a key length between 16 bytes and 64 bytes. They can be identical. If they are not specified, the Iot Hub generates both keys for the device with a default key length of 32 bytes.
   kind: object
   properties:
-  - types:
+  - description: ''
+    types:
     - uid: string
     name: primaryKey
-  - types:
+  - description: ''
+    types:
     - uid: string
     name: secondaryKey
 - name: X509Thumbprint
@@ -175,10 +182,12 @@ definitions:
   description: Type representing properties that are part of IoT Hub device twin.
   kind: object
   properties:
-  - types:
+  - description: ''
+    types:
     - uid: integer
     name: Version
-  - types:
+  - description: ''
+    types:
     - isDictionary: true
       additionalTypes:
       - uid: string
@@ -192,13 +201,16 @@ definitions:
 - name: DeviceRegistryOperationError
   kind: object
   properties:
-  - types:
+  - description: ''
+    types:
     - uid: string
     name: deviceId
-  - types:
+  - description: ''
+    types:
     - uid: ErrorCode
     name: errorCode
-  - types:
+  - description: ''
+    types:
     - uid: string
     name: errorStatus
 - name: ImportMode
@@ -515,14 +527,17 @@ definitions:
   kind: object
   properties:
   - isReadyOnly: true
+    description: ''
     types:
     - uid: string
     name: Value
   - isReadyOnly: true
+    description: ''
     types:
     - uid: object
     name: ObjectValue
   - isReadyOnly: true
+    description: ''
     types:
     - uid: boolean
     name: IsNull

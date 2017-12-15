@@ -93,9 +93,10 @@ definitions:
   description: Paged Users list representation.
   kind: object
   properties:
-  - description: Page values.
+  - description: User details.
     types:
-    - uid: UserContract
+    - isArray: true
+      uid: UserContract
     name: value
   - description: Next page link if any.
     types:
@@ -113,9 +114,10 @@ definitions:
     types:
     - uid: string
     name: message
-  - description: The list of invalid fields send in request, in case of validation error.
+  - description: Error Field contract.
     types:
-    - uid: ErrorFieldContract
+    - isArray: true
+      uid: ErrorFieldContract
     name: details
 - name: UserContract
   description: User details.
@@ -133,15 +135,15 @@ definitions:
     types:
     - uid: string
     name: properties.email
-  - description: >
-      Date of user registration. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.
+  - description: 'Date of user registration. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.'
     types:
     - uid: string
     name: properties.registrationDate
   - isReadyOnly: true
-    description: Collection of groups user is part of.
+    description: Contract details.
     types:
-    - uid: GroupContract
+    - isArray: true
+      uid: GroupContract
     name: properties.groups
   - isReadyOnly: true
     description: Resource ID.
@@ -167,9 +169,10 @@ definitions:
     - uid: string
     name: properties.note
   - isReadyOnly: true
-    description: Collection of user identities.
+    description: User identity details.
     types:
-    - uid: UserIdentityContract
+    - isArray: true
+      uid: UserIdentityContract
     name: properties.identities
 - name: ErrorFieldContract
   description: Error Field contract.

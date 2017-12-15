@@ -31,9 +31,10 @@ definitions:
   description: Result of the request to list REST API operations. It contains a list of operations and a URL nextLink to get the next set of results.
   kind: object
   properties:
-  - description: The list of operations supported by the resource provider.
+  - description: A REST API operation
     types:
-    - uid: Operation
+    - isArray: true
+      uid: Operation
     name: value
   - description: The URL to get the next set of operation list results if there are any.
     types:
@@ -51,7 +52,10 @@ definitions:
   description: A REST API operation
   kind: object
   properties:
-  - description: This is of the format {provider}/{resource}/{operation}
+  - description: >-
+      The operation name.
+
+      This is of the format {provider}/{resource}/{operation}
     types:
     - uid: string
     name: name
@@ -85,7 +89,8 @@ definitions:
     name: target
   - description: A list of additional details about the error.
     types:
-    - uid: Details
+    - isArray: true
+      uid: Details
     name: details
 - name: Display
   description: The object that describes the operation.
@@ -95,7 +100,10 @@ definitions:
     types:
     - uid: string
     name: provider
-  - description: 'For example: read, write, delete, or listKeys/action'
+  - description: >-
+      The operation type.
+
+      For example: read, write, delete, or listKeys/action
     types:
     - uid: string
     name: operation

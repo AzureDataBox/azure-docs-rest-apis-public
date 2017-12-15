@@ -39,9 +39,10 @@ definitions:
   description: Response for ListApplicationGateways API service call.
   kind: object
   properties:
-  - description: List of an application gateways in a resource group.
+  - description: Application gateway resource
     types:
-    - uid: ApplicationGateway
+    - isArray: true
+      uid: ApplicationGateway
     name: value
   - description: URL to get the next set of results.
     types:
@@ -68,53 +69,65 @@ definitions:
     types:
     - uid: ApplicationGatewayOperationalState
     name: properties.operationalState
-  - description: Subnets of application the gateway resource.
+  - description: IP configuration of an application gateway. Currently 1 public and 1 private IP configuration is allowed.
     types:
-    - uid: ApplicationGatewayIPConfiguration
+    - isArray: true
+      uid: ApplicationGatewayIPConfiguration
     name: properties.gatewayIPConfigurations
-  - description: Authentication certificates of the application gateway resource.
+  - description: Authentication certificates of an application gateway.
     types:
-    - uid: ApplicationGatewayAuthenticationCertificate
+    - isArray: true
+      uid: ApplicationGatewayAuthenticationCertificate
     name: properties.authenticationCertificates
-  - description: SSL certificates of the application gateway resource.
+  - description: SSL certificates of an application gateway.
     types:
-    - uid: ApplicationGatewaySslCertificate
+    - isArray: true
+      uid: ApplicationGatewaySslCertificate
     name: properties.sslCertificates
-  - description: Frontend IP addresses of the application gateway resource.
+  - description: Frontend IP configuration of an application gateway.
     types:
-    - uid: ApplicationGatewayFrontendIPConfiguration
+    - isArray: true
+      uid: ApplicationGatewayFrontendIPConfiguration
     name: properties.frontendIPConfigurations
-  - description: Frontend ports of the application gateway resource.
+  - description: Frontend port of an application gateway.
     types:
-    - uid: ApplicationGatewayFrontendPort
+    - isArray: true
+      uid: ApplicationGatewayFrontendPort
     name: properties.frontendPorts
-  - description: Probes of the application gateway resource.
+  - description: Probe of the application gateway.
     types:
-    - uid: ApplicationGatewayProbe
+    - isArray: true
+      uid: ApplicationGatewayProbe
     name: properties.probes
-  - description: Backend address pool of the application gateway resource.
+  - description: Backend Address Pool of an application gateway.
     types:
-    - uid: ApplicationGatewayBackendAddressPool
+    - isArray: true
+      uid: ApplicationGatewayBackendAddressPool
     name: properties.backendAddressPools
-  - description: Backend http settings of the application gateway resource.
+  - description: Backend address pool settings of an application gateway.
     types:
-    - uid: ApplicationGatewayBackendHttpSettings
+    - isArray: true
+      uid: ApplicationGatewayBackendHttpSettings
     name: properties.backendHttpSettingsCollection
-  - description: Http listeners of the application gateway resource.
+  - description: Http listener of an application gateway.
     types:
-    - uid: ApplicationGatewayHttpListener
+    - isArray: true
+      uid: ApplicationGatewayHttpListener
     name: properties.httpListeners
-  - description: URL path map of the application gateway resource.
+  - description: UrlPathMaps give a url path to the backend mapping information for PathBasedRouting.
     types:
-    - uid: ApplicationGatewayUrlPathMap
+    - isArray: true
+      uid: ApplicationGatewayUrlPathMap
     name: properties.urlPathMaps
-  - description: Request routing rules of the application gateway resource.
+  - description: Request routing rule of an application gateway.
     types:
-    - uid: ApplicationGatewayRequestRoutingRule
+    - isArray: true
+      uid: ApplicationGatewayRequestRoutingRule
     name: properties.requestRoutingRules
-  - description: Redirect configurations of the application gateway resource.
+  - description: Redirect configuration of an application gateway.
     types:
-    - uid: ApplicationGatewayRedirectConfiguration
+    - isArray: true
+      uid: ApplicationGatewayRedirectConfiguration
     name: properties.redirectConfigurations
   - description: Web application firewall configuration.
     types:
@@ -175,9 +188,10 @@ definitions:
   description: Application Gateway Ssl policy.
   kind: object
   properties:
-  - description: Ssl protocols to be disabled on application gateway.
+  - description: Ssl protocol enums.
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: disabledSslProtocols
   - description: Type of Ssl Policy
     types:
@@ -187,9 +201,10 @@ definitions:
     types:
     - uid: ApplicationGatewaySslPolicyName
     name: policyName
-  - description: Ssl cipher suites to be enabled in the specified order to application gateway.
+  - description: Ssl cipher suites enums.
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: cipherSuites
   - description: Minimum version of Ssl protocol to be supported on application gateway.
     types:
@@ -453,13 +468,15 @@ definitions:
     types:
     - uid: string
     name: type
-  - description: Collection of references to IPs defined in network interfaces.
+  - description: Reference to another subresource.
     types:
-    - uid: SubResource
+    - isArray: true
+      uid: SubResource
     name: properties.backendIPConfigurations
-  - description: Backend addresses
+  - description: Backend address of an application gateway.
     types:
-    - uid: ApplicationGatewayBackendAddress
+    - isArray: true
+      uid: ApplicationGatewayBackendAddress
     name: properties.backendAddresses
   - description: "Provisioning state of the backend address pool resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
     types:
@@ -506,9 +523,10 @@ definitions:
     types:
     - uid: SubResource
     name: properties.probe
-  - description: Array of references to application gateway authentication certificates.
+  - description: Reference to another subresource.
     types:
-    - uid: SubResource
+    - isArray: true
+      uid: SubResource
     name: properties.authenticationCertificates
   - description: Connection draining of the backend http settings resource.
     types:
@@ -620,9 +638,10 @@ definitions:
     types:
     - uid: SubResource
     name: properties.defaultRedirectConfiguration
-  - description: Path rule of URL path map resource.
+  - description: Path rule of URL path map of an application gateway.
     types:
-    - uid: ApplicationGatewayPathRule
+    - isArray: true
+      uid: ApplicationGatewayPathRule
     name: properties.pathRules
   - description: "Provisioning state of the backend http settings resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
     types:
@@ -718,17 +737,20 @@ definitions:
     types:
     - uid: boolean
     name: properties.includeQueryString
-  - description: Request routing specifying redirect configuration.
+  - description: Reference to another subresource.
     types:
-    - uid: SubResource
+    - isArray: true
+      uid: SubResource
     name: properties.requestRoutingRules
-  - description: Url path maps specifying default redirect configuration.
+  - description: Reference to another subresource.
     types:
-    - uid: SubResource
+    - isArray: true
+      uid: SubResource
     name: properties.urlPathMaps
-  - description: Path rules specifying redirect configuration.
+  - description: Reference to another subresource.
     types:
-    - uid: SubResource
+    - isArray: true
+      uid: SubResource
     name: properties.pathRules
   - isReadyOnly: true
     description: Resource ID
@@ -755,9 +777,10 @@ definitions:
     types:
     - uid: string
     name: ruleSetVersion
-  - description: The disabled rule groups.
+  - description: Allows to disable rules within a rule group or an entire rule group.
     types:
-    - uid: ApplicationGatewayFirewallDisabledRuleGroup
+    - isArray: true
+      uid: ApplicationGatewayFirewallDisabledRuleGroup
     name: disabledRuleGroups
 - name: ApplicationGatewaySkuName
   description: Name of an application gateway SKU.
@@ -862,7 +885,8 @@ definitions:
     name: body
   - description: Allowed ranges of healthy status codes. Default range of healthy status codes is 200-399.
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: statusCodes
 - name: ApplicationGatewayBackendAddress
   description: Backend addresses
@@ -916,7 +940,8 @@ definitions:
     name: type
   - description: Path rules of URL path map.
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: properties.paths
   - description: Backend address pool resource of URL path map path rule.
     types:
@@ -985,7 +1010,8 @@ definitions:
     name: ruleGroupName
   - description: The list of rules that will be disabled. If null, all rules of the rule group will be disabled.
     types:
-    - uid: integer
+    - isArray: true
+      uid: integer
     name: rules
 examples: []
 security:

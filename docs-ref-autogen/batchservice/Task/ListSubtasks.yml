@@ -82,9 +82,10 @@ definitions:
   description: The result of listing the subtasks of a task.
   kind: object
   properties:
-  - description: The list of subtasks.
+  - description: Information about an Azure Batch subtask.
     types:
-    - uid: SubtaskInformation
+    - isArray: true
+      uid: SubtaskInformation
     name: value
 - name: BatchError
   description: The error encountered while attempting to add the task.
@@ -98,9 +99,10 @@ definitions:
     types:
     - uid: ErrorMessage
     name: message
-  - description: A collection of key-value pairs containing additional details about the error.
+  - description: An item of additional information included in an Azure Batch error response.
     types:
-    - uid: BatchErrorDetail
+    - isArray: true
+      uid: BatchErrorDetail
     name: values
 - name: SubtaskInformation
   description: Information about an Azure Batch subtask.
@@ -118,19 +120,31 @@ definitions:
     types:
     - uid: string
     name: startTime
-  - description: This property is set only if the subtask is in the Completed state.
+  - description: >-
+      The time at which the subtask completed.
+
+      This property is set only if the subtask is in the Completed state.
     types:
     - uid: string
     name: endTime
-  - description: This property is set only if the subtask is in the completed state. In general, the exit code for a process reflects the specific convention implemented by the application developer for that process. If you use the exit code value to make decisions in your code, be sure that you know the exit code convention used by the application process. However, if the Batch service terminates the subtask (due to timeout, or user termination via the API) you may see an operating system-defined exit code.
+  - description: >-
+      The exit code of the program specified on the subtask command line.
+
+      This property is set only if the subtask is in the completed state. In general, the exit code for a process reflects the specific convention implemented by the application developer for that process. If you use the exit code value to make decisions in your code, be sure that you know the exit code convention used by the application process. However, if the Batch service terminates the subtask (due to timeout, or user termination via the API) you may see an operating system-defined exit code.
     types:
     - uid: integer
     name: exitCode
-  - description: This property is set only if the task runs in a container context.
+  - description: >-
+      Information about the container under which the task is executing.
+
+      This property is set only if the task runs in a container context.
     types:
     - uid: TaskContainerExecutionInformation
     name: containerInfo
-  - description: This property is set only if the task is in the completed state and encountered a failure.
+  - description: >-
+      Information describing the task failure, if any.
+
+      This property is set only if the task is in the completed state and encountered a failure.
     types:
     - uid: TaskFailureInformation
     name: failureInfo
@@ -142,15 +156,24 @@ definitions:
     types:
     - uid: string
     name: stateTransitionTime
-  - description: This property is not set if the subtask is in its initial running state.
+  - description: >-
+      The previous state of the subtask.
+
+      This property is not set if the subtask is in its initial running state.
     types:
     - uid: SubtaskState
     name: previousState
-  - description: This property is not set if the subtask is in its initial running state.
+  - description: >-
+      The time at which the subtask entered its previous state.
+
+      This property is not set if the subtask is in its initial running state.
     types:
     - uid: string
     name: previousStateTransitionTime
-  - description: If the value is 'failed', then the details of the failure can be found in the failureInfo property.
+  - description: >-
+      The result of the task execution.
+
+      If the value is 'failed', then the details of the failure can be found in the failureInfo property.
     types:
     - uid: TaskExecutionResult
     name: result
@@ -214,11 +237,17 @@ definitions:
     types:
     - uid: string
     name: containerId
-  - description: This is the state of the container according to the Docker service. It is equivalent to the status field returned by "docker inspect".
+  - description: >-
+      The state of the container.
+
+      This is the state of the container according to the Docker service. It is equivalent to the status field returned by "docker inspect".
     types:
     - uid: string
     name: state
-  - description: This is the detailed error string from the Docker service, if available. It is equivalent to the error field returned by "docker inspect".
+  - description: >-
+      Detailed error information about the container.
+
+      This is the detailed error string from the Docker service, if available. It is equivalent to the error field returned by "docker inspect".
     types:
     - uid: string
     name: error
@@ -238,9 +267,10 @@ definitions:
     types:
     - uid: string
     name: message
-  - description: A list of additional details related to the error.
+  - description: Represents a name-value pair.
     types:
-    - uid: NameValuePair
+    - isArray: true
+      uid: NameValuePair
     name: details
 - name: SubtaskState
   description: The current state of the subtask.
@@ -259,7 +289,7 @@ definitions:
     - uid: string
     name: completed
 - name: TaskExecutionResult
-  description: If the value is 'failed', then the details of the failure can be found in the failureInfo property.
+  description: The result of the task execution.
   kind: enum
   properties:
   - description: The task ran successfully.

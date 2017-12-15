@@ -203,33 +203,39 @@ definitions:
   description: The nodes (entities) of a map.
   kind: object
   properties:
-  - description: Machine resources.
+  - description: A machine resource represents a discovered computer system. It can be *monitored*, i.e., a Dependency Agent is running on it, or *discovered*, i.e., its existence was inferred by observing the data stream from monitored machines. As machines change, prior versions of the machine resource are preserved and available for access. A machine is live during an interval of time, if either its Dependency Agent has reported data during (parts) of that interval, or a Dependency agent running on other machines has reported activity associated with the machine.
     types:
-    - uid: Machine
+    - isArray: true
+      uid: Machine
     name: machines
-  - description: Process resources.
+  - description: A process resource represents a process running on a machine. The process may be actively *monitored*, i.e., a Dependency Agent is running on its machine, or *discovered*, i.e., its existence was inferred by observing the data stream from monitored machines. A process resource represents a pool of actual operating system resources that share command lines and metadata. As the process pool evolves over time, prior versions of the process resource are preserved and available for access. A process is live during an interval of time, if that process is executing during (parts) of that interval
     types:
-    - uid: Process
+    - isArray: true
+      uid: Process
     name: processes
-  - description: Port resources.
+  - description: A port resource represents a server port on a machine. The port may be actively *monitored*, i.e., a Dependency Agent is running on its machine, or *discovered*, i.e., its existence was inferred by observing the data stream from monitored machines. A port is live during an interval of time, if that port had associated activity during (parts) of that interval.
     types:
-    - uid: Port
+    - isArray: true
+      uid: Port
     name: Ports
-  - description: Client Group resources.
+  - description: Represents a collection of clients of a resource. A client group can represent the clients of a port, process, or a machine.
     types:
-    - uid: ClientGroup
+    - isArray: true
+      uid: ClientGroup
     name: ClientGroups
 - name: MapEdges
   description: The edges (relationships) of a map.
   kind: object
   properties:
-  - description: Network connections.
+  - description: A network connection.
     types:
-    - uid: Connection
+    - isArray: true
+      uid: Connection
     name: connections
-  - description: Processes accepting on a port.
+  - description: A process accepting on a port.
     types:
-    - uid: Acceptor
+    - isArray: true
+      uid: Acceptor
     name: acceptors
 - name: Machine
   description: A machine resource represents a discovered computer system. It can be *monitored*, i.e., a Dependency Agent is running on it, or *discovered*, i.e., its existence was inferred by observing the data stream from monitored machines. As machines change, prior versions of the machine resource are preserved and available for access. A machine is live during an interval of time, if either its Dependency Agent has reported data during (parts) of that interval, or a Dependency agent running on other machines has reported activity associated with the machine.
@@ -669,25 +675,30 @@ definitions:
   description: Network configuration (ips, gateways, dns, etc.)
   kind: object
   properties:
-  - description: IPv4 interfaces.
+  - description: Describes an IPv4 network interface.
     types:
-    - uid: Ipv4NetworkInterface
+    - isArray: true
+      uid: Ipv4NetworkInterface
     name: ipv4Interfaces
-  - description: IPv6 interfaces.
+  - description: Describes an IPv6 network interface.
     types:
-    - uid: Ipv6NetworkInterface
+    - isArray: true
+      uid: Ipv6NetworkInterface
     name: ipv6Interfaces
-  - description: Default IPv4 gateways.
+  - description: IPv4 address.
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: defaultIpv4Gateways
-  - description: MAC addresses of all active network interfaces.
+  - description: MAC address.
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: macAddresses
-  - description: DNS names associated with the machine.
+  - description: DNS name.
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: dnsNames
 - name: OperatingSystemConfiguration
   description: Operating system information.

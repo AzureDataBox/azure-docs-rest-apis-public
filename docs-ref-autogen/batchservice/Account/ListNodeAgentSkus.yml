@@ -76,9 +76,13 @@ definitions:
   description: The result of listing the supported node agent SKUs.
   kind: object
   properties:
-  - description: The list of supported node agent SKUs.
+  - description: >-
+      A node agent SKU supported by the Batch service.
+
+      The Batch node agent is a program that runs on each node in the pool, and provides the command-and-control interface between the node and the Batch service. There are different implementations of the node agent, known as SKUs, for different operating systems.
     types:
-    - uid: NodeAgentSku
+    - isArray: true
+      uid: NodeAgentSku
     name: value
   - description: The URL to get the next set of results.
     types:
@@ -96,21 +100,23 @@ definitions:
     types:
     - uid: ErrorMessage
     name: message
-  - description: A collection of key-value pairs containing additional details about the error.
+  - description: An item of additional information included in an Azure Batch error response.
     types:
-    - uid: BatchErrorDetail
+    - isArray: true
+      uid: BatchErrorDetail
     name: values
 - name: NodeAgentSku
-  description: The Batch node agent is a program that runs on each node in the pool, and provides the command-and-control interface between the node and the Batch service. There are different implementations of the node agent, known as SKUs, for different operating systems.
+  description: A node agent SKU supported by the Batch service.
   kind: object
   properties:
   - description: The ID of the node agent SKU.
     types:
     - uid: string
     name: id
-  - description: This collection is not exhaustive (the node agent may be compatible with other images).
+  - description: A reference to an Azure Virtual Machines Marketplace image or a custom Azure Virtual Machine image. To get the list of all Azure Marketplace image references verified by Azure Batch, see the 'List node agent SKUs' operation.
     types:
-    - uid: ImageReference
+    - isArray: true
+      uid: ImageReference
     name: verifiedImageReferences
   - description: The type of operating system (e.g. Windows or Linux) compatible with the node agent SKU.
     types:
@@ -141,26 +147,41 @@ definitions:
     - uid: string
     name: value
 - name: ImageReference
-  description: This collection is not exhaustive (the node agent may be compatible with other images).
+  description: The list of Azure Marketplace images verified to be compatible with this node agent SKU.
   kind: object
   properties:
-  - description: For example, Canonical or MicrosoftWindowsServer.
+  - description: >-
+      The publisher of the Azure Virtual Machines Marketplace image.
+
+      For example, Canonical or MicrosoftWindowsServer.
     types:
     - uid: string
     name: publisher
-  - description: For example, UbuntuServer or WindowsServer.
+  - description: >-
+      The offer type of the Azure Virtual Machines Marketplace image.
+
+      For example, UbuntuServer or WindowsServer.
     types:
     - uid: string
     name: offer
-  - description: For example, 14.04.0-LTS or 2012-R2-Datacenter.
+  - description: >-
+      The SKU of the Azure Virtual Machines Marketplace image.
+
+      For example, 14.04.0-LTS or 2012-R2-Datacenter.
     types:
     - uid: string
     name: sku
-  - description: A value of 'latest' can be specified to select the latest version of an image. If omitted, the default is 'latest'.
+  - description: >-
+      The version of the Azure Virtual Machines Marketplace image.
+
+      A value of 'latest' can be specified to select the latest version of an image. If omitted, the default is 'latest'.
     types:
     - uid: string
     name: version
-  - description: This property is mutually exclusive with other ImageReference properties. The virtual machine image must be in the same region and subscription as the Azure Batch account. For information about the firewall settings for the Batch node agent to communicate with the Batch service see https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration.
+  - description: >-
+      The ARM resource identifier of the virtual machine image. Computes nodes of the pool will be created using this custom image. This is of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}
+
+      This property is mutually exclusive with other ImageReference properties. The virtual machine image must be in the same region and subscription as the Azure Batch account. For information about the firewall settings for the Batch node agent to communicate with the Batch service see https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration.
     types:
     - uid: string
     name: virtualMachineImageId

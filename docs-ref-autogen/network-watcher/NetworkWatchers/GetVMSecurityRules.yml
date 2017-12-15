@@ -59,9 +59,10 @@ definitions:
   description: The information about security rules applied to the specified VM.
   kind: object
   properties:
-  - description: List of network interfaces on the specified VM.
+  - description: Network interface and all its associated security rules.
     types:
-    - uid: SecurityGroupNetworkInterface
+    - isArray: true
+      uid: SecurityGroupNetworkInterface
     name: networkInterfaces
 - name: SecurityGroupViewParameters
   description: Parameters that define the VM to check security groups for.
@@ -95,13 +96,15 @@ definitions:
     types:
     - uid: SubnetAssociation
     name: subnetAssociation
-  - description: Collection of default security rules of the network security group.
+  - description: Network security rule.
     types:
-    - uid: SecurityRule
+    - isArray: true
+      uid: SecurityRule
     name: defaultSecurityRules
-  - description: Collection of effective security rules.
+  - description: Effective network security rules.
     types:
-    - uid: EffectiveNetworkSecurityRule
+    - isArray: true
+      uid: EffectiveNetworkSecurityRule
     name: effectiveSecurityRules
 - name: NetworkInterfaceAssociation
   description: Network interface and its custom security rules.
@@ -112,9 +115,10 @@ definitions:
     types:
     - uid: string
     name: id
-  - description: Collection of custom security rules.
+  - description: Network security rule.
     types:
-    - uid: SecurityRule
+    - isArray: true
+      uid: SecurityRule
     name: securityRules
 - name: SubnetAssociation
   description: Network interface and its custom security rules.
@@ -125,9 +129,10 @@ definitions:
     types:
     - uid: string
     name: id
-  - description: Collection of custom security rules.
+  - description: Network security rule.
     types:
-    - uid: SecurityRule
+    - isArray: true
+      uid: SecurityRule
     name: securityRules
 - name: SecurityRule
   description: Collection of custom security rules.
@@ -163,11 +168,13 @@ definitions:
     name: properties.sourceAddressPrefix
   - description: The CIDR or source IP ranges.
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: properties.sourceAddressPrefixes
-  - description: The application security group specified as source.
+  - description: An application security group in a resource group.
     types:
-    - uid: ApplicationSecurityGroup
+    - isArray: true
+      uid: ApplicationSecurityGroup
     name: properties.sourceApplicationSecurityGroups
   - description: The destination address prefix. CIDR or destination IP range. Asterix '*' can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used.
     types:
@@ -175,19 +182,23 @@ definitions:
     name: properties.destinationAddressPrefix
   - description: The destination address prefixes. CIDR or destination IP ranges.
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: properties.destinationAddressPrefixes
-  - description: The application security group specified as destination.
+  - description: An application security group in a resource group.
     types:
-    - uid: ApplicationSecurityGroup
+    - isArray: true
+      uid: ApplicationSecurityGroup
     name: properties.destinationApplicationSecurityGroups
-  - description: The source port ranges.
+  - description: The source port.
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: properties.sourcePortRanges
-  - description: The destination port ranges.
+  - description: The destination port.
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: properties.destinationPortRanges
   - description: "The network traffic is allowed or denied. Possible values are: 'Allow' and 'Deny'."
     types:
@@ -232,11 +243,13 @@ definitions:
     name: destinationPortRange
   - description: The source port ranges. Expected values include a single integer between 0 and 65535, a range using '-' as seperator (e.g. 100-400), or an asterix (*)
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: sourcePortRanges
   - description: The destination port ranges. Expected values include a single integer between 0 and 65535, a range using '-' as seperator (e.g. 100-400), or an asterix (*)
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: destinationPortRanges
   - description: The source address prefix.
     types:
@@ -248,19 +261,23 @@ definitions:
     name: destinationAddressPrefix
   - description: The source address prefixes. Expected values include CIDR IP ranges, Default Tags (VirtualNetwork, AureLoadBalancer, Internet), System Tags, and the asterix (*).
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: sourceAddressPrefixes
   - description: The destination address prefixes. Expected values include CIDR IP ranges, Default Tags (VirtualNetwork, AureLoadBalancer, Internet), System Tags, and the asterix (*).
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: destinationAddressPrefixes
   - description: The expanded source address prefix.
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: expandedSourceAddressPrefix
   - description: Expanded destination address prefix.
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: expandedDestinationAddressPrefix
   - description: "Whether network traffic is allowed or denied. Possible values are: 'Allow' and 'Deny'."
     types:

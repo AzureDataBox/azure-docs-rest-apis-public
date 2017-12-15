@@ -51,9 +51,10 @@ definitions:
   description: A list of pipeline resources.
   kind: object
   properties:
-  - description: List of pipelines.
+  - description: Pipeline resource type.
     types:
-    - uid: PipelineResource
+    - isArray: true
+      uid: PipelineResource
     name: value
   - description: The link to the next page of results, if any remaining results exist.
     types:
@@ -75,9 +76,10 @@ definitions:
     types:
     - uid: string
     name: target
-  - description: Array with additional error details.
+  - description: The object that defines the structure of an Azure Data Factory response.
     types:
-    - uid: ErrorResponse
+    - isArray: true
+      uid: ErrorResponse
     name: details
 - name: PipelineResource
   description: List of pipelines.
@@ -87,7 +89,7 @@ definitions:
     types:
     - uid: string
     name: properties.description
-  - description: List of activities in pipeline.
+  - description: A pipeline activity.
     types:
     - isArray: true
       uid: ExecutionActivity
@@ -204,9 +206,10 @@ definitions:
     types:
     - uid: string
     name: description
-  - description: Activity depends on condition.
+  - description: Activity dependency information.
     types:
-    - uid: ActivityDependency
+    - isArray: true
+      uid: ActivityDependency
     name: dependsOn
 - name: AzureMLUpdateResourceActivity
   description: Azure ML Update Resource management activity.
@@ -245,9 +248,10 @@ definitions:
     types:
     - uid: string
     name: description
-  - description: Activity depends on condition.
+  - description: Activity dependency information.
     types:
-    - uid: ActivityDependency
+    - isArray: true
+      uid: ActivityDependency
     name: dependsOn
 - name: AzureMLBatchExecutionActivity
   description: Azure ML Batch Execution activity.
@@ -298,9 +302,10 @@ definitions:
     types:
     - uid: string
     name: description
-  - description: Activity depends on condition.
+  - description: Activity dependency information.
     types:
-    - uid: ActivityDependency
+    - isArray: true
+      uid: ActivityDependency
     name: dependsOn
 - name: GetMetadataActivity
   description: Activity to get metadata of dataset
@@ -310,9 +315,10 @@ definitions:
     types:
     - uid: DatasetReference
     name: typeProperties.dataset
-  - description: Fields of metadata to get from dataset.
+  - description: 'Type: string (or Expression with resultType string).'
     types:
-    - uid: object
+    - isArray: true
+      uid: object
     name: typeProperties.fieldList
   - description: Linked service reference.
     types:
@@ -335,9 +341,10 @@ definitions:
     types:
     - uid: string
     name: description
-  - description: Activity depends on condition.
+  - description: Activity dependency information.
     types:
-    - uid: ActivityDependency
+    - isArray: true
+      uid: ActivityDependency
     name: dependsOn
 - name: WebActivity
   description: Web activity.
@@ -363,13 +370,15 @@ definitions:
     types:
     - uid: WebActivityAuthentication
     name: typeProperties.authentication
-  - description: List of datasets passed to web endpoint.
+  - description: Dataset reference type.
     types:
-    - uid: DatasetReference
+    - isArray: true
+      uid: DatasetReference
     name: typeProperties.datasets
-  - description: List of linked services passed to web endpoint.
+  - description: Linked service reference type.
     types:
-    - uid: LinkedServiceReference
+    - isArray: true
+      uid: LinkedServiceReference
     name: typeProperties.linkedServices
   - description: Linked service reference.
     types:
@@ -392,9 +401,10 @@ definitions:
     types:
     - uid: string
     name: description
-  - description: Activity depends on condition.
+  - description: Activity dependency information.
     types:
-    - uid: ActivityDependency
+    - isArray: true
+      uid: ActivityDependency
     name: dependsOn
 - name: LookupActivity
   description: Lookup activity.
@@ -478,9 +488,10 @@ definitions:
     types:
     - uid: string
     name: description
-  - description: Activity depends on condition.
+  - description: Activity dependency information.
     types:
-    - uid: ActivityDependency
+    - isArray: true
+      uid: ActivityDependency
     name: dependsOn
 - name: SqlServerStoredProcedureActivity
   description: SQL stored procedure activity type.
@@ -519,9 +530,10 @@ definitions:
     types:
     - uid: string
     name: description
-  - description: Activity depends on condition.
+  - description: Activity dependency information.
     types:
-    - uid: ActivityDependency
+    - isArray: true
+      uid: ActivityDependency
     name: dependsOn
 - name: CustomActivity
   description: Custom activity type.
@@ -572,9 +584,10 @@ definitions:
     types:
     - uid: string
     name: description
-  - description: Activity depends on condition.
+  - description: Activity dependency information.
     types:
-    - uid: ActivityDependency
+    - isArray: true
+      uid: ActivityDependency
     name: dependsOn
 - name: ExecuteSSISPackageActivity
   description: Execute SSIS package activity.
@@ -621,9 +634,10 @@ definitions:
     types:
     - uid: string
     name: description
-  - description: Activity depends on condition.
+  - description: Activity dependency information.
     types:
-    - uid: ActivityDependency
+    - isArray: true
+      uid: ActivityDependency
     name: dependsOn
 - name: HDInsightSparkActivity
   description: HDInsight Spark activity.
@@ -637,9 +651,10 @@ definitions:
     types:
     - uid: object
     name: typeProperties.entryFilePath
-  - description: The user-specified arguments to HDInsightSparkActivity.
+  - description: 'Type: string (or Expression with resultType string).'
     types:
-    - uid: object
+    - isArray: true
+      uid: object
     name: typeProperties.arguments
   - description: Debug info option.
     types:
@@ -686,21 +701,24 @@ definitions:
     types:
     - uid: string
     name: description
-  - description: Activity depends on condition.
+  - description: Activity dependency information.
     types:
-    - uid: ActivityDependency
+    - isArray: true
+      uid: ActivityDependency
     name: dependsOn
 - name: HDInsightStreamingActivity
   description: HDInsight streaming activity type.
   kind: object
   properties:
-  - description: Storage linked service references.
+  - description: Linked service reference type.
     types:
-    - uid: LinkedServiceReference
+    - isArray: true
+      uid: LinkedServiceReference
     name: typeProperties.storageLinkedServices
-  - description: User specified arguments to HDInsightActivity.
+  - description: 'Type: string (or Expression with resultType string).'
     types:
-    - uid: object
+    - isArray: true
+      uid: object
     name: typeProperties.arguments
   - description: Debug info option.
     types:
@@ -722,9 +740,10 @@ definitions:
     types:
     - uid: object
     name: typeProperties.output
-  - description: Paths to streaming job files. Can be directories.
+  - description: 'Type: string (or Expression with resultType string).'
     types:
-    - uid: object
+    - isArray: true
+      uid: object
     name: typeProperties.filePaths
   - description: Linked service reference where the files are located.
     types:
@@ -734,9 +753,10 @@ definitions:
     types:
     - uid: object
     name: typeProperties.combiner
-  - description: Command line environment values.
+  - description: 'Type: string (or Expression with resultType string).'
     types:
-    - uid: object
+    - isArray: true
+      uid: object
     name: typeProperties.commandEnvironment
   - description: Allows user to specify defines for streaming job request.
     types:
@@ -767,21 +787,24 @@ definitions:
     types:
     - uid: string
     name: description
-  - description: Activity depends on condition.
+  - description: Activity dependency information.
     types:
-    - uid: ActivityDependency
+    - isArray: true
+      uid: ActivityDependency
     name: dependsOn
 - name: HDInsightMapReduceActivity
   description: HDInsight MapReduce activity type.
   kind: object
   properties:
-  - description: Storage linked service references.
+  - description: Linked service reference type.
     types:
-    - uid: LinkedServiceReference
+    - isArray: true
+      uid: LinkedServiceReference
     name: typeProperties.storageLinkedServices
-  - description: User specified arguments to HDInsightActivity.
+  - description: 'Type: string (or Expression with resultType string).'
     types:
-    - uid: object
+    - isArray: true
+      uid: object
     name: typeProperties.arguments
   - description: Debug info option.
     types:
@@ -799,9 +822,10 @@ definitions:
     types:
     - uid: LinkedServiceReference
     name: typeProperties.jarLinkedService
-  - description: Jar libs.
+  - description: 'Type: string (or Expression with resultType string).'
     types:
-    - uid: object
+    - isArray: true
+      uid: object
     name: typeProperties.jarLibs
   - description: Allows user to specify defines for the MapReduce job request.
     types:
@@ -832,21 +856,24 @@ definitions:
     types:
     - uid: string
     name: description
-  - description: Activity depends on condition.
+  - description: Activity dependency information.
     types:
-    - uid: ActivityDependency
+    - isArray: true
+      uid: ActivityDependency
     name: dependsOn
 - name: HDInsightPigActivity
   description: HDInsight Pig activity type.
   kind: object
   properties:
-  - description: Storage linked service references.
+  - description: Linked service reference type.
     types:
-    - uid: LinkedServiceReference
+    - isArray: true
+      uid: LinkedServiceReference
     name: typeProperties.storageLinkedServices
-  - description: User specified arguments to HDInsightActivity.
+  - description: 'Type: string (or Expression with resultType string).'
     types:
-    - uid: object
+    - isArray: true
+      uid: object
     name: typeProperties.arguments
   - description: Debug info option.
     types:
@@ -889,21 +916,24 @@ definitions:
     types:
     - uid: string
     name: description
-  - description: Activity depends on condition.
+  - description: Activity dependency information.
     types:
-    - uid: ActivityDependency
+    - isArray: true
+      uid: ActivityDependency
     name: dependsOn
 - name: HDInsightHiveActivity
   description: HDInsight Hive activity type.
   kind: object
   properties:
-  - description: Storage linked service references.
+  - description: Linked service reference type.
     types:
-    - uid: LinkedServiceReference
+    - isArray: true
+      uid: LinkedServiceReference
     name: typeProperties.storageLinkedServices
-  - description: User specified arguments to HDInsightActivity.
+  - description: 'Type: string (or Expression with resultType string).'
     types:
-    - uid: object
+    - isArray: true
+      uid: object
     name: typeProperties.arguments
   - description: Debug info option.
     types:
@@ -946,21 +976,24 @@ definitions:
     types:
     - uid: string
     name: description
-  - description: Activity depends on condition.
+  - description: Activity dependency information.
     types:
-    - uid: ActivityDependency
+    - isArray: true
+      uid: ActivityDependency
     name: dependsOn
 - name: CopyActivity
   description: Copy activity.
   kind: object
   properties:
-  - description: List of inputs for the activity.
+  - description: Dataset reference type.
     types:
-    - uid: DatasetReference
+    - isArray: true
+      uid: DatasetReference
     name: inputs
-  - description: List of outputs for the activity.
+  - description: Dataset reference type.
     types:
-    - uid: DatasetReference
+    - isArray: true
+      uid: DatasetReference
     name: outputs
   - description: Copy activity source.
     types:
@@ -1079,9 +1112,10 @@ definitions:
     types:
     - uid: string
     name: description
-  - description: Activity depends on condition.
+  - description: Activity dependency information.
     types:
-    - uid: ActivityDependency
+    - isArray: true
+      uid: ActivityDependency
     name: dependsOn
 - name: UntilActivity
   description: This activity executes inner activities until the specified boolean expression results to true or timeout is reached, whichever is earlier.
@@ -1095,7 +1129,7 @@ definitions:
     types:
     - uid: object
     name: typeProperties.timeout
-  - description: List of activities to execute.
+  - description: A pipeline activity.
     types:
     - isArray: true
       uid: ExecutionActivity
@@ -1116,9 +1150,10 @@ definitions:
     types:
     - uid: string
     name: description
-  - description: Activity depends on condition.
+  - description: Activity dependency information.
     types:
-    - uid: ActivityDependency
+    - isArray: true
+      uid: ActivityDependency
     name: dependsOn
 - name: WaitActivity
   description: This activity suspends pipeline execution for the specified interval.
@@ -1141,9 +1176,10 @@ definitions:
     types:
     - uid: string
     name: description
-  - description: Activity depends on condition.
+  - description: Activity dependency information.
     types:
-    - uid: ActivityDependency
+    - isArray: true
+      uid: ActivityDependency
     name: dependsOn
 - name: ForEachActivity
   description: This activity is used for iterating over a collection and execute given activities.
@@ -1157,7 +1193,7 @@ definitions:
     types:
     - uid: Expression
     name: typeProperties.items
-  - description: List of activities to execute .
+  - description: A pipeline activity.
     types:
     - isArray: true
       uid: ExecutionActivity
@@ -1178,9 +1214,10 @@ definitions:
     types:
     - uid: string
     name: description
-  - description: Activity depends on condition.
+  - description: Activity dependency information.
     types:
-    - uid: ActivityDependency
+    - isArray: true
+      uid: ActivityDependency
     name: dependsOn
 - name: IfConditionActivity
   description: This activity evaluates a boolean expression and executes either the activities under the ifTrueActivities property or the ifFalseActivities property depending on the result of the expression.
@@ -1190,7 +1227,7 @@ definitions:
     types:
     - uid: Expression
     name: typeProperties.expression
-  - description: List of activities to execute if expression is evaluated to true. This is an optional property and if not provided, the activity will exit without any action.
+  - description: A pipeline activity.
     types:
     - isArray: true
       uid: ExecutionActivity
@@ -1198,7 +1235,7 @@ definitions:
       uid: ControlActivity
     typesTitle: Activity[]
     name: typeProperties.ifTrueActivities
-  - description: List of activities to execute if expression is evaluated to false. This is an optional property and if not provided, the activity will exit without any action.
+  - description: A pipeline activity.
     types:
     - isArray: true
       uid: ExecutionActivity
@@ -1219,9 +1256,10 @@ definitions:
     types:
     - uid: string
     name: description
-  - description: Activity depends on condition.
+  - description: Activity dependency information.
     types:
-    - uid: ActivityDependency
+    - isArray: true
+      uid: ActivityDependency
     name: dependsOn
 - name: ExecutePipelineActivity
   description: Execute pipeline activity.
@@ -1256,9 +1294,10 @@ definitions:
     types:
     - uid: string
     name: description
-  - description: Activity depends on condition.
+  - description: Activity dependency information.
     types:
-    - uid: ActivityDependency
+    - isArray: true
+      uid: ActivityDependency
     name: dependsOn
 - name: ParameterType
   description: Parameter type.
@@ -1321,7 +1360,8 @@ definitions:
     name: activity
   - description: Match-Condition for the dependency.
     types:
-    - uid: string
+    - isArray: true
+      uid: string
     name: dependencyConditions
 - name: WebServiceOutputs
   description: Key,Value pairs, mapping the names of Azure ML endpoint's Web Service Outputs to AzureMLWebServiceFile objects specifying the output Blob locations. This information will be passed in the WebServiceOutputs property of the Azure ML batch execution request.
@@ -1405,13 +1445,15 @@ definitions:
   description: Reference objects for custom activity
   kind: object
   properties:
-  - description: Linked service references.
+  - description: Linked service reference type.
     types:
-    - uid: LinkedServiceReference
+    - isArray: true
+      uid: LinkedServiceReference
     name: linkedServices
-  - description: Dataset references.
+  - description: Dataset reference type.
     types:
-    - uid: DatasetReference
+    - isArray: true
+      uid: DatasetReference
     name: datasets
 - name: SSISPackageLocation
   description: SSIS package location.

@@ -52,9 +52,10 @@ responses:
 requestBody:
 - parameters:
   - in: body
-    description: Policies to evaluate.
+    description: Properties for evaluating a policy set.
     types:
-    - uid: EvaluatePoliciesProperties
+    - isArray: true
+      uid: EvaluatePoliciesProperties
     name: policies
 requestHeader: []
 definitions:
@@ -78,9 +79,10 @@ definitions:
   description: Response body for evaluating a policy set.
   kind: object
   properties:
-  - description: Results of evaluating a policy set.
+  - description: Result of a policy set evaluation.
     types:
-    - uid: PolicySetResult
+    - isArray: true
+      uid: PolicySetResult
     name: results
 - name: CloudError
   description: Error from a REST request.
@@ -94,9 +96,10 @@ definitions:
   description: Request body for evaluating a policy set.
   kind: object
   properties:
-  - description: Policies to evaluate.
+  - description: Properties for evaluating a policy set.
     types:
-    - uid: EvaluatePoliciesProperties
+    - isArray: true
+      uid: EvaluatePoliciesProperties
     name: policies
 - name: PolicySetResult
   description: Results of evaluating a policy set.
@@ -106,26 +109,31 @@ definitions:
     types:
     - uid: boolean
     name: hasError
-  - description: The list of policy violations.
+  - description: Policy violation.
     types:
-    - uid: PolicyViolation
+    - isArray: true
+      uid: PolicyViolation
     name: policyViolations
 - name: CloudErrorBody
   description: Body of an error from a REST request.
   kind: object
   properties:
-  - types:
+  - description: ''
+    types:
     - uid: string
     name: code
-  - types:
+  - description: ''
+    types:
     - uid: string
     name: message
-  - types:
+  - description: ''
+    types:
     - uid: string
     name: target
   - description: Inner errors.
     types:
-    - uid: Details
+    - isArray: true
+      uid: Details
     name: details
 - name: PolicyViolation
   description: The list of policy violations.
