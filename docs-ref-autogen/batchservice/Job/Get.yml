@@ -544,7 +544,10 @@ definitions:
     - uid: AutoPoolSpecification
     name: autoPoolSpecification
 - name: OnAllTasksComplete
-  description: The action the Batch service should take when all tasks in a job created under this schedule are in the completed state.
+  description: >-
+    The action the Batch service should take when all tasks in a job created under this schedule are in the completed state.
+
+    Note that if a job contains no tasks, then all tasks are considered complete. This option is therefore most commonly used with a Job Manager task; if you want to use automatic job termination without a Job Manager, you should initially set onAllTasksComplete to noaction and update the job properties to set onAllTasksComplete to terminatejob once you have finished adding tasks. The default is noaction.
   kind: enum
   properties:
   - description: Do nothing. The job remains active unless terminated or disabled by some other means.
@@ -556,7 +559,10 @@ definitions:
     - uid: string
     name: terminatejob
 - name: OnTaskFailure
-  description: The action the Batch service should take when any task fails in a job created under this schedule. A task is considered to have failed if it have failed if has a failureInfo. A failureInfo is set if the task completes with a non-zero exit code after exhausting its retry count, or if there was an error starting the task, for example due to a resource file download error.
+  description: >-
+    The action the Batch service should take when any task fails in a job created under this schedule. A task is considered to have failed if it have failed if has a failureInfo. A failureInfo is set if the task completes with a non-zero exit code after exhausting its retry count, or if there was an error starting the task, for example due to a resource file download error.
+
+    The default is noaction.
   kind: enum
   properties:
   - description: Do nothing. The job remains active unless terminated or disabled by some other means.
@@ -1153,7 +1159,10 @@ definitions:
     - uid: string
     name: containerUrl
 - name: OutputFileUploadCondition
-  description: The conditions under which the task output file or set of files should be uploaded.
+  description: >-
+    The conditions under which the task output file or set of files should be uploaded.
+
+    The default is taskcompletion.
   kind: enum
   properties:
   - description: Upload the file(s) only after the task process exits with an exit code of 0.
@@ -1169,7 +1178,10 @@ definitions:
     - uid: string
     name: taskcompletion
 - name: AutoUserScope
-  description: The scope for the auto user
+  description: >-
+    The scope for the auto user
+
+    The default value is task.
   kind: enum
   properties:
   - description: Specifies that the service should create a new user for the task.
@@ -1181,7 +1193,10 @@ definitions:
     - uid: string
     name: pool
 - name: ElevationLevel
-  description: The elevation level of the auto user.
+  description: >-
+    The elevation level of the auto user.
+
+    nonAdmin - The auto user is a standard user without elevated access. admin - The auto user is a user with elevated access and operates with full Administrator permissions. The default value is nonAdmin.
   kind: enum
   properties:
   - description: The user is a standard user without elevated access.
@@ -1558,7 +1573,10 @@ definitions:
       uid: InboundNATPool
     name: inboundNATPools
 - name: CertificateStoreLocation
-  description: The location of the certificate store on the compute node into which to install the certificate.
+  description: >-
+    The location of the certificate store on the compute node into which to install the certificate.
+
+    The default value is currentuser. This property is applicable only for pools configured with Windows nodes (that is, created with cloudServiceConfiguration, or with virtualMachineConfiguration using a Windows image reference). For Linux compute nodes, the certificates are stored in a directory inside the task working directory and an environment variable AZ_BATCH_CERTIFICATES_DIR is supplied to the task to query for this location. For certificates with visibility of 'remoteUser', a 'certs' directory is created in the user's home directory (e.g., /home/{user-name}/certs) and certificates are placed in that directory.
   kind: enum
   properties:
   - description: Certificates should be installed to the CurrentUser certificate store.
@@ -1595,7 +1613,10 @@ definitions:
     - uid: string
     name: sshPrivateKey
 - name: CachingType
-  description: The type of caching to enable for the OS disk.
+  description: >-
+    The type of caching to enable for the OS disk.
+
+    The default value for caching is none. For information about the caching options see: https://blogs.msdn.microsoft.com/windowsazurestorage/2012/06/27/exploring-windows-azure-drives-disks-and-images/.
   kind: enum
   properties:
   - description: The caching mode for the disk is not enabled.
@@ -1611,7 +1632,10 @@ definitions:
     - uid: string
     name: readwrite
 - name: StorageAccountType
-  description: The storage account type to be used for the data disk.
+  description: >-
+    The storage account type to be used for the data disk.
+
+    If omitted, the default is "standard_lrs".
   kind: enum
   properties:
   - description: The data disk should use standard locally redundant storage.

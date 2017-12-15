@@ -861,7 +861,10 @@ definitions:
       uid: NameValuePair
     name: details
 - name: TaskExecutionResult
-  description: The result of the task execution.
+  description: >-
+    The result of the task execution.
+
+    If the value is 'failed', then the details of the failure can be found in the failureInfo property.
   kind: enum
   properties:
   - description: The task ran successfully.
@@ -885,7 +888,10 @@ definitions:
     - uid: integer
     name: end
 - name: JobAction
-  description: An action to take on the job containing the task, if the task completes with the given exit condition and the job's onTaskFailed property is 'performExitOptionsJobAction'.
+  description: >-
+    An action to take on the job containing the task, if the task completes with the given exit condition and the job's onTaskFailed property is 'performExitOptionsJobAction'.
+
+    The default is none for exit code 0 and terminate for all other exit conditions. If the job's onTaskFailed property is noaction, then specifying this property returns an error and the add task request fails with an invalid property value error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request).
   kind: enum
   properties:
   - description: Take no action.
@@ -901,7 +907,10 @@ definitions:
     - uid: string
     name: terminate
 - name: DependencyAction
-  description: An action that the Batch service performs on tasks that depend on this task.
+  description: >-
+    An action that the Batch service performs on tasks that depend on this task.
+
+    The default is 'satisfy' for exit code 0, and 'block' for all other exit conditions. If the job's usesTaskDependencies property is set to false, then specifying the dependencyAction property returns an error and the add task request fails with an invalid property value error; if you are calling the REST API directly, the HTTP status code is 400  (Bad Request).
   kind: enum
   properties:
   - description: Satisfy the task's dependencies.
@@ -931,7 +940,10 @@ definitions:
     - uid: string
     name: containerUrl
 - name: OutputFileUploadCondition
-  description: The conditions under which the task output file or set of files should be uploaded.
+  description: >-
+    The conditions under which the task output file or set of files should be uploaded.
+
+    The default is taskcompletion.
   kind: enum
   properties:
   - description: Upload the file(s) only after the task process exits with an exit code of 0.
@@ -947,7 +959,10 @@ definitions:
     - uid: string
     name: taskcompletion
 - name: AutoUserScope
-  description: The scope for the auto user
+  description: >-
+    The scope for the auto user
+
+    The default value is task.
   kind: enum
   properties:
   - description: Specifies that the service should create a new user for the task.
@@ -959,7 +974,10 @@ definitions:
     - uid: string
     name: pool
 - name: ElevationLevel
-  description: The elevation level of the auto user.
+  description: >-
+    The elevation level of the auto user.
+
+    nonAdmin - The auto user is a standard user without elevated access. admin - The auto user is a user with elevated access and operates with full Administrator permissions. The default value is nonAdmin.
   kind: enum
   properties:
   - description: The user is a standard user without elevated access.

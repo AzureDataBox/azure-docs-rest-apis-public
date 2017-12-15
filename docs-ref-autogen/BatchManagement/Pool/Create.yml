@@ -801,7 +801,10 @@ definitions:
     - uid: string
     name: Pack
 - name: ElevationLevel
-  description: The elevation level of the user account.
+  description: >-
+    The elevation level of the user account.
+
+    nonAdmin - The auto user is a standard user without elevated access. admin - The auto user is a user with elevated access and operates with full Administrator permissions. The default value is nonAdmin.
   kind: enum
   properties:
   - types:
@@ -894,7 +897,10 @@ definitions:
     - uid: AutoUserSpecification
     name: autoUser
 - name: CertificateStoreLocation
-  description: The location of the certificate store on the compute node into which to install the certificate.
+  description: >-
+    The location of the certificate store on the compute node into which to install the certificate.
+
+    The default value is currentUser. This property is applicable only for pools configured with Windows nodes (that is, created with cloudServiceConfiguration, or with virtualMachineConfiguration using a Windows image reference). For Linux compute nodes, the certificates are stored in a directory inside the task working directory and an environment variable AZ_BATCH_CERTIFICATES_DIR is supplied to the task to query for this location. For certificates with visibility of 'remoteUser', a 'certs' directory is created in the user's home directory (e.g., /home/{user-name}/certs) and certificates are placed in that directory.
   kind: enum
   properties:
   - types:
@@ -904,7 +910,10 @@ definitions:
     - uid: string
     name: LocalMachine
 - name: ComputeNodeDeallocationOption
-  description: Determines what to do with a node and its running task(s) if the pool size is decreasing.
+  description: >-
+    Determines what to do with a node and its running task(s) if the pool size is decreasing.
+
+    If omitted, the default value is Requeue.
   kind: enum
   properties:
   - types:
@@ -940,7 +949,13 @@ definitions:
       uid: ResizeError
     name: details
 - name: PoolProvisioningState
-  description: The current state of the pool.
+  description: >-
+    The current state of the pool.
+
+    Values are:
+
+     Succeeded - The pool is available to run tasks subject to the availability of compute nodes.
+     Deleting - The user has requested that the pool be deleted, but the delete operation has not yet completed.
   kind: enum
   properties:
   - types:
@@ -950,7 +965,14 @@ definitions:
     - uid: string
     name: Deleting
 - name: AllocationState
-  description: Whether the pool is resizing.
+  description: >-
+    Whether the pool is resizing.
+
+    Values are:
+
+     Steady - The pool is not resizing. There are no changes to the number of nodes in the pool in progress. A pool enters this state when it is created and when no operations are being performed on the pool to change the number of dedicated nodes.
+     Resizing - The pool is resizing; that is, compute nodes are being added to or removed from the pool.
+     Stopping - The pool was resizing, but the user has requested that the resize be stopped, but the stop request has not yet been completed.
   kind: enum
   properties:
   - types:
@@ -963,7 +985,10 @@ definitions:
     - uid: string
     name: Stopping
 - name: InterNodeCommunicationState
-  description: Whether the pool permits direct communication between nodes.
+  description: >-
+    Whether the pool permits direct communication between nodes.
+
+    This imposes restrictions on which nodes can be assigned to the pool. Enabling this value can reduce the chance of the requested number of nodes to be allocated in the pool. If not specified, this value defaults to 'Disabled'.
   kind: enum
   properties:
   - types:
@@ -1164,7 +1189,10 @@ definitions:
     - uid: ElevationLevel
     name: elevationLevel
 - name: CachingType
-  description: The type of caching to be enabled for the data disks. none - The caching mode for the disk is not enabled. readOnly - The caching mode for the disk is read only. readWrite - The caching mode for the disk is read and write.
+  description: >-
+    The type of caching to be enabled for the data disks. none - The caching mode for the disk is not enabled. readOnly - The caching mode for the disk is read only. readWrite - The caching mode for the disk is read and write.
+
+    Default value is none.
   kind: enum
   properties:
   - types:
@@ -1177,7 +1205,13 @@ definitions:
     - uid: string
     name: ReadWrite
 - name: StorageAccountType
-  description: The storage account type to be used for the data disk.
+  description: >-
+    The storage account type to be used for the data disk.
+
+    If omitted, the default is "Standard_LRS". Values are:
+
+     Standard_LRS - The data disk should use standard locally redundant storage.
+     Premium_LRS - The data disk should use premium locally redundant storage.
   kind: enum
   properties:
   - types:
@@ -1222,7 +1256,10 @@ definitions:
     - uid: string
     name: sourceAddressPrefix
 - name: AutoUserScope
-  description: The scope for the auto user
+  description: >-
+    The scope for the auto user
+
+    pool - specifies that the task runs as the common auto user account which is created on every node in a pool. task - specifies that the service should create a new user for the task. The default value is task.
   kind: enum
   properties:
   - types:
