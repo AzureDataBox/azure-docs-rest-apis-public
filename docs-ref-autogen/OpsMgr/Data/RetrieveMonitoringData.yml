@@ -1,0 +1,72 @@
+### YamlMime:RESTOperation
+service: OpsMgr
+apiVersion: v1
+groupName: Data
+consumes: []
+produces:
+- application/json
+- text/json
+- application/xml
+- text/xml
+paths:
+- content: GET http://neb-om-1529294/OperationsManager/data/monitoring/{entityId}
+uriParameters:
+- in: path
+  isRequired: true
+  types:
+  - uid: string
+  name: entityId
+responses:
+- description: OK
+  types:
+  - uid: MonitoringDataResponse
+  name: 200 OK
+requestHeader: []
+definitions:
+- name: MonitoringDataResponse
+  kind: object
+  properties:
+  - description: ''
+    types:
+    - isArray: true
+      uid: ChildNodeData
+    name: childNodeDatas
+  - description: ''
+    types:
+    - uid: integer
+    name: alertCount
+  - description: ''
+    types:
+    - uid: string
+    name: healthState
+- name: ChildNodeData
+  kind: object
+  properties:
+  - description: ''
+    types:
+    - uid: string
+    name: healthState
+  - description: ''
+    types:
+    - uid: string
+    name: id
+  - description: ''
+    types:
+    - uid: string
+    name: monitorId
+  - description: ''
+    types:
+    - uid: string
+    name: monitorDisplayName
+  - description: ''
+    types:
+    - uid: string
+    name: monitorName
+  - description: ''
+    types:
+    - uid: string
+    name: lastTimeModified
+examples: []
+security: []
+name: RetrieveMonitoringData
+uid: neb-om-1529294.operationsmanager.opsmgr.data.retrievemonitoringdata

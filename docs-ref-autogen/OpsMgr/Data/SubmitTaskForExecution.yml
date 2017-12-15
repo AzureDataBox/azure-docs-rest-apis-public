@@ -1,0 +1,95 @@
+### YamlMime:RESTOperation
+service: OpsMgr
+apiVersion: v1
+groupName: Data
+consumes:
+- application/json
+- text/json
+- application/xml
+- text/xml
+- application/x-www-form-urlencoded
+produces:
+- application/json
+- text/json
+- application/xml
+- text/xml
+paths:
+- content: POST http://neb-om-1529294/OperationsManager/data/submitTask
+uriParameters: []
+responses:
+- description: OK
+  types:
+  - uid: string
+  name: 200 OK
+requestBody:
+- parameters:
+  - in: body
+    description: ''
+    types:
+    - uid: string
+    name: taskId
+  - in: body
+    description: ''
+    types:
+    - isArray: true
+      uid: string
+    name: monitoringObjectIds
+  - in: body
+    description: ''
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: parametersWithValues
+  - in: body
+    description: ''
+    types:
+    - uid: TaskExecutionCredentials
+    name: credentials
+requestHeader: []
+definitions:
+- name: TaskExecutionCredentials
+  kind: object
+  properties:
+  - description: ''
+    types:
+    - uid: string
+    name: domain
+  - description: ''
+    types:
+    - uid: string
+    name: username
+  - description: ''
+    types:
+    - uid: string
+    name: password
+- name: TaskExecutionRequest
+  kind: object
+  properties:
+  - description: ''
+    types:
+    - uid: string
+    name: taskId
+  - description: ''
+    types:
+    - isArray: true
+      uid: string
+    name: monitoringObjectIds
+  - description: ''
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: parametersWithValues
+  - description: ''
+    types:
+    - uid: TaskExecutionCredentials
+    name: credentials
+examples: []
+security: []
+name: SubmitTaskForExecution
+uid: neb-om-1529294.operationsmanager.opsmgr.data.submittaskforexecution
