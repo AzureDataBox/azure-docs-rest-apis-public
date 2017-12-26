@@ -19,6 +19,8 @@ Welcome to the Azure REST API Reference.
 
 Representational State Transfer (REST) APIs are service endpoints that support sets of HTTP operations (methods), which provide create, retrieve, update, or delete access to the service's resources. This article walks you through:
 
+test <xref:management.azure.com.advisor.operations.list> and @management.azure.com.advisor.operations.list
+
 * The basic components of a REST API request/response pair.
 * How to register your client application with Azure Active Directory (Azure AD) to secure your REST requests.
 * Overviews of creating and sending a REST request, and handling the response.
