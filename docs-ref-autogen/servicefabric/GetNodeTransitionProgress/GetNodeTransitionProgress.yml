@@ -1,0 +1,558 @@
+### YamlMime:RESTOperation
+uid: localhost:19080.servicefabric.getnodetransitionprogress.getnodetransitionprogress
+name: Get Node Transition Progress
+service: Service Fabric
+groupName: Get Node Transition Progress
+apiVersion: 6.0.0.1
+summary: >
+  Gets the progress of an operation started using StartNodeTransition. Gets the progress of an operation started with StartNodeTransition using the provided OperationId.
+produces:
+- application/json
+paths:
+- content: GET http://localhost:19080/Faults/Nodes/{nodeName}/$/GetTransitionProgress?api-version=6.0.0.1&OperationId={OperationId}
+- content: GET http://localhost:19080/Faults/Nodes/{nodeName}/$/GetTransitionProgress?api-version=6.0.0.1&OperationId={OperationId}&timeout={timeout}
+  isOptional: true
+uriParameters:
+- name: nodeName
+  in: path
+  isRequired: true
+  description: The name of the node.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API. This is a required parameter and it's value must be "6.0".
+  types:
+  - uid: string
+- name: OperationId
+  in: query
+  isRequired: true
+  description: A GUID that identifies a call of this API.  This is passed into the corresponding GetProgress API
+  types:
+  - uid: string
+  format: uuid
+- name: timeout
+  in: query
+  description: The server timeout for performing the operation in seconds. This specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
+  types:
+  - uid: integer
+  format: int64
+responses:
+- name: 200 OK
+  description: Information about the progress of a node transition operation.
+  types:
+  - uid: NodeTransitionProgress
+- name: Other Status Codes
+  description: The detailed error response.
+  types:
+  - uid: FabricError
+requestHeader: []
+definitions:
+- name: NodeTransitionProgress
+  description: >-
+    Information about an NodeTransition operation.  This class contains an OperationState and a NodeTransitionResult.  The NodeTransitionResult is not valid until OperationState
+
+    is Completed or Faulted.
+  kind: object
+  properties:
+  - name: State
+    description: >-
+      - Invalid - The operation state is invalid.
+
+      - Running - The operation is in progress.
+
+      - RollingBack -  The operation is rolling back internal system state because it encountered a fatal error or was cancelled by the user.  "RollingBack"
+         does not refer to user state.  For example, if CancelOperation is called on a command of type PartitionDataLoss,
+         a state of "RollingBack" does not mean service data is being restored (assuming the command has progressed far enough to cause data loss).
+         It means the system is rolling back/cleaning up internal system state associated with the command.
+      - Completed - The operation has completed successfully and is no longer running.
+
+      - Faulted - The operation has failed and is no longer running.
+
+      - Cancelled - The operation was cancelled by the user using CancelOperation, and is no longer running.
+
+      - ForceCancelled - The operation was cancelled by the user using CancelOperation, with the force parameter set to true.  It is no longer running.  Refer to CancelOperation for more details.
+    types:
+    - uid: OperationState
+  - name: NodeTransitionResult
+    description: Represents information about an operation in a terminal state (Completed or Faulted).
+    types:
+    - uid: NodeTransitionResult
+- name: FabricError
+  description: The REST API operations for Service Fabric return standard HTTP status codes. This type defines the additional information returned from the Service Fabric API operations that are not successful.
+  kind: object
+  properties:
+  - name: Error
+    description: Error object containing error code and error message.
+    types:
+    - uid: FabricError_Error
+- name: OperationState
+  description: >-
+    - Invalid - The operation state is invalid.
+
+    - Running - The operation is in progress.
+
+    - RollingBack -  The operation is rolling back internal system state because it encountered a fatal error or was cancelled by the user.  "RollingBack"
+       does not refer to user state.  For example, if CancelOperation is called on a command of type PartitionDataLoss,
+       a state of "RollingBack" does not mean service data is being restored (assuming the command has progressed far enough to cause data loss).
+       It means the system is rolling back/cleaning up internal system state associated with the command.
+    - Completed - The operation has completed successfully and is no longer running.
+
+    - Faulted - The operation has failed and is no longer running.
+
+    - Cancelled - The operation was cancelled by the user using CancelOperation, and is no longer running.
+
+    - ForceCancelled - The operation was cancelled by the user using CancelOperation, with the force parameter set to true.  It is no longer running.  Refer to CancelOperation for more details.
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: Running
+    types:
+    - uid: string
+  - name: RollingBack
+    types:
+    - uid: string
+  - name: Completed
+    types:
+    - uid: string
+  - name: Faulted
+    types:
+    - uid: string
+  - name: Cancelled
+    types:
+    - uid: string
+  - name: ForceCancelled
+    types:
+    - uid: string
+- name: NodeTransitionResult
+  description: Represents information about an operation in a terminal state (Completed or Faulted).
+  kind: object
+  properties:
+  - name: ErrorCode
+    description: If OperationState is Completed, this is 0.  If OperationState is Faulted, this is an error code indicating the reason.
+    types:
+    - uid: integer
+  - name: NodeResult
+    description: Contains information about a node that was targeted by a user-induced operation.
+    types:
+    - uid: NodeResult
+- name: FabricError_Error
+  description: Error object containing error code and error message.
+  kind: object
+  properties:
+  - name: Code
+    description: >-
+      Defines the fabric error codes that be returned as part of the error object in response to Service Fabric API operations that are not successful. Following are the error code values that can be returned for a specific HTTP status code.
+
+        - Possible values of the error code for HTTP status code 400 (Bad Request)
+          - "FABRIC_E_INVALID_PARTITION_KEY"
+          - "FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR"
+          - "FABRIC_E_INVALID_ADDRESS"
+          - "FABRIC_E_APPLICATION_NOT_UPGRADING"
+          - "FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR"
+          - "FABRIC_E_FABRIC_NOT_UPGRADING"
+          - "FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR"
+          - "FABRIC_E_INVALID_CONFIGURATION"
+          - "FABRIC_E_INVALID_NAME_URI"
+          - "FABRIC_E_PATH_TOO_LONG"
+          - "FABRIC_E_KEY_TOO_LARGE"
+          - "FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED"
+          - "FABRIC_E_INVALID_ATOMIC_GROUP"
+          - "FABRIC_E_VALUE_EMPTY"
+
+        - Possible values of the error code for HTTP status code 404 (Not Found)
+          - "FABRIC_E_NODE_NOT_FOUND"
+          - "FABRIC_E_APPLICATION_TYPE_NOT_FOUND"
+          - "FABRIC_E_APPLICATION_NOT_FOUND"
+          - "FABRIC_E_SERVICE_TYPE_NOT_FOUND"
+          - "FABRIC_E_SERVICE_DOES_NOT_EXIST"
+          - "FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND"
+          - "FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND"
+          - "FABRIC_E_PARTITION_NOT_FOUND"
+          - "FABRIC_E_REPLICA_DOES_NOT_EXIST"
+          - "FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST"
+          - "FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND"
+          - "FABRIC_E_DIRECTORY_NOT_FOUND"
+          - "FABRIC_E_FABRIC_VERSION_NOT_FOUND"
+          - "FABRIC_E_FILE_NOT_FOUND"
+          - "FABRIC_E_NAME_DOES_NOT_EXIST"
+          - "FABRIC_E_PROPERTY_DOES_NOT_EXIST"
+          - "FABRIC_E_ENUMERATION_COMPLETED"
+          - "FABRIC_E_SERVICE_MANIFEST_NOT_FOUND"
+          - "FABRIC_E_KEY_NOT_FOUND"
+          - "FABRIC_E_HEALTH_ENTITY_NOT_FOUND"
+
+        - Possible values of the error code for HTTP status code 409 (Conflict)
+          - "FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION"
+          - "FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS"
+          - "FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS"
+          - "FABRIC_E_SERVICE_ALREADY_EXISTS"
+          - "FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_TYPE_IN_USE"
+          - "FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION"
+          - "FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS"
+          - "FABRIC_E_FABRIC_VERSION_IN_USE"
+          - "FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS"
+          - "FABRIC_E_NAME_ALREADY_EXISTS"
+          - "FABRIC_E_NAME_NOT_EMPTY"
+          - "FABRIC_E_PROPERTY_CHECK_FAILED"
+          - "FABRIC_E_SERVICE_METADATA_MISMATCH"
+          - "FABRIC_E_SERVICE_TYPE_MISMATCH"
+          - "FABRIC_E_HEALTH_STALE_REPORT"
+          - "FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED"
+          - "FABRIC_E_NODE_HAS_NOT_STOPPED_YET"
+          - "FABRIC_E_INSTANCE_ID_MISMATCH"
+
+        - Possible values of the error code for HTTP status code 413 (Request Entity Too Large)
+          - "FABRIC_E_VALUE_TOO_LARGE"
+
+        - Possible values of the error code for HTTP status code 500 (Internal Server Error)
+          - "FABRIC_E_NODE_IS_UP"
+
+        - Possible values of the error code for HTTP status code 503 (Service Unavailable)
+          - "FABRIC_E_NO_WRITE_QUORUM"
+          - "FABRIC_E_NOT_PRIMARY"
+          - "FABRIC_E_NOT_READY"
+          - "FABRIC_E_RECONFIGURATION_PENDING"
+          - "FABRIC_E_SERVICE_OFFLINE"
+          - "E_ABORT"
+          - "FABRIC_E_VALUE_TOO_LARGE"
+
+        - Possible values of the error code for HTTP status code 504 (Gateway Timeout)
+          - "FABRIC_E_COMMUNICATION_ERROR"
+          - "FABRIC_E_OPERATION_NOT_COMPLETE"
+          - "FABRIC_E_TIMEOUT"
+    types:
+    - uid: FabricErrorCodes
+  - name: Message
+    description: Error message.
+    types:
+    - uid: string
+- name: NodeResult
+  description: Contains information about a node that was targeted by a user-induced operation.
+  kind: object
+  properties:
+  - name: NodeName
+    description: The name of a Service Fabric node.
+    types:
+    - uid: string
+  - name: NodeInstanceId
+    description: The node instance id.
+    types:
+    - uid: string
+- name: FabricErrorCodes
+  description: >-
+    Defines the fabric error codes that be returned as part of the error object in response to Service Fabric API operations that are not successful. Following are the error code values that can be returned for a specific HTTP status code.
+
+      - Possible values of the error code for HTTP status code 400 (Bad Request)
+        - "FABRIC_E_INVALID_PARTITION_KEY"
+        - "FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR"
+        - "FABRIC_E_INVALID_ADDRESS"
+        - "FABRIC_E_APPLICATION_NOT_UPGRADING"
+        - "FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR"
+        - "FABRIC_E_FABRIC_NOT_UPGRADING"
+        - "FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR"
+        - "FABRIC_E_INVALID_CONFIGURATION"
+        - "FABRIC_E_INVALID_NAME_URI"
+        - "FABRIC_E_PATH_TOO_LONG"
+        - "FABRIC_E_KEY_TOO_LARGE"
+        - "FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED"
+        - "FABRIC_E_INVALID_ATOMIC_GROUP"
+        - "FABRIC_E_VALUE_EMPTY"
+
+      - Possible values of the error code for HTTP status code 404 (Not Found)
+        - "FABRIC_E_NODE_NOT_FOUND"
+        - "FABRIC_E_APPLICATION_TYPE_NOT_FOUND"
+        - "FABRIC_E_APPLICATION_NOT_FOUND"
+        - "FABRIC_E_SERVICE_TYPE_NOT_FOUND"
+        - "FABRIC_E_SERVICE_DOES_NOT_EXIST"
+        - "FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND"
+        - "FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND"
+        - "FABRIC_E_PARTITION_NOT_FOUND"
+        - "FABRIC_E_REPLICA_DOES_NOT_EXIST"
+        - "FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST"
+        - "FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND"
+        - "FABRIC_E_DIRECTORY_NOT_FOUND"
+        - "FABRIC_E_FABRIC_VERSION_NOT_FOUND"
+        - "FABRIC_E_FILE_NOT_FOUND"
+        - "FABRIC_E_NAME_DOES_NOT_EXIST"
+        - "FABRIC_E_PROPERTY_DOES_NOT_EXIST"
+        - "FABRIC_E_ENUMERATION_COMPLETED"
+        - "FABRIC_E_SERVICE_MANIFEST_NOT_FOUND"
+        - "FABRIC_E_KEY_NOT_FOUND"
+        - "FABRIC_E_HEALTH_ENTITY_NOT_FOUND"
+
+      - Possible values of the error code for HTTP status code 409 (Conflict)
+        - "FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION"
+        - "FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS"
+        - "FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS"
+        - "FABRIC_E_SERVICE_ALREADY_EXISTS"
+        - "FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_TYPE_IN_USE"
+        - "FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION"
+        - "FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS"
+        - "FABRIC_E_FABRIC_VERSION_IN_USE"
+        - "FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS"
+        - "FABRIC_E_NAME_ALREADY_EXISTS"
+        - "FABRIC_E_NAME_NOT_EMPTY"
+        - "FABRIC_E_PROPERTY_CHECK_FAILED"
+        - "FABRIC_E_SERVICE_METADATA_MISMATCH"
+        - "FABRIC_E_SERVICE_TYPE_MISMATCH"
+        - "FABRIC_E_HEALTH_STALE_REPORT"
+        - "FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED"
+        - "FABRIC_E_NODE_HAS_NOT_STOPPED_YET"
+        - "FABRIC_E_INSTANCE_ID_MISMATCH"
+
+      - Possible values of the error code for HTTP status code 413 (Request Entity Too Large)
+        - "FABRIC_E_VALUE_TOO_LARGE"
+
+      - Possible values of the error code for HTTP status code 500 (Internal Server Error)
+        - "FABRIC_E_NODE_IS_UP"
+
+      - Possible values of the error code for HTTP status code 503 (Service Unavailable)
+        - "FABRIC_E_NO_WRITE_QUORUM"
+        - "FABRIC_E_NOT_PRIMARY"
+        - "FABRIC_E_NOT_READY"
+        - "FABRIC_E_RECONFIGURATION_PENDING"
+        - "FABRIC_E_SERVICE_OFFLINE"
+        - "E_ABORT"
+        - "FABRIC_E_VALUE_TOO_LARGE"
+
+      - Possible values of the error code for HTTP status code 504 (Gateway Timeout)
+        - "FABRIC_E_COMMUNICATION_ERROR"
+        - "FABRIC_E_OPERATION_NOT_COMPLETE"
+        - "FABRIC_E_TIMEOUT"
+  kind: enum
+  properties:
+  - name: FABRIC_E_INVALID_PARTITION_KEY
+    types:
+    - uid: string
+  - name: FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_ADDRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_NOT_UPGRADING
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_NOT_UPGRADING
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_CONFIGURATION
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_NAME_URI
+    types:
+    - uid: string
+  - name: FABRIC_E_PATH_TOO_LONG
+    types:
+    - uid: string
+  - name: FABRIC_E_KEY_TOO_LARGE
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_ATOMIC_GROUP
+    types:
+    - uid: string
+  - name: FABRIC_E_VALUE_EMPTY
+    types:
+    - uid: string
+  - name: FABRIC_E_NODE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_TYPE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_PARTITION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_REPLICA_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_DIRECTORY_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_VERSION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_FILE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_NAME_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_PROPERTY_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_ENUMERATION_COMPLETED
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_MANIFEST_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_KEY_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_HEALTH_ENTITY_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_IN_USE
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_VERSION_IN_USE
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_NAME_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_NAME_NOT_EMPTY
+    types:
+    - uid: string
+  - name: FABRIC_E_PROPERTY_CHECK_FAILED
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_METADATA_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_TYPE_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_HEALTH_STALE_REPORT
+    types:
+    - uid: string
+  - name: FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED
+    types:
+    - uid: string
+  - name: FABRIC_E_NODE_HAS_NOT_STOPPED_YET
+    types:
+    - uid: string
+  - name: FABRIC_E_INSTANCE_ID_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_VALUE_TOO_LARGE
+    types:
+    - uid: string
+  - name: FABRIC_E_NO_WRITE_QUORUM
+    types:
+    - uid: string
+  - name: FABRIC_E_NOT_PRIMARY
+    types:
+    - uid: string
+  - name: FABRIC_E_NOT_READY
+    types:
+    - uid: string
+  - name: FABRIC_E_RECONFIGURATION_PENDING
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_OFFLINE
+    types:
+    - uid: string
+  - name: E_ABORT
+    types:
+    - uid: string
+  - name: FABRIC_E_COMMUNICATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_OPERATION_NOT_COMPLETE
+    types:
+    - uid: string
+  - name: FABRIC_E_TIMEOUT
+    types:
+    - uid: string
+  - name: FABRIC_E_NODE_IS_UP
+    types:
+    - uid: string
+examples:
+- name: Gets information about a completed NodeTransition operation
+  request:
+    uri: GET http://localhost:19080/Faults/Nodes/N0060/$/GetTransitionProgress?api-version=6.0.0.1&OperationId=a9c24269-88e9-4812-b4ad-a0bf2b724ad4
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "State": "Completed",
+        "NodeTransitionResult": {
+          "ErrorCode": 0,
+          "NodeResult": {
+            "NodeName": "N0060",
+            "NodeInstanceId": "131366982707950527"
+          }
+        }
+      }
+- name: Gets information about a running NodeTransition operation
+  request:
+    uri: GET http://localhost:19080/Faults/Nodes/N0060/$/GetTransitionProgress?api-version=6.0.0.1&OperationId=ed903556-acf1-489c-9f33-b484c31f9087
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "State": "Running"
+      }
+security: []

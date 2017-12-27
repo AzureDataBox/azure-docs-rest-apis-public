@@ -1,0 +1,680 @@
+### YamlMime:RESTOperation
+uid: localhost:19080.servicefabric.putproperty.putproperty
+name: Put Property
+service: Service Fabric
+groupName: Put Property
+apiVersion: 6.0.0.1
+summary: Creates or updates a Service Fabric property. Creates or updates the specified Service Fabric property under a given name.
+produces:
+- application/json
+paths:
+- content: PUT http://localhost:19080/Names/{nameId}/$/GetProperty?api-version=6.0.0.1
+- content: PUT http://localhost:19080/Names/{nameId}/$/GetProperty?api-version=6.0.0.1&timeout={timeout}
+  isOptional: true
+uriParameters:
+- name: nameId
+  in: path
+  isRequired: true
+  description: The Service Fabric name, without the 'fabric:' URI scheme.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API. This is a required parameter and it's value must be "6.0".
+  types:
+  - uid: string
+- name: timeout
+  in: query
+  description: The server timeout for performing the operation in seconds. This specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
+  types:
+  - uid: integer
+  format: int64
+responses:
+- name: 200 OK
+  description: A successful response means that the property has been created or updated.
+- name: Other Status Codes
+  description: The detailed error response.
+  types:
+  - uid: FabricError
+requestBody:
+- parameters:
+  - name: PropertyName
+    in: body
+    isRequired: true
+    description: The name of the Service Fabric property.
+    types:
+    - uid: string
+  - name: CustomTypeId
+    in: body
+    description: The property's custom type id. Using this property, the user is able to tag the type of the value of the property.
+    types:
+    - uid: string
+  - name: Value
+    in: body
+    isRequired: true
+    description: Describes a Service Fabric property value.
+    types:
+    - uid: BinaryPropertyValue
+    - uid: Int64PropertyValue
+    - uid: DoublePropertyValue
+    - uid: StringPropertyValue
+    - uid: GuidPropertyValue
+    typesTitle: PropertyValue
+requestHeader: []
+definitions:
+- name: FabricError
+  description: The REST API operations for Service Fabric return standard HTTP status codes. This type defines the additional information returned from the Service Fabric API operations that are not successful.
+  kind: object
+  properties:
+  - name: Error
+    description: Error object containing error code and error message.
+    types:
+    - uid: FabricError_Error
+- name: PropertyDescription
+  description: Description of a Service Fabric property.
+  kind: object
+  properties:
+  - name: PropertyName
+    description: The name of the Service Fabric property.
+    types:
+    - uid: string
+  - name: CustomTypeId
+    description: The property's custom type id. Using this property, the user is able to tag the type of the value of the property.
+    types:
+    - uid: string
+  - name: Value
+    description: Describes a Service Fabric property value.
+    types:
+    - uid: BinaryPropertyValue
+    - uid: Int64PropertyValue
+    - uid: DoublePropertyValue
+    - uid: StringPropertyValue
+    - uid: GuidPropertyValue
+    typesTitle: PropertyValue
+- name: BinaryPropertyValue
+  description: Describes a Service Fabric property value of type Binary.
+  kind: object
+  properties:
+  - name: Data
+    description: Array of bytes to be sent as an integer array. Each element of array is a number between 0 and 255.
+    types:
+    - uid: integer
+      isArray: true
+  - name: Kind
+    description: >-
+      The kind of property, determined by the type of data. Following are the possible values.
+
+
+      - Invalid - Indicates the property is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+
+      - Binary - The data inside the property is a binary blob. The value is 1.
+
+      - Int64 - The data inside the property is an int64. The value is 2.
+
+      - Double - The data inside the property is a double. The value is 3.
+
+      - String - The data inside the property is a wstring. The value is 4.
+
+      - Guid - The data inside the property is a guid. The value is 5.
+    types:
+    - uid: Binary
+    typesTitle: string
+- name: Int64PropertyValue
+  description: Describes a Service Fabric property value of type Int64.
+  kind: object
+  properties:
+  - name: Data
+    description: The data of the property value.
+    types:
+    - uid: string
+  - name: Kind
+    description: >-
+      The kind of property, determined by the type of data. Following are the possible values.
+
+
+      - Invalid - Indicates the property is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+
+      - Binary - The data inside the property is a binary blob. The value is 1.
+
+      - Int64 - The data inside the property is an int64. The value is 2.
+
+      - Double - The data inside the property is a double. The value is 3.
+
+      - String - The data inside the property is a wstring. The value is 4.
+
+      - Guid - The data inside the property is a guid. The value is 5.
+    types:
+    - uid: Int64
+    typesTitle: string
+- name: DoublePropertyValue
+  description: Describes a Service Fabric property value of type Double.
+  kind: object
+  properties:
+  - name: Data
+    description: The data of the property value.
+    types:
+    - uid: number
+  - name: Kind
+    description: >-
+      The kind of property, determined by the type of data. Following are the possible values.
+
+
+      - Invalid - Indicates the property is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+
+      - Binary - The data inside the property is a binary blob. The value is 1.
+
+      - Int64 - The data inside the property is an int64. The value is 2.
+
+      - Double - The data inside the property is a double. The value is 3.
+
+      - String - The data inside the property is a wstring. The value is 4.
+
+      - Guid - The data inside the property is a guid. The value is 5.
+    types:
+    - uid: Double
+    typesTitle: string
+- name: StringPropertyValue
+  description: Describes a Service Fabric property value of type String.
+  kind: object
+  properties:
+  - name: Data
+    description: The data of the property value.
+    types:
+    - uid: string
+  - name: Kind
+    description: >-
+      The kind of property, determined by the type of data. Following are the possible values.
+
+
+      - Invalid - Indicates the property is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+
+      - Binary - The data inside the property is a binary blob. The value is 1.
+
+      - Int64 - The data inside the property is an int64. The value is 2.
+
+      - Double - The data inside the property is a double. The value is 3.
+
+      - String - The data inside the property is a wstring. The value is 4.
+
+      - Guid - The data inside the property is a guid. The value is 5.
+    types:
+    - uid: String
+    typesTitle: string
+- name: GuidPropertyValue
+  description: Describes a Service Fabric property value of type Guid.
+  kind: object
+  properties:
+  - name: Data
+    description: The data of the property value.
+    types:
+    - uid: string
+  - name: Kind
+    description: >-
+      The kind of property, determined by the type of data. Following are the possible values.
+
+
+      - Invalid - Indicates the property is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+
+      - Binary - The data inside the property is a binary blob. The value is 1.
+
+      - Int64 - The data inside the property is an int64. The value is 2.
+
+      - Double - The data inside the property is a double. The value is 3.
+
+      - String - The data inside the property is a wstring. The value is 4.
+
+      - Guid - The data inside the property is a guid. The value is 5.
+    types:
+    - uid: Guid
+    typesTitle: string
+- name: FabricError_Error
+  description: Error object containing error code and error message.
+  kind: object
+  properties:
+  - name: Code
+    description: >-
+      Defines the fabric error codes that be returned as part of the error object in response to Service Fabric API operations that are not successful. Following are the error code values that can be returned for a specific HTTP status code.
+
+        - Possible values of the error code for HTTP status code 400 (Bad Request)
+          - "FABRIC_E_INVALID_PARTITION_KEY"
+          - "FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR"
+          - "FABRIC_E_INVALID_ADDRESS"
+          - "FABRIC_E_APPLICATION_NOT_UPGRADING"
+          - "FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR"
+          - "FABRIC_E_FABRIC_NOT_UPGRADING"
+          - "FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR"
+          - "FABRIC_E_INVALID_CONFIGURATION"
+          - "FABRIC_E_INVALID_NAME_URI"
+          - "FABRIC_E_PATH_TOO_LONG"
+          - "FABRIC_E_KEY_TOO_LARGE"
+          - "FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED"
+          - "FABRIC_E_INVALID_ATOMIC_GROUP"
+          - "FABRIC_E_VALUE_EMPTY"
+
+        - Possible values of the error code for HTTP status code 404 (Not Found)
+          - "FABRIC_E_NODE_NOT_FOUND"
+          - "FABRIC_E_APPLICATION_TYPE_NOT_FOUND"
+          - "FABRIC_E_APPLICATION_NOT_FOUND"
+          - "FABRIC_E_SERVICE_TYPE_NOT_FOUND"
+          - "FABRIC_E_SERVICE_DOES_NOT_EXIST"
+          - "FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND"
+          - "FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND"
+          - "FABRIC_E_PARTITION_NOT_FOUND"
+          - "FABRIC_E_REPLICA_DOES_NOT_EXIST"
+          - "FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST"
+          - "FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND"
+          - "FABRIC_E_DIRECTORY_NOT_FOUND"
+          - "FABRIC_E_FABRIC_VERSION_NOT_FOUND"
+          - "FABRIC_E_FILE_NOT_FOUND"
+          - "FABRIC_E_NAME_DOES_NOT_EXIST"
+          - "FABRIC_E_PROPERTY_DOES_NOT_EXIST"
+          - "FABRIC_E_ENUMERATION_COMPLETED"
+          - "FABRIC_E_SERVICE_MANIFEST_NOT_FOUND"
+          - "FABRIC_E_KEY_NOT_FOUND"
+          - "FABRIC_E_HEALTH_ENTITY_NOT_FOUND"
+
+        - Possible values of the error code for HTTP status code 409 (Conflict)
+          - "FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION"
+          - "FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS"
+          - "FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS"
+          - "FABRIC_E_SERVICE_ALREADY_EXISTS"
+          - "FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_TYPE_IN_USE"
+          - "FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION"
+          - "FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS"
+          - "FABRIC_E_FABRIC_VERSION_IN_USE"
+          - "FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS"
+          - "FABRIC_E_NAME_ALREADY_EXISTS"
+          - "FABRIC_E_NAME_NOT_EMPTY"
+          - "FABRIC_E_PROPERTY_CHECK_FAILED"
+          - "FABRIC_E_SERVICE_METADATA_MISMATCH"
+          - "FABRIC_E_SERVICE_TYPE_MISMATCH"
+          - "FABRIC_E_HEALTH_STALE_REPORT"
+          - "FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED"
+          - "FABRIC_E_NODE_HAS_NOT_STOPPED_YET"
+          - "FABRIC_E_INSTANCE_ID_MISMATCH"
+
+        - Possible values of the error code for HTTP status code 413 (Request Entity Too Large)
+          - "FABRIC_E_VALUE_TOO_LARGE"
+
+        - Possible values of the error code for HTTP status code 500 (Internal Server Error)
+          - "FABRIC_E_NODE_IS_UP"
+
+        - Possible values of the error code for HTTP status code 503 (Service Unavailable)
+          - "FABRIC_E_NO_WRITE_QUORUM"
+          - "FABRIC_E_NOT_PRIMARY"
+          - "FABRIC_E_NOT_READY"
+          - "FABRIC_E_RECONFIGURATION_PENDING"
+          - "FABRIC_E_SERVICE_OFFLINE"
+          - "E_ABORT"
+          - "FABRIC_E_VALUE_TOO_LARGE"
+
+        - Possible values of the error code for HTTP status code 504 (Gateway Timeout)
+          - "FABRIC_E_COMMUNICATION_ERROR"
+          - "FABRIC_E_OPERATION_NOT_COMPLETE"
+          - "FABRIC_E_TIMEOUT"
+    types:
+    - uid: FabricErrorCodes
+  - name: Message
+    description: Error message.
+    types:
+    - uid: string
+- name: PropertyValueKind
+  description: >-
+    The kind of property, determined by the type of data. Following are the possible values.
+
+
+    - Invalid - Indicates the property is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+
+    - Binary - The data inside the property is a binary blob. The value is 1.
+
+    - Int64 - The data inside the property is an int64. The value is 2.
+
+    - Double - The data inside the property is a double. The value is 3.
+
+    - String - The data inside the property is a wstring. The value is 4.
+
+    - Guid - The data inside the property is a guid. The value is 5.
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: Binary
+    types:
+    - uid: string
+  - name: Int64
+    types:
+    - uid: string
+  - name: Double
+    types:
+    - uid: string
+  - name: String
+    types:
+    - uid: string
+  - name: Guid
+    types:
+    - uid: string
+- name: FabricErrorCodes
+  description: >-
+    Defines the fabric error codes that be returned as part of the error object in response to Service Fabric API operations that are not successful. Following are the error code values that can be returned for a specific HTTP status code.
+
+      - Possible values of the error code for HTTP status code 400 (Bad Request)
+        - "FABRIC_E_INVALID_PARTITION_KEY"
+        - "FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR"
+        - "FABRIC_E_INVALID_ADDRESS"
+        - "FABRIC_E_APPLICATION_NOT_UPGRADING"
+        - "FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR"
+        - "FABRIC_E_FABRIC_NOT_UPGRADING"
+        - "FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR"
+        - "FABRIC_E_INVALID_CONFIGURATION"
+        - "FABRIC_E_INVALID_NAME_URI"
+        - "FABRIC_E_PATH_TOO_LONG"
+        - "FABRIC_E_KEY_TOO_LARGE"
+        - "FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED"
+        - "FABRIC_E_INVALID_ATOMIC_GROUP"
+        - "FABRIC_E_VALUE_EMPTY"
+
+      - Possible values of the error code for HTTP status code 404 (Not Found)
+        - "FABRIC_E_NODE_NOT_FOUND"
+        - "FABRIC_E_APPLICATION_TYPE_NOT_FOUND"
+        - "FABRIC_E_APPLICATION_NOT_FOUND"
+        - "FABRIC_E_SERVICE_TYPE_NOT_FOUND"
+        - "FABRIC_E_SERVICE_DOES_NOT_EXIST"
+        - "FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND"
+        - "FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND"
+        - "FABRIC_E_PARTITION_NOT_FOUND"
+        - "FABRIC_E_REPLICA_DOES_NOT_EXIST"
+        - "FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST"
+        - "FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND"
+        - "FABRIC_E_DIRECTORY_NOT_FOUND"
+        - "FABRIC_E_FABRIC_VERSION_NOT_FOUND"
+        - "FABRIC_E_FILE_NOT_FOUND"
+        - "FABRIC_E_NAME_DOES_NOT_EXIST"
+        - "FABRIC_E_PROPERTY_DOES_NOT_EXIST"
+        - "FABRIC_E_ENUMERATION_COMPLETED"
+        - "FABRIC_E_SERVICE_MANIFEST_NOT_FOUND"
+        - "FABRIC_E_KEY_NOT_FOUND"
+        - "FABRIC_E_HEALTH_ENTITY_NOT_FOUND"
+
+      - Possible values of the error code for HTTP status code 409 (Conflict)
+        - "FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION"
+        - "FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS"
+        - "FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS"
+        - "FABRIC_E_SERVICE_ALREADY_EXISTS"
+        - "FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_TYPE_IN_USE"
+        - "FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION"
+        - "FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS"
+        - "FABRIC_E_FABRIC_VERSION_IN_USE"
+        - "FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS"
+        - "FABRIC_E_NAME_ALREADY_EXISTS"
+        - "FABRIC_E_NAME_NOT_EMPTY"
+        - "FABRIC_E_PROPERTY_CHECK_FAILED"
+        - "FABRIC_E_SERVICE_METADATA_MISMATCH"
+        - "FABRIC_E_SERVICE_TYPE_MISMATCH"
+        - "FABRIC_E_HEALTH_STALE_REPORT"
+        - "FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED"
+        - "FABRIC_E_NODE_HAS_NOT_STOPPED_YET"
+        - "FABRIC_E_INSTANCE_ID_MISMATCH"
+
+      - Possible values of the error code for HTTP status code 413 (Request Entity Too Large)
+        - "FABRIC_E_VALUE_TOO_LARGE"
+
+      - Possible values of the error code for HTTP status code 500 (Internal Server Error)
+        - "FABRIC_E_NODE_IS_UP"
+
+      - Possible values of the error code for HTTP status code 503 (Service Unavailable)
+        - "FABRIC_E_NO_WRITE_QUORUM"
+        - "FABRIC_E_NOT_PRIMARY"
+        - "FABRIC_E_NOT_READY"
+        - "FABRIC_E_RECONFIGURATION_PENDING"
+        - "FABRIC_E_SERVICE_OFFLINE"
+        - "E_ABORT"
+        - "FABRIC_E_VALUE_TOO_LARGE"
+
+      - Possible values of the error code for HTTP status code 504 (Gateway Timeout)
+        - "FABRIC_E_COMMUNICATION_ERROR"
+        - "FABRIC_E_OPERATION_NOT_COMPLETE"
+        - "FABRIC_E_TIMEOUT"
+  kind: enum
+  properties:
+  - name: FABRIC_E_INVALID_PARTITION_KEY
+    types:
+    - uid: string
+  - name: FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_ADDRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_NOT_UPGRADING
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_NOT_UPGRADING
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_CONFIGURATION
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_NAME_URI
+    types:
+    - uid: string
+  - name: FABRIC_E_PATH_TOO_LONG
+    types:
+    - uid: string
+  - name: FABRIC_E_KEY_TOO_LARGE
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_ATOMIC_GROUP
+    types:
+    - uid: string
+  - name: FABRIC_E_VALUE_EMPTY
+    types:
+    - uid: string
+  - name: FABRIC_E_NODE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_TYPE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_PARTITION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_REPLICA_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_DIRECTORY_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_VERSION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_FILE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_NAME_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_PROPERTY_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_ENUMERATION_COMPLETED
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_MANIFEST_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_KEY_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_HEALTH_ENTITY_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_IN_USE
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_VERSION_IN_USE
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_NAME_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_NAME_NOT_EMPTY
+    types:
+    - uid: string
+  - name: FABRIC_E_PROPERTY_CHECK_FAILED
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_METADATA_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_TYPE_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_HEALTH_STALE_REPORT
+    types:
+    - uid: string
+  - name: FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED
+    types:
+    - uid: string
+  - name: FABRIC_E_NODE_HAS_NOT_STOPPED_YET
+    types:
+    - uid: string
+  - name: FABRIC_E_INSTANCE_ID_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_VALUE_TOO_LARGE
+    types:
+    - uid: string
+  - name: FABRIC_E_NO_WRITE_QUORUM
+    types:
+    - uid: string
+  - name: FABRIC_E_NOT_PRIMARY
+    types:
+    - uid: string
+  - name: FABRIC_E_NOT_READY
+    types:
+    - uid: string
+  - name: FABRIC_E_RECONFIGURATION_PENDING
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_OFFLINE
+    types:
+    - uid: string
+  - name: E_ABORT
+    types:
+    - uid: string
+  - name: FABRIC_E_COMMUNICATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_OPERATION_NOT_COMPLETE
+    types:
+    - uid: string
+  - name: FABRIC_E_TIMEOUT
+    types:
+    - uid: string
+  - name: FABRIC_E_NODE_IS_UP
+    types:
+    - uid: string
+examples:
+- name: Put property
+  request:
+    uri: PUT http://localhost:19080/Names/samples/apps/CalculatorApp/$/GetProperty?api-version=6.0.0.1
+    body: >-
+      {
+        "PropertyName": "AppData",
+        "Value": {
+          "Kind": "Binary",
+          "Data": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+- name: Put custom property
+  request:
+    uri: PUT http://localhost:19080/Names/samples/apps/CalculatorApp/$/GetProperty?api-version=6.0.0.1
+    body: >-
+      {
+        "PropertyName": "AppData",
+        "Value": {
+          "Kind": "String",
+          "Data": "1+2=3"
+        },
+        "CustomTypeId": "EquationType"
+      }
+  responses:
+  - statusCode: "200"
+security: []
