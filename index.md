@@ -13,7 +13,7 @@ ms.devlang: rest-api
 ms.assetid: D35E3780-B2BC-4450-8EF6-2710A11F99A7
 ---
 
-# Azure REST API Reference Test
+# Azure REST API Reference
 
 Welcome to the Azure REST API Reference.
 
