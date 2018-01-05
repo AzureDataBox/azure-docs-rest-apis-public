@@ -11,7 +11,7 @@ produces:
 - application/json
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}?api-version=2017-03-30
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}?$expand={$expand}&api-version=2017-03-30
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}?$expand=instanceView&api-version=2017-03-30
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -36,7 +36,7 @@ uriParameters:
   in: query
   description: The expand expression to apply on the operation.
   types:
-  - uid: string
+  - uid: InstanceViewTypes
 - name: api-version
   in: query
   isRequired: true
@@ -50,6 +50,13 @@ responses:
   - uid: VirtualMachine
 requestHeader: []
 definitions:
+- name: InstanceViewTypes
+  description: The expand expression to apply on the operation.
+  kind: enum
+  properties:
+  - name: instanceView
+    types:
+    - uid: string
 - name: VirtualMachine
   description: Describes a Virtual Machine.
   kind: object
