@@ -3,15 +3,15 @@ uid: management.azure.com.compute.virtualmachines.get
 name: Get
 service: Compute
 groupName: Virtual Machines
-apiVersion: 2017-03-30
+apiVersion: 2017-12-01
 summary: Retrieves information about the model view or the instance view of a virtual machine.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}?api-version=2017-03-30
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}?$expand=instanceView&api-version=2017-03-30
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}?api-version=2017-12-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}?$expand=instanceView&api-version=2017-12-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -253,18 +253,23 @@ definitions:
   properties:
   - name: principalId
     isReadyOnly: true
-    description: The principal id of virtual machine identity.
+    description: The principal id of virtual machine identity. This property will only be provided for a system assigned identity.
     types:
     - uid: string
   - name: tenantId
     isReadyOnly: true
-    description: The tenant id associated with the virtual machine.
+    description: The tenant id associated with the virtual machine. This property will only be provided for a system assigned identity.
     types:
     - uid: string
   - name: type
-    description: The type of identity used for the virtual machine. Currently, the only supported type is 'SystemAssigned', which implicitly creates an identity.
+    description: The type of identity used for the virtual machine. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine.
     types:
     - uid: ResourceIdentityType
+  - name: identityIds
+    description: "The list of user identities associated with the Virtual Machine. The user identity references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/identities/{identityName}'."
+    types:
+    - uid: string
+      isArray: true
 - name: HardwareProfile
   description: Specifies the hardware settings for the virtual machine.
   kind: object
@@ -410,10 +415,19 @@ definitions:
     - uid: InstanceViewStatus
       isArray: true
 - name: ResourceIdentityType
-  description: The type of identity used for the virtual machine. Currently, the only supported type is 'SystemAssigned', which implicitly creates an identity.
+  description: The type of identity used for the virtual machine. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine.
   kind: enum
   properties:
   - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+  - name: SystemAssigned, UserAssigned
+    types:
+    - uid: string
+  - name: None
     types:
     - uid: string
 - name: VirtualMachineSizeTypes
@@ -1144,6 +1158,10 @@ definitions:
     types:
     - uid: VirtualMachineScaleSetIPConfiguration
       isArray: true
+  - name: properties.enableIPForwarding
+    description: Whether IP forwarding enabled on this NIC.
+    types:
+    - uid: boolean
   - name: id
     description: Resource Id
     types:
@@ -1186,6 +1204,10 @@ definitions:
     types:
     - uid: VirtualMachineScaleSetUpdateIPConfiguration
       isArray: true
+  - name: properties.enableIPForwarding
+    description: Whether IP forwarding enabled on this NIC.
+    types:
+    - uid: boolean
   - name: id
     description: Resource Id
     types:

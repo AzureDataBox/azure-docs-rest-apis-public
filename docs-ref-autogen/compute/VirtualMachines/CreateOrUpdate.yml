@@ -3,14 +3,14 @@ uid: management.azure.com.compute.virtualmachines.createorupdate
 name: Create Or Update
 service: Compute
 groupName: Virtual Machines
-apiVersion: 2017-03-30
+apiVersion: 2017-12-01
 summary: The operation to create or update a virtual machine.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}?api-version=2017-03-30
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}?api-version=2017-12-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -218,18 +218,23 @@ definitions:
   properties:
   - name: principalId
     isReadyOnly: true
-    description: The principal id of virtual machine identity.
+    description: The principal id of virtual machine identity. This property will only be provided for a system assigned identity.
     types:
     - uid: string
   - name: tenantId
     isReadyOnly: true
-    description: The tenant id associated with the virtual machine.
+    description: The tenant id associated with the virtual machine. This property will only be provided for a system assigned identity.
     types:
     - uid: string
   - name: type
-    description: The type of identity used for the virtual machine. Currently, the only supported type is 'SystemAssigned', which implicitly creates an identity.
+    description: The type of identity used for the virtual machine. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine.
     types:
     - uid: ResourceIdentityType
+  - name: identityIds
+    description: "The list of user identities associated with the Virtual Machine. The user identity references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/identities/{identityName}'."
+    types:
+    - uid: string
+      isArray: true
 - name: HardwareProfile
   description: Specifies the hardware settings for the virtual machine.
   kind: object
@@ -477,10 +482,19 @@ definitions:
     - uid: InstanceViewStatus
       isArray: true
 - name: ResourceIdentityType
-  description: The type of identity used for the virtual machine. Currently, the only supported type is 'SystemAssigned', which implicitly creates an identity.
+  description: The type of identity used for the virtual machine. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine.
   kind: enum
   properties:
   - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+  - name: SystemAssigned, UserAssigned
+    types:
+    - uid: string
+  - name: None
     types:
     - uid: string
 - name: VirtualMachineSizeTypes
@@ -1211,6 +1225,10 @@ definitions:
     types:
     - uid: VirtualMachineScaleSetIPConfiguration
       isArray: true
+  - name: properties.enableIPForwarding
+    description: Whether IP forwarding enabled on this NIC.
+    types:
+    - uid: boolean
   - name: id
     description: Resource Id
     types:
@@ -1253,6 +1271,10 @@ definitions:
     types:
     - uid: VirtualMachineScaleSetUpdateIPConfiguration
       isArray: true
+  - name: properties.enableIPForwarding
+    description: Whether IP forwarding enabled on this NIC.
+    types:
+    - uid: boolean
   - name: id
     description: Resource Id
     types:
@@ -1766,7 +1788,7 @@ definitions:
 examples:
 - name: Create a vm with password authentication.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2017-03-30
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2017-12-01
     body: >-
       {
         "location": "westus",
@@ -1915,7 +1937,7 @@ examples:
       }
 - name: Create a vm with ssh authentication.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2017-03-30
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2017-12-01
     body: >-
       {
         "location": "westus",
@@ -2088,7 +2110,7 @@ examples:
       }
 - name: Create a vm with premium storage.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2017-03-30
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2017-12-01
     body: >-
       {
         "location": "westus",
@@ -2237,7 +2259,7 @@ examples:
       }
 - name: Create a vm in an availability set.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2017-03-30
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2017-12-01
     body: >-
       {
         "location": "westus",
@@ -2395,7 +2417,7 @@ examples:
       }
 - name: Create a vm with boot diagnostics.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2017-03-30
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2017-12-01
     body: >-
       {
         "location": "westus",
@@ -2562,7 +2584,7 @@ examples:
       }
 - name: Create a vm with empty data disks.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2017-03-30
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2017-12-01
     body: >-
       {
         "location": "westus",
@@ -2761,7 +2783,7 @@ examples:
       }
 - name: Create a vm with a marketplace image plan.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2017-03-30
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2017-12-01
     body: >-
       {
         "location": "westus",
@@ -2925,7 +2947,7 @@ examples:
       }
 - name: Create a vm from a custom image.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2017-03-30
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2017-12-01
     body: >-
       {
         "location": "westus",
@@ -3065,7 +3087,7 @@ examples:
       }
 - name: Create a platform-image vm with unmanaged os and data disks.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/{vm-name}?api-version=2017-03-30
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/{vm-name}?api-version=2017-12-01
     body: >-
       {
         "location": "westus",
@@ -3274,7 +3296,7 @@ examples:
       }
 - name: Create a custom-image vm from an unmanaged generalized os image.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/{vm-name}?api-version=2017-03-30
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/{vm-name}?api-version=2017-12-01
     body: >-
       {
         "location": "westus",

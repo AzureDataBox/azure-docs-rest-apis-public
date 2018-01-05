@@ -3,14 +3,14 @@ uid: management.azure.com.compute.resourceskus.list
 name: List
 service: Compute
 groupName: Resource Skus
-apiVersion: 2017-03-30
+apiVersion: 2017-09-01
 summary: Gets the list of Microsoft.Compute SKUs available for your Subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/skus?api-version=2017-03-30
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/skus?api-version=2017-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -89,6 +89,12 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: locationInfo
+    isReadyOnly: true
+    description: A list of locations and availability zones in those locations where the SKU is available.
+    types:
+    - uid: ResourceSkuLocationInfo
+      isArray: true
   - name: apiVersions
     isReadyOnly: true
     description: The api versions that support this SKU.
@@ -137,6 +143,21 @@ definitions:
     description: The scale type applicable to the sku.
     types:
     - uid: ResourceSkuCapacityScaleType
+- name: ResourceSkuLocationInfo
+  description: A list of locations and availability zones in those locations where the SKU is available.
+  kind: object
+  properties:
+  - name: location
+    isReadyOnly: true
+    description: Location of the SKU
+    types:
+    - uid: string
+  - name: zones
+    isReadyOnly: true
+    description: List of availability zones where the SKU is supported.
+    types:
+    - uid: string
+      isArray: true
 - name: ResourceSkuCosts
   description: Describes metadata for retrieving price info.
   kind: object
@@ -185,6 +206,11 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: restrictionInfo
+    isReadyOnly: true
+    description: The information about the restriction where the SKU cannot be used.
+    types:
+    - uid: ResourceSkuRestrictionInfo
   - name: reasonCode
     isReadyOnly: true
     description: The reason for restriction.
@@ -210,6 +236,25 @@ definitions:
   - name: Location
     types:
     - uid: string
+  - name: Zone
+    types:
+    - uid: string
+- name: ResourceSkuRestrictionInfo
+  description: The information about the restriction where the SKU cannot be used.
+  kind: object
+  properties:
+  - name: locations
+    isReadyOnly: true
+    description: Locations where the SKU is restricted
+    types:
+    - uid: string
+      isArray: true
+  - name: zones
+    isReadyOnly: true
+    description: List of availability zones where the SKU is restricted.
+    types:
+    - uid: string
+      isArray: true
 - name: ResourceSkuRestrictionsReasonCode
   description: The reason for restriction.
   kind: enum

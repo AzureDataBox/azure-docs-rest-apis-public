@@ -3,14 +3,14 @@ uid: management.azure.com.compute.virtualmachinescalesets.update
 name: Update
 service: Compute
 groupName: Virtual Machine Scale Sets
-apiVersion: 2017-03-30
+apiVersion: 2017-12-01
 summary: Update a VM scale set.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}?api-version=2017-03-30
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}?api-version=2017-12-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -131,18 +131,23 @@ definitions:
   properties:
   - name: principalId
     isReadyOnly: true
-    description: The principal id of virtual machine scale set identity.
+    description: The principal id of virtual machine scale set identity. This property will only be provided for a system assigned identity.
     types:
     - uid: string
   - name: tenantId
     isReadyOnly: true
-    description: The tenant id associated with the virtual machine scale set.
+    description: The tenant id associated with the virtual machine scale set. This property will only be provided for a system assigned identity.
     types:
     - uid: string
   - name: type
-    description: The type of identity used for the virtual machine scale set. Currently, the only supported type is 'SystemAssigned', which implicitly creates an identity.
+    description: The type of identity used for the virtual machine scale set. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine scale set.
     types:
     - uid: ResourceIdentityType
+  - name: identityIds
+    description: "The list of user identities associated with the virtual machine scale set. The user identity references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/identities/{identityName}'."
+    types:
+    - uid: string
+      isArray: true
 - name: UpgradePolicy
   description: Describes an upgrade policy - automatic, manual, or rolling.
   kind: object
@@ -302,10 +307,19 @@ definitions:
       - uid: string
       - uid: string
 - name: ResourceIdentityType
-  description: The type of identity used for the virtual machine. Currently, the only supported type is 'SystemAssigned', which implicitly creates an identity.
+  description: The type of identity used for the virtual machine. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine.
   kind: enum
   properties:
   - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+  - name: SystemAssigned, UserAssigned
+    types:
+    - uid: string
+  - name: None
     types:
     - uid: string
 - name: UpgradeMode
@@ -603,6 +617,10 @@ definitions:
     types:
     - uid: VirtualMachineScaleSetUpdateIPConfiguration
       isArray: true
+  - name: properties.enableIPForwarding
+    description: Whether IP forwarding enabled on this NIC.
+    types:
+    - uid: boolean
   - name: id
     description: Resource Id
     types:
@@ -1002,6 +1020,10 @@ definitions:
     types:
     - uid: VirtualMachineScaleSetIPConfiguration
       isArray: true
+  - name: properties.enableIPForwarding
+    description: Whether IP forwarding enabled on this NIC.
+    types:
+    - uid: boolean
   - name: id
     description: Resource Id
     types:
