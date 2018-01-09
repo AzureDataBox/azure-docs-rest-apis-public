@@ -10,7 +10,7 @@ consumes:
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}?api-version=2017-03-30
+- content: GET management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}?api-version=2017-03-30
 uriParameters:
 - name: subscriptionId
   in: path
@@ -49,60 +49,60 @@ definitions:
   properties:
   - name: managedBy
     isReadyOnly: true
-    description: Unused. Always Null.
+    description: "  \nUnused. Always Null."
     types:
     - uid: string
   - name: sku
-    description: The disks and snapshots sku name. Can be Standard_LRS or Premium_LRS.
+    description: "  \nThe disks and snapshots sku name. Can be Standard_LRS or Premium_LRS."
     types:
     - uid: DiskSku
   - name: properties.timeCreated
     isReadyOnly: true
-    description: The time when the disk was created.
+    description: "  \nThe time when the disk was created."
     types:
     - uid: string
   - name: properties.osType
-    description: The Operating System type.
+    description: "  \nThe Operating System type."
     types:
     - uid: OperatingSystemTypes
   - name: properties.creationData
-    description: Disk source information. CreationData information cannot be changed after the disk has been created.
+    description: "  \nDisk source information. CreationData information cannot be changed after the disk has been created."
     types:
     - uid: CreationData
   - name: properties.diskSizeGB
-    description: If creationData.createOption is Empty, this field is mandatory and it indicates the size of the VHD to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size.
+    description: "  \nIf creationData.createOption is Empty, this field is mandatory and it indicates the size of the VHD to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size."
     types:
     - uid: integer
   - name: properties.encryptionSettings
-    description: Encryption settings for disk or snapshot
+    description: "  \nEncryption settings for disk or snapshot"
     types:
     - uid: EncryptionSettings
   - name: properties.provisioningState
     isReadyOnly: true
-    description: The disk provisioning state.
+    description: "  \nThe disk provisioning state."
     types:
     - uid: string
   - name: id
     isReadyOnly: true
-    description: Resource Id
+    description: "  \nResource Id"
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: Resource name
+    description: "  \nResource name"
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: Resource type
+    description: "  \nResource type"
     types:
     - uid: string
   - name: location
-    description: Resource location
+    description: "  \nResource location"
     types:
     - uid: string
   - name: tags
-    description: Resource tags
+    description: "  \nResource tags"
     types:
     - uid: object
       isDictionary: true
@@ -114,12 +114,12 @@ definitions:
   kind: object
   properties:
   - name: name
-    description: The sku name.
+    description: "  \nThe sku name."
     types:
     - uid: StorageAccountTypes
   - name: tier
     isReadyOnly: true
-    description: The sku tier.
+    description: "  \nThe sku tier."
     types:
     - uid: string
 - name: OperatingSystemTypes
@@ -137,23 +137,23 @@ definitions:
   kind: object
   properties:
   - name: createOption
-    description: This enumerates the possible sources of a disk's creation.
+    description: "  \nThis enumerates the possible sources of a disk's creation."
     types:
     - uid: DiskCreateOption
   - name: storageAccountId
-    description: If createOption is Import, the Azure Resource Manager identifier of the storage account containing the blob to import as a disk. Required only if the blob is in a different subscription
+    description: "  \nIf createOption is Import, the Azure Resource Manager identifier of the storage account containing the blob to import as a disk. Required only if the blob is in a different subscription"
     types:
     - uid: string
   - name: imageReference
-    description: Disk source information.
+    description: "  \nDisk source information."
     types:
     - uid: ImageDiskReference
   - name: sourceUri
-    description: If createOption is Import, this is the URI of a blob to be imported into a managed disk.
+    description: "  \nIf createOption is Import, this is the URI of a blob to be imported into a managed disk."
     types:
     - uid: string
   - name: sourceResourceId
-    description: If createOption is Copy, this is the ARM id of the source snapshot or disk.
+    description: "  \nIf createOption is Copy, this is the ARM id of the source snapshot or disk."
     types:
     - uid: string
 - name: EncryptionSettings
@@ -161,15 +161,15 @@ definitions:
   kind: object
   properties:
   - name: enabled
-    description: Set this flag to true and provide DiskEncryptionKey and optional KeyEncryptionKey to enable encryption. Set this flag to false and remove DiskEncryptionKey and KeyEncryptionKey to disable encryption. If EncryptionSettings is null in the request object, the existing settings remain unchanged.
+    description: "  \nSet this flag to true and provide DiskEncryptionKey and optional KeyEncryptionKey to enable encryption. Set this flag to false and remove DiskEncryptionKey and KeyEncryptionKey to disable encryption. If EncryptionSettings is null in the request object, the existing settings remain unchanged."
     types:
     - uid: boolean
   - name: diskEncryptionKey
-    description: Key Vault Secret Url and vault id of the disk encryption key
+    description: "  \nKey Vault Secret Url and vault id of the disk encryption key"
     types:
     - uid: KeyVaultAndSecretReference
   - name: keyEncryptionKey
-    description: Key Vault Key Url and vault id of the key encryption key
+    description: "  \nKey Vault Key Url and vault id of the key encryption key"
     types:
     - uid: KeyVaultAndKeyReference
 - name: StorageAccountTypes
@@ -206,11 +206,11 @@ definitions:
   kind: object
   properties:
   - name: id
-    description: A relative uri containing either a Platform Imgage Repository or user image reference.
+    description: "  \nA relative uri containing either a Platform Imgage Repository or user image reference."
     types:
     - uid: string
   - name: lun
-    description: If the disk is created from an image's data disk, this is an index that indicates which of the data disks in the image to use. For OS disks, this field is null.
+    description: "  \nIf the disk is created from an image's data disk, this is an index that indicates which of the data disks in the image to use. For OS disks, this field is null."
     types:
     - uid: integer
 - name: KeyVaultAndSecretReference
@@ -218,11 +218,11 @@ definitions:
   kind: object
   properties:
   - name: sourceVault
-    description: Resource id of the KeyVault containing the key or secret
+    description: "  \nResource id of the KeyVault containing the key or secret"
     types:
     - uid: SourceVault
   - name: secretUrl
-    description: Url pointing to a key or secret in KeyVault
+    description: "  \nUrl pointing to a key or secret in KeyVault"
     types:
     - uid: string
 - name: KeyVaultAndKeyReference
@@ -230,11 +230,11 @@ definitions:
   kind: object
   properties:
   - name: sourceVault
-    description: Resource id of the KeyVault containing the key or secret
+    description: "  \nResource id of the KeyVault containing the key or secret"
     types:
     - uid: SourceVault
   - name: keyUrl
-    description: Url pointing to a key or secret in KeyVault
+    description: "  \nUrl pointing to a key or secret in KeyVault"
     types:
     - uid: string
 - name: SourceVault
@@ -242,7 +242,7 @@ definitions:
   kind: object
   properties:
   - name: id
-    description: Resource Id
+    description: "  \nResource Id"
     types:
     - uid: string
 examples: []

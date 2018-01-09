@@ -10,7 +10,7 @@ consumes:
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/{scope}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}?api-version=2017-06-15-preview
+- content: PATCH management.azure.com/{scope}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}?api-version=2017-06-15-preview
 uriParameters:
 - name: scope
   in: path
@@ -46,17 +46,17 @@ requestBody:
 - parameters:
   - name: destination
     in: body
-    description: Information about the destination where events have to be delivered for the event subscription.
+    description: "  \nInformation about the destination where events have to be delivered for the event subscription."
     types:
     - uid: EventSubscriptionDestination
   - name: filter
     in: body
-    description: Information about the filter for the event subscription.
+    description: "  \nInformation about the filter for the event subscription."
     types:
     - uid: EventSubscriptionFilter
   - name: labels
     in: body
-    description: List of user defined labels.
+    description: "  "
     types:
     - uid: string
       isArray: true
@@ -67,16 +67,16 @@ definitions:
   kind: object
   properties:
   - name: endpointType
-    description: Type of the endpoint for the event subscription destination
+    description: "  \nType of the endpoint for the event subscription destination"
     types:
     - uid: EndpointType
   - name: properties.endpointUrl
-    description: The URL that represents the endpoint of the destination of an event subscription.
+    description: "  \nThe URL that represents the endpoint of the destination of an event subscription."
     types:
     - uid: string
   - name: properties.endpointBaseUrl
     isReadyOnly: true
-    description: The base URL that represents the endpoint of the destination of an event subscription.
+    description: "  \nThe base URL that represents the endpoint of the destination of an event subscription."
     types:
     - uid: string
 - name: EventSubscriptionFilter
@@ -84,23 +84,20 @@ definitions:
   kind: object
   properties:
   - name: subjectBeginsWith
-    description: "An optional string to filter events for an event subscription based on a resource path prefix.\nThe format of this depends on the publisher of the events. \nWildcard characters are not supported in this path."
+    description: "  \nAn optional string to filter events for an event subscription based on a resource path prefix.\nThe format of this depends on the publisher of the events. \nWildcard characters are not supported in this path."
     types:
     - uid: string
   - name: subjectEndsWith
-    description: >-
-      An optional string to filter events for an event subscription based on a resource path suffix.
-
-      Wildcard characters are not supported in this path.
+    description: "  \nAn optional string to filter events for an event subscription based on a resource path suffix.\nWildcard characters are not supported in this path."
     types:
     - uid: string
   - name: includedEventTypes
-    description: "A list of applicable event types that need to be part of the event subscription. \nIf it is desired to subscribe to all event types, the string \"all\" needs to be specified as an element in this list."
+    description: "  "
     types:
     - uid: string
       isArray: true
   - name: isSubjectCaseSensitive
-    description: "Specifies if the SubjectBeginsWith and SubjectEndsWith properties of the filter \nshould be compared in a case sensitive manner."
+    description: "  \nSpecifies if the SubjectBeginsWith and SubjectEndsWith properties of the filter \nshould be compared in a case sensitive manner."
     types:
     - uid: boolean
 - name: EventSubscription
@@ -109,40 +106,40 @@ definitions:
   properties:
   - name: properties.topic
     isReadyOnly: true
-    description: Name of the topic of the event subscription.
+    description: "  \nName of the topic of the event subscription."
     types:
     - uid: string
   - name: properties.provisioningState
     isReadyOnly: true
-    description: Provisioning state of the event subscription.
+    description: "  \nProvisioning state of the event subscription."
     types:
     - uid: EventSubscriptionProvisioningState
   - name: properties.destination
-    description: Information about the destination where events have to be delivered for the event subscription.
+    description: "  \nInformation about the destination where events have to be delivered for the event subscription."
     types:
     - uid: EventSubscriptionDestination
   - name: properties.filter
-    description: Information about the filter for the event subscription.
+    description: "  \nInformation about the filter for the event subscription."
     types:
     - uid: EventSubscriptionFilter
   - name: properties.labels
-    description: List of user defined labels.
+    description: "  "
     types:
     - uid: string
       isArray: true
   - name: id
     isReadyOnly: true
-    description: Fully qualified identifier of the resource
+    description: "  \nFully qualified identifier of the resource"
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: Name of the resource
+    description: "  \nName of the resource"
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: Type of the resource
+    description: "  \nType of the resource"
     types:
     - uid: string
 - name: EventSubscriptionUpdateParameters
@@ -150,15 +147,15 @@ definitions:
   kind: object
   properties:
   - name: destination
-    description: Information about the destination where events have to be delivered for the event subscription.
+    description: "  \nInformation about the destination where events have to be delivered for the event subscription."
     types:
     - uid: EventSubscriptionDestination
   - name: filter
-    description: Information about the filter for the event subscription.
+    description: "  \nInformation about the filter for the event subscription."
     types:
     - uid: EventSubscriptionFilter
   - name: labels
-    description: List of user defined labels.
+    description: "  "
     types:
     - uid: string
       isArray: true
@@ -194,7 +191,7 @@ definitions:
 examples:
 - name: EventSubscriptions_UpdateForSubscription
   request:
-    uri: PATCH https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription3?api-version=2017-06-15-preview
+    uri: PATCH management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription3?api-version=2017-06-15-preview
     body: >-
       {
         "destination": {
@@ -242,7 +239,7 @@ examples:
       }
 - name: EventSubscriptions_UpdateForResourceGroup
   request:
-    uri: PATCH https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription2?api-version=2017-06-15-preview
+    uri: PATCH management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription2?api-version=2017-06-15-preview
     body: >-
       {
         "destination": {
@@ -290,7 +287,7 @@ examples:
       }
 - name: EventSubscriptions_UpdateForResource
   request:
-    uri: PATCH https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventHub/namespaces/examplenamespace1/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription1?api-version=2017-06-15-preview
+    uri: PATCH management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventHub/namespaces/examplenamespace1/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription1?api-version=2017-06-15-preview
     body: >-
       {
         "destination": {
@@ -338,7 +335,7 @@ examples:
       }
 - name: EventSubscriptions_UpdateForCustomTopic
   request:
-    uri: PATCH https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription1?api-version=2017-06-15-preview
+    uri: PATCH management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription1?api-version=2017-06-15-preview
     body: >-
       {
         "destination": {

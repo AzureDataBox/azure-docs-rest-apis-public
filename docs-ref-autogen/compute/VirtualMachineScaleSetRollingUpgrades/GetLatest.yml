@@ -10,7 +10,7 @@ consumes:
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/rollingUpgrades/latest?api-version=2017-12-01
+- content: GET management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/rollingUpgrades/latest?api-version=2017-12-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -49,45 +49,45 @@ definitions:
   properties:
   - name: properties.policy
     isReadyOnly: true
-    description: The rolling upgrade policies applied for this upgrade.
+    description: "  \nThe rolling upgrade policies applied for this upgrade."
     types:
     - uid: RollingUpgradePolicy
   - name: properties.runningStatus
     isReadyOnly: true
-    description: Information about the current running state of the overall upgrade.
+    description: "  \nInformation about the current running state of the overall upgrade."
     types:
     - uid: RollingUpgradeRunningStatus
   - name: properties.progress
     isReadyOnly: true
-    description: Information about the number of virtual machine instances in each upgrade state.
+    description: "  \nInformation about the number of virtual machine instances in each upgrade state."
     types:
     - uid: RollingUpgradeProgressInfo
   - name: properties.error
     isReadyOnly: true
-    description: Error details for this upgrade, if there are any.
+    description: "  \nError details for this upgrade, if there are any."
     types:
     - uid: ApiError
   - name: id
     isReadyOnly: true
-    description: Resource Id
+    description: "  \nResource Id"
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: Resource name
+    description: "  \nResource name"
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: Resource type
+    description: "  \nResource type"
     types:
     - uid: string
   - name: location
-    description: Resource location
+    description: "  \nResource location"
     types:
     - uid: string
   - name: tags
-    description: Resource tags
+    description: "  \nResource tags"
     types:
     - uid: object
       isDictionary: true
@@ -99,19 +99,19 @@ definitions:
   kind: object
   properties:
   - name: maxBatchInstancePercent
-    description: The maximum percent of total virtual machine instances that will be upgraded simultaneously by the rolling upgrade in one batch. As this is a maximum, unhealthy instances in previous or future batches can cause the percentage of instances in a batch to decrease to ensure higher reliability. The default value for this parameter is 20%.
+    description: "  \nThe maximum percent of total virtual machine instances that will be upgraded simultaneously by the rolling upgrade in one batch. As this is a maximum, unhealthy instances in previous or future batches can cause the percentage of instances in a batch to decrease to ensure higher reliability. The default value for this parameter is 20%."
     types:
     - uid: integer
   - name: maxUnhealthyInstancePercent
-    description: The maximum percentage of the total virtual machine instances in the scale set that can be simultaneously unhealthy, either as a result of being upgraded, or by being found in an unhealthy state by the virtual machine health checks before the rolling upgrade aborts. This constraint will be checked prior to starting any batch. The default value for this parameter is 20%.
+    description: "  \nThe maximum percentage of the total virtual machine instances in the scale set that can be simultaneously unhealthy, either as a result of being upgraded, or by being found in an unhealthy state by the virtual machine health checks before the rolling upgrade aborts. This constraint will be checked prior to starting any batch. The default value for this parameter is 20%."
     types:
     - uid: integer
   - name: maxUnhealthyUpgradedInstancePercent
-    description: The maximum percentage of upgraded virtual machine instances that can be found to be in an unhealthy state. This check will happen after each batch is upgraded. If this percentage is ever exceeded, the rolling update aborts. The default value for this parameter is 20%.
+    description: "  \nThe maximum percentage of upgraded virtual machine instances that can be found to be in an unhealthy state. This check will happen after each batch is upgraded. If this percentage is ever exceeded, the rolling update aborts. The default value for this parameter is 20%."
     types:
     - uid: integer
   - name: pauseTimeBetweenBatches
-    description: The wait time between completing the update for all virtual machines in one batch and starting the next batch. The time duration should be specified in ISO 8601 format. The default value is 0 seconds (PT0S).
+    description: "  \nThe wait time between completing the update for all virtual machines in one batch and starting the next batch. The time duration should be specified in ISO 8601 format. The default value is 0 seconds (PT0S)."
     types:
     - uid: string
 - name: RollingUpgradeRunningStatus
@@ -120,22 +120,22 @@ definitions:
   properties:
   - name: code
     isReadyOnly: true
-    description: Code indicating the current status of the upgrade.
+    description: "  \nCode indicating the current status of the upgrade."
     types:
     - uid: RollingUpgradeStatusCode
   - name: startTime
     isReadyOnly: true
-    description: Start time of the upgrade.
+    description: "  \nStart time of the upgrade."
     types:
     - uid: string
   - name: lastAction
     isReadyOnly: true
-    description: The last action performed on the rolling upgrade.
+    description: "  \nThe last action performed on the rolling upgrade."
     types:
     - uid: RollingUpgradeActionType
   - name: lastActionTime
     isReadyOnly: true
-    description: Last action time of the upgrade.
+    description: "  \nLast action time of the upgrade."
     types:
     - uid: string
 - name: RollingUpgradeProgressInfo
@@ -144,22 +144,22 @@ definitions:
   properties:
   - name: successfulInstanceCount
     isReadyOnly: true
-    description: The number of instances that have been successfully upgraded.
+    description: "  \nThe number of instances that have been successfully upgraded."
     types:
     - uid: integer
   - name: failedInstanceCount
     isReadyOnly: true
-    description: The number of instances that have failed to be upgraded successfully.
+    description: "  \nThe number of instances that have failed to be upgraded successfully."
     types:
     - uid: integer
   - name: inProgressInstanceCount
     isReadyOnly: true
-    description: The number of instances that are currently being upgraded.
+    description: "  \nThe number of instances that are currently being upgraded."
     types:
     - uid: integer
   - name: pendingInstanceCount
     isReadyOnly: true
-    description: The number of instances that have not yet begun to be upgraded.
+    description: "  \nThe number of instances that have not yet begun to be upgraded."
     types:
     - uid: integer
 - name: ApiError
@@ -167,24 +167,24 @@ definitions:
   kind: object
   properties:
   - name: details
-    description: Api error base.
+    description: "  \nApi error base."
     types:
     - uid: ApiErrorBase
       isArray: true
   - name: innererror
-    description: The Api inner error
+    description: "  \nThe Api inner error"
     types:
     - uid: InnerError
   - name: code
-    description: The error code.
+    description: "  \nThe error code."
     types:
     - uid: string
   - name: target
-    description: The target of the particular error.
+    description: "  \nThe target of the particular error."
     types:
     - uid: string
   - name: message
-    description: The error message.
+    description: "  \nThe error message."
     types:
     - uid: string
 - name: RollingUpgradeStatusCode
@@ -218,15 +218,15 @@ definitions:
   kind: object
   properties:
   - name: code
-    description: The error code.
+    description: "  \nThe error code."
     types:
     - uid: string
   - name: target
-    description: The target of the particular error.
+    description: "  \nThe target of the particular error."
     types:
     - uid: string
   - name: message
-    description: The error message.
+    description: "  \nThe error message."
     types:
     - uid: string
 - name: InnerError
@@ -234,11 +234,11 @@ definitions:
   kind: object
   properties:
   - name: exceptiontype
-    description: The exception type.
+    description: "  \nThe exception type."
     types:
     - uid: string
   - name: errordetail
-    description: The internal error message or exception dump.
+    description: "  \nThe internal error message or exception dump."
     types:
     - uid: string
 examples: []
