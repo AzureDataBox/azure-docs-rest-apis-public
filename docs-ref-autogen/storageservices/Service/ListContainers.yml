@@ -1,0 +1,210 @@
+### YamlMime:RESTOperation
+uid: storageservices.service.listcontainers
+name: List Containers
+service: Storage Services
+groupName: Service
+apiVersion: 2016-05-31
+summary: The List Containers operation returns a list of the containers under the specified account
+consumes:
+- application/xml
+- application/octet-stream
+- text/plain
+produces:
+- application/xml
+- application/octet-stream
+- text/plain
+paths:
+- content: GET https://{accountUrl}/?comp=appendblock
+- content: GET https://{accountUrl}/?prefix={prefix}&marker={marker}&maxresults={maxresults}&include=metadata&timeout={timeout}&comp=appendblock
+  isOptional: true
+uriParameters:
+- name: accountUrl
+  in: path
+  isRequired: true
+  description: The Azure storage account to use.
+  types:
+  - uid: string
+- name: prefix
+  in: query
+  description: Filters the results to return only containers whose name begins with the specified prefix.
+  types:
+  - uid: string
+- name: marker
+  in: query
+  description: A string value that identifies the portion of the list of containers to be returned with the next listing operation. The operation returns the NextMarker value within the response body if the listing operation did not return all containers remaining to be listed with the current page. The NextMarker value can be used as the value for the marker parameter in a subsequent call to request the next page of list items. The marker value is opaque to the client.
+  types:
+  - uid: string
+- name: maxresults
+  in: query
+  description: Specifies the maximum number of containers to return. If the request does not specify maxresults, or specifies a value greater than 5000, the server will return up to 5000 items. Note that if the listing operation crosses a partition boundary, then the service will return a continuation token for retrieving the remainder of the results. For this reason, it is possible that the service will return fewer results than specified by maxresults, or than the default of 5000.
+  types:
+  - uid: integer
+- name: include
+  in: query
+  description: Include this parameter to specify that the container's metadata be returned as part of the response body.
+  types:
+  - uid: ListContainersIncludeType
+- name: timeout
+  in: query
+  description: The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a>
+  types:
+  - uid: integer
+- name: comp
+  in: query
+  isRequired: true
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  headers:
+  - name: x-ms-request-id
+    value: string
+  - name: x-ms-version
+    value: string
+  description: Success.
+  types:
+  - uid: ListContainersResponse
+requestHeader:
+- name: x-ms-version
+  in: header
+  isRequired: true
+  description: Specifies the version of the operation to use for this request.
+  types:
+  - uid: string
+- name: x-ms-client-request-id
+  in: header
+  description: Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled.
+  types:
+  - uid: string
+definitions:
+- name: ListContainersIncludeType
+  description: Include this parameter to specify that the container's metadata be returned as part of the response body.
+  kind: enum
+  properties:
+  - name: metadata
+    types:
+    - uid: string
+- name: ListContainersResponse
+  description: An enumeration of containers
+  kind: object
+  properties:
+  - name: ServiceEndpoint
+    description: "  "
+    types:
+    - uid: string
+  - name: Prefix
+    description: "  "
+    types:
+    - uid: string
+  - name: Marker
+    description: "  "
+    types:
+    - uid: string
+  - name: MaxResults
+    description: "  "
+    types:
+    - uid: integer
+  - name: Containers
+    description: "  \nAn Azure Storage container"
+    types:
+    - uid: Container
+      isArray: true
+  - name: NextMarker
+    description: "  "
+    types:
+    - uid: string
+- name: Container
+  description: An Azure Storage container
+  kind: object
+  properties:
+  - name: Name
+    description: "  "
+    types:
+    - uid: string
+  - name: Properties
+    description: "  \nProperties of a container"
+    types:
+    - uid: ContainerProperties
+  - name: Metadata
+    description: "  "
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ContainerProperties
+  description: Properties of a container
+  kind: object
+  properties:
+  - name: Last-Modified
+    description: "  "
+    types:
+    - uid: string
+  - name: Etag
+    description: "  "
+    types:
+    - uid: string
+  - name: LeaseStatus
+    description: "  "
+    types:
+    - uid: LeaseStatusType
+  - name: LeaseState
+    description: "  "
+    types:
+    - uid: LeaseStateType
+  - name: LeaseDuration
+    description: "  "
+    types:
+    - uid: LeaseDurationType
+  - name: PublicAccess
+    description: "  "
+    types:
+    - uid: PublicAccessType
+- name: LeaseStatusType
+  kind: enum
+  properties:
+  - name: locked
+    types:
+    - uid: string
+  - name: unlocked
+    types:
+    - uid: string
+- name: LeaseStateType
+  kind: enum
+  properties:
+  - name: available
+    types:
+    - uid: string
+  - name: leased
+    types:
+    - uid: string
+  - name: expired
+    types:
+    - uid: string
+  - name: breaking
+    types:
+    - uid: string
+  - name: broken
+    types:
+    - uid: string
+- name: LeaseDurationType
+  kind: enum
+  properties:
+  - name: infinite
+    types:
+    - uid: string
+  - name: fixed
+    types:
+    - uid: string
+- name: PublicAccessType
+  kind: enum
+  properties:
+  - name: container
+    types:
+    - uid: string
+  - name: blob
+    types:
+    - uid: string
+examples: []
+security: []

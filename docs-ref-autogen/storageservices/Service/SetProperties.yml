@@ -1,0 +1,196 @@
+### YamlMime:RESTOperation
+uid: storageservices.service.setproperties
+name: Set Properties
+service: Storage Services
+groupName: Service
+apiVersion: 2016-05-31
+summary: Sets properties for a storage account's Blob service endpoint, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules
+consumes:
+- application/xml
+- application/octet-stream
+- text/plain
+produces:
+- application/xml
+- application/octet-stream
+- text/plain
+paths:
+- content: PUT https://{accountUrl}/?restype=service&comp=appendblock
+- content: PUT https://{accountUrl}/?restype=service&timeout={timeout}&comp=appendblock
+  isOptional: true
+uriParameters:
+- name: accountUrl
+  in: path
+  isRequired: true
+  description: The Azure storage account to use.
+  types:
+  - uid: string
+- name: timeout
+  in: query
+  description: The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a>
+  types:
+  - uid: integer
+- name: comp
+  in: query
+  isRequired: true
+  types:
+  - uid: string
+responses:
+- name: 202 Accepted
+  headers:
+  - name: x-ms-request-id
+    value: string
+  - name: x-ms-version
+    value: string
+  description: Success (Accepted)
+requestBody:
+- parameters:
+  - name: Logging
+    in: body
+    isRequired: true
+    description: "  \nAzure Analytics Logging settings"
+    types:
+    - uid: Logging
+  - name: HourMetrics
+    in: body
+    isRequired: true
+    description: "  \nA summary of request statistics grouped by API in hourly aggregates for blobs"
+    types:
+    - uid: Metrics
+  - name: MinuteMetrics
+    in: body
+    isRequired: true
+    description: "  \na summary of request statistics grouped by API in minute aggregates for blobs"
+    types:
+    - uid: Metrics
+  - name: Cors
+    in: body
+    description: "  \nCORS is an HTTP feature that enables a web application running under one domain to access resources in another domain. Web browsers implement a security restriction known as same-origin policy that prevents a web page from calling APIs in a different domain; CORS provides a secure way to allow one domain (the origin domain) to call APIs in another domain"
+    types:
+    - uid: CorsRule
+      isArray: true
+  - name: DefaultServiceVersion
+    in: body
+    isRequired: true
+    description: "  \nThe default version to use for requests to the Blob service if an incoming request's version is not specified. Possible values include version 2008-10-27 and all more recent versions"
+    types:
+    - uid: string
+requestHeader:
+- name: x-ms-version
+  in: header
+  isRequired: true
+  description: Specifies the version of the operation to use for this request.
+  types:
+  - uid: string
+- name: x-ms-client-request-id
+  in: header
+  description: Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled.
+  types:
+  - uid: string
+definitions:
+- name: Logging
+  description: Azure Analytics Logging settings.
+  kind: object
+  properties:
+  - name: Version
+    description: "  \nThe version of Storage Analytics to configure."
+    types:
+    - uid: string
+  - name: Delete
+    description: "  \nIndicates whether all delete requests should be logged."
+    types:
+    - uid: boolean
+  - name: Read
+    description: "  \nIndicates whether all read requests should be logged."
+    types:
+    - uid: boolean
+  - name: Write
+    description: "  \nIndicates whether all write requests should be logged."
+    types:
+    - uid: boolean
+  - name: RetentionPolicy
+    description: "  \nthe retention policy"
+    types:
+    - uid: RetentionPolicy
+- name: Metrics
+  description: ''
+  kind: object
+  properties:
+  - name: Version
+    description: "  \nThe version of Storage Analytics to configure."
+    types:
+    - uid: string
+  - name: Enabled
+    description: "  \nIndicates whether metrics are enabled for the Blob service."
+    types:
+    - uid: boolean
+  - name: IncludeAPIs
+    description: "  \nIndicates whether metrics should generate summary statistics for called API operations."
+    types:
+    - uid: boolean
+  - name: RetentionPolicy
+    description: "  \nthe retention policy"
+    types:
+    - uid: RetentionPolicy
+- name: CorsRule
+  description: CORS is an HTTP feature that enables a web application running under one domain to access resources in another domain. Web browsers implement a security restriction known as same-origin policy that prevents a web page from calling APIs in a different domain; CORS provides a secure way to allow one domain (the origin domain) to call APIs in another domain
+  kind: object
+  properties:
+  - name: AllowedOrigins
+    description: "  \nThe origin domains that are permitted to make a request against the storage service via CORS. The origin domain is the domain from which the request originates. Note that the origin must be an exact case-sensitive match with the origin that the user age sends to the service. You can also use the wildcard character '*' to allow all origin domains to make requests via CORS."
+    types:
+    - uid: string
+  - name: AllowedMethods
+    description: "  \nThe methods (HTTP request verbs) that the origin domain may use for a CORS request. (comma separated)"
+    types:
+    - uid: string
+  - name: AllowedHeaders
+    description: "  \nthe request headers that the origin domain may specify on the CORS request."
+    types:
+    - uid: string
+  - name: ExposedHeaders
+    description: "  \nThe response headers that may be sent in the response to the CORS request and exposed by the browser to the request issuer"
+    types:
+    - uid: string
+  - name: MaxAgeInSeconds
+    description: "  \nThe maximum amount time that a browser should cache the preflight OPTIONS request."
+    types:
+    - uid: integer
+- name: StorageServiceProperties
+  description: Storage Service Properties.
+  kind: object
+  properties:
+  - name: Logging
+    description: "  \nAzure Analytics Logging settings"
+    types:
+    - uid: Logging
+  - name: HourMetrics
+    description: "  \nA summary of request statistics grouped by API in hourly aggregates for blobs"
+    types:
+    - uid: Metrics
+  - name: MinuteMetrics
+    description: "  \na summary of request statistics grouped by API in minute aggregates for blobs"
+    types:
+    - uid: Metrics
+  - name: Cors
+    description: "  \nCORS is an HTTP feature that enables a web application running under one domain to access resources in another domain. Web browsers implement a security restriction known as same-origin policy that prevents a web page from calling APIs in a different domain; CORS provides a secure way to allow one domain (the origin domain) to call APIs in another domain"
+    types:
+    - uid: CorsRule
+      isArray: true
+  - name: DefaultServiceVersion
+    description: "  \nThe default version to use for requests to the Blob service if an incoming request's version is not specified. Possible values include version 2008-10-27 and all more recent versions"
+    types:
+    - uid: string
+- name: RetentionPolicy
+  description: the retention policy
+  kind: object
+  properties:
+  - name: Enabled
+    description: "  \nIndicates whether a retention policy is enabled for the storage service"
+    types:
+    - uid: boolean
+  - name: Days
+    description: "  \nIndicates the number of days that metrics or logging data should be retained. All data older than this value will be deleted"
+    types:
+    - uid: integer
+examples: []
+security: []

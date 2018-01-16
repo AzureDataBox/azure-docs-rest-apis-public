@@ -1,0 +1,341 @@
+### YamlMime:RESTOperation
+uid: storageservices.container.listblobs
+name: List Blobs
+service: Storage Services
+groupName: Container
+apiVersion: 2016-05-31
+summary: The List Blobs operation returns a list of the blobs under the specified container
+consumes:
+- application/xml
+- application/octet-stream
+- text/plain
+produces:
+- application/xml
+- application/octet-stream
+- text/plain
+paths:
+- content: GET https://{accountUrl}/{containerName}?restype=container&comp=appendblock
+- content: GET https://{accountUrl}/{containerName}?restype=container&prefix={prefix}&delimiter={delimiter}&marker={marker}&maxresults={maxresults}&include={include}&timeout={timeout}&comp=appendblock
+  isOptional: true
+uriParameters:
+- name: accountUrl
+  in: path
+  isRequired: true
+  description: The Azure storage account to use.
+  types:
+  - uid: string
+- name: prefix
+  in: query
+  description: Filters the results to return only containers whose name begins with the specified prefix.
+  types:
+  - uid: string
+- name: delimiter
+  in: query
+  description: When the request includes this parameter, the operation returns a BlobPrefix element in the response body that acts as a placeholder for all blobs whose names begin with the same substring up to the appearance of the delimiter character. The delimiter may be a single character or a string.
+  types:
+  - uid: string
+- name: marker
+  in: query
+  description: A string value that identifies the portion of the list of containers to be returned with the next listing operation. The operation returns the NextMarker value within the response body if the listing operation did not return all containers remaining to be listed with the current page. The NextMarker value can be used as the value for the marker parameter in a subsequent call to request the next page of list items. The marker value is opaque to the client.
+  types:
+  - uid: string
+- name: maxresults
+  in: query
+  description: Specifies the maximum number of containers to return. If the request does not specify maxresults, or specifies a value greater than 5000, the server will return up to 5000 items. Note that if the listing operation crosses a partition boundary, then the service will return a continuation token for retrieving the remainder of the results. For this reason, it is possible that the service will return fewer results than specified by maxresults, or than the default of 5000.
+  types:
+  - uid: integer
+- name: include
+  in: query
+  description: Include this parameter to specify one or more datasets to include in the response.
+  types:
+  - uid: ListBlobsIncludeType
+- name: timeout
+  in: query
+  description: The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a>
+  types:
+  - uid: integer
+- name: comp
+  in: query
+  isRequired: true
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  headers:
+  - name: Content-Type
+    value: string
+  - name: x-ms-request-id
+    value: string
+  - name: x-ms-version
+    value: string
+  - name: Date
+    value: string
+  description: Success.
+  types:
+  - uid: ListBlobsResponse
+requestHeader:
+- name: x-ms-version
+  in: header
+  isRequired: true
+  description: Specifies the version of the operation to use for this request.
+  types:
+  - uid: string
+- name: x-ms-client-request-id
+  in: header
+  description: Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled.
+  types:
+  - uid: string
+definitions:
+- name: ListBlobsIncludeType
+  description: Include this parameter to specify one or more datasets to include in the response.
+  kind: enum
+  properties:
+  - name: snapshots
+    types:
+    - uid: string
+  - name: metadata
+    types:
+    - uid: string
+  - name: uncommittedblobs
+    types:
+    - uid: string
+  - name: copy
+    types:
+    - uid: string
+- name: ListBlobsResponse
+  description: An enumeration of blobs
+  kind: object
+  properties:
+  - name: ServiceEndpoint
+    description: "  "
+    types:
+    - uid: string
+  - name: ContainerName
+    description: "  "
+    types:
+    - uid: string
+  - name: Prefix
+    description: "  "
+    types:
+    - uid: string
+  - name: Marker
+    description: "  "
+    types:
+    - uid: string
+  - name: MaxResults
+    description: "  "
+    types:
+    - uid: integer
+  - name: Delimiter
+    description: "  "
+    types:
+    - uid: string
+  - name: Blobs
+    description: "  "
+    types:
+    - uid: Blobs
+  - name: NextMarker
+    description: "  "
+    types:
+    - uid: string
+- name: Blobs
+  kind: object
+  properties:
+  - name: BlobPrefix
+    description: "  "
+    types:
+    - uid: BlobPrefix
+      isArray: true
+  - name: Blob
+    description: "  \nAn Azure Storage blob"
+    types:
+    - uid: Blob
+      isArray: true
+- name: BlobPrefix
+  kind: object
+  properties:
+  - name: Name
+    description: "  "
+    types:
+    - uid: string
+- name: Blob
+  description: An Azure Storage blob
+  kind: object
+  properties:
+  - name: Name
+    description: "  "
+    types:
+    - uid: string
+  - name: Snapshot
+    description: "  "
+    types:
+    - uid: string
+  - name: Properties
+    description: "  \nProperties of a blob"
+    types:
+    - uid: BlobProperties
+  - name: Metadata
+    description: "  "
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: BlobProperties
+  description: Properties of a blob
+  kind: object
+  properties:
+  - name: Last-Modified
+    description: "  "
+    types:
+    - uid: string
+  - name: Etag
+    description: "  "
+    types:
+    - uid: string
+  - name: Content-Length
+    description: "  \nSize in bytes"
+    types:
+    - uid: integer
+  - name: Content-Type
+    description: "  "
+    types:
+    - uid: string
+  - name: Content-Encoding
+    description: "  "
+    types:
+    - uid: string
+  - name: Content-Language
+    description: "  "
+    types:
+    - uid: string
+  - name: Content-MD5
+    description: "  "
+    types:
+    - uid: string
+  - name: Content-Disposition
+    description: "  "
+    types:
+    - uid: string
+  - name: Cache-Control
+    description: "  "
+    types:
+    - uid: string
+  - name: x-ms-blob-sequence-number
+    description: "  "
+    types:
+    - uid: integer
+  - name: BlobType
+    description: "  "
+    types:
+    - uid: BlobType
+  - name: LeaseStatus
+    description: "  "
+    types:
+    - uid: LeaseStatusType
+  - name: LeaseState
+    description: "  "
+    types:
+    - uid: LeaseStateType
+  - name: LeaseDuration
+    description: "  "
+    types:
+    - uid: LeaseDurationType
+  - name: CopyId
+    description: "  "
+    types:
+    - uid: string
+  - name: CopyStatus
+    description: "  "
+    types:
+    - uid: CopyStatusType
+  - name: CopySource
+    description: "  "
+    types:
+    - uid: string
+  - name: CopyProgress
+    description: "  "
+    types:
+    - uid: string
+  - name: CopyCompletionTime
+    description: "  "
+    types:
+    - uid: string
+  - name: CopyStatusDescription
+    description: "  "
+    types:
+    - uid: string
+  - name: ServerEncrypted
+    description: "  "
+    types:
+    - uid: boolean
+  - name: IncrementalCopy
+    description: "  "
+    types:
+    - uid: boolean
+- name: BlobType
+  kind: enum
+  properties:
+  - name: BlockBlob
+    types:
+    - uid: string
+  - name: PageBlob
+    types:
+    - uid: string
+  - name: AppendBlob
+    types:
+    - uid: string
+- name: LeaseStatusType
+  kind: enum
+  properties:
+  - name: locked
+    types:
+    - uid: string
+  - name: unlocked
+    types:
+    - uid: string
+- name: LeaseStateType
+  kind: enum
+  properties:
+  - name: available
+    types:
+    - uid: string
+  - name: leased
+    types:
+    - uid: string
+  - name: expired
+    types:
+    - uid: string
+  - name: breaking
+    types:
+    - uid: string
+  - name: broken
+    types:
+    - uid: string
+- name: LeaseDurationType
+  kind: enum
+  properties:
+  - name: infinite
+    types:
+    - uid: string
+  - name: fixed
+    types:
+    - uid: string
+- name: CopyStatusType
+  kind: enum
+  properties:
+  - name: pending
+    types:
+    - uid: string
+  - name: success
+    types:
+    - uid: string
+  - name: aborted
+    types:
+    - uid: string
+  - name: failed
+    types:
+    - uid: string
+examples: []
+security: []
