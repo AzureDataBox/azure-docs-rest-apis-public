@@ -1,0 +1,2835 @@
+swagger: '2.0'
+info:
+  version: v1
+  title: Microsoft.EnterpriseManagement.OperationsManager.WebConsole
+host: "<Servername>"
+basePath: /OperationsManager
+schemes:
+  - http
+paths:
+  /authenticationMode:
+    get:
+      tags:
+        - Authentication
+      description: "Retrieves the authentication mode of the web server."
+      operationId: Authentication_RetrieveAuthenticationMode
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      responses:
+        '200':
+          description: OK. Successfully retrieved authentication mode.
+          schema:
+            type: object
+      deprecated: false
+  /authenticate:
+    post:
+      tags:
+        - Authentication
+      description: "Authenticates the user."
+      operationId: Authentication_Login
+      consumes:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: credentials
+          in: body
+          description: "Credentials in the form (AuthenticationMode:domain\\username:password) encoded in base64."
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK. Login successfull.
+          schema:
+            type: object
+      deprecated: false
+  /signout:
+    get:
+      tags:
+        - Authentication
+      description: "Logs out the user."
+      operationId: Authentication_Logout
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      responses:
+        '200':
+          description: OK. Sign out successfull.
+          schema:
+            type: object
+      deprecated: false
+  /component/dashboard:
+    post:
+      tags:
+        - Component
+      description: "Creates a new dashboards with the specified properties."
+      operationId: Component_AddDashboard
+      consumes:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: componentRequest
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ComponentRequest'
+      responses:
+        '200':
+          description: OK. Successfully created a Dashboard
+          schema:
+            $ref: '#/definitions/ComponentResponse'
+      deprecated: false
+  '/component/dashboard/{dashboardId}/widget':
+    post:
+      tags:
+        - Component
+      description: "Adds a widget in a exisitng dashbaord."
+      operationId: Component_AddWidget
+      consumes:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: dashboardId
+          in: path
+          description: "Specify the dashboard ID in which the widget needs to be added."
+          required: true
+          type: string
+        - name: componentRequest
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ComponentRequest'
+      responses:
+        '200':
+          description: OK. Successfully created a new widget.
+          schema:
+            $ref: '#/definitions/ComponentResponse'
+      deprecated: false
+  '/component/widget/{widgetId}':
+    get:
+      tags:
+        - Component
+      description: "Retrieves the widget properties and configuration."
+      operationId: Component_RetrieveWidget
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: widgetId
+          in: path
+          description: "Specify the widget ID."
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK. Successfully retrieved the Widget properties and configuration.
+          schema:
+            $ref: '#/definitions/ComponentResponse'
+      deprecated: false
+    put:
+      tags:
+        - Component
+      description: "Updates the widget properties or configuration."
+      operationId: Component_updateWidget
+      consumes:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: widgetId
+          in: path
+          description: "Specify the widget ID."
+          required: true
+          type: string
+        - name: widgetRequest
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ComponentRequest'
+      responses:
+        '200':
+          description: OK. Successfully updated the widget configuration.
+          schema:
+            type: boolean
+      deprecated: false
+  '/component/dashboardsForObject/{hostName}':
+    get:
+      tags:
+        - Component
+      description: "Retrieves the dashbaords for an object based on the type."
+      operationId: Component_RetrieveDashboardsForObject
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: hostName
+          in: path
+          description: "Specify the host name."
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK. Successfully retrieved the dashbaords for an object.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ComponentResponse'
+      deprecated: false
+  '/component/dashboard/{dashboardId}':
+    get:
+      tags:
+        - Component
+      description: "Retrieves the dashboard properties and configuration."
+      operationId: Component_RetrieveDashboard
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: dashboardId
+          in: path
+          description: "Specify the dashboard ID."
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK. Successfully Retrieved the dashboard properties and configuration.
+          schema:
+            $ref: '#/definitions/ComponentResponse'
+      deprecated: false
+  '/component/dashboard/{dashboardId}/widgets':
+    get:
+      tags:
+        - Component
+      description: "Retrieves the properties and configuration of all the widgets present in a particular dashbaord."
+      operationId: Component_RetrieveWidgets
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: dashboardId
+          in: path
+          description: "Specify the dashboard ID."
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK. Successfully retrieved the properties and configuration of all the widgets present in a particular dashbaord.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ComponentResponse'
+      deprecated: false
+    put:
+      tags:
+        - Component
+      description: "Updates the properties or configurations of a dashboard and the widgets available in a specific dashboard."
+      operationId: Component_UpdateDashboardDetails
+      consumes:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: dashboardId
+          in: path
+          description: "Sepcify the dashboard ID."
+          required: true
+          type: string
+        - name: updateDashboard
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/UpdateDashboard'
+      responses:
+        '200':
+          description: OK. Successfully Updated the properties or configurations of a dashboard and the widgets available in a specific dashboard.
+          schema:
+            type: boolean
+      deprecated: false
+  '/component/dashboard/{dashboardId}/entity/{entityId}':
+    get:
+      tags:
+        - Component
+      description: "Retrieves the widgets for the dashboard and entity. NOTE: This only supports fetching widgets for Performance Dashboard."
+      operationId: Component_RetrieveWidgets
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: dashboardId
+          in: path
+          description: "Specify the dashboard ID."
+          required: true
+          type: string
+        - name: entityId
+          in: path
+          description: "Specify the entity ID."
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK. Successfully Retrieved the widgets for the dashboard and entity.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ComponentResponse'
+      deprecated: false
+  '/component/dashboard/{dashboardId}/widget/{widgetId}':
+    delete:
+      tags:
+        - Component
+      description: "Deletes a widget from a specific dashbaord."
+      operationId: Component_DeleteWidget
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: dashboardId
+          in: path
+          description: "Specify the dashboard ID."
+          required: true
+          type: string
+        - name: widgetId
+          in: path
+          description: "Specify the widget ID which needs to be deleted."
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK. Successfully deleted a widget from a specific dashbaord.
+          schema:
+            type: boolean
+      deprecated: false
+  '/component/Dashboard/{dashboardId}':
+    delete:
+      tags:
+        - Component
+      description: "Deletes a specific dashboard and the widgets contained inside it."
+      operationId: Component_DeleteDashboard
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: dashboardId
+          in: path
+          description: "Specify the dashboard ID."
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK. Successfully Deleted a specific dashboard and the widgets contained inside it.
+          schema:
+            type: boolean
+      deprecated: false
+  /component/viewshortcut:
+    post:
+      tags:
+        - Component
+      description: "Adds a shortcut to Monitoring view in My Workspace"
+      operationId: Component_AddViewShortcutToMyWorkspace
+      consumes:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: request
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ViewShortcutRequest'
+      responses:
+        '200':
+          description: OK. Successfully added a shortcut to Monitoring view in My Workspace.
+          schema:
+            type: object
+      deprecated: false
+    delete:
+      tags:
+        - Component
+      description: "Deletes a view shortcut from My Workspace"
+      operationId: Component_DeleteViewShortcutFromMyWorkspace
+      consumes:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: request
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ViewShortcutRequest'
+      responses:
+        '200':
+          description: OK. Successfully deleted a view shortcut from My Workspace
+          schema:
+            type: object
+      deprecated: false
+  /component/folder:
+    post:
+      tags:
+        - Component
+      description: "Adds a folder to My Workspace."
+      operationId: Component_AddFolderToMyWorkspace
+      consumes:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: request
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/FolderRequest'
+      responses:
+        '200':
+          description: OK. Successfully Added a folder to My Workspace.
+          schema:
+            type: object
+      deprecated: false
+    delete:
+      tags:
+        - Component
+      description: "Deletes a folder from My Workspace."
+      operationId: Component_DeleteFolderFromMyWorkspace
+      consumes:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: request
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/FolderRequest'
+      responses:
+        '200':
+          description: OK. Successfully deleted a folder from My Workspace.
+          schema:
+            type: object
+      deprecated: false
+  /component/usersearch:
+    delete:
+      tags:
+        - Component
+      description: "Deletes a user search from My Workspace."
+      operationId: Component_DeleteUserSearch
+      consumes:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: request
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/UserSearchRequest'
+      responses:
+        '200':
+          description: OK. Successfully deleted a user search from My Workspace.
+          schema:
+            type: object
+      deprecated: false
+  /data/alert:
+    post:
+      tags:
+        - Data
+      description: "Retrieves the alert data for the specified scope/parameters."
+      operationId: Data_RetrieveAlertData
+      consumes:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: dataRequest
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/DataRequest'
+      responses:
+        '200':
+          description: OK. Successfully retrieved Alert data.
+          schema:
+            $ref: '#/definitions/TableDataResponse'
+      deprecated: false
+  /data/knowledgeArticle:
+    post:
+      tags:
+        - Data
+      description: "Retrieves the company knowledge of the specified entity."
+      operationId: Data_SaveCompanyKnowledgeArticle
+      consumes:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: companyKnowledgeRequest
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/CompanyKnowledgeRequest'
+      responses:
+        '200':
+          description: OK. Successfully retrieved Knowledge Article.
+          schema:
+            type: boolean
+      deprecated: false
+  '/data/alertInformation/{alertId}':
+    get:
+      tags:
+        - Data
+      description: "Retrieves the alert properties for the specified alert."
+      operationId: Data_RetrieveAlertInformation
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: alertId
+          in: path
+          description: "Specify the alert ID for which alert details needs to be retrieved."
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK. Successfully retrieved Alert Information.
+          schema:
+            $ref: '#/definitions/AlertDataResponse'
+      deprecated: false
+  '/data/objectInformation/{objectId}':
+    get:
+      tags:
+        - Data
+      description: "Retrieves the Objects details (like object properties, related objects and classs information) for the specificed object."
+      operationId: Data_RetrieveMonitoringObjectInformation
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: objectId
+          in: path
+          description: "Specify the object ID for which object details needs to be retrieved."
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK. Successfully retrieved Object Infromation.
+          schema:
+            $ref: '#/definitions/MonitoringObjectResponse'
+      deprecated: false
+  '/data/monitoringObjectProperties/{objectId}':
+    get:
+      tags:
+        - Data
+      description: "Retrieves the monitoring Object properties."
+      operationId: Data_RetrieveMonitoringObjectProperties
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: objectId
+          in: path
+          description: "Specify the object ID for which object properties needs to be retrieved."
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK. Successfully retrieved Monitoring Object Properties.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/MonitoringObjectProperty'
+      deprecated: false
+  '/data/ruleInformation/{ruleId}':
+    get:
+      tags:
+        - Data
+      description: "Retrieves the rule properties for the specified rule ID."
+      operationId: Data_RetrieveRuleInformation
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: ruleId
+          in: path
+          description: "Specify the rule ID."
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK. Successfully retrieved Rule Infromation.
+          schema:
+            $ref: '#/definitions/RuleDataResponse'
+      deprecated: false
+  '/data/classInformation/{classId}':
+    get:
+      tags:
+        - Data
+      description: "Retrieves the class properties for the specified class ID."
+      operationId: Data_RetrieveClassInformation
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: classId
+          in: path
+          description: "Specify the class ID."
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK. Successfully retrieved Class Information.
+          schema:
+            $ref: '#/definitions/ClassDataResponse'
+      deprecated: false
+  '/data/monitorInformation/{monitorId}':
+    get:
+      tags:
+        - Data
+      description: "Retrieves the monitor properties for the specified monitor ID."
+      operationId: Data_RetrieveMonitorInformation
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: monitorId
+          in: path
+          description: "Specify the monitor ID."
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK. Successfully retrieved Monitor Information.
+          schema:
+            $ref: '#/definitions/RuleDataResponse'
+      deprecated: false
+  '/data/knowledgeArticle/{elementType}/{elementId}':
+    get:
+      tags:
+        - Data
+      description: "Retrieves the knowledge article for the specified element type and element ID."
+      operationId: Data_RetrieveMonitoringKnowledgeArticle
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: elementType
+          in: path
+          description: "Specify the element type."
+          required: true
+          type: string
+        - name: elementId
+          in: path
+          description: "Specify the element ID."
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK. Successfully retrieved Knowledge Article.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/KnowledgeArticleResponse'
+      deprecated: false
+  '/data/alertCount/{entityId}':
+    get:
+      tags:
+        - Data
+      description: "Retrieves the number of alerts associated with the specified entity ID."
+      operationId: Data_RetrieveAlertCountById
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: entityId
+          in: path
+          description: "Specify the entity ID."
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK. Successfully retrieved Alert Count.
+          schema:
+            format: int32
+            type: integer
+      deprecated: false
+  '/data/healthstate/{entityId}':
+    get:
+      tags:
+        - Data
+      description: "Retrieves the health state of the specified entity ID."
+      operationId: Data_stateByEntityId
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: entityId
+          in: path
+          description: "Specify the entity ID."
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK. Successfully retrieved Health State.
+          schema:
+            type: string
+      deprecated: false
+  '/data/monitoring/{entityId}':
+    get:
+      tags:
+        - Data
+      description: "Retrieves the monitoring data of the specified entity ID."
+      operationId: Data_RetrieveMonitoringData
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: entityId
+          in: path
+          description: "Specify the entity ID."
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK. Successfully retrieved Monitoring data.
+          schema:
+            $ref: '#/definitions/MonitoringDataResponse'
+      deprecated: false
+  /data/state:
+    post:
+      tags:
+        - Data
+      description: "Retrieves the health (state) data for the specified scope/parameters."
+      operationId: Data_RetrieveStateData
+      consumes:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: dataRequest
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/DataRequest'
+      responses:
+        '200':
+          description: OK. Successfully retrieved Health data.
+          schema:
+            $ref: '#/definitions/TableDataResponse'
+      deprecated: false
+  /data/performance:
+    post:
+      tags:
+        - Data
+      description: "Retrieves the performance data for the specified scope/parameters."
+      operationId: Data_RetrievePerformanceData
+      consumes:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: performanceRequest
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/PerformanceRequest'
+      responses:
+        '200':
+          description: OK. Successfully retrieved Performance data.
+          schema:
+            $ref: '#/definitions/PerformanceResponse'
+      deprecated: false
+  /data/alertResolutionStates:
+    post:
+      tags:
+        - Data
+      description: "Retrieves the alert resolution state for the specified alert(s)."
+      operationId: Data_SetAlertResolutionStates
+      consumes:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: resolutionStateRequest
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ResolutionStateRequest'
+      responses:
+        '200':
+          description: OK. Successfully retrieved Alert Resolution State.
+          schema:
+            type: boolean
+      deprecated: false
+  '/data/performanceCounters/{entityId}':
+    get:
+      tags:
+        - Data
+      description: "Retrieves the list of performance counters associated with the specified enitity ID."
+      operationId: Data_RetrievePerformanceCounters
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: entityId
+          in: path
+          description: "Specify the entity ID."
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK. Successfully retrieved Performance Counters.
+          schema:
+            $ref: '#/definitions/PerformanceCounterDataResponse'
+      deprecated: false
+  '/data/stateColumns/{entityId}':
+    get:
+      tags:
+        - Data
+      description: "Retrieves the state columns applicable for the specified entity ID."
+      operationId: Data_RetrieveStateWidgetColumns
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: entityId
+          in: path
+          description: "Specify the entity ID."
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK. Successfully retrieved State columns.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/HeaderColumns'
+      deprecated: false
+  /data/powershell:
+    post:
+      tags:
+        - Data
+      description: "Retrieves the data after executing the specified PowerShell script."
+      operationId: Data_RetrievePowerShellOutput
+      consumes:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: script
+          in: body
+          description: "Provide the PowerShell script."
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK. Successfully retrieved the data after executing the specified PowerShell script.
+          schema:
+            $ref: '#/definitions/TableDataResponse'
+      deprecated: false
+  /data/scomGroups:
+    post:
+      tags:
+        - Data
+      description: "Retrieves the groups based on the specified criteria."
+      operationId: Data_RetrieveGroupData
+      consumes:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: criteria
+          in: body
+          description: "Specify the criteria."
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK. Successfully retrieved the groups based on the specified criteria.
+          schema:
+            $ref: '#/definitions/ScopeDataResponse'
+      deprecated: false
+  /data/scomObjects:
+    post:
+      tags:
+        - Data
+      description: "Retrieves the objects based on the specified criteria."
+      operationId: Data_RetrieveObjectData
+      consumes:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: criteria
+          in: body
+          description: "Specify the criteria."
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK. Successfully retrieved the objects based on the specified criteria.
+          schema:
+            $ref: '#/definitions/ScopeDataResponse'
+      deprecated: false
+  '/data/entity/{entityId}':
+    get:
+      tags:
+        - Data
+      description: "Retrieves the entity name for the specified entity ID."
+      operationId: Data_RetrieveEntityName
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: entityId
+          in: path
+          description: "Specify the entity ID."
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK. Successfully retrieved the entity name for the specified entity ID.
+          schema:
+            type: string
+      deprecated: false
+  /data/topology:
+    post:
+      tags:
+        - Data
+      description: "Retrieves the health states of the specfied criteria."
+      operationId: Data_RetrieveTopologyData
+      consumes:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: dataRequest
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/DataRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/TopologyResponse'
+      deprecated: false
+  /data/rules:
+    post:
+      tags:
+        - Data
+      description: "Retrieve the list of rules and thier respective properties based on the specified criteria."
+      operationId: Data_RetrieveRules
+      consumes:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: criteria
+          in: body
+          description: "Specify the criteria."
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK. Successfully retrieved the list of rules and thier respective properties based on the specified criteria.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/RuleDataResponse'
+      deprecated: false
+  /data/class/monitors:
+    post:
+      tags:
+        - Data
+      description: "Retrieve the list of monitors and thier respective properties associated with a specific class."
+      operationId: Data_RetrieveMonitorsForClasses
+      consumes:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: criteria
+          in: body
+          description: "Specify the criteria."
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK. Successfully retrieved the list of monitors and thier respective properties associated with a specific class.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/MonitorDataResponse'
+      deprecated: false
+  /data/object/monitors:
+    post:
+      tags:
+        - Data
+      description: "Retrieve the list of monitors and thier respective properties associated with a specific object."
+      operationId: Data_RetrieveMonitorsForObjects
+      consumes:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: monitorObject
+          in: body
+          description: "Specify the monitoring object ID."
+          required: true
+          schema:
+            $ref: '#/definitions/MonitorObjectDataRequest'
+      responses:
+        '200':
+          description: OK. Successfully retrieved the list of monitors and thier respective properties associated with a specific object.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/MonitorDataResponse'
+      deprecated: false
+  /data/topologyImage:
+    put:
+      tags:
+        - Data
+      description: "Update the image used to overlay objects health."
+      operationId: Data_UploadTopologyImage
+      consumes:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: uploadImageRequest
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/TopologyRequest'
+      responses:
+        '200':
+          description: OK. Successfully updated the image used to overlay objects health.
+          schema:
+            $ref: '#/definitions/TopologyResponse'
+      deprecated: false
+  /data/topologyImages:
+    get:
+      tags:
+        - Data
+      description: "Retrieve the list of images used to overlay objects health."
+      operationId: Data_RetrieveTopologyImages
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      responses:
+        '200':
+          description: OK. Successfully retrieved the list of images used to overlay objects health.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/TopologyResponse'
+      deprecated: false
+  '/data/topologyImage/{imageId}':
+    get:
+      tags:
+        - Data
+      description: "Retrieve the image used to overlay objects health."
+      operationId: Data_RetrieveTopologyImage
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: imageId
+          in: path
+          description: "Specify the image ID."
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK. Successfully retrieved the image used to overlay objects health.
+          schema:
+            $ref: '#/definitions/TopologyResponse'
+      deprecated: false
+    "_comment": "/data/sla:
+    post:
+      tags:
+        - Data
+      description: Retrieve the list of SLA and thier respective properties.
+      operationId: Data_RetrieveSLAData
+      consumes:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: request
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/SLARequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/SLAResponse'
+      deprecated: false
+  /data/slo:
+    post:
+      tags:
+        - Data
+      description: Retrieves SLO along with its properties.
+      operationId: Data_RetrieveSLOData
+      consumes:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: request
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/SLODataRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/SLODataResponse'
+      deprecated: false
+  /data/slas:
+    get:
+      tags:
+        - Data
+      description: Retrieve the list of SLA(s) and thier respective properties.
+      operationId: Data_getSLAs
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/SLA'
+      deprecated: false"
+  /data/scomClasses:
+    post:
+      tags:
+        - Data
+      description: "Retrieves the list of classes and thier respective properties."
+      operationId: Data_RetrieveClasses
+      consumes:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: criteria
+          in: body
+          description: "Specify the criteria."
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK. Successfully retrieved the list of classes and thier respective properties.
+          schema:
+            $ref: '#/definitions/ScopeDataResponse'
+      deprecated: false
+  /data/getTaskPane:
+    post:
+      tags:
+        - Data
+      description: "Retrieves the list of tasks and thier respective properties."
+      operationId: Data_GetTaskPaneData
+      consumes:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: request
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/TaskRequest'
+      responses:
+        '200':
+          description: OK. Successfully retrieved the list of tasks and thier respective properties.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/TaskListResponse'
+      deprecated: false
+  /data/submitTask:
+    post:
+      tags:
+        - Data
+      description: "Submits a task for its execution."
+      operationId: Data_SubmitTaskForExecution
+      consumes:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: request
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/TaskExecutionRequest'
+      responses:
+        '200':
+          description: OK. Successfully submitted a task for its execution.
+          schema:
+            format: uuid
+            type: string
+      deprecated: false
+  '/data/getTaskResult/{batchId}':
+    get:
+      tags:
+        - Data
+      description: "Retrieves the result of an executing task."
+      operationId: Data_GetTaskResult
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: batchId
+          in: path
+          description: "Specify the bacth ID."
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK. Successfully retrieved the result of an executing task.
+          schema:
+            $ref: '#/definitions/TaskResultResponse'
+      deprecated: false
+  /data/UnsealedManagementPacks:
+    get:
+      tags:
+        - Data
+      description: "Retrieve the list of unsealead management packs."
+      operationId: Data_GetUnsealedManagementPacks
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      responses:
+        '200':
+          description: OK. Successfully retrieved the list of unsealead management packs.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ManagementPackResponse'
+      deprecated: false
+  '/data/DashboardActions/{dashboardId}':
+    get:
+      tags:
+        - Data
+      description: "Retrieves the actions associated with dashboard."
+      operationId: Data_GetRBACData
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: dashboardId
+          in: path
+          description: "Specify the dashboard ID."
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/DashboardActionsResponse'
+      deprecated: false
+  /data/monitoringTree:
+    get:
+      tags:
+        - Data
+      description: "Retrieves the list of views/dashboards/folders available in the Monitoring tree view."
+      operationId: Data_GetMonitoringTree
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      responses:
+        '200':
+          description: OK. Successfully retrieved the list of views/dashboards/folders available in the Monitoring tree view.
+          schema:
+            $ref: '#/definitions/TreeViewResponse'
+      deprecated: false
+  /data/myWorkspaceTree:
+    get:
+      tags:
+        - Data
+      description: "Retrieves the list of views/dashboards/folder available in the My Workspace tree view."
+      operationId: Data_GetMyWorkspaceTree
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      responses:
+        '200':
+          description: OK. Successfully retrieved the list of views/dashboards/folder available in the My Workspace tree view.
+          schema:
+            $ref: '#/definitions/TreeViewResponse'
+      deprecated: false
+  /data/favoriteFoldersTree:
+    get:
+      tags:
+        - Data
+      description: "Retrieves the list of views/dashboards available in the favorite folders."
+      operationId: Data_GetFavoriteFoldersTree
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      responses:
+        '200':
+          description: OK. Successfully retrieved the list of views/dashboards available in the favorite folders.
+          schema:
+            $ref: '#/definitions/TreeViewResponse'
+      deprecated: false
+  '/NetworkMonitoring/{requestType}':
+    get:
+      tags:
+        - NetworkMonitoring
+      description: "Retrieves data for Network devices and Interfaces."
+      operationId: NetworkMonitoring_GetNetworkMonitoringResponseData
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      parameters:
+        - name: requestType
+          in: path
+          description: "Specify one of the following property (NodesWithHigestCpuUsage, NodesWithSlowestResponse, NodesWithSlowestResponse, InterfacesWithMostSentErrors, InterfacesWithMostReceivedErrors, NodesWithMostAlerts, InterfacesWithMostAlerts) "
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+      deprecated: false
+  "_comment": "/resources/static:
+    get:
+      tags:
+        - Resource
+      operationId: Resource_RetrieveStaticResources
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/StaticResourceResponse'
+      deprecated: false"
+  /resources/alertColumns:
+    get:
+      tags:
+        - Resource
+      description: "Retrieves the list of columns associated with the alerts."
+      operationId: Resource_RetrieveAlertWidgetColumns
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      responses:
+        '200':
+          description: OK. Successfully retrieved the list of columns associated with the alerts.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/HeaderColumns'
+      deprecated: false
+  /resources/alertSeverity:
+    get:
+      tags:
+        - Resource
+      description: "Retrieves alert severity."
+      operationId: Resource_RetrieveAlertSeverity
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      responses:
+        '200':
+          description: OK. Successfully retrieved alert severity.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Resource'
+      deprecated: false
+  /resources/alertPriority:
+    get:
+      tags:
+        - Resource
+      description: "Retrieves alert priority."
+      operationId: Resource_RetrieveAlertPriority
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      responses:
+        '200':
+          description: OK. Successfully retrieved alert priority.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Resource'
+      deprecated: false
+  /resources/alertResolutionStates:
+    get:
+      tags:
+        - Resource
+      description: "Retrieves alert resolution states."
+      operationId: Resource_RetrieveAlertResolutionStates
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      responses:
+        '200':
+          description: OK. Successfully retrieved alert resolution states.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Resource'
+      deprecated: false
+    "_comment": "/resources/alert:
+    get:
+      tags:
+        - Resource
+      operationId: Resource_RetrieveAlertResources
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/AlertResourceResponse'
+      deprecated: false
+  /resources/state:
+    get:
+      tags:
+        - Resource
+      operationId: Resource_RetrieveStateResource
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/StateResourceResponse'
+      deprecated: false
+  /resources/monitoring:
+    get:
+      tags:
+        - Resource
+      operationId: Resource_RetrieveMonitoringResources
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/MonitoringResourceResponse'
+      deprecated: false
+  /resources/performance:
+    get:
+      tags:
+        - Resource
+      operationId: Resource_RetrievePerformanceResources
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/PerformanceResourceResponse'
+      deprecated: false
+  /resources/loginStaticStrings:
+    get:
+      tags:
+        - Resource
+      operationId: Resource_RetrieveLoginStringResources
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+        - application/xml
+        - text/xml
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+      deprecated: false"
+definitions:
+  ComponentRequest:
+    required:
+      - name
+    
+    type: object
+    properties:
+      name:
+        type: string
+        description: "Specify the Dashboard/Widget name."
+      description:
+        type: string
+        description: "Specifiy the Dashboard/Widget description."
+      mpId:
+        type: string
+        description: "Specify the management pack ID incase you would like to utilize an existing unsealed management pack for the operation."
+      mpName:
+        type: string
+        description: "Specify the management pack name. If you would like to perform the operation in a new management pack then specify the management pack name."
+      mpVersion: 
+        type: string
+        description: "Specify the management pack version."
+      mpDescription:
+        type: string
+        description: "Specify the management pack description."
+      config:
+        type: string
+        description: "Specify the configuration."
+      componentType:
+        type: string
+        description: "Specify the Type of widget"
+      id:
+        type: string
+        description: "Specify the ID of Dashboard/Widget in case of Updating Dashboard/Widget"
+  ComponentResponse:
+    type: object
+    properties:
+      id:
+        type: string
+        description: "Dashboard/Widget ID."
+      name:
+        type: string
+        description: "Name of the dashbaord/widget."
+      description:
+        type: string
+        description: "Description of the dashboard/widget."
+      mpId:
+        type: string
+        description: "ID of the management pack in which the dashbaord/widget is saved."
+      componentType:
+        type: string
+        description: "Type of the component."
+      config:
+        type: string
+        description: "Configuration of the dashbaord."
+  UpdateDashboard:
+    type: object
+    properties:
+      dashboard:
+        $ref: '#/definitions/ComponentRequest'
+      widgets:
+        type: array
+        items:
+          $ref: '#/definitions/WidgetRequest'
+  WidgetRequest:
+    required:
+      - name
+    type: object
+    properties:
+      id:
+        type: string
+        description: "Specify ID of the widget."
+      name:
+        type: string
+        description: "Specify the name of the widget."
+      description:
+        type: string
+        description: "Specify the description of the widget."
+      mpId:
+        type: string
+        description: "Specify the management pack ID."
+      mpName:
+        type: string
+        description: "Specify the management pack name."
+      mpVersion:
+        type: string
+        description: "Specify the version of the management pack."
+      mpDescription:
+        type: string
+        description: "Specify the description of the management pack."
+      config:
+        type: string
+        description: "Specify the configuration of the widget."
+      componentType:
+        type: string
+        description: "Specify the type of widget."
+  ViewShortcutRequest:
+    type: object
+    properties:
+      path:
+        type: string
+        description: "Specify the path."
+      componentID:
+        type: string
+        description: "Specify the component ID."
+  FolderRequest:
+    required:
+      - path
+    type: object
+    properties:
+      path:
+        type: string
+        description: "Specify the folder path."
+  UserSearchRequest:
+    type: object
+    properties:
+      componentID:
+        type: string
+        description: "Specify the component ID."
+      parent:
+        type: string
+        description: "Specify the parent."
+  DataRequest:
+    type: object
+    properties:
+      classId:
+        type: string
+        description: "Specify the class ID."
+      objectIds:
+        type: object
+        description: "Specify an array of object IDs."
+        additionalProperties:
+          format: int32
+          type: integer
+      criteria:
+        type: string
+        description: "Specify the criteria (like severity, priority, resolution state and so on)."
+      displayColumns:
+        type: array
+        items:
+          type: string
+          description: "Specify the columns which needs to be displayed."
+  TableDataResponse:
+    type: object
+    properties:
+      tableColumns:
+        type: array
+        items:
+          $ref: '#/definitions/TableColumn'
+      rows:
+        type: array
+        items:
+          type: object
+          additionalProperties:
+            type: object
+  TableColumn:
+    type: object
+    properties:
+      field:
+        type: string
+        description: "Name of the column."
+      header:
+        type: string
+        description: "Header of the column."
+      type:
+        type: string
+        description: "Type of the column."
+      hidden:
+        type: boolean
+        description: "Is the column hidden."
+  CompanyKnowledgeRequest:
+    type: object
+    properties:
+      elementId:
+        type: string
+        description: "Specify the element ID."
+      elementType:
+        type: string
+        description: "Specify the element type."
+      mpId:
+        type: string
+        description: "Specify the management pack ID."
+      mpName:
+        type: string
+        description: "Specify the management pack name."
+      mpVersion:
+        type: string
+        description: "Specify the version of the management pack."
+      mpDescription:
+        type: string
+        description: "Specify the description of the management pack."
+      knowledgeArticleHTML:
+        type: string
+        description: "Specify the content of the knowledge article."
+  AlertDataResponse:
+    type: object
+    properties:
+      alertHistoryResponses:
+        type: array
+        items:
+          $ref: '#/definitions/AlertHistoryResponse'
+      description:
+        type: string
+        description: "Description of the alert."
+      context:
+        type: string
+        description: "Context of the alert."
+      name:
+        type: string
+        description: "Name of the alert."
+      ruleId:
+        type: string
+        description: "Rule ID which generated the alert."
+      monitorId:
+        type: string
+        description: "Monitor ID which generated the alert."
+      isMonitorAlert:
+        type: boolean
+        description: "Is the alert generated by a monitor?"
+  AlertHistoryResponse:
+    type: object
+    properties:
+      id:
+        type: string
+        description: "Alert ID."
+      modifiedBy:
+        type: string
+        description: "Alert modified by."
+      comments:
+        type: string
+        description: "Alert comments."
+      timeModified:
+        type: string
+        description: "Time alert was modified."
+  MonitoringObjectResponse:
+    type: object
+    properties:
+      monitoringObjectProperties:
+        type: array
+        items:
+          $ref: '#/definitions/MonitoringObjectProperty'
+      relatedObjects:
+        type: array
+        items:
+          $ref: '#/definitions/RelatedObject'
+      classes:
+        type: array
+        items:
+          $ref: '#/definitions/ClassDataResponse'
+      displayName:
+        type: string
+        description: "Display name of the moniotring object."
+      healthIconUrl:
+        type: string
+        description: "Monitoring object health icon URL."
+      icon:
+        type: string
+        description: "Icon of monitoring object."
+  MonitoringObjectProperty:
+    type: object
+    properties:
+      name:
+        type: string
+        description: "Name of the monitoring property."
+      value:
+        type: string
+  RelatedObject:
+    type: object
+    properties:
+      id:
+        type: string
+        description: "ID of the related object."
+      displayName:
+        type: string
+        description: "Display name of the related object."
+      healthIconUrl:
+        type: string
+        description: "Health Icon URL of the related object."
+      icon:
+        type: string
+        description: "Icon of the related object."
+  ClassDataResponse:
+    type: object
+    properties:
+      id:
+        type: string
+        description: "Class ID."
+      displayName:
+        type: string
+        description: "Display name of the class."
+      childObjects:
+        type: array
+        items:
+          $ref: '#/definitions/ChildObject'
+      description:
+        type: string
+        description: "Description of the class."
+      comment:
+        type: string
+      hosted:
+        type: string
+        description: "Host of the class."
+      status:
+        type: string
+        description: "Status of the class."
+      timeAdded:
+        type: string
+        description: "Time the class has been added."
+      baseMonitoringClass:
+        $ref: '#/definitions/BaseMonitoringClass'
+      propertyCollection:
+        type: array
+        items:
+          $ref: '#/definitions/ClassProperty'
+  ChildObject:
+    type: object
+    properties:
+      displayName:
+        type: string
+        description: "Display name of the child object."
+      id:
+        type: string
+        description: "ID of the child object."
+      healthState:
+        type: string
+        description: "Health state of the child object."
+  BaseMonitoringClass:
+    type: object
+    properties:
+      id:
+        type: string
+        description: "ID of the base monitoring class."
+      displayName:
+        type: string
+        description: "Display name of the base monitoring class."
+  ClassProperty:
+    type: object
+    properties:
+      name:
+        type: string
+        description: "Name of the class."
+      description:
+        type: string
+        description: "Description of the class."
+  RuleDataResponse:
+    type: object
+    properties:
+      id:
+        type: string
+        description: "Rule ID."
+      description:
+        type: string
+        description: "Rule description."
+      name:
+        type: string
+        description: "Rule name."
+      displayName:
+        type: string
+        description: "Rule display name."
+      comment:
+        type: string
+        description: "Rule comments."
+      target:
+        $ref: '#/definitions/RuleTarget'
+      xmlTag:
+        type: string
+        description: "Rule XML tag."
+      conditionDetectionConfiguration:
+        type: string
+        description: "Rule condition configuration."
+      dataSourceConfiguration:
+        type: string
+        description: "Rule data source configuration."
+      category:
+        type: string
+        description: "Rule category."
+      identifier:
+        type: string
+        description: "Rule identifier."
+      enabled:
+        type: string
+        description: "Is rule enabled."
+  RuleTarget:
+    type: object
+    properties:
+      id:
+        type: string
+        description: "Rule ID."
+      displayName:
+        type: string
+        description: "Rule display name."
+  KnowledgeArticleResponse:
+    type: object
+    properties:
+      id:
+        type: string
+        description: "Knowledge article ID."
+      knowledgeSections:
+        type: array
+        items:
+          $ref: '#/definitions/KnowledgeSectionHtml'
+      htmlContent:
+        type: string
+        description: "Content of the knowledge article."
+      lastModified:
+        type: string
+        description: "Knowledge article was last modified by."
+      mpId:
+        type: string
+        description: "Management pack ID."
+      mpName:
+        type: string
+        description: "Management pack name."
+      isProductKnowledge:
+        type: boolean
+        description: "Is product knowledge."
+  KnowledgeSectionHtml:
+    type: object
+    properties:
+      title:
+        type: string
+        description: "Tile."
+      html:
+        type: string
+        description: "Content of the knowledge article."
+  MonitoringDataResponse:
+    type: object
+    properties:
+      childNodeDatas:
+        type: array
+        items:
+          $ref: '#/definitions/ChildNodeData'
+      alertCount:
+        format: int32
+        type: integer
+        description: "Alert count."
+      healthState:
+        type: string
+        description: "Health state."
+  ChildNodeData:
+    type: object
+    properties:
+      healthState:
+        type: string
+        description: "Health state of the child node."
+      id:
+        type: string
+        description: "Child node ID."
+      monitorId:
+        type: string
+        description: "Monitor ID."
+      monitorDisplayName:
+        type: string
+        description: "Monitor display name."
+      monitorName:
+        type: string
+        description: "Monitor name."
+      lastTimeModified:
+        type: string
+        description: "Last modified time."
+  PerformanceRequest:
+    type: object
+    properties:
+      id:
+        type: string
+        description: "ID."
+      performanceCounters:
+        type: array
+        items:
+          type: object
+          additionalProperties:
+            type: string
+      duration:
+        format: int64
+        type: integer
+        description: "Duration for which data needs to be retrieved."
+  PerformanceResponse:
+    type: object
+    properties:
+      datasets:
+        type: array
+        items:
+          $ref: '#/definitions/GraphData'
+      legends:
+        $ref: '#/definitions/TableDataResponse'
+  GraphData:
+    type: object
+    properties:
+      data:
+        type: object
+        additionalProperties:
+          format: double
+          type: number
+      id:
+        type: string
+        description: "ID."
+  ResolutionStateRequest:
+    type: object
+    properties:
+      alertIds:
+        type: array
+        items:
+          type: string
+      resolutionState:
+        format: int32
+        type: integer
+        description: "Resolution state."
+      comment:
+        type: string
+        description: "Comment."
+  PerformanceCounterDataResponse:
+    type: object
+    properties:
+      performanceCounterDatas:
+        type: array
+        items:
+          $ref: '#/definitions/PerformanceCounterData'
+  PerformanceCounterData:
+    type: object
+    properties:
+      counterName:
+        type: string
+        description: "Counter name."
+      instanceName:
+        type: string
+        description: "Instance name."
+      objectName:
+        type: string
+        description: "Object name."
+      objectFullName:
+        type: string
+        description: "Object full name."
+      objectId:
+        type: string
+        description: "Object ID."
+      parentObjectId:
+        type: string
+        description: "Parent object ID."
+  HeaderColumns:
+    type: object
+    properties:
+      name:
+        type: string
+        description: "Name."
+      id:
+        type: string
+        description: "ID."
+      typename:
+        type: string
+        description: "Type name."
+      isSortable:
+        type: boolean
+        description: "Is sortable."
+      isGroupable:
+        type: boolean
+        description: "Is groupable."
+  ScopeDataResponse:
+    type: object
+    properties:
+      scopeDatas:
+        type: array
+        items:
+          $ref: '#/definitions/ScopeData'
+  ScopeData:
+    type: object
+    properties:
+      id:
+        type: string
+        description: "ID."
+      displayName:
+        type: string
+        description: "Display name."
+      className:
+        type: string
+        description: "Class name."
+      path:
+        type: string
+        description: "Path."
+      fullName:
+        type: string
+        description: "Full name."
+  TopologyResponse:
+    type: object
+    properties:
+      name:
+        type: string
+        description: "Name."
+      id:
+        format: uuid
+        type: string
+        description: "ID."
+      icon:
+        type: string
+        description: "Icon."
+  MonitorDataResponse:
+    type: object
+    properties:
+      id:
+        type: string
+        description: "Monitor ID."
+      description:
+        type: string
+        description: "Monitor description."
+      name:
+        type: string
+        description: "Monitor name."
+      displayName:
+        type: string
+        description: "Monitor display name."
+      comment:
+        type: string
+        description: "Comment."
+      target:
+        $ref: '#/definitions/MonitorTarget'
+      monitorType:
+        type: string
+        description: "Monitor type."
+      category:
+        type: string
+        description: "Monitor category."
+      priority:
+        type: string
+        description: "Monitor priority."
+      status:
+        type: string
+        description: "Monitor status."
+      enabled:
+        type: string
+        description: "Is monitor enabled."
+      state:
+        type: string
+        description: "Monitor state."
+      lastModified:
+        format: date-time
+        type: string
+        description: "Last modified."
+  MonitorTarget:
+    type: object
+    properties:
+      id:
+        type: string
+        description: "Monitor ID."
+      displayName:
+        type: string
+        description: "Monitor display name."
+  MonitorObjectDataRequest:
+    type: object
+    properties:
+      id:
+        type: string
+        description: "Monitor ID."
+      showUnhealthyMonitorsOnly:
+        type: boolean
+        description: "You can choosse to visulaize only unhealthy monitors."
+  TopologyRequest:
+    type: object
+    properties:
+      name:
+        type: string
+        description: "Name."
+      icon:
+        type: string
+        description: "Icon."
+  SLARequest:
+    required:
+      - value
+      - duration
+      - id
+      - managementGroupId
+    type: object
+    properties:
+      value:
+        format: int32
+        type: integer
+      duration:
+        type: string
+      id:
+        type: string
+      managementGroupId:
+        type: string
+  SLAResponse:
+    type: object
+    properties:
+      name:
+        type: string
+      id:
+        type: string
+      slaManagedEntityRowId:
+        format: int32
+        type: integer
+      slos:
+        type: array
+        items:
+          $ref: '#/definitions/SLOResponse'
+  SLOResponse:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      targetClassName:
+        type: string
+  SLODataRequest:
+    required:
+      - sloId
+      - slaId
+      - value
+      - duration
+      - slaManagedEntityRowId
+    type: object
+    properties:
+      sloId:
+        type: string
+      slaId:
+        type: string
+      value:
+        format: int32
+        type: integer
+      duration:
+        type: string
+      slaManagedEntityRowId:
+        format: int32
+        type: integer
+  SLODataResponse:
+    type: object
+    properties:
+      id:
+        type: string
+      goal:
+        format: double
+        type: number
+      desiredObjective:
+        type: string
+      actualValue:
+        format: double
+        type: number
+  SLA:
+    type: object
+    properties:
+      name:
+        type: string
+      id:
+        type: string
+      managementGroupId:
+        type: string
+      managementPackName:
+        type: string
+      target:
+        type: string
+  TaskRequest:
+    required:
+      - id
+      - viewType
+    type: object
+    properties:
+      id:
+        type: string
+        description: "Task ID."
+      viewType:
+        type: string
+        description: "View type."
+  TaskListResponse:
+    type: object
+    properties:
+      displayName:
+        type: string
+        description: "Task display name."
+      taskListType:
+        type: string
+        description: "Task list type."
+      taskList:
+        type: array
+        items:
+          $ref: '#/definitions/TaskResponse'
+  TaskResponse:
+    type: object
+    properties:
+      id:
+        format: uuid
+        type: string
+        description: "Task ID."
+      displayName:
+        type: string
+        description: "Task display name."
+      description:
+        type: string
+        description: "Task description."
+      iconUrl:
+        type: string
+        description: "Icon URL."
+      targets:
+        type: array
+        items:
+          $ref: '#/definitions/TaskTarget'
+      parameters:
+        type: array
+        items:
+          $ref: '#/definitions/TaskParameter'
+  TaskTarget:
+    type: object
+    properties:
+      id:
+        format: uuid
+        type: string
+        description: "ID."
+      name:
+        type: string
+        description: "Name."
+      runLocation:
+        type: string
+        description: "Run location."
+  TaskParameter:
+    type: object
+    properties:
+      id:
+        format: uuid
+        type: string
+        description: "ID."
+      parameterType:
+        type: string
+        description: "Parameter type."
+      name:
+        type: string
+        description: "Name."
+      displayName:
+        type: string
+        description: "Display name."
+      defaultValue:
+        type: string
+        description: "Default value."
+  TaskExecutionRequest:
+    type: object
+    properties:
+      taskId:
+        format: uuid
+        type: string
+        description: "Task ID."
+      monitoringObjectIds:
+        type: array
+        items:
+          type: string
+      parametersWithValues:
+        type: object
+        additionalProperties:
+          type: string
+      credentials:
+        $ref: '#/definitions/TaskExecutionCredentials'
+  TaskExecutionCredentials:
+    type: object
+    properties:
+      domain:
+        type: string
+        description: "Domain."
+      username:
+        type: string
+        description: "Username."
+      password:
+        type: string
+        description: "Password."
+  TaskResultResponse:
+    type: object
+    properties:
+      batchId:
+        format: uuid
+        type: string
+        description: "Batch ID."
+      taskName:
+        type: string
+        description: "Task name."
+      taskStatus:
+        type: string
+        description: "Task status."
+      taskTarget:
+        type: string
+        description: "Task target."
+      taskOutput:
+        type: string
+        description: "Task output."
+      errorCode:
+        format: int32
+        type: integer
+        description: "Error code."
+      errorMessage:
+        type: string
+        description: "Error message."
+  ManagementPackResponse:
+    type: object
+    properties:
+      name:
+        type: string
+        description: "Management pack name."
+      id:
+        type: string
+        description: "Management pack ID."
+  DashboardActionsResponse:
+    type: object
+    properties:
+      dashboardActions:
+        type: array
+        items:
+          $ref: '#/definitions/RBACActions'
+      widgetActions:
+        type: array
+        items:
+          $ref: '#/definitions/RBACActions'
+  RBACActions:
+    type: object
+    properties:
+      id:
+        type: string
+        description: "ID."
+      displayName:
+        type: string
+        description: "Display name."
+      enabled:
+        type: boolean
+        description: "Is enabled."
+  TreeViewResponse:
+    type: object
+    properties:
+      data:
+        type: array
+        items:
+          $ref: '#/definitions/TreeNode'
+  TreeNode:
+    type: object
+    properties:
+      children:
+        type: array
+        items:
+          $ref: '#/definitions/TreeNode'
+      id:
+        type: string
+        description: "ID."
+      label:
+        type: string
+        description: "Label."
+      description:
+        type: string
+        description: "Description."
+      viewType:
+        type: string
+        description: "View type."
+      expandedIcon:
+        type: string
+        description: "Expanded icon."
+      collapsedIcon:
+        type: string
+        description: "Collapsed icon."
+      icon:
+        type: string
+        description: "Icon."
+      expanded:
+        type: boolean
+        description: "Expanded."
+      isSealed:
+        type: boolean
+        description: "Is sealed."
+      parent:
+        type: string
+        description: "Parent."
+      url:
+        type: string
+        description: "URL."
+      isShortcut:
+        type: boolean
+        description: "Is shortcut."
+  StaticResourceResponse:
+    type: object
+    properties:
+      dictionary:
+        type: object
+        additionalProperties:
+          type: string
+      stateResourceResponse:
+        $ref: '#/definitions/StateResourceResponse'
+      performanceResourceResponse:
+        $ref: '#/definitions/PerformanceResourceResponse'
+      monitoringResourceResponse:
+        $ref: '#/definitions/MonitoringResourceResponse'
+      alertAuthoring:
+        $ref: '#/definitions/AlertResourceResponse'
+      isTelemetryEnabled:
+        type: boolean
+        description: "Is telemetry enabled."
+  StateResourceResponse:
+    type: object
+    properties:
+      healthStates:
+        type: array
+        items:
+          $ref: '#/definitions/Resource'
+      displayObjects:
+        type: array
+        items:
+          $ref: '#/definitions/Resource'
+  PerformanceResourceResponse:
+    type: object
+    properties:
+      legendsData:
+        type: array
+        items:
+          $ref: '#/definitions/Resource'
+      axisLimitValue:
+        type: array
+        items:
+          $ref: '#/definitions/Resource'
+      timeUnitValue:
+        type: array
+        items:
+          $ref: '#/definitions/Resource'
+  MonitoringResourceResponse:
+    type: object
+    properties:
+      types:
+        type: array
+        items:
+          $ref: '#/definitions/Resource'
+  AlertResourceResponse:
+    type: object
+    properties:
+      severities:
+        type: array
+        items:
+          $ref: '#/definitions/Resource'
+      priorities:
+        type: array
+        items:
+          $ref: '#/definitions/Resource'
+      resolutionStates:
+        type: array
+        items:
+          $ref: '#/definitions/Resource'
+      columns:
+        type: array
+        items:
+          $ref: '#/definitions/HeaderColumns'
+  Resource:
+    type: object
+    properties:
+      name:
+        type: string
+        description: "Name."
+      value:
+        type: string
+        description: "Value."
+      selected:
+        type: boolean
+        description: "Is selected."
