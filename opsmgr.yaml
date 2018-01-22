@@ -307,7 +307,7 @@ paths:
       tags:
         - Component
       description: "Retrieves the widgets for the dashboard and entity. NOTE: This only supports fetching widgets for Performance Dashboard."
-      operationId: Component_RetrieveWidgets
+      operationId: Component_RetrieveWidgetsForEntity
       consumes: []
       produces:
         - application/json
@@ -1088,37 +1088,6 @@ paths:
           schema:
             type: string
       deprecated: false
-  /data/topology:
-    post:
-      tags:
-        - Data
-      description: "Retrieves the health states of the specfied criteria."
-      operationId: Data_RetrieveTopologyData
-      consumes:
-        - application/json
-        - text/json
-        - application/xml
-        - text/xml
-        - application/x-www-form-urlencoded
-      produces:
-        - application/json
-        - text/json
-        - application/xml
-        - text/xml
-      parameters:
-        - name: dataRequest
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/DataRequest'
-      responses:
-        '200':
-          description: OK
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/TopologyResponse'
-      deprecated: false
   /data/rules:
     post:
       tags:
@@ -1215,157 +1184,6 @@ paths:
             items:
               $ref: '#/definitions/MonitorDataResponse'
       deprecated: false
-  /data/topologyImage:
-    put:
-      tags:
-        - Data
-      description: "Update the image used to overlay objects health."
-      operationId: Data_UploadTopologyImage
-      consumes:
-        - application/json
-        - text/json
-        - application/xml
-        - text/xml
-        - application/x-www-form-urlencoded
-      produces:
-        - application/json
-        - text/json
-        - application/xml
-        - text/xml
-      parameters:
-        - name: uploadImageRequest
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/TopologyRequest'
-      responses:
-        '200':
-          description: OK. Successfully updated the image used to overlay objects health.
-          schema:
-            $ref: '#/definitions/TopologyResponse'
-      deprecated: false
-  /data/topologyImages:
-    get:
-      tags:
-        - Data
-      description: "Retrieve the list of images used to overlay objects health."
-      operationId: Data_RetrieveTopologyImages
-      consumes: []
-      produces:
-        - application/json
-        - text/json
-        - application/xml
-        - text/xml
-      responses:
-        '200':
-          description: OK. Successfully retrieved the list of images used to overlay objects health.
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/TopologyResponse'
-      deprecated: false
-  '/data/topologyImage/{imageId}':
-    get:
-      tags:
-        - Data
-      description: "Retrieve the image used to overlay objects health."
-      operationId: Data_RetrieveTopologyImage
-      consumes: []
-      produces:
-        - application/json
-        - text/json
-        - application/xml
-        - text/xml
-      parameters:
-        - name: imageId
-          in: path
-          description: "Specify the image ID."
-          required: true
-          type: string
-      responses:
-        '200':
-          description: OK. Successfully retrieved the image used to overlay objects health.
-          schema:
-            $ref: '#/definitions/TopologyResponse'
-      deprecated: false
-    "_comment": "/data/sla:
-    post:
-      tags:
-        - Data
-      description: Retrieve the list of SLA and thier respective properties.
-      operationId: Data_RetrieveSLAData
-      consumes:
-        - application/json
-        - text/json
-        - application/xml
-        - text/xml
-        - application/x-www-form-urlencoded
-      produces:
-        - application/json
-        - text/json
-        - application/xml
-        - text/xml
-      parameters:
-        - name: request
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/SLARequest'
-      responses:
-        '200':
-          description: OK
-          schema:
-            $ref: '#/definitions/SLAResponse'
-      deprecated: false
-  /data/slo:
-    post:
-      tags:
-        - Data
-      description: Retrieves SLO along with its properties.
-      operationId: Data_RetrieveSLOData
-      consumes:
-        - application/json
-        - text/json
-        - application/xml
-        - text/xml
-        - application/x-www-form-urlencoded
-      produces:
-        - application/json
-        - text/json
-        - application/xml
-        - text/xml
-      parameters:
-        - name: request
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/SLODataRequest'
-      responses:
-        '200':
-          description: OK
-          schema:
-            $ref: '#/definitions/SLODataResponse'
-      deprecated: false
-  /data/slas:
-    get:
-      tags:
-        - Data
-      description: Retrieve the list of SLA(s) and thier respective properties.
-      operationId: Data_getSLAs
-      consumes: []
-      produces:
-        - application/json
-        - text/json
-        - application/xml
-        - text/xml
-      responses:
-        '200':
-          description: OK
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/SLA'
-      deprecated: false"
   /data/scomClasses:
     post:
       tags:
@@ -1603,23 +1421,6 @@ paths:
           schema:
             type: object
       deprecated: false
-  "_comment": "/resources/static:
-    get:
-      tags:
-        - Resource
-      operationId: Resource_RetrieveStaticResources
-      consumes: []
-      produces:
-        - application/json
-        - text/json
-        - application/xml
-        - text/xml
-      responses:
-        '200':
-          description: OK
-          schema:
-            $ref: '#/definitions/StaticResourceResponse'
-      deprecated: false"
   /resources/alertColumns:
     get:
       tags:
@@ -1700,89 +1501,6 @@ paths:
             items:
               $ref: '#/definitions/Resource'
       deprecated: false
-    "_comment": "/resources/alert:
-    get:
-      tags:
-        - Resource
-      operationId: Resource_RetrieveAlertResources
-      consumes: []
-      produces:
-        - application/json
-        - text/json
-        - application/xml
-        - text/xml
-      responses:
-        '200':
-          description: OK
-          schema:
-            $ref: '#/definitions/AlertResourceResponse'
-      deprecated: false
-  /resources/state:
-    get:
-      tags:
-        - Resource
-      operationId: Resource_RetrieveStateResource
-      consumes: []
-      produces:
-        - application/json
-        - text/json
-      responses:
-        '200':
-          description: OK
-          schema:
-            $ref: '#/definitions/StateResourceResponse'
-      deprecated: false
-  /resources/monitoring:
-    get:
-      tags:
-        - Resource
-      operationId: Resource_RetrieveMonitoringResources
-      consumes: []
-      produces:
-        - application/json
-        - text/json
-        - application/xml
-        - text/xml
-      responses:
-        '200':
-          description: OK
-          schema:
-            $ref: '#/definitions/MonitoringResourceResponse'
-      deprecated: false
-  /resources/performance:
-    get:
-      tags:
-        - Resource
-      operationId: Resource_RetrievePerformanceResources
-      consumes: []
-      produces:
-        - application/json
-        - text/json
-        - application/xml
-        - text/xml
-      responses:
-        '200':
-          description: OK
-          schema:
-            $ref: '#/definitions/PerformanceResourceResponse'
-      deprecated: false
-  /resources/loginStaticStrings:
-    get:
-      tags:
-        - Resource
-      operationId: Resource_RetrieveLoginStringResources
-      consumes: []
-      produces:
-        - application/json
-        - text/json
-        - application/xml
-        - text/xml
-      responses:
-        '200':
-          description: OK
-          schema:
-            type: object
-      deprecated: false"
 definitions:
   ComponentRequest:
     required:
