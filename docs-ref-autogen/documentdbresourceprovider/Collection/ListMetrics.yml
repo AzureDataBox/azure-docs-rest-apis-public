@@ -10,7 +10,7 @@ consumes:
 produces:
 - application/json
 paths:
-- content: GET management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/collections/{collectionRid}/metrics?api-version=2015-04-08&$filter={$filter}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/collections/{collectionRid}/metrics?api-version=2015-04-08&$filter={$filter}
 uriParameters:
 - name: subscriptionId
   in: path
@@ -70,12 +70,23 @@ definitions:
     isReadyOnly: true
     description: "  \nMetric data"
     types:
-    - uid: Metric
+    - uid: PartitionMetric
       isArray: true
-- name: Metric
-  description: The list of metrics for the account.
+    typesTitle: Metric[]
+- name: PartitionMetric
+  description: The list of partition-level metrics for the account.
   kind: object
   properties:
+  - name: partitionId
+    isReadyOnly: true
+    description: "  \nThe parition id (GUID identifier) of the metric values."
+    types:
+    - uid: string
+  - name: partitionKeyRangeId
+    isReadyOnly: true
+    description: "  \nThe partition key range id (integer identifier) of the metric values."
+    types:
+    - uid: string
   - name: startTime
     isReadyOnly: true
     description: "  \nThe start time for the metric (ISO-8601 format)."
@@ -105,8 +116,9 @@ definitions:
     isReadyOnly: true
     description: "  \nRepresents metrics values."
     types:
-    - uid: MetricValue
+    - uid: PercentileMetricValue
       isArray: true
+    typesTitle: MetricValue[]
 - name: UnitType
   description: The unit of the metric.
   kind: enum
@@ -146,10 +158,45 @@ definitions:
     description: "  \nThe friendly name of the metric."
     types:
     - uid: string
-- name: MetricValue
-  description: The metric values for the specified time window and timestep.
+- name: PercentileMetricValue
+  description: The percentile metric values for the specified time window and timestep.
   kind: object
   properties:
+  - name: P10
+    isReadyOnly: true
+    description: "  \nThe 10th percentile value for the metric."
+    types:
+    - uid: number
+  - name: P25
+    isReadyOnly: true
+    description: "  \nThe 25th percentile value for the metric."
+    types:
+    - uid: number
+  - name: P50
+    isReadyOnly: true
+    description: "  \nThe 50th percentile value for the metric."
+    types:
+    - uid: number
+  - name: P75
+    isReadyOnly: true
+    description: "  \nThe 75th percentile value for the metric."
+    types:
+    - uid: number
+  - name: P90
+    isReadyOnly: true
+    description: "  \nThe 90th percentile value for the metric."
+    types:
+    - uid: number
+  - name: P95
+    isReadyOnly: true
+    description: "  \nThe 95th percentile value for the metric."
+    types:
+    - uid: number
+  - name: P99
+    isReadyOnly: true
+    description: "  \nThe 99th percentile value for the metric."
+    types:
+    - uid: number
   - name: _count
     isReadyOnly: true
     description: "  \nThe number of values for the metric."
@@ -183,7 +230,7 @@ definitions:
 examples:
 - name: CosmosDBCollectionGetMetrics
   request:
-    uri: GET management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1/databases/databaseRid/collections/collectionRid/metrics?api-version=2015-04-08&$filter=$filter=(name.value eq 'Total Requests') and timeGrain eq duration'PT5M' and startTime eq '2017-11-19T23:53:55.2780000Z' and endTime eq '2017-11-20T00:13:55.2780000Z
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1/databases/databaseRid/collections/collectionRid/metrics?api-version=2015-04-08&$filter=$filter=(name.value eq 'Total Requests') and timeGrain eq duration'PT5M' and startTime eq '2017-11-19T23:53:55.2780000Z' and endTime eq '2017-11-20T00:13:55.2780000Z
   responses:
   - statusCode: "200"
     body: >-

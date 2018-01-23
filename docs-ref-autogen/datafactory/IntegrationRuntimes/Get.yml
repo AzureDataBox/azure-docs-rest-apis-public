@@ -10,7 +10,7 @@ consumes:
 produces:
 - application/json
 paths:
-- content: GET management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}?api-version=2017-09-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}?api-version=2017-09-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -111,6 +111,12 @@ definitions:
   description: Self-hosted integration runtime.
   kind: object
   properties:
+  - name: typeProperties.linkedInfo
+    description: "  \nThe base definition of a secret type."
+    types:
+    - uid: LinkedIntegrationRuntimeRbac
+    - uid: LinkedIntegrationRuntimeKey
+    typesTitle: LinkedIntegrationRuntimeProperties
   - name: type
     description: "  \nType of integration runtime."
     types:
@@ -223,6 +229,40 @@ definitions:
     description: "  \nLicense type for bringing your own license scenario."
     types:
     - uid: IntegrationRuntimeLicenseType
+  - name: customSetupScriptProperties
+    description: "  \nCustom setup script properties for a managed dedicated integration runtime."
+    types:
+    - uid: IntegrationRuntimeCustomSetupScriptProperties
+  - name: edition
+    description: "  \nThe edition for the SSIS Integration Runtime"
+    types:
+    - uid: IntegrationRuntimeEdition
+- name: LinkedIntegrationRuntimeRbac
+  description: The base definition of a secret type.
+  kind: object
+  properties:
+  - name: resourceId
+    description: "  \nThe resource ID of the integration runtime to be shared."
+    types:
+    - uid: string
+  - name: authorizationType
+    description: "  \nType of the secret."
+    types:
+    - uid: RBAC
+    typesTitle: string
+- name: LinkedIntegrationRuntimeKey
+  description: The base definition of a secret type.
+  kind: object
+  properties:
+  - name: key
+    description: "  \nType of the secret."
+    types:
+    - uid: SecureString
+  - name: authorizationType
+    description: "  \nType of the secret."
+    types:
+    - uid: Key
+    typesTitle: string
 - name: IntegrationRuntimeVNetProperties
   description: VNet properties for managed integration runtime.
   kind: object
@@ -265,6 +305,28 @@ definitions:
   - name: LicenseIncluded
     types:
     - uid: string
+- name: IntegrationRuntimeCustomSetupScriptProperties
+  description: Custom setup script properties for a managed dedicated integration runtime.
+  kind: object
+  properties:
+  - name: blobContainerUri
+    description: "  \nThe URI of the Azure blob container that contains the custom setup script."
+    types:
+    - uid: string
+  - name: sasToken
+    description: "  \nThe SAS token of the Azure blob container."
+    types:
+    - uid: SecureString
+- name: IntegrationRuntimeEdition
+  description: The edition for the SSIS Integration Runtime
+  kind: enum
+  properties:
+  - name: Standard
+    types:
+    - uid: string
+  - name: Enterprise
+    types:
+    - uid: string
 - name: SecureString
   description: Azure Data Factory secure string definition. The string value will be masked with asterisks '*' during Get or List API calls.
   kind: object
@@ -297,7 +359,7 @@ definitions:
 examples:
 - name: IntegrationRuntimes_Get
   request:
-    uri: GET management.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/integrationRuntimes/exampleIntegrationRuntime?api-version=2017-09-01-preview
+    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/integrationRuntimes/exampleIntegrationRuntime?api-version=2017-09-01-preview
   responses:
   - statusCode: "200"
     headers:

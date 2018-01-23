@@ -10,7 +10,7 @@ consumes:
 produces:
 - application/json
 paths:
-- content: PATCH management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}?api-version=2017-12-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}?api-version=2017-12-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -447,6 +447,10 @@ definitions:
     description: "  \nSpecifies that the image or disk that is being used was licensed on-premises. This element is only used for images that contain the Windows Server operating system. <br><br> Possible values are: <br><br> Windows_Client <br><br> Windows_Server <br><br> If this element is included in a request for an update, the value must match the initial value. This value cannot be updated. <br><br> For more information, see [Azure Hybrid Use Benefit for Windows Server](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-hybrid-use-benefit-licensing?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json) <br><br> Minimum api-version: 2015-06-15"
     types:
     - uid: string
+  - name: priority
+    description: "  \nSpecifies the priority for the virtual machines in the scale set. <br><br>Minimum api-version: 2017-10-30-preview"
+    types:
+    - uid: VirtualMachinePriorityTypes
 - name: WindowsConfiguration
   description: Specifies Windows operating system settings on the virtual machine.
   kind: object
@@ -538,6 +542,10 @@ definitions:
     description: "  \nThe caching type."
     types:
     - uid: CachingTypes
+  - name: writeAcceleratorEnabled
+    description: "  \nSpecifies whether writeAccelerator should be enabled or disabled on the disk."
+    types:
+    - uid: boolean
   - name: image
     description: "  \nThe Source User Image VirtualHardDisk. This VirtualHardDisk will be copied before using it to attach to the Virtual Machine. If SourceImage is provided, the destination VirtualHardDisk should not exist."
     types:
@@ -567,6 +575,10 @@ definitions:
     description: "  \nSpecifies the caching requirements. <br><br> Possible values are: <br><br> **None** <br><br> **ReadOnly** <br><br> **ReadWrite** <br><br> Default: **None for Standard storage. ReadOnly for Premium storage**"
     types:
     - uid: CachingTypes
+  - name: writeAcceleratorEnabled
+    description: "  \nSpecifies whether writeAccelerator should be enabled or disabled on the disk."
+    types:
+    - uid: boolean
   - name: createOption
     description: "  \nThe create option."
     types:
@@ -746,6 +758,16 @@ definitions:
     types:
     - uid: VirtualMachineScaleSetNetworkConfiguration
       isArray: true
+- name: VirtualMachinePriorityTypes
+  description: 'Specifies the priority for the virtual machines in the scale set. <br><br>Minimum api-version: 2017-10-30-preview'
+  kind: enum
+  properties:
+  - name: Regular
+    types:
+    - uid: string
+  - name: Low
+    types:
+    - uid: string
 - name: AdditionalUnattendContent
   description: Specifies additional XML formatted information that can be included in the Unattend.xml file, which is used by Windows Setup. Contents are defined by setting name, component name, and the pass in which the content is applied.
   kind: object
@@ -953,6 +975,10 @@ definitions:
     description: "  \nSpecifies the caching requirements. <br><br> Possible values are: <br><br> **None** <br><br> **ReadOnly** <br><br> **ReadWrite** <br><br> Default: **None for Standard storage. ReadOnly for Premium storage**"
     types:
     - uid: CachingTypes
+  - name: writeAcceleratorEnabled
+    description: "  \nSpecifies whether writeAccelerator should be enabled or disabled on the disk."
+    types:
+    - uid: boolean
   - name: createOption
     description: "  \nSpecifies how the virtual machines in the scale set should be created.<br><br> The only allowed value is: **FromImage** \\u2013 This value is used when you are using an image to create the virtual machine. If you are using a platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also use the plan element previously described."
     types:

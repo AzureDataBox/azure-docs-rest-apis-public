@@ -10,7 +10,7 @@ consumes:
 produces:
 - application/json
 paths:
-- content: PUT management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}?api-version=2017-12-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}?api-version=2017-12-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -322,6 +322,18 @@ definitions:
     description: "  \nSpecifies the fault domain of the virtual machine."
     types:
     - uid: integer
+  - name: computerName
+    description: "  \nThe computer name assigned to the virtual machine."
+    types:
+    - uid: string
+  - name: osName
+    description: "  \nThe Operating System running on the virtual machine."
+    types:
+    - uid: string
+  - name: osVersion
+    description: "  \nThe version of Operating System running on the virtual machine."
+    types:
+    - uid: string
   - name: rdpThumbPrint
     description: "  \nThe Remote desktop certificate thumbprint."
     types:
@@ -844,6 +856,10 @@ definitions:
     description: "  \nSpecifies the caching requirements. <br><br> Possible values are: <br><br> **None** <br><br> **ReadOnly** <br><br> **ReadWrite** <br><br> Default: **None for Standard storage. ReadOnly for Premium storage**"
     types:
     - uid: CachingTypes
+  - name: writeAcceleratorEnabled
+    description: "  \nSpecifies whether writeAccelerator should be enabled or disabled on the disk."
+    types:
+    - uid: boolean
   - name: createOption
     description: "  \nSpecifies how the virtual machine should be created.<br><br> Possible values are:<br><br> **Attach** \\u2013 This value is used when you are using a specialized disk to create the virtual machine.<br><br> **FromImage** \\u2013 This value is used when you are using an image to create the virtual machine. If you are using a platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also use the plan element previously described."
     types:
@@ -880,6 +896,10 @@ definitions:
     description: "  \nSpecifies the caching requirements. <br><br> Possible values are: <br><br> **None** <br><br> **ReadOnly** <br><br> **ReadWrite** <br><br> Default: **None for Standard storage. ReadOnly for Premium storage**"
     types:
     - uid: CachingTypes
+  - name: writeAcceleratorEnabled
+    description: "  \nSpecifies whether writeAccelerator should be enabled or disabled on the disk."
+    types:
+    - uid: boolean
   - name: createOption
     description: "  \nSpecifies how the virtual machine should be created.<br><br> Possible values are:<br><br> **Attach** \\u2013 This value is used when you are using a specialized disk to create the virtual machine.<br><br> **FromImage** \\u2013 This value is used when you are using an image to create the virtual machine. If you are using a platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also use the plan element previously described."
     types:
@@ -1788,7 +1808,7 @@ definitions:
 examples:
 - name: Create a vm with password authentication.
   request:
-    uri: PUT management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2017-12-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2017-12-01
     body: >-
       {
         "location": "westus",
@@ -1937,7 +1957,7 @@ examples:
       }
 - name: Create a vm with ssh authentication.
   request:
-    uri: PUT management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2017-12-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2017-12-01
     body: >-
       {
         "location": "westus",
@@ -2110,7 +2130,7 @@ examples:
       }
 - name: Create a vm with premium storage.
   request:
-    uri: PUT management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2017-12-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2017-12-01
     body: >-
       {
         "location": "westus",
@@ -2259,7 +2279,7 @@ examples:
       }
 - name: Create a vm in an availability set.
   request:
-    uri: PUT management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2017-12-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2017-12-01
     body: >-
       {
         "location": "westus",
@@ -2417,7 +2437,7 @@ examples:
       }
 - name: Create a vm with boot diagnostics.
   request:
-    uri: PUT management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2017-12-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2017-12-01
     body: >-
       {
         "location": "westus",
@@ -2584,7 +2604,7 @@ examples:
       }
 - name: Create a vm with empty data disks.
   request:
-    uri: PUT management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2017-12-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2017-12-01
     body: >-
       {
         "location": "westus",
@@ -2783,7 +2803,7 @@ examples:
       }
 - name: Create a vm with a marketplace image plan.
   request:
-    uri: PUT management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2017-12-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2017-12-01
     body: >-
       {
         "location": "westus",
@@ -2947,7 +2967,7 @@ examples:
       }
 - name: Create a vm from a custom image.
   request:
-    uri: PUT management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2017-12-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2017-12-01
     body: >-
       {
         "location": "westus",
@@ -3087,7 +3107,7 @@ examples:
       }
 - name: Create a platform-image vm with unmanaged os and data disks.
   request:
-    uri: PUT management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/{vm-name}?api-version=2017-12-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/{vm-name}?api-version=2017-12-01
     body: >-
       {
         "location": "westus",
@@ -3296,7 +3316,7 @@ examples:
       }
 - name: Create a custom-image vm from an unmanaged generalized os image.
   request:
-    uri: PUT management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/{vm-name}?api-version=2017-12-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/{vm-name}?api-version=2017-12-01
     body: >-
       {
         "location": "westus",

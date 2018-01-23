@@ -10,7 +10,7 @@ consumes:
 produces:
 - application/json
 paths:
-- content: POST management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/getStatus?api-version=2017-09-01-preview
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/getStatus?api-version=2017-09-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -161,11 +161,21 @@ definitions:
     description: "  \nStatus of the integration runtime version."
     types:
     - uid: string
+  - name: typeProperties.links
+    description: "  \nThe linked integration runtime information."
+    types:
+    - uid: LinkedIntegrationRuntime
+      isArray: true
   - name: type
     description: "  \nType of integration runtime."
     types:
     - uid: SelfHosted
     typesTitle: string
+  - name: dataFactoryName
+    isReadyOnly: true
+    description: "  \nThe data factory name which the integration runtime belong to."
+    types:
+    - uid: string
   - name: state
     isReadyOnly: true
     description: "  \nThe state of integration runtime."
@@ -202,6 +212,11 @@ definitions:
     types:
     - uid: Managed
     typesTitle: string
+  - name: dataFactoryName
+    isReadyOnly: true
+    description: "  \nThe data factory name which the integration runtime belong to."
+    types:
+    - uid: string
   - name: state
     isReadyOnly: true
     description: "  \nThe state of integration runtime."
@@ -326,6 +341,25 @@ definitions:
     types:
     - uid: string
   - name: Off
+    types:
+    - uid: string
+- name: LinkedIntegrationRuntime
+  description: The linked integration runtime information.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: "  \nThe name of the linked integration runtime."
+    types:
+    - uid: string
+  - name: dataFactoryName
+    isReadyOnly: true
+    description: "  \nThe data factory name for which the linked integration runtime belong to."
+    types:
+    - uid: string
+  - name: createTime
+    isReadyOnly: true
+    description: "  \nThe creating time of the linked integration runtime."
     types:
     - uid: string
 - name: IntegrationRuntimeType
@@ -502,7 +536,7 @@ definitions:
 examples:
 - name: IntegrationRuntimes_GetStatus
   request:
-    uri: POST management.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/integrationRuntimes/exampleIntegrationRuntime/getStatus?api-version=2017-09-01-preview
+    uri: POST https://management.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/integrationRuntimes/exampleIntegrationRuntime/getStatus?api-version=2017-09-01-preview
   responses:
   - statusCode: "200"
     headers:
