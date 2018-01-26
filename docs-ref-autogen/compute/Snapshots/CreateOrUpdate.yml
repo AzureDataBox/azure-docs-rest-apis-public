@@ -27,7 +27,7 @@ uriParameters:
 - name: snapshotName
   in: path
   isRequired: true
-  description: The name of the snapshot within the given subscription and resource group.
+  description: The name of the snapshot that is being created. The name can't be changed after the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The max name length is 80 characters.
   types:
   - uid: string
 - name: api-version
@@ -292,7 +292,93 @@ definitions:
     description: "  \nResource Id"
     types:
     - uid: string
-examples: []
+examples:
+- name: Create a snapshot from an existing snapshot in the same or a different subscription.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot2?api-version=2017-03-30
+    body: >-
+      {
+        "name": "mySnapshot2",
+        "location": "West US",
+        "properties": {
+          "creationData": {
+            "createOption": "Copy",
+            "sourceResourceId": "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot1"
+          }
+        }
+      }
+  responses:
+  - statusCode: "202"
+    body: >-
+      {
+        "name": "mySnapshot2",
+        "location": "West US",
+        "properties": {
+          "provisioningState": "Updating",
+          "creationData": {
+            "createOption": "Copy",
+            "sourceResourceId": "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot1"
+          }
+        }
+      }
+- name: Create a snapshot by importing an unmanaged blob from the same subscription.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot1?api-version=2017-03-30
+    body: >-
+      {
+        "name": "mySnapshot1",
+        "location": "West US",
+        "properties": {
+          "creationData": {
+            "createOption": "Import",
+            "sourceUri": "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd"
+          }
+        }
+      }
+  responses:
+  - statusCode: "202"
+    body: >-
+      {
+        "properties": {
+          "creationData": {
+            "createOption": "Import",
+            "sourceUri": "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd"
+          },
+          "provisioningState": "Updating"
+        },
+        "location": "West US",
+        "name": "mySnapshot1"
+      }
+- name: Create a snapshot by importing an unmanaged blob from a different subscription.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot1?api-version=2017-03-30
+    body: >-
+      {
+        "name": "mySnapshot1",
+        "location": "West US",
+        "properties": {
+          "creationData": {
+            "createOption": "Import",
+            "storageAccountId": "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/myStorageAccount",
+            "sourceUri": "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd"
+          }
+        }
+      }
+  responses:
+  - statusCode: "202"
+    body: >-
+      {
+        "properties": {
+          "creationData": {
+            "createOption": "Import",
+            "storageAccountId": "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/myStorageAccount",
+            "sourceUri": "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd"
+          },
+          "provisioningState": "Updating"
+        },
+        "location": "West US",
+        "name": "mySnapshot1"
+      }
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow

@@ -740,7 +740,53 @@ definitions:
     description: "  \nThe Domain name label.The concatenation of the domain name label and vm index will be the domain name labels of the PublicIPAddress resources that will be created"
     types:
     - uid: string
-examples: []
+examples:
+- name: List all virtual machine images in a resource group.
+  request:
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images?api-version=2017-12-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/myImage",
+            "name": "myImage",
+            "type": "Microsoft.Compute/images",
+            "location": "West US",
+            "properties": {
+              "storageProfile": {
+                "osDisk": {
+                  "osType": "Windows",
+                  "blobUri": "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
+                  "snapshot": {
+                    "id": "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot1"
+                  },
+                  "managedDisk": {
+                    "id": "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk1"
+                  },
+                  "osState": "Generalized",
+                  "storageAccountType": "Standard_LRS"
+                },
+                "dataDisks": [
+                  {
+                    "lun": 1,
+                    "blobUri": "https://mystorageaccount.blob.core.windows.net/dataimages/dataimage.vhd",
+                    "snapshot": {
+                      "id": "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot2"
+                    },
+                    "managedDisk": {
+                      "id": "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk2"
+                    },
+                    "storageAccountType": "Standard_LRS"
+                  }
+                ]
+              },
+              "provisioningState": "created"
+            }
+          }
+        ]
+      }
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow

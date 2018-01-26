@@ -27,7 +27,7 @@ uriParameters:
 - name: diskName
   in: path
   isRequired: true
-  description: The name of the disk within the given subscription and resource group.
+  description: The name of the managed disk that is being created. The name can't be changed after the disk is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
   types:
   - uid: string
 - name: api-version
@@ -303,7 +303,183 @@ definitions:
     description: "  \nResource Id"
     types:
     - uid: string
-examples: []
+examples:
+- name: Create an empty managed disk.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2017-03-30
+    body: >-
+      {
+        "name": "myDisk",
+        "location": "West US",
+        "properties": {
+          "creationData": {
+            "createOption": "Empty"
+          },
+          "diskSizeGB": 200
+        }
+      }
+  responses:
+  - statusCode: "202"
+    body: >-
+      {
+        "properties": {
+          "creationData": {
+            "createOption": "Empty"
+          },
+          "diskSizeGB": 200,
+          "provisioningState": "Updating"
+        },
+        "location": "West US",
+        "name": "myDisk"
+      }
+- name: Create a managed disk from a platform image.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2017-03-30
+    body: >-
+      {
+        "name": "myDisk",
+        "location": "West US",
+        "properties": {
+          "osType": "Windows",
+          "creationData": {
+            "createOption": "FromImage",
+            "imageReference": {
+              "id": "/Subscriptions/{subscriptionId}/Providers/Microsoft.Compute/Locations/uswest/Publishers/Microsoft/ArtifactTypes/VMImage/Offers/{offer}"
+            }
+          }
+        }
+      }
+  responses:
+  - statusCode: "202"
+    body: >-
+      {
+        "name": "myDisk",
+        "location": "West US",
+        "properties": {
+          "provisioningState": "Updating",
+          "osType": "Windows",
+          "creationData": {
+            "createOption": "FromImage",
+            "imageReference": {
+              "id": "/Subscriptions/{subscriptionId}/Providers/Microsoft.Compute/Locations/uswest/Publishers/Microsoft/ArtifactTypes/VMImage/Offers/{offer}"
+            }
+          }
+        }
+      }
+- name: Create a managed disk from an existing managed disk in the same or different subscription.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk2?api-version=2017-03-30
+    body: >-
+      {
+        "name": "myDisk2",
+        "location": "West US",
+        "properties": {
+          "creationData": {
+            "createOption": "Copy",
+            "sourceResourceId": "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk1"
+          }
+        }
+      }
+  responses:
+  - statusCode: "202"
+    body: >-
+      {
+        "properties": {
+          "creationData": {
+            "createOption": "Copy",
+            "sourceResourceId": "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk1"
+          },
+          "provisioningState": "Updating"
+        },
+        "location": "West US",
+        "name": "myDisk2"
+      }
+- name: Create a managed disk by importing an unmanaged blob from the same subscription.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2017-03-30
+    body: >-
+      {
+        "name": "myDisk",
+        "location": "West US",
+        "properties": {
+          "creationData": {
+            "createOption": "Import",
+            "sourceUri": "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd"
+          }
+        }
+      }
+  responses:
+  - statusCode: "202"
+    body: >-
+      {
+        "name": "myDisk",
+        "location": "West US",
+        "properties": {
+          "provisioningState": "Updating",
+          "creationData": {
+            "createOption": "Import",
+            "sourceUri": "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd"
+          }
+        }
+      }
+- name: Create a managed disk by importing an unmanaged blob from a different subscription.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2017-03-30
+    body: >-
+      {
+        "name": "myDisk",
+        "location": "West US",
+        "properties": {
+          "creationData": {
+            "createOption": "Import",
+            "storageAccountId": "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/myStorageAccount",
+            "sourceUri": "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd"
+          }
+        }
+      }
+  responses:
+  - statusCode: "202"
+    body: >-
+      {
+        "name": "myDisk",
+        "location": "West US",
+        "properties": {
+          "provisioningState": "Updating",
+          "creationData": {
+            "createOption": "Import",
+            "storageAccountId": "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/myStorageAccount",
+            "sourceUri": "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd"
+          }
+        }
+      }
+- name: Create a managed disk by copying a snapshot.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2017-03-30
+    body: >-
+      {
+        "name": "myDisk",
+        "location": "West US",
+        "properties": {
+          "creationData": {
+            "createOption": "Copy",
+            "sourceResourceId": "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot"
+          }
+        }
+      }
+  responses:
+  - statusCode: "202"
+    body: >-
+      {
+        "name": "myDisk",
+        "location": "West US",
+        "properties": {
+          "provisioningState": "Updating",
+          "creationData": {
+            "createOption": "Copy",
+            "sourceResourceId": "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot"
+          }
+        }
+      }
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
