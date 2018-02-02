@@ -1,0 +1,125 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.servicefabric.clusterversions.listbyversion
+name: List By Version
+service: Service Fabric
+groupName: Cluster Versions
+apiVersion: 2016-09-01
+summary: List cluster code versions by version
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabric/locations/{location}/clusterVersions/{clusterVersion}?api-version=2016-09-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The customer subscription identifier
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: The location for the cluster code versions, this is different from cluster location
+  types:
+  - uid: string
+- name: clusterVersion
+  in: path
+  isRequired: true
+  description: The cluster code version
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the ServiceFabric resouce provider api
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK - Get cluster code versions successfully
+  types:
+  - uid: ClusterCodeVersionsListResult
+requestHeader: []
+definitions:
+- name: ClusterCodeVersionsListResult
+  description: The list results of the ServiceFabric runtime versions
+  kind: object
+  properties:
+  - name: value
+    description: "  \nThe result of the ServiceFabric runtime versions"
+    types:
+    - uid: ClusterCodeVersionsResult
+      isArray: true
+  - name: nextLink
+    description: "  \nThe URL to use for getting the next set of results."
+    types:
+    - uid: string
+- name: ClusterCodeVersionsResult
+  description: The result of the ServiceFabric runtime versions
+  kind: object
+  properties:
+  - name: id
+    description: "  \nThe identification of the result"
+    types:
+    - uid: string
+  - name: name
+    description: "  \nThe name of the result"
+    types:
+    - uid: string
+  - name: type
+    description: "  \nThe result resource type"
+    types:
+    - uid: string
+  - name: properties.codeVersion
+    description: "  \nThe ServiceFabric runtime version of the cluster"
+    types:
+    - uid: string
+  - name: properties.supportExpiryUtc
+    description: "  \nThe date of expiry of support of the version"
+    types:
+    - uid: string
+  - name: properties.environment
+    description: "  \nCluster operating system"
+    types:
+    - uid: ClusterEnvironment
+- name: ClusterEnvironment
+  description: Cluster operating system
+  kind: enum
+  properties:
+  - name: Windows
+    types:
+    - uid: string
+  - name: Linux
+    types:
+    - uid: string
+examples:
+- name: List cluster version
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ServiceFabric/locations/westus/clusterVersions/5.5.216.0?api-version=2016-09-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ServiceFabric/locations/westus/environments/Windows/clusterVersions/5.5.216.0",
+            "name": "5.5.216.0",
+            "type": "Microsoft.ServiceFabric/locations/environments/clusterVersions",
+            "properties": {
+              "codeVersion": "5.5.216.0",
+              "supportExpiryUtc": "2017-08-10T00:00:00",
+              "environment": "Windows"
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

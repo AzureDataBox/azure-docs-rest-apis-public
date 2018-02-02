@@ -1,0 +1,115 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.servicefabric.operations.list
+name: List
+service: Service Fabric
+groupName: Operations
+apiVersion: 2016-09-01
+summary: Lists all of the available ServiceFabric REST API operations.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.ServiceFabric/operations?api-version=2016-09-01
+uriParameters:
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the ServiceFabric resouce provider api
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: OperationListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorModel
+requestHeader: []
+definitions:
+- name: OperationListResult
+  description: Result of the request to list ServiceFabric operations. It contains a list of operations and a URL link to get the next set of results.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: "  \nAvailable operation list result"
+    types:
+    - uid: OperationResult
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: "  \nURL to get the next set of operation list results if there are any."
+    types:
+    - uid: string
+- name: ErrorModel
+  description: The structure of the error
+  kind: object
+  properties:
+  - name: error
+    description: "  \nThe error detail "
+    types:
+    - uid: Error
+- name: OperationResult
+  description: Available operation list result
+  kind: object
+  properties:
+  - name: name
+    description: "  \nResult name"
+    types:
+    - uid: string
+  - name: display
+    description: "  \nDispaly of the result"
+    types:
+    - uid: AvailableOperationDisplay
+  - name: origin
+    description: "  \nOrigin result"
+    types:
+    - uid: string
+  - name: nextLink
+    description: "  \nThe URL to use for getting the next set of results."
+    types:
+    - uid: string
+- name: Error
+  description: 'The error detail '
+  kind: object
+  properties:
+  - name: code
+    description: "  \nThe error code"
+    types:
+    - uid: string
+  - name: message
+    description: "  \nThe error message"
+    types:
+    - uid: string
+- name: AvailableOperationDisplay
+  description: Operation supported by ServiceFabric resource provider
+  kind: object
+  properties:
+  - name: provider
+    description: "  \nProvider name"
+    types:
+    - uid: string
+  - name: resource
+    description: "  \nResource name"
+    types:
+    - uid: string
+  - name: operation
+    description: "  \nOperation name"
+    types:
+    - uid: string
+  - name: description
+    description: "  \nOperation description"
+    types:
+    - uid: string
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

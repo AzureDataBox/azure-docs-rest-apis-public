@@ -1,0 +1,84 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.servicefabric.clusters.delete
+name: Delete
+service: Service Fabric
+groupName: Clusters
+apiVersion: 2016-09-01
+summary: Delete cluster resource
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}?api-version=2016-09-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The customer subscription identifier
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group to which the resource belongs or get created
+  types:
+  - uid: string
+- name: clusterName
+  in: path
+  isRequired: true
+  description: The name of the cluster resource
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the ServiceFabric resouce provider api
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK - cluster deleted  successfully
+- name: 204 No Content
+  description: NoContent
+- name: Other Status Codes
+  description: Error
+  types:
+  - uid: ErrorModel
+requestHeader: []
+definitions:
+- name: ErrorModel
+  description: The structure of the error
+  kind: object
+  properties:
+  - name: error
+    description: "  \nThe error detail "
+    types:
+    - uid: Error
+- name: Error
+  description: 'The error detail '
+  kind: object
+  properties:
+  - name: code
+    description: "  \nThe error code"
+    types:
+    - uid: string
+  - name: message
+    description: "  \nThe error message"
+    types:
+    - uid: string
+examples:
+- name: Delete a cluster
+  request:
+    uri: DELETE https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resRg/providers/Microsoft.ServiceFabric/clusters/myCluster?api-version=2016-09-01
+  responses:
+  - statusCode: "200"
+  - statusCode: "204"
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

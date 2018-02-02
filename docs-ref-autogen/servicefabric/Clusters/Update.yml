@@ -1,0 +1,760 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.servicefabric.clusters.update
+name: Update
+service: Service Fabric
+groupName: Clusters
+apiVersion: 2016-09-01
+summary: Update cluster configuration
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}?api-version=2016-09-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The customer subscription identifier
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group to which the resource belongs or get created
+  types:
+  - uid: string
+- name: clusterName
+  in: path
+  isRequired: true
+  description: The name of the cluster resource
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the ServiceFabric resouce provider api
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK - Cluster updated successfully
+  types:
+  - uid: Cluster
+- name: 202 Accepted
+  description: Accepted - Update request accepted; the operation will complete asynchronously.
+- name: Other Status Codes
+  description: Error
+  types:
+  - uid: ErrorModel
+requestBody:
+- parameters:
+  - name: tags
+    in: body
+    description: "  \nCluster update parameters"
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.reliabilityLevel
+    in: body
+    description: "  \nThis level is used to set the number of replicas of the system services"
+    types:
+    - uid: Bronze
+    - uid: Silver
+    - uid: Gold
+    typesTitle: enum
+  - name: properties.upgradeMode
+    in: body
+    description: "  \nCluster upgrade mode indicates if fabric upgrade is initiated automatically by the system or not"
+    types:
+    - uid: Automatic
+    - uid: Manual
+    typesTitle: enum
+  - name: properties.clusterCodeVersion
+    in: body
+    description: "  \nThe ServiceFabric code version, if set it, please make sure you have set upgradeMode to Manual, otherwise ,it will fail, if you are using PUT new cluster, you can get the version by using ClusterVersions_List, if you are updating existing cluster, you can get the availableClusterVersions from Clusters_Get"
+    types:
+    - uid: string
+  - name: properties.certificate
+    in: body
+    description: "  \nThis primay certificate will be used as cluster node to node security, SSL certificate for cluster management endpoint and default admin client, the certificate should exist in the virtual machine scale sets or Azure key vault, before you add it. It will override original value"
+    types:
+    - uid: CertificateDescription
+  - name: properties.clientCertificateThumbprints
+    in: body
+    description: "  \nClient certificate details using thumbprint"
+    types:
+    - uid: ClientCertificateThumbprint
+      isArray: true
+  - name: properties.clientCertificateCommonNames
+    in: body
+    description: "  \nClient certificate details using common name"
+    types:
+    - uid: ClientCertificateCommonName
+      isArray: true
+  - name: properties.fabricSettings
+    in: body
+    description: "  \nServiceFabric section settings"
+    types:
+    - uid: SettingsSectionDescription
+      isArray: true
+  - name: properties.reverseProxyCertificate
+    in: body
+    description: "  \nCertificate for the reverse proxy"
+    types:
+    - uid: CertificateDescription
+  - name: properties.nodeTypes
+    in: body
+    description: "  \nDescribes a node type in the cluster, each node type represents sub set of nodes in the cluster"
+    types:
+    - uid: NodeTypeDescription
+      isArray: true
+  - name: properties.upgradeDescription
+    in: body
+    description: "  \nThe policy to use when upgrading the cluster."
+    types:
+    - uid: ClusterUpgradePolicy
+requestHeader: []
+definitions:
+- name: CertificateDescription
+  description: Certificate details
+  kind: object
+  properties:
+  - name: thumbprint
+    description: "  \nThumbprint of the primary certificate"
+    types:
+    - uid: string
+  - name: thumbprintSecondary
+    description: "  \nThumbprint of the secondary certificate"
+    types:
+    - uid: string
+  - name: x509StoreName
+    description: "  \nThe local certificate store location"
+    types:
+    - uid: AddressBook
+    - uid: AuthRoot
+    - uid: CertificateAuthority
+    - uid: Disallowed
+    - uid: My
+    - uid: Root
+    - uid: TrustedPeople
+    - uid: TrustedPublisher
+    typesTitle: enum
+- name: ClientCertificateThumbprint
+  description: Client certificate details using thumbprint
+  kind: object
+  properties:
+  - name: isAdmin
+    description: "  \nIs this certificate used for admin access from the client, if false, it is used or query only access"
+    types:
+    - uid: boolean
+  - name: certificateThumbprint
+    description: "  \nCertificate thumbprint"
+    types:
+    - uid: string
+- name: ClientCertificateCommonName
+  description: Client certificate details using common name
+  kind: object
+  properties:
+  - name: isAdmin
+    description: "  \nIs this certificate used for admin access from the client, if false , it is used or query only access"
+    types:
+    - uid: boolean
+  - name: certificateCommonName
+    description: "  \nCertificate common name to be granted access; be carefull using wild card common names"
+    types:
+    - uid: string
+  - name: certificateIssuerThumbprint
+    description: "  \nCertificate issuer thumbprint"
+    types:
+    - uid: string
+- name: SettingsSectionDescription
+  description: ServiceFabric section settings
+  kind: object
+  properties:
+  - name: name
+    description: "  \nThe name of settings section"
+    types:
+    - uid: string
+  - name: parameters
+    description: "  \nServiceFabric settings under sections"
+    types:
+    - uid: SettingsParameterDescription
+      isArray: true
+- name: NodeTypeDescription
+  description: Describes a node type in the cluster, each node type represents sub set of nodes in the cluster
+  kind: object
+  properties:
+  - name: name
+    description: "  \nName of the node type"
+    types:
+    - uid: string
+  - name: placementProperties
+    description: "  \nThe placement tags applied to nodes in the node type, which can be used to indicate where certain services (workload) should run"
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: capacities
+    description: "  \nThe capacity tags applied to the nodes in the node type, the cluster resource manager uses these tags to understand how much of a resource a node has"
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: clientConnectionEndpointPort
+    description: "  \nThe TCP cluster management endpoint port"
+    types:
+    - uid: integer
+  - name: httpGatewayEndpointPort
+    description: "  \nThe HTTP cluster management endpoint port"
+    types:
+    - uid: integer
+  - name: durabilityLevel
+    description: "  \nNodetype durability Level"
+    types:
+    - uid: Bronze
+    - uid: Silver
+    - uid: Gold
+    typesTitle: enum
+  - name: applicationPorts
+    description: "  \nPorts used by applications"
+    types:
+    - uid: EndpointRangeDescription
+  - name: ephemeralPorts
+    description: "  \nSystem assgined application ports"
+    types:
+    - uid: EndpointRangeDescription
+  - name: isPrimary
+    description: "  \nMark this as the primary node type"
+    types:
+    - uid: boolean
+  - name: vmInstanceCount
+    description: "  \nThe number of node instances in the node type"
+    types:
+    - uid: integer
+  - name: reverseProxyEndpointPort
+    description: "  \nEndpoint used by reverse proxy"
+    types:
+    - uid: integer
+- name: ClusterUpgradePolicy
+  description: Cluster upgrade policy
+  kind: object
+  properties:
+  - name: overrideUserUpgradePolicy
+    description: "  \nUse the user defined upgrade policy or not"
+    types:
+    - uid: boolean
+  - name: forceRestart
+    description: "  \nForce node to restart or not"
+    types:
+    - uid: boolean
+  - name: upgradeReplicaSetCheckTimeout
+    description: "  \nTimeout for replica set upgrade to complete,it represents .Net TimeSpan"
+    types:
+    - uid: string
+  - name: healthCheckWaitDuration
+    description: "  \nThe length of time to wait after completing an upgrade domain before performing health checks, it represents .Net TimeSpan"
+    types:
+    - uid: string
+  - name: healthCheckStableDuration
+    description: "  \nThe length of time that health checks must pass continuously,it represents .Net TimeSpan"
+    types:
+    - uid: string
+  - name: healthCheckRetryTimeout
+    description: "  \nThe length of time that health checks can fail continuously,it represents .Net TimeSpan"
+    types:
+    - uid: string
+  - name: upgradeTimeout
+    description: "  \nThe upgrade timeout,it represents .Net TimeSpan"
+    types:
+    - uid: string
+  - name: upgradeDomainTimeout
+    description: "  \nThe timeout for any upgrade domain,it represents .Net TimeSpan"
+    types:
+    - uid: string
+  - name: healthPolicy
+    description: "  \nCluster health Policy"
+    types:
+    - uid: ClusterHealthPolicy
+  - name: deltaHealthPolicy
+    description: "  \nDelta health policy"
+    types:
+    - uid: ClusterUpgradeDeltaHealthPolicy
+- name: Cluster
+  description: The cluster resource
+  kind: object
+  properties:
+  - name: properties.availableClusterVersions
+    isReadyOnly: true
+    description: "  \nThe detail of the ServiceFabric runtime version result"
+    types:
+    - uid: ClusterVersionDetails
+      isArray: true
+  - name: properties.clusterId
+    isReadyOnly: true
+    description: "  \nThe unique identifier for the cluster resource"
+    types:
+    - uid: string
+  - name: properties.clusterState
+    isReadyOnly: true
+    description: "  \nThe state for the cluster"
+    types:
+    - uid: WaitingForNodes
+    - uid: Deploying
+    - uid: BaselineUpgrade
+    - uid: UpdatingUserConfiguration
+    - uid: UpdatingUserCertificate
+    - uid: UpdatingInfrastructure
+    - uid: EnforcingClusterVersion
+    - uid: UpgradeServiceUnreachable
+    - uid: AutoScale
+    - uid: Ready
+    typesTitle: enum
+  - name: properties.clusterEndpoint
+    isReadyOnly: true
+    description: "  \nThe endpoint for the cluster connecting to servicefabric resource provider"
+    types:
+    - uid: string
+  - name: properties.clusterCodeVersion
+    description: "  \nThe ServiceFabric code version running in your cluster"
+    types:
+    - uid: string
+  - name: properties.certificate
+    description: "  \nThis primay certificate will be used as cluster node to node security, SSL certificate for cluster management endpoint and default admin client"
+    types:
+    - uid: CertificateDescription
+  - name: properties.reliabilityLevel
+    description: "  \nCluster reliability level indicates replica set size of system service"
+    types:
+    - uid: Bronze
+    - uid: Silver
+    - uid: Gold
+    - uid: Platinum
+    typesTitle: enum
+  - name: properties.upgradeMode
+    description: "  \nCluster upgrade mode indicates if fabric upgrade is initiated automatically by the system or not"
+    types:
+    - uid: Automatic
+    - uid: Manual
+    typesTitle: enum
+  - name: properties.clientCertificateThumbprints
+    description: "  \nClient certificate details using thumbprint"
+    types:
+    - uid: ClientCertificateThumbprint
+      isArray: true
+  - name: properties.clientCertificateCommonNames
+    description: "  \nClient certificate details using common name"
+    types:
+    - uid: ClientCertificateCommonName
+      isArray: true
+  - name: properties.fabricSettings
+    description: "  \nServiceFabric section settings"
+    types:
+    - uid: SettingsSectionDescription
+      isArray: true
+  - name: properties.reverseProxyCertificate
+    description: "  \nThe server certificate used by reverse proxy"
+    types:
+    - uid: CertificateDescription
+  - name: properties.managementEndpoint
+    description: "  \nThe http management endpoint of the cluster"
+    types:
+    - uid: string
+  - name: properties.nodeTypes
+    description: "  \nDescribes a node type in the cluster, each node type represents sub set of nodes in the cluster"
+    types:
+    - uid: NodeTypeDescription
+      isArray: true
+  - name: properties.azureActiveDirectory
+    description: "  \nThe settings to enable AAD authentication on the cluster"
+    types:
+    - uid: AzureActiveDirectory
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: "  \nThe provisioning state of the cluster resource"
+    types:
+    - uid: ProvisioningState
+  - name: properties.vmImage
+    description: "  \nThe name of VM image VMSS has been configured with. Generic names such as Windows or Linux can be used."
+    types:
+    - uid: string
+  - name: properties.diagnosticsStorageAccountConfig
+    description: "  \nThe storage diagnostics account configuration details"
+    types:
+    - uid: DiagnosticsStorageAccountConfig
+  - name: properties.upgradeDescription
+    description: "  \nThe policy to use when upgrading the cluster."
+    types:
+    - uid: ClusterUpgradePolicy
+  - name: id
+    isReadyOnly: true
+    description: "  \nResource ID."
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: "  \nResource name."
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: "  \nResource type."
+    types:
+    - uid: string
+  - name: location
+    description: "  \nResource location."
+    types:
+    - uid: string
+  - name: tags
+    description: "  \nResource tags."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ErrorModel
+  description: The structure of the error
+  kind: object
+  properties:
+  - name: error
+    description: "  \nThe error detail "
+    types:
+    - uid: Error
+- name: ClusterUpdateParameters
+  description: Cluster update request
+  kind: object
+  properties:
+  - name: tags
+    description: "  \nCluster update parameters"
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.reliabilityLevel
+    description: "  \nThis level is used to set the number of replicas of the system services"
+    types:
+    - uid: Bronze
+    - uid: Silver
+    - uid: Gold
+    typesTitle: enum
+  - name: properties.upgradeMode
+    description: "  \nCluster upgrade mode indicates if fabric upgrade is initiated automatically by the system or not"
+    types:
+    - uid: Automatic
+    - uid: Manual
+    typesTitle: enum
+  - name: properties.clusterCodeVersion
+    description: "  \nThe ServiceFabric code version, if set it, please make sure you have set upgradeMode to Manual, otherwise ,it will fail, if you are using PUT new cluster, you can get the version by using ClusterVersions_List, if you are updating existing cluster, you can get the availableClusterVersions from Clusters_Get"
+    types:
+    - uid: string
+  - name: properties.certificate
+    description: "  \nThis primay certificate will be used as cluster node to node security, SSL certificate for cluster management endpoint and default admin client, the certificate should exist in the virtual machine scale sets or Azure key vault, before you add it. It will override original value"
+    types:
+    - uid: CertificateDescription
+  - name: properties.clientCertificateThumbprints
+    description: "  \nClient certificate details using thumbprint"
+    types:
+    - uid: ClientCertificateThumbprint
+      isArray: true
+  - name: properties.clientCertificateCommonNames
+    description: "  \nClient certificate details using common name"
+    types:
+    - uid: ClientCertificateCommonName
+      isArray: true
+  - name: properties.fabricSettings
+    description: "  \nServiceFabric section settings"
+    types:
+    - uid: SettingsSectionDescription
+      isArray: true
+  - name: properties.reverseProxyCertificate
+    description: "  \nCertificate for the reverse proxy"
+    types:
+    - uid: CertificateDescription
+  - name: properties.nodeTypes
+    description: "  \nDescribes a node type in the cluster, each node type represents sub set of nodes in the cluster"
+    types:
+    - uid: NodeTypeDescription
+      isArray: true
+  - name: properties.upgradeDescription
+    description: "  \nThe policy to use when upgrading the cluster."
+    types:
+    - uid: ClusterUpgradePolicy
+- name: SettingsParameterDescription
+  description: ServiceFabric settings under sections
+  kind: object
+  properties:
+  - name: name
+    description: "  \nThe name of settings property"
+    types:
+    - uid: string
+  - name: value
+    description: "  \nThe value of the property"
+    types:
+    - uid: string
+- name: EndpointRangeDescription
+  description: Port range details
+  kind: object
+  properties:
+  - name: startPort
+    description: "  \nStarting port of a range of ports"
+    types:
+    - uid: integer
+  - name: endPort
+    description: "  \nEnd port of a range of ports"
+    types:
+    - uid: integer
+- name: ClusterHealthPolicy
+  description: Defines a health policy used to evaluate the health of the cluster or of a cluster node.
+  kind: object
+  properties:
+  - name: maxPercentUnhealthyNodes
+    description: "  \nThe maximum allowed percentage of unhealthy nodes before reporting an error. For example, to allow 10% of nodes to be unhealthy, this value would be 10. "
+    types:
+    - uid: integer
+  - name: maxPercentUnhealthyApplications
+    description: "  \nThe maximum allowed percentage of unhealthy applications before reporting an error. For example, to allow 10% of applications to be unhealthy, this value would be 10. "
+    types:
+    - uid: integer
+- name: ClusterUpgradeDeltaHealthPolicy
+  description: Delta health policy for the cluster
+  kind: object
+  properties:
+  - name: maxPercentDeltaUnhealthyNodes
+    description: "  \nAdditional unhealthy nodes percentage"
+    types:
+    - uid: integer
+  - name: maxPercentUpgradeDomainDeltaUnhealthyNodes
+    description: "  \nAdditional unhealthy nodes percentage per upgrade domain "
+    types:
+    - uid: integer
+  - name: maxPercentDeltaUnhealthyApplications
+    description: "  \nAdditional unhealthy applications percentage"
+    types:
+    - uid: integer
+- name: ClusterVersionDetails
+  description: The detail of the ServiceFabric runtime version result
+  kind: object
+  properties:
+  - name: codeVersion
+    description: "  \nThe ServiceFabric runtime version of the cluster"
+    types:
+    - uid: string
+  - name: supportExpiryUtc
+    description: "  \nThe date of expiry of support of the version"
+    types:
+    - uid: string
+  - name: environment
+    description: "  \nCluster operating system"
+    types:
+    - uid: ClusterEnvironment
+- name: AzureActiveDirectory
+  description: The settings to enable AAD authentication on the cluster
+  kind: object
+  properties:
+  - name: tenantId
+    description: "  \nAzure active directory tenant id"
+    types:
+    - uid: string
+  - name: clusterApplication
+    description: "  \nAzure active directory cluster application id"
+    types:
+    - uid: string
+  - name: clientApplication
+    description: "  \nAzure active directory client application id"
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: The provisioning state of the cluster resource
+  kind: enum
+  properties:
+  - name: Updating
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+- name: DiagnosticsStorageAccountConfig
+  description: Diagnostics storage account config
+  kind: object
+  properties:
+  - name: storageAccountName
+    description: "  \nDiagnostics storage account name"
+    types:
+    - uid: string
+  - name: protectedAccountKeyName
+    description: "  \nProtected Diagnostics storage key name"
+    types:
+    - uid: string
+  - name: blobEndpoint
+    description: "  \nDiagnostics storage account blob endpoint"
+    types:
+    - uid: string
+  - name: queueEndpoint
+    description: "  \nDiagnostics storage account queue endpoint"
+    types:
+    - uid: string
+  - name: tableEndpoint
+    description: "  \nDiagnostics storage account table endpoint"
+    types:
+    - uid: string
+- name: Error
+  description: 'The error detail '
+  kind: object
+  properties:
+  - name: code
+    description: "  \nThe error code"
+    types:
+    - uid: string
+  - name: message
+    description: "  \nThe error message"
+    types:
+    - uid: string
+- name: ClusterEnvironment
+  description: Cluster operating system
+  kind: enum
+  properties:
+  - name: Windows
+    types:
+    - uid: string
+  - name: Linux
+    types:
+    - uid: string
+examples:
+- name: Patch a cluster
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resRg/providers/Microsoft.ServiceFabric/clusters/myCluster?api-version=2016-09-01
+    body: >-
+      {
+        "properties": {
+          "nodeTypes": [
+            {
+              "name": "n1",
+              "clientConnectionEndpointPort": 19000,
+              "httpGatewayEndpointPort": 19080,
+              "durabilityLevel": "Silver",
+              "applicationPorts": {
+                "startPort": 20000,
+                "endPort": 30000
+              },
+              "ephemeralPorts": {
+                "startPort": 49152,
+                "endPort": 65534
+              },
+              "isPrimary": true,
+              "vmInstanceCount": 5,
+              "reverseProxyEndpointPort": 9998
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "202"
+  - statusCode: "200"
+    body: >-
+      {
+        "type": "Microsoft.ServiceFabric/clusters",
+        "location": "southcentralus",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/resRg/providers/Microsoft.ServiceFabric/clusters/myCluster",
+        "name": "myCluster",
+        "tags": {},
+        "properties": {
+          "provisioningState": "Succeeded",
+          "clusterId": "8d566293-3508-4d62-ba7b-056fa710c3c9",
+          "clusterCodeVersion": "5.5.216.0",
+          "clusterState": "Ready",
+          "managementEndpoint": "http://myCluster.southcentralus.cloudapp.azure.com:19080",
+          "clusterEndpoint": "https://warp-test-winfabrp-southcentralus.trafficmanager.net/runtime/clusters/8d566293-3508-4d62-ba7b-056fa710c3c9",
+          "clientCertificateThumbprints": [],
+          "clientCertificateCommonNames": [],
+          "fabricSettings": [],
+          "upgradeDescription": {
+            "overrideUserUpgradePolicy": false,
+            "forceRestart": true,
+            "upgradeReplicaSetCheckTimeout": "10675199.02:48:05.4775807",
+            "healthCheckWaitDuration": "00:00:01",
+            "healthCheckStableDuration": "00:00:01",
+            "healthCheckRetryTimeout": "00:00:01",
+            "upgradeTimeout": "12:00:00",
+            "upgradeDomainTimeout": "02:00:00",
+            "healthPolicy": {
+              "maxPercentUnhealthyNodes": 100,
+              "maxPercentUnhealthyApplications": 100
+            },
+            "deltaHealthPolicy": {
+              "maxPercentDeltaUnhealthyNodes": 0,
+              "maxPercentUpgradeDomainDeltaUnhealthyNodes": 0,
+              "maxPercentDeltaUnhealthyApplications": 0
+            }
+          },
+          "diagnosticsStorageAccountConfig": {
+            "storageAccountName": "sflogssdktest5486",
+            "protectedAccountKeyName": "StorageAccountKey1",
+            "blobEndpoint": "https://sflogssdktest5486.blob.core.windows.net/",
+            "queueEndpoint": "https://sflogssdktest5486.queue.core.windows.net/",
+            "tableEndpoint": "https://sflogssdktest5486.table.core.windows.net/"
+          },
+          "nodeTypes": [
+            {
+              "name": "n1",
+              "clientConnectionEndpointPort": 19000,
+              "httpGatewayEndpointPort": 19080,
+              "applicationPorts": {
+                "startPort": 20000,
+                "endPort": 30000
+              },
+              "ephemeralPorts": {
+                "startPort": 49152,
+                "endPort": 65534
+              },
+              "isPrimary": true,
+              "vmInstanceCount": 5,
+              "reverseProxyEndpointPort": 9998,
+              "durabilityLevel": "Silver"
+            }
+          ],
+          "vmImage": "Windows",
+          "reliabilityLevel": "Bronze",
+          "upgradeMode": "Automatic",
+          "availableClusterVersions": [
+            {
+              "codeVersion": "5.4.145.9494",
+              "supportExpiryUtc": "2017-05-10T00:00:00",
+              "environment": "Windows"
+            },
+            {
+              "codeVersion": "5.4.164.9494",
+              "supportExpiryUtc": "2017-05-10T00:00:00",
+              "environment": "Windows"
+            },
+            {
+              "codeVersion": "5.5.216.0",
+              "supportExpiryUtc": "9999-12-31T23:59:59.9999999",
+              "environment": "Windows"
+            }
+          ]
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
