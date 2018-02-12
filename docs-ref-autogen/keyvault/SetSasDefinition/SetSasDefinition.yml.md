@@ -1,6 +1,0 @@
-# `keyvault.setsasdefinition.setsasdefinition`
-
-## `summary`
-Creates or updates a new SAS definition for the specified storage account. This operation requires the storage/setsas permission.
-
-

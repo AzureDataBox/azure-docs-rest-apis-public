@@ -1,6 +1,0 @@
-# `keyvault.deletesasdefinition.deletesasdefinition`
-
-## `summary`
-Deletes a SAS definition from a specified storage account. This operation requires the storage/deletesas permission.
-
-
