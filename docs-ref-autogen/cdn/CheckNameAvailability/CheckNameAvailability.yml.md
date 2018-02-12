@@ -1,0 +1,6 @@
+# `management.azure.com.cdn.checknameavailability.checknameavailability`
+
+## `summary`
+Check the availability of a resource name. This is needed for resources where name is globally unique, such as a CDN endpoint.
+
+

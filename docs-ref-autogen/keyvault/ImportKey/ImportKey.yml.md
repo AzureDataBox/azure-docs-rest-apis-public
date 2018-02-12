@@ -1,0 +1,6 @@
+# `keyvault.importkey.importkey`
+
+## `summary`
+Imports an externally created key, stores it, and returns key parameters and attributes to the client. The import key operation may be used to import any key type into an Azure Key Vault. If the named key already exists, Azure Key Vault creates a new version of the key. This operation requires the keys/import permission.
+
+

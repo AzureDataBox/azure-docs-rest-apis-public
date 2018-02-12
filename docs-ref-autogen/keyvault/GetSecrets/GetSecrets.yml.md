@@ -1,0 +1,6 @@
+# `keyvault.getsecrets.getsecrets`
+
+## `summary`
+List secrets in a specified key vault. The Get Secrets operation is applicable to the entire vault. However, only the base secret identifier and its attributes are provided in the response. Individual secret versions are not listed in the response. This operation requires the secrets/list permission.
+
+
