@@ -1,0 +1,6 @@
+# `management.azure.com.appservice.webapps.listprocessthreads`
+
+## `summary`
+List the threads in a process by its ID for a specific scaled-out instance in a web site.
+
+
