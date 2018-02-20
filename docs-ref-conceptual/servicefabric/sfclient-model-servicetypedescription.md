@@ -29,7 +29,7 @@ translation.priority.mt:
 ---
 # ServiceTypeDescription
 
-Describes a service type defined in the service manifest of a provisioned application type. The properties the the ones defined in the service manifest.
+Describes a service type defined in the service manifest of a provisioned application type. The properties of the ones defined in the service manifest.
 # Inheritance
 
 The type 'ServiceTypeDescription' is a base type of the polymorphic type model with property 'Kind' as the discriminator.
