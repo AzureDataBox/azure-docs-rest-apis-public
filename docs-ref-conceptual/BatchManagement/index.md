@@ -17,7 +17,7 @@ The Batch Management REST API provides operations for working with the Batch ser
 
 ## REST operation groups
 
-
+@management.azure.com.batchmanagement.application
 
 | Operation group               | Description                                                                             |
 |-------------------------------|-----------------------------------------------------------------------------------------|
