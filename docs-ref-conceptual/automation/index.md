@@ -44,7 +44,7 @@ The Automation REST API provides operations for working with the following resou
 | [Schedule](xref:management.azure.com.automation.schedule) | Schedule operations for runbooks.|  
 | [Statistics](xref:management.azure.com.automation.statistics) | Review statistics for an Automation account.|  
 | [Test job streams](xref:management.azure.com.automation.testjobstreams) | Review job streams for a runbook job.|  
-| [Test jobs](~/docs-ref-autogen/automation/testjobs.yml) | Manage test jobs for a runbook.|  
+| [Test jobs](xref:management.azure.com.automation.testjob) | Manage test jobs for a runbook.|  
 | [Usages](xref:management.azure.com.automation.usages) | Review job run time minutes used for an Automation account.|  
 | [Variable](xref:management.azure.com.automation.variable) | Manage data that you want to store in an Automation account.|  
 | [Webhook](xref:management.azure.com.automation.webhook) | Utilize APIs to manage webhooks in an Automation account.|  

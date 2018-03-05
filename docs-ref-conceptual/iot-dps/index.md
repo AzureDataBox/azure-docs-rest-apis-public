@@ -21,5 +21,5 @@ The REST APIs for the Device Provisioning Service provide programmatic access to
 |-----------------|--------------------------------------------------------------------|
 | [Device Enrollment](xref:localhost.iothubdeviceprovisioningservice.deviceenrollment)          | Provides device enrollment operations with the Device Provisioning Service. |
 | [Device Enrollment Group](xref:localhost.iothubdeviceprovisioningservice.deviceenrollmentgroup)  | Provides operations for managing device enrollment groups. |
-| [Registration Status](~/docs-ref-autogen/iot-dps/RegistrationStatus.yml)  | Provides operations for retrieving and managing the status of device registrations. |
+| [Registration Status](xref:localhost.iothubdeviceprovisioningservice.registrationstate)  | Provides operations for retrieving and managing the status of device registrations. |
 | [Runtime Registration](xref:localhost.iothubdeviceprovisioningservice.runtimeregistration)  | Provides runtime operations for managing device registrations. |
