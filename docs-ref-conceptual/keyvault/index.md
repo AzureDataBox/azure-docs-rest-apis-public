@@ -28,9 +28,9 @@ For conceptual and detailed information, see - [About keys, secrets, and certifi
 
 ### Key vaults
 
-- [Create or update a key vault](../../docs-ref-autogen/keyvault/Vaults.yml#Vaults_CreateOrUpdate)
-- [Deletes a key vault](../../docs-ref-autogen/keyvault/Vaults.yml#Vaults_Delete)
-- [Gets info about a key vault](../../docs-ref-autogen/keyvault/Vaults.yml#Vaults_Get)
+- [Create or update a key vault](xref:management.azure.com.keyvault.vaults.createorupdate)
+- [Deletes a key vault](xref:management.azure.com.keyvault.vaults.delete)
+- [Gets info about a key vault](xref:management.azure.com.keyvault.vaults.get)
 
 ### Keys
 
