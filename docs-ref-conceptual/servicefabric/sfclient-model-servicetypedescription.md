@@ -32,7 +32,7 @@ translation.priority.mt:
 Describes a service type defined in the service manifest of a provisioned application type. The properties of the ones defined in the service manifest.
 # Inheritance
 
-`ServiceTypeDescription` is the base type of the polymorphic type model. The `Kind` property is the discriminator for the derived types. The value of the `Kind` property determines the serialized content on the wire (one of the following derived types). The following table lists the value of the `Kind` property and corresponding derived type it represents.
+'ServiceTypeDescription' is the base type of the polymorphic type model. The 'Kind' property is the discriminator for the derived types. The value of the 'Kind' property determines the serialized content on the wire (one of the following derived types). The following table lists the value of the 'Kind' property and corresponding derived type it represents.
 
 ## Derived Types
 
