@@ -1238,7 +1238,7 @@
 #### [List Skus](cognitiveservices/CognitiveServicesAccounts/ListSkus.yml)
 #### [Regenerate Key](cognitiveservices/CognitiveServicesAccounts/RegenerateKey.yml)
 #### [Update](cognitiveservices/CognitiveServicesAccounts/Update.yml)
-# [Cognitive Services - Computer Vision](../docs-ref-conceptual/computervision/index.md)
+# Cognitive Services - Computer Vision
 ## [Analyze Image](computervision/AnalyzeImage.yml)
 ### [Analyze Image](computervision/AnalyzeImage/AnalyzeImage.yml)
 ## [Analyze Image By Domain](computervision/AnalyzeImageByDomain.yml)
