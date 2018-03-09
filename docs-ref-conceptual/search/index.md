@@ -14,11 +14,8 @@ Cognitive Services - Search API provides the functionality of Bing Search to RES
 
 | Operation group | Description                                                        |
 |-----------------|--------------------------------------------------------------------|
-| [Face](~/docs-ref-autogen/face/Face.yml)  | Lists all Search APIs. |
-| [FaceList](~/docs-ref-autogen/face/FaceList.yml) | Provides operations to manage a FaceList. |
-| [PersonGroup](~/docs-ref-autogen/face/PersonGroup.yml)| Provides operations to manage a PersonGroup. |
-| [PersonGroupPerson](~/docs-ref-autogen/face/PersonGroupPerson.yml)| Provides operations to manage PersonGroup Person Faces. |
+| [Search](~/docs-ref-concedptual/cognitiveservices/toc.md)  | Lists all Search APIs. |
 
 ## See also
 
-- [Cognitive Services - Face API documentation](https://azure.microsoft.com/en-us/services/cognitive-services/bing-web-search-api/)
+- [Cognitive Services - Search API documentation](https://azure.microsoft.com/en-us/services/cognitive-services/bing-web-search-api/)
