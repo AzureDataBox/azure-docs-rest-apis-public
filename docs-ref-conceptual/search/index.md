@@ -1,5 +1,4 @@
 ---
-ms.assetid:
 ms.title: Cognitive Services -  Search REST API | Microsoft Docs
 ms.service: Cognitive Services - Search
 author: mikedodaro
