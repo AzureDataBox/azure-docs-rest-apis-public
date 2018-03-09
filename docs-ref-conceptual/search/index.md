@@ -14,7 +14,7 @@ Cognitive Services - Search API provides the functionality of Bing Search to RES
 
 | Operation group | Description                                                        |
 |-----------------|--------------------------------------------------------------------|
-| [Search](~/docs-ref-concedptual/cognitiveservices/toc.md)  | Lists all Search APIs. |
+| [Search](../docs-ref-concedptual/cognitiveservices/toc.md)  | Lists all Search APIs. |
 
 ## See also
 
