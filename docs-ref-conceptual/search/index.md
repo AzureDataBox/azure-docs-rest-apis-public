@@ -14,7 +14,7 @@ Cognitive Services - Search API provides the functionality of Bing Search to RES
 
 | Operation group | Description                                                        |
 |-----------------|--------------------------------------------------------------------|
-| [Search](~/docs-ref-autogen/cognitiveservices/CognitiveServicesAccount.yml)  | Cognitive Servces Accounts |
+| [Search](~/docs-ref-autogen/cognitiveservices/CognitiveServicesAccounts.yml)  | Cognitive Servces Accounts |
 
 ## See also
 
