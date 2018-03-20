@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.timeseriesinsightsmanagement.referencedatasets.listbyenvironment
-name: List By Environment
+uid: management.azure.com.timeseriesinsightsmanagement.referencedatasets.get
+name: Get
 service: Time Series Insights Management
 groupName: Reference Data Sets
 apiVersion: 2017-11-15
-summary: Lists all the available reference data sets associated with the subscription and within the specified resource group and environment.
+summary: Gets the reference data set with the specified name in the specified environment.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments/{environmentName}/referenceDataSets?api-version=2017-11-15
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments/{environmentName}/referenceDataSets/{referenceDataSetName}?api-version=2017-11-15
 uriParameters:
 - name: subscriptionId
   in: path
@@ -30,6 +30,12 @@ uriParameters:
   description: The name of the Time Series Insights environment associated with the specified resource group.
   types:
   - uid: string
+- name: referenceDataSetName
+  in: path
+  isRequired: true
+  description: The name of the Time Series Insights reference data set associated with the specified environment.
+  types:
+  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -38,32 +44,15 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Reference data sets returned successfully.
+  description: The reference data set definition was successfully retrieved and is in the response.
   types:
-  - uid: ReferenceDataSetListResponse
+  - uid: ReferenceDataSetResource
 - name: Other Status Codes
-  description: 'HTTP 404 (Not Found): The subscription, resource group, or environment could not be found.'
+  description: 'HTTP 404 (Not Found): The subscription, resource group, environment, or reference data set could not be found.'
   types:
   - uid: CloudError
 requestHeader: []
 definitions:
-- name: ReferenceDataSetListResponse
-  description: The response of the List Reference Data Sets operation.
-  kind: object
-  properties:
-  - name: value
-    description: A reference data set provides metadata about the events in an environment. Metadata in the reference data set will be joined with events as they are read from event sources. The metadata that makes up the reference data set is uploaded or modified through the Time Series Insights data plane APIs.
-    types:
-    - uid: ReferenceDataSetResource
-      isArray: true
-- name: CloudError
-  description: Contains information about an API error.
-  kind: object
-  properties:
-  - name: error
-    description: Describes a particular API error with an error code and a message.
-    types:
-    - uid: CloudErrorBody
 - name: ReferenceDataSetResource
   description: A reference data set provides metadata about the events in an environment. Metadata in the reference data set will be joined with events as they are read from event sources. The metadata that makes up the reference data set is uploaded or modified through the Time Series Insights data plane APIs.
   kind: object
@@ -100,6 +89,10 @@ definitions:
     types:
     - uid: ReferenceDataSetKeyProperty
       isArray: true
+  - name: properties.dataStringComparisonBehavior
+    description: The reference data set key comparison behavior can be set using this property. By default, the value is 'Ordinal' - which means case sensitive key comparison will be performed while joining reference data with events or while adding new reference data. When 'OrdinalIgnoreCase' is set, case insensitive comparison will be used.
+    types:
+    - uid: DataStringComparisonBehavior
   - name: properties.provisioningState
     isReadyOnly: true
     description: Provisioning state of the resource.
@@ -108,6 +101,58 @@ definitions:
   - name: properties.creationTime
     isReadyOnly: true
     description: The time the resource was created.
+    types:
+    - uid: string
+- name: CloudError
+  description: Contains information about an API error.
+  kind: object
+  properties:
+  - name: error
+    description: Describes a particular API error with an error code and a message.
+    types:
+    - uid: CloudErrorBody
+- name: ReferenceDataSetKeyProperty
+  description: A key property for the reference data set. A reference data set can have multiple key properties.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the key property.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the key property.
+    types:
+    - uid: ReferenceDataKeyPropertyType
+- name: DataStringComparisonBehavior
+  description: The reference data set key comparison behavior can be set using this property. By default, the value is 'Ordinal' - which means case sensitive key comparison will be performed while joining reference data with events or while adding new reference data. When 'OrdinalIgnoreCase' is set, case insensitive comparison will be used.
+  kind: enum
+  properties:
+  - name: Ordinal
+    types:
+    - uid: string
+  - name: OrdinalIgnoreCase
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: Provisioning state of the resource.
+  kind: enum
+  properties:
+  - name: Accepted
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Deleting
     types:
     - uid: string
 - name: CloudErrorBody
@@ -131,40 +176,6 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
-- name: ReferenceDataSetKeyProperty
-  description: A key property for the reference data set. A reference data set can have multiple key properties.
-  kind: object
-  properties:
-  - name: name
-    description: The name of the key property.
-    types:
-    - uid: string
-  - name: type
-    description: The type of the key property.
-    types:
-    - uid: ReferenceDataKeyPropertyType
-- name: ProvisioningState
-  description: Provisioning state of the resource.
-  kind: enum
-  properties:
-  - name: Accepted
-    types:
-    - uid: string
-  - name: Creating
-    types:
-    - uid: string
-  - name: Updating
-    types:
-    - uid: string
-  - name: Succeeded
-    types:
-    - uid: string
-  - name: Failed
-    types:
-    - uid: string
-  - name: Deleting
-    types:
-    - uid: string
 - name: ReferenceDataKeyPropertyType
   description: The type of the key property.
   kind: enum
@@ -182,36 +193,32 @@ definitions:
     types:
     - uid: string
 examples:
-- name: ReferenceDataSetsListByEnvironment
+- name: ReferenceDataSetsGet
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.TimeSeriesInsights/environments/env1/referenceDataSets?api-version=2017-11-15
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.TimeSeriesInsights/environments/env1/referenceDataSets/rds1?api-version=2017-11-15
   responses:
   - statusCode: "200"
     body: >-
       {
-        "value": [
-          {
-            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.TimeSeriesInsights/Environments/env1/referenceDataSets/rds1",
-            "location": "West US",
-            "name": "rds1",
-            "type": "Microsoft.TimeSeriesInsights/Environments/ReferenceDataSets",
-            "tags": {},
-            "properties": {
-              "keyProperties": [
-                {
-                  "name": "DeviceId1",
-                  "type": "String"
-                },
-                {
-                  "name": "DeviceFloor",
-                  "type": "Double"
-                }
-              ],
-              "provisioningState": "Succeeded",
-              "creationTime": "2017-04-18T19:20:33.228882Z"
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.TimeSeriesInsights/Environments/env1/referenceDataSets/rds1",
+        "location": "West US",
+        "name": "rds1",
+        "type": "Microsoft.TimeSeriesInsights/Environments/ReferenceDataSets",
+        "tags": {},
+        "properties": {
+          "keyProperties": [
+            {
+              "name": "DeviceId1",
+              "type": "String"
+            },
+            {
+              "name": "DeviceFloor",
+              "type": "Double"
             }
-          }
-        ]
+          ],
+          "provisioningState": "Succeeded",
+          "creationTime": "2017-04-18T19:20:33.228882Z"
+        }
       }
 security:
 - type: oauth2
