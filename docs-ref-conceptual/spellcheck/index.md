@@ -5,7 +5,7 @@ ms.service: Cognitive Services Bing
 author: ashku-ms
 ms.author: ashku
 ms.manager: yueliu
-service_description: To be added
+service_description: Bing SpellChecker provides a REST API for performing contextual grammar and spell checking
 ---
 
 
@@ -18,3 +18,5 @@ Bing SpellChecker provides a REST API for performing contextual grammar and spel
 | Operation Group                                                   | Description                                                                                                               |
 |-------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------|
 | [Cognitive Services Bing SpellCheck](~/docs-ref-autogen/spellcheck/SpellChecker.yml)                | Provides operations for contextual grammar and spell checking.                                              |
+=======
+# index page
