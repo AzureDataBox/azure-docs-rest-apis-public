@@ -18,5 +18,3 @@ Bing SpellChecker provides a REST API for performing contextual grammar and spel
 | Operation Group                                                   | Description                                                                                                               |
 |-------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------|
 | [Cognitive Services Bing SpellCheck](~/docs-ref-autogen/spellcheck/SpellChecker.yml)                | Provides operations for contextual grammar and spell checking.                                              |
-=======
-# index page
