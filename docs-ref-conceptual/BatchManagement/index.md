@@ -29,8 +29,6 @@ preview specific content
 
 ## REST operation groups
 
-
-
 | Operation group               | Description                                                                             |
 |-------------------------------|-----------------------------------------------------------------------------------------|
 | [Application](xref:management.azure.com.batchmanagement.application)          | Provides operations for working with the applications in your Batch account. An application has one or more application packages. |
