@@ -16,12 +16,16 @@ Azure Batch enables you to run large-scale parallel and high-performance computi
 The Batch Management REST API provides operations for working with the Batch service through the Microsoft.Batch provider.
 
 ::: moniker range="azure-rest-stable"
+
 stable specific content
+
 ::: moniker-end
 
 ::: moniker range="azure-rest-preview"
+
 preview specific content
-::: moniker-end 
+
+::: moniker-end
 
 ## REST operation groups
 
