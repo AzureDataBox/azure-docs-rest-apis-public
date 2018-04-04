@@ -1,1 +1,0 @@
-# [How to use the Management REST API](search-howto-management-rest-api.md)
