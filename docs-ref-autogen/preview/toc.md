@@ -26,6 +26,3 @@
 ### [Terminate](batchai/Jobs/Terminate.yml)
 ## [Operations](batchai/Operations.yml)
 ### [List](batchai/Operations/List.yml)
-# [Getting Started with REST](../../index.md)
-# [Advisor](../../docs-ref-conceptual/advisor/index.md)
-# [Batch AI](../../docs-ref-conceptual/BatchAI/index.md)
