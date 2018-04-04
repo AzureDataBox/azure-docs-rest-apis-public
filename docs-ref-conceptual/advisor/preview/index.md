@@ -14,14 +14,6 @@ service_description: To be added
 
 Azure Advisor is a personalized cloud consultant that helps you follow best practices to optimize your Azure deployments. For a more detailed overview, see the [Azure Advisor product page](https://azure.microsoft.com/services/advisor).
 
-## REST Operation Groups 
-
-| Operation group | Description                                                        |
-|-----------------|--------------------------------------------------------------------|
-| [Operations](xref:management.azure.com.advisor.operations)  | Lists all available REST APIs for Advisor. |
-| [Recommendations](xref:management.azure.com.advisor.recommendations) | Provides operations for accessing Advisor recommendations. |
-| [Suppressions](xref:management.azure.com.advisor.suppressions)| Provides operations for snoozing or dismissing recommendations. |
-
 ## See also
 
 - [Azure Advisor documentation](https://docs.microsoft.com/azure/advisor/)
