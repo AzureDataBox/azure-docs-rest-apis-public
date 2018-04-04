@@ -1,6 +1,6 @@
 # [Getting Started with REST](../../index.md)
-# [Advisor](../../docs-ref-conceptual/advisor/index.md)
-# [Application Insights](../../docs-ref-conceptual/application-insights/index.md)
+# [Advisor](../../docs-ref-conceptual/advisor/preview/index.md)
+# [Application Insights](../../docs-ref-conceptual/application-insights/preview/index.md)
 ## [Data Access](https://dev.applicationinsights.io/)
 ### [Authorization](https://dev.applicationinsights.io/documentation/Authorization)
 ### [Metrics](https://dev.applicationinsights.io/documentation/Using-the-API/Metrics)
