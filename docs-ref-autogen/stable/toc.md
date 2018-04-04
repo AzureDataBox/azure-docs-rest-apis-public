@@ -1,0 +1,6 @@
+# [Getting Started with REST](../../index.md)
+# [Advisor](../../docs-ref-conceptual/advisor/index.md)
+# [Batch AI](../../docs-ref-conceptual/BatchAI/index.md)
+# [Getting Started with REST](../../index.md)
+# [Advisor](../../docs-ref-conceptual/advisor/index.md)
+# [Batch AI](../../docs-ref-conceptual/BatchAI/index.md)
