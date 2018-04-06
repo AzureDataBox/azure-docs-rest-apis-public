@@ -1,23 +1,20 @@
 ---
 ms.assetid:
-ms.title: Cognitive Services - Custom Search REST API | Microsoft Docs
-ms.service: Cognitive Services - Spell Check
-author: mikedodaro
-ms.author: rosh
-ms.manager: rosh
+ms.title: SpellChecker
+ms.service: Cognitive Services Bing
+author: ashku-ms
+ms.author: ashku
+ms.manager: yueliu
+service_description: Bing SpellChecker provides a REST API for performing contextual grammar and spell checking
 ---
 
-# Cognitive Services - Spell Check REST API
+# Cognitive Services - Bing SpellChecker
 
-Bing Spell Search API v7 provides correction for web searches (‘Spell’) and documents (‘Proof’). ‘Spell’ is more aggressive in order to return better search results, while ‘Proof’ is less aggressive and adds capitalization, basic punctuation, and other features to aid document creation. With the API v7, discover new improved error handling to make it easy to troubleshoot and diagnose any problem queries. For a more detailed overview, see the [Cognitive Services - Spell Check API overview](https://azure.microsoft.com/en-us/services/cognitive-services/spell-check/).
+Bing SpellChecker provides a REST API for performing contextual grammar and spell checking. This reference provides a guide for working with the SpellChecker  REST API, as well as specific reference information for each available operation.
 
 ## REST Operation Groups
 
-| Operation group | Description                                                        |
-|-----------------|--------------------------------------------------------------------|
-| [Spell Check](~/docs-ref-autogen/spellcheck/SpellChecker.yml)  | Provides operations for Spell Checker. |
+| Operation Group                                                   | Description                                                                                                               |
+|-------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------|
+| [Cognitive Services Bing SpellCheck](~/docs-ref-autogen/spellcheck/SpellChecker.yml)                | Provides operations for contextual grammar and spell checking.                                              |
 
-
-## See also
-
-- [Cognitive Services - Spell Check API documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/bing-spell-check/)
