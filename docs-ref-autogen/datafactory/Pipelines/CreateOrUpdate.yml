@@ -498,6 +498,7 @@ definitions:
     description: Dataset-specific source properties, same as copy activity source.
     types:
     - uid: AmazonRedshiftSource
+    - uid: ResponsysSource
     - uid: SalesforceMarketingCloudSource
     - uid: VerticaSource
     - uid: NetezzaSource
@@ -694,13 +695,53 @@ definitions:
     types:
     - uid: string
   - name: typeProperties.environmentPath
-    description: The environment path to execution the SSIS package.
+    description: The environment path to execute the SSIS package.
     types:
     - uid: string
   - name: typeProperties.connectVia
     description: The integration runtime reference.
     types:
     - uid: IntegrationRuntimeReference
+  - name: typeProperties.projectParameters
+    description: The project level parameters to execute the SSIS package.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: SSISExecutionParameter
+  - name: typeProperties.packageParameters
+    description: The package level parameters to execute the SSIS package.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: SSISExecutionParameter
+  - name: typeProperties.projectConnectionManagers
+    description: The project level connection managers to execute the SSIS package.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: typeProperties.packageConnectionManagers
+    description: The package level connection managers to execute the SSIS package.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: typeProperties.propertyOverrides
+    description: The property overrides to execute the SSIS package.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: SSISPropertyOverride
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -1087,6 +1128,7 @@ definitions:
     description: Copy activity source.
     types:
     - uid: AmazonRedshiftSource
+    - uid: ResponsysSource
     - uid: SalesforceMarketingCloudSource
     - uid: VerticaSource
     - uid: NetezzaSource
@@ -1642,6 +1684,30 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: object
+- name: ProjectParameters
+  description: The project level parameters to execute the SSIS package.
+  kind: object
+  properties:
+  - name: ''
+    description: SSIS execution parameter.
+    types:
+    - uid: SSISExecutionParameter
+- name: PackageParameters
+  description: The package level parameters to execute the SSIS package.
+  kind: object
+  properties:
+  - name: ''
+    description: SSIS execution parameter.
+    types:
+    - uid: SSISExecutionParameter
+- name: PropertyOverrides
+  description: The property overrides to execute the SSIS package.
+  kind: object
+  properties:
+  - name: ''
+    description: SSIS property override.
+    types:
+    - uid: SSISPropertyOverride
 - name: HDInsightActivityDebugInfoOption
   description: The HDInsightActivityDebugInfoOption settings to use.
   kind: enum
@@ -1750,6 +1816,26 @@ definitions:
     description: The Amazon S3 settings needed for the interim Amazon S3 when copying from Amazon Redshift with unload. With this, data from Amazon Redshift source will be unloaded into S3 first and then copied into the targeted sink from the interim S3.
     types:
     - uid: RedshiftUnloadSettings
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: ResponsysSource
+  description: A copy activity Responsys source.
+  kind: object
+  properties:
+  - name: query
+    description: 'A query to retrieve data from source. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
   - name: type
     description: Copy source type.
     types:
@@ -2782,6 +2868,26 @@ definitions:
     description: Stored procedure parameter type.
     types:
     - uid: StoredProcedureParameterType
+- name: SSISExecutionParameter
+  description: SSIS execution parameter.
+  kind: object
+  properties:
+  - name: value
+    description: 'SSIS package execution parameter value. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+- name: SSISPropertyOverride
+  description: SSIS property override.
+  kind: object
+  properties:
+  - name: value
+    description: 'SSIS package property override value. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: isSensitive
+    description: Whether SSIS package property override value is sensitive data. Value will be encrypted in SSISDB if it is true
+    types:
+    - uid: boolean
 - name: SalesforceSink
   description: A copy activity Salesforce sink.
   kind: object
