@@ -1,11 +1,17 @@
 # [Getting Started with REST](../../index.md)
-# [Advisor](../../docs-ref-conceptual/preview/advisor/index.md)
 # [Application Insights](../../docs-ref-conceptual/preview/application-insights/index.md)
 ## [Data Access](https://dev.applicationinsights.io/)
 ### [Authorization](https://dev.applicationinsights.io/documentation/Authorization)
 ### [Metrics](https://dev.applicationinsights.io/documentation/Using-the-API/Metrics)
 ### [Events](https://dev.applicationinsights.io/documentation/Using-the-API/Events)
 ### [Query](https://dev.applicationinsights.io/documentation/Using-the-API/Query)
+## Reference
+### [EA Subscription List Migration Date](application-insights/EASubscriptionListMigrationDate.yml)
+#### [Post](application-insights/EASubscriptionListMigrationDate/Post.yml)
+### [EA Subscription Migrate To New Pricing Model](application-insights/EASubscriptionMigrateToNewPricingModel.yml)
+#### [Post](application-insights/EASubscriptionMigrateToNewPricingModel/Post.yml)
+### [EA Subscription Rollback To Legacy Pricing Model](application-insights/EASubscriptionRollbackToLegacyPricingModel.yml)
+#### [Post](application-insights/EASubscriptionRollbackToLegacyPricingModel/Post.yml)
 # Batch AI
 ## [Clusters](batchai/Clusters.yml)
 ### [Create](batchai/Clusters/Create.yml)
