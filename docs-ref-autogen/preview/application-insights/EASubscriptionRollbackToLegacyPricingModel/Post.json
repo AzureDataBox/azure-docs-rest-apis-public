@@ -1,0 +1,147 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2017-10-01",
+    "title": "ApplicationInsightsManagementClient",
+    "description": "Apis for customer in enterprise agreement migrate to new pricing model or rollback to legacy pricing model."
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow.",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "paths": {
+    "/subscriptions/{subscriptionId}/providers/microsoft.insights/rollbackToLegacyPricingModel": {
+      "post": {
+        "description": "Enterprise Agreement Customer roll back to use legacy pricing model.",
+        "operationId": "EASubscriptionRollbackToLegacyPricingModel_Post",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Success roll back to legacy pricing model for this subscription."
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "EASubscriptionRollbackToLegacyPricingModelPost": {
+            "parameters": {
+              "api-version": "2017-10-01",
+              "subscriptionId": "subid"
+            },
+            "responses": {
+              "204": {}
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "x-internal-toc-name": "Post"
+      }
+    }
+  },
+  "definitions": {
+    "EASubscriptionMigrationDate": {
+      "type": "object",
+      "description": "Subscription migrate date information properties",
+      "properties": {
+        "isGrandFatherableSubscription": {
+          "type": "boolean",
+          "description": "Is subscription in the grand fatherable subscription list."
+        },
+        "optedInDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Time to start using new pricing model."
+        }
+      }
+    },
+    "CloudError": {
+      "x-ms-external": true,
+      "properties": {
+        "error": {
+          "$ref": "#/definitions/CloudErrorBody",
+          "description": "Cloud error body."
+        }
+      },
+      "description": "An error response from the Batch service."
+    },
+    "CloudErrorBody": {
+      "x-ms-external": true,
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "An identifier for the error. Codes are invariant and are intended to be consumed programmatically."
+        },
+        "message": {
+          "type": "string",
+          "description": "A message describing the error, intended to be suitable for display in a user interface."
+        },
+        "target": {
+          "type": "string",
+          "description": "The target of the particular error. For example, the name of the property in error."
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CloudErrorBody"
+          },
+          "description": "A list of additional details about the error."
+        }
+      },
+      "description": "An error response from the Batch service."
+    }
+  },
+  "parameters": {
+    "SubscriptionIdParameter": {
+      "name": "subscriptionId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The Azure subscription ID."
+    },
+    "ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "required": true,
+      "type": "string",
+      "description": "Client Api Version."
+    }
+  },
+  "x-internal-service-name": "Application Insights",
+  "x-internal-toc-name": "EA Subscription Rollback To Legacy Pricing Model",
+  "x-internal-split-type": "Operation",
+  "x-internal-operation-name": "Post"
+}
