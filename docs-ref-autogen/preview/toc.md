@@ -6,12 +6,8 @@
 ### [Events](https://dev.applicationinsights.io/documentation/Using-the-API/Events)
 ### [Query](https://dev.applicationinsights.io/documentation/Using-the-API/Query)
 ## Reference
-### [EA Subscription List Migration Date](application-insights/EASubscriptionListMigrationDate.yml)
-#### [Post](application-insights/EASubscriptionListMigrationDate/Post.yml)
-### [EA Subscription Migrate To New Pricing Model](application-insights/EASubscriptionMigrateToNewPricingModel.yml)
-#### [Post](application-insights/EASubscriptionMigrateToNewPricingModel/Post.yml)
-### [EA Subscription Rollback To Legacy Pricing Model](application-insights/EASubscriptionRollbackToLegacyPricingModel.yml)
-#### [Post](application-insights/EASubscriptionRollbackToLegacyPricingModel/Post.yml)
+### [Operations](application-insights/Operations.yml)
+#### [List](application-insights/Operations/List.yml)
 # Batch AI
 ## [Clusters](batchai/Clusters.yml)
 ### [Create](batchai/Clusters/Create.yml)

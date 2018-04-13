@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "2018-03-01",
+    "version": "2017-09-01-preview",
     "x-ms-code-generation-settings": {
       "name": "BatchAIManagementClient"
     },
@@ -76,12 +76,12 @@
               "resourceGroupName": "demo_resource_group",
               "fileServerName": "demo_nfs",
               "subscriptionId": "00000000-0000-0000-0000-000000000000",
-              "api-version": "2018-03-01"
+              "api-version": "2017-09-01-preview"
             },
             "responses": {
               "202": {
                 "headers": {
-                  "Location": "https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.BatchAI/locations/eastus/operationresults/7e69f371-db62-4183-bba0-5ee577d43bd7?api-version=2018-03-01",
+                  "Location": "https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.BatchAI/locations/eastus/operationresults/7e69f371-db62-4183-bba0-5ee577d43bd7?api-version=2017-09-01-preview",
                   "Retry-After": 15
                 }
               },
@@ -101,74 +101,6 @@
     }
   },
   "definitions": {
-    "UsageName": {
-      "properties": {
-        "value": {
-          "type": "string",
-          "description": "The name of the resource."
-        },
-        "localizedValue": {
-          "type": "string",
-          "description": "The localized name of the resource."
-        }
-      },
-      "description": "The Usage Names."
-    },
-    "Usage": {
-      "properties": {
-        "unit": {
-          "type": "string",
-          "description": "An enum describing the unit of usage measurement.",
-          "enum": [
-            "Count"
-          ],
-          "x-ms-enum": {
-            "name": "UsageUnit",
-            "modelAsString": false
-          }
-        },
-        "currentValue": {
-          "type": "integer",
-          "format": "int32",
-          "description": "The current usage of the resource."
-        },
-        "limit": {
-          "type": "integer",
-          "format": "int64",
-          "description": "The maximum permitted usage of the resource."
-        },
-        "name": {
-          "$ref": "#/definitions/UsageName",
-          "description": "The name of the type of usage."
-        }
-      },
-      "required": [
-        "unit",
-        "currentValue",
-        "limit",
-        "name"
-      ],
-      "description": "Describes Batch AI Resource Usage."
-    },
-    "ListUsagesResult": {
-      "properties": {
-        "value": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Usage"
-          },
-          "description": "The list of compute resource usages."
-        },
-        "nextLink": {
-          "type": "string",
-          "description": "The URI to fetch the next page of compute resource usage information. Call ListNext() with this to fetch the next page of compute resource usage information."
-        }
-      },
-      "required": [
-        "value"
-      ],
-      "description": "The List Usages operation response."
-    },
     "FileServerBaseProperties": {
       "properties": {
         "vmSize": {
@@ -177,7 +109,7 @@
           "description": "For information about available VM sizes for fileservers from the Virtual Machines Marketplace, see Sizes for Virtual Machines (Linux)."
         },
         "sshConfiguration": {
-          "title": "SSH configuration for the file server.",
+          "title": "SSH settings for the file server.",
           "$ref": "#/definitions/SshConfiguration"
         },
         "dataDisks": {
@@ -222,6 +154,7 @@
         },
         "cachingType": {
           "type": "string",
+          "readOnly": true,
           "title": "None, ReadOnly, ReadWrite. Default value is None. This property is not patchable.",
           "default": "none",
           "enum": [
@@ -331,11 +264,11 @@
           "items": {
             "type": "string"
           },
-          "title": "List of source IP ranges to allow SSH connection to a node.",
-          "description": "Default value is '*' can be used to match all source IPs. Maximum number of IP ranges that can be specified are 400."
+          "title": "List of source IP ranges to allow SSH connection to VM.",
+          "description": "Default value is '*' can be used to match all source IPs. Maximum number of publicIPs that can be specified are 400."
         },
         "userAccountSettings": {
-          "title": "Settings for user account to be created on a node.",
+          "title": "Settings for user account of VMs.",
           "$ref": "#/definitions/UserAccountSettings"
         }
       },
@@ -597,12 +530,7 @@
         },
         "version": {
           "type": "string",
-          "title": "Version of the image."
-        },
-        "virtualMachineImageId": {
-          "type": "string",
-          "title": "The ARM resource identifier of the virtual machine image. Computes nodes of the cluster will be created using this custom image. This is of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}",
-          "description": "The virtual machine image must be in the same region and subscription as the cluster. For information about the firewall settings for the Batch node agent to communicate with the Batch service see https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration. Note, you need to provide publisher, offer and sku of the base OS image of which the custom image has been derived from."
+          "title": "Version of the image"
         }
       },
       "required": [
@@ -669,40 +597,6 @@
       ],
       "description": "Settings for user account that gets created on each on the nodes of a cluster."
     },
-    "PerformanceCountersSettings": {
-      "properties": {
-        "appInsightsReference": {
-          "title": "Specifies Azure Application Insights information for performance counters reporting.",
-          "description": "If provided, Batch AI will upload node performance counters to the corresponding Azure Application Insights account.",
-          "$ref": "#/definitions/AppInsightsReference"
-        }
-      },
-      "required": [
-        "appInsightsReference"
-      ],
-      "description": "Performance counters reporting settings."
-    },
-    "AppInsightsReference": {
-      "properties": {
-        "component": {
-          "title": "Specifies the Azure Application Insights component resource id.",
-          "$ref": "#/definitions/ResourceId"
-        },
-        "instrumentationKey": {
-          "type": "string",
-          "title": "Value of the Azure Application Insights instrumentation key."
-        },
-        "instrumentationKeySecretReference": {
-          "title": "Specifies a KeyVault Secret containing Azure Application Insights instrumentation key.",
-          "description": "Specifies KeyVault Store and Secret which contains Azure Application Insights instrumentation key. One of instumentationKey or instrumentationKeySecretReference must be specified.",
-          "$ref": "#/definitions/KeyVaultSecretReference"
-        }
-      },
-      "required": [
-        "component"
-      ],
-      "description": "Specifies Azure Application Insights information for performance counters reporting."
-    },
     "NodeSetup": {
       "properties": {
         "setupTask": {
@@ -711,12 +605,7 @@
         },
         "mountVolumes": {
           "title": "Information on shared volumes to be used by jobs.",
-          "description": "Specified mount volumes will be available to all jobs executing on the cluster. The volumes will be mounted at location specified by $AZ_BATCHAI_MOUNT_ROOT environment variable.",
           "$ref": "#/definitions/MountVolumes"
-        },
-        "performanceCountersSettings": {
-          "title": "Specifies settings for performance counters collecting and uploading.",
-          "$ref": "#/definitions/PerformanceCountersSettings"
         }
       },
       "description": "Use this to prepare the VM. NOTE: The volumes specified in mountVolumes are mounted first and then the setupTask is run. Therefore the setup task can use local mountPaths in its execution."
@@ -730,33 +619,18 @@
         "environmentVariables": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/EnvironmentVariable"
+            "$ref": "#/definitions/EnvironmentSetting"
           },
-          "title": "Collection of environment variables to be set for setup task."
-        },
-        "secrets": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/EnvironmentVariableWithSecretValue"
-          },
-          "title": "Collection of environment variables with secret values to be set for setup task.",
-          "description": "Server will never report values of these variables back."
+          "title": "Collection of environment settings."
         },
         "runElevated": {
           "type": "boolean",
-          "title": "Specifies whether to run the setup task under root account. The default value is false.",
-          "description": "Note. Non-elevated tasks are run under an account added into sudoer list and can perform sudo when required.",
+          "title": "Specifies whether to run the setup task in elevated mode. The default value is false.",
           "default": false
         },
         "stdOutErrPathPrefix": {
           "type": "string",
-          "description": "The prefix of a path where the Batch AI service will upload the stdout and stderr of the setup task."
-        },
-        "stdOutErrPathSuffix": {
-          "type": "string",
-          "title": "A path segment appended by Batch AI to stdOutErrPathPrefix to form a path where stdout and stderr of the setup task will be uploaded.",
-          "description": "Batch AI creates the setup task output directories under an unique path to avoid conflicts between different clusters. You can concatinate stdOutErrPathPrefix and stdOutErrPathSuffix to get the full path to the output directory.",
-          "readOnly": true
+          "description": "The path where the Batch AI service will upload the stdout and stderror of setup task."
         }
       },
       "required": [
@@ -966,11 +840,6 @@
           "title": "Specifies the Id of the cluster on which this job will run.",
           "$ref": "#/definitions/ResourceId"
         },
-        "mountVolumes": {
-          "title": "Information on mount volumes to be used by the job.",
-          "description": "These volumes will be mounted before the job execution and will be unmouted after the job completion. The volumes will be mounted at location specified by $AZ_BATCHAI_JOB_MOUNT_ROOT environment variable.",
-          "$ref": "#/definitions/MountVolumes"
-        },
         "nodeCount": {
           "type": "integer",
           "format": "int32",
@@ -985,10 +854,6 @@
         "cntkSettings": {
           "title": "Specifies the settings for CNTK (aka Microsoft Cognitive Toolkit) job.",
           "$ref": "#/definitions/CNTKsettings"
-        },
-        "pyTorchSettings": {
-          "title": "Specifies the settings for pyTorch job.",
-          "$ref": "#/definitions/PyTorchSettings"
         },
         "tensorFlowSettings": {
           "title": "Specifies the settings for Tensor Flow job.",
@@ -1031,23 +896,15 @@
           "items": {
             "$ref": "#/definitions/OutputDirectory"
           },
-          "title": "Specifies the list of output directories."
+          "title": "Specifies the list of output directories where the models will be created. ."
         },
         "environmentVariables": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/EnvironmentVariable"
+            "$ref": "#/definitions/EnvironmentSetting"
           },
           "title": "Additional environment variables to set on the job.",
-          "description": "Batch AI will setup these additional environment variables for the job."
-        },
-        "secrets": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/EnvironmentVariableWithSecretValue"
-          },
-          "title": "Additional environment variables with secret values to set on the job.",
-          "description": "Batch AI will setup these additional environment variables for the job. Server will never report values of these variables back."
+          "description": "Batch AI service sets the following environment variables for all jobs: AZ_BATCHAI_INPUT_id, AZ_BATCHAI_OUTPUT_id, AZ_BATCHAI_NUM_GPUS_PER_NODE. For distributed TensorFlow jobs, following additional environment variables are set by the Batch AI Service: AZ_BATCHAI_PS_HOSTS, AZ_BATCHAI_WORKER_HOSTS"
         },
         "constraints": {
           "properties": {
@@ -1110,16 +967,6 @@
           "title": "Specifies the Id of the cluster on which this job will run.",
           "$ref": "#/definitions/ResourceId"
         },
-        "mountVolumes": {
-          "title": "Information on mount volumes to be used by the job.",
-          "description": "These volumes will be mounted before the job execution and will be unmouted after the job completion. The volumes will be mounted at location specified by $AZ_BATCHAI_JOB_MOUNT_ROOT environment variable.",
-          "$ref": "#/definitions/MountVolumes"
-        },
-        "jobOutputDirectoryPathSegment": {
-          "type": "string",
-          "title": "A segment of job's output directories path created by BatchAI.",
-          "description": "Batch AI creates job's output directories under an unique path to avoid conflicts between jobs. This value contains a path segment generated by Batch AI to make the path unique and can be used to find the output directory on the node or mounted filesystem."
-        },
         "nodeCount": {
           "type": "integer",
           "format": "int32",
@@ -1133,16 +980,12 @@
         },
         "toolType": {
           "title": "The toolkit type of this job.",
-          "description": "Possible values are: cntk, tensorflow, caffe, caffe2, chainer, pytorch, custom.",
+          "description": "Possible values are: cntk, tensorflow, caffe, caffe2, chainer, custom.",
           "$ref": "#/definitions/ToolType"
         },
         "cntkSettings": {
           "title": "Specifies the settings for CNTK (aka Microsoft Cognitive Toolkit) job.",
           "$ref": "#/definitions/CNTKsettings"
-        },
-        "pyTorchSettings": {
-          "title": "Specifies the settings for pyTorch job.",
-          "$ref": "#/definitions/PyTorchSettings"
         },
         "tensorFlowSettings": {
           "title": "Specifies the settings for Tensor Flow job.",
@@ -1181,23 +1024,15 @@
           "items": {
             "$ref": "#/definitions/OutputDirectory"
           },
-          "title": "Specifies the list of output directories where the models will be created."
+          "title": "Specifies the list of output directories where the models will be created. ."
         },
         "environmentVariables": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/EnvironmentVariable"
+            "$ref": "#/definitions/EnvironmentSetting"
           },
-          "title": "Additional environment variables to set on the job.",
-          "description": "Batch AI will setup these additional environment variables for the job."
-        },
-        "secrets": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/EnvironmentVariableWithSecretValue"
-          },
-          "title": "Additional environment variables with secret values to set on the job.",
-          "description": "Batch AI will setup these additional environment variables for the job. Server will never report values of these variables back."
+          "title": "Additional environment variables to be passed to the job.",
+          "description": "Batch AI services sets the following environment variables for all jobs: AZ_BATCHAI_INPUT_id, AZ_BATCHAI_OUTPUT_id, AZ_BATCHAI_NUM_GPUS_PER_NODE, For distributed TensorFlow jobs, following additional environment variables are set by the Batch AI Service: AZ_BATCHAI_PS_HOSTS, AZ_BATCHAI_WORKER_HOSTS."
         },
         "constraints": {
           "properties": {
@@ -1391,26 +1226,23 @@
       "properties": {
         "name": {
           "type": "string",
-          "description": "Name of the file."
-        },
-        "isDirectory": {
-          "type": "boolean",
-          "description": "Indicates if the file is a directory."
+          "description": "file name"
         },
         "downloadUrl": {
           "type": "string",
-          "title": "Will contain an URL to download the corresponding file. The downloadUrl is not returned for directories."
+          "title": "file downloand url, example: https://mystg.blob.core.windows.net/mycontainer/myModel_1.dnn",
+          "description": "This will be returned only if the model has been archived. During job run, this won't be returned and customers can use SSH tunneling to download. Users can use Get Remote Login Information API to get the IP address and port information of all the compute nodes running the job."
         },
         "properties": {
           "x-ms-client-flatten": true,
           "$ref": "#/definitions/FileProperties",
-          "description": "The properties associated with the file. The properties are not returned for directories."
+          "description": "The properties associated with the file."
         }
       },
-      "description": "Properties of the file or directory.",
+      "description": "Properties of the file.",
       "required": [
         "name",
-        "isDirectory"
+        "downloadUrl"
       ]
     },
     "FileListResult": {
@@ -1421,7 +1253,7 @@
           "items": {
             "$ref": "#/definitions/File"
           },
-          "description": "The collection of returned job directories and files."
+          "description": "The collection of returned job files."
         },
         "nextLink": {
           "type": "string",
@@ -1506,7 +1338,7 @@
       },
       "description": "Represents a name-value pair."
     },
-    "EnvironmentVariable": {
+    "EnvironmentSetting": {
       "properties": {
         "name": {
           "type": "string",
@@ -1518,31 +1350,9 @@
         }
       },
       "required": [
-        "name",
-        "value"
-      ],
-      "description": "A collection of environment variables to set."
-    },
-    "EnvironmentVariableWithSecretValue": {
-      "properties": {
-        "name": {
-          "type": "string",
-          "title": "The name of the environment variable to store the secret value."
-        },
-        "value": {
-          "type": "string",
-          "title": "The value of the environment variable. This value will never be reported back by Batch AI."
-        },
-        "valueSecretReference": {
-          "title": "Specifies the location of the Azure KeyVault secret which will be used as the environment variable value.",
-          "description": "Specifies KeyVault Store and Secret which contains the value for the environment variable. One of value or valueSecretReference must be provided.",
-          "$ref": "#/definitions/KeyVaultSecretReference"
-        }
-      },
-      "required": [
         "name"
       ],
-      "description": "A collection of environment variables with secret values to set."
+      "description": "A collection of environment variables to set."
     },
     "LocalDataVolume": {
       "properties": {
@@ -1620,7 +1430,7 @@
         "id": {
           "type": "string",
           "title": "The id for the input directory.",
-          "description": "The path of the input directory will be available as a value of an environment variable with AZ_BATCHAI_INPUT_<id> name, where <id> is the value of id attribute."
+          "description": "It will be available for the job as an environment variable under AZ_BATCHAI_INPUT_id. The service will also provide the following  environment variable: AZ_BATCHAI_PREV_OUTPUT_Name. The value of the variable will be populated if the job is being retried after a previous failure, otherwise it will be set to nothing."
         },
         "path": {
           "type": "string",
@@ -1638,17 +1448,17 @@
         "id": {
           "type": "string",
           "title": "The name for the output directory.",
-          "description": "The path of the output directory will be available as a value of an environment variable with AZ_BATCHAI_OUTPUT_<id> name, where <id> is the value of id attribute."
+          "description": "It will be available for the job as an environment variable under AZ_BATCHAI_OUTPUT_id."
         },
         "pathPrefix": {
           "type": "string",
           "title": "The prefix path where the output directory will be created.",
-          "description": "NOTE: This is an absolute path to prefix. E.g. $AZ_BATCHAI_MOUNT_ROOT/MyNFS/MyLogs. You can find the full path to the output directory by combining pathPrefix, jobOutputDirectoryPathSegment (reported by get job) and pathSuffix."
+          "description": "NOTE: This is an absolute path to prefix. E.g. $AZ_BATCHAI_MOUNT_ROOT/MyNFS/MyLogs."
         },
         "pathSuffix": {
           "type": "string",
           "title": "The suffix path where the output directory will be created.",
-          "description": "The suffix path where the output directory will be created. E.g. models. You can find the full path to the output directory by combining pathPrefix, jobOutputDirectoryPathSegment (reported by get job) and pathSuffix."
+          "description": "The suffix path where the output directory will be created."
         },
         "type": {
           "type": "string",
@@ -1711,7 +1521,7 @@
         "relativeMountPath": {
           "type": "string",
           "title": "Specifies the relative path on the compute node where the Azure file share will be mounted.",
-          "description": "Note that all cluster level file shares will be mounted under $AZ_BATCHAI_MOUNT_ROOT location and all job level file shares will be mounted under $AZ_BATCHAI_JOB_MOUNT_ROOT."
+          "description": "Note that all file shares will be mounted under $AZ_BATCHAI_MOUNT_ROOT location."
         },
         "fileMode": {
           "type": "string",
@@ -1751,7 +1561,7 @@
         "relativeMountPath": {
           "type": "string",
           "title": "Specifies the relative path on the compute node where the Azure Blob file system will be mounted.",
-          "description": "Note that all cluster level blob file systems will be mounted under $AZ_BATCHAI_MOUNT_ROOT location and all job level blob file systems will be mounted under $AZ_BATCHAI_JOB_MOUNT_ROOT."
+          "description": "Note that all blob file systems will be mounted under $AZ_BATCHAI_MOUNT_ROOT location."
         },
         "mountOptions": {
           "type": "string",
@@ -1780,7 +1590,7 @@
         "relativeMountPath": {
           "type": "string",
           "title": "Specifies the relative path on the compute node where the File Server will be mounted.",
-          "description": "Note that all cluster level file servers will be mounted under $AZ_BATCHAI_MOUNT_ROOT location and job level file servers will be mouted under $AZ_BATCHAI_JOB_MOUNT_ROOT."
+          "description": "Note that all file shares will be mounted under $AZ_BATCHAI_MOUNT_ROOT location."
         },
         "mountOptions": {
           "type": "string",
@@ -1802,7 +1612,7 @@
         "relativeMountPath": {
           "type": "string",
           "title": "Specifies the relative path on the compute cluster node where the file system will be mounted.",
-          "description": "Note that all cluster level unmanaged file system will be mounted under $AZ_BATCHAI_MOUNT_ROOT location and job level unmanaged file system will be mounted under $AZ_BATCHAI_JOB_MOUNT_ROOT."
+          "description": "Note that all file shares will be mounted under $AZ_BATCHAI_MOUNT_ROOT location."
         }
       },
       "description": "Details of the file system to mount on the compute cluster nodes.",
@@ -1979,37 +1789,6 @@
         "commandLine"
       ]
     },
-    "PyTorchSettings": {
-      "properties": {
-        "pythonScriptFilePath": {
-          "type": "string",
-          "title": "The path and file name of the python script to execute the job."
-        },
-        "pythonInterpreterPath": {
-          "type": "string",
-          "title": "The path to python interpreter."
-        },
-        "commandLineArgs": {
-          "type": "string",
-          "title": "Specifies the command line arguments for the master task."
-        },
-        "processCount": {
-          "type": "integer",
-          "format": "int32",
-          "title": "Number of processes to launch for the job execution.",
-          "description": "The default value for this property is equal to nodeCount property."
-        },
-        "communicationBackend": {
-          "type": "string",
-          "title": "Type of the communication backend for distributed jobs.",
-          "description": "Valid values are 'TCP', 'Gloo' or 'MPI'. Not required for non-distributed jobs."
-        }
-      },
-      "description": "Specifies the settings for pyTorch job.",
-      "required": [
-        "pythonScriptFilePath"
-      ]
-    },
     "TensorFlowSettings": {
       "properties": {
         "pythonScriptFilePath": {
@@ -2049,7 +1828,8 @@
       },
       "description": "Specifies the settings for TensorFlow job.",
       "required": [
-        "pythonScriptFilePath"
+        "pythonScriptFilePath",
+        "masterCommandLineArgs"
       ]
     },
     "CloudError": {
@@ -2285,18 +2065,6 @@
       "default": 60,
       "x-ms-parameter-location": "method",
       "description": "The number of minutes after which the download link will expire.",
-      "x-ms-parameter-grouping": {
-        "postfix": "Options"
-      }
-    },
-    "Directory": {
-      "name": "directory",
-      "in": "query",
-      "default": ".",
-      "required": false,
-      "type": "string",
-      "x-ms-parameter-location": "method",
-      "description": "The path to the directory.",
       "x-ms-parameter-grouping": {
         "postfix": "Options"
       }

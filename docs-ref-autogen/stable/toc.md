@@ -62,5 +62,3 @@
 ### [Terminate](batchai/Jobs/Terminate.yml)
 ## [Operations](batchai/Operations.yml)
 ### [List](batchai/Operations/List.yml)
-## [Usage](batchai/Usage.yml)
-### [List](batchai/Usage/List.yml)
