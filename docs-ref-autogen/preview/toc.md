@@ -1,12 +1,11 @@
 # [Getting Started with REST](../../index.md)
-# [Advisor](../../docs-ref-conceptual/advisor/preview/index.md)
-# [Application Insights](../../docs-ref-conceptual/application-insights/preview/index.md)
+# [Advisor](../../docs-ref-conceptual/preview/advisor/index.md)
+# [Application Insights](../../docs-ref-conceptual/preview/application-insights/index.md)
 ## [Data Access](https://dev.applicationinsights.io/)
 ### [Authorization](https://dev.applicationinsights.io/documentation/Authorization)
 ### [Metrics](https://dev.applicationinsights.io/documentation/Using-the-API/Metrics)
 ### [Events](https://dev.applicationinsights.io/documentation/Using-the-API/Events)
 ### [Query](https://dev.applicationinsights.io/documentation/Using-the-API/Query)
-## Reference
 # Batch AI
 ## [Clusters](batchai/Clusters.yml)
 ### [Create](batchai/Clusters/Create.yml)
