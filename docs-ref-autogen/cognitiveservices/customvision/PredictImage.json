@@ -1,0 +1,106 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.1",
+    "title": "PredictionEndpoint"
+  },
+  "host": "southcentralus.api.cognitive.microsoft.com",
+  "basePath": "/customvision/v1.1/Prediction",
+  "schemes": [
+    "https"
+  ],
+  "paths": {},
+  "definitions": {
+    "ImageUrl": {
+      "type": "object",
+      "properties": {
+        "Url": {
+          "type": "string",
+          "x-nullable": true
+        }
+      },
+      "x-nullable": true
+    },
+    "ImagePredictionResultModel": {
+      "description": "result of an image prediction request",
+      "type": "object",
+      "properties": {
+        "Id": {
+          "format": "uuid",
+          "type": "string",
+          "readOnly": true,
+          "x-nullable": false
+        },
+        "Project": {
+          "format": "uuid",
+          "type": "string",
+          "readOnly": true,
+          "x-nullable": false
+        },
+        "Iteration": {
+          "format": "uuid",
+          "type": "string",
+          "readOnly": true,
+          "x-nullable": false
+        },
+        "Created": {
+          "format": "date-time",
+          "type": "string",
+          "readOnly": true,
+          "x-nullable": false
+        },
+        "Predictions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ImageTagPredictionModel"
+          },
+          "readOnly": true,
+          "x-nullable": true
+        }
+      },
+      "x-nullable": true
+    },
+    "ImageTagPredictionModel": {
+      "type": "object",
+      "properties": {
+        "TagId": {
+          "format": "uuid",
+          "type": "string",
+          "readOnly": true,
+          "x-nullable": false
+        },
+        "Tag": {
+          "type": "string",
+          "readOnly": true,
+          "x-nullable": true
+        },
+        "Probability": {
+          "format": "float",
+          "type": "number",
+          "readOnly": true,
+          "x-nullable": false
+        }
+      },
+      "x-nullable": true
+    }
+  },
+  "parameters": {
+    "ApiKey": {
+      "name": "Prediction-Key",
+      "in": "header",
+      "required": true,
+      "type": "string",
+      "x-ms-client-name": "ApiKey",
+      "x-ms-parameter-location": "client"
+    }
+  },
+  "x-internal-service-name": "Cognitive Services",
+  "x-internal-toc-name": "Predict Image",
+  "x-internal-split-members": [
+    {
+      "displayName": "Predict Image",
+      "relativePath": "PredictImage/PredictImage"
+    }
+  ],
+  "x-internal-split-type": "OperationGroup"
+}

@@ -1,0 +1,558 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0",
+    "title": "News Search API",
+    "description": "The News Search API lets you send a search query to Bing and get back a list of news that are relevant to the search query. This section provides technical details about the query parameters and headers that you use to request news and the JSON response objects that contain them. For examples that show how to make requests, see [Searching the web for news](https://docs.microsoft.com/en-us/azure/cognitive-services/bing-news-search/search-the-web)."
+  },
+  "parameters": {
+    "x-bingapis-sdk": {
+      "name": "X-BingApis-SDK",
+      "description": "Activate swagger compliance",
+      "x-ms-parameter-location": "method",
+      "required": true,
+      "type": "string",
+      "in": "header",
+      "x-ms-enum": {
+        "name": "XBingApisSDK",
+        "modelAsString": true
+      },
+      "enum": [
+        "true"
+      ]
+    }
+  },
+  "host": "api.cognitive.microsoft.com",
+  "schemes": [
+    "https"
+  ],
+  "basePath": "/bing/v7.0",
+  "securityDefinitions": {
+    "apiKeyHeader": {
+      "name": "Ocp-Apim-Subscription-Key",
+      "type": "apiKey",
+      "in": "header"
+    }
+  },
+  "security": [
+    {
+      "apiKeyHeader": []
+    }
+  ],
+  "paths": {},
+  "definitions": {
+    "News": {
+      "description": "Defines a news answer.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/SearchResultsAnswer"
+        }
+      ],
+      "type": "object",
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "description": "An array of NewsArticle objects that contain information about news articles that are relevant to the query. If there are no results to return for the request, the array is empty.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NewsArticle"
+          }
+        },
+        "location": {
+          "description": "Location of local news",
+          "readOnly": true,
+          "type": "string"
+        }
+      }
+    },
+    "SearchResultsAnswer": {
+      "description": "Defines a search result answer.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Answer"
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "totalEstimatedMatches": {
+          "description": "The estimated number of webpages that are relevant to the query. Use this number along with the count and offset query parameters to page the results.",
+          "readOnly": true,
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "NewsArticle": {
+      "description": "Defines a news article.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Article"
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "category": {
+          "description": "The news category that the article belongs to. For example, Sports. If the news category cannot be determined, the article does not include this field.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "headline": {
+          "description": "A Boolean value that indicates whether the news article is a headline. If true, the article is a headline. The article includes this field only for news categories requests that do not specify the category query parameter.",
+          "readOnly": true,
+          "type": "boolean"
+        },
+        "clusteredArticles": {
+          "description": "A list of related news articles.",
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NewsArticle"
+          }
+        }
+      }
+    },
+    "NewsTopic": {
+      "x-ms-discriminator-value": "News/Topic",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Thing"
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "isBreakingNews": {
+          "description": "A Boolean value that indicates whether the topic is considered breaking news. If the topic is considered breaking news, the value is true.",
+          "readOnly": true,
+          "type": "boolean"
+        },
+        "query": {
+          "description": "A search query term that returns this trending topic.",
+          "$ref": "#/definitions/Query",
+          "readOnly": true
+        },
+        "newsSearchUrl": {
+          "description": "The URL to the Bing News search results for the search query term",
+          "readOnly": true,
+          "type": "string"
+        }
+      }
+    },
+    "Answer": {
+      "description": "Defines an answer.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Response"
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "followUpQueries": {
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Query"
+          }
+        }
+      }
+    },
+    "Article": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/CreativeWork"
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "wordCount": {
+          "description": "The number of words in the text of the Article.",
+          "readOnly": true,
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "Thing": {
+      "description": "Defines a thing.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Response"
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "The name of the thing represented by this object.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "url": {
+          "description": "The URL to get more information about the thing represented by this object.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "image": {
+          "description": "An image of the item.",
+          "$ref": "#/definitions/ImageObject",
+          "readOnly": true
+        },
+        "description": {
+          "description": "A short description of the item.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "alternateName": {
+          "description": "An alias for the item",
+          "readOnly": true,
+          "type": "string"
+        },
+        "bingId": {
+          "description": "An ID that uniquely identifies this item.",
+          "readOnly": true,
+          "type": "string"
+        }
+      }
+    },
+    "Query": {
+      "description": "Defines a search query.",
+      "type": "object",
+      "required": [
+        "text"
+      ],
+      "properties": {
+        "text": {
+          "description": "The query string. Use this string as the query term in a new search request.",
+          "type": "string"
+        },
+        "displayText": {
+          "description": "The display version of the query term. This version of the query term may contain special characters that highlight the search term found in the query string. The string contains the highlighting characters only if the query enabled hit highlighting",
+          "readOnly": true,
+          "type": "string"
+        },
+        "webSearchUrl": {
+          "description": "The URL that takes the user to the Bing search results page for the query.Only related search results include this field.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "searchLink": {
+          "description": "The URL that you use to get the results of the related search. Before using the URL, you must append query parameters as appropriate and include the Ocp-Apim-Subscription-Key header. Use this URL if you're displaying the results in your own user interface. Otherwise, use the webSearchUrl URL.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "thumbnail": {
+          "description": "The URL to a thumbnail of a related image.",
+          "$ref": "#/definitions/ImageObject",
+          "readOnly": true
+        }
+      }
+    },
+    "Response": {
+      "description": "Defines a response. All schemas that could be returned at the root of a response should inherit from this",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Identifiable"
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "webSearchUrl": {
+          "description": "The URL To Bing's search result for this item.",
+          "readOnly": true,
+          "type": "string"
+        }
+      }
+    },
+    "TrendingTopics": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Answer"
+        }
+      ],
+      "type": "object",
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "description": "A list of trending news topics on Bing",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NewsTopic"
+          }
+        }
+      }
+    },
+    "CreativeWork": {
+      "description": "The most generic kind of creative work, including books, movies, photographs, software programs, etc.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Thing"
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "thumbnailUrl": {
+          "description": "The URL to a thumbnail of the item.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "provider": {
+          "description": "The source of the creative work.",
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Thing"
+          }
+        },
+        "datePublished": {
+          "description": "The date on which the CreativeWork was published.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "video": {
+          "description": "A video of the item.",
+          "$ref": "#/definitions/VideoObject",
+          "readOnly": true
+        }
+      }
+    },
+    "Organization": {
+      "description": "Defines an organization.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Thing"
+        }
+      ],
+      "type": "object",
+      "properties": {}
+    },
+    "ImageObject": {
+      "description": "Defines an image",
+      "allOf": [
+        {
+          "$ref": "#/definitions/MediaObject"
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "thumbnail": {
+          "description": "The URL to a thumbnail of the image",
+          "$ref": "#/definitions/ImageObject",
+          "readOnly": true
+        }
+      }
+    },
+    "Identifiable": {
+      "description": "Defines the identity of a resource.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ResponseBase"
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "A String identifier.",
+          "readOnly": true,
+          "type": "string"
+        }
+      }
+    },
+    "ErrorResponse": {
+      "description": "The top-level response that represents a failed request.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Response"
+        }
+      ],
+      "type": "object",
+      "required": [
+        "errors"
+      ],
+      "properties": {
+        "errors": {
+          "description": "A list of errors that describe the reasons why the request failed.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Error"
+          }
+        }
+      }
+    },
+    "MediaObject": {
+      "description": "Defines a media object.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/CreativeWork"
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "contentUrl": {
+          "description": "Original URL to retrieve the source (file) for the media object (e.g the source URL for the image).",
+          "readOnly": true,
+          "type": "string"
+        },
+        "width": {
+          "description": "The width of the source media object, in pixels.",
+          "readOnly": true,
+          "type": "integer",
+          "format": "int32"
+        },
+        "height": {
+          "description": "The height of the source media object, in pixels.",
+          "readOnly": true,
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "VideoObject": {
+      "description": "Defines a video object that is relevant to the query.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/MediaObject"
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "motionThumbnailUrl": {
+          "readOnly": true,
+          "type": "string"
+        },
+        "motionThumbnailId": {
+          "readOnly": true,
+          "type": "string"
+        },
+        "embedHtml": {
+          "readOnly": true,
+          "type": "string"
+        },
+        "allowHttpsEmbed": {
+          "readOnly": true,
+          "type": "boolean"
+        },
+        "viewCount": {
+          "readOnly": true,
+          "type": "integer",
+          "format": "int32"
+        },
+        "thumbnail": {
+          "$ref": "#/definitions/ImageObject",
+          "readOnly": true
+        },
+        "videoId": {
+          "readOnly": true,
+          "type": "string"
+        },
+        "allowMobileEmbed": {
+          "readOnly": true,
+          "type": "boolean"
+        },
+        "isSuperfresh": {
+          "readOnly": true,
+          "type": "boolean"
+        }
+      }
+    },
+    "ResponseBase": {
+      "description": "Response base",
+      "discriminator": "_type",
+      "type": "object",
+      "required": [
+        "_type"
+      ],
+      "properties": {
+        "_type": {
+          "type": "string"
+        }
+      }
+    },
+    "Error": {
+      "description": "Defines the error that occurred.",
+      "type": "object",
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "description": "The error code that identifies the category of error.",
+          "type": "string",
+          "default": "None",
+          "enum": [
+            "None",
+            "ServerError",
+            "InvalidRequest",
+            "RateLimitExceeded",
+            "InvalidAuthorization",
+            "InsufficientAuthorization"
+          ],
+          "x-ms-enum": {
+            "name": "ErrorCode",
+            "modelAsString": true
+          }
+        },
+        "subCode": {
+          "description": "The error code that further helps to identify the error.",
+          "readOnly": true,
+          "type": "string",
+          "enum": [
+            "UnexpectedError",
+            "ResourceError",
+            "NotImplemented",
+            "ParameterMissing",
+            "ParameterInvalidValue",
+            "HttpNotAllowed",
+            "Blocked",
+            "AuthorizationMissing",
+            "AuthorizationRedundancy",
+            "AuthorizationDisabled",
+            "AuthorizationExpired"
+          ],
+          "x-ms-enum": {
+            "name": "ErrorSubCode",
+            "modelAsString": true
+          }
+        },
+        "message": {
+          "description": "A description of the error.",
+          "type": "string"
+        },
+        "moreDetails": {
+          "description": "A description that provides additional information about the error.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "parameter": {
+          "description": "The parameter in the request that caused the error.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "value": {
+          "description": "The parameter's value in the request that was not valid.",
+          "readOnly": true,
+          "type": "string"
+        }
+      }
+    }
+  },
+  "x-internal-service-name": "Cognitive Services",
+  "x-internal-toc-name": "News",
+  "x-internal-split-members": [
+    {
+      "displayName": "Category",
+      "relativePath": "News/Category"
+    },
+    {
+      "displayName": "Search",
+      "relativePath": "News/Search"
+    },
+    {
+      "displayName": "Trending",
+      "relativePath": "News/Trending"
+    }
+  ],
+  "x-internal-split-type": "OperationGroup"
+}

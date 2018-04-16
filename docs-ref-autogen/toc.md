@@ -75,6 +75,29 @@
 #### [List By Service](apimanagement/ApiDiagnosticLogger/ListByService.yml)
 ### [Api Export](apimanagement/ApiExport.yml)
 #### [Get](apimanagement/ApiExport/Get.yml)
+### [Api Issu Attachment](apimanagement/ApiIssuAttachment.yml)
+#### [Head](apimanagement/ApiIssuAttachment/Head.yml)
+### [Api Issu Comment](apimanagement/ApiIssuComment.yml)
+#### [Head](apimanagement/ApiIssuComment/Head.yml)
+### [Api Issue](apimanagement/ApiIssue.yml)
+#### [Create Or Update](apimanagement/ApiIssue/CreateOrUpdate.yml)
+#### [Delete](apimanagement/ApiIssue/Delete.yml)
+#### [Get](apimanagement/ApiIssue/Get.yml)
+#### [Head](apimanagement/ApiIssue/Head.yml)
+### [Api Issue Attachment](apimanagement/ApiIssueAttachment.yml)
+#### [Create Or Update](apimanagement/ApiIssueAttachment/CreateOrUpdate.yml)
+#### [Delete](apimanagement/ApiIssueAttachment/Delete.yml)
+#### [Get](apimanagement/ApiIssueAttachment/Get.yml)
+### [Api Issue Attachments](apimanagement/ApiIssueAttachments.yml)
+#### [List By Service](apimanagement/ApiIssueAttachments/ListByService.yml)
+### [Api Issue Comment](apimanagement/ApiIssueComment.yml)
+#### [Create Or Update](apimanagement/ApiIssueComment/CreateOrUpdate.yml)
+#### [Delete](apimanagement/ApiIssueComment/Delete.yml)
+#### [Get](apimanagement/ApiIssueComment/Get.yml)
+### [Api Issue Comments](apimanagement/ApiIssueComments.yml)
+#### [List By Service](apimanagement/ApiIssueComments/ListByService.yml)
+### [Api Issues](apimanagement/ApiIssues.yml)
+#### [List By Service](apimanagement/ApiIssues/ListByService.yml)
 ### [Api Management Operations](apimanagement/ApiManagementOperations.yml)
 #### [List](apimanagement/ApiManagementOperations/List.yml)
 ### [Api Management Service](apimanagement/ApiManagementService.yml)
@@ -1256,25 +1279,6 @@
 ## Bing Autosuggest API
 ### [Bing Autosuggest API v7](../docs-ref-conceptual/cognitiveservices/bing-autosuggest-api-v7-reference.md)
 ### [Bing Autosuggest API v5](../docs-ref-conceptual/cognitiveservices/bing-autosuggest-api-v5-reference.md)
-## Bing Custom Search API
-### [Bing Custom Search API v7](../docs-ref-conceptual/cognitiveservices/bing-custom-search-api-v7-reference.md)
-## Bing Entity Search API
-### [Bing Entity Search API v7](../docs-ref-conceptual/cognitiveservices/bing-entities-api-v7-reference.md)
-## Bing Image Search API
-### [Bing Image Search API v7](../docs-ref-conceptual/cognitiveservices/bing-images-api-v7-reference.md)
-### [Bing Image Search API v5](../docs-ref-conceptual/cognitiveservices/bing-images-api-v5-reference.md)
-## Bing News Search API
-### [Bing News Search API v7](../docs-ref-conceptual/cognitiveservices/bing-news-api-v7-reference.md)
-### [Bing News Search API v5](../docs-ref-conceptual/cognitiveservices/bing-news-api-v5-reference.md)
-## Bing Spell Check API
-### [Bing Spell Check API v7](../docs-ref-conceptual/cognitiveservices/bing-spell-check-api-v7-reference.md)
-### [Bing Spell Check API v5](../docs-ref-conceptual/cognitiveservices/bing-spell-check-api-v5-reference.md)
-## Bing Video Search API
-### [Bing Video Search API v7](../docs-ref-conceptual/cognitiveservices/bing-video-api-v7-reference.md)
-### [Bing Video Search API v5](../docs-ref-conceptual/cognitiveservices/bing-video-api-v5-reference.md)
-## Bing Web Search API
-### [Bing Web Search API v7](../docs-ref-conceptual/cognitiveservices/bing-web-api-v7-reference.md)
-### [Bing Web Search API v5](../docs-ref-conceptual/cognitiveservices/bing-web-api-v5-reference.md)
 ## Reference
 ### Computer Vision
 #### [Analyze Image](cognitiveservices/computervision/AnalyzeImage.yml)
@@ -1753,6 +1757,7 @@
 #### [Force Recovery Service Fabric Platform Update Domain Walk](compute/VirtualMachineScaleSets/ForceRecoveryServiceFabricPlatformUpdateDomainWalk.yml)
 #### [Get](compute/VirtualMachineScaleSets/Get.yml)
 #### [Get Instance View](compute/VirtualMachineScaleSets/GetInstanceView.yml)
+#### [Get OS Upgrade History](compute/VirtualMachineScaleSets/GetOSUpgradeHistory.yml)
 #### [List](compute/VirtualMachineScaleSets/List.yml)
 #### [List All](compute/VirtualMachineScaleSets/ListAll.yml)
 #### [List Skus](compute/VirtualMachineScaleSets/ListSkus.yml)

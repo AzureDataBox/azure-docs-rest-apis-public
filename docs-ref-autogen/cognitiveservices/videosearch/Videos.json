@@ -1,0 +1,641 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0",
+    "title": "Video Search API",
+    "description": "The Video Search API lets you search on Bing for video that are relevant to the user's search query, for insights about a video or for videos that are trending based on search requests made by others. This section provides technical details about the query parameters and headers that you use to request videos and the JSON response objects that contain them. For examples that show how to make requests, see [Searching the Web for Videos](https://docs.microsoft.com/azure/cognitive-services/bing-video-search/search-the-web)."
+  },
+  "parameters": {
+    "x-bingapis-sdk": {
+      "name": "X-BingApis-SDK",
+      "description": "Activate swagger compliance",
+      "x-ms-parameter-location": "method",
+      "required": true,
+      "type": "string",
+      "in": "header",
+      "x-ms-enum": {
+        "name": "XBingApisSDK",
+        "modelAsString": true
+      },
+      "enum": [
+        "true"
+      ]
+    }
+  },
+  "host": "api.cognitive.microsoft.com",
+  "schemes": [
+    "https"
+  ],
+  "basePath": "/bing/v7.0",
+  "securityDefinitions": {
+    "apiKeyHeader": {
+      "name": "Ocp-Apim-Subscription-Key",
+      "type": "apiKey",
+      "in": "header"
+    }
+  },
+  "security": [
+    {
+      "apiKeyHeader": []
+    }
+  ],
+  "paths": {},
+  "definitions": {
+    "Videos": {
+      "description": "Defines a video answer.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/SearchResultsAnswer"
+        }
+      ],
+      "type": "object",
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "description": "A list of video objects that are relevant to the query.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/VideoObject"
+          }
+        },
+        "nextOffset": {
+          "readOnly": true,
+          "type": "integer",
+          "format": "int32"
+        },
+        "scenario": {
+          "readOnly": true,
+          "type": "string",
+          "enum": [
+            "List",
+            "SingleDominantVideo"
+          ],
+          "x-ms-enum": {
+            "name": "VideoQueryScenario",
+            "modelAsString": false
+          }
+        },
+        "queryExpansions": {
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Query"
+          }
+        },
+        "pivotSuggestions": {
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PivotSuggestions"
+          }
+        }
+      }
+    },
+    "SearchResultsAnswer": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Answer"
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "totalEstimatedMatches": {
+          "description": "The estimated number of webpages that are relevant to the query. Use this number along with the count and offset query parameters to page the results.",
+          "readOnly": true,
+          "type": "integer",
+          "format": "int64"
+        },
+        "isFamilyFriendly": {
+          "readOnly": true,
+          "type": "boolean"
+        }
+      }
+    },
+    "VideoObject": {
+      "description": "Defines a video object that is relevant to the query.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/MediaObject"
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "motionThumbnailUrl": {
+          "readOnly": true,
+          "type": "string"
+        },
+        "motionThumbnailId": {
+          "readOnly": true,
+          "type": "string"
+        },
+        "embedHtml": {
+          "readOnly": true,
+          "type": "string"
+        },
+        "allowHttpsEmbed": {
+          "readOnly": true,
+          "type": "boolean"
+        },
+        "viewCount": {
+          "readOnly": true,
+          "type": "integer",
+          "format": "int32"
+        },
+        "thumbnail": {
+          "$ref": "#/definitions/ImageObject",
+          "readOnly": true
+        },
+        "videoId": {
+          "readOnly": true,
+          "type": "string"
+        },
+        "allowMobileEmbed": {
+          "readOnly": true,
+          "type": "boolean"
+        },
+        "isSuperfresh": {
+          "readOnly": true,
+          "type": "boolean"
+        }
+      }
+    },
+    "Query": {
+      "description": "Defines a search query.",
+      "type": "object",
+      "required": [
+        "text"
+      ],
+      "properties": {
+        "text": {
+          "description": "The query string. Use this string as the query term in a new search request.",
+          "type": "string"
+        },
+        "displayText": {
+          "description": "The display version of the query term. This version of the query term may contain special characters that highlight the search term found in the query string. The string contains the highlighting characters only if the query enabled hit highlighting",
+          "readOnly": true,
+          "type": "string"
+        },
+        "webSearchUrl": {
+          "description": "The URL that takes the user to the Bing search results page for the query.Only related search results include this field.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "searchLink": {
+          "readOnly": true,
+          "type": "string"
+        },
+        "thumbnail": {
+          "$ref": "#/definitions/ImageObject",
+          "readOnly": true
+        }
+      }
+    },
+    "PivotSuggestions": {
+      "type": "object",
+      "required": [
+        "pivot",
+        "suggestions"
+      ],
+      "properties": {
+        "pivot": {
+          "type": "string"
+        },
+        "suggestions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Query"
+          }
+        }
+      }
+    },
+    "Answer": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Response"
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "followUpQueries": {
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Query"
+          }
+        }
+      }
+    },
+    "QueryContext": {
+      "description": "Defines the query context that Bing used for the request.",
+      "type": "object",
+      "required": [
+        "originalQuery"
+      ],
+      "properties": {
+        "originalQuery": {
+          "description": "The query string as specified in the request.",
+          "type": "string"
+        },
+        "alteredQuery": {
+          "description": "The query string used by Bing to perform the query. Bing uses the altered query string if the original query string contained spelling mistakes. For example, if the query string is \"saling downwind\", the altered query string will be \"sailing downwind\". This field is included only if the original query string contains a spelling mistake.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "alterationOverrideQuery": {
+          "description": "The query string to use to force Bing to use the original string. For example, if the query string is \"saling downwind\", the override query string will be \"+saling downwind\". Remember to encode the query string which results in \"%2Bsaling+downwind\". This field is included only if the original query string contains a spelling mistake.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "adultIntent": {
+          "description": "A Boolean value that indicates whether the specified query has adult intent. The value is true if the query has adult intent; otherwise, false.",
+          "readOnly": true,
+          "type": "boolean"
+        },
+        "askUserForLocation": {
+          "description": "A Boolean value that indicates whether Bing requires the user's location to provide accurate results. If you specified the user's location by using the X-MSEdge-ClientIP and X-Search-Location headers, you can ignore this field. For location aware queries, such as \"today's weather\" or \"restaurants near me\" that need the user's location to provide accurate results, this field is set to true. For location aware queries that include the location (for example, \"Seattle weather\"), this field is set to false. This field is also set to false for queries that are not location aware, such as \"best sellers\".",
+          "readOnly": true,
+          "type": "boolean"
+        },
+        "isTransactional": {
+          "readOnly": true,
+          "type": "boolean"
+        }
+      }
+    },
+    "MediaObject": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/CreativeWork"
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "contentUrl": {
+          "description": "Original URL to retrieve the source (file) for the media object (e.g the source URL for the image).",
+          "readOnly": true,
+          "type": "string"
+        },
+        "hostPageUrl": {
+          "description": "URL of the page that hosts the media object.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "width": {
+          "description": "The width of the source media object, in pixels.",
+          "readOnly": true,
+          "type": "integer",
+          "format": "int32"
+        },
+        "height": {
+          "description": "The height of the source media object, in pixels.",
+          "readOnly": true,
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "ImageObject": {
+      "description": "Defines an image",
+      "allOf": [
+        {
+          "$ref": "#/definitions/MediaObject"
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "thumbnail": {
+          "description": "The URL to a thumbnail of the image",
+          "$ref": "#/definitions/ImageObject",
+          "readOnly": true
+        }
+      }
+    },
+    "Response": {
+      "description": "Defines a response. All schemas that could be returned at the root of a response should inherit from this",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Identifiable"
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "webSearchUrl": {
+          "description": "The URL To Bing's search result for this item.",
+          "readOnly": true,
+          "type": "string"
+        }
+      }
+    },
+    "Thing": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Response"
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "The name of the thing represented by this object.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "url": {
+          "description": "The URL to get more information about the thing represented by this object.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "image": {
+          "$ref": "#/definitions/ImageObject",
+          "readOnly": true
+        },
+        "description": {
+          "description": "A short description of the item.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "alternateName": {
+          "readOnly": true,
+          "type": "string"
+        },
+        "bingId": {
+          "description": "An ID that uniquely identifies this item.",
+          "readOnly": true,
+          "type": "string"
+        }
+      }
+    },
+    "CreativeWork": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Thing"
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "thumbnailUrl": {
+          "description": "The URL to a thumbnail of the item.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "provider": {
+          "description": "The source of the creative work.",
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Thing"
+          }
+        },
+        "text": {
+          "readOnly": true,
+          "type": "string"
+        }
+      }
+    },
+    "Identifiable": {
+      "description": "Defines the identity of a resource.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ResponseBase"
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "A String identifier.",
+          "readOnly": true,
+          "type": "string"
+        }
+      }
+    },
+    "ErrorResponse": {
+      "description": "The top-level response that represents a failed request.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Response"
+        }
+      ],
+      "type": "object",
+      "required": [
+        "errors"
+      ],
+      "properties": {
+        "errors": {
+          "description": "A list of errors that describe the reasons why the request failed.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Error"
+          }
+        }
+      }
+    },
+    "TrendingVideos": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Response"
+        }
+      ],
+      "type": "object",
+      "required": [
+        "bannerTiles",
+        "categories"
+      ],
+      "properties": {
+        "bannerTiles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TrendingVideosTile"
+          }
+        },
+        "categories": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TrendingVideosCategory"
+          }
+        }
+      }
+    },
+    "VideoDetails": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Response"
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "relatedVideos": {
+          "$ref": "#/definitions/VideosModule",
+          "readOnly": true
+        },
+        "videoResult": {
+          "$ref": "#/definitions/VideoObject",
+          "readOnly": true
+        }
+      }
+    },
+    "ResponseBase": {
+      "discriminator": "_type",
+      "type": "object",
+      "required": [
+        "_type"
+      ],
+      "properties": {
+        "_type": {
+          "type": "string"
+        }
+      }
+    },
+    "Error": {
+      "description": "Defines the error that occurred.",
+      "type": "object",
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "description": "The error code that identifies the category of error.",
+          "type": "string",
+          "default": "None",
+          "enum": [
+            "None",
+            "ServerError",
+            "InvalidRequest",
+            "RateLimitExceeded",
+            "InvalidAuthorization",
+            "InsufficientAuthorization"
+          ],
+          "x-ms-enum": {
+            "name": "ErrorCode",
+            "modelAsString": false
+          }
+        },
+        "subCode": {
+          "description": "The error code that further helps to identify the error.",
+          "readOnly": true,
+          "type": "string",
+          "enum": [
+            "UnexpectedError",
+            "ResourceError",
+            "NotImplemented",
+            "ParameterMissing",
+            "ParameterInvalidValue",
+            "HttpNotAllowed",
+            "Blocked",
+            "AuthorizationMissing",
+            "AuthorizationRedundancy",
+            "AuthorizationDisabled",
+            "AuthorizationExpired"
+          ],
+          "x-ms-enum": {
+            "name": "ErrorSubCode",
+            "modelAsString": false
+          }
+        },
+        "message": {
+          "description": "A description of the error.",
+          "type": "string"
+        },
+        "moreDetails": {
+          "description": "A description that provides additional information about the error.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "parameter": {
+          "description": "The parameter in the request that caused the error.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "value": {
+          "description": "The parameter's value in the request that was not valid.",
+          "readOnly": true,
+          "type": "string"
+        }
+      }
+    },
+    "TrendingVideosTile": {
+      "x-ms-discriminator-value": "TrendingVideos/Tile",
+      "type": "object",
+      "required": [
+        "query",
+        "image"
+      ],
+      "properties": {
+        "query": {
+          "$ref": "#/definitions/Query"
+        },
+        "image": {
+          "$ref": "#/definitions/ImageObject"
+        }
+      }
+    },
+    "TrendingVideosCategory": {
+      "x-ms-discriminator-value": "TrendingVideos/Category",
+      "type": "object",
+      "required": [
+        "title",
+        "subcategories"
+      ],
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "subcategories": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TrendingVideosSubcategory"
+          }
+        }
+      }
+    },
+    "VideosModule": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/VideoObject"
+          }
+        }
+      }
+    },
+    "TrendingVideosSubcategory": {
+      "x-ms-discriminator-value": "TrendingVideos/Subcategory",
+      "type": "object",
+      "required": [
+        "title",
+        "tiles"
+      ],
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "tiles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TrendingVideosTile"
+          }
+        }
+      }
+    }
+  },
+  "x-internal-service-name": "Cognitive Services",
+  "x-internal-toc-name": "Videos",
+  "x-internal-split-members": [
+    {
+      "displayName": "Details",
+      "relativePath": "Videos/Details"
+    },
+    {
+      "displayName": "Search",
+      "relativePath": "Videos/Search"
+    },
+    {
+      "displayName": "Trending",
+      "relativePath": "Videos/Trending"
+    }
+  ],
+  "x-internal-split-type": "OperationGroup"
+}
