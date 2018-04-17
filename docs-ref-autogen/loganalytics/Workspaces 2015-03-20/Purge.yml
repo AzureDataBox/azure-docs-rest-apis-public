@@ -57,7 +57,7 @@ requestBody:
   - name: filters
     in: body
     isRequired: true
-    description: User-defined filters to return data which will be purged from the table.
+    description: The set of columns and filters (queries) to run over them to purge the resulting data.
     types:
     - uid: WorkspacePurgeBodyFilters
       isArray: true
@@ -71,10 +71,14 @@ definitions:
     description: The column of the table over which the given query should run
     types:
     - uid: string
-  - name: filter
-    description: A query to to run over the provided table and column to purge the corresponding data.
+  - name: operator
+    description: A query operator to evaluate over the provided column and value(s).
     types:
     - uid: string
+  - name: value
+    description: the value for the operator to function over. This can be a number (e.g., > 100), a string (timestamp >= '2017-09-01') or array of values.
+    types:
+    - {}
 - name: WorkspacePurgeResponse
   description: Response containing operationId for a specific purge action.
   kind: object
@@ -100,7 +104,7 @@ definitions:
     types:
     - uid: string
   - name: filters
-    description: User-defined filters to return data which will be purged from the table.
+    description: The set of columns and filters (queries) to run over them to purge the resulting data.
     types:
     - uid: WorkspacePurgeBodyFilters
       isArray: true
@@ -124,7 +128,8 @@ examples:
         "filters": [
           {
             "column": "TimeGenerated",
-            "filter": "< ago(30d)"
+            "operator": ">",
+            "value": "2017-09-01T00:00:00"
           }
         ]
       }

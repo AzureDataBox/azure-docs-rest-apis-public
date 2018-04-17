@@ -4,7 +4,7 @@ name: Bulk Device Operation
 service: IoT Hub
 groupName: Device Api
 apiVersion: 2016-11-14
-summary: Create, update, or delete the identities of multiple devices from the IoT hub identity registry. Create, update, or delete the identiies of multiple devices from the IoT hub identity registry. A device identity can be specified only once in the list. Different operations (create, update, delete) on different devices are allowed. A maximum of 100 devices can be specified per invocation. For large scale operations, consider using the import feature using blob storage(https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-identity-registry#import-and-export-device-identities).
+summary: "Create, update, or delete the identities of multiple devices from the IoT hub identity registry.  \nCreate, update, or delete the identiies of multiple devices from the IoT hub identity registry. A device identity can be specified only once in the list. Different operations (create, update, delete) on different devices are allowed. A maximum of 100 devices can be specified per invocation. For large scale operations, consider using the import feature using blob storage(https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-identity-registry#import-and-export-device-identities)."
 consumes:
 - application/json
 - text/json
@@ -39,6 +39,7 @@ requestBody:
     - uid: string
   - name: eTag
     in: body
+    description: ''
     types:
     - uid: string
   - name: importMode
@@ -103,16 +104,22 @@ definitions:
     types:
     - uid: DeviceTwinProperties
 - name: BulkRegistryOperationResult
-  description: Encapsulates the result of a bulk device identity operation. The "errors" array contains an entry for each error encountered during the bulk device identity operation.
+  description: Encapsulates the result of a bulk device identity operation. The "errors" array contains an entry for each error encountered during the bulk device identity operation. The "warnings" array contains an entry for each warning encountered during the bulk device identity operation.
   kind: object
   properties:
   - name: isSuccessful
+    description: ''
     types:
     - uid: boolean
   - name: errors
     description: Encapsulated device identity operation error details.
     types:
     - uid: DeviceRegistryOperationError
+      isArray: true
+  - name: warnings
+    description: Encapsulated device identity operation warning details.
+    types:
+    - uid: DeviceRegistryOperationWarning
       isArray: true
 - name: ExportImportDevice
   description: Container of IoT Hub device properties and their accessors for import and export scenarios
@@ -123,6 +130,7 @@ definitions:
     types:
     - uid: string
   - name: eTag
+    description: ''
     types:
     - uid: string
   - name: importMode
@@ -158,9 +166,11 @@ definitions:
   kind: object
   properties:
   - name: primaryKey
+    description: ''
     types:
     - uid: string
   - name: secondaryKey
+    description: ''
     types:
     - uid: string
 - name: X509Thumbprint
@@ -180,9 +190,11 @@ definitions:
   kind: object
   properties:
   - name: Version
+    description: ''
     types:
     - uid: integer
   - name: Properties
+    description: ''
     types:
     - uid: object
       isDictionary: true
@@ -198,12 +210,31 @@ definitions:
   kind: object
   properties:
   - name: deviceId
+    description: ''
     types:
     - uid: string
   - name: errorCode
+    description: ''
     types:
     - uid: ErrorCode
   - name: errorStatus
+    description: ''
+    types:
+    - uid: string
+- name: DeviceRegistryOperationWarning
+  description: Encapsulated device identity operation warning details.
+  kind: object
+  properties:
+  - name: deviceId
+    description: ''
+    types:
+    - uid: string
+  - name: warningCode
+    description: ''
+    types:
+    - uid: WarningCode
+  - name: warningStatus
+    description: ''
     types:
     - uid: string
 - name: ImportMode
@@ -519,20 +550,29 @@ definitions:
   - name: GatewayTimeout
     types:
     - uid: string
+- name: WarningCode
+  kind: enum
+  properties:
+  - name: DeviceRegisteredWithoutTwin
+    types:
+    - uid: string
 - name: VariantValueDateTime
   description: Type representing DateTime in different time zones.
   kind: object
   properties:
   - name: Value
     isReadyOnly: true
+    description: ''
     types:
     - uid: string
   - name: ObjectValue
     isReadyOnly: true
+    description: ''
     types:
     - uid: object
   - name: IsNull
     isReadyOnly: true
+    description: ''
     types:
     - uid: boolean
 - name: Nested

@@ -92,7 +92,7 @@ definitions:
     types:
     - uid: ImageOSDisk
   - name: dataDisks
-    description: Describes a data disk.
+    description: Specifies the parameters that are used to add a data disk to a virtual machine. <br><br> For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
     types:
     - uid: ImageDataDisk
       isArray: true
@@ -435,7 +435,7 @@ definitions:
     types:
     - uid: VirtualMachineScaleSetNetworkConfigurationDnsSettings
   - name: properties.ipConfigurations
-    description: Describes a virtual machine scale set network profile's IP configuration.
+    description: Specifies the IP configurations of the network interface.
     types:
     - uid: VirtualMachineScaleSetIPConfiguration
       isArray: true
@@ -481,7 +481,7 @@ definitions:
     types:
     - uid: VirtualMachineScaleSetNetworkConfigurationDnsSettings
   - name: properties.ipConfigurations
-    description: Describes a virtual machine scale set network profile's IP configuration.
+    description: The virtual machine scale set IP Configuration.
     types:
     - uid: VirtualMachineScaleSetUpdateIPConfiguration
       isArray: true
@@ -795,6 +795,26 @@ examples:
         }
       }
   responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "storageProfile": {
+            "osDisk": {
+              "osType": "Linux",
+              "osState": "Generalized",
+              "blobUri": "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
+              "caching": "ReadWrite"
+            },
+            "dataDisks": []
+          },
+          "provisioningState": "Creating"
+        },
+        "type": "Microsoft.Compute/images",
+        "location": "westus",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/disk/providers/Microsoft.Compute/images/myImage",
+        "name": "myImage"
+      }
   - statusCode: "201"
     body: >-
       {
@@ -834,6 +854,28 @@ examples:
         }
       }
   responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "storageProfile": {
+            "osDisk": {
+              "osType": "Linux",
+              "snapshot": {
+                "id": "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot"
+              },
+              "osState": "Generalized",
+              "caching": "ReadWrite"
+            },
+            "dataDisks": []
+          },
+          "provisioningState": "Creating"
+        },
+        "type": "Microsoft.Compute/images",
+        "location": "westus",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/disk/providers/Microsoft.Compute/images/myImage",
+        "name": "myImage"
+      }
   - statusCode: "201"
     body: >-
       {
@@ -875,6 +917,28 @@ examples:
         }
       }
   responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "storageProfile": {
+            "osDisk": {
+              "osType": "Linux",
+              "managedDisk": {
+                "id": "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk"
+              },
+              "osState": "Generalized",
+              "caching": "ReadWrite"
+            },
+            "dataDisks": []
+          },
+          "provisioningState": "Creating"
+        },
+        "type": "Microsoft.Compute/images",
+        "location": "westus",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/disk/providers/Microsoft.Compute/images/myImage",
+        "name": "myImage"
+      }
   - statusCode: "201"
     body: >-
       {
@@ -910,6 +974,31 @@ examples:
         }
       }
   responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "sourceVirtualMachine": {
+            "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM"
+          },
+          "storageProfile": {
+            "osDisk": {
+              "osType": "Linux",
+              "osState": "Generalized",
+              "managedDisk": {
+                "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myVM_OsDisk_1_6dc293b7d811433196903acf92665022"
+              },
+              "caching": "ReadWrite"
+            },
+            "dataDisks": []
+          },
+          "provisioningState": "Creating"
+        },
+        "type": "Microsoft.Compute/images",
+        "location": "westus",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/disk/providers/Microsoft.Compute/images/myImage",
+        "name": "myImage"
+      }
   - statusCode: "201"
     body: >-
       {
@@ -958,6 +1047,31 @@ examples:
         }
       }
   responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "storageProfile": {
+            "osDisk": {
+              "osType": "Linux",
+              "osState": "Generalized",
+              "blobUri": "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
+              "caching": "ReadWrite"
+            },
+            "dataDisks": [
+              {
+                "lun": 1,
+                "blobUri": "https://mystorageaccount.blob.core.windows.net/dataimages/dataimage.vhd"
+              }
+            ]
+          },
+          "provisioningState": "Creating"
+        },
+        "type": "Microsoft.Compute/images",
+        "location": "westus",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/disk/providers/Microsoft.Compute/images/myImage",
+        "name": "myImage"
+      }
   - statusCode: "201"
     body: >-
       {
@@ -1010,6 +1124,35 @@ examples:
         }
       }
   responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "storageProfile": {
+            "osDisk": {
+              "osType": "Linux",
+              "snapshot": {
+                "id": "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot"
+              },
+              "osState": "Generalized",
+              "caching": "ReadWrite"
+            },
+            "dataDisks": [
+              {
+                "lun": 1,
+                "snapshot": {
+                  "id": "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot2"
+                }
+              }
+            ]
+          },
+          "provisioningState": "Creating"
+        },
+        "type": "Microsoft.Compute/images",
+        "location": "westus",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/disk/providers/Microsoft.Compute/images/myImage",
+        "name": "myImage"
+      }
   - statusCode: "201"
     body: >-
       {
@@ -1066,6 +1209,35 @@ examples:
         }
       }
   responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "storageProfile": {
+            "osDisk": {
+              "osType": "Linux",
+              "managedDisk": {
+                "id": "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk"
+              },
+              "osState": "Generalized",
+              "caching": "ReadWrite"
+            },
+            "dataDisks": [
+              {
+                "lun": 1,
+                "managedDisk": {
+                  "id": "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk2"
+                }
+              }
+            ]
+          },
+          "provisioningState": "Creating"
+        },
+        "type": "Microsoft.Compute/images",
+        "location": "westus",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/disk/providers/Microsoft.Compute/images/myImage",
+        "name": "myImage"
+      }
   - statusCode: "201"
     body: >-
       {

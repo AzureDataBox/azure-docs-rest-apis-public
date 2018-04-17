@@ -63,7 +63,7 @@ requestBody:
     - uid: string
   - name: properties.activities
     in: body
-    description: A pipeline activity.
+    description: List of activities in pipeline.
     types:
     - uid: ExecutionActivity
       isArray: true
@@ -114,7 +114,7 @@ definitions:
     types:
     - uid: string
   - name: properties.activities
-    description: A pipeline activity.
+    description: List of activities in pipeline.
     types:
     - uid: ExecutionActivity
       isArray: true
@@ -175,7 +175,7 @@ definitions:
     types:
     - uid: string
   - name: details
-    description: The object that defines the structure of an Azure Data Factory response.
+    description: Array with additional error details.
     types:
     - uid: ErrorResponse
       isArray: true
@@ -229,7 +229,7 @@ definitions:
     types:
     - uid: string
   - name: dependsOn
-    description: Activity dependency information.
+    description: Activity depends on condition.
     types:
     - uid: ActivityDependency
       isArray: true
@@ -291,7 +291,7 @@ definitions:
     types:
     - uid: string
   - name: dependsOn
-    description: Activity dependency information.
+    description: Activity depends on condition.
     types:
     - uid: ActivityDependency
       isArray: true
@@ -333,7 +333,7 @@ definitions:
     types:
     - uid: string
   - name: dependsOn
-    description: Activity dependency information.
+    description: Activity depends on condition.
     types:
     - uid: ActivityDependency
       isArray: true
@@ -387,7 +387,7 @@ definitions:
     types:
     - uid: string
   - name: dependsOn
-    description: Activity dependency information.
+    description: Activity depends on condition.
     types:
     - uid: ActivityDependency
       isArray: true
@@ -400,7 +400,7 @@ definitions:
     types:
     - uid: DatasetReference
   - name: typeProperties.fieldList
-    description: 'Type: string (or Expression with resultType string).'
+    description: Fields of metadata to get from dataset.
     types:
     - uid: object
       isArray: true
@@ -426,7 +426,7 @@ definitions:
     types:
     - uid: string
   - name: dependsOn
-    description: Activity dependency information.
+    description: Activity depends on condition.
     types:
     - uid: ActivityDependency
       isArray: true
@@ -455,12 +455,12 @@ definitions:
     types:
     - uid: WebActivityAuthentication
   - name: typeProperties.datasets
-    description: Dataset reference type.
+    description: List of datasets passed to web endpoint.
     types:
     - uid: DatasetReference
       isArray: true
   - name: typeProperties.linkedServices
-    description: Linked service reference type.
+    description: List of linked services passed to web endpoint.
     types:
     - uid: LinkedServiceReference
       isArray: true
@@ -486,7 +486,7 @@ definitions:
     types:
     - uid: string
   - name: dependsOn
-    description: Activity dependency information.
+    description: Activity depends on condition.
     types:
     - uid: ActivityDependency
       isArray: true
@@ -578,7 +578,7 @@ definitions:
     types:
     - uid: string
   - name: dependsOn
-    description: Activity dependency information.
+    description: Activity depends on condition.
     types:
     - uid: ActivityDependency
       isArray: true
@@ -620,7 +620,7 @@ definitions:
     types:
     - uid: string
   - name: dependsOn
-    description: Activity dependency information.
+    description: Activity depends on condition.
     types:
     - uid: ActivityDependency
       isArray: true
@@ -674,7 +674,7 @@ definitions:
     types:
     - uid: string
   - name: dependsOn
-    description: Activity dependency information.
+    description: Activity depends on condition.
     types:
     - uid: ActivityDependency
       isArray: true
@@ -695,13 +695,53 @@ definitions:
     types:
     - uid: string
   - name: typeProperties.environmentPath
-    description: The environment path to execution the SSIS package.
+    description: The environment path to execute the SSIS package.
     types:
     - uid: string
   - name: typeProperties.connectVia
     description: The integration runtime reference.
     types:
     - uid: IntegrationRuntimeReference
+  - name: typeProperties.projectParameters
+    description: The project level parameters to execute the SSIS package.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: SSISExecutionParameter
+  - name: typeProperties.packageParameters
+    description: The package level parameters to execute the SSIS package.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: SSISExecutionParameter
+  - name: typeProperties.projectConnectionManagers
+    description: The project level connection managers to execute the SSIS package.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: typeProperties.packageConnectionManagers
+    description: The package level connection managers to execute the SSIS package.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: typeProperties.propertyOverrides
+    description: The property overrides to execute the SSIS package.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: SSISPropertyOverride
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -724,7 +764,7 @@ definitions:
     types:
     - uid: string
   - name: dependsOn
-    description: Activity dependency information.
+    description: Activity depends on condition.
     types:
     - uid: ActivityDependency
       isArray: true
@@ -741,7 +781,7 @@ definitions:
     types:
     - uid: object
   - name: typeProperties.arguments
-    description: 'Type: string (or Expression with resultType string).'
+    description: The user-specified arguments to HDInsightSparkActivity.
     types:
     - uid: object
       isArray: true
@@ -791,7 +831,7 @@ definitions:
     types:
     - uid: string
   - name: dependsOn
-    description: Activity dependency information.
+    description: Activity depends on condition.
     types:
     - uid: ActivityDependency
       isArray: true
@@ -800,12 +840,12 @@ definitions:
   kind: object
   properties:
   - name: typeProperties.storageLinkedServices
-    description: Linked service reference type.
+    description: Storage linked service references.
     types:
     - uid: LinkedServiceReference
       isArray: true
   - name: typeProperties.arguments
-    description: 'Type: string (or Expression with resultType string).'
+    description: User specified arguments to HDInsightActivity.
     types:
     - uid: object
       isArray: true
@@ -830,7 +870,7 @@ definitions:
     types:
     - uid: object
   - name: typeProperties.filePaths
-    description: 'Type: string (or Expression with resultType string).'
+    description: Paths to streaming job files. Can be directories.
     types:
     - uid: object
       isArray: true
@@ -843,7 +883,7 @@ definitions:
     types:
     - uid: object
   - name: typeProperties.commandEnvironment
-    description: 'Type: string (or Expression with resultType string).'
+    description: Command line environment values.
     types:
     - uid: object
       isArray: true
@@ -877,7 +917,7 @@ definitions:
     types:
     - uid: string
   - name: dependsOn
-    description: Activity dependency information.
+    description: Activity depends on condition.
     types:
     - uid: ActivityDependency
       isArray: true
@@ -886,12 +926,12 @@ definitions:
   kind: object
   properties:
   - name: typeProperties.storageLinkedServices
-    description: Linked service reference type.
+    description: Storage linked service references.
     types:
     - uid: LinkedServiceReference
       isArray: true
   - name: typeProperties.arguments
-    description: 'Type: string (or Expression with resultType string).'
+    description: User specified arguments to HDInsightActivity.
     types:
     - uid: object
       isArray: true
@@ -912,7 +952,7 @@ definitions:
     types:
     - uid: LinkedServiceReference
   - name: typeProperties.jarLibs
-    description: 'Type: string (or Expression with resultType string).'
+    description: Jar libs.
     types:
     - uid: object
       isArray: true
@@ -946,7 +986,7 @@ definitions:
     types:
     - uid: string
   - name: dependsOn
-    description: Activity dependency information.
+    description: Activity depends on condition.
     types:
     - uid: ActivityDependency
       isArray: true
@@ -955,12 +995,12 @@ definitions:
   kind: object
   properties:
   - name: typeProperties.storageLinkedServices
-    description: Linked service reference type.
+    description: Storage linked service references.
     types:
     - uid: LinkedServiceReference
       isArray: true
   - name: typeProperties.arguments
-    description: 'Type: string (or Expression with resultType string).'
+    description: User specified arguments to HDInsightActivity.
     types:
     - uid: object
       isArray: true
@@ -1006,7 +1046,7 @@ definitions:
     types:
     - uid: string
   - name: dependsOn
-    description: Activity dependency information.
+    description: Activity depends on condition.
     types:
     - uid: ActivityDependency
       isArray: true
@@ -1015,12 +1055,12 @@ definitions:
   kind: object
   properties:
   - name: typeProperties.storageLinkedServices
-    description: Linked service reference type.
+    description: Storage linked service references.
     types:
     - uid: LinkedServiceReference
       isArray: true
   - name: typeProperties.arguments
-    description: 'Type: string (or Expression with resultType string).'
+    description: User specified arguments to HDInsightActivity.
     types:
     - uid: object
       isArray: true
@@ -1066,7 +1106,7 @@ definitions:
     types:
     - uid: string
   - name: dependsOn
-    description: Activity dependency information.
+    description: Activity depends on condition.
     types:
     - uid: ActivityDependency
       isArray: true
@@ -1075,12 +1115,12 @@ definitions:
   kind: object
   properties:
   - name: inputs
-    description: Dataset reference type.
+    description: List of inputs for the activity.
     types:
     - uid: DatasetReference
       isArray: true
   - name: outputs
-    description: Dataset reference type.
+    description: List of outputs for the activity.
     types:
     - uid: DatasetReference
       isArray: true
@@ -1207,7 +1247,7 @@ definitions:
     types:
     - uid: string
   - name: dependsOn
-    description: Activity dependency information.
+    description: Activity depends on condition.
     types:
     - uid: ActivityDependency
       isArray: true
@@ -1237,7 +1277,7 @@ definitions:
     types:
     - uid: string
   - name: dependsOn
-    description: Activity dependency information.
+    description: Activity depends on condition.
     types:
     - uid: ActivityDependency
       isArray: true
@@ -1254,7 +1294,7 @@ definitions:
     types:
     - uid: object
   - name: typeProperties.activities
-    description: A pipeline activity.
+    description: List of activities to execute.
     types:
     - uid: ExecutionActivity
       isArray: true
@@ -1275,7 +1315,7 @@ definitions:
     types:
     - uid: string
   - name: dependsOn
-    description: Activity dependency information.
+    description: Activity depends on condition.
     types:
     - uid: ActivityDependency
       isArray: true
@@ -1301,7 +1341,7 @@ definitions:
     types:
     - uid: string
   - name: dependsOn
-    description: Activity dependency information.
+    description: Activity depends on condition.
     types:
     - uid: ActivityDependency
       isArray: true
@@ -1322,7 +1362,7 @@ definitions:
     types:
     - uid: Expression
   - name: typeProperties.activities
-    description: A pipeline activity.
+    description: List of activities to execute .
     types:
     - uid: ExecutionActivity
       isArray: true
@@ -1343,7 +1383,7 @@ definitions:
     types:
     - uid: string
   - name: dependsOn
-    description: Activity dependency information.
+    description: Activity depends on condition.
     types:
     - uid: ActivityDependency
       isArray: true
@@ -1356,7 +1396,7 @@ definitions:
     types:
     - uid: Expression
   - name: typeProperties.ifTrueActivities
-    description: A pipeline activity.
+    description: List of activities to execute if expression is evaluated to true. This is an optional property and if not provided, the activity will exit without any action.
     types:
     - uid: ExecutionActivity
       isArray: true
@@ -1364,7 +1404,7 @@ definitions:
       isArray: true
     typesTitle: Activity[]
   - name: typeProperties.ifFalseActivities
-    description: A pipeline activity.
+    description: List of activities to execute if expression is evaluated to false. This is an optional property and if not provided, the activity will exit without any action.
     types:
     - uid: ExecutionActivity
       isArray: true
@@ -1385,7 +1425,7 @@ definitions:
     types:
     - uid: string
   - name: dependsOn
-    description: Activity dependency information.
+    description: Activity depends on condition.
     types:
     - uid: ActivityDependency
       isArray: true
@@ -1423,7 +1463,7 @@ definitions:
     types:
     - uid: string
   - name: dependsOn
-    description: Activity dependency information.
+    description: Activity depends on condition.
     types:
     - uid: ActivityDependency
       isArray: true
@@ -1596,12 +1636,12 @@ definitions:
   kind: object
   properties:
   - name: linkedServices
-    description: Linked service reference type.
+    description: Linked service references.
     types:
     - uid: LinkedServiceReference
       isArray: true
   - name: datasets
-    description: Dataset reference type.
+    description: Dataset references.
     types:
     - uid: DatasetReference
       isArray: true
@@ -1644,6 +1684,30 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: object
+- name: ProjectParameters
+  description: The project level parameters to execute the SSIS package.
+  kind: object
+  properties:
+  - name: ''
+    description: SSIS execution parameter.
+    types:
+    - uid: SSISExecutionParameter
+- name: PackageParameters
+  description: The package level parameters to execute the SSIS package.
+  kind: object
+  properties:
+  - name: ''
+    description: SSIS execution parameter.
+    types:
+    - uid: SSISExecutionParameter
+- name: PropertyOverrides
+  description: The property overrides to execute the SSIS package.
+  kind: object
+  properties:
+  - name: ''
+    description: SSIS property override.
+    types:
+    - uid: SSISPropertyOverride
 - name: HDInsightActivityDebugInfoOption
   description: The HDInsightActivityDebugInfoOption settings to use.
   kind: enum
@@ -2804,6 +2868,26 @@ definitions:
     description: Stored procedure parameter type.
     types:
     - uid: StoredProcedureParameterType
+- name: SSISExecutionParameter
+  description: SSIS execution parameter.
+  kind: object
+  properties:
+  - name: value
+    description: 'SSIS package execution parameter value. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+- name: SSISPropertyOverride
+  description: SSIS property override.
+  kind: object
+  properties:
+  - name: value
+    description: 'SSIS package property override value. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: isSensitive
+    description: Whether SSIS package property override value is sensitive data. Value will be encrypted in SSISDB if it is true
+    types:
+    - uid: boolean
 - name: SalesforceSink
   description: A copy activity Salesforce sink.
   kind: object
