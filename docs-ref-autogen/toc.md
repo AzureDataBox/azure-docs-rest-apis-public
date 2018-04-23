@@ -3609,6 +3609,8 @@
 ### [List Synonym Maps](../docs-ref-conceptual/searchservice/list-synonym-maps.md)
 ### [Get Synonym Map](../docs-ref-conceptual/searchservice/get-synonym-map.md)
 ### [Delete Synonym Map](../docs-ref-conceptual/searchservice/delete-synonym-map.md)
+## [Service operations](../docs-ref-conceptual/searchservice/service-operations.md)
+### [Get Service Statistics](../docs-ref-conceptual/searchservice/get-service-statistics.md)
 # [Server Management](../docs-ref-conceptual/servermanagement/index.md)
 ## [Gateway](servermanagement/Gateway.yml)
 ### [Create](servermanagement/Gateway/Create.yml)
