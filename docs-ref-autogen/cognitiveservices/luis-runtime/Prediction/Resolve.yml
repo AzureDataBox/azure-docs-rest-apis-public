@@ -3,7 +3,7 @@ uid: luis.v2.0.apps.cognitiveservices.prediction.resolve
 name: Resolve
 service: Cognitive Services
 groupName: Prediction
-apiVersion: v2.0
+apiVersion: v2.0 preview
 summary: Gets predictions for a given utterance, in the form of intents and entities. The current maximum query size is 500 characters.
 consumes:
 - application/json
@@ -108,6 +108,10 @@ definitions:
     types:
     - uid: CompositeEntityModel
       isArray: true
+  - name: sentiment
+    description: Sentiment of the input utterance.
+    types:
+    - uid: Sentiment
 - name: APIError
   description: Error information returned by the API
   kind: object
@@ -149,6 +153,18 @@ definitions:
     types:
     - uid: CompositeChildModel
       isArray: true
+- name: Sentiment
+  description: Sentiment of the input utterance.
+  kind: object
+  properties:
+  - name: label
+    description: The polarity of the sentiment, can be positive, neutral or negative.
+    types:
+    - uid: string
+  - name: score
+    description: Score of the sentiment, ranges from 0 (most negative) to 1 (most negative).
+    types:
+    - uid: number
 - name: EntityWithScore
   kind: object
   properties:
@@ -259,7 +275,11 @@ examples:
               ]
             }
           }
-        ]
+        ],
+        "sentiment": {
+          "label": "positive",
+          "score": 0.9163064
+        }
       }
 security:
 - name: Ocp-Apim-Subscription-Key

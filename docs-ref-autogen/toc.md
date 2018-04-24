@@ -1275,6 +1275,47 @@
 ### [Bing Autosuggest API v7](../docs-ref-conceptual/cognitiveservices/bing-autosuggest-api-v7-reference.md)
 ### [Bing Autosuggest API v5](../docs-ref-conceptual/cognitiveservices/bing-autosuggest-api-v5-reference.md)
 ## Reference
+### Account Management
+#### [Cognitive Services Accounts](cognitiveservices/accountmanagement/CognitiveServicesAccounts.yml)
+##### [Create](cognitiveservices/accountmanagement/CognitiveServicesAccounts/Create.yml)
+##### [Delete](cognitiveservices/accountmanagement/CognitiveServicesAccounts/Delete.yml)
+##### [Get Properties](cognitiveservices/accountmanagement/CognitiveServicesAccounts/GetProperties.yml)
+##### [List](cognitiveservices/accountmanagement/CognitiveServicesAccounts/List.yml)
+##### [List By Resource Group](cognitiveservices/accountmanagement/CognitiveServicesAccounts/ListByResourceGroup.yml)
+##### [List Keys](cognitiveservices/accountmanagement/CognitiveServicesAccounts/ListKeys.yml)
+##### [List Skus](cognitiveservices/accountmanagement/CognitiveServicesAccounts/ListSkus.yml)
+##### [Regenerate Key](cognitiveservices/accountmanagement/CognitiveServicesAccounts/RegenerateKey.yml)
+##### [Update](cognitiveservices/accountmanagement/CognitiveServicesAccounts/Update.yml)
+### Bing Custom Search
+#### [Custom Instance](cognitiveservices/bingcustomsearch/CustomInstance.yml)
+##### [Search](cognitiveservices/bingcustomsearch/CustomInstance/Search.yml)
+### Bing Entity Search
+#### [Entities](cognitiveservices/bingentitysearch/Entities.yml)
+##### [Search](cognitiveservices/bingentitysearch/Entities/Search.yml)
+### Bing Image Search
+#### [Images](cognitiveservices/bingimagesearch/Images.yml)
+##### [Details](cognitiveservices/bingimagesearch/Images/Details.yml)
+##### [Search](cognitiveservices/bingimagesearch/Images/Search.yml)
+##### [Trending](cognitiveservices/bingimagesearch/Images/Trending.yml)
+### Bing News Search
+#### [News](cognitiveservices/bingnewssearch/News.yml)
+##### [Category](cognitiveservices/bingnewssearch/News/Category.yml)
+##### [Search](cognitiveservices/bingnewssearch/News/Search.yml)
+##### [Trending](cognitiveservices/bingnewssearch/News/Trending.yml)
+### Bing Spell Check
+#### [Spell Checker](cognitiveservices/bingspellcheck/SpellChecker.yml)
+##### [Spell Checker](cognitiveservices/bingspellcheck/SpellChecker/SpellChecker.yml)
+### Bing Video Search
+#### [Videos](cognitiveservices/bingvideosearch/Videos.yml)
+##### [Details](cognitiveservices/bingvideosearch/Videos/Details.yml)
+##### [Search](cognitiveservices/bingvideosearch/Videos/Search.yml)
+##### [Trending](cognitiveservices/bingvideosearch/Videos/Trending.yml)
+### Bing Visual Search
+#### [Images](cognitiveservices/bingvisualsearch/Images.yml)
+##### [Visual Search](cognitiveservices/bingvisualsearch/Images/VisualSearch.yml)
+### Bing Web Search
+#### [Web](cognitiveservices/bingwebsearch/Web.yml)
+##### [Search](cognitiveservices/bingwebsearch/Web/Search.yml)
 ### Computer Vision
 #### [Analyze Image](cognitiveservices/computervision/AnalyzeImage.yml)
 ##### [Analyze Image](cognitiveservices/computervision/AnalyzeImage/AnalyzeImage.yml)
@@ -1364,9 +1405,6 @@
 #### [Text Moderation](cognitiveservices/contentmoderator/TextModeration.yml)
 ##### [Detect Language](cognitiveservices/contentmoderator/TextModeration/DetectLanguage.yml)
 ##### [Screen Text](cognitiveservices/contentmoderator/TextModeration/ScreenText.yml)
-### Custom Search
-#### [Custom Instance](cognitiveservices/customsearch/CustomInstance.yml)
-##### [Search](cognitiveservices/customsearch/CustomInstance/Search.yml)
 ### Custom Vision
 #### [Create Images From Data](cognitiveservices/customvision/CreateImagesFromData.yml)
 ##### [Create Images From Data](cognitiveservices/customvision/CreateImagesFromData/CreateImagesFromData.yml)
@@ -1444,20 +1482,6 @@
 ##### [Update Project](cognitiveservices/customvision/UpdateProject/UpdateProject.yml)
 #### [Update Tag](cognitiveservices/customvision/UpdateTag.yml)
 ##### [Update Tag](cognitiveservices/customvision/UpdateTag/UpdateTag.yml)
-### default
-#### [Cognitive Services Accounts](cognitiveservices/default/CognitiveServicesAccounts.yml)
-##### [Create](cognitiveservices/default/CognitiveServicesAccounts/Create.yml)
-##### [Delete](cognitiveservices/default/CognitiveServicesAccounts/Delete.yml)
-##### [Get Properties](cognitiveservices/default/CognitiveServicesAccounts/GetProperties.yml)
-##### [List](cognitiveservices/default/CognitiveServicesAccounts/List.yml)
-##### [List By Resource Group](cognitiveservices/default/CognitiveServicesAccounts/ListByResourceGroup.yml)
-##### [List Keys](cognitiveservices/default/CognitiveServicesAccounts/ListKeys.yml)
-##### [List Skus](cognitiveservices/default/CognitiveServicesAccounts/ListSkus.yml)
-##### [Regenerate Key](cognitiveservices/default/CognitiveServicesAccounts/RegenerateKey.yml)
-##### [Update](cognitiveservices/default/CognitiveServicesAccounts/Update.yml)
-### Entity Search
-#### [Entities](cognitiveservices/entitysearch/Entities.yml)
-##### [Search](cognitiveservices/entitysearch/Entities/Search.yml)
 ### Face
 #### [Face](cognitiveservices/face/Face.yml)
 ##### [Detect With Stream](cognitiveservices/face/Face/DetectWithStream.yml)
@@ -1495,11 +1519,6 @@
 ##### [List](cognitiveservices/face/PersonGroupPerson/List.yml)
 ##### [Update](cognitiveservices/face/PersonGroupPerson/Update.yml)
 ##### [Update Face](cognitiveservices/face/PersonGroupPerson/UpdateFace.yml)
-### Image Search
-#### [Images](cognitiveservices/imagesearch/Images.yml)
-##### [Details](cognitiveservices/imagesearch/Images/Details.yml)
-##### [Search](cognitiveservices/imagesearch/Images/Search.yml)
-##### [Trending](cognitiveservices/imagesearch/Images/Trending.yml)
 ### Luis-Programmatic
 #### [Apps](cognitiveservices/luis-programmatic/Apps.yml)
 ##### [Add](cognitiveservices/luis-programmatic/Apps/Add.yml)
@@ -1609,14 +1628,6 @@
 #### [Prediction](cognitiveservices/luis-runtime/Prediction.yml)
 ##### [Resolve](cognitiveservices/luis-runtime/Prediction/Resolve.yml)
 ##### [Resolve2](cognitiveservices/luis-runtime/Prediction/Resolve2.yml)
-### News Search
-#### [News](cognitiveservices/newssearch/News.yml)
-##### [Category](cognitiveservices/newssearch/News/Category.yml)
-##### [Search](cognitiveservices/newssearch/News/Search.yml)
-##### [Trending](cognitiveservices/newssearch/News/Trending.yml)
-### Spell Check
-#### [Spell Checker](cognitiveservices/spellcheck/SpellChecker.yml)
-##### [Spell Checker](cognitiveservices/spellcheck/SpellChecker/SpellChecker.yml)
 ### Text Analytics
 #### [Detect Language](cognitiveservices/textanalytics/Detect Language.yml)
 ##### [Detect Language](cognitiveservices/textanalytics/Detect Language/Detect Language.yml)
@@ -1624,16 +1635,6 @@
 ##### [Key Phrases](cognitiveservices/textanalytics/Key Phrases/Key Phrases.yml)
 #### [Sentiment](cognitiveservices/textanalytics/Sentiment.yml)
 ##### [Sentiment](cognitiveservices/textanalytics/Sentiment/Sentiment.yml)
-### Video Search
-#### [Videos](cognitiveservices/videosearch/Videos.yml)
-##### [Details](cognitiveservices/videosearch/Videos/Details.yml)
-##### [Search](cognitiveservices/videosearch/Videos/Search.yml)
-##### [Trending](cognitiveservices/videosearch/Videos/Trending.yml)
-### Web Search
-#### [Images](cognitiveservices/websearch/Images.yml)
-##### [Visual Search](cognitiveservices/websearch/Images/VisualSearch.yml)
-#### [Web](cognitiveservices/websearch/Web.yml)
-##### [Search](cognitiveservices/websearch/Web/Search.yml)
 # [Compute](../docs-ref-conceptual/compute/index.md)
 ## [Cloud Services (classic)](../docs-ref-conceptual/compute/cloudservices/index.md)
 ### [Add Extension](../docs-ref-conceptual/compute/cloudservices/rest-add-extension.md)
@@ -1841,6 +1842,7 @@
 ### [Create](containerregistry/Registries/Create.yml)
 ### [Delete](containerregistry/Registries/Delete.yml)
 ### [Get](containerregistry/Registries/Get.yml)
+### [Import Image](containerregistry/Registries/ImportImage.yml)
 ### [List](containerregistry/Registries/List.yml)
 ### [List By Resource Group](containerregistry/Registries/ListByResourceGroup.yml)
 ### [List Credentials](containerregistry/Registries/ListCredentials.yml)
@@ -3964,6 +3966,13 @@
 #### [List Keys](servicebus/DisasterRecoveryConfigs/ListKeys.yml)
 ### [Event Hubs](servicebus/EventHubs.yml)
 #### [List By Namespace](servicebus/EventHubs/ListByNamespace.yml)
+### [Migration Configs](servicebus/MigrationConfigs.yml)
+#### [Complete Migration](servicebus/MigrationConfigs/CompleteMigration.yml)
+#### [Create And Start Migration](servicebus/MigrationConfigs/CreateAndStartMigration.yml)
+#### [Delete](servicebus/MigrationConfigs/Delete.yml)
+#### [Get](servicebus/MigrationConfigs/Get.yml)
+#### [List](servicebus/MigrationConfigs/List.yml)
+#### [Revert](servicebus/MigrationConfigs/Revert.yml)
 ### [Namespaces](servicebus/Namespaces.yml)
 #### [Check Name Availability](servicebus/Namespaces/CheckNameAvailability.yml)
 #### [Create Or Update](servicebus/Namespaces/CreateOrUpdate.yml)

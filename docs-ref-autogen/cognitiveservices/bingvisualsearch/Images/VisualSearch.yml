@@ -4,7 +4,7 @@ name: Visual Search
 service: Cognitive Services
 groupName: Images
 apiVersion: "1.0"
-summary: The Image Visual Search API lets you send an image to Bing and get back a list of relevant tags. Each tag contains potential actions a user might be interested in. This section provides technical details about the request format and headers that you use to request actions and the JSON response objects that contain them. For examples that show how to make requests, see [Searching the Web for Images](https://docs.microsoft.com/azure/cognitive-services/bing-image-search/search-the-web).
+summary: Visual Search API lets you discover insights about an image such as visually similar images, shopping sources, and related searches. The API can also perform text recognition, identify entities (people, places, things), return other topical content for the user to explore, and more. For more information, see [Visual Search Overview](https://docs.microsoft.com/azure/cognitive-services/bing-visual-search/overview).
 consumes:
 - multipart/form-data
 - application/json
@@ -30,7 +30,7 @@ requestHeader:
 - name: X-BingApis-SDK
   in: header
   isRequired: true
-  description: Activate swagger compliance
+  description: Activate swagger compliance.
   types:
   - uid: XBingApisSDK
 - name: Accept
@@ -40,22 +40,22 @@ requestHeader:
   - uid: string
 - name: Accept-Language
   in: header
-  description: A comma-delimited list of one or more languages to use for user interface strings. The list is in decreasing order of preference. For additional information, including expected format, see [RFC2616](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html). This header and the [setLang](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/bing-images-api-v7-reference#setlang) query parameter are mutually exclusive; do not specify both. If you set this header, you must also specify the [cc](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/bing-images-api-v7-reference#cc) query parameter. To determine the market to return results for, Bing uses the first supported language it finds from the list and combines it with the cc parameter value. If the list does not include a supported language, Bing finds the closest language and market that supports the request or it uses an aggregated or default market for the results. To determine the market that Bing used, see the BingAPIs-Market header. Use this header and the cc query parameter only if you specify multiple languages. Otherwise, use the [mkt](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/bing-images-api-v7-reference#mkt) and [setLang](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/bing-images-api-v7-reference#setlang) query parameters. A user interface string is a string that's used as a label in a user interface. There are few user interface strings in the JSON response objects. Any links to Bing.com properties in the response objects apply the specified language.
+  description: A comma-delimited list of one or more languages to use for user interface strings. The list is in decreasing order of preference. For additional information, including expected format, see [RFC2616](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html). This header and the [setLang](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/bing-visual-search-api-v7-reference#setlang) query parameter are mutually exclusive; do not specify both. If you set this header, you must also specify the [cc](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/bing-visual-search-api-v7-reference#cc) query parameter. To determine the market to return results for, Bing uses the first supported language it finds from the list and combines it with the cc parameter value. If the list does not include a supported language, Bing finds the closest language and market that supports the request or it uses an aggregated or default market for the results. To determine the market that Bing used, see the BingAPIs-Market header. Use this header and the cc query parameter only if you specify multiple languages. Otherwise, use the [mkt](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/bing-visual-search-api-v7-reference#mkt) and [setLang](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/bing-visual-search-api-v7-reference#setlang) query parameters. A user interface string is a string that's used as a label in a user interface. There are few user interface strings in the JSON response objects. Any links to Bing.com properties in the response objects apply the specified language.
   types:
   - uid: string
 - name: Content-Type
   in: header
-  description: Optional request header. If you set the [modules](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/bing-images-api-v7-reference#modulesrequested) query parameter to RecognizedEntities, you may specify the binary of an image in the body of a POST request. If you specify the image in the body of a POST request, you must specify this header and set its value to multipart/form-data. The maximum image size is 1 MB.
+  description: Must be set to multipart/form-data and include a boundary parameter (for example, multipart/form-data; boundary=<boundary string>). For more details, see [Content form types]( https://docs.microsoft.com/en-us/azure/cognitive-services/bing-visual-search/overview#content-form-types).
   types:
   - uid: string
 - name: User-Agent
   in: header
-  description: 'The user agent originating the request. Bing uses the user agent to provide mobile users with an optimized experience. Although optional, you are encouraged to always specify this header. The user-agent should be the same string that any commonly used browser sends. For information about user agents, see [RFC 2616](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html). The following are examples of user-agent strings. Windows Phone: Mozilla/5.0 (compatible; MSIE 10.0; Windows Phone 8.0; Trident/6.0; IEMobile/10.0; ARM; Touch; NOKIA; Lumia 822). Android: Mozilla / 5.0 (Linux; U; Android 2.3.5; en - us; SCH - I500 Build / GINGERBREAD) AppleWebKit / 533.1 (KHTML; like Gecko) Version / 4.0 Mobile Safari / 533.1. iPhone: Mozilla / 5.0 (iPhone; CPU iPhone OS 6_1 like Mac OS X) AppleWebKit / 536.26 (KHTML; like Gecko) Mobile / 10B142 iPhone4; 1 BingWeb / 3.03.1428.20120423. PC: Mozilla / 5.0 (Windows NT 6.3; WOW64; Trident / 7.0; Touch; rv:11.0) like Gecko. iPad: Mozilla / 5.0 (iPad; CPU OS 7_0 like Mac OS X) AppleWebKit / 537.51.1 (KHTML, like Gecko) Version / 7.0 Mobile / 11A465 Safari / 9537.53'
+  description: 'The user agent originating the request. Bing uses the user agent to provide mobile users with an optimized experience. Although optional, you are encouraged to always specify this header. The user-agent should be the same string that any commonly used browser sends. For information about user agents, see [RFC 2616](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html). The following are examples of user-agent strings. Windows Phone: Mozilla/5.0 (compatible; MSIE 10.0; Windows Phone 8.0; Trident/6.0; IEMobile/10.0; ARM; Touch; NOKIA; Lumia 822). Android: Mozilla / 5.0 (Linux; U; Android 2.3.5; en - us; SCH - I500 Build / GINGERBREAD) AppleWebKit / 533.1 (KHTML; like Gecko) Version / 4.0 Mobile Safari / 533.1. iPhone: Mozilla / 5.0 (iPhone; CPU iPhone OS 6_1 like Mac OS X) AppleWebKit / 536.26 (KHTML; like Gecko) Mobile / 10B142 iPhone4; 1 BingWeb / 3.03.1428.20120423. PC: Mozilla / 5.0 (Windows NT 6.3; WOW64; Trident / 7.0; Touch; rv:11.0) like Gecko. iPad: Mozilla / 5.0 (iPad; CPU OS 7_0 like Mac OS X) AppleWebKit / 537.51.1 (KHTML, like Gecko) Version / 7.0 Mobile / 11A465 Safari / 9537.53.'
   types:
   - uid: string
 - name: X-MSEdge-ClientID
   in: header
-  description: "Bing uses this header to provide users with consistent behavior across Bing API calls. Bing often flights new features and improvements, and it uses the client ID as a key for assigning traffic on different flights. If you do not use the same client ID for a user across multiple requests, then Bing may assign the user to multiple conflicting flights. Being assigned to multiple conflicting flights can lead to an inconsistent user experience. For example, if the second request has a different flight assignment than the first, the experience may be unexpected. Also, Bing can use the client ID to tailor web results to that client ID’s search history, providing a richer experience for the user. Bing also uses this header to help improve result rankings by analyzing the activity generated by a client ID. The relevance improvements help with better quality of results delivered by Bing APIs and in turn enables higher click-through rates for the API consumer. IMPORTANT: Although optional, you should consider this header required. Persisting the client ID across multiple requests for the same end user and device combination enables 1) the API consumer to receive a consistent user experience, and 2) higher click-through rates via better quality of results from the Bing APIs. Each user that uses your application on the device must have a unique, Bing generated client ID. If you do not include this header in the request, Bing generates an ID and returns it in the X-MSEdge-ClientID response header. The only time that you should NOT include this header in a request is the first time the user uses your app on that device. Use the client ID for each Bing API request that your app makes for this user on the device. Persist the client ID. To persist the ID in a browser app, use a persistent HTTP cookie to ensure the ID is used across all sessions. Do not use a session cookie. For other apps such as mobile apps, use the device's persistent storage to persist the ID. The next time the user uses your app on that device, get the client ID that you persisted. Bing responses may or may not include this header. If the response includes this header, capture the client ID and use it for all subsequent Bing requests for the user on that device. If you include the X-MSEdge-ClientID, you must not include cookies in the request."
+  description: "Bing uses this header to provide users with consistent behavior across Bing API calls. Bing often flights new features and improvements, and it uses the client ID as a key for assigning traffic on different flights. If you do not use the same client ID for a user across multiple requests, then Bing may assign the user to multiple conflicting flights. Being assigned to multiple conflicting flights can lead to an inconsistent user experience. For example, if the second request has a different flight assignment than the first, the experience may be unexpected. Also, Bing can use the client ID to tailor web results to that client ID’s search history, providing a richer experience for the user. Bing also uses this header to help improve result rankings by analyzing the activity generated by a client ID. The relevance improvements help with better quality of results delivered by Bing APIs and in turn enables higher click-through rates for the API consumer. IMPORTANT: Although optional, you should consider this header required. Persisting the client ID across multiple requests for the same end user and device combination enables 1) the API consumer to receive a consistent user experience, and 2) higher click-through rates via better quality of results from the Bing APIs. Each user that uses your application on the device must have a unique, Bing generated client ID. If you do not include this header in the request, Bing generates an ID and returns it in the X-MSEdge-ClientID response header. The only time that you should NOT include this header in a request is the first time the user uses your app on that device. Use the client ID for each Bing API request that your app makes for this user on the device. Persist the client ID. To persist the ID in a browser app, use a persistent HTTP cookie to ensure the ID is used across all sessions. Do not use a session cookie. For other apps such as mobile apps, use the device's persistent storage to persist the ID. The next time the user uses your app on that device, get the client ID that you persisted. Bing responses may or may not include this header. If the response includes this header, capture the client ID and use it for all subsequent Bing requests for the user on that device. ATTENTION: You must ensure that this Client ID is not linkable to any authenticatable user account information. If you include the X-MSEdge-ClientID, you must not include cookies in the request."
   types:
   - uid: string
 - name: X-MSEdge-ClientIP
@@ -70,7 +70,7 @@ requestHeader:
   - uid: string
 definitions:
 - name: XBingApisSDK
-  description: Activate swagger compliance
+  description: Activate swagger compliance.
   kind: enum
   properties:
   - name: "true"
@@ -81,7 +81,7 @@ definitions:
   properties:
   - name: tags
     isReadyOnly: true
-    description: Includes a list of image knowledge tags
+    description: A list of visual search tags.
     types:
     - uid: ImageTag
       isArray: true
@@ -92,12 +92,12 @@ definitions:
     - uid: ImageObject
   - name: readLink
     isReadyOnly: true
-    description: The URL that returns this resource.
+    description: The URL that returns this resource. To use the URL, append query parameters as appropriate and include the Ocp-Apim-Subscription-Key header.
     types:
     - uid: string
   - name: webSearchUrl
     isReadyOnly: true
-    description: The URL To Bing's search result for this item.
+    description: The URL to Bing's search result for this item.
     types:
     - uid: string
   - name: id
@@ -120,12 +120,12 @@ definitions:
       isArray: true
   - name: readLink
     isReadyOnly: true
-    description: The URL that returns this resource.
+    description: The URL that returns this resource. To use the URL, append query parameters as appropriate and include the Ocp-Apim-Subscription-Key header.
     types:
     - uid: string
   - name: webSearchUrl
     isReadyOnly: true
-    description: The URL To Bing's search result for this item.
+    description: The URL to Bing's search result for this item.
     types:
     - uid: string
   - name: id
@@ -142,17 +142,17 @@ definitions:
   properties:
   - name: displayName
     isReadyOnly: true
-    description: Display name for this tag, for default tag, there is no display name
+    description: Display name for this tag. For the default tag, the display name is empty.
     types:
     - uid: string
   - name: boundingBox
     isReadyOnly: true
-    description: The bounding box for this tag, for default tag, there is no bounding box
+    description: The bounding box for this tag. For the default tag, there is no bounding box.
     types:
     - uid: ImageTagRegion
   - name: actions
     isReadyOnly: true
-    description: Actions within this tag. The order of the items denotes the default ranking order of these actions.
+    description: Actions within this tag. The order of the items denotes the default ranking order of these actions, with the first action being the most likely user intent.
     types:
     - uid: ImageEntityAction
       isArray: true
@@ -187,7 +187,7 @@ definitions:
     - uid: string
   - name: alternateName
     isReadyOnly: true
-    description: An alias for the item
+    description: An alias for the item.
     types:
     - uid: string
   - name: bingId
@@ -197,12 +197,12 @@ definitions:
     - uid: string
   - name: readLink
     isReadyOnly: true
-    description: The URL that returns this resource.
+    description: The URL that returns this resource. To use the URL, append query parameters as appropriate and include the Ocp-Apim-Subscription-Key header.
     types:
     - uid: string
   - name: webSearchUrl
     isReadyOnly: true
-    description: The URL To Bing's search result for this item.
+    description: The URL to Bing's search result for this item.
     types:
     - uid: string
   - name: id
@@ -215,27 +215,27 @@ definitions:
     types:
     - uid: string
 - name: ImageObject
-  description: Defines an image
+  description: Defines an image.
   kind: object
   properties:
   - name: thumbnail
     isReadyOnly: true
-    description: The URL to a thumbnail of the image
+    description: The URL to a thumbnail of the image.
     types:
     - uid: ImageObject
   - name: imageInsightsToken
     isReadyOnly: true
-    description: The token that you use in a subsequent call to the Image Search API to get additional information about the image. For information about using this token, see the insightsToken query parameter.
+    description: The token that you use in a subsequent call to Visual Search API to get additional information about the image. For information about using this token, see the imageInsightsToken field inside the knowledgeRequest request parameter.
     types:
     - uid: string
   - name: insightsMetadata
     isReadyOnly: true
-    description: A count of the number of websites where you can shop or perform other actions related to the image. For example, if the image is of an apple pie, this object includes a count of the number of websites where you can buy an apple pie. To indicate the number of offers in your UX, include badging such as a shopping cart icon that contains the count. When the user clicks on the icon, use imageInisghtsToken to get the list of websites.
+    description: A count of the number of websites where you can shop or perform other actions related to the image. For example, if the image is of an apple pie, this object includes a count of the number of websites where you can buy an apple pie. To indicate the number of offers in your UX, include badging such as a shopping cart icon that contains the count. When the user clicks on the icon, use imageInisghtsToken in a subsequent Visual Search API call to get the list of shopping websites.
     types:
     - uid: ImagesImageMetadata
   - name: imageId
     isReadyOnly: true
-    description: Unique Id for the image
+    description: Unique Id for the image.
     types:
     - uid: string
   - name: accentColor
@@ -245,12 +245,12 @@ definitions:
     - uid: string
   - name: visualWords
     isReadyOnly: true
-    description: Visual representation of the image. Used for getting more sizes
+    description: For interal use only.
     types:
     - uid: string
   - name: contentUrl
     isReadyOnly: true
-    description: Original URL to retrieve the source (file) for the media object (e.g the source URL for the image).
+    description: Original URL to retrieve the source (file) for the media object (e.g., the source URL for the image).
     types:
     - uid: string
   - name: hostPageUrl
@@ -260,12 +260,12 @@ definitions:
     - uid: string
   - name: contentSize
     isReadyOnly: true
-    description: Size of the media object content (use format "value unit" e.g "1024 B").
+    description: Size of the media object content. Use format "value unit" (e.g., "1024 B").
     types:
     - uid: string
   - name: encodingFormat
     isReadyOnly: true
-    description: Encoding format (e.g mp3, mp4, jpeg, etc).
+    description: Encoding format (e.g., mp3, mp4, jpeg, etc).
     types:
     - uid: string
   - name: hostPageDisplayUrl
@@ -312,7 +312,7 @@ definitions:
     - uid: string
   - name: text
     isReadyOnly: true
-    description: Text content of this creative work
+    description: Text content of this creative work.
     types:
     - uid: string
   - name: name
@@ -337,7 +337,7 @@ definitions:
     - uid: string
   - name: alternateName
     isReadyOnly: true
-    description: An alias for the item
+    description: An alias for the item.
     types:
     - uid: string
   - name: bingId
@@ -347,12 +347,12 @@ definitions:
     - uid: string
   - name: readLink
     isReadyOnly: true
-    description: The URL that returns this resource.
+    description: The URL that returns this resource. To use the URL, append query parameters as appropriate and include the Ocp-Apim-Subscription-Key header.
     types:
     - uid: string
   - name: webSearchUrl
     isReadyOnly: true
-    description: The URL To Bing's search result for this item.
+    description: The URL to Bing's search result for this item.
     types:
     - uid: string
   - name: id
@@ -413,7 +413,7 @@ definitions:
   properties:
   - name: shoppingSourcesCount
     isReadyOnly: true
-    description: The number of websites that offer goods of the products seen in the image.
+    description: The number of websites that sell the products seen in the image.
     types:
     - uid: integer
   - name: recipeSourcesCount
@@ -486,7 +486,7 @@ definitions:
     types:
     - uid: string
 - name: NormalizedQuadrilateral
-  description: Defines a region of an image. The region is a convex quadrilateral defined by coordinates of its top left, top right, bottom left and bottom right points. The coordinates are fractional values of the original image's width and height in the range 0.0 through 1.0.
+  description: Defines a region of an image. The region is a convex quadrilateral defined by coordinates of its top left, top right, bottom left, and bottom right points. The coordinates are fractional values of the original image's width and height in the range 0.0 through 1.0.
   kind: object
   properties:
   - name: topLeft
@@ -494,15 +494,15 @@ definitions:
     types:
     - uid: Point2D
   - name: topRight
-    description: The top right corner coordinate
+    description: The top right corner coordinate.
     types:
     - uid: Point2D
   - name: bottomRight
-    description: The bottom right corner coordinate
+    description: The bottom right corner coordinate.
     types:
     - uid: Point2D
   - name: bottomLeft
-    description: The bottom left corner coordinate
+    description: The bottom left corner coordinate.
     types:
     - uid: Point2D
   - name: name
@@ -527,7 +527,7 @@ definitions:
     - uid: string
   - name: alternateName
     isReadyOnly: true
-    description: An alias for the item
+    description: An alias for the item.
     types:
     - uid: string
   - name: bingId
@@ -537,12 +537,12 @@ definitions:
     - uid: string
   - name: readLink
     isReadyOnly: true
-    description: The URL that returns this resource.
+    description: The URL that returns this resource. To use the URL, append query parameters as appropriate and include the Ocp-Apim-Subscription-Key header.
     types:
     - uid: string
   - name: webSearchUrl
     isReadyOnly: true
-    description: The URL To Bing's search result for this item.
+    description: The URL to Bing's search result for this item.
     types:
     - uid: string
   - name: id
@@ -559,7 +559,7 @@ definitions:
   properties:
   - name: data
     isReadyOnly: true
-    description: Information about the entity
+    description: Information about the entity.
     types:
     - uid: ImageTag
     - uid: Intangible
@@ -570,12 +570,12 @@ definitions:
     typesTitle: Thing
   - name: actionType
     isReadyOnly: true
-    description: A string representing the type of action
+    description: A string representing the type of action.
     types:
     - uid: string
   - name: result
     isReadyOnly: true
-    description: The result produced in the action
+    description: The result produced in the action.
     types:
     - uid: ImageTag
       isArray: true
@@ -592,17 +592,17 @@ definitions:
     typesTitle: Thing[]
   - name: displayName
     isReadyOnly: true
-    description: A display name for the action
+    description: A display name for the action.
     types:
     - uid: string
   - name: isTopAction
     isReadyOnly: true
-    description: A boolean representing whether this result is the top action
+    description: A Boolean representing whether this result is the top action.
     types:
     - uid: boolean
   - name: serviceUrl
     isReadyOnly: true
-    description: Url inside Thing_x gets you a url to fulfill action directly,however ServiceUrl Gives you more data to determine how to take action.e.g. ServiceUrl might return json and an image url in it.
+    description: Use this URL to get additional data to determine how to take the appropriate action. For example, the serviceUrl might return JSON along with an image URL.
     types:
     - uid: string
   - name: thumbnailUrl
@@ -634,7 +634,7 @@ definitions:
     - uid: string
   - name: text
     isReadyOnly: true
-    description: Text content of this creative work
+    description: Text content of this creative work.
     types:
     - uid: string
   - name: name
@@ -659,7 +659,7 @@ definitions:
     - uid: string
   - name: alternateName
     isReadyOnly: true
-    description: An alias for the item
+    description: An alias for the item.
     types:
     - uid: string
   - name: bingId
@@ -669,12 +669,12 @@ definitions:
     - uid: string
   - name: readLink
     isReadyOnly: true
-    description: The URL that returns this resource.
+    description: The URL that returns this resource. To use the URL, append query parameters as appropriate and include the Ocp-Apim-Subscription-Key header.
     types:
     - uid: string
   - name: webSearchUrl
     isReadyOnly: true
-    description: The URL To Bing's search result for this item.
+    description: The URL to Bing's search result for this item.
     types:
     - uid: string
   - name: id
@@ -691,17 +691,17 @@ definitions:
   properties:
   - name: data
     isReadyOnly: true
-    description: A list of images
+    description: A list of images.
     types:
     - uid: ImagesModule
   - name: actionType
     isReadyOnly: true
-    description: A string representing the type of action
+    description: A string representing the type of action.
     types:
     - uid: string
   - name: result
     isReadyOnly: true
-    description: The result produced in the action
+    description: The result produced in the action.
     types:
     - uid: ImageTag
       isArray: true
@@ -718,17 +718,17 @@ definitions:
     typesTitle: Thing[]
   - name: displayName
     isReadyOnly: true
-    description: A display name for the action
+    description: A display name for the action.
     types:
     - uid: string
   - name: isTopAction
     isReadyOnly: true
-    description: A boolean representing whether this result is the top action
+    description: A Boolean representing whether this result is the top action.
     types:
     - uid: boolean
   - name: serviceUrl
     isReadyOnly: true
-    description: Url inside Thing_x gets you a url to fulfill action directly,however ServiceUrl Gives you more data to determine how to take action.e.g. ServiceUrl might return json and an image url in it.
+    description: Use this URL to get additional data to determine how to take the appropriate action. For example, the serviceUrl might return JSON along with an image URL.
     types:
     - uid: string
   - name: thumbnailUrl
@@ -760,7 +760,7 @@ definitions:
     - uid: string
   - name: text
     isReadyOnly: true
-    description: Text content of this creative work
+    description: Text content of this creative work.
     types:
     - uid: string
   - name: name
@@ -785,7 +785,7 @@ definitions:
     - uid: string
   - name: alternateName
     isReadyOnly: true
-    description: An alias for the item
+    description: An alias for the item.
     types:
     - uid: string
   - name: bingId
@@ -795,12 +795,12 @@ definitions:
     - uid: string
   - name: readLink
     isReadyOnly: true
-    description: The URL that returns this resource.
+    description: The URL that returns this resource. To use the URL, append query parameters as appropriate and include the Ocp-Apim-Subscription-Key header.
     types:
     - uid: string
   - name: webSearchUrl
     isReadyOnly: true
-    description: The URL To Bing's search result for this item.
+    description: The URL to Bing's search result for this item.
     types:
     - uid: string
   - name: id
@@ -817,17 +817,17 @@ definitions:
   properties:
   - name: data
     isReadyOnly: true
-    description: A list of recipes related to the image
+    description: A list of recipes related to the image.
     types:
     - uid: RecipesModule
   - name: actionType
     isReadyOnly: true
-    description: A string representing the type of action
+    description: A string representing the type of action.
     types:
     - uid: string
   - name: result
     isReadyOnly: true
-    description: The result produced in the action
+    description: The result produced in the action.
     types:
     - uid: ImageTag
       isArray: true
@@ -844,17 +844,17 @@ definitions:
     typesTitle: Thing[]
   - name: displayName
     isReadyOnly: true
-    description: A display name for the action
+    description: A display name for the action.
     types:
     - uid: string
   - name: isTopAction
     isReadyOnly: true
-    description: A boolean representing whether this result is the top action
+    description: A Boolean representing whether this result is the top action.
     types:
     - uid: boolean
   - name: serviceUrl
     isReadyOnly: true
-    description: Url inside Thing_x gets you a url to fulfill action directly,however ServiceUrl Gives you more data to determine how to take action.e.g. ServiceUrl might return json and an image url in it.
+    description: Use this URL to get additional data to determine how to take the appropriate action. For example, the serviceUrl might return JSON along with an image URL.
     types:
     - uid: string
   - name: thumbnailUrl
@@ -886,7 +886,7 @@ definitions:
     - uid: string
   - name: text
     isReadyOnly: true
-    description: Text content of this creative work
+    description: Text content of this creative work.
     types:
     - uid: string
   - name: name
@@ -911,7 +911,7 @@ definitions:
     - uid: string
   - name: alternateName
     isReadyOnly: true
-    description: An alias for the item
+    description: An alias for the item.
     types:
     - uid: string
   - name: bingId
@@ -921,12 +921,12 @@ definitions:
     - uid: string
   - name: readLink
     isReadyOnly: true
-    description: The URL that returns this resource.
+    description: The URL that returns this resource. To use the URL, append query parameters as appropriate and include the Ocp-Apim-Subscription-Key header.
     types:
     - uid: string
   - name: webSearchUrl
     isReadyOnly: true
-    description: The URL To Bing's search result for this item.
+    description: The URL to Bing's search result for this item.
     types:
     - uid: string
   - name: id
@@ -943,17 +943,17 @@ definitions:
   properties:
   - name: data
     isReadyOnly: true
-    description: A list of queries related to the image
+    description: A list of queries related to the image.
     types:
     - uid: RelatedSearchesModule
   - name: actionType
     isReadyOnly: true
-    description: A string representing the type of action
+    description: A string representing the type of action.
     types:
     - uid: string
   - name: result
     isReadyOnly: true
-    description: The result produced in the action
+    description: The result produced in the action.
     types:
     - uid: ImageTag
       isArray: true
@@ -970,17 +970,17 @@ definitions:
     typesTitle: Thing[]
   - name: displayName
     isReadyOnly: true
-    description: A display name for the action
+    description: A display name for the action.
     types:
     - uid: string
   - name: isTopAction
     isReadyOnly: true
-    description: A boolean representing whether this result is the top action
+    description: A Boolean representing whether this result is the top action.
     types:
     - uid: boolean
   - name: serviceUrl
     isReadyOnly: true
-    description: Url inside Thing_x gets you a url to fulfill action directly,however ServiceUrl Gives you more data to determine how to take action.e.g. ServiceUrl might return json and an image url in it.
+    description: Use this URL to get additional data to determine how to take the appropriate action. For example, the serviceUrl might return JSON along with an image URL.
     types:
     - uid: string
   - name: thumbnailUrl
@@ -1012,7 +1012,7 @@ definitions:
     - uid: string
   - name: text
     isReadyOnly: true
-    description: Text content of this creative work
+    description: Text content of this creative work.
     types:
     - uid: string
   - name: name
@@ -1037,7 +1037,7 @@ definitions:
     - uid: string
   - name: alternateName
     isReadyOnly: true
-    description: An alias for the item
+    description: An alias for the item.
     types:
     - uid: string
   - name: bingId
@@ -1047,12 +1047,12 @@ definitions:
     - uid: string
   - name: readLink
     isReadyOnly: true
-    description: The URL that returns this resource.
+    description: The URL that returns this resource. To use the URL, append query parameters as appropriate and include the Ocp-Apim-Subscription-Key header.
     types:
     - uid: string
   - name: webSearchUrl
     isReadyOnly: true
-    description: The URL To Bing's search result for this item.
+    description: The URL to Bing's search result for this item.
     types:
     - uid: string
   - name: id
@@ -1069,17 +1069,17 @@ definitions:
   properties:
   - name: data
     isReadyOnly: true
-    description: A list of merchants that offer items related to the image
+    description: A list of merchants that offer items related to the image.
     types:
     - uid: AggregateOffer
   - name: actionType
     isReadyOnly: true
-    description: A string representing the type of action
+    description: A string representing the type of action.
     types:
     - uid: string
   - name: result
     isReadyOnly: true
-    description: The result produced in the action
+    description: The result produced in the action.
     types:
     - uid: ImageTag
       isArray: true
@@ -1096,17 +1096,17 @@ definitions:
     typesTitle: Thing[]
   - name: displayName
     isReadyOnly: true
-    description: A display name for the action
+    description: A display name for the action.
     types:
     - uid: string
   - name: isTopAction
     isReadyOnly: true
-    description: A boolean representing whether this result is the top action
+    description: A Boolean representing whether this result is the top action.
     types:
     - uid: boolean
   - name: serviceUrl
     isReadyOnly: true
-    description: Url inside Thing_x gets you a url to fulfill action directly,however ServiceUrl Gives you more data to determine how to take action.e.g. ServiceUrl might return json and an image url in it.
+    description: Use this URL to get additional data to determine how to take the appropriate action. For example, the serviceUrl might return JSON along with an image URL.
     types:
     - uid: string
   - name: thumbnailUrl
@@ -1138,7 +1138,7 @@ definitions:
     - uid: string
   - name: text
     isReadyOnly: true
-    description: Text content of this creative work
+    description: Text content of this creative work.
     types:
     - uid: string
   - name: name
@@ -1163,7 +1163,7 @@ definitions:
     - uid: string
   - name: alternateName
     isReadyOnly: true
-    description: An alias for the item
+    description: An alias for the item.
     types:
     - uid: string
   - name: bingId
@@ -1173,12 +1173,12 @@ definitions:
     - uid: string
   - name: readLink
     isReadyOnly: true
-    description: The URL that returns this resource.
+    description: The URL that returns this resource. To use the URL, append query parameters as appropriate and include the Ocp-Apim-Subscription-Key header.
     types:
     - uid: string
   - name: webSearchUrl
     isReadyOnly: true
-    description: The URL To Bing's search result for this item.
+    description: The URL to Bing's search result for this item.
     types:
     - uid: string
   - name: id
@@ -1203,7 +1203,7 @@ definitions:
     typesTitle: Offer[]
   - name: seller
     isReadyOnly: true
-    description: Seller for this offer
+    description: Seller for this offer.
     types:
     - uid: Organization
   - name: price
@@ -1218,7 +1218,7 @@ definitions:
     - uid: Currency
   - name: availability
     isReadyOnly: true
-    description: "The item's availability. The following are the possible values: Discontinued, InStock, InStoreOnly, LimitedAvailability, OnlineOnly, OutOfStock, PreOrder, SoldOut"
+    description: "The item's availability. The following are the possible values: Discontinued, InStock, InStoreOnly, LimitedAvailability, OnlineOnly, OutOfStock, PreOrder, SoldOut."
     types:
     - uid: ItemAvailability
   - name: aggregateRating
@@ -1253,7 +1253,7 @@ definitions:
     - uid: string
   - name: alternateName
     isReadyOnly: true
-    description: An alias for the item
+    description: An alias for the item.
     types:
     - uid: string
   - name: bingId
@@ -1263,12 +1263,12 @@ definitions:
     - uid: string
   - name: readLink
     isReadyOnly: true
-    description: The URL that returns this resource.
+    description: The URL that returns this resource. To use the URL, append query parameters as appropriate and include the Ocp-Apim-Subscription-Key header.
     types:
     - uid: string
   - name: webSearchUrl
     isReadyOnly: true
-    description: The URL To Bing's search result for this item.
+    description: The URL to Bing's search result for this item.
     types:
     - uid: string
   - name: id
@@ -1306,7 +1306,7 @@ definitions:
     - uid: string
   - name: alternateName
     isReadyOnly: true
-    description: An alias for the item
+    description: An alias for the item.
     types:
     - uid: string
   - name: bingId
@@ -1316,12 +1316,12 @@ definitions:
     - uid: string
   - name: readLink
     isReadyOnly: true
-    description: The URL that returns this resource.
+    description: The URL that returns this resource. To use the URL, append query parameters as appropriate and include the Ocp-Apim-Subscription-Key header.
     types:
     - uid: string
   - name: webSearchUrl
     isReadyOnly: true
-    description: The URL To Bing's search result for this item.
+    description: The URL to Bing's search result for this item.
     types:
     - uid: string
   - name: id
@@ -1369,7 +1369,7 @@ definitions:
     - uid: string
   - name: alternateName
     isReadyOnly: true
-    description: An alias for the item
+    description: An alias for the item.
     types:
     - uid: string
   - name: bingId
@@ -1379,12 +1379,12 @@ definitions:
     - uid: string
   - name: readLink
     isReadyOnly: true
-    description: The URL that returns this resource.
+    description: The URL that returns this resource. To use the URL, append query parameters as appropriate and include the Ocp-Apim-Subscription-Key header.
     types:
     - uid: string
   - name: webSearchUrl
     isReadyOnly: true
-    description: The URL To Bing's search result for this item.
+    description: The URL to Bing's search result for this item.
     types:
     - uid: string
   - name: id
@@ -1400,11 +1400,11 @@ definitions:
   kind: object
   properties:
   - name: x
-    description: The x-coordinate of the point
+    description: The x-coordinate of the point.
     types:
     - uid: number
   - name: y
-    description: The y-coordinate of the point
+    description: The y-coordinate of the point.
     types:
     - uid: number
   - name: name
@@ -1429,7 +1429,7 @@ definitions:
     - uid: string
   - name: alternateName
     isReadyOnly: true
-    description: An alias for the item
+    description: An alias for the item.
     types:
     - uid: string
   - name: bingId
@@ -1439,12 +1439,12 @@ definitions:
     - uid: string
   - name: readLink
     isReadyOnly: true
-    description: The URL that returns this resource.
+    description: The URL that returns this resource. To use the URL, append query parameters as appropriate and include the Ocp-Apim-Subscription-Key header.
     types:
     - uid: string
   - name: webSearchUrl
     isReadyOnly: true
-    description: The URL To Bing's search result for this item.
+    description: The URL to Bing's search result for this item.
     types:
     - uid: string
   - name: id
@@ -1974,7 +1974,7 @@ definitions:
     types:
     - uid: string
 - name: ItemAvailability
-  description: "The item's availability. The following are the possible values: Discontinued, InStock, InStoreOnly, LimitedAvailability, OnlineOnly, OutOfStock, PreOrder, SoldOut"
+  description: "The item's availability. The following are the possible values: Discontinued, InStock, InStoreOnly, LimitedAvailability, OnlineOnly, OutOfStock, PreOrder, SoldOut."
   kind: enum
   properties:
   - name: Discontinued
@@ -2077,7 +2077,7 @@ definitions:
     - uid: string
   - name: text
     isReadyOnly: true
-    description: Text content of this creative work
+    description: Text content of this creative work.
     types:
     - uid: string
   - name: name
@@ -2102,7 +2102,7 @@ definitions:
     - uid: string
   - name: alternateName
     isReadyOnly: true
-    description: An alias for the item
+    description: An alias for the item.
     types:
     - uid: string
   - name: bingId
@@ -2112,12 +2112,12 @@ definitions:
     - uid: string
   - name: readLink
     isReadyOnly: true
-    description: The URL that returns this resource.
+    description: The URL that returns this resource. To use the URL, append query parameters as appropriate and include the Ocp-Apim-Subscription-Key header.
     types:
     - uid: string
   - name: webSearchUrl
     isReadyOnly: true
-    description: The URL To Bing's search result for this item.
+    description: The URL to Bing's search result for this item.
     types:
     - uid: string
   - name: id
@@ -2139,12 +2139,12 @@ definitions:
     - uid: string
   - name: displayText
     isReadyOnly: true
-    description: The display version of the query term. This version of the query term may contain special characters that highlight the search term found in the query string. The string contains the highlighting characters only if the query enabled hit highlighting
+    description: The display version of the query term.
     types:
     - uid: string
   - name: webSearchUrl
     isReadyOnly: true
-    description: The URL that takes the user to the Bing search results page for the query.Only related search results include this field.
+    description: The URL that takes the user to the Bing search results page for the query.
     types:
     - uid: string
   - name: searchLink
@@ -2158,7 +2158,7 @@ definitions:
     types:
     - uid: ImageObject
 examples:
-- name: Successful image visual search
+- name: Successful visual search
   request:
     uri: POST https://api.cognitive.microsoft.com/bing/v7.0/images/visualsearch
     headers:
