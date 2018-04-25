@@ -1,0 +1,633 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "ApiManagementClient",
+    "description": "Use these REST APIs for performing operations on tenant entity associated with your Azure API Management deployment. Using this entity you can manage properties and configuration that apply to the entire API Management service instance.",
+    "version": "2018-01-01"
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow.",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "paths": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{configurationName}/syncState": {
+      "get": {
+        "tags": [
+          "TenantConfigurationSyncState"
+        ],
+        "operationId": "TenantConfiguration_GetSyncState",
+        "description": "Gets the status of the most recent synchronization between the configuration database and the Git repository.",
+        "x-ms-examples": {
+          "ApiManagementTenantAccessSyncState": {
+            "$ref": "#/definitions/ApiManagementTenantAccessSyncState"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "./apimanagement.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "./apimanagement.json#/parameters/ServiceNameParameter"
+          },
+          {
+            "$ref": "./apimanagement.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "./apimanagement.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ConfigurationParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sync state result.",
+            "schema": {
+              "$ref": "#/definitions/TenantConfigurationSyncStateContract"
+            }
+          }
+        },
+        "x-internal-toc-name": "Get Sync State"
+      }
+    }
+  },
+  "definitions": {
+    "AccessInformationContract": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Identifier."
+        },
+        "primaryKey": {
+          "type": "string",
+          "description": "Primary access key."
+        },
+        "secondaryKey": {
+          "type": "string",
+          "description": "Secondary access key."
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "Tenant access information of the API Management service."
+        }
+      },
+      "description": "Tenant access information contract of the API Management service."
+    },
+    "AccessInformationUpdateParameters": {
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Tenant access information of the API Management service."
+        }
+      },
+      "description": "Tenant access information update parameters of the API Management service."
+    },
+    "DeployConfigurationParameters": {
+      "properties": {
+        "branch": {
+          "type": "string",
+          "description": "The name of the Git branch from which the configuration is to be deployed to the configuration database."
+        },
+        "force": {
+          "type": "boolean",
+          "description": "The value enforcing deleting subscriptions to products that are deleted in this update."
+        }
+      },
+      "required": [
+        "branch"
+      ],
+      "description": "Parameters supplied to the Deploy Configuration operation."
+    },
+    "OperationResultContract": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Operation result identifier."
+        },
+        "status": {
+          "type": "string",
+          "description": "Status of an async operation.",
+          "enum": [
+            "Started",
+            "InProgress",
+            "Succeeded",
+            "Failed"
+          ],
+          "x-ms-enum": {
+            "name": "AsyncOperationStatus",
+            "modelAsString": false
+          }
+        },
+        "started": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Start time of an async operation. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.\n"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last update time of an async operation. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.\n"
+        },
+        "resultInfo": {
+          "type": "string",
+          "description": "Optional result info."
+        },
+        "error": {
+          "$ref": "./apimanagement.json#/definitions/ErrorResponse",
+          "description": "Error Body Contract"
+        },
+        "actionLog": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OperationResultLogItemContract"
+          },
+          "readOnly": true,
+          "description": "This property if only provided as part of the TenantConfiguration_Validate operation. It contains the log the entities which will be updated/created/deleted as part of the TenantConfiguration_Deploy operation."
+        }
+      },
+      "description": "Operation Result."
+    },
+    "OperationResultLogItemContract": {
+      "properties": {
+        "objectType": {
+          "type": "string",
+          "description": "The type of entity contract."
+        },
+        "action": {
+          "type": "string",
+          "description": "Action like create/update/delete."
+        },
+        "objectKey": {
+          "type": "string",
+          "description": "Identifier of the entity being created/updated/deleted."
+        }
+      },
+      "description": "Log of the entity being created, updated or deleted."
+    },
+    "SaveConfigurationParameter": {
+      "properties": {
+        "branch": {
+          "type": "string",
+          "description": "The name of the Git branch in which to commit the current configuration snapshot."
+        },
+        "force": {
+          "type": "boolean",
+          "description": "The value if true, the current configuration database is committed to the Git repository, even if the Git repository has newer changes that would be overwritten."
+        }
+      },
+      "required": [
+        "branch"
+      ],
+      "description": "Parameters supplied to the Save Tenant Configuration operation."
+    },
+    "TenantConfigurationSyncStateContract": {
+      "properties": {
+        "branch": {
+          "type": "string",
+          "description": "The name of Git branch."
+        },
+        "commitId": {
+          "type": "string",
+          "description": "The latest commit Id."
+        },
+        "isExport": {
+          "type": "boolean",
+          "description": "value indicating if last sync was save (true) or deploy (false) operation."
+        },
+        "isSynced": {
+          "type": "boolean",
+          "description": "value indicating if last synchronization was later than the configuration change."
+        },
+        "isGitEnabled": {
+          "type": "boolean",
+          "description": "value indicating whether Git configuration access is enabled."
+        },
+        "syncDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date of the latest synchronization. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.\n"
+        },
+        "configurationChangeDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date of the latest configuration change. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.\n"
+        }
+      },
+      "description": "Tenant Configuration Synchronization State."
+    },
+    "ApiManagementGetTenantAccess": {
+      "parameters": {
+        "serviceName": "apimService1",
+        "resourceGroupName": "rg1",
+        "api-version": "2018-01-01",
+        "subscriptionId": "subid",
+        "accessName": "access"
+      },
+      "responses": {
+        "200": {
+          "body": {
+            "id": "5600b59375ff190048030003",
+            "primaryKey": "qr5nbjNoZkgtLojXgU+OA/ntYMgko3XPSVyt+ObwR1sqp2ZkM9tGhwxkeEz7bfAuPS5ss61b2S3ZrZmqa9v3Mw==",
+            "secondaryKey": "2dCJv1CasJl286SZiKxyBFDiIYCUdbwM1YrFNDcFMXCjCKbFzomrGkv+exAbnV5E3DEk91VP4jbeJ2eV/qtejA==",
+            "enabled": true
+          }
+        }
+      }
+    },
+    "ApiManagementUpdateTenantAccess": {
+      "parameters": {
+        "serviceName": "apimService1",
+        "resourceGroupName": "rg1",
+        "api-version": "2018-01-01",
+        "subscriptionId": "subid",
+        "If-Match": "*",
+        "accessName": "access",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "responses": {
+        "204": {}
+      }
+    },
+    "ApiManagementTenantAccessRegenerateKey": {
+      "parameters": {
+        "serviceName": "apimService1",
+        "resourceGroupName": "rg1",
+        "api-version": "2018-01-01",
+        "subscriptionId": "subid",
+        "accessName": "access"
+      },
+      "responses": {
+        "204": {}
+      }
+    },
+    "ApiManagementTenantAccessRegenerateKey-1": {
+      "parameters": {
+        "serviceName": "apimService1",
+        "resourceGroupName": "rg1",
+        "api-version": "2018-01-01",
+        "subscriptionId": "subid",
+        "accessName": "access"
+      },
+      "responses": {
+        "204": {}
+      }
+    },
+    "ApiManagementGetTenantAccess-1": {
+      "parameters": {
+        "serviceName": "apimService1",
+        "resourceGroupName": "rg1",
+        "api-version": "2018-01-01",
+        "subscriptionId": "subid",
+        "accessName": "access"
+      },
+      "responses": {
+        "200": {
+          "body": {
+            "id": "5600b59375ff190048030003",
+            "primaryKey": "qr5nbjNoZkgtLojXgU+OA/ntYMgko3XPSVyt+ObwR1sqp2ZkM9tGhwxkeEz7bfAuPS5ss61b2S3ZrZmqa9v3Mw==",
+            "secondaryKey": "2dCJv1CasJl286SZiKxyBFDiIYCUdbwM1YrFNDcFMXCjCKbFzomrGkv+exAbnV5E3DEk91VP4jbeJ2eV/qtejA==",
+            "enabled": true
+          }
+        }
+      }
+    },
+    "ApiManagementTenantAccessRegenerateKey-1-2": {
+      "parameters": {
+        "serviceName": "apimService1",
+        "resourceGroupName": "rg1",
+        "api-version": "2018-01-01",
+        "subscriptionId": "subid",
+        "accessName": "access"
+      },
+      "responses": {
+        "204": {}
+      }
+    },
+    "ApiManagementTenantAccessRegenerateKey-1-2-3": {
+      "parameters": {
+        "serviceName": "apimService1",
+        "resourceGroupName": "rg1",
+        "api-version": "2018-01-01",
+        "subscriptionId": "subid",
+        "accessName": "access"
+      },
+      "responses": {
+        "204": {}
+      }
+    },
+    "ApiManagementTenantConfigurationDeploy": {
+      "parameters": {
+        "serviceName": "apimService1",
+        "resourceGroupName": "rg1",
+        "api-version": "2018-01-01",
+        "subscriptionId": "subid",
+        "configurationName": "configuration",
+        "parameters": {
+          "branch": "master"
+        }
+      },
+      "responses": {
+        "202": {
+          "headers": {
+            "location": "https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/tenant/operationResults/5a1af4ae2a6d2e0b688d7517?api-version=2018-01-01"
+          }
+        },
+        "200": {
+          "body": {
+            "id": "5a1af4ae2a6d2e0b688d7517",
+            "status": "Failed",
+            "started": "2017-11-26T17:06:54.303Z",
+            "updated": "2017-11-26T17:07:21.777Z",
+            "error": {
+              "code": "ValidationError",
+              "message": "File not found: 'api-management/configuration.json'"
+            }
+          }
+        }
+      }
+    },
+    "ApiManagementTenantConfigurationSave": {
+      "parameters": {
+        "serviceName": "apimService1",
+        "resourceGroupName": "rg1",
+        "api-version": "2018-01-01",
+        "subscriptionId": "subid",
+        "configurationName": "configuration",
+        "parameters": {
+          "branch": "master"
+        }
+      },
+      "responses": {
+        "202": {
+          "headers": {
+            "location": "https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/tenant/operationResults/5a1af57d2a6d2e0b688d751b?api-version=2018-01-01"
+          }
+        },
+        "200": {
+          "body": {
+            "id": "5a1af57d2a6d2e0b688d751b",
+            "status": "Succeeded",
+            "started": "2017-11-26T17:10:21.957Z",
+            "updated": "2017-11-26T17:10:36.06Z",
+            "resultInfo": "The configuration was successfully saved to master as commit cdb6878db80159cc0e9a53f5ad38581883882974.",
+            "actionLog": []
+          }
+        }
+      }
+    },
+    "ApiManagementTenantConfigurationValidate": {
+      "parameters": {
+        "serviceName": "apimService1",
+        "resourceGroupName": "rg1",
+        "api-version": "2018-01-01",
+        "subscriptionId": "subid",
+        "configurationName": "configuration",
+        "parameters": {
+          "branch": "master"
+        }
+      },
+      "responses": {
+        "202": {
+          "headers": {
+            "location": "https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/tenant/operationResults/5a1af64e2a6d2e0b688d751e?api-version=2018-01-01"
+          }
+        },
+        "200": {
+          "body": {
+            "id": "5a1af64e2a6d2e0b688d751e",
+            "status": "Succeeded",
+            "started": "2017-11-26T17:13:50.787Z",
+            "updated": "2017-11-26T17:13:59.723Z",
+            "resultInfo": "Validation is successfull",
+            "actionLog": [
+              {
+                "objectType": "ApiSpecificationContract",
+                "action": "Updated",
+                "objectKey": "57914cb351f68a16889be190;rev=1"
+              },
+              {
+                "objectType": "ProductSpecificationContract",
+                "action": "Updated",
+                "objectKey": "5768181ea40f7eb6c49f6ac7"
+              },
+              {
+                "objectType": "ProductSpecificationContract",
+                "action": "Updated",
+                "objectKey": "576819c9a40f7e86289fb3e3"
+              },
+              {
+                "objectType": "ProductSpecificationContract",
+                "action": "Updated",
+                "objectKey": "576819f1a40f7e86289fb6de"
+              },
+              {
+                "objectType": "ProductSpecificationContract",
+                "action": "Updated",
+                "objectKey": "57681a67a40f7e72b4132522"
+              },
+              {
+                "objectType": "ProductSpecificationContract",
+                "action": "Updated",
+                "objectKey": "57681a73a40f7e72b413281d"
+              },
+              {
+                "objectType": "ProductSpecificationContract",
+                "action": "Updated",
+                "objectKey": "57681a7ea40f7e72b4132b18"
+              },
+              {
+                "objectType": "ProductSpecificationContract",
+                "action": "Updated",
+                "objectKey": "57681b88a40f7ea0f017f099"
+              },
+              {
+                "objectType": "ProductSpecificationContract",
+                "action": "Updated",
+                "objectKey": "57681b9fa40f7ea0f017f682"
+              },
+              {
+                "objectType": "ProductSpecificationContract",
+                "action": "Updated",
+                "objectKey": "57681bb5a40f7ea0f017fc6b"
+              },
+              {
+                "objectType": "ProductSpecificationContract",
+                "action": "Updated",
+                "objectKey": "57681bcaa40f7ea0f0180254"
+              },
+              {
+                "objectType": "ProductSpecificationContract",
+                "action": "Updated",
+                "objectKey": "57681bdfa40f7ea0f018083d"
+              },
+              {
+                "objectType": "ProductSpecificationContract",
+                "action": "Updated",
+                "objectKey": "57681bf5a40f7ea0f0180e26"
+              },
+              {
+                "objectType": "ProductSpecificationContract",
+                "action": "Updated",
+                "objectKey": "57681c0ea40f7ea0f018140f"
+              },
+              {
+                "objectType": "ProductSpecificationContract",
+                "action": "Updated",
+                "objectKey": "57681c26a40f7ea0f01819f8"
+              },
+              {
+                "objectType": "ProductSpecificationContract",
+                "action": "Updated",
+                "objectKey": "57681c83a40f7e85f44db237"
+              },
+              {
+                "objectType": "ProductSpecificationContract",
+                "action": "Updated",
+                "objectKey": "57681cb2a40f7e85f44dbcd0"
+              },
+              {
+                "objectType": "ProductSpecificationContract",
+                "action": "Updated",
+                "objectKey": "57681ce3a40f7e85f44dc769"
+              },
+              {
+                "objectType": "ProductSpecificationContract",
+                "action": "Updated",
+                "objectKey": "57681d1fa40f7e85f44dd202"
+              },
+              {
+                "objectType": "ProductSpecificationContract",
+                "action": "Updated",
+                "objectKey": "57681d60a40f7e85f44ddc9b"
+              },
+              {
+                "objectType": "ProductSpecificationContract",
+                "action": "Updated",
+                "objectKey": "57681db4a40f7e85f44de735"
+              },
+              {
+                "objectType": "ProductSpecificationContract",
+                "action": "Updated",
+                "objectKey": "57681e11a40f7e85f44df1ce"
+              },
+              {
+                "objectType": "ProductSpecificationContract",
+                "action": "Updated",
+                "objectKey": "57681e73a40f7e85f44dfc67"
+              },
+              {
+                "objectType": "ProductSpecificationContract",
+                "action": "Updated",
+                "objectKey": "57681f06a40f7e74ec07785c"
+              },
+              {
+                "objectType": "ProductSpecificationContract",
+                "action": "Updated",
+                "objectKey": "5768211fa40f7e74ec07a74a"
+              },
+              {
+                "objectType": "ProductSpecificationContract",
+                "action": "Updated",
+                "objectKey": "576823cfa40f7e74ec07d63a"
+              },
+              {
+                "objectType": "ProductSpecificationContract",
+                "action": "Updated",
+                "objectKey": "5600b57e7e8880006a060001"
+              },
+              {
+                "objectType": "ProductSpecificationContract",
+                "action": "Updated",
+                "objectKey": "5600b57e7e8880006a060002"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "ApiManagementTenantAccessSyncState": {
+      "parameters": {
+        "serviceName": "apimService1",
+        "resourceGroupName": "rg1",
+        "api-version": "2018-01-01",
+        "subscriptionId": "subid",
+        "configurationName": "configuration"
+      },
+      "responses": {
+        "200": {
+          "body": {
+            "branch": "master",
+            "commitId": "44c29c27a876372e2ea18d9c381cc493a6a89fc5",
+            "isExport": true,
+            "isSynced": false,
+            "isGitEnabled": true,
+            "syncDate": "2016-10-24T19:17:14.3641403Z",
+            "configurationChangeDate": "2017-06-03T00:41:30.9670873Z"
+          }
+        }
+      }
+    }
+  },
+  "parameters": {
+    "AccessParameter": {
+      "name": "accessName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "enum": [
+        "access"
+      ],
+      "x-ms-enum": {
+        "modelAsString": true,
+        "name": "AccessIdName"
+      },
+      "description": "The identifier of the Access configuration.",
+      "x-ms-parameter-location": "method"
+    },
+    "ConfigurationParameter": {
+      "name": "configurationName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "enum": [
+        "configuration"
+      ],
+      "x-ms-enum": {
+        "modelAsString": true,
+        "name": "configurationIdName"
+      },
+      "description": "The identifier of the Git Configuration Operation.",
+      "x-ms-parameter-location": "method"
+    }
+  },
+  "x-internal-service-name": "API Management",
+  "x-internal-toc-name": "Tenant Configuration",
+  "x-internal-split-type": "Operation",
+  "x-internal-operation-name": "Get Sync State"
+}

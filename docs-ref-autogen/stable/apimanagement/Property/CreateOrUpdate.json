@@ -1,0 +1,400 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "ApiManagementClient",
+    "description": "Use these REST APIs for performing operations on Property entity associated with your Azure API Management deployment. API Management policies are a powerful capability of the system that allow the publisher to change the behavior of the API through configuration. Policies are a collection of statements that are executed sequentially on the request or response of an API. Policy statements can be constructed using literal text values, policy expressions, and properties. Each API Management service instance has a properties collection of key/value pairs that are global to the service instance. These properties can be used to manage constant string values across all API configuration and policies.",
+    "version": "2018-01-01"
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow.",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "paths": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/properties/{propId}": {
+      "put": {
+        "tags": [
+          "Property"
+        ],
+        "operationId": "Property_CreateOrUpdate",
+        "description": "Creates or updates a property.",
+        "x-ms-examples": {
+          "ApiManagementCreateProperty": {
+            "$ref": "#/definitions/ApiManagementCreateProperty"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "./apimanagement.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "./apimanagement.json#/parameters/ServiceNameParameter"
+          },
+          {
+            "$ref": "#/parameters/PropertyIdParameter"
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PropertyContract"
+            },
+            "description": "Create parameters."
+          },
+          {
+            "$ref": "./apimanagement.json#/parameters/IfMatchOptionalParameter"
+          },
+          {
+            "$ref": "./apimanagement.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "./apimanagement.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Property was successfully created.",
+            "schema": {
+              "$ref": "#/definitions/PropertyContract"
+            }
+          },
+          "200": {
+            "description": "Property was successfully updated.",
+            "schema": {
+              "$ref": "#/definitions/PropertyContract"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "./apimanagement.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-internal-toc-name": "Create Or Update"
+      }
+    }
+  },
+  "definitions": {
+    "PropertyCollection": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PropertyContract"
+          },
+          "description": "Page values."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "Next page link if any."
+        }
+      },
+      "description": "Paged Property list representation."
+    },
+    "PropertyContract": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/PropertyContractProperties",
+          "description": "Property entity contract properties."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "./apimanagement.json#/definitions/Resource"
+        }
+      ],
+      "description": "Property details."
+    },
+    "PropertyContractProperties": {
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "description": "Unique name of Property. It may contain only letters, digits, period, dash, and underscore characters.",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[A-Za-z0-9-._]+$"
+        },
+        "value": {
+          "type": "string",
+          "description": "Value of the property. Can contain policy expressions. It may not be empty or consist only of whitespace.",
+          "minLength": 1,
+          "maxLength": 4096
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/PropertyEntityBaseParameters"
+        }
+      ],
+      "required": [
+        "displayName",
+        "value"
+      ],
+      "description": "Property Contract properties."
+    },
+    "PropertyUpdateParameters": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/PropertyUpdateParameterProperties",
+          "description": "Property entity Update contract properties."
+        }
+      },
+      "description": "Property update Parameters."
+    },
+    "PropertyUpdateParameterProperties": {
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "description": "Unique name of Property. It may contain only letters, digits, period, dash, and underscore characters.",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[A-Za-z0-9-._]+$"
+        },
+        "value": {
+          "type": "string",
+          "description": "Value of the property. Can contain policy expressions. It may not be empty or consist only of whitespace.",
+          "minLength": 1,
+          "maxLength": 4096
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/PropertyEntityBaseParameters"
+        }
+      ],
+      "description": "Property Contract properties."
+    },
+    "PropertyEntityBaseParameters": {
+      "properties": {
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 32,
+          "description": "Optional tags that when provided can be used to filter the property list."
+        },
+        "secret": {
+          "description": "Determines whether the value is a secret and should be encrypted or not. Default value is false.",
+          "type": "boolean"
+        }
+      },
+      "description": "Property Entity Base Parameters set."
+    },
+    "ApiManagementListProperties": {
+      "parameters": {
+        "serviceName": "apimService1",
+        "resourceGroupName": "rg1",
+        "api-version": "2018-01-01",
+        "subscriptionId": "subid"
+      },
+      "responses": {
+        "200": {
+          "body": {
+            "value": [
+              {
+                "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/properties/592f1174cc83890dc4f32686",
+                "type": "Microsoft.ApiManagement/service/properties",
+                "name": "592f1174cc83890dc4f32686",
+                "properties": {
+                  "displayName": "Logger-Credentials-592f1174cc83890dc4f32687",
+                  "value": "Endpoint=sb://testtemplatetesteh.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=...",
+                  "secret": true
+                }
+              },
+              {
+                "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/properties/testarmTemplateproperties2",
+                "type": "Microsoft.ApiManagement/service/properties",
+                "name": "testarmTemplateproperties2",
+                "properties": {
+                  "displayName": "propName",
+                  "value": "propValue",
+                  "tags": [
+                    "foo",
+                    "bar"
+                  ],
+                  "secret": false
+                }
+              }
+            ],
+            "nextLink": ""
+          }
+        }
+      }
+    },
+    "ApiManagementHeadProperty": {
+      "parameters": {
+        "serviceName": "apimService1",
+        "resourceGroupName": "rg1",
+        "api-version": "2018-01-01",
+        "subscriptionId": "subid",
+        "propId": "testarmTemplateproperties2"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "etag": "AAAAAAAAAAa="
+          }
+        }
+      }
+    },
+    "ApiManagementGetProperty": {
+      "parameters": {
+        "serviceName": "apimService1",
+        "resourceGroupName": "rg1",
+        "api-version": "2018-01-01",
+        "subscriptionId": "subid",
+        "propId": "testarmTemplateproperties2"
+      },
+      "responses": {
+        "200": {
+          "body": {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/properties/testarmTemplateproperties2",
+            "type": "Microsoft.ApiManagement/service/properties",
+            "name": "testarmTemplateproperties2",
+            "properties": {
+              "displayName": "propName",
+              "value": "propValue",
+              "tags": [
+                "foo",
+                "bar"
+              ],
+              "secret": false
+            }
+          }
+        }
+      }
+    },
+    "ApiManagementCreateProperty": {
+      "parameters": {
+        "serviceName": "apimService1",
+        "resourceGroupName": "rg1",
+        "api-version": "2018-01-01",
+        "subscriptionId": "subid",
+        "propId": "testprop2",
+        "parameters": {
+          "properties": {
+            "displayName": "prop3name",
+            "value": "propValue",
+            "tags": [
+              "foo",
+              "bar"
+            ],
+            "secret": true
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "body": {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/properties/testprop2",
+            "type": "Microsoft.ApiManagement/service/properties",
+            "name": "testprop2",
+            "properties": {
+              "displayName": "prop3name",
+              "value": "propValue",
+              "tags": [
+                "foo",
+                "bar"
+              ],
+              "secret": true
+            }
+          }
+        },
+        "200": {
+          "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/properties/testprop2",
+          "type": "Microsoft.ApiManagement/service/properties",
+          "name": "testprop2",
+          "properties": {
+            "displayName": "prop3name",
+            "value": "propValue",
+            "tags": [
+              "foo",
+              "bar"
+            ],
+            "secret": true
+          }
+        }
+      }
+    },
+    "ApiManagementUpdateProperty": {
+      "parameters": {
+        "serviceName": "apimService1",
+        "resourceGroupName": "rg1",
+        "api-version": "2018-01-01",
+        "subscriptionId": "subid",
+        "propId": "testprop2",
+        "If-Match": "*",
+        "parameters": {
+          "properties": {
+            "tags": [
+              "foo",
+              "bar2"
+            ],
+            "secret": true
+          }
+        }
+      },
+      "responses": {
+        "204": {}
+      }
+    },
+    "ApiManagementDeleteProperty": {
+      "parameters": {
+        "serviceName": "apimService1",
+        "resourceGroupName": "rg1",
+        "api-version": "2018-01-01",
+        "subscriptionId": "subid",
+        "propId": "testprop2",
+        "If-Match": "*"
+      },
+      "responses": {
+        "200": {},
+        "204": {}
+      }
+    }
+  },
+  "parameters": {
+    "PropertyIdParameter": {
+      "name": "propId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "Identifier of the property.",
+      "maxLength": 80,
+      "pattern": "(^[\\w]+$)|(^[\\w][\\w\\-]+[\\w]$)",
+      "x-ms-parameter-location": "method"
+    }
+  },
+  "x-internal-service-name": "API Management",
+  "x-internal-toc-name": "Property",
+  "x-internal-split-type": "Operation",
+  "x-internal-operation-name": "Create Or Update"
+}

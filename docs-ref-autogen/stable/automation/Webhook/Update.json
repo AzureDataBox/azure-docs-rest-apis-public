@@ -1,0 +1,311 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "AutomationManagementClient",
+    "version": "2015-10-31",
+    "x-ms-code-generation-settings": {
+      "useDateTimeOffset": true
+    }
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "paths": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/webhooks/{webhookName}": {
+      "patch": {
+        "tags": [
+          "Webhook"
+        ],
+        "operationId": "Webhook_Update",
+        "description": "Update the webhook identified by webhook name.",
+        "externalDocs": {
+          "url": "http://aka.ms/azureautomationsdk/webhookoperations"
+        },
+        "x-ms-examples": {
+          "Update webhook": {
+            "$ref": "#/definitions/updateWebhook"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "./definitions.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "automationAccountName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The automation account name."
+          },
+          {
+            "name": "webhookName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The webhook name."
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "./definitions.json#/definitions/WebhookUpdateParameters"
+            },
+            "description": "The update parameters for webhook."
+          },
+          {
+            "$ref": "./definitions.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "./definitions.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/Webhook"
+            }
+          },
+          "default": {
+            "description": "Automation error response describing why the operation failed.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-internal-toc-name": "Update"
+      }
+    }
+  },
+  "definitions": {
+    "webhookGenerateUri": {
+      "parameters": {
+        "subscriptionId": "subid",
+        "resourceGroupName": "rg",
+        "automationAccountName": "myAutomationAccount33",
+        "api-version": "2015-10-31"
+      },
+      "responses": {
+        "200": {
+          "headers": {},
+          "body": "https://s13events.azure-automation.net/webhooks?token=O6n03K%2b1%2bSLPH50m4x9%2fcbcqtAu2tJDTvr8QHnbJ1kw%3d"
+        }
+      }
+    },
+    "deleteWebhook": {
+      "parameters": {
+        "subscriptionId": "subid",
+        "resourceGroupName": "rg",
+        "automationAccountName": "myAutomationAccount33",
+        "webhookName": "TestWebhook",
+        "api-version": "2015-10-31"
+      },
+      "responses": {
+        "200": {}
+      }
+    },
+    "getWebhook": {
+      "parameters": {
+        "subscriptionId": "subid",
+        "resourceGroupName": "rg",
+        "automationAccountName": "myAutomationAccount33",
+        "webhookName": "TestWebhook",
+        "api-version": "2015-10-31"
+      },
+      "responses": {
+        "200": {
+          "headers": {},
+          "body": {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/webhooks/TestWebhook",
+            "name": "TestWebhook",
+            "properties": {
+              "isEnabled": true,
+              "expiryTime": "2018-03-30T06:18:13.7002872+08:00",
+              "runbook": {
+                "name": "TestRunbook"
+              },
+              "lastInvokedTime": null,
+              "runOn": null,
+              "parameters": null,
+              "uri": "",
+              "creationTime": "2017-03-30T06:18:14.6651862+08:00",
+              "lastModifiedBy": "",
+              "lastModifiedTime": "2017-03-30T06:18:14.6651862+08:00"
+            }
+          }
+        }
+      }
+    },
+    "createOrUpdateWebhook": {
+      "parameters": {
+        "subscriptionId": "subid",
+        "resourceGroupName": "rg",
+        "automationAccountName": "myAutomationAccount33",
+        "webhookName": "TestWebhook",
+        "api-version": "2015-10-31",
+        "parameters": {
+          "name": "TestWebhook",
+          "properties": {
+            "isEnabled": true,
+            "uri": "https://s1events.azure-automation.net/webhooks?token=7u3KfQvM1vUPWaDMFRv2%2fAA4Jqx8QwS8aBuyO6Xsdcw%3d",
+            "expiryTime": "2018-03-29T22:18:13.7002872Z",
+            "runbook": {
+              "name": "TestRunbook"
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "headers": {},
+          "body": {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/webhooks/TestWebhook",
+            "name": "TestWebhook",
+            "type": "Microsoft.Automation/AutomationAccounts/Webhooks",
+            "properties": {
+              "isEnabled": true,
+              "expiryTime": "2018-03-30T06:18:13.7002872+08:00",
+              "runbook": {
+                "name": "TestRunbook"
+              },
+              "lastInvokedTime": null,
+              "runOn": null,
+              "parameters": null,
+              "uri": "",
+              "creationTime": "2017-03-30T06:18:14.6651862+08:00",
+              "lastModifiedBy": "",
+              "lastModifiedTime": "2017-03-30T06:18:14.6651862+08:00"
+            }
+          }
+        },
+        "200": {
+          "headers": {},
+          "body": {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/webhooks/TestWebhook",
+            "name": "TestWebhook",
+            "type": "Microsoft.Automation/AutomationAccounts/Webhooks",
+            "properties": {
+              "isEnabled": true,
+              "expiryTime": "2018-03-30T06:18:13.7002872+08:00",
+              "runbook": {
+                "name": "TestRunbook"
+              },
+              "lastInvokedTime": null,
+              "runOn": null,
+              "parameters": null,
+              "uri": "",
+              "creationTime": "2017-03-30T06:18:14.6651862+08:00",
+              "lastModifiedBy": "",
+              "lastModifiedTime": "2017-03-30T06:18:14.6651862+08:00"
+            }
+          }
+        }
+      }
+    },
+    "updateWebhook": {
+      "parameters": {
+        "subscriptionId": "subid",
+        "resourceGroupName": "rg",
+        "automationAccountName": "myAutomationAccount33",
+        "webhookName": "TestWebhook",
+        "api-version": "2015-10-31",
+        "parameters": {
+          "name": "TestWebhook",
+          "properties": {
+            "isEnabled": false,
+            "description": "updated webhook"
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "headers": {},
+          "body": {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/webhooks/TestWebhook",
+            "name": "TestWebhook",
+            "properties": {
+              "isEnabled": false,
+              "expiryTime": "2018-03-31T07:03:14.5752078+08:00",
+              "runbook": {
+                "name": "TestRunbook"
+              },
+              "lastInvokedTime": null,
+              "runOn": null,
+              "parameters": null,
+              "uri": "",
+              "creationTime": "2017-03-31T05:52:01.272378+08:00",
+              "lastModifiedBy": "",
+              "lastModifiedTime": "2017-03-31T07:03:14.9069441+08:00"
+            }
+          }
+        }
+      }
+    },
+    "listWebhooksByAutomationAccount": {
+      "parameters": {
+        "subscriptionId": "subid",
+        "resourceGroupName": "rg",
+        "automationAccountName": "myAutomationAccount33",
+        "api-version": "2015-10-31"
+      },
+      "responses": {
+        "200": {
+          "headers": {},
+          "body": {
+            "value": [
+              {
+                "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/webhooks/TestWebhook",
+                "name": "TestWebhook",
+                "properties": {
+                  "isEnabled": true,
+                  "expiryTime": "2018-03-30T06:18:13.7002872+08:00",
+                  "runbook": {
+                    "name": "TestRunbook"
+                  },
+                  "lastInvokedTime": null,
+                  "runOn": null,
+                  "parameters": null,
+                  "uri": null,
+                  "creationTime": "2017-03-30T06:18:14.6651862+08:00",
+                  "lastModifiedBy": "",
+                  "lastModifiedTime": "2017-03-30T06:18:14.6651862+08:00"
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "parameters": {},
+  "x-internal-service-name": "Automation",
+  "x-internal-toc-name": "Webhook",
+  "x-internal-split-type": "Operation",
+  "x-internal-operation-name": "Update"
+}

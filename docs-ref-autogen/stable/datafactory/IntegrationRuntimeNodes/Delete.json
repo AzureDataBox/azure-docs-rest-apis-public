@@ -1,0 +1,4390 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "DataFactoryManagementClient",
+    "version": "2017-09-01-preview"
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow.",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "paths": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/nodes/{nodeName}": {
+      "delete": {
+        "tags": [
+          "integrationRuntimeNodes"
+        ],
+        "operationId": "IntegrationRuntimeNodes_Delete",
+        "x-ms-examples": {
+          "IntegrationRuntimesNodes_Delete": {
+            "$ref": "#/definitions/IntegrationRuntimeNodes_Delete"
+          }
+        },
+        "description": "Deletes a self-hosted integration runtime node.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/subscriptionId"
+          },
+          {
+            "$ref": "#/parameters/resourceGroupName"
+          },
+          {
+            "$ref": "#/parameters/factoryName"
+          },
+          {
+            "$ref": "#/parameters/integrationRuntimeName"
+          },
+          {
+            "$ref": "#/parameters/nodeName"
+          },
+          {
+            "$ref": "#/parameters/api-version"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK."
+          },
+          "204": {
+            "description": "No Content."
+          },
+          "default": {
+            "description": "An error response received from the Azure Data Factory service.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-internal-toc-name": "Delete"
+      }
+    }
+  },
+  "definitions": {
+    "Resource": {
+      "x-ms-azure-resource": true,
+      "description": "Azure Data Factory top-level resource.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The resource identifier.",
+          "readOnly": true
+        },
+        "name": {
+          "type": "string",
+          "description": "The resource name.",
+          "readOnly": true
+        },
+        "type": {
+          "type": "string",
+          "description": "The resource type.",
+          "readOnly": true
+        },
+        "location": {
+          "type": "string",
+          "description": "The resource location.",
+          "x-ms-mutability": [
+            "create",
+            "read"
+          ]
+        },
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "The resource tags."
+        }
+      }
+    },
+    "SubResource": {
+      "description": "Azure Data Factory nested resource, which belongs to a factory.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The resource identifier.",
+          "readOnly": true
+        },
+        "name": {
+          "type": "string",
+          "description": "The resource name.",
+          "readOnly": true
+        },
+        "type": {
+          "type": "string",
+          "description": "The resource type.",
+          "readOnly": true
+        },
+        "etag": {
+          "type": "string",
+          "description": "Etag identifies change in the resource.",
+          "readOnly": true
+        }
+      },
+      "x-ms-azure-resource": true
+    },
+    "Expression": {
+      "description": "Azure Data Factory expression definition.",
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Expression type.",
+          "enum": [
+            "Expression"
+          ]
+        },
+        "value": {
+          "type": "string",
+          "description": "Expression value."
+        }
+      },
+      "required": [
+        "type",
+        "value"
+      ]
+    },
+    "SecureString": {
+      "x-ms-discriminator-value": "SecureString",
+      "description": "Azure Data Factory secure string definition. The string value will be masked with asterisks '*' during Get or List API calls.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/SecretBase"
+        }
+      ],
+      "properties": {
+        "value": {
+          "type": "string",
+          "description": "Value of secure string."
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "AzureKeyVaultSecretReference": {
+      "x-ms-discriminator-value": "AzureKeyVaultSecret",
+      "description": "Azure Key Vault secret reference.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/SecretBase"
+        }
+      ],
+      "properties": {
+        "store": {
+          "description": "The Azure Key Vault linked service reference.",
+          "$ref": "#/definitions/LinkedServiceReference"
+        },
+        "secretName": {
+          "type": "object",
+          "description": "The name of the secret in Azure Key Vault. Type: string (or Expression with resultType string)."
+        },
+        "secretVersion": {
+          "type": "object",
+          "description": "The version of the secret in Azure Key Vault. The default value is the latest version of the secret. Type: string (or Expression with resultType string)."
+        }
+      },
+      "required": [
+        "store",
+        "secretName"
+      ]
+    },
+    "SecretBase": {
+      "description": "The base definition of a secret type.",
+      "discriminator": "type",
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Type of the secret."
+        }
+      },
+      "required": [
+        "type"
+      ]
+    },
+    "FactoryListResponse": {
+      "description": "A list of factory resources.",
+      "type": "object",
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "List of factories.",
+          "items": {
+            "$ref": "#/definitions/Factory"
+          }
+        },
+        "nextLink": {
+          "description": "The link to the next page of results, if any remaining results exist.",
+          "type": "string"
+        }
+      }
+    },
+    "IntegrationRuntimeListResponse": {
+      "description": "A list of integration runtime resources.",
+      "type": "object",
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "List of integration runtimes.",
+          "items": {
+            "$ref": "#/definitions/IntegrationRuntimeResource"
+          }
+        },
+        "nextLink": {
+          "description": "The link to the next page of results, if any remaining results exist.",
+          "type": "string"
+        }
+      }
+    },
+    "IntegrationRuntimeReference": {
+      "description": "Integration runtime reference type.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Type of integration runtime.",
+          "enum": [
+            "IntegrationRuntimeReference"
+          ]
+        },
+        "referenceName": {
+          "type": "string",
+          "description": "Reference integration runtime name."
+        },
+        "parameters": {
+          "$ref": "#/definitions/ParameterValueSpecification",
+          "description": "Arguments for integration runtime."
+        }
+      },
+      "required": [
+        "type",
+        "referenceName"
+      ]
+    },
+    "IntegrationRuntimeResource": {
+      "description": "Integration runtime resource type.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/SubResource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "./entityTypes/IntegrationRuntime.json#/definitions/IntegrationRuntime",
+          "description": "Integration runtime properties."
+        }
+      },
+      "required": [
+        "properties"
+      ]
+    },
+    "IntegrationRuntimeStatusResponse": {
+      "description": "Integration runtime status response.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The integration runtime name.",
+          "readOnly": true
+        },
+        "properties": {
+          "$ref": "./entityTypes/IntegrationRuntime.json#/definitions/IntegrationRuntimeStatus",
+          "description": "Integration runtime properties."
+        }
+      },
+      "required": [
+        "properties"
+      ]
+    },
+    "IntegrationRuntimeStatusListResponse": {
+      "description": "A list of integration runtime status.",
+      "type": "object",
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "List of integration runtime status.",
+          "items": {
+            "$ref": "#/definitions/IntegrationRuntimeStatusResponse"
+          }
+        },
+        "nextLink": {
+          "description": "The link to the next page of results, if any remaining results exist.",
+          "type": "string"
+        }
+      }
+    },
+    "UpdateIntegrationRuntimeRequest": {
+      "description": "Update integration runtime request.",
+      "type": "object",
+      "properties": {
+        "autoUpdate": {
+          "description": "Enables or disables the auto-update feature of the self-hosted integration runtime. See https://go.microsoft.com/fwlink/?linkid=854189.",
+          "$ref": "./entityTypes/IntegrationRuntime.json#/definitions/IntegrationRuntimeAutoUpdate"
+        },
+        "updateDelayOffset": {
+          "description": "The time offset (in hours) in the day, e.g., PT03H is 3 hours. The integration runtime auto update will happen on that time.",
+          "type": "string"
+        }
+      }
+    },
+    "UpdateIntegrationRuntimeNodeRequest": {
+      "description": "Update integration runtime node request.",
+      "type": "object",
+      "properties": {
+        "concurrentJobsLimit": {
+          "description": "The number of concurrent jobs permitted to run on the integration runtime node. Values between 1 and maxConcurrentJobs(inclusive) are allowed.",
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "LinkedServiceListResponse": {
+      "description": "A list of linked service resources.",
+      "type": "object",
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "List of linked services.",
+          "items": {
+            "$ref": "#/definitions/LinkedServiceResource"
+          }
+        },
+        "nextLink": {
+          "description": "The link to the next page of results, if any remaining results exist.",
+          "type": "string"
+        }
+      }
+    },
+    "DatasetListResponse": {
+      "description": "A list of dataset resources.",
+      "type": "object",
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "List of datasets.",
+          "items": {
+            "$ref": "#/definitions/DatasetResource"
+          }
+        },
+        "nextLink": {
+          "description": "The link to the next page of results, if any remaining results exist.",
+          "type": "string"
+        }
+      }
+    },
+    "PipelineListResponse": {
+      "description": "A list of pipeline resources.",
+      "type": "object",
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "List of pipelines.",
+          "items": {
+            "$ref": "#/definitions/PipelineResource"
+          }
+        },
+        "nextLink": {
+          "description": "The link to the next page of results, if any remaining results exist.",
+          "type": "string"
+        }
+      }
+    },
+    "TriggerListResponse": {
+      "description": "A list of trigger resources.",
+      "type": "object",
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "List of triggers.",
+          "items": {
+            "$ref": "#/definitions/TriggerResource"
+          }
+        },
+        "nextLink": {
+          "description": "The link to the next page of results, if any remaining results exist.",
+          "type": "string"
+        }
+      }
+    },
+    "CreateRunResponse": {
+      "description": "Response body with a run identifier.",
+      "type": "object",
+      "properties": {
+        "runId": {
+          "description": "Identifier of a run.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "runId"
+      ]
+    },
+    "ErrorResponse": {
+      "description": "The object that defines the structure of an Azure Data Factory response.",
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "Error code.",
+          "type": "string"
+        },
+        "message": {
+          "description": "Error message.",
+          "type": "string"
+        },
+        "target": {
+          "description": "Property name/path in request associated with error.",
+          "type": "string"
+        },
+        "details": {
+          "description": "Array with additional error details.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ErrorResponse"
+          }
+        }
+      },
+      "required": [
+        "code",
+        "message"
+      ]
+    },
+    "ParameterDefinitionSpecification": {
+      "description": "Definition of all parameters for an entity.",
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/ParameterSpecification"
+      }
+    },
+    "ParameterSpecification": {
+      "description": "Definition of a single parameter for an entity.",
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Parameter type.",
+          "enum": [
+            "Object",
+            "String",
+            "Int",
+            "Float",
+            "Bool",
+            "Array",
+            "SecureString"
+          ],
+          "x-ms-enum": {
+            "name": "ParameterType",
+            "modelAsString": true
+          }
+        },
+        "defaultValue": {
+          "type": "object",
+          "description": "Default value of parameter."
+        }
+      },
+      "required": [
+        "type"
+      ]
+    },
+    "ParameterValueSpecification": {
+      "description": "An object mapping parameter names to argument values.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "object"
+      }
+    },
+    "FactoryProperties": {
+      "description": "Factory resource properties.",
+      "properties": {
+        "provisioningState": {
+          "description": "Factory provisioning state, example Succeeded.",
+          "type": "string",
+          "readOnly": true
+        },
+        "createTime": {
+          "description": "Time the factory was created in ISO8601 format.",
+          "type": "string",
+          "readOnly": true,
+          "format": "date-time"
+        },
+        "version": {
+          "description": "Version of the factory.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "PipelineResource": {
+      "description": "Pipeline resource type.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/SubResource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "./entityTypes/Pipeline.json#/definitions/Pipeline",
+          "description": "Properties of the pipeline."
+        }
+      },
+      "additionalProperties": {
+        "type": "object"
+      },
+      "required": [
+        "properties"
+      ]
+    },
+    "PipelineReference": {
+      "description": "Pipeline reference type.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Pipeline reference type.",
+          "enum": [
+            "PipelineReference"
+          ]
+        },
+        "referenceName": {
+          "type": "string",
+          "description": "Reference pipeline name."
+        },
+        "name": {
+          "type": "string",
+          "description": "Reference name."
+        }
+      },
+      "required": [
+        "type",
+        "referenceName"
+      ]
+    },
+    "TriggerPipelineReference": {
+      "description": "Pipeline that needs to be triggered with the given parameters.",
+      "properties": {
+        "pipelineReference": {
+          "description": "Pipeline reference.",
+          "$ref": "#/definitions/PipelineReference"
+        },
+        "parameters": {
+          "description": "Pipeline parameters.",
+          "$ref": "#/definitions/ParameterValueSpecification"
+        }
+      }
+    },
+    "TriggerResource": {
+      "description": "Trigger resource type.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/SubResource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "./entityTypes/Trigger.json#/definitions/Trigger",
+          "description": "Properties of the trigger."
+        }
+      },
+      "required": [
+        "properties"
+      ]
+    },
+    "Factory": {
+      "description": "Factory resource type.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "identity": {
+          "$ref": "#/definitions/FactoryIdentity",
+          "description": "Managed service identity of the factory."
+        },
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/FactoryProperties",
+          "description": "Properties of the factory."
+        }
+      },
+      "additionalProperties": {
+        "type": "object"
+      }
+    },
+    "FactoryUpdateParameters": {
+      "description": "Parameters for updating a factory resource.",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "The resource tags."
+        },
+        "identity": {
+          "$ref": "#/definitions/FactoryIdentity",
+          "description": "Managed service identity of the factory."
+        }
+      }
+    },
+    "FactoryIdentity": {
+      "description": "Identity properties of the factory resource.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The identity type. Currently the only supported type is 'SystemAssigned'.",
+          "enum": [
+            "SystemAssigned"
+          ],
+          "x-ms-enum": {
+            "name": "FactoryIdentityType",
+            "modelAsString": false
+          }
+        },
+        "principalId": {
+          "type": "string",
+          "format": "uuid",
+          "readOnly": true,
+          "description": "The principal id of the identity."
+        },
+        "tenantId": {
+          "type": "string",
+          "format": "uuid",
+          "readOnly": true,
+          "description": "The client tenant id of the identity."
+        }
+      },
+      "required": [
+        "type"
+      ]
+    },
+    "DatasetReference": {
+      "description": "Dataset reference type.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Dataset reference type.",
+          "enum": [
+            "DatasetReference"
+          ]
+        },
+        "referenceName": {
+          "type": "string",
+          "description": "Reference dataset name."
+        },
+        "parameters": {
+          "$ref": "#/definitions/ParameterValueSpecification",
+          "description": "Arguments for dataset."
+        }
+      },
+      "required": [
+        "type",
+        "referenceName"
+      ]
+    },
+    "DatasetResource": {
+      "description": "Dataset resource type.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/SubResource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "./entityTypes/Dataset.json#/definitions/Dataset",
+          "description": "Dataset properties."
+        }
+      },
+      "required": [
+        "properties"
+      ]
+    },
+    "LinkedServiceReference": {
+      "description": "Linked service reference type.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Linked service reference type.",
+          "enum": [
+            "LinkedServiceReference"
+          ]
+        },
+        "referenceName": {
+          "type": "string",
+          "description": "Reference LinkedService name."
+        },
+        "parameters": {
+          "$ref": "#/definitions/ParameterValueSpecification",
+          "description": "Arguments for LinkedService."
+        }
+      },
+      "required": [
+        "type",
+        "referenceName"
+      ]
+    },
+    "LinkedServiceResource": {
+      "description": "Linked service resource type.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/SubResource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "./entityTypes/LinkedService.json#/definitions/LinkedService",
+          "description": "Properties of linked service."
+        }
+      },
+      "required": [
+        "properties"
+      ]
+    },
+    "PipelineRunFilterParameters": {
+      "description": "Query parameters for listing pipeline runs.",
+      "type": "object",
+      "properties": {
+        "continuationToken": {
+          "description": "The continuation token for getting the next page of results. Null for first page.",
+          "type": "string"
+        },
+        "lastUpdatedAfter": {
+          "description": "The time at or after which the pipeline run event was updated in 'ISO 8601' format.",
+          "type": "string",
+          "format": "date-time"
+        },
+        "lastUpdatedBefore": {
+          "description": "The time at or before which the pipeline run event was updated in 'ISO 8601' format.",
+          "type": "string",
+          "format": "date-time"
+        },
+        "filters": {
+          "type": "array",
+          "description": "List of filters.",
+          "items": {
+            "$ref": "#/definitions/PipelineRunQueryFilter"
+          }
+        },
+        "orderBy": {
+          "type": "array",
+          "description": "List of OrderBy option.",
+          "items": {
+            "$ref": "#/definitions/PipelineRunQueryOrderBy"
+          }
+        }
+      },
+      "required": [
+        "lastUpdatedAfter",
+        "lastUpdatedBefore"
+      ]
+    },
+    "PipelineRunQueryFilter": {
+      "description": "Query filter option for listing pipeline runs.",
+      "type": "object",
+      "properties": {
+        "operand": {
+          "description": "Parameter name to be used for filter.",
+          "type": "string",
+          "enum": [
+            "PipelineName",
+            "Status",
+            "RunStart",
+            "RunEnd"
+          ],
+          "x-ms-enum": {
+            "name": "PipelineRunQueryFilterOperand",
+            "modelAsString": true
+          }
+        },
+        "operator": {
+          "description": "Operator to be used for filter.",
+          "type": "string",
+          "enum": [
+            "Equals",
+            "NotEquals",
+            "In",
+            "NotIn"
+          ],
+          "x-ms-enum": {
+            "name": "PipelineRunQueryFilterOperator",
+            "modelAsString": true
+          }
+        },
+        "values": {
+          "type": "array",
+          "description": "List of filter values.",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "operand",
+        "operator",
+        "values"
+      ]
+    },
+    "PipelineRunQueryOrderBy": {
+      "description": "An object to provide order by options for listing pipeline runs.",
+      "type": "object",
+      "properties": {
+        "orderBy": {
+          "description": "Parameter name to be used for order by.",
+          "type": "string",
+          "enum": [
+            "RunStart",
+            "RunEnd"
+          ],
+          "x-ms-enum": {
+            "name": "PipelineRunQueryOrderByField",
+            "modelAsString": true
+          }
+        },
+        "order": {
+          "description": "Sorting order of the parameter.",
+          "type": "string",
+          "enum": [
+            "ASC",
+            "DESC"
+          ],
+          "x-ms-enum": {
+            "name": "PipelineRunQueryOrder",
+            "modelAsString": true
+          }
+        }
+      },
+      "required": [
+        "orderBy",
+        "order"
+      ]
+    },
+    "PipelineRunQueryResponse": {
+      "description": "A list pipeline runs.",
+      "type": "object",
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "List of pipeline runs.",
+          "items": {
+            "$ref": "#/definitions/PipelineRun"
+          }
+        },
+        "continuationToken": {
+          "description": "The continuation token for getting the next page of results, if any remaining results exist, null otherwise.",
+          "type": "string"
+        }
+      }
+    },
+    "PipelineRun": {
+      "description": "Information about a pipeline run.",
+      "type": "object",
+      "properties": {
+        "runId": {
+          "description": "Identifier of a run.",
+          "type": "string",
+          "readOnly": true
+        },
+        "pipelineName": {
+          "description": "The pipeline name.",
+          "type": "string",
+          "readOnly": true
+        },
+        "parameters": {
+          "description": "The full or partial list of parameter name, value pair used in the pipeline run.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "readOnly": true
+        },
+        "invokedBy": {
+          "description": "Entity that started the pipeline run.",
+          "$ref": "#/definitions/PipelineRunInvokedBy",
+          "readOnly": true
+        },
+        "lastUpdated": {
+          "description": "The last updated timestamp for the pipeline run event in ISO8601 format.",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "runStart": {
+          "description": "The start time of a pipeline run in ISO8601 format.",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "runEnd": {
+          "description": "The end time of a pipeline run in ISO8601 format.",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "durationInMs": {
+          "description": "The duration of a pipeline run.",
+          "type": "integer",
+          "readOnly": true
+        },
+        "status": {
+          "description": "The status of a pipeline run.",
+          "type": "string",
+          "readOnly": true
+        },
+        "message": {
+          "description": "The message from a pipeline run.",
+          "type": "string",
+          "readOnly": true
+        }
+      },
+      "additionalProperties": {
+        "type": "object"
+      }
+    },
+    "PipelineRunInvokedBy": {
+      "description": "Provides entity name and id that started the pipeline run.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Name of the entity that started the pipeline run.",
+          "type": "string",
+          "readOnly": true
+        },
+        "id": {
+          "description": "The ID of the entity that started the run.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "ActivityRunsListResponse": {
+      "description": "A list activity runs.",
+      "type": "object",
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "List of activity runs.",
+          "items": {
+            "$ref": "#/definitions/ActivityRun"
+          }
+        },
+        "nextLink": {
+          "description": "The link to the next page of results, if any remaining results exist.",
+          "type": "string"
+        }
+      }
+    },
+    "ActivityRun": {
+      "description": "Information about an activity run in a pipeline.",
+      "type": "object",
+      "properties": {
+        "pipelineName": {
+          "description": "The name of the pipeline.",
+          "type": "string",
+          "readOnly": true
+        },
+        "pipelineRunId": {
+          "description": "The id of the pipeline run.",
+          "type": "string",
+          "readOnly": true
+        },
+        "activityName": {
+          "description": "The name of the activity.",
+          "type": "string",
+          "readOnly": true
+        },
+        "activityType": {
+          "description": "The type of the activity.",
+          "type": "string",
+          "readOnly": true
+        },
+        "activityRunId": {
+          "description": "The id of the activity run.",
+          "type": "string",
+          "readOnly": true
+        },
+        "linkedServiceName": {
+          "description": "The name of the compute linked service.",
+          "type": "string",
+          "readOnly": true
+        },
+        "status": {
+          "description": "The status of the activity run.",
+          "type": "string",
+          "readOnly": true
+        },
+        "activityRunStart": {
+          "description": "The start time of the activity run in 'ISO 8601' format.",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "activityRunEnd": {
+          "description": "The end time of the activity run in 'ISO 8601' format.",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "durationInMs": {
+          "description": "The duration of the activity run.",
+          "type": "integer",
+          "readOnly": true
+        },
+        "input": {
+          "description": "The input for the activity.",
+          "type": "object",
+          "readOnly": true
+        },
+        "output": {
+          "description": "The output for the activity.",
+          "type": "object",
+          "readOnly": true
+        },
+        "error": {
+          "description": "The error if any from the activity run.",
+          "type": "object",
+          "readOnly": true
+        }
+      },
+      "additionalProperties": {
+        "type": "object"
+      }
+    },
+    "TriggerRunListResponse": {
+      "description": "A list of trigger runs.",
+      "type": "object",
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "List of trigger runs.",
+          "items": {
+            "$ref": "#/definitions/TriggerRun"
+          }
+        },
+        "nextLink": {
+          "description": "The link to the next page of results, if any remaining results exist.",
+          "type": "string"
+        }
+      }
+    },
+    "TriggerRun": {
+      "description": "Trigger runs.",
+      "type": "object",
+      "properties": {
+        "triggerRunId": {
+          "type": "string",
+          "description": "Trigger run id.",
+          "readOnly": true
+        },
+        "triggerName": {
+          "type": "string",
+          "description": "Trigger name.",
+          "readOnly": true
+        },
+        "triggerType": {
+          "type": "string",
+          "description": "Trigger type.",
+          "readOnly": true
+        },
+        "triggerRunTimestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Trigger run start time.",
+          "readOnly": true
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "Succeeded",
+            "Failed",
+            "Inprogress"
+          ],
+          "x-ms-enum": {
+            "name": "TriggerRunStatus",
+            "modelAsString": true
+          },
+          "description": "Trigger run status.",
+          "readOnly": true
+        },
+        "message": {
+          "type": "string",
+          "description": "Trigger error message.",
+          "readOnly": true
+        },
+        "properties": {
+          "description": "List of property name and value related to trigger run. Name, value pair depends on type of trigger.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "readOnly": true
+        },
+        "triggeredPipelines": {
+          "description": "List of pipeline name and run Id triggered by the trigger run.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "readOnly": true
+        }
+      },
+      "additionalProperties": {
+        "type": "object"
+      }
+    },
+    "OperationListResponse": {
+      "description": "A list of operations that can be performed by the Data Factory service.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Operation"
+          },
+          "description": "List of Data Factory operations supported by the Data Factory resource provider."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "The link to the next page of results, if any remaining results exist."
+        }
+      }
+    },
+    "Operation": {
+      "description": "Azure Data Factory API operation definition.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Operation name: {provider}/{resource}/{operation}",
+          "type": "string"
+        },
+        "origin": {
+          "description": "The intended executor of the operation.",
+          "type": "string"
+        },
+        "display": {
+          "description": "Metadata associated with the operation.",
+          "properties": {
+            "description": {
+              "description": "The description of the operation.",
+              "type": "string"
+            },
+            "provider": {
+              "description": "The name of the provider.",
+              "type": "string"
+            },
+            "resource": {
+              "description": "The name of the resource type on which the operation is performed.",
+              "type": "string"
+            },
+            "operation": {
+              "description": "The type of operation: get, read, delete, etc.",
+              "type": "string"
+            }
+          }
+        },
+        "properties": {
+          "description": "Additional details about the operation.",
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/OperationProperties"
+        }
+      }
+    },
+    "OperationProperties": {
+      "description": "Additional details about an operation.",
+      "type": "object",
+      "x-ms-client-flatten": true,
+      "properties": {
+        "serviceSpecification": {
+          "description": "Details about a service operation.",
+          "$ref": "#/definitions/OperationServiceSpecification"
+        }
+      }
+    },
+    "OperationServiceSpecification": {
+      "description": "Details about a service operation.",
+      "type": "object",
+      "properties": {
+        "logSpecifications": {
+          "description": "Details about operations related to logs.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OperationLogSpecification"
+          }
+        },
+        "metricSpecifications": {
+          "description": "Details about operations related to metrics.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OperationMetricSpecification"
+          }
+        }
+      }
+    },
+    "OperationLogSpecification": {
+      "description": "Details about an operation related to logs.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "The name of the log category.",
+          "type": "string"
+        },
+        "displayName": {
+          "description": "Localized display name.",
+          "type": "string"
+        },
+        "blobDuration": {
+          "description": "Blobs created in the customer storage account, per hour.",
+          "type": "string"
+        }
+      }
+    },
+    "OperationMetricSpecification": {
+      "description": "Details about an operation related to metrics.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "The name of the metric.",
+          "type": "string"
+        },
+        "displayName": {
+          "description": "Localized display name of the metric.",
+          "type": "string"
+        },
+        "displayDescription": {
+          "description": "The description of the metric.",
+          "type": "string"
+        },
+        "unit": {
+          "description": "The unit that the metric is measured in.",
+          "type": "string"
+        },
+        "aggregationType": {
+          "description": "The type of metric aggregation.",
+          "type": "string"
+        },
+        "enableRegionalMdmAccount": {
+          "description": "Whether or not the service is using regional MDM accounts.",
+          "type": "string"
+        },
+        "sourceMdmAccount": {
+          "description": "The name of the MDM account.",
+          "type": "string"
+        },
+        "sourceMdmNamespace": {
+          "description": "The name of the MDM namespace.",
+          "type": "string"
+        },
+        "availabilities": {
+          "description": "Defines how often data for metrics becomes available.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OperationMetricAvailability"
+          }
+        }
+      }
+    },
+    "OperationMetricAvailability": {
+      "description": "Defines how often data for a metric becomes available.",
+      "type": "object",
+      "properties": {
+        "timeGrain": {
+          "description": "The granularity for the metric.",
+          "type": "string"
+        },
+        "blobDuration": {
+          "description": "Blob created in the customer storage account, per hour.",
+          "type": "string"
+        }
+      }
+    },
+    "Operations_List": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Wed, 13 Sep 2017 18:04:32 GMT",
+            "x-ms-request-id": "d5496da4-9c52-402f-b067-83cc9ddea888",
+            "X-Content-Type-Options": "nosniff",
+            "x-ms-ratelimit-remaining-tenant-reads": "14999",
+            "x-ms-correlation-request-id": "25c78f97-0b0a-4fe9-ad39-883a482265cd"
+          },
+          "body": {
+            "value": [
+              {
+                "origin": "system",
+                "name": "Microsoft.DataFactory/datafactories/providers/Microsoft.Insights/metricDefinitions/read",
+                "display": {
+                  "provider": "Microsoft.DataFactory",
+                  "resource": "datafactories",
+                  "operation": "Read datafactories metric definitions",
+                  "description": "Gets the available metrics for datafactories"
+                },
+                "properties": {
+                  "serviceSpecification": {
+                    "metricSpecifications": [
+                      {
+                        "name": "SuccessfulRuns",
+                        "displayName": "Successful Runs",
+                        "displayDescription": "Number of successful runs.",
+                        "unit": "Count",
+                        "aggregationType": "Total",
+                        "availabilities": [
+                          {
+                            "timeGrain": "PT1H",
+                            "blobDuration": "P1D"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "FailedRuns",
+                        "displayName": "Failed Runs",
+                        "displayDescription": "Number of failed runs.",
+                        "unit": "Count",
+                        "aggregationType": "Total",
+                        "availabilities": [
+                          {
+                            "timeGrain": "PT1H",
+                            "blobDuration": "P1D"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "origin": "system",
+                "name": "Microsoft.DataFactory/datafactories/providers/Microsoft.Insights/diagnosticSettings/read",
+                "display": {
+                  "provider": "Microsoft.DataFactory",
+                  "resource": "datafactories",
+                  "operation": "Read diagnostic setting",
+                  "description": "Gets the diagnostic setting for the resource"
+                }
+              },
+              {
+                "origin": "system",
+                "name": "Microsoft.DataFactory/datafactories/providers/Microsoft.Insights/diagnosticSettings/write",
+                "display": {
+                  "provider": "Microsoft.DataFactory",
+                  "resource": "datafactories",
+                  "operation": "Write diagnostic setting",
+                  "description": "Creates or updates the diagnostic setting for the resource"
+                }
+              },
+              {
+                "origin": "system",
+                "name": "Microsoft.DataFactory/factories/providers/Microsoft.Insights/logDefinitions/read",
+                "display": {
+                  "provider": "Microsoft.DataFactory",
+                  "resource": "The log definition of factories",
+                  "operation": "Read factories log definitions",
+                  "description": "Gets the available logs for factories"
+                },
+                "properties": {
+                  "serviceSpecification": {
+                    "logSpecifications": [
+                      {
+                        "name": "ActivityRuns",
+                        "displayName": "Pipeline activity runs log",
+                        "blobDuration": "PT1H"
+                      },
+                      {
+                        "name": "PipelineRuns",
+                        "displayName": "Pipeline runs log",
+                        "blobDuration": "PT1H"
+                      },
+                      {
+                        "name": "TriggerRuns",
+                        "displayName": "Trigger runs log",
+                        "blobDuration": "PT1H"
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "origin": "system",
+                "name": "Microsoft.DataFactory/factories/providers/Microsoft.Insights/diagnosticSettings/read",
+                "display": {
+                  "provider": "Microsoft.DataFactory",
+                  "resource": "factories",
+                  "operation": "Read diagnostic setting",
+                  "description": "Gets the diagnostic setting for the resource"
+                }
+              },
+              {
+                "origin": "system",
+                "name": "Microsoft.DataFactory/factories/providers/Microsoft.Insights/diagnosticSettings/write",
+                "display": {
+                  "provider": "Microsoft.DataFactory",
+                  "resource": "factories",
+                  "operation": "Write diagnostic setting",
+                  "description": "Creates or updates the diagnostic setting for the resource"
+                }
+              },
+              {
+                "origin": "system",
+                "name": "Microsoft.DataFactory/factories/providers/Microsoft.Insights/metricDefinitions/read",
+                "display": {
+                  "provider": "Microsoft.DataFactory",
+                  "resource": "factories",
+                  "operation": "Read metric definitions",
+                  "description": "Gets the available metrics for factories"
+                },
+                "properties": {
+                  "serviceSpecification": {
+                    "metricSpecifications": [
+                      {
+                        "name": "PipelineFailedRuns",
+                        "displayName": "Failed pipeline runs metrics",
+                        "unit": "Count",
+                        "aggregationType": "Total",
+                        "enableRegionalMdmAccount": "false",
+                        "sourceMdmAccount": "MicrosoftDataFactoryProdShoebox",
+                        "sourceMdmNamespace": "ADFMetrics"
+                      },
+                      {
+                        "name": "PipelineSucceededRuns",
+                        "displayName": "Succeeded pipeline runs metrics",
+                        "unit": "Count",
+                        "aggregationType": "Total",
+                        "enableRegionalMdmAccount": "false",
+                        "sourceMdmAccount": "MicrosoftDataFactoryProdShoebox",
+                        "sourceMdmNamespace": "ADFMetrics"
+                      },
+                      {
+                        "name": "ActivityFailedRuns",
+                        "displayName": "Failed activity runs metrics",
+                        "unit": "Count",
+                        "aggregationType": "Total",
+                        "enableRegionalMdmAccount": "false",
+                        "sourceMdmAccount": "MicrosoftDataFactoryProdShoebox",
+                        "sourceMdmNamespace": "ADFMetrics"
+                      },
+                      {
+                        "name": "ActivitySucceededRuns",
+                        "displayName": "Succeeded activity runs metrics",
+                        "unit": "Count",
+                        "aggregationType": "Total",
+                        "enableRegionalMdmAccount": "false",
+                        "sourceMdmAccount": "MicrosoftDataFactoryProdShoebox",
+                        "sourceMdmNamespace": "ADFMetrics"
+                      },
+                      {
+                        "name": "TriggerFailedRuns",
+                        "displayName": "Failed trigger runs metrics",
+                        "unit": "Count",
+                        "aggregationType": "Total",
+                        "enableRegionalMdmAccount": "false",
+                        "sourceMdmAccount": "MicrosoftDataFactoryProdShoebox",
+                        "sourceMdmNamespace": "ADFMetrics"
+                      },
+                      {
+                        "name": "TriggerSucceededRuns",
+                        "displayName": "Succeeded trigger runs metrics",
+                        "unit": "Count",
+                        "aggregationType": "Total",
+                        "enableRegionalMdmAccount": "false",
+                        "sourceMdmAccount": "MicrosoftDataFactoryProdShoebox",
+                        "sourceMdmNamespace": "ADFMetrics"
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "Factories_List": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Wed, 13 Sep 2017 17:33:56 GMT",
+            "x-ms-request-id": "85e53e59-e56e-4878-a1ff-aaa27f52b466",
+            "X-Content-Type-Options": "nosniff",
+            "x-ms-ratelimit-remaining-subscription-reads": "14992",
+            "x-ms-correlation-request-id": "471c3c55-1293-47bf-9662-33bb20f4b75c"
+          },
+          "body": {
+            "value": [
+              {
+                "name": "exampleFactoryName",
+                "tags": {
+                  "exampleTag": "exampleValue"
+                },
+                "properties": {
+                  "provisioningState": "Succeeded",
+                  "createTime": "2017-09-13T17:33:54.0294655Z",
+                  "version": "2017-09-01-preview"
+                },
+                "id": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleresourcegroup/providers/Microsoft.DataFactory/factories/exampleFactoryName",
+                "type": "Microsoft.DataFactory/factories",
+                "location": "East US"
+              },
+              {
+                "name": "yitzhangFactoryV2",
+                "tags": {
+                  "exampleTag": "exampleValue"
+                },
+                "properties": {
+                  "provisioningState": "Succeeded",
+                  "createTime": "2017-05-08T21:03:32.7865115Z",
+                  "version": "2017-03-01-preview"
+                },
+                "id": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleresourcegroup/providers/Microsoft.DataFactory/factories/yitzhangFactoryV2",
+                "type": "Microsoft.DataFactory/factories",
+                "location": "East US"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "Factories_ListByResourceGroup": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Wed, 13 Sep 2017 17:33:56 GMT",
+            "x-ms-request-id": "85e53e59-e56e-4878-a1ff-aaa27f52b466",
+            "X-Content-Type-Options": "nosniff",
+            "x-ms-ratelimit-remaining-subscription-reads": "14992",
+            "x-ms-correlation-request-id": "471c3c55-1293-47bf-9662-33bb20f4b75c"
+          },
+          "body": {
+            "value": [
+              {
+                "name": "exampleFactoryName",
+                "tags": {
+                  "exampleTag": "exampleValue"
+                },
+                "properties": {
+                  "provisioningState": "Succeeded",
+                  "createTime": "2017-09-13T17:33:54.0294655Z",
+                  "version": "2017-09-01-preview"
+                },
+                "id": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleresourcegroup/providers/Microsoft.DataFactory/factories/exampleFactoryName",
+                "type": "Microsoft.DataFactory/factories",
+                "location": "East US"
+              },
+              {
+                "name": "yitzhangFactoryV2",
+                "tags": {
+                  "exampleTag": "exampleValue"
+                },
+                "properties": {
+                  "provisioningState": "Succeeded",
+                  "createTime": "2017-05-08T21:03:32.7865115Z",
+                  "version": "2017-03-01-preview"
+                },
+                "id": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleresourcegroup/providers/Microsoft.DataFactory/factories/yitzhangFactoryV2",
+                "type": "Microsoft.DataFactory/factories",
+                "location": "East US"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "Factories_CreateOrUpdate": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "factory": {
+          "location": "East US"
+        },
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Wed, 13 Sep 2017 17:33:54 GMT",
+            "x-ms-request-id": "dc1954ed-a1d3-4437-bd73-480ffdf1ea5a",
+            "X-Content-Type-Options": "nosniff",
+            "x-ms-ratelimit-remaining-subscription-writes": "1198",
+            "x-ms-correlation-request-id": "8d66d31c-23f3-4ac1-bc8c-1b6464342ad1"
+          },
+          "body": {
+            "name": "exampleFactoryName",
+            "tags": {},
+            "properties": {
+              "provisioningState": "Succeeded",
+              "createTime": "2017-09-13T17:33:54.0294655Z",
+              "version": "2017-09-01-preview"
+            },
+            "id": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleresourcegroup/providers/Microsoft.DataFactory/factories/examplefactoryname",
+            "type": "Microsoft.DataFactory/factories",
+            "location": "East US"
+          }
+        }
+      }
+    },
+    "Factories_Update": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "factoryUpdateParameters": {
+          "tags": {
+            "exampleTag": "exampleValue"
+          }
+        },
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Wed, 13 Sep 2017 17:33:55 GMT",
+            "x-ms-request-id": "3223701f-ce33-4a58-bb14-d3d53569d4f0",
+            "X-Content-Type-Options": "nosniff",
+            "x-ms-ratelimit-remaining-subscription-writes": "1197",
+            "x-ms-correlation-request-id": "ec4ce622-a1dd-4c49-a324-17e8d4d1fe83"
+          },
+          "body": {
+            "name": "exampleFactoryName",
+            "tags": {
+              "exampleTag": "exampleValue"
+            },
+            "properties": {
+              "provisioningState": "Succeeded",
+              "createTime": "2017-09-13T17:33:54.0294655Z",
+              "version": "2017-09-01-preview"
+            },
+            "id": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleresourcegroup/providers/Microsoft.DataFactory/factories/exampleFactoryName",
+            "type": "Microsoft.DataFactory/factories",
+            "location": "East US"
+          }
+        }
+      }
+    },
+    "Factories_Get": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Wed, 13 Sep 2017 17:33:55 GMT",
+            "x-ms-request-id": "8e58266a-de42-40d5-b3c4-c6a7e159cfba",
+            "X-Content-Type-Options": "nosniff",
+            "x-ms-ratelimit-remaining-subscription-reads": "14993",
+            "x-ms-correlation-request-id": "5d862c55-4de9-4a46-969d-cf1ed3e235ed"
+          },
+          "body": {
+            "name": "exampleFactoryName",
+            "tags": {
+              "exampleTag": "exampleValue"
+            },
+            "properties": {
+              "provisioningState": "Succeeded",
+              "createTime": "2017-09-13T17:33:54.0294655Z",
+              "version": "2017-09-01-preview"
+            },
+            "id": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleresourcegroup/providers/Microsoft.DataFactory/factories/exampleFactoryName",
+            "type": "Microsoft.DataFactory/factories",
+            "location": "East US"
+          }
+        }
+      }
+    },
+    "Factories_Delete": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Wed, 13 Sep 2017 18:04:31 GMT",
+            "x-ms-request-id": "00d8b4cd-058f-4da8-a3a9-7a7a9ae772f0",
+            "X-Content-Type-Options": "nosniff",
+            "x-ms-ratelimit-remaining-subscription-writes": "1177",
+            "x-ms-correlation-request-id": "9693bca3-4ee7-4501-865e-8411952d196b"
+          },
+          "body": null
+        },
+        "204": {
+          "headers": {
+            "Date": "Wed, 13 Sep 2017 18:04:31 GMT",
+            "x-ms-ratelimit-remaining-subscription-writes": "1176",
+            "x-ms-request-id": "95fce457-ddee-44a2-84a1-05c33b32d807",
+            "x-ms-correlation-request-id": "95fce457-ddee-44a2-84a1-05c33b32d807"
+          },
+          "body": null
+        }
+      }
+    },
+    "IntegrationRuntimes_ListByFactory": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Tue, 28 Nov 2017 07:05:28 GMT",
+            "x-ms-request-id": "a31dcf14-5eca-42c3-a0ac-5448c2f8b095",
+            "X-Content-Type-Options": "nosniff"
+          },
+          "body": {
+            "value": [
+              {
+                "id": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/integrationruntimes/exampleIntegrationRuntime",
+                "name": "exampleIntegrationRuntime",
+                "properties": {
+                  "type": "Managed",
+                  "typeProperties": {
+                    "computeProperties": {
+                      "location": "West US",
+                      "nodeSize": "Standard_D1_v2",
+                      "numberOfNodes": 1,
+                      "maxParallelExecutionsPerNode": 1
+                    },
+                    "ssisProperties": {
+                      "catalogInfo": {
+                        "catalogServerEndpoint": "yandongtestsvr.database.windows.net",
+                        "catalogAdminUserName": "yanzhang",
+                        "catalogAdminPassword": {
+                          "type": "SecureString",
+                          "value": "**********"
+                        },
+                        "catalogPricingTier": "S1"
+                      }
+                    }
+                  },
+                  "description": "A managed reserved integration runtime",
+                  "state": "Initial"
+                },
+                "etag": "0100333d-0000-0000-0000-5a1d0ab80000"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "IntegrationRuntimes_Create": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "integrationRuntimeName": "exampleIntegrationRuntime",
+        "ifMatch": null,
+        "integrationRuntime": {
+          "properties": {
+            "type": "Managed",
+            "typeProperties": {
+              "computeProperties": {
+                "location": "West US",
+                "nodeSize": "Standard_D1_v2",
+                "numberOfNodes": 1,
+                "maxParallelExecutionsPerNode": 1
+              },
+              "ssisProperties": {
+                "catalogInfo": {
+                  "catalogServerEndpoint": "yandongtestsvr.database.windows.net",
+                  "catalogAdminUserName": "yanzhang",
+                  "catalogAdminPassword": {
+                    "type": "SecureString",
+                    "value": "Passw0rd1"
+                  },
+                  "catalogPricingTier": "S1"
+                },
+                "licenseType": "BasePrice"
+              }
+            },
+            "description": "A managed reserved integration runtime"
+          }
+        },
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Tue, 28 Nov 2017 07:05:28 GMT",
+            "x-ms-request-id": "ef607971-0494-480e-82e7-73df0c671d9e",
+            "X-Content-Type-Options": "nosniff"
+          },
+          "body": {
+            "id": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/integrationruntimes/exampleIntegrationRuntime",
+            "name": "exampleIntegrationRuntime",
+            "properties": {
+              "type": "Managed",
+              "typeProperties": {
+                "computeProperties": {
+                  "location": "West US",
+                  "nodeSize": "Standard_D1_v2",
+                  "numberOfNodes": 1,
+                  "maxParallelExecutionsPerNode": 1
+                },
+                "ssisProperties": {
+                  "catalogInfo": {
+                    "catalogServerEndpoint": "yandongtestsvr.database.windows.net",
+                    "catalogAdminUserName": "yanzhang",
+                    "catalogAdminPassword": {
+                      "type": "SecureString",
+                      "value": "**********"
+                    },
+                    "catalogPricingTier": "S1"
+                  },
+                  "licenseType": "BasePrice"
+                }
+              },
+              "description": "A managed reserved integration runtime",
+              "state": "Initial"
+            },
+            "etag": "0100333d-0000-0000-0000-5a1d0ab80000"
+          }
+        }
+      }
+    },
+    "IntegrationRuntimes_Get": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "integrationRuntimeName": "exampleIntegrationRuntime",
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Tue, 28 Nov 2017 07:05:29 GMT",
+            "x-ms-request-id": "f0c62d3c-0df3-4b08-b860-d258752bdfec",
+            "X-Content-Type-Options": "nosniff"
+          },
+          "body": {
+            "id": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/integrationruntimes/exampleIntegrationRuntime",
+            "name": "exampleIntegrationRuntime",
+            "properties": {
+              "type": "Managed",
+              "typeProperties": {
+                "computeProperties": {
+                  "location": "West US",
+                  "nodeSize": "Standard_D1_v2",
+                  "numberOfNodes": 1,
+                  "maxParallelExecutionsPerNode": 1
+                },
+                "ssisProperties": {
+                  "catalogInfo": {
+                    "catalogServerEndpoint": "yandongtestsvr.database.windows.net",
+                    "catalogAdminUserName": "yanzhang",
+                    "catalogAdminPassword": {
+                      "type": "SecureString",
+                      "value": "**********"
+                    },
+                    "catalogPricingTier": "S1"
+                  }
+                }
+              },
+              "description": "A managed reserved integration runtime",
+              "state": "Initial"
+            },
+            "etag": "0100333d-0000-0000-0000-5a1d0ab80000"
+          }
+        }
+      }
+    },
+    "IntegrationRuntimes_Update": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "integrationRuntimeName": "exampleIntegrationRuntime",
+        "updateIntegrationRuntimeRequest": {
+          "autoUpdate": "Off",
+          "updateDelayOffset": "\"PT3H\""
+        },
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Tue, 28 Nov 2017 06:05:14 GMT",
+            "x-ms-request-id": "2fcc5cb6-e236-4848-99b7-8c834a622144",
+            "X-Content-Type-Options": "nosniff"
+          },
+          "body": {
+            "name": "exampleIntegrationRuntime",
+            "properties": {
+              "state": "Online",
+              "type": "SelfHosted",
+              "typeProperties": {
+                "autoUpdate": "Off",
+                "nodeCommunicationChannelEncryptionMode": "NonEncryption",
+                "taskQueueId": "c4f7521d-66cc-4d44-8aad-4d3679821c41",
+                "version": "3.2.6519.3",
+                "nodes": [
+                  {
+                    "nodeName": "Node_1",
+                    "machineName": "YANZHANG-02",
+                    "hostServiceUri": "https://yanzhang-02.redmond.corp.microsoft.com:8050/HostServiceRemote.svc/",
+                    "status": "Online",
+                    "capabilities": {
+                      "serviceBusConnected": "True",
+                      "httpsPortEnabled": "True",
+                      "credentialInSync": "True",
+                      "connectedToResourceManager": "True",
+                      "nodeEnabled": "True"
+                    },
+                    "versionStatus": "UpToDate",
+                    "version": "3.2.6519.3",
+                    "registerTime": "2017-11-28T05:54:38.5305162Z",
+                    "lastConnectTime": "2017-11-28T06:04:53.3204752Z",
+                    "lastStartTime": "2017-11-28T05:55:24.1066418Z",
+                    "lastUpdateResult": "None",
+                    "isActiveDispatcher": true,
+                    "maxConcurrentJobs": 48
+                  }
+                ],
+                "updateDelayOffset": "PT3H",
+                "localTimeZoneOffset": "PT8H",
+                "serviceUrls": [
+                  "wu.frontend.int.clouddatahub-int.net",
+                  "*.servicebus.windows.net"
+                ],
+                "versionStatus": "UpToDate",
+                "capabilities": {
+                  "serviceBusConnected": "True",
+                  "httpsPortEnabled": "True",
+                  "credentialInSync": "True",
+                  "connectedToResourceManager": "True",
+                  "nodeEnabled": "True"
+                },
+                "state": "Online",
+                "createTime": "2017-11-28T05:42:42.9629741Z"
+              }
+            }
+          }
+        }
+      }
+    },
+    "IntegrationRuntimes_Delete": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "integrationRuntimeName": "exampleIntegrationRuntime",
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Wed, 13 Sep 2017 18:04:29 GMT",
+            "x-ms-request-id": "6d1ee741-7850-484b-99cd-b42ef08fd18c",
+            "X-Content-Type-Options": "nosniff",
+            "x-ms-ratelimit-remaining-subscription-writes": "1179",
+            "x-ms-correlation-request-id": "f931d2aa-0021-43ee-8005-2653da5e86d4"
+          },
+          "body": null
+        },
+        "204": {
+          "headers": {
+            "Date": "Wed, 13 Sep 2017 18:04:29 GMT",
+            "x-ms-request-id": "afb27d48-0c81-4e62-92c4-6fcb8c35c8a2",
+            "X-Content-Type-Options": "nosniff",
+            "x-ms-ratelimit-remaining-subscription-writes": "1178",
+            "x-ms-correlation-request-id": "543d80b4-c9d0-418d-bf16-d2434abac0cb"
+          },
+          "body": null
+        }
+      }
+    },
+    "IntegrationRuntimes_GetStatus": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "integrationRuntimeName": "exampleIntegrationRuntime",
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Tue, 28 Nov 2017 07:05:31 GMT",
+            "x-ms-request-id": "3a638bbf-1dfe-4def-b71d-96d121c42389",
+            "X-Content-Type-Options": "nosniff"
+          },
+          "body": {
+            "name": "exampleIntegrationRuntime",
+            "properties": {
+              "state": "Initial",
+              "type": "Managed",
+              "dataFactoryLocation": "West US",
+              "resourceUri": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/integrationruntimes/exampleIntegrationRuntime",
+              "typeProperties": {}
+            }
+          }
+        }
+      }
+    },
+    "IntegrationRuntimes_GetConnectionInfo": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "integrationRuntimeName": "exampleIntegrationRuntime",
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Wed, 13 Sep 2017 17:55:51 GMT",
+            "x-ms-request-id": "c38b64ae-4e0c-488d-8baa-6dc104cecdb2",
+            "X-Content-Type-Options": "nosniff",
+            "x-ms-ratelimit-remaining-subscription-writes": "1190",
+            "x-ms-correlation-request-id": "500722f2-d4e5-4d88-b2d7-5231f158857c"
+          },
+          "body": {
+            "isIdentityCertExprired": false
+          }
+        }
+      }
+    },
+    "IntegrationRuntimes_RegenerateAuthKey": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "integrationRuntimeName": "exampleIntegrationRuntime",
+        "regenerateKeyParameters": {
+          "keyName": "authKey2"
+        },
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Wed, 13 Sep 2017 17:55:52 GMT",
+            "x-ms-request-id": "706b5711-16e1-455b-808a-30cc120a061c",
+            "X-Content-Type-Options": "nosniff",
+            "x-ms-ratelimit-remaining-subscription-writes": "1188",
+            "x-ms-correlation-request-id": "46ee8708-affc-403d-ab9f-53824b169fdf"
+          },
+          "body": {
+            "authKey2": "IR@1baad24d-93e5-4074-8eeb-cd93fbb83b42@exampleFactoryName@eu@IYLMSMWzzjQswOJHrTJNZc2SGwWla/SQ3QraZs3wqbw="
+          }
+        }
+      }
+    },
+    "IntegrationRuntimes_ListAuthKeys": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "integrationRuntimeName": "exampleIntegrationRuntime",
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Wed, 13 Sep 2017 17:55:52 GMT",
+            "x-ms-request-id": "eecbf702-ed1d-4839-b235-ede3c87e0f49",
+            "X-Content-Type-Options": "nosniff",
+            "x-ms-ratelimit-remaining-subscription-writes": "1189",
+            "x-ms-correlation-request-id": "a4a5f951-227f-4eb7-8471-a5dbe51c9b8b"
+          },
+          "body": {
+            "authKey1": "IR@1baad24d-93e5-4074-8eeb-cd93fbb83b42@exampleFactoryName@eu@T5VHZgY8pqkdqoxok31dk8irrVOkhdnR6Ht8if1OebY=",
+            "authKey2": "IR@1baad24d-93e5-4074-8eeb-cd93fbb83b42@exampleFactoryName@eu@W6N1MtqwVoVSSa2HYzmJrj/NArFcy0xaU392cIZX1sI="
+          }
+        }
+      }
+    },
+    "IntegrationRuntimes_Start": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "integrationRuntimeName": "exampleManagedIntegrationRuntime",
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "202": {
+          "headers": {
+            "Date": "Tue, 28 Nov 2017 07:17:56 GMT",
+            "Location": "https://adfrpnightly.svc.datafactory-test.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/integrationRuntimes/exampleManagedIntegrationRuntime/start/operationresults/9a070152cddb4c839d482ccfb76a7537?api-version=2017-09-01-preview",
+            "Retry-After": "15",
+            "x-ms-request-id": "aa8a8ed1-7b2e-40eb-b734-9b7a5f393aed",
+            "X-Content-Type-Options": "nosniff"
+          },
+          "body": null
+        },
+        "200": {
+          "headers": {
+            "Date": "Tue, 28 Nov 2017 07:39:18 GMT",
+            "x-ms-request-id": "a0190274-060e-43a0-84ea-403d1c0c4a06",
+            "X-Content-Type-Options": "nosniff"
+          },
+          "body": {
+            "name": "exampleManagedIntegrationRuntime",
+            "properties": {
+              "state": "Started",
+              "type": "Managed",
+              "typeProperties": {
+                "nodes": [
+                  {
+                    "nodeId": "tvm-1650185656_1-20171128t071919z",
+                    "status": "Unavailable",
+                    "errors": [
+                      {
+                        "time": "2017-11-28T07:38:41.50199Z",
+                        "code": "AzureSqlConnectionFailure",
+                        "parameters": [],
+                        "message": "Sql Error Number: 18456"
+                      }
+                    ]
+                  }
+                ],
+                "otherErrors": [],
+                "lastOperation": {
+                  "type": "Start",
+                  "startTime": "2017-11-28T07:17:58.6556933Z",
+                  "result": "Succeeded",
+                  "parameters": []
+                },
+                "state": "Started",
+                "createTime": "2017-11-28T07:17:56.5930407Z"
+              }
+            }
+          }
+        }
+      }
+    },
+    "IntegrationRuntimes_Stop": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "integrationRuntimeName": "exampleManagedIntegrationRuntime",
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "202": {
+          "headers": {
+            "Date": "Tue, 28 Nov 2017 07:39:21 GMT",
+            "Location": "https://adfrpnightly.svc.datafactory-test.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/integrationRuntimes/exampleManagedIntegrationRuntime/stop/operationresults/50799841b7f94497ae43291b791db7e0?api-version=2017-09-01-preview",
+            "Retry-After": "15",
+            "x-ms-request-id": "b36c64a2-3306-4374-b93f-ec91dbb3bf26",
+            "X-Content-Type-Options": "nosniff"
+          },
+          "body": null
+        },
+        "200": {
+          "headers": {
+            "Date": "Tue, 28 Nov 2017 07:40:23 GMT",
+            "x-ms-request-id": "bcff281c-ae61-4e2d-8a0c-044e34c1d04a",
+            "X-Content-Type-Options": "nosniff"
+          },
+          "body": null
+        }
+      }
+    },
+    "IntegrationRuntimes_RemoveNode": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "integrationRuntimeName": "exampleIntegrationRuntime",
+        "removeNodeParameters": {
+          "nodeName": "Node_1"
+        },
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Tue, 28 Nov 2017 06:05:42 GMT",
+            "x-ms-request-id": "f1b13f98-0659-4eaa-a676-29912ae0a4f3",
+            "X-Content-Type-Options": "nosniff"
+          },
+          "body": null
+        },
+        "204": {
+          "headers": {
+            "Date": "Tue, 28 Nov 2017 06:05:44 GMT",
+            "x-ms-request-id": "3d15a37e-f3f2-4e21-a90a-316f695a3f90",
+            "X-Content-Type-Options": "nosniff"
+          },
+          "body": null
+        }
+      }
+    },
+    "IntegrationRuntimes_SyncCredentials": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "integrationRuntimeName": "exampleIntegrationRuntime",
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Sun, 20 Aug 2017 08:46:58 GMT",
+            "x-ms-request-id": "05bae251-45ef-4bca-9710-ecfc0181755b",
+            "X-Content-Type-Options": "nosniff"
+          },
+          "body": null
+        }
+      }
+    },
+    "IntegrationRuntimes_GetMonitoringData": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "integrationRuntimeName": "exampleIntegrationRuntime",
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Mon, 28 Aug 2017 04:19:53 GMT",
+            "x-ms-request-id": "0116dbdb-c45c-43da-b92d-a6608aece008",
+            "X-Content-Type-Options": "nosniff",
+            "x-ms-ratelimit-remaining-subscription-writes": "1198",
+            "x-ms-correlation-request-id": "33dfa003-3467-4b84-ae9b-272902990453"
+          },
+          "body": {
+            "name": "exampleIntegrationRuntime",
+            "nodes": [
+              {
+                "nodeName": "YANZHANG-DT",
+                "availableMemory": 17337,
+                "cpuUtilization": 9,
+                "limitConcurrentJobs": 28,
+                "runningConcurrentJobs": 0,
+                "sendBytes": 1.8606163263320923,
+                "receiveBytes": 8.09395694732666
+              }
+            ]
+          }
+        }
+      }
+    },
+    "IntegrationRuntimes_Upgrade": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "integrationRuntimeName": "exampleIntegrationRuntime",
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Tue, 14 Nov 2017 03:42:42 GMT",
+            "x-ms-request-id": "599429b9-3add-4d0c-973b-91ddaf3364e7",
+            "X-Content-Type-Options": "nosniff"
+          },
+          "body": null
+        }
+      }
+    },
+    "IntegrationRuntimeNodes_Delete": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "integrationRuntimeName": "exampleIntegrationRuntime",
+        "nodeName": "Node_1",
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Thu, 19 Oct 2017 15:22:16 GMT",
+            "x-ms-request-id": "75a166f9-75ed-48d9-bc9b-08682dfdd0eb",
+            "X-Content-Type-Options": "nosniff"
+          },
+          "body": null
+        },
+        "204": {
+          "headers": {
+            "Date": "Thu, 19 Oct 2017 15:22:16 GMT",
+            "x-ms-request-id": "d05cec68-ec62-4e95-97b6-9572eeab8ef2",
+            "X-Content-Type-Options": "nosniff"
+          },
+          "body": null
+        }
+      }
+    },
+    "IntegrationRuntimeNodes_Update": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "integrationRuntimeName": "exampleIntegrationRuntime",
+        "nodeName": "Node_1",
+        "updateIntegrationRuntimeNodeRequest": {
+          "concurrentJobsLimit": 2
+        },
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Tue, 28 Nov 2017 06:51:38 GMT",
+            "x-ms-request-id": "eee2dbec-ee3b-4c5c-a040-d39c88f0f82b",
+            "X-Content-Type-Options": "nosniff"
+          },
+          "body": {
+            "body": {
+              "nodeName": "Node_1",
+              "machineName": "YANZHANG-02",
+              "hostServiceUri": "https://yanzhang-02.redmond.corp.microsoft.com:8050/HostServiceRemote.svc/",
+              "status": "Online",
+              "capabilities": {
+                "serviceBusConnected": "True",
+                "httpsPortEnabled": "True",
+                "credentialInSync": "True",
+                "connectedToResourceManager": "True",
+                "nodeEnabled": "True"
+              },
+              "versionStatus": "UpToDate",
+              "version": "3.2.6519.3",
+              "registerTime": "2017-11-28T06:50:38.0809958Z",
+              "lastConnectTime": "2017-11-28T06:51:20.7868013Z",
+              "lastStartTime": "2017-11-28T06:51:20.7868013Z",
+              "lastUpdateResult": "None",
+              "isActiveDispatcher": true,
+              "concurrentJobsLimit": 2,
+              "maxConcurrentJobs": 48
+            },
+            "request": {
+              "version": {
+                "major": 1,
+                "minor": 1,
+                "build": -1,
+                "revision": -1,
+                "majorRevision": -1,
+                "minorRevision": -1
+              },
+              "content": {
+                "headers": [
+                  {
+                    "key": "Content-Type",
+                    "value": [
+                      "application/json; charset=utf-8"
+                    ]
+                  },
+                  {
+                    "key": "Content-Length",
+                    "value": [
+                      "32"
+                    ]
+                  }
+                ]
+              },
+              "method": {
+                "method": "PATCH"
+              },
+              "requestUri": "https://wu.frontend.int.clouddatahub-int.net/subscriptions/12345678-1234-1234-12345678abc/datafactories/exampleFactoryName/IntegrationRuntimes/exampleIntegrationRuntime/nodes/Node_1?api-version=1.0",
+              "headers": [
+                {
+                  "key": "x-ms-client-request-id",
+                  "value": [
+                    "eee2dbec-ee3b-4c5c-a040-d39c88f0f82b"
+                  ]
+                },
+                {
+                  "key": "accept-language",
+                  "value": [
+                    "en-US"
+                  ]
+                },
+                {
+                  "key": "User-Agent",
+                  "value": [
+                    "Microsoft.DataTransfer.IntegrationRuntimeService.Client.IntegrationRuntimeServiceClient/0.9.0.0"
+                  ]
+                }
+              ],
+              "properties": {}
+            },
+            "response": {
+              "version": {
+                "major": 1,
+                "minor": 1,
+                "build": -1,
+                "revision": -1,
+                "majorRevision": -1,
+                "minorRevision": -1
+              },
+              "content": {
+                "headers": [
+                  {
+                    "key": "Content-Length",
+                    "value": [
+                      "607"
+                    ]
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": [
+                      "application/json; charset=utf-8"
+                    ]
+                  },
+                  {
+                    "key": "Expires",
+                    "value": [
+                      "-1"
+                    ]
+                  }
+                ]
+              },
+              "statusCode": 200,
+              "reasonPhrase": "OK",
+              "headers": [
+                {
+                  "key": "Pragma",
+                  "value": [
+                    "no-cache"
+                  ]
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": [
+                    "nosniff"
+                  ]
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": [
+                    "no-cache"
+                  ]
+                },
+                {
+                  "key": "Date",
+                  "value": [
+                    "Tue, 28 Nov 2017 06:51:37 GMT"
+                  ]
+                },
+                {
+                  "key": "Server",
+                  "value": [
+                    "Microsoft-IIS/8.5"
+                  ]
+                },
+                {
+                  "key": "X-AspNet-Version",
+                  "value": [
+                    "4.0.30319"
+                  ]
+                }
+              ],
+              "requestMessage": {
+                "version": {
+                  "major": 1,
+                  "minor": 1,
+                  "build": -1,
+                  "revision": -1,
+                  "majorRevision": -1,
+                  "minorRevision": -1
+                },
+                "content": {
+                  "headers": [
+                    {
+                      "key": "Content-Type",
+                      "value": [
+                        "application/json; charset=utf-8"
+                      ]
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": [
+                        "32"
+                      ]
+                    }
+                  ]
+                },
+                "method": {
+                  "method": "PATCH"
+                },
+                "requestUri": "https://wu.frontend.int.clouddatahub-int.net/subscriptions/12345678-1234-1234-12345678abc/datafactories/exampleFactoryName/IntegrationRuntimes/exampleIntegrationRuntime/nodes/Node_1?api-version=1.0",
+                "headers": [
+                  {
+                    "key": "x-ms-client-request-id",
+                    "value": [
+                      "eee2dbec-ee3b-4c5c-a040-d39c88f0f82b"
+                    ]
+                  },
+                  {
+                    "key": "accept-language",
+                    "value": [
+                      "en-US"
+                    ]
+                  },
+                  {
+                    "key": "User-Agent",
+                    "value": [
+                      "Microsoft.DataTransfer.IntegrationRuntimeService.Client.IntegrationRuntimeServiceClient/0.9.0.0"
+                    ]
+                  }
+                ],
+                "properties": {}
+              },
+              "isSuccessStatusCode": true
+            }
+          }
+        }
+      }
+    },
+    "IntegrationRuntimeNodes_GetIpAddress": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "integrationRuntimeName": "exampleIntegrationRuntime",
+        "nodeName": "YANZHANG-02",
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Tue, 14 Nov 2017 03:29:46 GMT",
+            "x-ms-request-id": "6ba794e4-da5a-4760-afa8-1c68a2c9f487",
+            "X-Content-Type-Options": "nosniff"
+          },
+          "body": {
+            "ipAddress": "***"
+          }
+        }
+      }
+    },
+    "LinkedServices_ListByFactory": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Wed, 13 Sep 2017 17:55:54 GMT",
+            "x-ms-request-id": "b78883ab-f299-495e-ad30-804003deb775",
+            "X-Content-Type-Options": "nosniff",
+            "x-ms-ratelimit-remaining-subscription-reads": "14913",
+            "x-ms-correlation-request-id": "4864247b-bf7c-4bc6-8d34-4a2bcebdb473"
+          },
+          "body": {
+            "value": [
+              {
+                "id": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/linkedservices/exampleLinkedService",
+                "name": "exampleLinkedService",
+                "properties": {
+                  "type": "AzureStorage",
+                  "typeProperties": {
+                    "connectionString": {
+                      "value": "**********",
+                      "type": "SecureString"
+                    }
+                  },
+                  "description": "Example description"
+                },
+                "etag": "28031da7-0000-0000-0000-59b971290000"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "LinkedServices_Create": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "linkedServiceName": "exampleLinkedService",
+        "ifMatch": null,
+        "linkedService": {
+          "properties": {
+            "type": "AzureStorage",
+            "typeProperties": {
+              "connectionString": {
+                "value": "DefaultEndpointsProtocol=https;AccountName=examplestorageaccount;AccountKey=<storage key>",
+                "type": "SecureString"
+              }
+            }
+          }
+        },
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Wed, 13 Sep 2017 17:55:53 GMT",
+            "x-ms-request-id": "6c8f770c-0873-4d97-b9b1-f21eafa81eeb",
+            "X-Content-Type-Options": "nosniff",
+            "x-ms-ratelimit-remaining-subscription-writes": "1186",
+            "x-ms-correlation-request-id": "866e9410-908e-4bf7-9d44-d3886325787b"
+          },
+          "body": {
+            "id": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/linkedservices/exampleLinkedService",
+            "name": "exampleLinkedService",
+            "properties": {
+              "type": "AzureStorage",
+              "typeProperties": {
+                "connectionString": {
+                  "value": "**********",
+                  "type": "SecureString"
+                }
+              }
+            },
+            "etag": "28031ca7-0000-0000-0000-59b971290000"
+          }
+        }
+      }
+    },
+    "LinkedServices_Update": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "linkedServiceName": "exampleLinkedService",
+        "ifMatch": null,
+        "linkedService": {
+          "properties": {
+            "type": "AzureStorage",
+            "typeProperties": {
+              "connectionString": {
+                "value": "DefaultEndpointsProtocol=https;AccountName=examplestorageaccount;AccountKey=<storage key>",
+                "type": "SecureString"
+              }
+            },
+            "description": "Example description"
+          }
+        },
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Wed, 13 Sep 2017 17:55:53 GMT",
+            "x-ms-request-id": "1b67d903-bb60-42b1-a91a-3aec5ab6f3a5",
+            "X-Content-Type-Options": "nosniff",
+            "x-ms-ratelimit-remaining-subscription-writes": "1185",
+            "x-ms-correlation-request-id": "5fe435da-a93c-498d-aee3-8118de9ef4aa"
+          },
+          "body": {
+            "id": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/linkedservices/exampleLinkedService",
+            "name": "exampleLinkedService",
+            "properties": {
+              "type": "AzureStorage",
+              "typeProperties": {
+                "connectionString": {
+                  "value": "**********",
+                  "type": "SecureString"
+                }
+              },
+              "description": "Example description"
+            },
+            "etag": "28031da7-0000-0000-0000-59b971290000"
+          }
+        }
+      }
+    },
+    "LinkedServices_Get": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "linkedServiceName": "exampleLinkedService",
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Wed, 13 Sep 2017 17:55:53 GMT",
+            "x-ms-request-id": "d0d69de8-5acc-4ef4-bf5b-340328408cb2",
+            "X-Content-Type-Options": "nosniff",
+            "x-ms-ratelimit-remaining-subscription-reads": "14914",
+            "x-ms-correlation-request-id": "a9524daa-23b7-48ef-985c-9f5a0136acea"
+          },
+          "body": {
+            "id": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/linkedservices/exampleLinkedService",
+            "name": "exampleLinkedService",
+            "properties": {
+              "type": "AzureStorage",
+              "typeProperties": {
+                "connectionString": {
+                  "value": "**********",
+                  "type": "SecureString"
+                }
+              },
+              "description": "Example description"
+            },
+            "etag": "28031da7-0000-0000-0000-59b971290000"
+          }
+        }
+      }
+    },
+    "LinkedServices_Delete": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "linkedServiceName": "exampleLinkedService",
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Wed, 13 Sep 2017 18:04:28 GMT",
+            "x-ms-request-id": "7383dae8-e077-4472-8f2e-91e1163dcbb2",
+            "X-Content-Type-Options": "nosniff",
+            "x-ms-ratelimit-remaining-subscription-writes": "1181",
+            "x-ms-correlation-request-id": "af89dcb6-8a1e-498a-9b0c-3e866bd80f39"
+          },
+          "body": null
+        },
+        "204": {
+          "headers": {
+            "Date": "Wed, 13 Sep 2017 18:04:28 GMT",
+            "x-ms-request-id": "097cab57-d2b8-442d-90f0-2deb5e3733e5",
+            "X-Content-Type-Options": "nosniff",
+            "x-ms-ratelimit-remaining-subscription-writes": "1180",
+            "x-ms-correlation-request-id": "3adc7b84-2fbe-4409-9481-bf2bd489f49f"
+          },
+          "body": null
+        }
+      }
+    },
+    "Datasets_ListByFactory": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Wed, 13 Sep 2017 17:55:55 GMT",
+            "x-ms-request-id": "624b9e0f-5b8e-4a08-8ff3-ead24e96658f",
+            "X-Content-Type-Options": "nosniff",
+            "x-ms-ratelimit-remaining-subscription-reads": "14911",
+            "x-ms-correlation-request-id": "babd0c35-621b-4c3e-bc19-7e84ff1153e7"
+          },
+          "body": {
+            "value": [
+              {
+                "id": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/datasets/exampleDataset",
+                "name": "exampleDataset",
+                "properties": {
+                  "type": "AzureBlob",
+                  "typeProperties": {
+                    "folderPath": {
+                      "value": "@dataset().MyFolderPath",
+                      "type": "Expression"
+                    },
+                    "fileName": {
+                      "value": "@dataset().MyFileName",
+                      "type": "Expression"
+                    },
+                    "format": {
+                      "type": "TextFormat"
+                    }
+                  },
+                  "description": "Example description",
+                  "linkedServiceName": {
+                    "referenceName": "exampleLinkedService",
+                    "type": "LinkedServiceReference"
+                  },
+                  "parameters": {
+                    "MyFolderPath": {
+                      "type": "String"
+                    },
+                    "MyFileName": {
+                      "type": "String"
+                    }
+                  }
+                },
+                "etag": "280320a7-0000-0000-0000-59b9712a0000"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "Datasets_Create": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "datasetName": "exampleDataset",
+        "ifMatch": null,
+        "dataset": {
+          "properties": {
+            "type": "AzureBlob",
+            "typeProperties": {
+              "folderPath": {
+                "value": "@dataset().MyFolderPath",
+                "type": "Expression"
+              },
+              "fileName": {
+                "value": "@dataset().MyFileName",
+                "type": "Expression"
+              },
+              "format": {
+                "type": "TextFormat"
+              }
+            },
+            "linkedServiceName": {
+              "referenceName": "exampleLinkedService",
+              "type": "LinkedServiceReference"
+            },
+            "parameters": {
+              "MyFolderPath": {
+                "type": "String"
+              },
+              "MyFileName": {
+                "type": "String"
+              }
+            }
+          }
+        },
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Wed, 13 Sep 2017 17:55:54 GMT",
+            "x-ms-request-id": "a8bb197f-b00f-4add-a847-59f6aa0315ab",
+            "X-Content-Type-Options": "nosniff",
+            "x-ms-ratelimit-remaining-subscription-writes": "1184",
+            "x-ms-correlation-request-id": "acdb3257-c6cb-44f1-8e14-afa3ebf471fa"
+          },
+          "body": {
+            "id": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/datasets/exampleDataset",
+            "name": "exampleDataset",
+            "properties": {
+              "type": "AzureBlob",
+              "typeProperties": {
+                "folderPath": {
+                  "value": "@dataset().MyFolderPath",
+                  "type": "Expression"
+                },
+                "fileName": {
+                  "value": "@dataset().MyFileName",
+                  "type": "Expression"
+                },
+                "format": {
+                  "type": "TextFormat"
+                }
+              },
+              "linkedServiceName": {
+                "referenceName": "exampleLinkedService",
+                "type": "LinkedServiceReference"
+              },
+              "parameters": {
+                "MyFolderPath": {
+                  "type": "String"
+                },
+                "MyFileName": {
+                  "type": "String"
+                }
+              }
+            },
+            "etag": "28031ea7-0000-0000-0000-59b9712a0000"
+          }
+        }
+      }
+    },
+    "Datasets_Update": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "datasetName": "exampleDataset",
+        "ifMatch": null,
+        "dataset": {
+          "properties": {
+            "type": "AzureBlob",
+            "typeProperties": {
+              "folderPath": {
+                "value": "@dataset().MyFolderPath",
+                "type": "Expression"
+              },
+              "fileName": {
+                "value": "@dataset().MyFileName",
+                "type": "Expression"
+              },
+              "format": {
+                "type": "TextFormat"
+              }
+            },
+            "description": "Example description",
+            "linkedServiceName": {
+              "referenceName": "exampleLinkedService",
+              "type": "LinkedServiceReference"
+            },
+            "parameters": {
+              "MyFolderPath": {
+                "type": "String"
+              },
+              "MyFileName": {
+                "type": "String"
+              }
+            }
+          }
+        },
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Wed, 13 Sep 2017 17:55:54 GMT",
+            "x-ms-request-id": "76cfa027-3792-424b-ae2b-ddcafe7034be",
+            "X-Content-Type-Options": "nosniff",
+            "x-ms-ratelimit-remaining-subscription-writes": "1183",
+            "x-ms-correlation-request-id": "f3e7273d-9f29-4b0c-94bd-c3d13dec47ca"
+          },
+          "body": {
+            "id": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/datasets/exampleDataset",
+            "name": "exampleDataset",
+            "properties": {
+              "type": "AzureBlob",
+              "typeProperties": {
+                "folderPath": {
+                  "value": "@dataset().MyFolderPath",
+                  "type": "Expression"
+                },
+                "fileName": {
+                  "value": "@dataset().MyFileName",
+                  "type": "Expression"
+                },
+                "format": {
+                  "type": "TextFormat"
+                }
+              },
+              "description": "Example description",
+              "linkedServiceName": {
+                "referenceName": "exampleLinkedService",
+                "type": "LinkedServiceReference"
+              },
+              "parameters": {
+                "MyFolderPath": {
+                  "type": "String"
+                },
+                "MyFileName": {
+                  "type": "String"
+                }
+              }
+            },
+            "etag": "280320a7-0000-0000-0000-59b9712a0000"
+          }
+        }
+      }
+    },
+    "Datasets_Get": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "datasetName": "exampleDataset",
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Wed, 13 Sep 2017 17:55:55 GMT",
+            "x-ms-request-id": "a60fc528-1652-4619-9477-f00ab05e9a24",
+            "X-Content-Type-Options": "nosniff",
+            "x-ms-ratelimit-remaining-subscription-reads": "14912",
+            "x-ms-correlation-request-id": "949f7936-4ad4-49bc-8d2a-5f56a8938fba"
+          },
+          "body": {
+            "id": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/datasets/exampleDataset",
+            "name": "exampleDataset",
+            "properties": {
+              "type": "AzureBlob",
+              "typeProperties": {
+                "folderPath": {
+                  "value": "@dataset().MyFolderPath",
+                  "type": "Expression"
+                },
+                "fileName": {
+                  "value": "@dataset().MyFileName",
+                  "type": "Expression"
+                },
+                "format": {
+                  "type": "TextFormat"
+                }
+              },
+              "description": "Example description",
+              "linkedServiceName": {
+                "referenceName": "exampleLinkedService",
+                "type": "LinkedServiceReference"
+              },
+              "parameters": {
+                "MyFolderPath": {
+                  "type": "String"
+                },
+                "MyFileName": {
+                  "type": "String"
+                }
+              }
+            },
+            "etag": "280320a7-0000-0000-0000-59b9712a0000"
+          }
+        }
+      }
+    },
+    "Datasets_Delete": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "datasetName": "exampleDataset",
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Wed, 13 Sep 2017 18:04:27 GMT",
+            "x-ms-request-id": "70d3cf1f-bf14-40f5-bb56-1550a317ce8b",
+            "X-Content-Type-Options": "nosniff",
+            "x-ms-ratelimit-remaining-subscription-writes": "1183",
+            "x-ms-correlation-request-id": "d56bf687-df32-4313-87ec-ff22ba9bd192"
+          },
+          "body": null
+        },
+        "204": {
+          "headers": {
+            "Date": "Wed, 13 Sep 2017 18:04:27 GMT",
+            "x-ms-request-id": "a2347ff3-4018-4815-b58a-9fbe3cdcab52",
+            "X-Content-Type-Options": "nosniff",
+            "x-ms-ratelimit-remaining-subscription-writes": "1182",
+            "x-ms-correlation-request-id": "9b926944-88d9-4d77-b1a8-5540c803f933"
+          },
+          "body": null
+        }
+      }
+    },
+    "Pipelines_ListByFactory": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Wed, 13 Sep 2017 17:55:56 GMT",
+            "x-ms-request-id": "a8129560-dc5c-4312-9c3e-22fc00f9033f",
+            "X-Content-Type-Options": "nosniff",
+            "x-ms-ratelimit-remaining-subscription-reads": "14909",
+            "x-ms-correlation-request-id": "fa5fe506-baa4-4974-9d0a-0d79da341bd8"
+          },
+          "body": {
+            "value": [
+              {
+                "id": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/pipelines/examplePipeline",
+                "name": "examplePipeline",
+                "properties": {
+                  "description": "Example description",
+                  "activities": [
+                    {
+                      "type": "ForEach",
+                      "typeProperties": {
+                        "isSequential": true,
+                        "items": {
+                          "value": "@pipeline().parameters.OutputBlobNameList",
+                          "type": "Expression"
+                        },
+                        "activities": [
+                          {
+                            "type": "Copy",
+                            "typeProperties": {
+                              "source": {
+                                "type": "BlobSource"
+                              },
+                              "sink": {
+                                "type": "BlobSink"
+                              }
+                            },
+                            "inputs": [
+                              {
+                                "referenceName": "exampleDataset",
+                                "parameters": {
+                                  "MyFolderPath": "examplecontainer",
+                                  "MyFileName": "examplecontainer.csv"
+                                },
+                                "type": "DatasetReference"
+                              }
+                            ],
+                            "outputs": [
+                              {
+                                "referenceName": "exampleDataset",
+                                "parameters": {
+                                  "MyFolderPath": "examplecontainer",
+                                  "MyFileName": {
+                                    "value": "@item()",
+                                    "type": "Expression"
+                                  }
+                                },
+                                "type": "DatasetReference"
+                              }
+                            ],
+                            "name": "ExampleCopyActivity"
+                          }
+                        ]
+                      },
+                      "name": "ExampleForeachActivity"
+                    }
+                  ],
+                  "parameters": {
+                    "OutputBlobNameList": {
+                      "type": "Array"
+                    }
+                  }
+                },
+                "etag": "280324a7-0000-0000-0000-59b9712b0000"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "Pipelines_Create": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "pipelineName": "examplePipeline",
+        "ifMatch": null,
+        "pipeline": {
+          "properties": {
+            "activities": [
+              {
+                "type": "ForEach",
+                "typeProperties": {
+                  "isSequential": true,
+                  "items": {
+                    "value": "@pipeline().parameters.OutputBlobNameList",
+                    "type": "Expression"
+                  },
+                  "activities": [
+                    {
+                      "type": "Copy",
+                      "typeProperties": {
+                        "source": {
+                          "type": "BlobSource"
+                        },
+                        "sink": {
+                          "type": "BlobSink"
+                        }
+                      },
+                      "inputs": [
+                        {
+                          "referenceName": "exampleDataset",
+                          "parameters": {
+                            "MyFolderPath": "examplecontainer",
+                            "MyFileName": "examplecontainer.csv"
+                          },
+                          "type": "DatasetReference"
+                        }
+                      ],
+                      "outputs": [
+                        {
+                          "referenceName": "exampleDataset",
+                          "parameters": {
+                            "MyFolderPath": "examplecontainer",
+                            "MyFileName": {
+                              "value": "@item()",
+                              "type": "Expression"
+                            }
+                          },
+                          "type": "DatasetReference"
+                        }
+                      ],
+                      "name": "ExampleCopyActivity"
+                    }
+                  ]
+                },
+                "name": "ExampleForeachActivity"
+              }
+            ],
+            "parameters": {
+              "OutputBlobNameList": {
+                "type": "Array"
+              }
+            }
+          }
+        },
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Wed, 13 Sep 2017 17:55:55 GMT",
+            "x-ms-request-id": "6cc3413e-9afa-487e-aeff-45bc6285470b",
+            "X-Content-Type-Options": "nosniff",
+            "x-ms-ratelimit-remaining-subscription-writes": "1182",
+            "x-ms-correlation-request-id": "69c3f715-8fd9-4448-a8ee-becbde571aec"
+          },
+          "body": {
+            "id": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/pipelines/examplePipeline",
+            "name": "examplePipeline",
+            "properties": {
+              "activities": [
+                {
+                  "type": "ForEach",
+                  "typeProperties": {
+                    "isSequential": true,
+                    "items": {
+                      "value": "@pipeline().parameters.OutputBlobNameList",
+                      "type": "Expression"
+                    },
+                    "activities": [
+                      {
+                        "type": "Copy",
+                        "typeProperties": {
+                          "source": {
+                            "type": "BlobSource"
+                          },
+                          "sink": {
+                            "type": "BlobSink"
+                          }
+                        },
+                        "inputs": [
+                          {
+                            "referenceName": "exampleDataset",
+                            "parameters": {
+                              "MyFolderPath": "examplecontainer",
+                              "MyFileName": "examplecontainer.csv"
+                            },
+                            "type": "DatasetReference"
+                          }
+                        ],
+                        "outputs": [
+                          {
+                            "referenceName": "exampleDataset",
+                            "parameters": {
+                              "MyFolderPath": "examplecontainer",
+                              "MyFileName": {
+                                "value": "@item()",
+                                "type": "Expression"
+                              }
+                            },
+                            "type": "DatasetReference"
+                          }
+                        ],
+                        "name": "ExampleCopyActivity"
+                      }
+                    ]
+                  },
+                  "name": "ExampleForeachActivity"
+                }
+              ],
+              "parameters": {
+                "OutputBlobNameList": {
+                  "type": "Array"
+                }
+              }
+            },
+            "etag": "280321a7-0000-0000-0000-59b9712b0000"
+          }
+        }
+      }
+    },
+    "Pipelines_Update": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "pipelineName": "examplePipeline",
+        "ifMatch": null,
+        "pipeline": {
+          "properties": {
+            "description": "Example description",
+            "activities": [
+              {
+                "type": "ForEach",
+                "typeProperties": {
+                  "isSequential": true,
+                  "items": {
+                    "value": "@pipeline().parameters.OutputBlobNameList",
+                    "type": "Expression"
+                  },
+                  "activities": [
+                    {
+                      "type": "Copy",
+                      "typeProperties": {
+                        "source": {
+                          "type": "BlobSource"
+                        },
+                        "sink": {
+                          "type": "BlobSink"
+                        }
+                      },
+                      "inputs": [
+                        {
+                          "referenceName": "exampleDataset",
+                          "parameters": {
+                            "MyFolderPath": "examplecontainer",
+                            "MyFileName": "examplecontainer.csv"
+                          },
+                          "type": "DatasetReference"
+                        }
+                      ],
+                      "outputs": [
+                        {
+                          "referenceName": "exampleDataset",
+                          "parameters": {
+                            "MyFolderPath": "examplecontainer",
+                            "MyFileName": {
+                              "value": "@item()",
+                              "type": "Expression"
+                            }
+                          },
+                          "type": "DatasetReference"
+                        }
+                      ],
+                      "name": "ExampleCopyActivity"
+                    }
+                  ]
+                },
+                "name": "ExampleForeachActivity"
+              }
+            ],
+            "parameters": {
+              "OutputBlobNameList": {
+                "type": "Array"
+              }
+            }
+          }
+        },
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Wed, 13 Sep 2017 17:55:55 GMT",
+            "x-ms-request-id": "593b4383-377c-4e4d-8141-c6e76d313b8f",
+            "X-Content-Type-Options": "nosniff",
+            "x-ms-ratelimit-remaining-subscription-writes": "1181",
+            "x-ms-correlation-request-id": "0bdb8812-2d23-4619-9582-2f16c2434e68"
+          },
+          "body": {
+            "id": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/pipelines/examplePipeline",
+            "name": "examplePipeline",
+            "properties": {
+              "description": "Example description",
+              "activities": [
+                {
+                  "type": "ForEach",
+                  "typeProperties": {
+                    "isSequential": true,
+                    "items": {
+                      "value": "@pipeline().parameters.OutputBlobNameList",
+                      "type": "Expression"
+                    },
+                    "activities": [
+                      {
+                        "type": "Copy",
+                        "typeProperties": {
+                          "source": {
+                            "type": "BlobSource"
+                          },
+                          "sink": {
+                            "type": "BlobSink"
+                          }
+                        },
+                        "inputs": [
+                          {
+                            "referenceName": "exampleDataset",
+                            "parameters": {
+                              "MyFolderPath": "examplecontainer",
+                              "MyFileName": "examplecontainer.csv"
+                            },
+                            "type": "DatasetReference"
+                          }
+                        ],
+                        "outputs": [
+                          {
+                            "referenceName": "exampleDataset",
+                            "parameters": {
+                              "MyFolderPath": "examplecontainer",
+                              "MyFileName": {
+                                "value": "@item()",
+                                "type": "Expression"
+                              }
+                            },
+                            "type": "DatasetReference"
+                          }
+                        ],
+                        "name": "ExampleCopyActivity"
+                      }
+                    ]
+                  },
+                  "name": "ExampleForeachActivity"
+                }
+              ],
+              "parameters": {
+                "OutputBlobNameList": {
+                  "type": "Array"
+                }
+              }
+            },
+            "etag": "280324a7-0000-0000-0000-59b9712b0000"
+          }
+        }
+      }
+    },
+    "Pipelines_Get": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "pipelineName": "examplePipeline",
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Wed, 13 Sep 2017 17:55:56 GMT",
+            "x-ms-request-id": "f43d67bd-6702-4113-9b00-6ce0390f07ea",
+            "X-Content-Type-Options": "nosniff",
+            "x-ms-ratelimit-remaining-subscription-reads": "14910",
+            "x-ms-correlation-request-id": "80f036bf-e6a7-4248-8ea4-fba427e19c79"
+          },
+          "body": {
+            "id": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/pipelines/examplePipeline",
+            "name": "examplePipeline",
+            "properties": {
+              "description": "Example description",
+              "activities": [
+                {
+                  "type": "ForEach",
+                  "typeProperties": {
+                    "isSequential": true,
+                    "items": {
+                      "value": "@pipeline().parameters.OutputBlobNameList",
+                      "type": "Expression"
+                    },
+                    "activities": [
+                      {
+                        "type": "Copy",
+                        "typeProperties": {
+                          "source": {
+                            "type": "BlobSource"
+                          },
+                          "sink": {
+                            "type": "BlobSink"
+                          }
+                        },
+                        "inputs": [
+                          {
+                            "referenceName": "exampleDataset",
+                            "parameters": {
+                              "MyFolderPath": "examplecontainer",
+                              "MyFileName": "examplecontainer.csv"
+                            },
+                            "type": "DatasetReference"
+                          }
+                        ],
+                        "outputs": [
+                          {
+                            "referenceName": "exampleDataset",
+                            "parameters": {
+                              "MyFolderPath": "examplecontainer",
+                              "MyFileName": {
+                                "value": "@item()",
+                                "type": "Expression"
+                              }
+                            },
+                            "type": "DatasetReference"
+                          }
+                        ],
+                        "name": "ExampleCopyActivity"
+                      }
+                    ]
+                  },
+                  "name": "ExampleForeachActivity"
+                }
+              ],
+              "parameters": {
+                "OutputBlobNameList": {
+                  "type": "Array"
+                }
+              }
+            },
+            "etag": "280324a7-0000-0000-0000-59b9712b0000"
+          }
+        }
+      }
+    },
+    "Pipelines_Delete": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "pipelineName": "examplePipeline",
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Wed, 13 Sep 2017 18:04:27 GMT",
+            "x-ms-request-id": "74ec3492-79c4-4028-9db1-fe7054e794d4",
+            "X-Content-Type-Options": "nosniff",
+            "x-ms-ratelimit-remaining-subscription-writes": "1185",
+            "x-ms-correlation-request-id": "332e562a-b3f8-4f5d-852d-8bb1bfc6a798"
+          },
+          "body": null
+        },
+        "204": {
+          "headers": {
+            "Date": "Wed, 13 Sep 2017 18:04:27 GMT",
+            "x-ms-request-id": "86b4c1f6-9944-4cef-8147-170c856da5ec",
+            "X-Content-Type-Options": "nosniff",
+            "x-ms-ratelimit-remaining-subscription-writes": "1184",
+            "x-ms-correlation-request-id": "5ba4c3d0-6e6a-465d-8ffd-592c38380527"
+          },
+          "body": null
+        }
+      }
+    },
+    "Pipelines_CreateRun": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "pipelineName": "examplePipeline",
+        "parameters": {
+          "OutputBlobNameList": [
+            "exampleoutput.csv"
+          ]
+        },
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "202": {
+          "headers": {
+            "Date": "Wed, 13 Sep 2017 17:55:58 GMT",
+            "x-ms-request-id": "a420e4fd-ebe9-4758-8db7-852b4d06245e",
+            "X-Content-Type-Options": "nosniff",
+            "x-ms-ratelimit-remaining-subscription-writes": "1180",
+            "x-ms-correlation-request-id": "15d0c07a-603f-42c7-98ba-872b0eff2326"
+          },
+          "body": {
+            "runId": "a420e4fd-ebe9-4758-8db7-852b4d06245e"
+          }
+        }
+      }
+    },
+    "PipelineRuns_QueryByFactory": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "filterParameters": {
+          "lastUpdatedAfter": "2017-09-13T17:54:57.0811551Z",
+          "lastUpdatedBefore": "2017-09-13T18:07:59.6211018Z",
+          "filters": [
+            {
+              "operand": "PipelineName",
+              "operator": "Equals",
+              "values": [
+                "examplePipeline"
+              ]
+            }
+          ]
+        },
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Wed, 13 Sep 2017 17:58:09 GMT",
+            "x-ms-request-id": "76f99b48-a79c-4af2-a0f0-0655fead6b24",
+            "X-Content-Type-Options": "nosniff",
+            "x-ms-ratelimit-remaining-subscription-writes": "1199",
+            "x-ms-correlation-request-id": "988c8123-bf35-4601-a5d0-8958c1a2114d"
+          },
+          "body": {
+            "value": [
+              {
+                "runId": "a420e4fd-ebe9-4758-8db7-852b4d06245e",
+                "pipelineName": "examplePipeline",
+                "parameters": {
+                  "OutputBlobNameList": "[\"exampleoutput.csv\"]"
+                },
+                "invokedBy": {
+                  "id": "be423891558d4c5294d4b49401a34620",
+                  "name": "Manual"
+                },
+                "runStart": "2017-09-13T17:55:57.1202147Z",
+                "runEnd": "2017-09-13T17:56:25.2051416Z",
+                "durationInMs": 28084,
+                "status": "Succeeded",
+                "message": "",
+                "lastUpdated": "2017-09-13T17:56:25.2051416Z"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "PipelineRuns_Get": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "runId": "a420e4fd-ebe9-4758-8db7-852b4d06245e",
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Wed, 13 Sep 2017 17:58:09 GMT",
+            "x-ms-request-id": "751b997c-7971-4c8e-bf84-cc4ee24ba2b7",
+            "X-Content-Type-Options": "nosniff",
+            "x-ms-ratelimit-remaining-subscription-reads": "14911",
+            "x-ms-correlation-request-id": "5ce2fefe-900d-41b6-a4df-6e15421b1d9d"
+          },
+          "body": {
+            "runId": "a420e4fd-ebe9-4758-8db7-852b4d06245e",
+            "pipelineName": "examplePipeline",
+            "parameters": {
+              "OutputBlobNameList": "[\"exampleoutput.csv\"]"
+            },
+            "invokedBy": {
+              "id": "be423891558d4c5294d4b49401a34620",
+              "name": "Manual"
+            },
+            "runStart": "2017-09-13T17:55:57.1202147Z",
+            "runEnd": "2017-09-13T17:56:25.2051416Z",
+            "durationInMs": 28084,
+            "status": "Succeeded",
+            "message": "",
+            "lastUpdated": "2017-09-13T17:56:25.2051416Z"
+          }
+        }
+      }
+    },
+    "ActivityRuns_ListByPipelineRun": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "runId": "a420e4fd-ebe9-4758-8db7-852b4d06245e",
+        "startTime": "2017-09-13T17%3A54%3A57.0811551Z",
+        "endTime": "2017-09-13T18%3A07%3A59.6211018Z",
+        "status": null,
+        "activityName": null,
+        "linkedServiceName": null,
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Wed, 13 Sep 2017 17:58:20 GMT",
+            "x-ms-request-id": "016fce3e-f314-49ef-ac45-b10e494f1638",
+            "X-Content-Type-Options": "nosniff",
+            "x-ms-ratelimit-remaining-subscription-reads": "14910",
+            "x-ms-correlation-request-id": "4ac11d09-28a5-405c-927b-88f1052fd56e"
+          },
+          "body": {
+            "value": [
+              {
+                "activityRunEnd": "2017-09-13T17:56:24.580131Z",
+                "activityName": "ExampleForeachActivity",
+                "activityRunStart": "2017-09-13T17:56:00.0758597Z",
+                "activityType": "ForEach",
+                "durationInMs": 24504,
+                "error": {
+                  "errorCode": "",
+                  "message": "",
+                  "failureType": "",
+                  "target": "ExampleForeachActivity"
+                },
+                "activityRunId": "c80e9e66-3c32-4f79-a3bb-1677599e3bcd",
+                "input": {
+                  "isSequential": true,
+                  "items": "@pipeline().parameters.OutputBlobNameList",
+                  "activities": [
+                    {
+                      "type": "Copy",
+                      "typeProperties": {
+                        "source": {
+                          "type": "BlobSource"
+                        },
+                        "sink": {
+                          "type": "BlobSink"
+                        }
+                      },
+                      "inputs": [
+                        {
+                          "referenceName": "exampleDataset",
+                          "parameters": {
+                            "MyFolderPath": "examplecontainer",
+                            "MyFileName": "examplecontainer.csv"
+                          },
+                          "type": "DatasetReference"
+                        }
+                      ],
+                      "outputs": [
+                        {
+                          "referenceName": "exampleDataset",
+                          "parameters": {
+                            "MyFolderPath": "examplecontainer",
+                            "MyFileName": "@item()"
+                          },
+                          "type": "DatasetReference"
+                        }
+                      ],
+                      "name": "ExampleCopyActivity"
+                    }
+                  ]
+                },
+                "linkedServiceName": "",
+                "output": {},
+                "pipelineName": "examplePipeline",
+                "pipelineRunId": "a420e4fd-ebe9-4758-8db7-852b4d06245e",
+                "status": "Succeeded"
+              },
+              {
+                "activityRunEnd": "2017-09-13T17:56:20.0331458Z",
+                "activityName": "ExampleCopyActivity",
+                "activityRunStart": "2017-09-13T17:56:01.1719894Z",
+                "activityType": "Copy",
+                "durationInMs": 18861,
+                "error": {
+                  "errorCode": "",
+                  "message": "",
+                  "failureType": "",
+                  "target": "ExampleCopyActivity"
+                },
+                "activityRunId": "b8bee996-143b-4f20-ace1-307cc1a0d75d",
+                "input": {
+                  "source": {
+                    "type": "BlobSource"
+                  },
+                  "sink": {
+                    "type": "BlobSink"
+                  }
+                },
+                "linkedServiceName": "",
+                "output": {
+                  "dataRead": 142000,
+                  "dataWritten": 142000,
+                  "copyDuration": 4,
+                  "throughput": 34.66797,
+                  "errors": []
+                },
+                "pipelineName": "examplePipeline",
+                "pipelineRunId": "a420e4fd-ebe9-4758-8db7-852b4d06245e",
+                "status": "Succeeded"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "Factories_CancelPipelineRun": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "runId": "39692ed9-c722-4d33-b8e1-1f4a9deac57f",
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Mon, 02 Oct 2017 17:27:33 GMT",
+            "x-ms-request-id": "fd3867ea-c65c-470d-a17b-d83c8864cf90",
+            "X-Content-Type-Options": "nosniff",
+            "x-ms-ratelimit-remaining-subscription-writes": "1113",
+            "x-ms-correlation-request-id": "d0b45db5-c155-4991-95d9-22655c72c986"
+          },
+          "body": null
+        }
+      }
+    },
+    "Triggers_ListByFactory": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Wed, 13 Sep 2017 17:58:23 GMT",
+            "x-ms-request-id": "d56fed8c-4033-427d-9fda-d4b8fc53e6b1",
+            "X-Content-Type-Options": "nosniff",
+            "x-ms-ratelimit-remaining-subscription-reads": "14908",
+            "x-ms-correlation-request-id": "3b7c2a31-c772-447e-a657-c572a8354119"
+          },
+          "body": {
+            "value": [
+              {
+                "id": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/triggers/exampleTrigger",
+                "name": "exampleTrigger",
+                "properties": {
+                  "type": "ScheduleTrigger",
+                  "typeProperties": {
+                    "recurrence": {
+                      "frequency": "Minute",
+                      "interval": 4,
+                      "startTime": "2017-09-13T17:57:21.7240518Z",
+                      "endTime": "2017-09-13T18:13:21.7240518Z",
+                      "timeZone": "UTC"
+                    }
+                  },
+                  "description": "Example description",
+                  "pipelines": [
+                    {
+                      "pipelineReference": {
+                        "referenceName": "examplePipeline",
+                        "type": "PipelineReference"
+                      },
+                      "parameters": {
+                        "OutputBlobNameList": [
+                          "exampleoutput.csv"
+                        ]
+                      }
+                    }
+                  ],
+                  "runtimeState": "Started"
+                },
+                "etag": "28032ca7-0000-0000-0000-59b971be0000"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "Triggers_Create": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "triggerName": "exampleTrigger",
+        "ifMatch": null,
+        "trigger": {
+          "properties": {
+            "type": "ScheduleTrigger",
+            "typeProperties": {
+              "recurrence": {
+                "frequency": "Minute",
+                "interval": 4,
+                "startTime": "2017-09-13T17:57:20.7835924Z",
+                "endTime": "2017-09-13T18:13:20.7835924Z",
+                "timeZone": "UTC"
+              }
+            },
+            "pipelines": [
+              {
+                "pipelineReference": {
+                  "referenceName": "examplePipeline",
+                  "type": "PipelineReference"
+                },
+                "parameters": {
+                  "OutputBlobNameList": [
+                    "exampleoutput.csv"
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Wed, 13 Sep 2017 17:58:21 GMT",
+            "x-ms-request-id": "3581e103-fcbc-43a1-a8c2-dc086040d0de",
+            "X-Content-Type-Options": "nosniff",
+            "x-ms-ratelimit-remaining-subscription-writes": "1198",
+            "x-ms-correlation-request-id": "8477d62a-5386-4c52-bf87-fc05a4f11b31"
+          },
+          "body": {
+            "id": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/triggers/exampleTrigger",
+            "name": "exampleTrigger",
+            "properties": {
+              "type": "ScheduleTrigger",
+              "typeProperties": {
+                "recurrence": {
+                  "frequency": "Minute",
+                  "interval": 4,
+                  "startTime": "2017-09-13T17:57:20.7835924Z",
+                  "endTime": "2017-09-13T18:13:20.7835924Z",
+                  "timeZone": "UTC"
+                }
+              },
+              "pipelines": [
+                {
+                  "pipelineReference": {
+                    "referenceName": "examplePipeline",
+                    "type": "PipelineReference"
+                  },
+                  "parameters": {
+                    "OutputBlobNameList": [
+                      "exampleoutput.csv"
+                    ]
+                  }
+                }
+              ],
+              "runtimeState": "Stopped"
+            },
+            "etag": "280327a7-0000-0000-0000-59b971bc0000"
+          }
+        }
+      }
+    },
+    "Triggers_Update": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "triggerName": "exampleTrigger",
+        "ifMatch": null,
+        "trigger": {
+          "properties": {
+            "type": "ScheduleTrigger",
+            "typeProperties": {
+              "recurrence": {
+                "frequency": "Minute",
+                "interval": 4,
+                "startTime": "2017-09-13T17:57:21.7240518Z",
+                "endTime": "2017-09-13T18:13:21.7240518Z",
+                "timeZone": "UTC"
+              }
+            },
+            "description": "Example description",
+            "pipelines": [
+              {
+                "pipelineReference": {
+                  "referenceName": "examplePipeline",
+                  "type": "PipelineReference"
+                },
+                "parameters": {
+                  "OutputBlobNameList": [
+                    "exampleoutput.csv"
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Wed, 13 Sep 2017 17:58:21 GMT",
+            "x-ms-request-id": "aa1aee23-db99-4aee-83e3-36b46ec02829",
+            "X-Content-Type-Options": "nosniff",
+            "x-ms-ratelimit-remaining-subscription-writes": "1197",
+            "x-ms-correlation-request-id": "f0eff525-3ed5-4488-aa0e-3284c2b400f6"
+          },
+          "body": {
+            "id": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/triggers/exampleTrigger",
+            "name": "exampleTrigger",
+            "properties": {
+              "type": "ScheduleTrigger",
+              "typeProperties": {
+                "recurrence": {
+                  "frequency": "Minute",
+                  "interval": 4,
+                  "startTime": "2017-09-13T17:57:21.7240518Z",
+                  "endTime": "2017-09-13T18:13:21.7240518Z",
+                  "timeZone": "UTC"
+                }
+              },
+              "description": "Example description",
+              "pipelines": [
+                {
+                  "pipelineReference": {
+                    "referenceName": "examplePipeline",
+                    "type": "PipelineReference"
+                  },
+                  "parameters": {
+                    "OutputBlobNameList": [
+                      "exampleoutput.csv"
+                    ]
+                  }
+                }
+              ],
+              "runtimeState": "Stopped"
+            },
+            "etag": "28032ba7-0000-0000-0000-59b971bd0000"
+          }
+        }
+      }
+    },
+    "Triggers_Get": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "triggerName": "exampleTrigger",
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Wed, 13 Sep 2017 17:58:22 GMT",
+            "x-ms-request-id": "bef4032e-cc3c-4ae7-b153-d1fdead84665",
+            "X-Content-Type-Options": "nosniff",
+            "x-ms-ratelimit-remaining-subscription-reads": "14909",
+            "x-ms-correlation-request-id": "ca0d1b97-970b-494d-b7bb-b87692327db0"
+          },
+          "body": {
+            "id": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/triggers/exampleTrigger",
+            "name": "exampleTrigger",
+            "properties": {
+              "type": "ScheduleTrigger",
+              "typeProperties": {
+                "recurrence": {
+                  "frequency": "Minute",
+                  "interval": 4,
+                  "startTime": "2017-09-13T17:57:21.7240518Z",
+                  "endTime": "2017-09-13T18:13:21.7240518Z",
+                  "timeZone": "UTC"
+                }
+              },
+              "description": "Example description",
+              "pipelines": [
+                {
+                  "pipelineReference": {
+                    "referenceName": "examplePipeline",
+                    "type": "PipelineReference"
+                  },
+                  "parameters": {
+                    "OutputBlobNameList": [
+                      "exampleoutput.csv"
+                    ]
+                  }
+                }
+              ],
+              "runtimeState": "Stopped"
+            },
+            "etag": "28032ba7-0000-0000-0000-59b971bd0000"
+          }
+        }
+      }
+    },
+    "Triggers_Delete": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "triggerName": "exampleTrigger",
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Wed, 13 Sep 2017 18:04:26 GMT",
+            "x-ms-request-id": "797186e9-af57-4d6c-8b4b-c363df9e9bf1",
+            "X-Content-Type-Options": "nosniff",
+            "x-ms-ratelimit-remaining-subscription-writes": "1187",
+            "x-ms-correlation-request-id": "19402448-85f2-4872-b998-9c6c1e17f04d"
+          },
+          "body": null
+        },
+        "204": {
+          "headers": {
+            "Date": "Wed, 13 Sep 2017 18:04:26 GMT",
+            "x-ms-request-id": "7d968b21-a030-4ba9-961b-7bbc799c0810",
+            "X-Content-Type-Options": "nosniff",
+            "x-ms-ratelimit-remaining-subscription-writes": "1186",
+            "x-ms-correlation-request-id": "d66d750a-c28f-4be6-852a-30a67be744a1"
+          },
+          "body": null
+        }
+      }
+    },
+    "Triggers_Start": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "triggerName": "exampleTrigger",
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Wed, 13 Sep 2017 17:58:23 GMT",
+            "x-ms-request-id": "13c76ae4-02b3-49a2-9f2a-d2c9f8511507",
+            "X-Content-Type-Options": "nosniff",
+            "x-ms-ratelimit-remaining-subscription-writes": "1196",
+            "x-ms-correlation-request-id": "a28c76fa-3343-4bfb-9508-c92e2f374e79"
+          },
+          "body": null
+        }
+      }
+    },
+    "Triggers_Stop": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "triggerName": "exampleTrigger",
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Wed, 13 Sep 2017 18:04:25 GMT",
+            "x-ms-request-id": "601d7eac-1d85-4196-a70b-76b9b906d6dd",
+            "X-Content-Type-Options": "nosniff",
+            "x-ms-ratelimit-remaining-subscription-writes": "1188",
+            "x-ms-correlation-request-id": "c1f7bc90-6b21-464f-9c00-6e3869c0e63c"
+          },
+          "body": null
+        }
+      }
+    },
+    "Triggers_ListRuns": {
+      "parameters": {
+        "subscriptionId": "12345678-1234-1234-12345678abc",
+        "resourceGroupName": "exampleResourceGroup",
+        "factoryName": "exampleFactoryName",
+        "triggerName": "exampleTrigger",
+        "startTime": "2017-09-13T17%3A54%3A24.0440889Z",
+        "endTime": "2017-09-13T18%3A14%3A24.0440889Z",
+        "api-version": "2017-09-01-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "Date": "Wed, 13 Sep 2017 18:04:24 GMT",
+            "x-ms-request-id": "c82b86e6-2e81-46e4-8e28-356dd4a15f84",
+            "X-Content-Type-Options": "nosniff",
+            "x-ms-ratelimit-remaining-subscription-reads": "14855",
+            "x-ms-correlation-request-id": "165d9588-bcba-49ac-a3d9-0dcc49be6c8a"
+          },
+          "body": {
+            "value": [
+              {
+                "triggerName": "exampleTrigger",
+                "triggerRunId": "08586962812027443030287916742",
+                "triggerType": "ScheduleTrigger",
+                "triggerRunTimestamp": "2017-09-13T18:01:22.7219263Z",
+                "status": "Succeeded",
+                "message": "",
+                "properties": {
+                  "TriggerTime": "09/13/2017 18:01:22",
+                  "ScheduleTime": "09/13/2017 18:01:21"
+                },
+                "triggeredPipelines": {
+                  "examplePipeline": "0bf632a4-98c4-4179-935b-0b220d14fb19"
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "parameters": {
+    "subscriptionId": {
+      "name": "subscriptionId",
+      "description": "The subscription identifier.",
+      "in": "path",
+      "required": true,
+      "type": "string"
+    },
+    "resourceGroupName": {
+      "name": "resourceGroupName",
+      "description": "The resource group name.",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "pattern": "^[-\\w\\._\\(\\)]+$",
+      "minLength": 1,
+      "maxLength": 90,
+      "x-ms-parameter-location": "method"
+    },
+    "factoryName": {
+      "name": "factoryName",
+      "description": "The factory name.",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "pattern": "^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$",
+      "minLength": 3,
+      "maxLength": 63,
+      "x-ms-parameter-location": "method"
+    },
+    "linkedServiceName": {
+      "name": "linkedServiceName",
+      "description": "The linked service name.",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_][^<>*#.%&:\\\\+?/]*$",
+      "minLength": 1,
+      "maxLength": 260,
+      "x-ms-parameter-location": "method"
+    },
+    "datasetName": {
+      "name": "datasetName",
+      "description": "The dataset name.",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_][^<>*#.%&:\\\\+?/]*$",
+      "minLength": 1,
+      "maxLength": 260,
+      "x-ms-parameter-location": "method"
+    },
+    "pipelineName": {
+      "name": "pipelineName",
+      "description": "The pipeline name.",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_][^<>*#.%&:\\\\+?/]*$",
+      "minLength": 1,
+      "maxLength": 260,
+      "x-ms-parameter-location": "method"
+    },
+    "triggerName": {
+      "name": "triggerName",
+      "description": "The trigger name.",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_][^<>*#.%&:\\\\+?/]*$",
+      "minLength": 1,
+      "maxLength": 260,
+      "x-ms-parameter-location": "method"
+    },
+    "runId": {
+      "name": "runId",
+      "description": "The pipeline run identifier.",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "referencePipelineRunId": {
+      "name": "referencePipelineRunId",
+      "description": "The pipeline run identifier.",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "integrationRuntimeName": {
+      "name": "integrationRuntimeName",
+      "description": "The integration runtime name.",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "pattern": "^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$",
+      "minLength": 3,
+      "maxLength": 63,
+      "x-ms-parameter-location": "method"
+    },
+    "nodeName": {
+      "name": "nodeName",
+      "description": "The integration runtime node name.",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "pattern": "^[a-z0-9A-Z][a-z0-9A-Z_-]{0,149}$",
+      "minLength": 1,
+      "maxLength": 150,
+      "x-ms-parameter-location": "method"
+    },
+    "api-version": {
+      "name": "api-version",
+      "description": "The API version.",
+      "in": "query",
+      "required": true,
+      "type": "string"
+    }
+  },
+  "x-internal-service-name": "Data Factory",
+  "x-internal-toc-name": "Integration Runtime Nodes",
+  "x-internal-split-type": "Operation",
+  "x-internal-operation-name": "Delete"
+}

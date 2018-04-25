@@ -1,0 +1,265 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Update Management API",
+    "description": "APIs for managing software update configurations.",
+    "contact": {
+      "name": "Mohamed Enein"
+    },
+    "version": "2017-05-15-preview",
+    "x-ms-code-generation-settings": {
+      "useDateTimeOffset": true
+    }
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "https"
+  ],
+  "host": "management.azure.com",
+  "basePath": "/",
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "paths": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/softwareUpdateConfigurationRuns/{softwareUpdateConfigurationRunId}": {
+      "get": {
+        "tags": [
+          "Software Update Configuration Run"
+        ],
+        "description": "Get a single software update configuration Run by Id.",
+        "externalDocs": {
+          "url": "http://aka.ms/azureautomationsdk/softwareupdateconfigurationrunoperations"
+        },
+        "x-ms-examples": {
+          "Get software update configuration runs by Id": {
+            "$ref": "#/definitions/getSoftwareUpdateConfigurationRunById"
+          }
+        },
+        "operationId": "SoftwareUpdateConfigurationRuns_GetById",
+        "parameters": [
+          {
+            "$ref": "./definitions.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "./definitions.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "./definitions.json#/parameters/AutomationAccountNameParameter"
+          },
+          {
+            "name": "softwareUpdateConfigurationRunId",
+            "description": "The Id of the software update configuration run.",
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "format": "uuid"
+          },
+          {
+            "$ref": "./definitions.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "./definitions.json#/parameters/clientRequestId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A single software update configuration Run.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/softwareUpdateConfigurationRun"
+            }
+          },
+          "404": {
+            "description": "Resource group, account, or software update configuration doesn't exist."
+          }
+        },
+        "x-internal-toc-name": "Get By Id"
+      }
+    }
+  },
+  "definitions": {
+    "getSoftwareUpdateConfigurationRunById": {
+      "parameters": {
+        "subscriptionId": "51766542-3ed7-4a72-a187-0c8ab644ddab",
+        "resourceGroupName": "mygroup",
+        "automationAccountName": "myaccount",
+        "softwareUpdateConfigurationRunId": "2bd77cfa-2e9c-41b4-a45b-684a77cfeca9",
+        "api-version": "2017-05-15-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {},
+          "body": {
+            "id": "/subscriptions/51766542-3ed7-4a72-a187-0c8ab644ddab/resourceGroups/mygroup/providers/Microsoft.Automation/automationAccounts/myaccount/softwareUpdateConfigurationRuns/2bd77cfa-2e9c-41b4-a45b-684a77cfeca9",
+            "name": "2bd77cfa-2e9c-41b4-a45b-684a77cfeca9",
+            "properties": {
+              "softwareUpdateConfiguration": {
+                "name": "mypatch"
+              },
+              "status": "Succeeded",
+              "configuredDuration": "PT2H",
+              "osType": "Windows",
+              "startTime": "2017-10-23T10:30:36.2401233+08:00",
+              "endTime": "2017-10-23T10:30:42.8466667+08:00",
+              "computerCount": 1,
+              "failedCount": 0,
+              "creationTime": "2017-10-23T10:30:36.2401233+08:00",
+              "lastModifiedBy": "",
+              "lastModifiedTime": "2017-10-23T10:31:39.3966667+08:00"
+            }
+          }
+        },
+        "404": {
+          "code": "NotFound",
+          "message": "Software update configuration run not found"
+        }
+      }
+    },
+    "listSoftwareUpdateConfigurationRuns": {
+      "parameters": {
+        "subscriptionId": "51766542-3ed7-4a72-a187-0c8ab644ddab",
+        "resourceGroupName": "mygroup",
+        "automationAccountName": "myaccount",
+        "softwareUpdateConfigurationRunId": "a2c7c4b8-55d6-4505-bea7-756e93b18a35",
+        "api-version": "2017-05-15-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {},
+          "body": {
+            "value": [
+              {
+                "id": "/subscriptions/51766542-3ed7-4a72-a187-0c8ab644ddab/resourceGroups/mygroup/providers/Microsoft.Automation/automationAccounts/myaccount/softwareUpdateConfigurationRuns/2bd77cfa-2e9c-41b4-a45b-684a77cfeca9",
+                "name": "2bd77cfa-2e9c-41b4-a45b-684a77cfeca9",
+                "properties": {
+                  "softwareUpdateConfiguration": {
+                    "name": "mypatch"
+                  },
+                  "status": "Succeeded",
+                  "configuredDuration": "PT2H",
+                  "osType": "Windows",
+                  "startTime": "2017-10-23T10:30:36.2401233+08:00",
+                  "endTime": "2017-10-23T10:30:42.8466667+08:00",
+                  "computerCount": 1,
+                  "failedCount": 0,
+                  "creationTime": "2017-10-23T10:30:36.2401233+08:00",
+                  "lastModifiedBy": "",
+                  "lastModifiedTime": "2017-10-23T10:31:39.3966667+08:00"
+                }
+              },
+              {
+                "id": "/subscriptions/51766542-3ed7-4a72-a187-0c8ab644ddab/resourceGroups/mygroup/providers/Microsoft.Automation/automationAccounts/myaccount/softwareUpdateConfigurationRuns/5dabff55-9812-4a58-af16-b0cb1d9384e8",
+                "name": "5dabff55-9812-4a58-af16-b0cb1d9384e8",
+                "properties": {
+                  "softwareUpdateConfiguration": {
+                    "name": "mypatch"
+                  },
+                  "status": "Succeeded",
+                  "configuredDuration": "PT2H",
+                  "osType": "Windows",
+                  "startTime": "2017-10-23T09:33:01.8818952+08:00",
+                  "endTime": "2017-10-23T09:33:08.1133333+08:00",
+                  "computerCount": 1,
+                  "failedCount": 0,
+                  "creationTime": "2017-10-23T09:33:01.8818952+08:00",
+                  "lastModifiedBy": "",
+                  "lastModifiedTime": "2017-10-23T09:34:03.94+08:00"
+                }
+              }
+            ],
+            "nextLink": "https://management.azure.com:443/subscriptions/1a7d4044-286c-4acb-969a-96639265bf2e/resourceGroups/mygroup/providers/Microsoft.Automation/automationAccounts/stas-wcus/softwareUpdateConfigurationRuns?api-version=2017-05-15-preview&_=1508725900015&$skip=100"
+          }
+        },
+        "404": {
+          "code": "NotFound",
+          "message": "{\"Message\":\"Could not find the account. SubscriptionId: 51766542-3ed7-4a72-a187-0c8ab644ddab AccountName: myaccount\"}"
+        }
+      }
+    },
+    "listFailedSoftwareUpdateConfigurationRuns": {
+      "parameters": {
+        "subscriptionId": "51766542-3ed7-4a72-a187-0c8ab644ddab",
+        "resourceGroupName": "mygroup",
+        "automationAccountName": "myaccount",
+        "softwareUpdateConfigurationRunId": "a2c7c4b8-55d6-4505-bea7-756e93b18a35",
+        "$filter": "properties/status%20eq%20'Failed'",
+        "api-version": "2017-05-15-preview"
+      },
+      "responses": {
+        "200": {
+          "headers": {},
+          "body": {
+            "value": [
+              {
+                "id": "/subscriptions/51766542-3ed7-4a72-a187-0c8ab644ddab/resourceGroups/mygroup/providers/Microsoft.Automation/automationAccounts/myaccount/softwareUpdateConfigurationRuns/2bd77cfa-2e9c-41b4-a45b-684a77cfeca9",
+                "name": "2bd77cfa-2e9c-41b4-a45b-684a77cfeca9",
+                "properties": {
+                  "softwareUpdateConfiguration": {
+                    "name": "mypatch"
+                  },
+                  "status": "Failed",
+                  "configuredDuration": "PT2H",
+                  "osType": "Windows",
+                  "startTime": "2017-10-23T10:30:36.2401233+08:00",
+                  "endTime": "2017-10-23T10:30:42.8466667+08:00",
+                  "computerCount": 1,
+                  "failedCount": 0,
+                  "creationTime": "2017-10-23T10:30:36.2401233+08:00",
+                  "lastModifiedBy": "",
+                  "lastModifiedTime": "2017-10-23T10:31:39.3966667+08:00"
+                }
+              },
+              {
+                "id": "/subscriptions/51766542-3ed7-4a72-a187-0c8ab644ddab/resourceGroups/mygroup/providers/Microsoft.Automation/automationAccounts/myaccount/softwareUpdateConfigurationRuns/5dabff55-9812-4a58-af16-b0cb1d9384e8",
+                "name": "5dabff55-9812-4a58-af16-b0cb1d9384e8",
+                "properties": {
+                  "softwareUpdateConfiguration": {
+                    "name": "mypatch"
+                  },
+                  "status": "Failed",
+                  "configuredDuration": "PT2H",
+                  "osType": "Windows",
+                  "startTime": "2017-10-23T09:33:01.8818952+08:00",
+                  "endTime": "2017-10-23T09:33:08.1133333+08:00",
+                  "computerCount": 1,
+                  "failedCount": 0,
+                  "creationTime": "2017-10-23T09:33:01.8818952+08:00",
+                  "lastModifiedBy": "",
+                  "lastModifiedTime": "2017-10-23T09:34:03.94+08:00"
+                }
+              }
+            ],
+            "nextLink": "https://management.azure.com:443/subscriptions/1a7d4044-286c-4acb-969a-96639265bf2e/resourceGroups/mygroup/providers/Microsoft.Automation/automationAccounts/stas-wcus/softwareUpdateConfigurationRuns?api-version=2017-05-15-preview&_=1508725900015&$skip=100"
+          }
+        },
+        "404": {
+          "code": "NotFound",
+          "message": "{\"Message\":\"Could not find the account. SubscriptionId: 51766542-3ed7-4a72-a187-0c8ab644ddab AccountName: myaccount\"}"
+        }
+      }
+    }
+  },
+  "x-internal-service-name": "Automation",
+  "x-internal-toc-name": "Software Update Configuration Runs",
+  "x-internal-split-type": "Operation",
+  "x-internal-operation-name": "Get By Id"
+}

@@ -1,0 +1,347 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "ApiManagementClient",
+    "description": "Use these REST APIs for performing operations on OpenId Connect Provider entity associated with your Azure API Management deployment. API Management allows you to access APIs secured with token from [OpenID Connect Provider ](http://openid.net/connect/) to be accessed from the Developer Console.",
+    "version": "2018-01-01"
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow.",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "paths": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/openidConnectProviders/{opid}": {
+      "delete": {
+        "tags": [
+          "OpenIdConnectProviders"
+        ],
+        "operationId": "OpenIdConnectProvider_Delete",
+        "description": "Deletes specific OpenID Connect Provider of the API Management service instance.",
+        "x-ms-examples": {
+          "ApiManagementDeleteOpenIdConnectProvider": {
+            "$ref": "#/definitions/ApiManagementDeleteOpenIdConnectProvider"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "./apimanagement.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "./apimanagement.json#/parameters/ServiceNameParameter"
+          },
+          {
+            "$ref": "#/parameters/OpenIdConnectIdParameter"
+          },
+          {
+            "$ref": "./apimanagement.json#/parameters/IfMatchRequiredParameter"
+          },
+          {
+            "$ref": "./apimanagement.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "./apimanagement.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OpenId Connect Provider was successfully deleted."
+          },
+          "204": {
+            "description": "OpenId Connect Provider was successfully deleted."
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "./apimanagement.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-internal-toc-name": "Delete"
+      }
+    }
+  },
+  "definitions": {
+    "OpenIdConnectProviderCollection": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OpenidConnectProviderContract"
+          },
+          "description": "Page values."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "Next page link if any."
+        }
+      },
+      "description": "Paged OpenIdProviders list representation."
+    },
+    "OpenidConnectProviderContract": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/OpenidConnectProviderContractProperties",
+          "description": "OpenId Connect Provider contract properties."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "./apimanagement.json#/definitions/Resource"
+        }
+      ],
+      "description": "OpenId Connect Provider details."
+    },
+    "OpenidConnectProviderContractProperties": {
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "description": "User-friendly OpenID Connect Provider name.",
+          "maxLength": 50
+        },
+        "description": {
+          "type": "string",
+          "description": "User-friendly description of OpenID Connect Provider."
+        },
+        "metadataEndpoint": {
+          "type": "string",
+          "description": "Metadata endpoint URI."
+        },
+        "clientId": {
+          "type": "string",
+          "description": "Client ID of developer console which is the client application."
+        },
+        "clientSecret": {
+          "type": "string",
+          "description": "Client Secret of developer console which is the client application."
+        }
+      },
+      "required": [
+        "displayName",
+        "metadataEndpoint",
+        "clientId"
+      ],
+      "description": "OpenID Connect Providers Contract."
+    },
+    "OpenidConnectProviderUpdateContract": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/OpenidConnectProviderUpdateContractProperties",
+          "description": "OpenId Connect Provider Update contract properties."
+        }
+      },
+      "description": "Parameters supplied to the Update OpenID Connect Provider operation."
+    },
+    "OpenidConnectProviderUpdateContractProperties": {
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "description": "User-friendly OpenID Connect Provider name.",
+          "maxLength": 50
+        },
+        "description": {
+          "type": "string",
+          "description": "User-friendly description of OpenID Connect Provider."
+        },
+        "metadataEndpoint": {
+          "type": "string",
+          "description": "Metadata endpoint URI."
+        },
+        "clientId": {
+          "type": "string",
+          "description": "Client ID of developer console which is the client application."
+        },
+        "clientSecret": {
+          "type": "string",
+          "description": "Client Secret of developer console which is the client application."
+        }
+      },
+      "description": "Parameters supplied to the Update OpenID Connect Provider operation."
+    },
+    "ApiManagementListOpenIdConnectProviders": {
+      "parameters": {
+        "resourceGroupName": "rg1",
+        "serviceName": "apimService1",
+        "api-version": "2018-01-01",
+        "subscriptionId": "subid"
+      },
+      "responses": {
+        "200": {
+          "body": {
+            "value": [
+              {
+                "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/openidConnectProviders/templateOpenIdConnect2",
+                "type": "Microsoft.ApiManagement/service/openidconnectproviders",
+                "name": "templateOpenIdConnect2",
+                "properties": {
+                  "displayName": "templateoidprovider2",
+                  "description": "open id provider template2",
+                  "metadataEndpoint": "https://oidprovider-template2.net",
+                  "clientId": "oidprovidertemplate2",
+                  "clientSecret": "oidsecretproviderTemplate2"
+                }
+              }
+            ],
+            "nextLink": ""
+          }
+        }
+      }
+    },
+    "ApiManagementHeadOpenIdConnectProvider": {
+      "parameters": {
+        "serviceName": "apimService1",
+        "resourceGroupName": "rg1",
+        "api-version": "2018-01-01",
+        "subscriptionId": "subid",
+        "opid": "templateOpenIdConnect2"
+      },
+      "responses": {
+        "200": {
+          "headers": {
+            "etag": "AAAAAAAAAAa="
+          }
+        }
+      }
+    },
+    "ApiManagementGetOpenIdConnectProvider": {
+      "parameters": {
+        "serviceName": "apimService1",
+        "resourceGroupName": "rg1",
+        "api-version": "2018-01-01",
+        "subscriptionId": "subid",
+        "opid": "templateOpenIdConnect2"
+      },
+      "responses": {
+        "200": {
+          "body": {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/openidConnectProviders/templateOpenIdConnect2",
+            "type": "Microsoft.ApiManagement/service/openidconnectproviders",
+            "name": "templateOpenIdConnect2",
+            "properties": {
+              "displayName": "templateoidprovider2",
+              "description": "open id provider template2",
+              "metadataEndpoint": "https://oidprovider-template2.net",
+              "clientId": "oidprovidertemplate2",
+              "clientSecret": "oidsecretproviderTemplate2"
+            }
+          }
+        }
+      }
+    },
+    "ApiManagementCreateOpenIdConnectProvider": {
+      "parameters": {
+        "serviceName": "apimService1",
+        "resourceGroupName": "rg1",
+        "api-version": "2018-01-01",
+        "subscriptionId": "subid",
+        "opid": "templateOpenIdConnect3",
+        "parameters": {
+          "properties": {
+            "displayName": "templateoidprovider3",
+            "metadataEndpoint": "https://oidprovider-template3.net",
+            "clientId": "oidprovidertemplate3"
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "body": {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/openidConnectProviders/templateOpenIdConnect3",
+            "type": "Microsoft.ApiManagement/service/openidconnectproviders",
+            "name": "templateOpenIdConnect3",
+            "properties": {
+              "displayName": "templateoidprovider3",
+              "metadataEndpoint": "https://oidprovider-template3.net",
+              "clientId": "oidprovidertemplate3"
+            }
+          }
+        },
+        "200": {
+          "body": {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/openidConnectProviders/templateOpenIdConnect3",
+            "type": "Microsoft.ApiManagement/service/openidconnectproviders",
+            "name": "templateOpenIdConnect3",
+            "properties": {
+              "displayName": "templateoidprovider3",
+              "metadataEndpoint": "https://oidprovider-template3.net",
+              "clientId": "oidprovidertemplate3"
+            }
+          }
+        }
+      }
+    },
+    "ApiManagementUpdateOpenIdConnectProvider": {
+      "parameters": {
+        "serviceName": "apimService1",
+        "resourceGroupName": "rg1",
+        "api-version": "2018-01-01",
+        "subscriptionId": "subid",
+        "opid": "templateOpenIdConnect2",
+        "If-Match": "*",
+        "parameters": {
+          "properties": {
+            "clientSecret": "updatedsecret"
+          }
+        }
+      },
+      "responses": {
+        "204": {}
+      }
+    },
+    "ApiManagementDeleteOpenIdConnectProvider": {
+      "parameters": {
+        "serviceName": "apimService1",
+        "resourceGroupName": "rg1",
+        "api-version": "2018-01-01",
+        "subscriptionId": "subid",
+        "opid": "templateOpenIdConnect3",
+        "If-Match": "*"
+      },
+      "responses": {
+        "200": {},
+        "204": {}
+      }
+    }
+  },
+  "parameters": {
+    "OpenIdConnectIdParameter": {
+      "name": "opid",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "Identifier of the OpenID Connect Provider.",
+      "maxLength": 256,
+      "pattern": "^[^*#&+:<>?]+$",
+      "x-ms-parameter-location": "method"
+    }
+  },
+  "x-internal-service-name": "API Management",
+  "x-internal-toc-name": "Open Id Connect Provider",
+  "x-internal-split-type": "Operation",
+  "x-internal-operation-name": "Delete"
+}

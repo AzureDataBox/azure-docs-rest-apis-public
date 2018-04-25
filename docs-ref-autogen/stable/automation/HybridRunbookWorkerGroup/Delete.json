@@ -1,0 +1,206 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "AutomationManagement",
+    "version": "2015-10-31",
+    "x-ms-code-generation-settings": {
+      "useDateTimeOffset": true
+    }
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "paths": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/hybridRunbookWorkerGroups/{hybridRunbookWorkerGroupName}": {
+      "delete": {
+        "tags": [
+          "HybridRunbookWorkerGroup"
+        ],
+        "operationId": "HybridRunbookWorkerGroup_Delete",
+        "description": "Delete a hybrid runbook worker group.",
+        "externalDocs": {
+          "url": "http://aka.ms/azureautomationsdk/hybridrunbookworkergroupoperations"
+        },
+        "x-ms-examples": {
+          "Delete a hybrid worker group": {
+            "$ref": "#/definitions/deleteHybridRunbookWorkerGroup"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "./definitions.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "automationAccountName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Automation account name."
+          },
+          {
+            "name": "hybridRunbookWorkerGroupName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The hybrid runbook worker group name"
+          },
+          {
+            "$ref": "./definitions.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "./definitions.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "Automation error response describing why the operation failed.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-internal-toc-name": "Delete"
+      }
+    }
+  },
+  "definitions": {
+    "deleteHybridRunbookWorkerGroup": {
+      "parameters": {
+        "subscriptionId": "subid",
+        "resourceGroupName": "rg",
+        "automationAccountName": "myAutomationAccount20",
+        "hybridRunbookWorkerGroupName": "myGroup",
+        "api-version": "2015-10-31"
+      },
+      "responses": {
+        "200": {}
+      }
+    },
+    "hybridRunbookWorkerGroupGet": {
+      "parameters": {
+        "subscriptionId": "subid",
+        "resourceGroupName": "rg",
+        "automationAccountName": "testaccount",
+        "hybridRunbookWorkerGroupName": "TestHybridGroup",
+        "api-version": "2015-10-31"
+      },
+      "responses": {
+        "200": {
+          "headers": {},
+          "body": {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/testaccount/hybridRunbookWorkerGroups/TestHybridGroup",
+            "name": "TestHybridGroup",
+            "hybridRunbookWorkers": [
+              {
+                "name": "TestHybridWorker",
+                "ip": "100.1.1.1",
+                "registrationTime": "2017-03-25T03:43:45.0146578+08:00"
+              }
+            ],
+            "credential": {
+              "name": "myRunAsCredentialName"
+            }
+          }
+        }
+      }
+    },
+    "hybridRunbookWorkerGroupUpdate": {
+      "parameters": {
+        "subscriptionId": "subid",
+        "resourceGroupName": "rg",
+        "automationAccountName": "testaccount",
+        "hybridRunbookWorkerGroupName": "TestHybridGroup",
+        "api-version": "2015-10-31",
+        "parameters": {
+          "credential": {
+            "name": "myRunAsCredentialName"
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "headers": {},
+          "body": {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/testaccount/hybridRunbookWorkerGroups/TestHybridGroup",
+            "name": "TestHybridGroup",
+            "hybridRunbookWorkers": [
+              {
+                "name": "TestHybridWorker",
+                "ip": "100.1.1.1",
+                "registrationTime": "2017-03-25T03:43:45.0146578+08:00"
+              }
+            ],
+            "credential": {
+              "name": "myRunAsCredentialName"
+            }
+          }
+        }
+      }
+    },
+    "hybridRunbookWorkerGroupList": {
+      "parameters": {
+        "subscriptionId": "subid",
+        "resourceGroupName": "udtest",
+        "automationAccountName": "testaccount",
+        "hybridRunbookWorkerGroupName": "TestWorkerGroup",
+        "api-version": "2015-10-31"
+      },
+      "responses": {
+        "200": {
+          "headers": {},
+          "body": {
+            "value": [
+              {
+                "id": "/subscriptions/subid/resourceGroups/udtest/providers/Microsoft.Automation/automationAccounts/testaccount/hybridRunbookWorkerGroups/TestWorkerGroup",
+                "name": "TestWorkerGroup",
+                "hybridRunbookWorkers": [
+                  {
+                    "name": "TestMachine",
+                    "ip": "134.1.1.1",
+                    "registrationTime": "2017-03-25T03:43:43.053855+08:00"
+                  }
+                ],
+                "credential": {
+                  "name": "myRunAsCredentialName"
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "parameters": {},
+  "x-internal-service-name": "Automation",
+  "x-internal-toc-name": "Hybrid Runbook Worker Group",
+  "x-internal-split-type": "Operation",
+  "x-internal-operation-name": "Delete"
+}
