@@ -1,0 +1,758 @@
+### YamlMime:RESTOperation
+uid: localhost:19080.servicefabric.getpartitioninfolist.getpartitioninfolist
+name: Get Partition Info List
+service: Service Fabric
+groupName: Get Partition Info List
+apiVersion: 6.2.0.9
+summary: "Gets the list of partitions of a Service Fabric service.  \nGets the list of partitions of a Service Fabric service. The response includes the partition ID, partitioning scheme information, keys supported by the partition, status, health, and other details about the partition."
+produces:
+- application/json
+paths:
+- content: GET http://localhost:19080/Services/{serviceId}/$/GetPartitions?api-version=6.2.0.9
+- content: GET http://localhost:19080/Services/{serviceId}/$/GetPartitions?api-version=6.2.0.9&ContinuationToken={ContinuationToken}&timeout={timeout}
+  isOptional: true
+uriParameters:
+- name: serviceId
+  in: path
+  isRequired: true
+  description: >-
+    The identity of the service. This is typically the full name of the service without the 'fabric:' URI scheme.
+
+    Starting from version 6.0, hierarchical names are delimited with the "~" character.
+
+    For example, if the service name is "fabric:/myapp/app1/svc1", the service identity would be "myapp~app1~svc1" in 6.0+ and "myapp/app1/svc1" in previous versions.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: >-
+    The version of the API. This parameter is required and its value must be '6.0'.
+
+
+    Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
+
+
+    Additionally the runtime accept any version that is higher than the latest supported version up to the current version of the runtime. So if the latest API version is 6.0, but if the runtime is 6.1, in order to make it easier to write the clients, the runtime will accept version 6.1 for that API. However the behavior of the API will be as per the documented 6.0 version.
+  types:
+  - uid: ApiVersion_6-0_RequiredQueryParam
+- name: ContinuationToken
+  in: query
+  description: The continuation token parameter is used to obtain next set of results. A continuation token with a non empty value is included in the response of the API when the results from the system do not fit in a single response. When this value is passed to the next API call, the API returns next set of results. If there are no further results then the continuation token does not contain a value. The value of this parameter should not be URL encoded.
+  types:
+  - uid: string
+- name: timeout
+  in: query
+  description: The server timeout for performing the operation in seconds. This timeout specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
+  types:
+  - uid: integer
+  format: int64
+responses:
+- name: 200 OK
+  description: List of partitions of a Service Fabric service.
+  types:
+  - uid: PagedServicePartitionInfoList
+- name: Other Status Codes
+  description: The detailed error response.
+  types:
+  - uid: FabricError
+requestHeader: []
+definitions:
+- name: ApiVersion_6-0_RequiredQueryParam
+  description: >-
+    The version of the API. This parameter is required and its value must be '6.0'.
+
+
+    Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
+
+
+    Additionally the runtime accept any version that is higher than the latest supported version up to the current version of the runtime. So if the latest API version is 6.0, but if the runtime is 6.1, in order to make it easier to write the clients, the runtime will accept version 6.1 for that API. However the behavior of the API will be as per the documented 6.0 version.
+  kind: enum
+  properties:
+  - name: "6.0"
+    description: The 6.0 version of the API.
+    types:
+    - uid: string
+- name: PagedServicePartitionInfoList
+  description: The list of partition in the cluster for a service. The list is paged when all of the results cannot fit in a single message. The next set of results can be obtained by executing the same query with the continuation token provided in this list.
+  kind: object
+  properties:
+  - name: ContinuationToken
+    description: The continuation token parameter is used to obtain next set of results. The continuation token is included in the response of the API when the results from the system do not fit in a single response. When this value is passed to the next API call, the API returns next set of results. If there are no further results then the continuation token is not included in the response.
+    types:
+    - uid: string
+  - name: Items
+    description: List of service partition information.
+    types:
+    - uid: StatefulServicePartitionInfo
+      isArray: true
+    - uid: StatelessServicePartitionInfo
+      isArray: true
+    typesTitle: ServicePartitionInfo[]
+- name: FabricError
+  description: The REST API operations for Service Fabric return standard HTTP status codes. This type defines the additional information returned from the Service Fabric API operations that are not successful.
+  kind: object
+  properties:
+  - name: Error
+    description: Error object containing error code and error message.
+    types:
+    - uid: FabricErrorError
+- name: FabricErrorError
+  description: Error object containing error code and error message.
+  kind: object
+  properties:
+  - name: Code
+    description: >-
+      Defines the fabric error codes that be returned as part of the error object in response to Service Fabric API operations that are not successful. Following are the error code values that can be returned for a specific HTTP status code.
+
+        - Possible values of the error code for HTTP status code 400 (Bad Request)
+          - "FABRIC_E_INVALID_PARTITION_KEY"
+          - "FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR"
+          - "FABRIC_E_INVALID_ADDRESS"
+          - "FABRIC_E_APPLICATION_NOT_UPGRADING"
+          - "FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR"
+          - "FABRIC_E_FABRIC_NOT_UPGRADING"
+          - "FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR"
+          - "FABRIC_E_INVALID_CONFIGURATION"
+          - "FABRIC_E_INVALID_NAME_URI"
+          - "FABRIC_E_PATH_TOO_LONG"
+          - "FABRIC_E_KEY_TOO_LARGE"
+          - "FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED"
+          - "FABRIC_E_INVALID_ATOMIC_GROUP"
+          - "FABRIC_E_VALUE_EMPTY"
+          - "FABRIC_E_BACKUP_IS_ENABLED"
+          - "FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH"
+          - "FABRIC_E_INVALID_FOR_STATELESS_SERVICES"
+          - "FABRIC_E_INVALID_SERVICE_SCALING_POLICY"
+          - "E_INVALIDARG"
+
+        - Possible values of the error code for HTTP status code 404 (Not Found)
+          - "FABRIC_E_NODE_NOT_FOUND"
+          - "FABRIC_E_APPLICATION_TYPE_NOT_FOUND"
+          - "FABRIC_E_APPLICATION_NOT_FOUND"
+          - "FABRIC_E_SERVICE_TYPE_NOT_FOUND"
+          - "FABRIC_E_SERVICE_DOES_NOT_EXIST"
+          - "FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND"
+          - "FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND"
+          - "FABRIC_E_PARTITION_NOT_FOUND"
+          - "FABRIC_E_REPLICA_DOES_NOT_EXIST"
+          - "FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST"
+          - "FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND"
+          - "FABRIC_E_DIRECTORY_NOT_FOUND"
+          - "FABRIC_E_FABRIC_VERSION_NOT_FOUND"
+          - "FABRIC_E_FILE_NOT_FOUND"
+          - "FABRIC_E_NAME_DOES_NOT_EXIST"
+          - "FABRIC_E_PROPERTY_DOES_NOT_EXIST"
+          - "FABRIC_E_ENUMERATION_COMPLETED"
+          - "FABRIC_E_SERVICE_MANIFEST_NOT_FOUND"
+          - "FABRIC_E_KEY_NOT_FOUND"
+          - "FABRIC_E_HEALTH_ENTITY_NOT_FOUND"
+          - "FABRIC_E_BACKUP_NOT_ENABLED"
+          - "FABRIC_E_BACKUP_POLICY_NOT_EXISTING"
+          - "FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING"
+
+        - Possible values of the error code for HTTP status code 409 (Conflict)
+          - "FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION"
+          - "FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS"
+          - "FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS"
+          - "FABRIC_E_SERVICE_ALREADY_EXISTS"
+          - "FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_TYPE_IN_USE"
+          - "FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION"
+          - "FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS"
+          - "FABRIC_E_FABRIC_VERSION_IN_USE"
+          - "FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS"
+          - "FABRIC_E_NAME_ALREADY_EXISTS"
+          - "FABRIC_E_NAME_NOT_EMPTY"
+          - "FABRIC_E_PROPERTY_CHECK_FAILED"
+          - "FABRIC_E_SERVICE_METADATA_MISMATCH"
+          - "FABRIC_E_SERVICE_TYPE_MISMATCH"
+          - "FABRIC_E_HEALTH_STALE_REPORT"
+          - "FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED"
+          - "FABRIC_E_NODE_HAS_NOT_STOPPED_YET"
+          - "FABRIC_E_INSTANCE_ID_MISMATCH"
+          - "FABRIC_E_BACKUP_IN_PROGRESS"
+          - "FABRIC_E_RESTORE_IN_PROGRESS"
+          - "FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING"
+
+        - Possible values of the error code for HTTP status code 413 (Request Entity Too Large)
+          - "FABRIC_E_VALUE_TOO_LARGE"
+
+        - Possible values of the error code for HTTP status code 500 (Internal Server Error)
+          - "FABRIC_E_NODE_IS_UP"
+          - "E_FAIL"
+
+        - Possible values of the error code for HTTP status code 503 (Service Unavailable)
+          - "FABRIC_E_NO_WRITE_QUORUM"
+          - "FABRIC_E_NOT_PRIMARY"
+          - "FABRIC_E_NOT_READY"
+          - "FABRIC_E_RECONFIGURATION_PENDING"
+          - "FABRIC_E_SERVICE_OFFLINE"
+          - "E_ABORT"
+          - "FABRIC_E_VALUE_TOO_LARGE"
+
+        - Possible values of the error code for HTTP status code 504 (Gateway Timeout)
+          - "FABRIC_E_COMMUNICATION_ERROR"
+          - "FABRIC_E_OPERATION_NOT_COMPLETE"
+          - "FABRIC_E_TIMEOUT"
+    types:
+    - uid: FabricErrorCodes
+  - name: Message
+    description: Error message.
+    types:
+    - uid: string
+- name: StatefulServicePartitionInfo
+  description: Information about a partition of a stateful Service Fabric service..
+  kind: object
+  properties:
+  - name: TargetReplicaSetSize
+    description: The target replica set size as a number.
+    types:
+    - uid: integer
+  - name: MinReplicaSetSize
+    description: The minimum replica set size as a number.
+    types:
+    - uid: integer
+  - name: LastQuorumLossDuration
+    description: The duration for which this partition was in quorum loss. If the partition is currently in quorum loss, it returns the duration since it has been in that state. This field is using ISO8601 format for specifying the duration.
+    types:
+    - uid: string
+  - name: CurrentConfigurationEpoch
+    description: An Epoch is a configuration number for the partition as a whole. When the configuration of the replica set changes, for example when the Primary replica changes, the operations that are replicated from the new Primary replica are said to be a new Epoch from the ones which were sent by the old Primary replica.
+    types:
+    - uid: Epoch
+  - name: ServiceKind
+    description: The kind of service (Stateless or Stateful).
+    types:
+    - uid: Stateful
+    typesTitle: string
+  - name: HealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: PartitionStatus
+    description: The status of the service fabric service partition.
+    types:
+    - uid: ServicePartitionStatus
+  - name: PartitionInformation
+    description: Information about the partition identity, partitioning scheme and keys supported by it.
+    types:
+    - uid: Int64RangePartitionInformation
+    - uid: NamedPartitionInformation
+    - uid: SingletonPartitionInformation
+    typesTitle: PartitionInformation
+- name: StatelessServicePartitionInfo
+  description: Information about a partition of a stateless Service Fabric service.
+  kind: object
+  properties:
+  - name: InstanceCount
+    description: Number of instances of this partition.
+    types:
+    - uid: integer
+  - name: ServiceKind
+    description: The kind of service (Stateless or Stateful).
+    types:
+    - uid: Stateless
+    typesTitle: string
+  - name: HealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: PartitionStatus
+    description: The status of the service fabric service partition.
+    types:
+    - uid: ServicePartitionStatus
+  - name: PartitionInformation
+    description: Information about the partition identity, partitioning scheme and keys supported by it.
+    types:
+    - uid: Int64RangePartitionInformation
+    - uid: NamedPartitionInformation
+    - uid: SingletonPartitionInformation
+    typesTitle: PartitionInformation
+- name: FabricErrorCodes
+  description: >-
+    Defines the fabric error codes that be returned as part of the error object in response to Service Fabric API operations that are not successful. Following are the error code values that can be returned for a specific HTTP status code.
+
+      - Possible values of the error code for HTTP status code 400 (Bad Request)
+        - "FABRIC_E_INVALID_PARTITION_KEY"
+        - "FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR"
+        - "FABRIC_E_INVALID_ADDRESS"
+        - "FABRIC_E_APPLICATION_NOT_UPGRADING"
+        - "FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR"
+        - "FABRIC_E_FABRIC_NOT_UPGRADING"
+        - "FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR"
+        - "FABRIC_E_INVALID_CONFIGURATION"
+        - "FABRIC_E_INVALID_NAME_URI"
+        - "FABRIC_E_PATH_TOO_LONG"
+        - "FABRIC_E_KEY_TOO_LARGE"
+        - "FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED"
+        - "FABRIC_E_INVALID_ATOMIC_GROUP"
+        - "FABRIC_E_VALUE_EMPTY"
+        - "FABRIC_E_BACKUP_IS_ENABLED"
+        - "FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH"
+        - "FABRIC_E_INVALID_FOR_STATELESS_SERVICES"
+        - "FABRIC_E_INVALID_SERVICE_SCALING_POLICY"
+        - "E_INVALIDARG"
+
+      - Possible values of the error code for HTTP status code 404 (Not Found)
+        - "FABRIC_E_NODE_NOT_FOUND"
+        - "FABRIC_E_APPLICATION_TYPE_NOT_FOUND"
+        - "FABRIC_E_APPLICATION_NOT_FOUND"
+        - "FABRIC_E_SERVICE_TYPE_NOT_FOUND"
+        - "FABRIC_E_SERVICE_DOES_NOT_EXIST"
+        - "FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND"
+        - "FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND"
+        - "FABRIC_E_PARTITION_NOT_FOUND"
+        - "FABRIC_E_REPLICA_DOES_NOT_EXIST"
+        - "FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST"
+        - "FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND"
+        - "FABRIC_E_DIRECTORY_NOT_FOUND"
+        - "FABRIC_E_FABRIC_VERSION_NOT_FOUND"
+        - "FABRIC_E_FILE_NOT_FOUND"
+        - "FABRIC_E_NAME_DOES_NOT_EXIST"
+        - "FABRIC_E_PROPERTY_DOES_NOT_EXIST"
+        - "FABRIC_E_ENUMERATION_COMPLETED"
+        - "FABRIC_E_SERVICE_MANIFEST_NOT_FOUND"
+        - "FABRIC_E_KEY_NOT_FOUND"
+        - "FABRIC_E_HEALTH_ENTITY_NOT_FOUND"
+        - "FABRIC_E_BACKUP_NOT_ENABLED"
+        - "FABRIC_E_BACKUP_POLICY_NOT_EXISTING"
+        - "FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING"
+
+      - Possible values of the error code for HTTP status code 409 (Conflict)
+        - "FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION"
+        - "FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS"
+        - "FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS"
+        - "FABRIC_E_SERVICE_ALREADY_EXISTS"
+        - "FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_TYPE_IN_USE"
+        - "FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION"
+        - "FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS"
+        - "FABRIC_E_FABRIC_VERSION_IN_USE"
+        - "FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS"
+        - "FABRIC_E_NAME_ALREADY_EXISTS"
+        - "FABRIC_E_NAME_NOT_EMPTY"
+        - "FABRIC_E_PROPERTY_CHECK_FAILED"
+        - "FABRIC_E_SERVICE_METADATA_MISMATCH"
+        - "FABRIC_E_SERVICE_TYPE_MISMATCH"
+        - "FABRIC_E_HEALTH_STALE_REPORT"
+        - "FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED"
+        - "FABRIC_E_NODE_HAS_NOT_STOPPED_YET"
+        - "FABRIC_E_INSTANCE_ID_MISMATCH"
+        - "FABRIC_E_BACKUP_IN_PROGRESS"
+        - "FABRIC_E_RESTORE_IN_PROGRESS"
+        - "FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING"
+
+      - Possible values of the error code for HTTP status code 413 (Request Entity Too Large)
+        - "FABRIC_E_VALUE_TOO_LARGE"
+
+      - Possible values of the error code for HTTP status code 500 (Internal Server Error)
+        - "FABRIC_E_NODE_IS_UP"
+        - "E_FAIL"
+
+      - Possible values of the error code for HTTP status code 503 (Service Unavailable)
+        - "FABRIC_E_NO_WRITE_QUORUM"
+        - "FABRIC_E_NOT_PRIMARY"
+        - "FABRIC_E_NOT_READY"
+        - "FABRIC_E_RECONFIGURATION_PENDING"
+        - "FABRIC_E_SERVICE_OFFLINE"
+        - "E_ABORT"
+        - "FABRIC_E_VALUE_TOO_LARGE"
+
+      - Possible values of the error code for HTTP status code 504 (Gateway Timeout)
+        - "FABRIC_E_COMMUNICATION_ERROR"
+        - "FABRIC_E_OPERATION_NOT_COMPLETE"
+        - "FABRIC_E_TIMEOUT"
+  kind: enum
+  properties:
+  - name: FABRIC_E_INVALID_PARTITION_KEY
+    types:
+    - uid: string
+  - name: FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_ADDRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_NOT_UPGRADING
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_NOT_UPGRADING
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_CONFIGURATION
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_NAME_URI
+    types:
+    - uid: string
+  - name: FABRIC_E_PATH_TOO_LONG
+    types:
+    - uid: string
+  - name: FABRIC_E_KEY_TOO_LARGE
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_ATOMIC_GROUP
+    types:
+    - uid: string
+  - name: FABRIC_E_VALUE_EMPTY
+    types:
+    - uid: string
+  - name: FABRIC_E_NODE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_TYPE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_PARTITION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_REPLICA_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_DIRECTORY_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_VERSION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_FILE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_NAME_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_PROPERTY_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_ENUMERATION_COMPLETED
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_MANIFEST_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_KEY_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_HEALTH_ENTITY_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_IN_USE
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_VERSION_IN_USE
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_NAME_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_NAME_NOT_EMPTY
+    types:
+    - uid: string
+  - name: FABRIC_E_PROPERTY_CHECK_FAILED
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_METADATA_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_TYPE_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_HEALTH_STALE_REPORT
+    types:
+    - uid: string
+  - name: FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED
+    types:
+    - uid: string
+  - name: FABRIC_E_NODE_HAS_NOT_STOPPED_YET
+    types:
+    - uid: string
+  - name: FABRIC_E_INSTANCE_ID_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_VALUE_TOO_LARGE
+    types:
+    - uid: string
+  - name: FABRIC_E_NO_WRITE_QUORUM
+    types:
+    - uid: string
+  - name: FABRIC_E_NOT_PRIMARY
+    types:
+    - uid: string
+  - name: FABRIC_E_NOT_READY
+    types:
+    - uid: string
+  - name: FABRIC_E_RECONFIGURATION_PENDING
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_OFFLINE
+    types:
+    - uid: string
+  - name: E_ABORT
+    types:
+    - uid: string
+  - name: FABRIC_E_COMMUNICATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_OPERATION_NOT_COMPLETE
+    types:
+    - uid: string
+  - name: FABRIC_E_TIMEOUT
+    types:
+    - uid: string
+  - name: FABRIC_E_NODE_IS_UP
+    types:
+    - uid: string
+  - name: E_FAIL
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_IS_ENABLED
+    types:
+    - uid: string
+  - name: FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_FOR_STATELESS_SERVICES
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_NOT_ENABLED
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_POLICY_NOT_EXISTING
+    types:
+    - uid: string
+  - name: FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_RESTORE_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_SERVICE_SCALING_POLICY
+    types:
+    - uid: string
+  - name: E_INVALIDARG
+    types:
+    - uid: string
+- name: Epoch
+  description: An Epoch is a configuration number for the partition as a whole. When the configuration of the replica set changes, for example when the Primary replica changes, the operations that are replicated from the new Primary replica are said to be a new Epoch from the ones which were sent by the old Primary replica.
+  kind: object
+  properties:
+  - name: ConfigurationVersion
+    description: The current configuration number of this Epoch. The configuration number is an increasing value that is updated whenever the configuration of this replica set changes.
+    types:
+    - uid: string
+  - name: DataLossVersion
+    description: The current dataloss number of this Epoch. The data loss number property is an increasing value which is updated whenever data loss is suspected, as when loss of a quorum of replicas in the replica set that includes the Primary replica.
+    types:
+    - uid: string
+- name: ServiceKind
+  description: The kind of service (Stateless or Stateful).
+  kind: enum
+  properties:
+  - name: Invalid
+    description: Indicates the service kind is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+    types:
+    - uid: string
+  - name: Stateless
+    description: Does not use Service Fabric to make its state highly available or reliable. The value is 1.
+    types:
+    - uid: string
+  - name: Stateful
+    description: Uses Service Fabric to make its state or part of its state highly available and reliable. The value is 2.
+    types:
+    - uid: string
+- name: HealthState
+  description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+  kind: enum
+  properties:
+  - name: Invalid
+    description: Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
+    types:
+    - uid: string
+  - name: Ok
+    description: Indicates the health state is okay. The value is 1.
+    types:
+    - uid: string
+  - name: Warning
+    description: Indicates the health state is at a warning level. The value is 2.
+    types:
+    - uid: string
+  - name: Error
+    description: Indicates the health state is at an error level. Error health state should be investigated, as they can impact the correct functionality of the cluster. The value is 3.
+    types:
+    - uid: string
+  - name: Unknown
+    description: Indicates an unknown health status. The value is 65535.
+    types:
+    - uid: string
+- name: ServicePartitionStatus
+  description: The status of the service fabric service partition.
+  kind: enum
+  properties:
+  - name: Invalid
+    description: Indicates the partition status is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+    types:
+    - uid: string
+  - name: Ready
+    description: Indicates that the partition is ready. This means that for a stateless service partition there is at least one instance that is up and for a stateful service partition the number of ready replicas is greater than or equal to the MinReplicaSetSize. The value is 1.
+    types:
+    - uid: string
+  - name: NotReady
+    description: Indicates that the partition is not ready. This status is returned when none of the other states apply. The value is 2.
+    types:
+    - uid: string
+  - name: InQuorumLoss
+    description: Indicates that the partition is in quorum loss. This means that number of replicas that are up and participating in a replica set is less than MinReplicaSetSize for this partition. The value is 3.
+    types:
+    - uid: string
+  - name: Reconfiguring
+    description: Indicates that the partition is undergoing reconfiguration of its replica sets. This can happen due to failover, upgrade, load balancing or addition or removal of replicas from the replica set. The value is 4.
+    types:
+    - uid: string
+  - name: Deleting
+    description: Indicates that the partition is being deleted. The value is 5.
+    types:
+    - uid: string
+- name: Int64RangePartitionInformation
+  description: Describes the partition information for the integer range that is based on partition schemes.
+  kind: object
+  properties:
+  - name: LowKey
+    description: Specifies the minimum key value handled by this partition.
+    types:
+    - uid: string
+  - name: HighKey
+    description: Specifies the maximum key value handled by this partition.
+    types:
+    - uid: string
+  - name: ServicePartitionKind
+    description: The kind of partitioning scheme used to partition the service.
+    types:
+    - uid: Int64Range
+    typesTitle: string
+  - name: Id
+    description: An internal ID used by Service Fabric to uniquely identify a partition. This is a randomly generated GUID when the service was created. The partition ID is unique and does not change for the lifetime of the service. If the same service was deleted and recreated the IDs of its partitions would be different.
+    types:
+    - uid: string
+- name: NamedPartitionInformation
+  description: Describes the partition information for the name as a string that is based on partition schemes.
+  kind: object
+  properties:
+  - name: Name
+    description: Name of the partition.
+    types:
+    - uid: string
+  - name: ServicePartitionKind
+    description: The kind of partitioning scheme used to partition the service.
+    types:
+    - uid: Named
+    typesTitle: string
+  - name: Id
+    description: An internal ID used by Service Fabric to uniquely identify a partition. This is a randomly generated GUID when the service was created. The partition ID is unique and does not change for the lifetime of the service. If the same service was deleted and recreated the IDs of its partitions would be different.
+    types:
+    - uid: string
+- name: SingletonPartitionInformation
+  description: Information about a partition that is singleton. The services with singleton partitioning scheme are effectively non-partitioned. They only have one partition.
+  kind: object
+  properties:
+  - name: ServicePartitionKind
+    description: The kind of partitioning scheme used to partition the service.
+    types:
+    - uid: Singleton
+    typesTitle: string
+  - name: Id
+    description: An internal ID used by Service Fabric to uniquely identify a partition. This is a randomly generated GUID when the service was created. The partition ID is unique and does not change for the lifetime of the service. If the same service was deleted and recreated the IDs of its partitions would be different.
+    types:
+    - uid: string
+- name: ServicePartitionKind
+  description: The kind of partitioning scheme used to partition the service.
+  kind: enum
+  properties:
+  - name: Invalid
+    description: Indicates the partition kind is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+    types:
+    - uid: string
+  - name: Singleton
+    description: Indicates that there is only one partition, and SingletonPartitionSchemeDescription was specified while creating the service. The value is 1.
+    types:
+    - uid: string
+  - name: Int64Range
+    description: Indicates that the partition is based on Int64 key ranges, and UniformInt64RangePartitionSchemeDescription was specified while creating the service. The value is 2.
+    types:
+    - uid: string
+  - name: Named
+    description: Indicates that the partition is based on string names, and NamedPartitionInformation  was specified while creating the service. The value is 3.
+    types:
+    - uid: string
+examples: []
+security: []

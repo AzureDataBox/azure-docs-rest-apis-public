@@ -1,0 +1,949 @@
+### YamlMime:RESTOperation
+uid: localhost:19080.servicefabric.getservicebackuplist.getservicebackuplist
+name: Get Service Backup List
+service: Service Fabric
+groupName: Get Service Backup List
+apiVersion: 6.2.0.9
+summary: "Gets the list of backups available for every partition in this service.  \nReturns a list of backups available for every partition in this Service Fabric service. The server enumerates all the backups available in the backup store configured in the backup policy. It also allows filtering of the result based on start and end datetime or just fetching the latest available backup for every partition."
+produces:
+- application/json
+paths:
+- content: GET http://localhost:19080/Services/{serviceId}/$/GetBackups?api-version=6.2.0.9
+- content: GET http://localhost:19080/Services/{serviceId}/$/GetBackups?api-version=6.2.0.9&timeout={timeout}&Latest={Latest}&StartDateTimeFilter={StartDateTimeFilter}&EndDateTimeFilter={EndDateTimeFilter}&ContinuationToken={ContinuationToken}&MaxResults={MaxResults}
+  isOptional: true
+uriParameters:
+- name: serviceId
+  in: path
+  isRequired: true
+  description: >-
+    The identity of the service. This is typically the full name of the service without the 'fabric:' URI scheme.
+
+    Starting from version 6.0, hierarchical names are delimited with the "~" character.
+
+    For example, if the service name is "fabric:/myapp/app1/svc1", the service identity would be "myapp~app1~svc1" in 6.0+ and "myapp/app1/svc1" in previous versions.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API. This parameter is required and its value must be '6.2-preview'.
+  types:
+  - uid: ApiVersion_6-2-Preview_RequiredQueryParam
+- name: timeout
+  in: query
+  description: The server timeout for performing the operation in seconds. This timeout specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
+  types:
+  - uid: integer
+  format: int64
+- name: Latest
+  in: query
+  description: Specifies whether to get only the most recent backup available for a partition for the specified time range.
+  types:
+  - uid: boolean
+- name: StartDateTimeFilter
+  in: query
+  description: Specify the start date time from which to enumerate backups, in datetime format. The date time must be specified in ISO8601 format. This is an optional parameter. If not specified, all backups from the beginning are enumerated.
+  types:
+  - uid: string
+  format: date-time
+- name: EndDateTimeFilter
+  in: query
+  description: Specify the end date time till which to enumerate backups, in datetime format. The date time must be specified in ISO8601 format. This is an optional parameter. If not specified, enumeration is done till the most recent backup.
+  types:
+  - uid: string
+  format: date-time
+- name: ContinuationToken
+  in: query
+  description: The continuation token parameter is used to obtain next set of results. A continuation token with a non empty value is included in the response of the API when the results from the system do not fit in a single response. When this value is passed to the next API call, the API returns next set of results. If there are no further results then the continuation token does not contain a value. The value of this parameter should not be URL encoded.
+  types:
+  - uid: string
+- name: MaxResults
+  in: query
+  description: The maximum number of results to be returned as part of the paged queries. This parameter defines the upper bound on the number of results returned. The results returned can be less than the specified maximum results if they do not fit in the message as per the max message size restrictions defined in the configuration. If this parameter is zero or not specified, the paged queries includes as many results as possible that fit in the return message.
+  types:
+  - uid: integer
+  format: int64
+responses:
+- name: 200 OK
+  description: A successful operation will return 200 status code and a paged list of backup information.
+  types:
+  - uid: PagedBackupInfoList
+- name: Other Status Codes
+  description: The detailed error response.
+  types:
+  - uid: FabricError
+requestHeader: []
+definitions:
+- name: ApiVersion_6-2-Preview_RequiredQueryParam
+  description: The version of the API. This parameter is required and its value must be '6.2-preview'.
+  kind: enum
+  properties:
+  - name: 6.2-preview
+    description: The version number for the preview functionality of 6.2 runtime
+    types:
+    - uid: string
+- name: PagedBackupInfoList
+  description: The list of backups. The list is paged when all of the results cannot fit in a single message. The next set of results can be obtained by executing the same query with the continuation token provided in this list.
+  kind: object
+  properties:
+  - name: ContinuationToken
+    description: The continuation token parameter is used to obtain next set of results. The continuation token is included in the response of the API when the results from the system do not fit in a single response. When this value is passed to the next API call, the API returns next set of results. If there are no further results then the continuation token is not included in the response.
+    types:
+    - uid: string
+  - name: Items
+    description: List of backup information.
+    types:
+    - uid: BackupInfo
+      isArray: true
+- name: FabricError
+  description: The REST API operations for Service Fabric return standard HTTP status codes. This type defines the additional information returned from the Service Fabric API operations that are not successful.
+  kind: object
+  properties:
+  - name: Error
+    description: Error object containing error code and error message.
+    types:
+    - uid: FabricErrorError
+- name: BackupInfo
+  description: Represents a backup point which can be used to trigger a restore.
+  kind: object
+  properties:
+  - name: BackupId
+    description: Unique backup ID .
+    types:
+    - uid: string
+  - name: BackupChainId
+    description: Unique backup chain ID. All backups part of the same chain has the same backup chain id. A backup chain is comprised of 1 full backup and multiple incremental backups.
+    types:
+    - uid: string
+  - name: ApplicationName
+    description: Name of the Service Fabric application this partition backup belongs to.
+    types:
+    - uid: string
+  - name: ServiceName
+    description: Name of the Service Fabric service this partition backup belongs to.
+    types:
+    - uid: string
+  - name: PartitionInformation
+    description: Information about the partition to which this backup belongs to
+    types:
+    - uid: Int64RangePartitionInformation
+    - uid: NamedPartitionInformation
+    - uid: SingletonPartitionInformation
+    typesTitle: PartitionInformation
+  - name: BackupLocation
+    description: Location of the backup, relative to the backup store.
+    types:
+    - uid: string
+  - name: BackupType
+    description: Describes the type of backup, whether its full or incremental.
+    types:
+    - uid: BackupType
+  - name: EpochOfLastBackupRecord
+    description: Epoch of the last record in this backup.
+    types:
+    - uid: BackupEpoch
+  - name: LsnOfLastBackupRecord
+    description: LSN of the last record in this backup.
+    types:
+    - uid: string
+  - name: CreationTimeUtc
+    description: The date time when this backup was taken.
+    types:
+    - uid: string
+  - name: FailureError
+    description: Denotes the failure encountered in getting backup point information.
+    types:
+    - uid: FabricErrorError
+- name: FabricErrorError
+  description: Error object containing error code and error message.
+  kind: object
+  properties:
+  - name: Code
+    description: >-
+      Defines the fabric error codes that be returned as part of the error object in response to Service Fabric API operations that are not successful. Following are the error code values that can be returned for a specific HTTP status code.
+
+        - Possible values of the error code for HTTP status code 400 (Bad Request)
+          - "FABRIC_E_INVALID_PARTITION_KEY"
+          - "FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR"
+          - "FABRIC_E_INVALID_ADDRESS"
+          - "FABRIC_E_APPLICATION_NOT_UPGRADING"
+          - "FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR"
+          - "FABRIC_E_FABRIC_NOT_UPGRADING"
+          - "FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR"
+          - "FABRIC_E_INVALID_CONFIGURATION"
+          - "FABRIC_E_INVALID_NAME_URI"
+          - "FABRIC_E_PATH_TOO_LONG"
+          - "FABRIC_E_KEY_TOO_LARGE"
+          - "FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED"
+          - "FABRIC_E_INVALID_ATOMIC_GROUP"
+          - "FABRIC_E_VALUE_EMPTY"
+          - "FABRIC_E_BACKUP_IS_ENABLED"
+          - "FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH"
+          - "FABRIC_E_INVALID_FOR_STATELESS_SERVICES"
+          - "FABRIC_E_INVALID_SERVICE_SCALING_POLICY"
+          - "E_INVALIDARG"
+
+        - Possible values of the error code for HTTP status code 404 (Not Found)
+          - "FABRIC_E_NODE_NOT_FOUND"
+          - "FABRIC_E_APPLICATION_TYPE_NOT_FOUND"
+          - "FABRIC_E_APPLICATION_NOT_FOUND"
+          - "FABRIC_E_SERVICE_TYPE_NOT_FOUND"
+          - "FABRIC_E_SERVICE_DOES_NOT_EXIST"
+          - "FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND"
+          - "FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND"
+          - "FABRIC_E_PARTITION_NOT_FOUND"
+          - "FABRIC_E_REPLICA_DOES_NOT_EXIST"
+          - "FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST"
+          - "FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND"
+          - "FABRIC_E_DIRECTORY_NOT_FOUND"
+          - "FABRIC_E_FABRIC_VERSION_NOT_FOUND"
+          - "FABRIC_E_FILE_NOT_FOUND"
+          - "FABRIC_E_NAME_DOES_NOT_EXIST"
+          - "FABRIC_E_PROPERTY_DOES_NOT_EXIST"
+          - "FABRIC_E_ENUMERATION_COMPLETED"
+          - "FABRIC_E_SERVICE_MANIFEST_NOT_FOUND"
+          - "FABRIC_E_KEY_NOT_FOUND"
+          - "FABRIC_E_HEALTH_ENTITY_NOT_FOUND"
+          - "FABRIC_E_BACKUP_NOT_ENABLED"
+          - "FABRIC_E_BACKUP_POLICY_NOT_EXISTING"
+          - "FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING"
+
+        - Possible values of the error code for HTTP status code 409 (Conflict)
+          - "FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION"
+          - "FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS"
+          - "FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS"
+          - "FABRIC_E_SERVICE_ALREADY_EXISTS"
+          - "FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_TYPE_IN_USE"
+          - "FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION"
+          - "FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS"
+          - "FABRIC_E_FABRIC_VERSION_IN_USE"
+          - "FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS"
+          - "FABRIC_E_NAME_ALREADY_EXISTS"
+          - "FABRIC_E_NAME_NOT_EMPTY"
+          - "FABRIC_E_PROPERTY_CHECK_FAILED"
+          - "FABRIC_E_SERVICE_METADATA_MISMATCH"
+          - "FABRIC_E_SERVICE_TYPE_MISMATCH"
+          - "FABRIC_E_HEALTH_STALE_REPORT"
+          - "FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED"
+          - "FABRIC_E_NODE_HAS_NOT_STOPPED_YET"
+          - "FABRIC_E_INSTANCE_ID_MISMATCH"
+          - "FABRIC_E_BACKUP_IN_PROGRESS"
+          - "FABRIC_E_RESTORE_IN_PROGRESS"
+          - "FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING"
+
+        - Possible values of the error code for HTTP status code 413 (Request Entity Too Large)
+          - "FABRIC_E_VALUE_TOO_LARGE"
+
+        - Possible values of the error code for HTTP status code 500 (Internal Server Error)
+          - "FABRIC_E_NODE_IS_UP"
+          - "E_FAIL"
+
+        - Possible values of the error code for HTTP status code 503 (Service Unavailable)
+          - "FABRIC_E_NO_WRITE_QUORUM"
+          - "FABRIC_E_NOT_PRIMARY"
+          - "FABRIC_E_NOT_READY"
+          - "FABRIC_E_RECONFIGURATION_PENDING"
+          - "FABRIC_E_SERVICE_OFFLINE"
+          - "E_ABORT"
+          - "FABRIC_E_VALUE_TOO_LARGE"
+
+        - Possible values of the error code for HTTP status code 504 (Gateway Timeout)
+          - "FABRIC_E_COMMUNICATION_ERROR"
+          - "FABRIC_E_OPERATION_NOT_COMPLETE"
+          - "FABRIC_E_TIMEOUT"
+    types:
+    - uid: FabricErrorCodes
+  - name: Message
+    description: Error message.
+    types:
+    - uid: string
+- name: BackupType
+  description: Describes the type of backup, whether its full or incremental.
+  kind: enum
+  properties:
+  - name: Invalid
+    description: Indicates an invalid backup type. All Service Fabric enumerations have the invalid type.
+    types:
+    - uid: string
+  - name: Full
+    description: Indicates a full backup.
+    types:
+    - uid: string
+  - name: Incremental
+    description: Indicates an incremental backup. A backup chain is comprised of a full backup followed by 0 or more incremental backups.
+    types:
+    - uid: string
+- name: BackupEpoch
+  description: An Epoch is a configuration number for the partition as a whole. When the configuration of the replica set changes, for example when the Primary replica changes, the operations that are replicated from the new Primary replica are said to be a new Epoch from the ones which were sent by the old Primary replica.
+  kind: object
+  properties:
+  - name: ConfigurationNumber
+    description: The current configuration number of this Epoch. The configuration number is an increasing value that is updated whenever the configuration of this replica set changes.
+    types:
+    - uid: string
+  - name: DataLossNumber
+    description: The current dataloss number of this Epoch. The data loss number property is an increasing value which is updated whenever data loss is suspected, as when loss of a quorum of replicas in the replica set that includes the Primary replica.
+    types:
+    - uid: string
+- name: FabricErrorCodes
+  description: >-
+    Defines the fabric error codes that be returned as part of the error object in response to Service Fabric API operations that are not successful. Following are the error code values that can be returned for a specific HTTP status code.
+
+      - Possible values of the error code for HTTP status code 400 (Bad Request)
+        - "FABRIC_E_INVALID_PARTITION_KEY"
+        - "FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR"
+        - "FABRIC_E_INVALID_ADDRESS"
+        - "FABRIC_E_APPLICATION_NOT_UPGRADING"
+        - "FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR"
+        - "FABRIC_E_FABRIC_NOT_UPGRADING"
+        - "FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR"
+        - "FABRIC_E_INVALID_CONFIGURATION"
+        - "FABRIC_E_INVALID_NAME_URI"
+        - "FABRIC_E_PATH_TOO_LONG"
+        - "FABRIC_E_KEY_TOO_LARGE"
+        - "FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED"
+        - "FABRIC_E_INVALID_ATOMIC_GROUP"
+        - "FABRIC_E_VALUE_EMPTY"
+        - "FABRIC_E_BACKUP_IS_ENABLED"
+        - "FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH"
+        - "FABRIC_E_INVALID_FOR_STATELESS_SERVICES"
+        - "FABRIC_E_INVALID_SERVICE_SCALING_POLICY"
+        - "E_INVALIDARG"
+
+      - Possible values of the error code for HTTP status code 404 (Not Found)
+        - "FABRIC_E_NODE_NOT_FOUND"
+        - "FABRIC_E_APPLICATION_TYPE_NOT_FOUND"
+        - "FABRIC_E_APPLICATION_NOT_FOUND"
+        - "FABRIC_E_SERVICE_TYPE_NOT_FOUND"
+        - "FABRIC_E_SERVICE_DOES_NOT_EXIST"
+        - "FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND"
+        - "FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND"
+        - "FABRIC_E_PARTITION_NOT_FOUND"
+        - "FABRIC_E_REPLICA_DOES_NOT_EXIST"
+        - "FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST"
+        - "FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND"
+        - "FABRIC_E_DIRECTORY_NOT_FOUND"
+        - "FABRIC_E_FABRIC_VERSION_NOT_FOUND"
+        - "FABRIC_E_FILE_NOT_FOUND"
+        - "FABRIC_E_NAME_DOES_NOT_EXIST"
+        - "FABRIC_E_PROPERTY_DOES_NOT_EXIST"
+        - "FABRIC_E_ENUMERATION_COMPLETED"
+        - "FABRIC_E_SERVICE_MANIFEST_NOT_FOUND"
+        - "FABRIC_E_KEY_NOT_FOUND"
+        - "FABRIC_E_HEALTH_ENTITY_NOT_FOUND"
+        - "FABRIC_E_BACKUP_NOT_ENABLED"
+        - "FABRIC_E_BACKUP_POLICY_NOT_EXISTING"
+        - "FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING"
+
+      - Possible values of the error code for HTTP status code 409 (Conflict)
+        - "FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION"
+        - "FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS"
+        - "FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS"
+        - "FABRIC_E_SERVICE_ALREADY_EXISTS"
+        - "FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_TYPE_IN_USE"
+        - "FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION"
+        - "FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS"
+        - "FABRIC_E_FABRIC_VERSION_IN_USE"
+        - "FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS"
+        - "FABRIC_E_NAME_ALREADY_EXISTS"
+        - "FABRIC_E_NAME_NOT_EMPTY"
+        - "FABRIC_E_PROPERTY_CHECK_FAILED"
+        - "FABRIC_E_SERVICE_METADATA_MISMATCH"
+        - "FABRIC_E_SERVICE_TYPE_MISMATCH"
+        - "FABRIC_E_HEALTH_STALE_REPORT"
+        - "FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED"
+        - "FABRIC_E_NODE_HAS_NOT_STOPPED_YET"
+        - "FABRIC_E_INSTANCE_ID_MISMATCH"
+        - "FABRIC_E_BACKUP_IN_PROGRESS"
+        - "FABRIC_E_RESTORE_IN_PROGRESS"
+        - "FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING"
+
+      - Possible values of the error code for HTTP status code 413 (Request Entity Too Large)
+        - "FABRIC_E_VALUE_TOO_LARGE"
+
+      - Possible values of the error code for HTTP status code 500 (Internal Server Error)
+        - "FABRIC_E_NODE_IS_UP"
+        - "E_FAIL"
+
+      - Possible values of the error code for HTTP status code 503 (Service Unavailable)
+        - "FABRIC_E_NO_WRITE_QUORUM"
+        - "FABRIC_E_NOT_PRIMARY"
+        - "FABRIC_E_NOT_READY"
+        - "FABRIC_E_RECONFIGURATION_PENDING"
+        - "FABRIC_E_SERVICE_OFFLINE"
+        - "E_ABORT"
+        - "FABRIC_E_VALUE_TOO_LARGE"
+
+      - Possible values of the error code for HTTP status code 504 (Gateway Timeout)
+        - "FABRIC_E_COMMUNICATION_ERROR"
+        - "FABRIC_E_OPERATION_NOT_COMPLETE"
+        - "FABRIC_E_TIMEOUT"
+  kind: enum
+  properties:
+  - name: FABRIC_E_INVALID_PARTITION_KEY
+    types:
+    - uid: string
+  - name: FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_ADDRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_NOT_UPGRADING
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_NOT_UPGRADING
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_CONFIGURATION
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_NAME_URI
+    types:
+    - uid: string
+  - name: FABRIC_E_PATH_TOO_LONG
+    types:
+    - uid: string
+  - name: FABRIC_E_KEY_TOO_LARGE
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_ATOMIC_GROUP
+    types:
+    - uid: string
+  - name: FABRIC_E_VALUE_EMPTY
+    types:
+    - uid: string
+  - name: FABRIC_E_NODE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_TYPE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_PARTITION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_REPLICA_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_DIRECTORY_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_VERSION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_FILE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_NAME_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_PROPERTY_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_ENUMERATION_COMPLETED
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_MANIFEST_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_KEY_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_HEALTH_ENTITY_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_IN_USE
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_VERSION_IN_USE
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_NAME_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_NAME_NOT_EMPTY
+    types:
+    - uid: string
+  - name: FABRIC_E_PROPERTY_CHECK_FAILED
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_METADATA_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_TYPE_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_HEALTH_STALE_REPORT
+    types:
+    - uid: string
+  - name: FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED
+    types:
+    - uid: string
+  - name: FABRIC_E_NODE_HAS_NOT_STOPPED_YET
+    types:
+    - uid: string
+  - name: FABRIC_E_INSTANCE_ID_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_VALUE_TOO_LARGE
+    types:
+    - uid: string
+  - name: FABRIC_E_NO_WRITE_QUORUM
+    types:
+    - uid: string
+  - name: FABRIC_E_NOT_PRIMARY
+    types:
+    - uid: string
+  - name: FABRIC_E_NOT_READY
+    types:
+    - uid: string
+  - name: FABRIC_E_RECONFIGURATION_PENDING
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_OFFLINE
+    types:
+    - uid: string
+  - name: E_ABORT
+    types:
+    - uid: string
+  - name: FABRIC_E_COMMUNICATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_OPERATION_NOT_COMPLETE
+    types:
+    - uid: string
+  - name: FABRIC_E_TIMEOUT
+    types:
+    - uid: string
+  - name: FABRIC_E_NODE_IS_UP
+    types:
+    - uid: string
+  - name: E_FAIL
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_IS_ENABLED
+    types:
+    - uid: string
+  - name: FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_FOR_STATELESS_SERVICES
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_NOT_ENABLED
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_POLICY_NOT_EXISTING
+    types:
+    - uid: string
+  - name: FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_RESTORE_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_SERVICE_SCALING_POLICY
+    types:
+    - uid: string
+  - name: E_INVALIDARG
+    types:
+    - uid: string
+- name: Int64RangePartitionInformation
+  description: Describes the partition information for the integer range that is based on partition schemes.
+  kind: object
+  properties:
+  - name: LowKey
+    description: Specifies the minimum key value handled by this partition.
+    types:
+    - uid: string
+  - name: HighKey
+    description: Specifies the maximum key value handled by this partition.
+    types:
+    - uid: string
+  - name: ServicePartitionKind
+    description: The kind of partitioning scheme used to partition the service.
+    types:
+    - uid: Int64Range
+    typesTitle: string
+  - name: Id
+    description: An internal ID used by Service Fabric to uniquely identify a partition. This is a randomly generated GUID when the service was created. The partition ID is unique and does not change for the lifetime of the service. If the same service was deleted and recreated the IDs of its partitions would be different.
+    types:
+    - uid: string
+- name: NamedPartitionInformation
+  description: Describes the partition information for the name as a string that is based on partition schemes.
+  kind: object
+  properties:
+  - name: Name
+    description: Name of the partition.
+    types:
+    - uid: string
+  - name: ServicePartitionKind
+    description: The kind of partitioning scheme used to partition the service.
+    types:
+    - uid: Named
+    typesTitle: string
+  - name: Id
+    description: An internal ID used by Service Fabric to uniquely identify a partition. This is a randomly generated GUID when the service was created. The partition ID is unique and does not change for the lifetime of the service. If the same service was deleted and recreated the IDs of its partitions would be different.
+    types:
+    - uid: string
+- name: SingletonPartitionInformation
+  description: Information about a partition that is singleton. The services with singleton partitioning scheme are effectively non-partitioned. They only have one partition.
+  kind: object
+  properties:
+  - name: ServicePartitionKind
+    description: The kind of partitioning scheme used to partition the service.
+    types:
+    - uid: Singleton
+    typesTitle: string
+  - name: Id
+    description: An internal ID used by Service Fabric to uniquely identify a partition. This is a randomly generated GUID when the service was created. The partition ID is unique and does not change for the lifetime of the service. If the same service was deleted and recreated the IDs of its partitions would be different.
+    types:
+    - uid: string
+- name: ServicePartitionKind
+  description: The kind of partitioning scheme used to partition the service.
+  kind: enum
+  properties:
+  - name: Invalid
+    description: Indicates the partition kind is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+    types:
+    - uid: string
+  - name: Singleton
+    description: Indicates that there is only one partition, and SingletonPartitionSchemeDescription was specified while creating the service. The value is 1.
+    types:
+    - uid: string
+  - name: Int64Range
+    description: Indicates that the partition is based on Int64 key ranges, and UniformInt64RangePartitionSchemeDescription was specified while creating the service. The value is 2.
+    types:
+    - uid: string
+  - name: Named
+    description: Indicates that the partition is based on string names, and NamedPartitionInformation  was specified while creating the service. The value is 3.
+    types:
+    - uid: string
+examples:
+- name: Get application backups within a time range
+  request:
+    uri: GET http://localhost:19080/Services/CalcApp/CalcService/$/GetBackups?api-version=6.2.0.9&StartDateTimeFilter=1/1/2018 12:00:00 AM&EndDateTimeFilter=1/1/2018 11:59:59 PM
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "ContinuationToken": "",
+        "Items": [
+          {
+            "BackupId": "3a056ac9-7206-43c3-8424-6f6103003eba",
+            "BackupChainId": "3a056ac9-7206-43c3-8424-6f6103003eba",
+            "ApplicationName": "fabric:/CalcApp",
+            "ServiceName": "fabric:/CalcApp/CalcService",
+            "PartitionInformation": {
+              "LowKey": "-9223372036854775808",
+              "HighKey": "9223372036854775807",
+              "ServicePartitionKind": "Int64Range",
+              "Id": "1daae3f5-7fd6-42e9-b1ba-8c05f873994d"
+            },
+            "BackupLocation": "CalcApp\\CalcService\\1daae3f5-7fd6-42e9-b1ba-8c05f873994d\\2018-01-01 09.00.55.zip",
+            "BackupType": "Full",
+            "EpochOfLastBackupRecord": {
+              "DataLossNumber": "131462452931584510",
+              "ConfigurationNumber": "8589934592"
+            },
+            "LsnOfLastBackupRecord": "261",
+            "CreationTimeUtc": "2018-01-01T09:00:55Z",
+            "FailureError": null
+          },
+          {
+            "BackupId": "7903dc2a-228d-44b0-b7c8-a13a6c9b46bd",
+            "BackupChainId": "3a056ac9-7206-43c3-8424-6f6103003eba",
+            "ApplicationName": "fabric:/CalcApp",
+            "ServiceName": "fabric:/CalcApp/CalcService",
+            "PartitionInformation": {
+              "LowKey": "-9223372036854775808",
+              "HighKey": "9223372036854775807",
+              "ServicePartitionKind": "Int64Range",
+              "Id": "1daae3f5-7fd6-42e9-b1ba-8c05f873994d"
+            },
+            "BackupLocation": "CalcApp\\CalcService\\1daae3f5-7fd6-42e9-b1ba-8c05f873994d\\2018-01-01 17.01.02.zip",
+            "BackupType": "Incremental",
+            "EpochOfLastBackupRecord": {
+              "DataLossNumber": "131462452931584510",
+              "ConfigurationNumber": "8589934592"
+            },
+            "LsnOfLastBackupRecord": "446",
+            "CreationTimeUtc": "2018-01-01T17:01:02Z",
+            "FailureError": null
+          },
+          {
+            "BackupId": "0ff4fdbe-131c-4dfb-8249-7b4029ddc014",
+            "BackupChainId": "0ff4fdbe-131c-4dfb-8249-7b4029ddc014",
+            "ApplicationName": "fabric:/CalcApp",
+            "ServiceName": "fabric:/CalcApp/CalcService",
+            "PartitionInformation": {
+              "LowKey": "-9223372036854775808",
+              "HighKey": "9223372036854775807",
+              "ServicePartitionKind": "Int64Range",
+              "Id": "81645ec7-d260-4c59-9533-8f129bde8e83"
+            },
+            "BackupLocation": "CalcApp\\CalcService\\81645ec7-d260-4c59-9533-8f129bde8e83\\2018-01-01 09.01.02.zip",
+            "BackupType": "Full",
+            "EpochOfLastBackupRecord": {
+              "DataLossNumber": "131462452931584510",
+              "ConfigurationNumber": "8589934592"
+            },
+            "LsnOfLastBackupRecord": "161",
+            "CreationTimeUtc": "2018-01-01T09:01:02Z",
+            "FailureError": null
+          },
+          {
+            "BackupId": "d55a2d98-258b-4a34-8fe5-2063e81af9dc",
+            "BackupChainId": "0ff4fdbe-131c-4dfb-8249-7b4029ddc014",
+            "ApplicationName": "fabric:/CalcApp",
+            "ServiceName": "fabric:/CalcApp/CalcService",
+            "PartitionInformation": {
+              "LowKey": "-9223372036854775808",
+              "HighKey": "9223372036854775807",
+              "ServicePartitionKind": "Int64Range",
+              "Id": "81645ec7-d260-4c59-9533-8f129bde8e83"
+            },
+            "BackupLocation": "CalcApp\\CalcService\\81645ec7-d260-4c59-9533-8f129bde8e83\\2018-01-01 17.00.34.zip",
+            "BackupType": "Incremental",
+            "EpochOfLastBackupRecord": {
+              "DataLossNumber": "131462452931584510",
+              "ConfigurationNumber": "8589934592"
+            },
+            "LsnOfLastBackupRecord": "246",
+            "CreationTimeUtc": "2018-01-01T17:00:34Z",
+            "FailureError": null
+          }
+        ]
+      }
+- name: Get latest backup
+  request:
+    uri: GET http://localhost:19080/Services/CalcApp/CalcService/$/GetBackups?api-version=6.2.0.9&Latest=True
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "ContinuationToken": "",
+        "Items": [
+          {
+            "BackupId": "7903dc2a-228d-44b0-b7c8-a13a6c9b46bd",
+            "BackupChainId": "3a056ac9-7206-43c3-8424-6f6103003eba",
+            "ApplicationName": "fabric:/CalcApp",
+            "ServiceName": "fabric:/CalcApp/CalcService",
+            "PartitionInformation": {
+              "LowKey": "-9223372036854775808",
+              "HighKey": "9223372036854775807",
+              "ServicePartitionKind": "Int64Range",
+              "Id": "1daae3f5-7fd6-42e9-b1ba-8c05f873994d"
+            },
+            "BackupLocation": "CalcApp\\CalcService\\1daae3f5-7fd6-42e9-b1ba-8c05f873994d\\2018-01-01 17.01.02.zip",
+            "BackupType": "Incremental",
+            "EpochOfLastBackupRecord": {
+              "DataLossNumber": "131462452931584510",
+              "ConfigurationNumber": "8589934592"
+            },
+            "LsnOfLastBackupRecord": "446",
+            "CreationTimeUtc": "2018-01-01T17:01:02Z",
+            "FailureError": null
+          },
+          {
+            "BackupId": "d55a2d98-258b-4a34-8fe5-2063e81af9dc",
+            "BackupChainId": "0ff4fdbe-131c-4dfb-8249-7b4029ddc014",
+            "ApplicationName": "fabric:/CalcApp",
+            "ServiceName": "fabric:/CalcApp/CalcService",
+            "PartitionInformation": {
+              "LowKey": "-9223372036854775808",
+              "HighKey": "9223372036854775807",
+              "ServicePartitionKind": "Int64Range",
+              "Id": "81645ec7-d260-4c59-9533-8f129bde8e83"
+            },
+            "BackupLocation": "CalcApp\\CalcService\\81645ec7-d260-4c59-9533-8f129bde8e83\\2018-01-01 17.00.34.zip",
+            "BackupType": "Incremental",
+            "EpochOfLastBackupRecord": {
+              "DataLossNumber": "131462452931584510",
+              "ConfigurationNumber": "8589934592"
+            },
+            "LsnOfLastBackupRecord": "246",
+            "CreationTimeUtc": "2018-01-01T17:00:34Z",
+            "FailureError": null
+          }
+        ]
+      }
+- name: Limit maximum results
+  request:
+    uri: GET http://localhost:19080/Services/CalcApp/CalcService/$/GetBackups?api-version=6.2.0.9&MaxResults=2
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "ContinuationToken": "fabric:/CalcApp/CalcService#1daae3f5-7fd6-42e9-b1ba-8c05f873994d#7903dc2a-228d-44b0-b7c8-a13a6c9b46bd",
+        "Items": [
+          {
+            "BackupId": "3a056ac9-7206-43c3-8424-6f6103003eba",
+            "BackupChainId": "3a056ac9-7206-43c3-8424-6f6103003eba",
+            "ApplicationName": "fabric:/CalcApp",
+            "ServiceName": "fabric:/CalcApp/CalcService",
+            "PartitionInformation": {
+              "LowKey": "-9223372036854775808",
+              "HighKey": "9223372036854775807",
+              "ServicePartitionKind": "Int64Range",
+              "Id": "1daae3f5-7fd6-42e9-b1ba-8c05f873994d"
+            },
+            "BackupLocation": "CalcApp\\CalcService\\1daae3f5-7fd6-42e9-b1ba-8c05f873994d\\2018-01-01 09.00.55.zip",
+            "BackupType": "Full",
+            "EpochOfLastBackupRecord": {
+              "DataLossNumber": "131462452931584510",
+              "ConfigurationNumber": "8589934592"
+            },
+            "LsnOfLastBackupRecord": "261",
+            "CreationTimeUtc": "2018-01-01T09:00:55Z",
+            "FailureError": null
+          },
+          {
+            "BackupId": "7903dc2a-228d-44b0-b7c8-a13a6c9b46bd",
+            "BackupChainId": "3a056ac9-7206-43c3-8424-6f6103003eba",
+            "ApplicationName": "fabric:/CalcApp",
+            "ServiceName": "fabric:/CalcApp/CalcService",
+            "PartitionInformation": {
+              "LowKey": "-9223372036854775808",
+              "HighKey": "9223372036854775807",
+              "ServicePartitionKind": "Int64Range",
+              "Id": "1daae3f5-7fd6-42e9-b1ba-8c05f873994d"
+            },
+            "BackupLocation": "CalcApp\\CalcService\\1daae3f5-7fd6-42e9-b1ba-8c05f873994d\\2018-01-01 17.01.02.zip",
+            "BackupType": "Incremental",
+            "EpochOfLastBackupRecord": {
+              "DataLossNumber": "131462452931584510",
+              "ConfigurationNumber": "8589934592"
+            },
+            "LsnOfLastBackupRecord": "446",
+            "CreationTimeUtc": "2018-01-01T17:01:02Z",
+            "FailureError": null
+          }
+        ]
+      }
+- name: Page using continuation token
+  request:
+    uri: GET http://localhost:19080/Services/CalcApp/CalcService/$/GetBackups?api-version=6.2.0.9&ContinuationToken=fabric:/CalcApp/CalcService#1daae3f5-7fd6-42e9-b1ba-8c05f873994d#7903dc2a-228d-44b0-b7c8-a13a6c9b46bd&MaxResults=2
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "ContinuationToken": "",
+        "Items": [
+          {
+            "BackupId": "0ff4fdbe-131c-4dfb-8249-7b4029ddc014",
+            "BackupChainId": "0ff4fdbe-131c-4dfb-8249-7b4029ddc014",
+            "ApplicationName": "fabric:/CalcApp",
+            "ServiceName": "fabric:/CalcApp/CalcService",
+            "PartitionInformation": {
+              "LowKey": "-9223372036854775808",
+              "HighKey": "9223372036854775807",
+              "ServicePartitionKind": "Int64Range",
+              "Id": "81645ec7-d260-4c59-9533-8f129bde8e83"
+            },
+            "BackupLocation": "CalcApp\\CalcService\\81645ec7-d260-4c59-9533-8f129bde8e83\\2018-01-01 09.01.02.zip",
+            "BackupType": "Full",
+            "EpochOfLastBackupRecord": {
+              "DataLossNumber": "131462452931584510",
+              "ConfigurationNumber": "8589934592"
+            },
+            "LsnOfLastBackupRecord": "161",
+            "CreationTimeUtc": "2018-01-01T09:01:02Z",
+            "FailureError": null
+          },
+          {
+            "BackupId": "d55a2d98-258b-4a34-8fe5-2063e81af9dc",
+            "BackupChainId": "0ff4fdbe-131c-4dfb-8249-7b4029ddc014",
+            "ApplicationName": "fabric:/CalcApp",
+            "ServiceName": "fabric:/CalcApp/CalcService",
+            "PartitionInformation": {
+              "LowKey": "-9223372036854775808",
+              "HighKey": "9223372036854775807",
+              "ServicePartitionKind": "Int64Range",
+              "Id": "81645ec7-d260-4c59-9533-8f129bde8e83"
+            },
+            "BackupLocation": "CalcApp\\CalcService\\81645ec7-d260-4c59-9533-8f129bde8e83\\2018-01-01 17.00.34.zip",
+            "BackupType": "Incremental",
+            "EpochOfLastBackupRecord": {
+              "DataLossNumber": "131462452931584510",
+              "ConfigurationNumber": "8589934592"
+            },
+            "LsnOfLastBackupRecord": "246",
+            "CreationTimeUtc": "2018-01-01T17:00:34Z",
+            "FailureError": null
+          }
+        ]
+      }
+security: []

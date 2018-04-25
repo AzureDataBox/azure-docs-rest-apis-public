@@ -1,0 +1,752 @@
+### YamlMime:RESTOperation
+uid: localhost:19080.servicefabric.getdeployedcodepackageinfolist.getdeployedcodepackageinfolist
+name: Get Deployed Code Package Info List
+service: Service Fabric
+groupName: Get Deployed Code Package Info List
+apiVersion: 6.2.0.9
+summary: "Gets the list of code packages deployed on a Service Fabric node.  \nGets the list of code packages deployed on a Service Fabric node for the given application."
+produces:
+- application/json
+paths:
+- content: GET http://localhost:19080/Nodes/{nodeName}/$/GetApplications/{applicationId}/$/GetCodePackages?api-version=6.2.0.9
+- content: GET http://localhost:19080/Nodes/{nodeName}/$/GetApplications/{applicationId}/$/GetCodePackages?api-version=6.2.0.9&ServiceManifestName={ServiceManifestName}&CodePackageName={CodePackageName}&timeout={timeout}
+  isOptional: true
+uriParameters:
+- name: nodeName
+  in: path
+  isRequired: true
+  description: The name of the node.
+  types:
+  - uid: string
+- name: applicationId
+  in: path
+  isRequired: true
+  description: >-
+    The identity of the application. This is typically the full name of the application without the 'fabric:' URI scheme.
+
+    Starting from version 6.0, hierarchical names are delimited with the "~" character.
+
+    For example, if the application name is "fabric:/myapp/app1", the application identity would be "myapp~app1" in 6.0+ and "myapp/app1" in previous versions.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: >-
+    The version of the API. This parameter is required and its value must be '6.0'.
+
+
+    Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
+
+
+    Additionally the runtime accept any version that is higher than the latest supported version up to the current version of the runtime. So if the latest API version is 6.0, but if the runtime is 6.1, in order to make it easier to write the clients, the runtime will accept version 6.1 for that API. However the behavior of the API will be as per the documented 6.0 version.
+  types:
+  - uid: ApiVersion_6-0_RequiredQueryParam
+- name: ServiceManifestName
+  in: query
+  description: The name of a service manifest registered as part of an application type in a Service Fabric cluster.
+  types:
+  - uid: string
+- name: CodePackageName
+  in: query
+  description: The name of code package specified in service manifest registered as part of an application type in a Service Fabric cluster.
+  types:
+  - uid: string
+- name: timeout
+  in: query
+  description: The server timeout for performing the operation in seconds. This timeout specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
+  types:
+  - uid: integer
+  format: int64
+responses:
+- name: 200 OK
+  description: A successful operation will return 200 status code and the list of deployed code packages information.
+  types:
+  - uid: DeployedCodePackageInfo
+    isArray: true
+- name: Other Status Codes
+  description: The detailed error response.
+  types:
+  - uid: FabricError
+requestHeader: []
+definitions:
+- name: ApiVersion_6-0_RequiredQueryParam
+  description: >-
+    The version of the API. This parameter is required and its value must be '6.0'.
+
+
+    Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
+
+
+    Additionally the runtime accept any version that is higher than the latest supported version up to the current version of the runtime. So if the latest API version is 6.0, but if the runtime is 6.1, in order to make it easier to write the clients, the runtime will accept version 6.1 for that API. However the behavior of the API will be as per the documented 6.0 version.
+  kind: enum
+  properties:
+  - name: "6.0"
+    description: The 6.0 version of the API.
+    types:
+    - uid: string
+- name: DeployedCodePackageInfo
+  description: Information about code package deployed on a Service Fabric node.
+  kind: object
+  properties:
+  - name: Name
+    description: The name of the code package.
+    types:
+    - uid: string
+  - name: Version
+    description: The version of the code package specified in service manifest.
+    types:
+    - uid: string
+  - name: ServiceManifestName
+    description: The name of service manifest that specified this code package.
+    types:
+    - uid: string
+  - name: ServicePackageActivationId
+    description: >-
+      The ActivationId of a deployed service package. If ServicePackageActivationMode specified at the time of creating the service
+
+      is 'SharedProcess' (or if it is not specified, in which case it defaults to 'SharedProcess'), then value of ServicePackageActivationId
+
+      is always an empty string.
+    types:
+    - uid: string
+  - name: HostType
+    description: Specifies the type of host for main entry point of a code package as specified in service manifest.
+    types:
+    - uid: HostType
+  - name: HostIsolationMode
+    description: Specifies the isolation mode of main entry point of a code package when it's host type is ContainerHost. This is specified as part of container host policies in application manifest while importing service manifest.
+    types:
+    - uid: HostIsolationMode
+  - name: Status
+    description: Specifies the status of a deployed application or service package on a Service Fabric node.
+    types:
+    - uid: DeploymentStatus
+  - name: RunFrequencyInterval
+    description: The interval at which code package is run. This is used for periodic code package.
+    types:
+    - uid: string
+  - name: SetupEntryPoint
+    description: Information about setup or main entry point of a code package deployed on a Service Fabric node.
+    types:
+    - uid: CodePackageEntryPoint
+  - name: MainEntryPoint
+    description: Information about setup or main entry point of a code package deployed on a Service Fabric node.
+    types:
+    - uid: CodePackageEntryPoint
+- name: FabricError
+  description: The REST API operations for Service Fabric return standard HTTP status codes. This type defines the additional information returned from the Service Fabric API operations that are not successful.
+  kind: object
+  properties:
+  - name: Error
+    description: Error object containing error code and error message.
+    types:
+    - uid: FabricErrorError
+- name: HostType
+  description: Specifies the type of host for main entry point of a code package as specified in service manifest.
+  kind: enum
+  properties:
+  - name: Invalid
+    description: Indicates the type of host is not known or invalid. The value is 0.
+    types:
+    - uid: string
+  - name: ExeHost
+    description: Indicates the host is an executable. The value is 1.
+    types:
+    - uid: string
+  - name: ContainerHost
+    description: Indicates the host is a container. The value is 2.
+    types:
+    - uid: string
+- name: HostIsolationMode
+  description: Specifies the isolation mode of main entry point of a code package when it's host type is ContainerHost. This is specified as part of container host policies in application manifest while importing service manifest.
+  kind: enum
+  properties:
+  - name: None
+    description: Indicates the isolation mode is not applicable for given HostType. The value is 0.
+    types:
+    - uid: string
+  - name: Process
+    description: This is the default isolation mode for a ContainerHost. The value is 1.
+    types:
+    - uid: string
+  - name: HyperV
+    description: Indicates the ContainerHost is a Hyper-V container. This applies to only Windows containers. The value is 2.
+    types:
+    - uid: string
+- name: DeploymentStatus
+  description: Specifies the status of a deployed application or service package on a Service Fabric node.
+  kind: enum
+  properties:
+  - name: Invalid
+    description: Indicates status of the application or service package is not known or invalid. The value is 0.
+    types:
+    - uid: string
+  - name: Downloading
+    description: Indicates the application or service package is being downloaded to the node from the ImageStore. The value is 1.
+    types:
+    - uid: string
+  - name: Activating
+    description: Indicates the application or service package is being activated. The value is 2.
+    types:
+    - uid: string
+  - name: Active
+    description: Indicates the application or service package is active the node. The value is 3.
+    types:
+    - uid: string
+  - name: Upgrading
+    description: Indicates the application or service package is being upgraded. The value is 4.
+    types:
+    - uid: string
+  - name: Deactivating
+    description: Indicates the application or service package is being deactivated. The value is 5.
+    types:
+    - uid: string
+- name: CodePackageEntryPoint
+  description: Information about setup or main entry point of a code package deployed on a Service Fabric node.
+  kind: object
+  properties:
+  - name: EntryPointLocation
+    description: The location of entry point executable on the node.
+    types:
+    - uid: string
+  - name: ProcessId
+    description: The process ID of the entry point.
+    types:
+    - uid: string
+  - name: RunAsUserName
+    description: The user name under which entry point executable is run on the node.
+    types:
+    - uid: string
+  - name: CodePackageEntryPointStatistics
+    description: Statistics about setup or main entry point  of a code package deployed on a Service Fabric node.
+    types:
+    - uid: CodePackageEntryPointStatistics
+  - name: Status
+    description: Specifies the status of the code package entry point deployed on a Service Fabric node.
+    types:
+    - uid: EntryPointStatus
+  - name: NextActivationTime
+    description: The time (in UTC) when the entry point executable will be run next.
+    types:
+    - uid: string
+  - name: InstanceId
+    description: The instance ID for current running entry point. For a code package setup entry point (if specified) runs first and after it finishes main entry point is started. Each time entry point executable is run, its instance id will change.
+    types:
+    - uid: string
+- name: FabricErrorError
+  description: Error object containing error code and error message.
+  kind: object
+  properties:
+  - name: Code
+    description: >-
+      Defines the fabric error codes that be returned as part of the error object in response to Service Fabric API operations that are not successful. Following are the error code values that can be returned for a specific HTTP status code.
+
+        - Possible values of the error code for HTTP status code 400 (Bad Request)
+          - "FABRIC_E_INVALID_PARTITION_KEY"
+          - "FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR"
+          - "FABRIC_E_INVALID_ADDRESS"
+          - "FABRIC_E_APPLICATION_NOT_UPGRADING"
+          - "FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR"
+          - "FABRIC_E_FABRIC_NOT_UPGRADING"
+          - "FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR"
+          - "FABRIC_E_INVALID_CONFIGURATION"
+          - "FABRIC_E_INVALID_NAME_URI"
+          - "FABRIC_E_PATH_TOO_LONG"
+          - "FABRIC_E_KEY_TOO_LARGE"
+          - "FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED"
+          - "FABRIC_E_INVALID_ATOMIC_GROUP"
+          - "FABRIC_E_VALUE_EMPTY"
+          - "FABRIC_E_BACKUP_IS_ENABLED"
+          - "FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH"
+          - "FABRIC_E_INVALID_FOR_STATELESS_SERVICES"
+          - "FABRIC_E_INVALID_SERVICE_SCALING_POLICY"
+          - "E_INVALIDARG"
+
+        - Possible values of the error code for HTTP status code 404 (Not Found)
+          - "FABRIC_E_NODE_NOT_FOUND"
+          - "FABRIC_E_APPLICATION_TYPE_NOT_FOUND"
+          - "FABRIC_E_APPLICATION_NOT_FOUND"
+          - "FABRIC_E_SERVICE_TYPE_NOT_FOUND"
+          - "FABRIC_E_SERVICE_DOES_NOT_EXIST"
+          - "FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND"
+          - "FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND"
+          - "FABRIC_E_PARTITION_NOT_FOUND"
+          - "FABRIC_E_REPLICA_DOES_NOT_EXIST"
+          - "FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST"
+          - "FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND"
+          - "FABRIC_E_DIRECTORY_NOT_FOUND"
+          - "FABRIC_E_FABRIC_VERSION_NOT_FOUND"
+          - "FABRIC_E_FILE_NOT_FOUND"
+          - "FABRIC_E_NAME_DOES_NOT_EXIST"
+          - "FABRIC_E_PROPERTY_DOES_NOT_EXIST"
+          - "FABRIC_E_ENUMERATION_COMPLETED"
+          - "FABRIC_E_SERVICE_MANIFEST_NOT_FOUND"
+          - "FABRIC_E_KEY_NOT_FOUND"
+          - "FABRIC_E_HEALTH_ENTITY_NOT_FOUND"
+          - "FABRIC_E_BACKUP_NOT_ENABLED"
+          - "FABRIC_E_BACKUP_POLICY_NOT_EXISTING"
+          - "FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING"
+
+        - Possible values of the error code for HTTP status code 409 (Conflict)
+          - "FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION"
+          - "FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS"
+          - "FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS"
+          - "FABRIC_E_SERVICE_ALREADY_EXISTS"
+          - "FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_TYPE_IN_USE"
+          - "FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION"
+          - "FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS"
+          - "FABRIC_E_FABRIC_VERSION_IN_USE"
+          - "FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS"
+          - "FABRIC_E_NAME_ALREADY_EXISTS"
+          - "FABRIC_E_NAME_NOT_EMPTY"
+          - "FABRIC_E_PROPERTY_CHECK_FAILED"
+          - "FABRIC_E_SERVICE_METADATA_MISMATCH"
+          - "FABRIC_E_SERVICE_TYPE_MISMATCH"
+          - "FABRIC_E_HEALTH_STALE_REPORT"
+          - "FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED"
+          - "FABRIC_E_NODE_HAS_NOT_STOPPED_YET"
+          - "FABRIC_E_INSTANCE_ID_MISMATCH"
+          - "FABRIC_E_BACKUP_IN_PROGRESS"
+          - "FABRIC_E_RESTORE_IN_PROGRESS"
+          - "FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING"
+
+        - Possible values of the error code for HTTP status code 413 (Request Entity Too Large)
+          - "FABRIC_E_VALUE_TOO_LARGE"
+
+        - Possible values of the error code for HTTP status code 500 (Internal Server Error)
+          - "FABRIC_E_NODE_IS_UP"
+          - "E_FAIL"
+
+        - Possible values of the error code for HTTP status code 503 (Service Unavailable)
+          - "FABRIC_E_NO_WRITE_QUORUM"
+          - "FABRIC_E_NOT_PRIMARY"
+          - "FABRIC_E_NOT_READY"
+          - "FABRIC_E_RECONFIGURATION_PENDING"
+          - "FABRIC_E_SERVICE_OFFLINE"
+          - "E_ABORT"
+          - "FABRIC_E_VALUE_TOO_LARGE"
+
+        - Possible values of the error code for HTTP status code 504 (Gateway Timeout)
+          - "FABRIC_E_COMMUNICATION_ERROR"
+          - "FABRIC_E_OPERATION_NOT_COMPLETE"
+          - "FABRIC_E_TIMEOUT"
+    types:
+    - uid: FabricErrorCodes
+  - name: Message
+    description: Error message.
+    types:
+    - uid: string
+- name: CodePackageEntryPointStatistics
+  description: Statistics about setup or main entry point  of a code package deployed on a Service Fabric node.
+  kind: object
+  properties:
+  - name: LastExitCode
+    description: The last exit code of the entry point.
+    types:
+    - uid: string
+  - name: LastActivationTime
+    description: The last time (in UTC) when Service Fabric attempted to run the entry point.
+    types:
+    - uid: string
+  - name: LastExitTime
+    description: The last time (in UTC) when the entry point finished running.
+    types:
+    - uid: string
+  - name: LastSuccessfulActivationTime
+    description: The last time (in UTC) when the entry point ran successfully.
+    types:
+    - uid: string
+  - name: LastSuccessfulExitTime
+    description: The last time (in UTC) when the entry point finished running gracefully.
+    types:
+    - uid: string
+  - name: ActivationCount
+    description: Number of times the entry point has run.
+    types:
+    - uid: string
+  - name: ActivationFailureCount
+    description: Number of times the entry point failed to run.
+    types:
+    - uid: string
+  - name: ContinuousActivationFailureCount
+    description: Number of times the entry point continuously failed to run.
+    types:
+    - uid: string
+  - name: ExitCount
+    description: Number of times the entry point finished running.
+    types:
+    - uid: string
+  - name: ExitFailureCount
+    description: Number of times the entry point failed to exit gracefully.
+    types:
+    - uid: string
+  - name: ContinuousExitFailureCount
+    description: Number of times the entry point continuously failed to exit gracefully.
+    types:
+    - uid: string
+- name: EntryPointStatus
+  description: Specifies the status of the code package entry point deployed on a Service Fabric node.
+  kind: enum
+  properties:
+  - name: Invalid
+    description: Indicates status of entry point is not known or invalid. The value is 0.
+    types:
+    - uid: string
+  - name: Pending
+    description: Indicates the entry point is scheduled to be started. The value is 1.
+    types:
+    - uid: string
+  - name: Starting
+    description: Indicates the entry point is being started. The value is 2.
+    types:
+    - uid: string
+  - name: Started
+    description: Indicates the entry point was started successfully and is running. The value is 3.
+    types:
+    - uid: string
+  - name: Stopping
+    description: Indicates the entry point is being stopped. The value is 4.
+    types:
+    - uid: string
+  - name: Stopped
+    description: Indicates the entry point is not running. The value is 5.
+    types:
+    - uid: string
+- name: FabricErrorCodes
+  description: >-
+    Defines the fabric error codes that be returned as part of the error object in response to Service Fabric API operations that are not successful. Following are the error code values that can be returned for a specific HTTP status code.
+
+      - Possible values of the error code for HTTP status code 400 (Bad Request)
+        - "FABRIC_E_INVALID_PARTITION_KEY"
+        - "FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR"
+        - "FABRIC_E_INVALID_ADDRESS"
+        - "FABRIC_E_APPLICATION_NOT_UPGRADING"
+        - "FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR"
+        - "FABRIC_E_FABRIC_NOT_UPGRADING"
+        - "FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR"
+        - "FABRIC_E_INVALID_CONFIGURATION"
+        - "FABRIC_E_INVALID_NAME_URI"
+        - "FABRIC_E_PATH_TOO_LONG"
+        - "FABRIC_E_KEY_TOO_LARGE"
+        - "FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED"
+        - "FABRIC_E_INVALID_ATOMIC_GROUP"
+        - "FABRIC_E_VALUE_EMPTY"
+        - "FABRIC_E_BACKUP_IS_ENABLED"
+        - "FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH"
+        - "FABRIC_E_INVALID_FOR_STATELESS_SERVICES"
+        - "FABRIC_E_INVALID_SERVICE_SCALING_POLICY"
+        - "E_INVALIDARG"
+
+      - Possible values of the error code for HTTP status code 404 (Not Found)
+        - "FABRIC_E_NODE_NOT_FOUND"
+        - "FABRIC_E_APPLICATION_TYPE_NOT_FOUND"
+        - "FABRIC_E_APPLICATION_NOT_FOUND"
+        - "FABRIC_E_SERVICE_TYPE_NOT_FOUND"
+        - "FABRIC_E_SERVICE_DOES_NOT_EXIST"
+        - "FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND"
+        - "FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND"
+        - "FABRIC_E_PARTITION_NOT_FOUND"
+        - "FABRIC_E_REPLICA_DOES_NOT_EXIST"
+        - "FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST"
+        - "FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND"
+        - "FABRIC_E_DIRECTORY_NOT_FOUND"
+        - "FABRIC_E_FABRIC_VERSION_NOT_FOUND"
+        - "FABRIC_E_FILE_NOT_FOUND"
+        - "FABRIC_E_NAME_DOES_NOT_EXIST"
+        - "FABRIC_E_PROPERTY_DOES_NOT_EXIST"
+        - "FABRIC_E_ENUMERATION_COMPLETED"
+        - "FABRIC_E_SERVICE_MANIFEST_NOT_FOUND"
+        - "FABRIC_E_KEY_NOT_FOUND"
+        - "FABRIC_E_HEALTH_ENTITY_NOT_FOUND"
+        - "FABRIC_E_BACKUP_NOT_ENABLED"
+        - "FABRIC_E_BACKUP_POLICY_NOT_EXISTING"
+        - "FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING"
+
+      - Possible values of the error code for HTTP status code 409 (Conflict)
+        - "FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION"
+        - "FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS"
+        - "FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS"
+        - "FABRIC_E_SERVICE_ALREADY_EXISTS"
+        - "FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_TYPE_IN_USE"
+        - "FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION"
+        - "FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS"
+        - "FABRIC_E_FABRIC_VERSION_IN_USE"
+        - "FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS"
+        - "FABRIC_E_NAME_ALREADY_EXISTS"
+        - "FABRIC_E_NAME_NOT_EMPTY"
+        - "FABRIC_E_PROPERTY_CHECK_FAILED"
+        - "FABRIC_E_SERVICE_METADATA_MISMATCH"
+        - "FABRIC_E_SERVICE_TYPE_MISMATCH"
+        - "FABRIC_E_HEALTH_STALE_REPORT"
+        - "FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED"
+        - "FABRIC_E_NODE_HAS_NOT_STOPPED_YET"
+        - "FABRIC_E_INSTANCE_ID_MISMATCH"
+        - "FABRIC_E_BACKUP_IN_PROGRESS"
+        - "FABRIC_E_RESTORE_IN_PROGRESS"
+        - "FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING"
+
+      - Possible values of the error code for HTTP status code 413 (Request Entity Too Large)
+        - "FABRIC_E_VALUE_TOO_LARGE"
+
+      - Possible values of the error code for HTTP status code 500 (Internal Server Error)
+        - "FABRIC_E_NODE_IS_UP"
+        - "E_FAIL"
+
+      - Possible values of the error code for HTTP status code 503 (Service Unavailable)
+        - "FABRIC_E_NO_WRITE_QUORUM"
+        - "FABRIC_E_NOT_PRIMARY"
+        - "FABRIC_E_NOT_READY"
+        - "FABRIC_E_RECONFIGURATION_PENDING"
+        - "FABRIC_E_SERVICE_OFFLINE"
+        - "E_ABORT"
+        - "FABRIC_E_VALUE_TOO_LARGE"
+
+      - Possible values of the error code for HTTP status code 504 (Gateway Timeout)
+        - "FABRIC_E_COMMUNICATION_ERROR"
+        - "FABRIC_E_OPERATION_NOT_COMPLETE"
+        - "FABRIC_E_TIMEOUT"
+  kind: enum
+  properties:
+  - name: FABRIC_E_INVALID_PARTITION_KEY
+    types:
+    - uid: string
+  - name: FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_ADDRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_NOT_UPGRADING
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_NOT_UPGRADING
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_CONFIGURATION
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_NAME_URI
+    types:
+    - uid: string
+  - name: FABRIC_E_PATH_TOO_LONG
+    types:
+    - uid: string
+  - name: FABRIC_E_KEY_TOO_LARGE
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_ATOMIC_GROUP
+    types:
+    - uid: string
+  - name: FABRIC_E_VALUE_EMPTY
+    types:
+    - uid: string
+  - name: FABRIC_E_NODE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_TYPE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_PARTITION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_REPLICA_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_DIRECTORY_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_VERSION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_FILE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_NAME_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_PROPERTY_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_ENUMERATION_COMPLETED
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_MANIFEST_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_KEY_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_HEALTH_ENTITY_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_IN_USE
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_VERSION_IN_USE
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_NAME_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_NAME_NOT_EMPTY
+    types:
+    - uid: string
+  - name: FABRIC_E_PROPERTY_CHECK_FAILED
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_METADATA_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_TYPE_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_HEALTH_STALE_REPORT
+    types:
+    - uid: string
+  - name: FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED
+    types:
+    - uid: string
+  - name: FABRIC_E_NODE_HAS_NOT_STOPPED_YET
+    types:
+    - uid: string
+  - name: FABRIC_E_INSTANCE_ID_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_VALUE_TOO_LARGE
+    types:
+    - uid: string
+  - name: FABRIC_E_NO_WRITE_QUORUM
+    types:
+    - uid: string
+  - name: FABRIC_E_NOT_PRIMARY
+    types:
+    - uid: string
+  - name: FABRIC_E_NOT_READY
+    types:
+    - uid: string
+  - name: FABRIC_E_RECONFIGURATION_PENDING
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_OFFLINE
+    types:
+    - uid: string
+  - name: E_ABORT
+    types:
+    - uid: string
+  - name: FABRIC_E_COMMUNICATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_OPERATION_NOT_COMPLETE
+    types:
+    - uid: string
+  - name: FABRIC_E_TIMEOUT
+    types:
+    - uid: string
+  - name: FABRIC_E_NODE_IS_UP
+    types:
+    - uid: string
+  - name: E_FAIL
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_IS_ENABLED
+    types:
+    - uid: string
+  - name: FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_FOR_STATELESS_SERVICES
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_NOT_ENABLED
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_POLICY_NOT_EXISTING
+    types:
+    - uid: string
+  - name: FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_RESTORE_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_SERVICE_SCALING_POLICY
+    types:
+    - uid: string
+  - name: E_INVALIDARG
+    types:
+    - uid: string
+examples: []
+security: []

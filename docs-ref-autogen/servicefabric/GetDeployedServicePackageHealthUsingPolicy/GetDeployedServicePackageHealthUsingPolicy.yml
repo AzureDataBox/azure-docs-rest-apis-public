@@ -1,0 +1,1693 @@
+### YamlMime:RESTOperation
+uid: localhost:19080.servicefabric.getdeployedservicepackagehealthusingpolicy.getdeployedservicepackagehealthusingpolicy
+name: Get Deployed Service Package Health Using Policy
+service: Service Fabric
+groupName: Get Deployed Service Package Health Using Policy
+apiVersion: 6.2.0.9
+summary: "Gets the information about health of service package for a specific application deployed on a Service Fabric node using the specified policy.  \nGets the information about health of an service package for a specific application deployed on a Service Fabric node. using the specified policy. Use EventsHealthStateFilter to optionally filter for the collection of HealthEvent objects reported on the deployed service package based on health state. Use ApplicationHealthPolicy to optionally override the health policies used to evaluate the health. This API only uses 'ConsiderWarningAsError' field of the ApplicationHealthPolicy. The rest of the fields are ignored while evaluating the health of the deployed service package."
+produces:
+- application/json
+paths:
+- content: POST http://localhost:19080/Nodes/{nodeName}/$/GetApplications/{applicationId}/$/GetServicePackages/{servicePackageName}/$/GetHealth?api-version=6.2.0.9
+- content: POST http://localhost:19080/Nodes/{nodeName}/$/GetApplications/{applicationId}/$/GetServicePackages/{servicePackageName}/$/GetHealth?api-version=6.2.0.9&EventsHealthStateFilter={EventsHealthStateFilter}&timeout={timeout}
+  isOptional: true
+uriParameters:
+- name: nodeName
+  in: path
+  isRequired: true
+  description: The name of the node.
+  types:
+  - uid: string
+- name: applicationId
+  in: path
+  isRequired: true
+  description: >-
+    The identity of the application. This is typically the full name of the application without the 'fabric:' URI scheme.
+
+    Starting from version 6.0, hierarchical names are delimited with the "~" character.
+
+    For example, if the application name is "fabric:/myapp/app1", the application identity would be "myapp~app1" in 6.0+ and "myapp/app1" in previous versions.
+  types:
+  - uid: string
+- name: servicePackageName
+  in: path
+  isRequired: true
+  description: The name of the service package.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: >-
+    The version of the API. This parameter is required and its value must be '6.0'.
+
+
+    Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
+
+
+    Additionally the runtime accept any version that is higher than the latest supported version up to the current version of the runtime. So if the latest API version is 6.0, but if the runtime is 6.1, in order to make it easier to write the clients, the runtime will accept version 6.1 for that API. However the behavior of the API will be as per the documented 6.0 version.
+  types:
+  - uid: ApiVersion_6-0_RequiredQueryParam
+- name: EventsHealthStateFilter
+  in: query
+  description: >-
+    Allows filtering the collection of HealthEvent objects returned based on health state.
+
+    The possible values for this parameter include integer value of one of the following health states.
+
+    Only events that match the filter are returned. All events are used to evaluate the aggregated health state.
+
+    If not specified, all entries are returned. The state values are flag based enumeration, so the value could be a combination of these value obtained using bitwise 'OR' operator. For example, If the provided value is 6 then all of the events with HealthState value of OK (2) and Warning (4) are returned.
+
+
+    - Default - Default value. Matches any HealthState. The value is zero.
+
+    - None - Filter that doesn't match any HealthState value. Used in order to return no results on a given collection of states. The value is 1.
+
+    - Ok - Filter that matches input with HealthState value Ok. The value is 2.
+
+    - Warning - Filter that matches input with HealthState value Warning. The value is 4.
+
+    - Error - Filter that matches input with HealthState value Error. The value is 8.
+
+    - All - Filter that matches input with any HealthState value. The value is 65535.
+  types:
+  - uid: integer
+- name: timeout
+  in: query
+  description: The server timeout for performing the operation in seconds. This timeout specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
+  types:
+  - uid: integer
+  format: int64
+responses:
+- name: 200 OK
+  description: A successful operation will return 200 status code and the health information of the deployed service package for a specific node and application.
+  types:
+  - uid: DeployedServicePackageHealth
+- name: Other Status Codes
+  description: The detailed error response.
+  types:
+  - uid: FabricError
+requestBody:
+- parameters:
+  - name: ConsiderWarningAsError
+    in: body
+    description: Indicates whether warnings are treated with the same severity as errors.
+    types:
+    - uid: boolean
+  - name: MaxPercentUnhealthyDeployedApplications
+    in: body
+    description: >-
+      The maximum allowed percentage of unhealthy deployed applications. Allowed values are Byte values from zero to 100.
+
+      The percentage represents the maximum tolerated percentage of deployed applications that can be unhealthy before the application is considered in error.
+
+      This is calculated by dividing the number of unhealthy deployed applications over the number of nodes where the application is currently deployed on in the cluster.
+
+      The computation rounds up to tolerate one failure on small numbers of nodes. Default percentage is zero.
+    types:
+    - uid: integer
+  - name: DefaultServiceTypeHealthPolicy
+    in: body
+    description: The health policy used by default to evaluate the health of a service type.
+    types:
+    - uid: ServiceTypeHealthPolicy
+  - name: ServiceTypeHealthPolicyMap
+    in: body
+    description: The map with service type health policy per service type name. The map is empty by default.
+    types:
+    - uid: ServiceTypeHealthPolicyMapItem
+      isArray: true
+requestHeader: []
+definitions:
+- name: ApiVersion_6-0_RequiredQueryParam
+  description: >-
+    The version of the API. This parameter is required and its value must be '6.0'.
+
+
+    Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
+
+
+    Additionally the runtime accept any version that is higher than the latest supported version up to the current version of the runtime. So if the latest API version is 6.0, but if the runtime is 6.1, in order to make it easier to write the clients, the runtime will accept version 6.1 for that API. However the behavior of the API will be as per the documented 6.0 version.
+  kind: enum
+  properties:
+  - name: "6.0"
+    description: The 6.0 version of the API.
+    types:
+    - uid: string
+- name: ServiceTypeHealthPolicy
+  description: Represents the health policy used to evaluate the health of services belonging to a service type.
+  kind: object
+  properties:
+  - name: MaxPercentUnhealthyPartitionsPerService
+    description: >-
+      The maximum allowed percentage of unhealthy partitions per service. Allowed values are Byte values from zero to 100
+
+
+      The percentage represents the maximum tolerated percentage of partitions that can be unhealthy before the service is considered in error.
+
+      If the percentage is respected but there is at least one unhealthy partition, the health is evaluated as Warning.
+
+      The percentage is calculated by dividing the number of unhealthy partitions over the total number of partitions in the service.
+
+      The computation rounds up to tolerate one failure on small numbers of partitions. Default percentage is zero.
+    types:
+    - uid: integer
+  - name: MaxPercentUnhealthyReplicasPerPartition
+    description: >-
+      The maximum allowed percentage of unhealthy replicas per partition. Allowed values are Byte values from zero to 100.
+
+
+      The percentage represents the maximum tolerated percentage of replicas that can be unhealthy before the partition is considered in error.
+
+      If the percentage is respected but there is at least one unhealthy replica, the health is evaluated as Warning.
+
+      The percentage is calculated by dividing the number of unhealthy replicas over the total number of replicas in the partition.
+
+      The computation rounds up to tolerate one failure on small numbers of replicas. Default percentage is zero.
+    types:
+    - uid: integer
+  - name: MaxPercentUnhealthyServices
+    description: >-
+      The maximum maximum allowed percentage of unhealthy services. Allowed values are Byte values from zero to 100.
+
+
+      The percentage represents the maximum tolerated percentage of services that can be unhealthy before the application is considered in error.
+
+      If the percentage is respected but there is at least one unhealthy service, the health is evaluated as Warning.
+
+      This is calculated by dividing the number of unhealthy services of the specific service type over the total number of services of the specific service type.
+
+      The computation rounds up to tolerate one failure on small numbers of services. Default percentage is zero.
+    types:
+    - uid: integer
+- name: ServiceTypeHealthPolicyMapItem
+  description: Defines an item in ServiceTypeHealthPolicyMap.
+  kind: object
+  properties:
+  - name: Key
+    description: The key of the service type health policy map item. This is the name of the service type.
+    types:
+    - uid: string
+  - name: Value
+    description: The value of the service type health policy map item. This is the ServiceTypeHealthPolicy for this service type.
+    types:
+    - uid: ServiceTypeHealthPolicy
+- name: DeployedServicePackageHealth
+  description: Information about the health of a service package for a specific application deployed on a Service Fabric node.
+  kind: object
+  properties:
+  - name: AggregatedHealthState
+    description: >-
+      The HealthState representing the aggregated health state of the entity computed by Health Manager.
+
+      The health evaluation of the entity reflects all events reported on the entity and its children (if any).
+
+      The aggregation is done by applying the desired health policy.
+    types:
+    - uid: HealthState
+  - name: HealthEvents
+    description: The list of health events reported on the entity.
+    types:
+    - uid: HealthEvent
+      isArray: true
+  - name: UnhealthyEvaluations
+    description: The unhealthy evaluations that show why the current aggregated health state was returned by Health Manager.
+    types:
+    - uid: HealthEvaluationWrapper
+      isArray: true
+  - name: HealthStatistics
+    description: Shows the health statistics for all children types of the queried entity.
+    types:
+    - uid: HealthStatistics
+  - name: ApplicationName
+    description: The name of the application, including the 'fabric:' URI scheme.
+    types:
+    - uid: string
+  - name: ServiceManifestName
+    description: Name of the service manifest.
+    types:
+    - uid: string
+  - name: NodeName
+    description: Name of the node where this service package is deployed.
+    types:
+    - uid: string
+- name: FabricError
+  description: The REST API operations for Service Fabric return standard HTTP status codes. This type defines the additional information returned from the Service Fabric API operations that are not successful.
+  kind: object
+  properties:
+  - name: Error
+    description: Error object containing error code and error message.
+    types:
+    - uid: FabricErrorError
+- name: ApplicationHealthPolicy
+  description: Defines a health policy used to evaluate the health of an application or one of its children entities.
+  kind: object
+  properties:
+  - name: ConsiderWarningAsError
+    description: Indicates whether warnings are treated with the same severity as errors.
+    types:
+    - uid: boolean
+  - name: MaxPercentUnhealthyDeployedApplications
+    description: >-
+      The maximum allowed percentage of unhealthy deployed applications. Allowed values are Byte values from zero to 100.
+
+      The percentage represents the maximum tolerated percentage of deployed applications that can be unhealthy before the application is considered in error.
+
+      This is calculated by dividing the number of unhealthy deployed applications over the number of nodes where the application is currently deployed on in the cluster.
+
+      The computation rounds up to tolerate one failure on small numbers of nodes. Default percentage is zero.
+    types:
+    - uid: integer
+  - name: DefaultServiceTypeHealthPolicy
+    description: The health policy used by default to evaluate the health of a service type.
+    types:
+    - uid: ServiceTypeHealthPolicy
+  - name: ServiceTypeHealthPolicyMap
+    description: The map with service type health policy per service type name. The map is empty by default.
+    types:
+    - uid: ServiceTypeHealthPolicyMapItem
+      isArray: true
+- name: HealthState
+  description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+  kind: enum
+  properties:
+  - name: Invalid
+    description: Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
+    types:
+    - uid: string
+  - name: Ok
+    description: Indicates the health state is okay. The value is 1.
+    types:
+    - uid: string
+  - name: Warning
+    description: Indicates the health state is at a warning level. The value is 2.
+    types:
+    - uid: string
+  - name: Error
+    description: Indicates the health state is at an error level. Error health state should be investigated, as they can impact the correct functionality of the cluster. The value is 3.
+    types:
+    - uid: string
+  - name: Unknown
+    description: Indicates an unknown health status. The value is 65535.
+    types:
+    - uid: string
+- name: HealthEvent
+  description: Represents health information reported on a health entity, such as cluster, application or node, with additional metadata added by the Health Manager.
+  kind: object
+  properties:
+  - name: SourceId
+    description: The source name which identifies the client/watchdog/system component which generated the health information.
+    types:
+    - uid: string
+  - name: Property
+    description: >-
+      The property of the health information. An entity can have health reports for different properties.
+
+      The property is a string and not a fixed enumeration to allow the reporter flexibility to categorize the state condition that triggers the report.
+
+      For example, a reporter with SourceId "LocalWatchdog" can monitor the state of the available disk on a node,
+
+      so it can report "AvailableDisk" property on that node.
+
+      The same reporter can monitor the node connectivity, so it can report a property "Connectivity" on the same node.
+
+      In the health store, these reports are treated as separate health events for the specified node.
+
+
+      Together with the SourceId, the property uniquely identifies the health information.
+    types:
+    - uid: string
+  - name: HealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: TimeToLiveInMilliSeconds
+    description: >-
+      The duration for which this health report is valid. This field uses ISO8601 format for specifying the duration.
+
+      When clients report periodically, they should send reports with higher frequency than time to live.
+
+      If clients report on transition, they can set the time to live to infinite.
+
+      When time to live expires, the health event that contains the health information
+
+      is either removed from health store, if RemoveWhenExpired is true, or evaluated at error, if RemoveWhenExpired false.
+
+
+      If not specified, time to live defaults to infinite value.
+    types:
+    - uid: string
+  - name: Description
+    description: >-
+      The description of the health information. It represents free text used to add human readable information about the report.
+
+      The maximum string length for the description is 4096 characters.
+
+      If the provided string is longer, it will be automatically truncated.
+
+      When truncated, the last characters of the description contain a marker "[Truncated]", and total string size is 4096 characters.
+
+      The presence of the marker indicates to users that truncation occurred.
+
+      Note that when truncated, the description has less than 4096 characters from the original string.
+    types:
+    - uid: string
+  - name: SequenceNumber
+    description: >-
+      The sequence number for this health report as a numeric string.
+
+      The report sequence number is used by the health store to detect stale reports.
+
+      If not specified, a sequence number is auto-generated by the health client when a report is added.
+    types:
+    - uid: string
+  - name: RemoveWhenExpired
+    description: >-
+      Value that indicates whether the report is removed from health store when it expires.
+
+      If set to true, the report is removed from the health store after it expires.
+
+      If set to false, the report is treated as an error when expired. The value of this property is false by default.
+
+      When clients report periodically, they should set RemoveWhenExpired false (default).
+
+      This way, is the reporter has issues (eg. deadlock) and can't report, the entity is evaluated at error when the health report expires.
+
+      This flags the entity as being in Error health state.
+    types:
+    - uid: boolean
+  - name: IsExpired
+    description: Returns true if the health event is expired, otherwise false.
+    types:
+    - uid: boolean
+  - name: SourceUtcTimestamp
+    description: The date and time when the health report was sent by the source.
+    types:
+    - uid: string
+  - name: LastModifiedUtcTimestamp
+    description: The date and time when the health report was last modified by the health store.
+    types:
+    - uid: string
+  - name: LastOkTransitionAt
+    description: >-
+      If the current health state is 'Ok', this property returns the time at which the health report was first reported with 'Ok'.
+
+      For periodic reporting, many reports with the same state may have been generated.
+
+      This property returns the date and time when the first 'Ok' health report was received.
+
+
+      If the current health state is 'Error' or 'Warning', returns the date and time at which the health state was last in 'Ok', before transitioning to a different state.
+
+
+      If the health state was never 'Ok', the value will be zero date-time.
+    types:
+    - uid: string
+  - name: LastWarningTransitionAt
+    description: >-
+      If the current health state is 'Warning', this property returns the time at which the health report was first reported with 'Warning'. For periodic reporting, many reports with the same state may have been generated however, this property returns only the date and time at the first 'Warning' health report was received.
+
+
+      If the current health state is 'Ok' or 'Error', returns the date and time at which the health state was last in 'Warning', before transitioning to a different state.
+
+
+      If the health state was never 'Warning', the value will be zero date-time.
+    types:
+    - uid: string
+  - name: LastErrorTransitionAt
+    description: >-
+      If the current health state is 'Error', this property returns the time at which the health report was first reported with 'Error'. For periodic reporting, many reports with the same state may have been generated however, this property returns only the date and time at the first 'Error' health report was received.
+
+
+      If the current health state is 'Ok' or 'Warning', returns the date and time at which the health state was last in 'Error', before transitioning to a different state.
+
+
+      If the health state was never 'Error', the value will be zero date-time.
+    types:
+    - uid: string
+- name: HealthEvaluationWrapper
+  description: Wrapper object for health evaluation.
+  kind: object
+  properties:
+  - name: HealthEvaluation
+    description: Represents a health evaluation which describes the data and the algorithm used by health manager to evaluate the health of an entity.
+    types:
+    - uid: ApplicationHealthEvaluation
+    - uid: ApplicationsHealthEvaluation
+    - uid: ApplicationTypeApplicationsHealthEvaluation
+    - uid: DeltaNodesCheckHealthEvaluation
+    - uid: DeployedApplicationHealthEvaluation
+    - uid: DeployedApplicationsHealthEvaluation
+    - uid: DeployedServicePackageHealthEvaluation
+    - uid: DeployedServicePackagesHealthEvaluation
+    - uid: EventHealthEvaluation
+    - uid: NodeHealthEvaluation
+    - uid: NodesHealthEvaluation
+    - uid: PartitionHealthEvaluation
+    - uid: PartitionsHealthEvaluation
+    - uid: ReplicaHealthEvaluation
+    - uid: ReplicasHealthEvaluation
+    - uid: ServiceHealthEvaluation
+    - uid: ServicesHealthEvaluation
+    - uid: SystemApplicationHealthEvaluation
+    - uid: UpgradeDomainDeltaNodesCheckHealthEvaluation
+    - uid: UpgradeDomainNodesHealthEvaluation
+    typesTitle: HealthEvaluation
+- name: HealthStatistics
+  description: >-
+    The health statistics of an entity, returned as part of the health query result when the query description is configured to include statistics.
+
+    The statistics include health state counts for all children types of the current entity.
+
+    For example, for cluster, the health statistics include health state counts for nodes, applications, services, partitions, replicas, deployed applications and deployed service packages.
+
+    For partition, the health statistics include health counts for replicas.
+  kind: object
+  properties:
+  - name: HealthStateCountList
+    description: List of health state counts per entity kind, which keeps track of how many children of the queried entity are in Ok, Warning and Error state.
+    types:
+    - uid: EntityKindHealthStateCount
+      isArray: true
+- name: FabricErrorError
+  description: Error object containing error code and error message.
+  kind: object
+  properties:
+  - name: Code
+    description: >-
+      Defines the fabric error codes that be returned as part of the error object in response to Service Fabric API operations that are not successful. Following are the error code values that can be returned for a specific HTTP status code.
+
+        - Possible values of the error code for HTTP status code 400 (Bad Request)
+          - "FABRIC_E_INVALID_PARTITION_KEY"
+          - "FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR"
+          - "FABRIC_E_INVALID_ADDRESS"
+          - "FABRIC_E_APPLICATION_NOT_UPGRADING"
+          - "FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR"
+          - "FABRIC_E_FABRIC_NOT_UPGRADING"
+          - "FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR"
+          - "FABRIC_E_INVALID_CONFIGURATION"
+          - "FABRIC_E_INVALID_NAME_URI"
+          - "FABRIC_E_PATH_TOO_LONG"
+          - "FABRIC_E_KEY_TOO_LARGE"
+          - "FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED"
+          - "FABRIC_E_INVALID_ATOMIC_GROUP"
+          - "FABRIC_E_VALUE_EMPTY"
+          - "FABRIC_E_BACKUP_IS_ENABLED"
+          - "FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH"
+          - "FABRIC_E_INVALID_FOR_STATELESS_SERVICES"
+          - "FABRIC_E_INVALID_SERVICE_SCALING_POLICY"
+          - "E_INVALIDARG"
+
+        - Possible values of the error code for HTTP status code 404 (Not Found)
+          - "FABRIC_E_NODE_NOT_FOUND"
+          - "FABRIC_E_APPLICATION_TYPE_NOT_FOUND"
+          - "FABRIC_E_APPLICATION_NOT_FOUND"
+          - "FABRIC_E_SERVICE_TYPE_NOT_FOUND"
+          - "FABRIC_E_SERVICE_DOES_NOT_EXIST"
+          - "FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND"
+          - "FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND"
+          - "FABRIC_E_PARTITION_NOT_FOUND"
+          - "FABRIC_E_REPLICA_DOES_NOT_EXIST"
+          - "FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST"
+          - "FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND"
+          - "FABRIC_E_DIRECTORY_NOT_FOUND"
+          - "FABRIC_E_FABRIC_VERSION_NOT_FOUND"
+          - "FABRIC_E_FILE_NOT_FOUND"
+          - "FABRIC_E_NAME_DOES_NOT_EXIST"
+          - "FABRIC_E_PROPERTY_DOES_NOT_EXIST"
+          - "FABRIC_E_ENUMERATION_COMPLETED"
+          - "FABRIC_E_SERVICE_MANIFEST_NOT_FOUND"
+          - "FABRIC_E_KEY_NOT_FOUND"
+          - "FABRIC_E_HEALTH_ENTITY_NOT_FOUND"
+          - "FABRIC_E_BACKUP_NOT_ENABLED"
+          - "FABRIC_E_BACKUP_POLICY_NOT_EXISTING"
+          - "FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING"
+
+        - Possible values of the error code for HTTP status code 409 (Conflict)
+          - "FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION"
+          - "FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS"
+          - "FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS"
+          - "FABRIC_E_SERVICE_ALREADY_EXISTS"
+          - "FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_TYPE_IN_USE"
+          - "FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION"
+          - "FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS"
+          - "FABRIC_E_FABRIC_VERSION_IN_USE"
+          - "FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS"
+          - "FABRIC_E_NAME_ALREADY_EXISTS"
+          - "FABRIC_E_NAME_NOT_EMPTY"
+          - "FABRIC_E_PROPERTY_CHECK_FAILED"
+          - "FABRIC_E_SERVICE_METADATA_MISMATCH"
+          - "FABRIC_E_SERVICE_TYPE_MISMATCH"
+          - "FABRIC_E_HEALTH_STALE_REPORT"
+          - "FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED"
+          - "FABRIC_E_NODE_HAS_NOT_STOPPED_YET"
+          - "FABRIC_E_INSTANCE_ID_MISMATCH"
+          - "FABRIC_E_BACKUP_IN_PROGRESS"
+          - "FABRIC_E_RESTORE_IN_PROGRESS"
+          - "FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING"
+
+        - Possible values of the error code for HTTP status code 413 (Request Entity Too Large)
+          - "FABRIC_E_VALUE_TOO_LARGE"
+
+        - Possible values of the error code for HTTP status code 500 (Internal Server Error)
+          - "FABRIC_E_NODE_IS_UP"
+          - "E_FAIL"
+
+        - Possible values of the error code for HTTP status code 503 (Service Unavailable)
+          - "FABRIC_E_NO_WRITE_QUORUM"
+          - "FABRIC_E_NOT_PRIMARY"
+          - "FABRIC_E_NOT_READY"
+          - "FABRIC_E_RECONFIGURATION_PENDING"
+          - "FABRIC_E_SERVICE_OFFLINE"
+          - "E_ABORT"
+          - "FABRIC_E_VALUE_TOO_LARGE"
+
+        - Possible values of the error code for HTTP status code 504 (Gateway Timeout)
+          - "FABRIC_E_COMMUNICATION_ERROR"
+          - "FABRIC_E_OPERATION_NOT_COMPLETE"
+          - "FABRIC_E_TIMEOUT"
+    types:
+    - uid: FabricErrorCodes
+  - name: Message
+    description: Error message.
+    types:
+    - uid: string
+- name: EntityKindHealthStateCount
+  description: Represents health state count for entities of the specified entity kind.
+  kind: object
+  properties:
+  - name: EntityKind
+    description: The entity kind for which health states are evaluated.
+    types:
+    - uid: EntityKind
+  - name: HealthStateCount
+    description: The health state count for the entities of the specified kind.
+    types:
+    - uid: HealthStateCount
+- name: FabricErrorCodes
+  description: >-
+    Defines the fabric error codes that be returned as part of the error object in response to Service Fabric API operations that are not successful. Following are the error code values that can be returned for a specific HTTP status code.
+
+      - Possible values of the error code for HTTP status code 400 (Bad Request)
+        - "FABRIC_E_INVALID_PARTITION_KEY"
+        - "FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR"
+        - "FABRIC_E_INVALID_ADDRESS"
+        - "FABRIC_E_APPLICATION_NOT_UPGRADING"
+        - "FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR"
+        - "FABRIC_E_FABRIC_NOT_UPGRADING"
+        - "FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR"
+        - "FABRIC_E_INVALID_CONFIGURATION"
+        - "FABRIC_E_INVALID_NAME_URI"
+        - "FABRIC_E_PATH_TOO_LONG"
+        - "FABRIC_E_KEY_TOO_LARGE"
+        - "FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED"
+        - "FABRIC_E_INVALID_ATOMIC_GROUP"
+        - "FABRIC_E_VALUE_EMPTY"
+        - "FABRIC_E_BACKUP_IS_ENABLED"
+        - "FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH"
+        - "FABRIC_E_INVALID_FOR_STATELESS_SERVICES"
+        - "FABRIC_E_INVALID_SERVICE_SCALING_POLICY"
+        - "E_INVALIDARG"
+
+      - Possible values of the error code for HTTP status code 404 (Not Found)
+        - "FABRIC_E_NODE_NOT_FOUND"
+        - "FABRIC_E_APPLICATION_TYPE_NOT_FOUND"
+        - "FABRIC_E_APPLICATION_NOT_FOUND"
+        - "FABRIC_E_SERVICE_TYPE_NOT_FOUND"
+        - "FABRIC_E_SERVICE_DOES_NOT_EXIST"
+        - "FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND"
+        - "FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND"
+        - "FABRIC_E_PARTITION_NOT_FOUND"
+        - "FABRIC_E_REPLICA_DOES_NOT_EXIST"
+        - "FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST"
+        - "FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND"
+        - "FABRIC_E_DIRECTORY_NOT_FOUND"
+        - "FABRIC_E_FABRIC_VERSION_NOT_FOUND"
+        - "FABRIC_E_FILE_NOT_FOUND"
+        - "FABRIC_E_NAME_DOES_NOT_EXIST"
+        - "FABRIC_E_PROPERTY_DOES_NOT_EXIST"
+        - "FABRIC_E_ENUMERATION_COMPLETED"
+        - "FABRIC_E_SERVICE_MANIFEST_NOT_FOUND"
+        - "FABRIC_E_KEY_NOT_FOUND"
+        - "FABRIC_E_HEALTH_ENTITY_NOT_FOUND"
+        - "FABRIC_E_BACKUP_NOT_ENABLED"
+        - "FABRIC_E_BACKUP_POLICY_NOT_EXISTING"
+        - "FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING"
+
+      - Possible values of the error code for HTTP status code 409 (Conflict)
+        - "FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION"
+        - "FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS"
+        - "FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS"
+        - "FABRIC_E_SERVICE_ALREADY_EXISTS"
+        - "FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_TYPE_IN_USE"
+        - "FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION"
+        - "FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS"
+        - "FABRIC_E_FABRIC_VERSION_IN_USE"
+        - "FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS"
+        - "FABRIC_E_NAME_ALREADY_EXISTS"
+        - "FABRIC_E_NAME_NOT_EMPTY"
+        - "FABRIC_E_PROPERTY_CHECK_FAILED"
+        - "FABRIC_E_SERVICE_METADATA_MISMATCH"
+        - "FABRIC_E_SERVICE_TYPE_MISMATCH"
+        - "FABRIC_E_HEALTH_STALE_REPORT"
+        - "FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED"
+        - "FABRIC_E_NODE_HAS_NOT_STOPPED_YET"
+        - "FABRIC_E_INSTANCE_ID_MISMATCH"
+        - "FABRIC_E_BACKUP_IN_PROGRESS"
+        - "FABRIC_E_RESTORE_IN_PROGRESS"
+        - "FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING"
+
+      - Possible values of the error code for HTTP status code 413 (Request Entity Too Large)
+        - "FABRIC_E_VALUE_TOO_LARGE"
+
+      - Possible values of the error code for HTTP status code 500 (Internal Server Error)
+        - "FABRIC_E_NODE_IS_UP"
+        - "E_FAIL"
+
+      - Possible values of the error code for HTTP status code 503 (Service Unavailable)
+        - "FABRIC_E_NO_WRITE_QUORUM"
+        - "FABRIC_E_NOT_PRIMARY"
+        - "FABRIC_E_NOT_READY"
+        - "FABRIC_E_RECONFIGURATION_PENDING"
+        - "FABRIC_E_SERVICE_OFFLINE"
+        - "E_ABORT"
+        - "FABRIC_E_VALUE_TOO_LARGE"
+
+      - Possible values of the error code for HTTP status code 504 (Gateway Timeout)
+        - "FABRIC_E_COMMUNICATION_ERROR"
+        - "FABRIC_E_OPERATION_NOT_COMPLETE"
+        - "FABRIC_E_TIMEOUT"
+  kind: enum
+  properties:
+  - name: FABRIC_E_INVALID_PARTITION_KEY
+    types:
+    - uid: string
+  - name: FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_ADDRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_NOT_UPGRADING
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_NOT_UPGRADING
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_CONFIGURATION
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_NAME_URI
+    types:
+    - uid: string
+  - name: FABRIC_E_PATH_TOO_LONG
+    types:
+    - uid: string
+  - name: FABRIC_E_KEY_TOO_LARGE
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_ATOMIC_GROUP
+    types:
+    - uid: string
+  - name: FABRIC_E_VALUE_EMPTY
+    types:
+    - uid: string
+  - name: FABRIC_E_NODE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_TYPE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_PARTITION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_REPLICA_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_DIRECTORY_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_VERSION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_FILE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_NAME_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_PROPERTY_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_ENUMERATION_COMPLETED
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_MANIFEST_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_KEY_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_HEALTH_ENTITY_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_IN_USE
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_VERSION_IN_USE
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_NAME_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_NAME_NOT_EMPTY
+    types:
+    - uid: string
+  - name: FABRIC_E_PROPERTY_CHECK_FAILED
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_METADATA_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_TYPE_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_HEALTH_STALE_REPORT
+    types:
+    - uid: string
+  - name: FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED
+    types:
+    - uid: string
+  - name: FABRIC_E_NODE_HAS_NOT_STOPPED_YET
+    types:
+    - uid: string
+  - name: FABRIC_E_INSTANCE_ID_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_VALUE_TOO_LARGE
+    types:
+    - uid: string
+  - name: FABRIC_E_NO_WRITE_QUORUM
+    types:
+    - uid: string
+  - name: FABRIC_E_NOT_PRIMARY
+    types:
+    - uid: string
+  - name: FABRIC_E_NOT_READY
+    types:
+    - uid: string
+  - name: FABRIC_E_RECONFIGURATION_PENDING
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_OFFLINE
+    types:
+    - uid: string
+  - name: E_ABORT
+    types:
+    - uid: string
+  - name: FABRIC_E_COMMUNICATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_OPERATION_NOT_COMPLETE
+    types:
+    - uid: string
+  - name: FABRIC_E_TIMEOUT
+    types:
+    - uid: string
+  - name: FABRIC_E_NODE_IS_UP
+    types:
+    - uid: string
+  - name: E_FAIL
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_IS_ENABLED
+    types:
+    - uid: string
+  - name: FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_FOR_STATELESS_SERVICES
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_NOT_ENABLED
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_POLICY_NOT_EXISTING
+    types:
+    - uid: string
+  - name: FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_RESTORE_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_SERVICE_SCALING_POLICY
+    types:
+    - uid: string
+  - name: E_INVALIDARG
+    types:
+    - uid: string
+- name: ApplicationHealthEvaluation
+  description: Represents health evaluation for an application, containing information about the data and the algorithm used by the health store to evaluate health.
+  kind: object
+  properties:
+  - name: Kind
+    description: The health manager in the cluster performs health evaluations in determining the aggregated health state of an entity. This enumeration provides information on the kind of evaluation that was performed. Following are the possible values.
+    types:
+    - uid: Application
+    typesTitle: string
+  - name: AggregatedHealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: Description
+    description: Description of the health evaluation, which represents a summary of the evaluation process.
+    types:
+    - uid: string
+  - name: ApplicationName
+    description: The name of the application, including the 'fabric:' URI scheme.
+    types:
+    - uid: string
+  - name: UnhealthyEvaluations
+    description: List of unhealthy evaluations that led to the current aggregated health state of the application. The types of the unhealthy evaluations can be DeployedApplicationsHealthEvaluation, ServicesHealthEvaluation or EventHealthEvaluation.
+    types:
+    - uid: HealthEvaluationWrapper
+      isArray: true
+- name: ApplicationsHealthEvaluation
+  description: Represents health evaluation for applications, containing health evaluations for each unhealthy application that impacted current aggregated health state.
+  kind: object
+  properties:
+  - name: Kind
+    description: The health manager in the cluster performs health evaluations in determining the aggregated health state of an entity. This enumeration provides information on the kind of evaluation that was performed. Following are the possible values.
+    types:
+    - uid: Applications
+    typesTitle: string
+  - name: AggregatedHealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: Description
+    description: Description of the health evaluation, which represents a summary of the evaluation process.
+    types:
+    - uid: string
+  - name: MaxPercentUnhealthyApplications
+    description: Maximum allowed percentage of unhealthy applications from the ClusterHealthPolicy.
+    types:
+    - uid: integer
+  - name: TotalCount
+    description: Total number of applications from the health store.
+    types:
+    - uid: integer
+  - name: UnhealthyEvaluations
+    description: List of unhealthy evaluations that led to the aggregated health state. Includes all the unhealthy ApplicationHealthEvaluation that impacted the aggregated health.
+    types:
+    - uid: HealthEvaluationWrapper
+      isArray: true
+- name: ApplicationTypeApplicationsHealthEvaluation
+  description: Represents health evaluation for applications of a particular application type. The application type applications evaluation can be returned when cluster health evaluation returns unhealthy aggregated health state, either Error or Warning. It contains health evaluations for each unhealthy application of the included application type that impacted current aggregated health state.
+  kind: object
+  properties:
+  - name: Kind
+    description: The health manager in the cluster performs health evaluations in determining the aggregated health state of an entity. This enumeration provides information on the kind of evaluation that was performed. Following are the possible values.
+    types:
+    - uid: ApplicationTypeApplications
+    typesTitle: string
+  - name: AggregatedHealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: Description
+    description: Description of the health evaluation, which represents a summary of the evaluation process.
+    types:
+    - uid: string
+  - name: ApplicationTypeName
+    description: The application type name as defined in the application manifest.
+    types:
+    - uid: string
+  - name: MaxPercentUnhealthyApplications
+    description: Maximum allowed percentage of unhealthy applications for the application type, specified as an entry in ApplicationTypeHealthPolicyMap.
+    types:
+    - uid: integer
+  - name: TotalCount
+    description: Total number of applications of the application type found in the health store.
+    types:
+    - uid: integer
+  - name: UnhealthyEvaluations
+    description: List of unhealthy evaluations that led to the aggregated health state. Includes all the unhealthy ApplicationHealthEvaluation of this application type that impacted the aggregated health.
+    types:
+    - uid: HealthEvaluationWrapper
+      isArray: true
+- name: DeltaNodesCheckHealthEvaluation
+  description: >-
+    Represents health evaluation for delta nodes, containing health evaluations for each unhealthy node that impacted current aggregated health state.
+
+    Can be returned during cluster upgrade when the aggregated health state of the cluster is Warning or Error.
+  kind: object
+  properties:
+  - name: Kind
+    description: The health manager in the cluster performs health evaluations in determining the aggregated health state of an entity. This enumeration provides information on the kind of evaluation that was performed. Following are the possible values.
+    types:
+    - uid: DeltaNodesCheck
+    typesTitle: string
+  - name: AggregatedHealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: Description
+    description: Description of the health evaluation, which represents a summary of the evaluation process.
+    types:
+    - uid: string
+  - name: BaselineErrorCount
+    description: Number of nodes with aggregated heath state Error in the health store at the beginning of the cluster upgrade.
+    types:
+    - uid: integer
+  - name: BaselineTotalCount
+    description: Total number of nodes in the health store at the beginning of the cluster upgrade.
+    types:
+    - uid: integer
+  - name: MaxPercentDeltaUnhealthyNodes
+    description: Maximum allowed percentage of delta unhealthy nodes from the ClusterUpgradeHealthPolicy.
+    types:
+    - uid: integer
+  - name: TotalCount
+    description: Total number of nodes in the health store.
+    types:
+    - uid: integer
+  - name: UnhealthyEvaluations
+    description: >-
+      List of unhealthy evaluations that led to the aggregated health state.
+
+      Includes all the unhealthy NodeHealthEvaluation that impacted the aggregated health.
+    types:
+    - uid: HealthEvaluationWrapper
+      isArray: true
+- name: DeployedApplicationHealthEvaluation
+  description: Represents health evaluation for a deployed application, containing information about the data and the algorithm used by the health store to evaluate health.
+  kind: object
+  properties:
+  - name: Kind
+    description: The health manager in the cluster performs health evaluations in determining the aggregated health state of an entity. This enumeration provides information on the kind of evaluation that was performed. Following are the possible values.
+    types:
+    - uid: DeployedApplication
+    typesTitle: string
+  - name: AggregatedHealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: Description
+    description: Description of the health evaluation, which represents a summary of the evaluation process.
+    types:
+    - uid: string
+  - name: NodeName
+    description: Name of the node where the application is deployed to.
+    types:
+    - uid: string
+  - name: ApplicationName
+    description: The name of the application, including the 'fabric:' URI scheme.
+    types:
+    - uid: string
+  - name: UnhealthyEvaluations
+    description: >-
+      List of  unhealthy evaluations that led to the current aggregated health state of the deployed application.
+
+      The types of the unhealthy evaluations can be DeployedServicePackagesHealthEvaluation or EventHealthEvaluation.
+    types:
+    - uid: HealthEvaluationWrapper
+      isArray: true
+- name: DeployedApplicationsHealthEvaluation
+  description: >-
+    Represents health evaluation for deployed applications, containing health evaluations for each unhealthy deployed application that impacted current aggregated health state.
+
+    Can be returned when evaluating application health and the aggregated health state is either Error or Warning.
+  kind: object
+  properties:
+  - name: Kind
+    description: The health manager in the cluster performs health evaluations in determining the aggregated health state of an entity. This enumeration provides information on the kind of evaluation that was performed. Following are the possible values.
+    types:
+    - uid: DeployedApplications
+    typesTitle: string
+  - name: AggregatedHealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: Description
+    description: Description of the health evaluation, which represents a summary of the evaluation process.
+    types:
+    - uid: string
+  - name: MaxPercentUnhealthyDeployedApplications
+    description: Maximum allowed percentage of unhealthy deployed applications from the ApplicationHealthPolicy.
+    types:
+    - uid: integer
+  - name: TotalCount
+    description: Total number of deployed applications of the application in the health store.
+    types:
+    - uid: integer
+  - name: UnhealthyEvaluations
+    description: List of unhealthy evaluations that led to the aggregated health state. Includes all the unhealthy DeployedApplicationHealthEvaluation that impacted the aggregated health.
+    types:
+    - uid: HealthEvaluationWrapper
+      isArray: true
+- name: DeployedServicePackageHealthEvaluation
+  description: Represents health evaluation for a deployed service package, containing information about the data and the algorithm used by health store to evaluate health. The evaluation is returned only when the aggregated health state is either Error or Warning.
+  kind: object
+  properties:
+  - name: Kind
+    description: The health manager in the cluster performs health evaluations in determining the aggregated health state of an entity. This enumeration provides information on the kind of evaluation that was performed. Following are the possible values.
+    types:
+    - uid: DeployedServicePackage
+    typesTitle: string
+  - name: AggregatedHealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: Description
+    description: Description of the health evaluation, which represents a summary of the evaluation process.
+    types:
+    - uid: string
+  - name: NodeName
+    description: The name of a Service Fabric node.
+    types:
+    - uid: string
+  - name: ApplicationName
+    description: The name of the application, including the 'fabric:' URI scheme.
+    types:
+    - uid: string
+  - name: ServiceManifestName
+    description: The name of the service manifest.
+    types:
+    - uid: string
+  - name: UnhealthyEvaluations
+    description: List of unhealthy evaluations that led to the current aggregated health state. The type of the unhealthy evaluations can be EventHealthEvaluation.
+    types:
+    - uid: HealthEvaluationWrapper
+      isArray: true
+- name: DeployedServicePackagesHealthEvaluation
+  description: Represents health evaluation for deployed service packages, containing health evaluations for each unhealthy deployed service package that impacted current aggregated health state. Can be returned when evaluating deployed application health and the aggregated health state is either Error or Warning.
+  kind: object
+  properties:
+  - name: Kind
+    description: The health manager in the cluster performs health evaluations in determining the aggregated health state of an entity. This enumeration provides information on the kind of evaluation that was performed. Following are the possible values.
+    types:
+    - uid: DeployedServicePackages
+    typesTitle: string
+  - name: AggregatedHealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: Description
+    description: Description of the health evaluation, which represents a summary of the evaluation process.
+    types:
+    - uid: string
+  - name: TotalCount
+    description: Total number of deployed service packages of the deployed application in the health store.
+    types:
+    - uid: integer
+  - name: UnhealthyEvaluations
+    description: List of unhealthy evaluations that led to the aggregated health state. Includes all the unhealthy DeployedServicePackageHealthEvaluation that impacted the aggregated health.
+    types:
+    - uid: HealthEvaluationWrapper
+      isArray: true
+- name: EventHealthEvaluation
+  description: >-
+    Represents health evaluation of a HealthEvent that was reported on the entity.
+
+    The health evaluation is returned when evaluating health of an entity results in Error or Warning.
+  kind: object
+  properties:
+  - name: Kind
+    description: The health manager in the cluster performs health evaluations in determining the aggregated health state of an entity. This enumeration provides information on the kind of evaluation that was performed. Following are the possible values.
+    types:
+    - uid: Event
+    typesTitle: string
+  - name: AggregatedHealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: Description
+    description: Description of the health evaluation, which represents a summary of the evaluation process.
+    types:
+    - uid: string
+  - name: ConsiderWarningAsError
+    description: Indicates whether warnings are treated with the same severity as errors. The field is specified in the health policy used to evaluate the entity.
+    types:
+    - uid: boolean
+  - name: UnhealthyEvent
+    description: Represents health information reported on a health entity, such as cluster, application or node, with additional metadata added by the Health Manager.
+    types:
+    - uid: HealthEvent
+- name: NodeHealthEvaluation
+  description: Represents health evaluation for a node, containing information about the data and the algorithm used by health store to evaluate health. The evaluation is returned only when the aggregated health state is either Error or Warning.
+  kind: object
+  properties:
+  - name: Kind
+    description: The health manager in the cluster performs health evaluations in determining the aggregated health state of an entity. This enumeration provides information on the kind of evaluation that was performed. Following are the possible values.
+    types:
+    - uid: Node
+    typesTitle: string
+  - name: AggregatedHealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: Description
+    description: Description of the health evaluation, which represents a summary of the evaluation process.
+    types:
+    - uid: string
+  - name: NodeName
+    description: The name of a Service Fabric node.
+    types:
+    - uid: string
+  - name: UnhealthyEvaluations
+    description: List of unhealthy evaluations that led to the current aggregated health state of the node. The types of the unhealthy evaluations can be EventHealthEvaluation.
+    types:
+    - uid: HealthEvaluationWrapper
+      isArray: true
+- name: NodesHealthEvaluation
+  description: Represents health evaluation for nodes, containing health evaluations for each unhealthy node that impacted current aggregated health state. Can be returned when evaluating cluster health and the aggregated health state is either Error or Warning.
+  kind: object
+  properties:
+  - name: Kind
+    description: The health manager in the cluster performs health evaluations in determining the aggregated health state of an entity. This enumeration provides information on the kind of evaluation that was performed. Following are the possible values.
+    types:
+    - uid: Nodes
+    typesTitle: string
+  - name: AggregatedHealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: Description
+    description: Description of the health evaluation, which represents a summary of the evaluation process.
+    types:
+    - uid: string
+  - name: MaxPercentUnhealthyNodes
+    description: Maximum allowed percentage of unhealthy nodes from the ClusterHealthPolicy.
+    types:
+    - uid: integer
+  - name: TotalCount
+    description: Total number of nodes found in the health store.
+    types:
+    - uid: integer
+  - name: UnhealthyEvaluations
+    description: List of unhealthy evaluations that led to the aggregated health state. Includes all the unhealthy NodeHealthEvaluation that impacted the aggregated health.
+    types:
+    - uid: HealthEvaluationWrapper
+      isArray: true
+- name: PartitionHealthEvaluation
+  description: Represents health evaluation for a partition, containing information about the data and the algorithm used by health store to evaluate health. The evaluation is returned only when the aggregated health state is either Error or Warning.
+  kind: object
+  properties:
+  - name: Kind
+    description: The health manager in the cluster performs health evaluations in determining the aggregated health state of an entity. This enumeration provides information on the kind of evaluation that was performed. Following are the possible values.
+    types:
+    - uid: Partition
+    typesTitle: string
+  - name: AggregatedHealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: Description
+    description: Description of the health evaluation, which represents a summary of the evaluation process.
+    types:
+    - uid: string
+  - name: PartitionId
+    description: Id of the partition whose health evaluation is described by this object.
+    types:
+    - uid: string
+  - name: UnhealthyEvaluations
+    description: List of unhealthy evaluations that led to the current aggregated health state of the partition. The types of the unhealthy evaluations can be ReplicasHealthEvaluation or EventHealthEvaluation.
+    types:
+    - uid: HealthEvaluationWrapper
+      isArray: true
+- name: PartitionsHealthEvaluation
+  description: Represents health evaluation for the partitions of a service, containing health evaluations for each unhealthy partition that impacts current aggregated health state. Can be returned when evaluating service health and the aggregated health state is either Error or Warning.
+  kind: object
+  properties:
+  - name: Kind
+    description: The health manager in the cluster performs health evaluations in determining the aggregated health state of an entity. This enumeration provides information on the kind of evaluation that was performed. Following are the possible values.
+    types:
+    - uid: Partitions
+    typesTitle: string
+  - name: AggregatedHealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: Description
+    description: Description of the health evaluation, which represents a summary of the evaluation process.
+    types:
+    - uid: string
+  - name: MaxPercentUnhealthyPartitionsPerService
+    description: Maximum allowed percentage of unhealthy partitions per service from the ServiceTypeHealthPolicy.
+    types:
+    - uid: integer
+  - name: TotalCount
+    description: Total number of partitions of the service from the health store.
+    types:
+    - uid: integer
+  - name: UnhealthyEvaluations
+    description: List of unhealthy evaluations that led to the aggregated health state. Includes all the unhealthy PartitionHealthEvaluation that impacted the aggregated health.
+    types:
+    - uid: HealthEvaluationWrapper
+      isArray: true
+- name: ReplicaHealthEvaluation
+  description: Represents health evaluation for a replica, containing information about the data and the algorithm used by health store to evaluate health. The evaluation is returned only when the aggregated health state is either Error or Warning.
+  kind: object
+  properties:
+  - name: Kind
+    description: The health manager in the cluster performs health evaluations in determining the aggregated health state of an entity. This enumeration provides information on the kind of evaluation that was performed. Following are the possible values.
+    types:
+    - uid: Replica
+    typesTitle: string
+  - name: AggregatedHealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: Description
+    description: Description of the health evaluation, which represents a summary of the evaluation process.
+    types:
+    - uid: string
+  - name: PartitionId
+    description: Id of the partition to which the replica belongs.
+    types:
+    - uid: string
+  - name: ReplicaOrInstanceId
+    description: Id of a stateful service replica or a stateless service instance. This ID is used in the queries that apply to both stateful and stateless services. It is used by Service Fabric to uniquely identify a replica of a partition of a stateful service or an instance of a stateless service partition. It is unique within a partition and does not change for the lifetime of the replica or the instance. If a stateful replica gets dropped and another replica gets created on the same node for the same partition, it will get a different value for the ID. If a stateless instance is failed over on the same or different node it will get a different value for the ID.
+    types:
+    - uid: string
+  - name: UnhealthyEvaluations
+    description: List of unhealthy evaluations that led to the current aggregated health state of the replica. The types of the unhealthy evaluations can be EventHealthEvaluation.
+    types:
+    - uid: HealthEvaluationWrapper
+      isArray: true
+- name: ReplicasHealthEvaluation
+  description: Represents health evaluation for replicas, containing health evaluations for each unhealthy replica that impacted current aggregated health state. Can be returned when evaluating partition health and the aggregated health state is either Error or Warning.
+  kind: object
+  properties:
+  - name: Kind
+    description: The health manager in the cluster performs health evaluations in determining the aggregated health state of an entity. This enumeration provides information on the kind of evaluation that was performed. Following are the possible values.
+    types:
+    - uid: Replicas
+    typesTitle: string
+  - name: AggregatedHealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: Description
+    description: Description of the health evaluation, which represents a summary of the evaluation process.
+    types:
+    - uid: string
+  - name: MaxPercentUnhealthyReplicasPerPartition
+    description: Maximum allowed percentage of unhealthy replicas per partition from the ApplicationHealthPolicy.
+    types:
+    - uid: integer
+  - name: TotalCount
+    description: Total number of replicas in the partition from the health store.
+    types:
+    - uid: integer
+  - name: UnhealthyEvaluations
+    description: List of unhealthy evaluations that led to the aggregated health state. Includes all the unhealthy ReplicaHealthEvaluation that impacted the aggregated health.
+    types:
+    - uid: HealthEvaluationWrapper
+      isArray: true
+- name: ServiceHealthEvaluation
+  description: Represents health evaluation for a service, containing information about the data and the algorithm used by health store to evaluate health. The evaluation is returned only when the aggregated health state is either Error or Warning.
+  kind: object
+  properties:
+  - name: Kind
+    description: The health manager in the cluster performs health evaluations in determining the aggregated health state of an entity. This enumeration provides information on the kind of evaluation that was performed. Following are the possible values.
+    types:
+    - uid: Service
+    typesTitle: string
+  - name: AggregatedHealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: Description
+    description: Description of the health evaluation, which represents a summary of the evaluation process.
+    types:
+    - uid: string
+  - name: ServiceName
+    description: Name of the service whose health evaluation is described by this object.
+    types:
+    - uid: string
+  - name: UnhealthyEvaluations
+    description: List of unhealthy evaluations that led to the current aggregated health state of the service. The types of the unhealthy evaluations can be PartitionsHealthEvaluation or EventHealthEvaluation.
+    types:
+    - uid: HealthEvaluationWrapper
+      isArray: true
+- name: ServicesHealthEvaluation
+  description: Represents health evaluation for services of a certain service type belonging to an application, containing health evaluations for each unhealthy service that impacted current aggregated health state. Can be returned when evaluating application health and the aggregated health state is either Error or Warning.
+  kind: object
+  properties:
+  - name: Kind
+    description: The health manager in the cluster performs health evaluations in determining the aggregated health state of an entity. This enumeration provides information on the kind of evaluation that was performed. Following are the possible values.
+    types:
+    - uid: Services
+    typesTitle: string
+  - name: AggregatedHealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: Description
+    description: Description of the health evaluation, which represents a summary of the evaluation process.
+    types:
+    - uid: string
+  - name: ServiceTypeName
+    description: Name of the service type of the services.
+    types:
+    - uid: string
+  - name: MaxPercentUnhealthyServices
+    description: Maximum allowed percentage of unhealthy services from the ServiceTypeHealthPolicy.
+    types:
+    - uid: integer
+  - name: TotalCount
+    description: Total number of services of the current service type in the application from the health store.
+    types:
+    - uid: integer
+  - name: UnhealthyEvaluations
+    description: List of unhealthy evaluations that led to the aggregated health state. Includes all the unhealthy ServiceHealthEvaluation that impacted the aggregated health.
+    types:
+    - uid: HealthEvaluationWrapper
+      isArray: true
+- name: SystemApplicationHealthEvaluation
+  description: Represents health evaluation for the fabric:/System application, containing information about the data and the algorithm used by health store to evaluate health. The evaluation is returned only when the aggregated health state of the cluster is either Error or Warning.
+  kind: object
+  properties:
+  - name: Kind
+    description: The health manager in the cluster performs health evaluations in determining the aggregated health state of an entity. This enumeration provides information on the kind of evaluation that was performed. Following are the possible values.
+    types:
+    - uid: SystemApplication
+    typesTitle: string
+  - name: AggregatedHealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: Description
+    description: Description of the health evaluation, which represents a summary of the evaluation process.
+    types:
+    - uid: string
+  - name: UnhealthyEvaluations
+    description: List of unhealthy evaluations that led to the current aggregated health state of the system application. The types of the unhealthy evaluations can be DeployedApplicationsHealthEvaluation, ServicesHealthEvaluation or EventHealthEvaluation.
+    types:
+    - uid: HealthEvaluationWrapper
+      isArray: true
+- name: UpgradeDomainDeltaNodesCheckHealthEvaluation
+  description: >-
+    Represents health evaluation for delta unhealthy cluster nodes in an upgrade domain, containing health evaluations for each unhealthy node that impacted current aggregated health state.
+
+    Can be returned during cluster upgrade when cluster aggregated health state is Warning or Error.
+  kind: object
+  properties:
+  - name: Kind
+    description: The health manager in the cluster performs health evaluations in determining the aggregated health state of an entity. This enumeration provides information on the kind of evaluation that was performed. Following are the possible values.
+    types:
+    - uid: UpgradeDomainDeltaNodesCheck
+    typesTitle: string
+  - name: AggregatedHealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: Description
+    description: Description of the health evaluation, which represents a summary of the evaluation process.
+    types:
+    - uid: string
+  - name: UpgradeDomainName
+    description: Name of the upgrade domain where nodes health is currently evaluated.
+    types:
+    - uid: string
+  - name: BaselineErrorCount
+    description: Number of upgrade domain nodes with aggregated heath state Error in the health store at the beginning of the cluster upgrade.
+    types:
+    - uid: integer
+  - name: BaselineTotalCount
+    description: Total number of upgrade domain nodes in the health store at the beginning of the cluster upgrade.
+    types:
+    - uid: integer
+  - name: MaxPercentDeltaUnhealthyNodes
+    description: Maximum allowed percentage of upgrade domain delta unhealthy nodes from the ClusterUpgradeHealthPolicy.
+    types:
+    - uid: integer
+  - name: TotalCount
+    description: Total number of upgrade domain nodes in the health store.
+    types:
+    - uid: integer
+  - name: UnhealthyEvaluations
+    description: List of unhealthy evaluations that led to the aggregated health state. Includes all the unhealthy NodeHealthEvaluation that impacted the aggregated health.
+    types:
+    - uid: HealthEvaluationWrapper
+      isArray: true
+- name: UpgradeDomainNodesHealthEvaluation
+  description: Represents health evaluation for cluster nodes in an upgrade domain, containing health evaluations for each unhealthy node that impacted current aggregated health state. Can be returned when evaluating cluster health during cluster upgrade and the aggregated health state is either Error or Warning.
+  kind: object
+  properties:
+  - name: Kind
+    description: The health manager in the cluster performs health evaluations in determining the aggregated health state of an entity. This enumeration provides information on the kind of evaluation that was performed. Following are the possible values.
+    types:
+    - uid: UpgradeDomainNodes
+    typesTitle: string
+  - name: AggregatedHealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: Description
+    description: Description of the health evaluation, which represents a summary of the evaluation process.
+    types:
+    - uid: string
+  - name: UpgradeDomainName
+    description: Name of the upgrade domain where nodes health is currently evaluated.
+    types:
+    - uid: string
+  - name: MaxPercentUnhealthyNodes
+    description: Maximum allowed percentage of unhealthy nodes from the ClusterHealthPolicy.
+    types:
+    - uid: integer
+  - name: TotalCount
+    description: Total number of nodes in the current upgrade domain.
+    types:
+    - uid: integer
+  - name: UnhealthyEvaluations
+    description: List of unhealthy evaluations that led to the aggregated health state. Includes all the unhealthy NodeHealthEvaluation that impacted the aggregated health.
+    types:
+    - uid: HealthEvaluationWrapper
+      isArray: true
+- name: EntityKind
+  description: The entity type of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+  kind: enum
+  properties:
+  - name: Invalid
+    description: Indicates an invalid entity kind. All Service Fabric enumerations have the invalid type. The value is zero.
+    types:
+    - uid: string
+  - name: Node
+    description: Indicates the entity is a Service Fabric node. The value is 1.
+    types:
+    - uid: string
+  - name: Partition
+    description: Indicates the entity is a Service Fabric partition. The value is 2.
+    types:
+    - uid: string
+  - name: Service
+    description: Indicates the entity is a Service Fabric service. The value is 3.
+    types:
+    - uid: string
+  - name: Application
+    description: Indicates the entity is a Service Fabric application. The value is 4.
+    types:
+    - uid: string
+  - name: Replica
+    description: Indicates the entity is a Service Fabric replica. The value is 5.
+    types:
+    - uid: string
+  - name: DeployedApplication
+    description: Indicates the entity is a Service Fabric deployed application. The value is 6.
+    types:
+    - uid: string
+  - name: DeployedServicePackage
+    description: Indicates the entity is a Service Fabric deployed service package. The value is 7.
+    types:
+    - uid: string
+  - name: Cluster
+    description: Indicates the entity is a Service Fabric cluster. The value is 8.
+    types:
+    - uid: string
+- name: HealthStateCount
+  description: Represents information about how many health entities are in Ok, Warning and Error health state.
+  kind: object
+  properties:
+  - name: OkCount
+    description: The number of health entities with aggregated health state Ok.
+    types:
+    - uid: integer
+  - name: WarningCount
+    description: The number of health entities with aggregated health state Warning.
+    types:
+    - uid: integer
+  - name: ErrorCount
+    description: The number of health entities with aggregated health state Error.
+    types:
+    - uid: integer
+- name: HealthEvaluationKind
+  description: The health manager in the cluster performs health evaluations in determining the aggregated health state of an entity. This enumeration provides information on the kind of evaluation that was performed. Following are the possible values.
+  kind: enum
+  properties:
+  - name: Invalid
+    description: Indicates that the health evaluation is invalid. The value is zero.
+    types:
+    - uid: string
+  - name: Event
+    description: Indicates that the health evaluation is for a health event. The value is 1.
+    types:
+    - uid: string
+  - name: Replicas
+    description: Indicates that the health evaluation is for the replicas of a partition. The value is 2.
+    types:
+    - uid: string
+  - name: Partitions
+    description: Indicates that the health evaluation is for the partitions of a service. The value is 3.
+    types:
+    - uid: string
+  - name: DeployedServicePackages
+    description: Indicates that the health evaluation is for the deployed service packages of a deployed application. The value is 4.
+    types:
+    - uid: string
+  - name: DeployedApplications
+    description: Indicates that the health evaluation is for the deployed applications of an application. The value is 5.
+    types:
+    - uid: string
+  - name: Services
+    description: Indicates that the health evaluation is for services of an application. The value is 6.
+    types:
+    - uid: string
+  - name: Nodes
+    description: Indicates that the health evaluation is for the cluster nodes. The value is 7.
+    types:
+    - uid: string
+  - name: Applications
+    description: Indicates that the health evaluation is for the cluster applications. The value is 8.
+    types:
+    - uid: string
+  - name: SystemApplication
+    description: Indicates that the health evaluation is for the system application. The value is 9.
+    types:
+    - uid: string
+  - name: UpgradeDomainDeployedApplications
+    description: Indicates that the health evaluation is for the deployed applications of an application in an upgrade domain. The value is 10.
+    types:
+    - uid: string
+  - name: UpgradeDomainNodes
+    description: Indicates that the health evaluation is for the cluster nodes in an upgrade domain. The value is 11.
+    types:
+    - uid: string
+  - name: Replica
+    description: Indicates that the health evaluation is for a replica. The value is 13.
+    types:
+    - uid: string
+  - name: Partition
+    description: Indicates that the health evaluation is for a partition. The value is 14.
+    types:
+    - uid: string
+  - name: DeployedServicePackage
+    description: Indicates that the health evaluation is for a deployed service package. The value is 16.
+    types:
+    - uid: string
+  - name: DeployedApplication
+    description: Indicates that the health evaluation is for a deployed application. The value is 17.
+    types:
+    - uid: string
+  - name: Service
+    description: Indicates that the health evaluation is for a service. The value is 15.
+    types:
+    - uid: string
+  - name: Node
+    description: Indicates that the health evaluation is for a node. The value is 12.
+    types:
+    - uid: string
+  - name: Application
+    description: Indicates that the health evaluation is for an application. The value is 18.
+    types:
+    - uid: string
+  - name: DeltaNodesCheck
+    description: Indicates that the health evaluation is for the delta of unhealthy cluster nodes. The value is 19.
+    types:
+    - uid: string
+  - name: UpgradeDomainDeltaNodesCheck
+    description: Indicates that the health evaluation is for the delta of unhealthy upgrade domain cluster nodes. The value is 20.
+    types:
+    - uid: string
+  - name: ApplicationTypeApplications
+    description: – Indicates that the health evaluation is for applications of an application type. The value is 21.
+    types:
+    - uid: string
+examples: []
+security: []

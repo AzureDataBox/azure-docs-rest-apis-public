@@ -1,0 +1,965 @@
+### YamlMime:RESTOperation
+uid: localhost:19080.servicefabric.submitpropertybatch.submitpropertybatch
+name: Submit Property Batch
+service: Service Fabric
+groupName: Submit Property Batch
+apiVersion: 6.2.0.9
+summary: "Submits a property batch.  \nSubmits a batch of property operations. Either all or none of the operations will be committed."
+produces:
+- application/json
+paths:
+- content: POST http://localhost:19080/Names/{nameId}/$/GetProperties/$/SubmitBatch?api-version=6.2.0.9
+- content: POST http://localhost:19080/Names/{nameId}/$/GetProperties/$/SubmitBatch?api-version=6.2.0.9&timeout={timeout}
+  isOptional: true
+uriParameters:
+- name: nameId
+  in: path
+  isRequired: true
+  description: The Service Fabric name, without the 'fabric:' URI scheme.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: >-
+    The version of the API. This parameter is required and its value must be '6.0'.
+
+
+    Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
+
+
+    Additionally the runtime accept any version that is higher than the latest supported version up to the current version of the runtime. So if the latest API version is 6.0, but if the runtime is 6.1, in order to make it easier to write the clients, the runtime will accept version 6.1 for that API. However the behavior of the API will be as per the documented 6.0 version.
+  types:
+  - uid: ApiVersion_6-0_RequiredQueryParam
+- name: timeout
+  in: query
+  description: The server timeout for performing the operation in seconds. This timeout specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
+  types:
+  - uid: integer
+  format: int64
+responses:
+- name: 200 OK
+  description: A successful response means that the property batch succeeded.
+  types:
+  - uid: SuccessfulPropertyBatchInfo
+- name: Other Status Codes
+  description: A 409 response means that one of the property batch operations failed, and contains more information about the failure. None of the operations were commited.
+  types:
+  - uid: FailedPropertyBatchInfo
+- name: Other Status Codes
+  description: The detailed error response.
+  types:
+  - uid: FabricError
+requestBody:
+- parameters:
+  - name: Operations
+    in: body
+    description: A list of the property batch operations to be executed.
+    types:
+    - uid: CheckExistsPropertyBatchOperation
+      isArray: true
+    - uid: CheckSequencePropertyBatchOperation
+      isArray: true
+    - uid: CheckValuePropertyBatchOperation
+      isArray: true
+    - uid: DeletePropertyBatchOperation
+      isArray: true
+    - uid: GetPropertyBatchOperation
+      isArray: true
+    - uid: PutPropertyBatchOperation
+      isArray: true
+    typesTitle: PropertyBatchOperation[]
+requestHeader: []
+definitions:
+- name: ApiVersion_6-0_RequiredQueryParam
+  description: >-
+    The version of the API. This parameter is required and its value must be '6.0'.
+
+
+    Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
+
+
+    Additionally the runtime accept any version that is higher than the latest supported version up to the current version of the runtime. So if the latest API version is 6.0, but if the runtime is 6.1, in order to make it easier to write the clients, the runtime will accept version 6.1 for that API. However the behavior of the API will be as per the documented 6.0 version.
+  kind: enum
+  properties:
+  - name: "6.0"
+    description: The 6.0 version of the API.
+    types:
+    - uid: string
+- name: SuccessfulPropertyBatchInfo
+  description: Derived from PropertyBatchInfo. Represents the property batch succeeding. Contains the results of any "Get" operations in the batch.
+  kind: object
+  properties:
+  - name: Properties
+    description: A map containing the properties that were requested through any "Get" property batch operations. The key represents the index of the "Get" operation in the original request, in string form. The value is the property. If a property is not found, it will not be in the map.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: PropertyInfo
+  - name: Kind
+    description: The kind of property batch info, determined by the results of a property batch. The following are the possible values.
+    types:
+    - uid: Successful
+    typesTitle: string
+- name: FailedPropertyBatchInfo
+  description: Derived from PropertyBatchInfo. Represents the property batch failing. Contains information about the specific batch failure.
+  kind: object
+  properties:
+  - name: ErrorMessage
+    description: The error message of the failed operation. Describes the exception thrown due to the first unsuccessful operation in the property batch.
+    types:
+    - uid: string
+  - name: OperationIndex
+    description: The index of the unsuccessful operation in the property batch.
+    types:
+    - uid: integer
+  - name: Kind
+    description: The kind of property batch info, determined by the results of a property batch. The following are the possible values.
+    types:
+    - uid: Failed
+    typesTitle: string
+- name: FabricError
+  description: The REST API operations for Service Fabric return standard HTTP status codes. This type defines the additional information returned from the Service Fabric API operations that are not successful.
+  kind: object
+  properties:
+  - name: Error
+    description: Error object containing error code and error message.
+    types:
+    - uid: FabricErrorError
+- name: PropertyBatchDescriptionList
+  description: Describes a list of property batch operations to be executed. Either all or none of the operations will be committed.
+  kind: object
+  properties:
+  - name: Operations
+    description: A list of the property batch operations to be executed.
+    types:
+    - uid: CheckExistsPropertyBatchOperation
+      isArray: true
+    - uid: CheckSequencePropertyBatchOperation
+      isArray: true
+    - uid: CheckValuePropertyBatchOperation
+      isArray: true
+    - uid: DeletePropertyBatchOperation
+      isArray: true
+    - uid: GetPropertyBatchOperation
+      isArray: true
+    - uid: PutPropertyBatchOperation
+      isArray: true
+    typesTitle: PropertyBatchOperation[]
+- name: CheckExistsPropertyBatchOperation
+  description: >-
+    Represents a PropertyBatchOperation that compares the Boolean existence of a property with the Exists argument.
+
+    The PropertyBatchOperation operation fails if the property's existence is not equal to the Exists argument.
+
+    The CheckExistsPropertyBatchOperation is generally used as a precondition for the write operations in the batch.
+
+    Note that if one PropertyBatchOperation in a PropertyBatch fails,
+
+    the entire batch fails and cannot be committed in a transactional manner.
+  kind: object
+  properties:
+  - name: Exists
+    description: Whether or not the property should exist for the operation to pass.
+    types:
+    - uid: boolean
+  - name: Kind
+    description: The kind of property batch operation, determined by the operation to be performed. The following are the possible values.
+    types:
+    - uid: CheckExists
+    typesTitle: string
+  - name: PropertyName
+    description: The name of the Service Fabric property.
+    types:
+    - uid: string
+- name: CheckSequencePropertyBatchOperation
+  description: >-
+    Compares the Sequence Number of a property with the SequenceNumber argument.
+
+    A property's sequence number can be thought of as that property's version.
+
+    Every time the property is modified, its sequence number is increased.
+
+    The sequence number can be found in a property's metadata.
+
+    The comparison fails if the sequence numbers are not equal.
+
+    CheckSequencePropertyBatchOperation is generally used as a precondition for the write operations in the batch.
+
+    Note that if one PropertyBatchOperation in a PropertyBatch fails,
+
+    the entire batch fails and cannot be committed in a transactional manner.
+  kind: object
+  properties:
+  - name: SequenceNumber
+    description: The expected sequence number.
+    types:
+    - uid: string
+  - name: Kind
+    description: The kind of property batch operation, determined by the operation to be performed. The following are the possible values.
+    types:
+    - uid: CheckSequence
+    typesTitle: string
+  - name: PropertyName
+    description: The name of the Service Fabric property.
+    types:
+    - uid: string
+- name: CheckValuePropertyBatchOperation
+  description: >-
+    Represents a PropertyBatchOperation that compares the value of the property with the expected value.
+
+    The CheckValuePropertyBatchOperation is generally used as a precondition for the write operations in the batch.
+
+    Note that if one PropertyBatchOperation in a PropertyBatch fails,
+
+    the entire batch fails and cannot be committed in a transactional manner.
+  kind: object
+  properties:
+  - name: Value
+    description: The expected property value.
+    types:
+    - uid: BinaryPropertyValue
+    - uid: Int64PropertyValue
+    - uid: DoublePropertyValue
+    - uid: StringPropertyValue
+    - uid: GuidPropertyValue
+    typesTitle: PropertyValue
+  - name: Kind
+    description: The kind of property batch operation, determined by the operation to be performed. The following are the possible values.
+    types:
+    - uid: CheckValue
+    typesTitle: string
+  - name: PropertyName
+    description: The name of the Service Fabric property.
+    types:
+    - uid: string
+- name: DeletePropertyBatchOperation
+  description: >-
+    Represents a PropertyBatchOperation that deletes a specified property if it exists.
+
+    Note that if one PropertyBatchOperation in a PropertyBatch fails,
+
+    the entire batch fails and cannot be committed in a transactional manner.
+  kind: object
+  properties:
+  - name: Kind
+    description: The kind of property batch operation, determined by the operation to be performed. The following are the possible values.
+    types:
+    - uid: Delete
+    typesTitle: string
+  - name: PropertyName
+    description: The name of the Service Fabric property.
+    types:
+    - uid: string
+- name: GetPropertyBatchOperation
+  description: >-
+    Represents a PropertyBatchOperation that gets the specified property if it exists.
+
+    Note that if one PropertyBatchOperation in a PropertyBatch fails,
+
+    the entire batch fails and cannot be committed in a transactional manner.
+  kind: object
+  properties:
+  - name: IncludeValue
+    description: >-
+      Whether or not to return the property value with the metadata.
+
+      True if values should be returned with the metadata; False to return only property metadata.
+    types:
+    - uid: boolean
+  - name: Kind
+    description: The kind of property batch operation, determined by the operation to be performed. The following are the possible values.
+    types:
+    - uid: Get
+    typesTitle: string
+  - name: PropertyName
+    description: The name of the Service Fabric property.
+    types:
+    - uid: string
+- name: PutPropertyBatchOperation
+  description: >-
+    Puts the specified property under the specified name.
+
+    Note that if one PropertyBatchOperation in a PropertyBatch fails,
+
+    the entire batch fails and cannot be committed in a transactional manner.
+  kind: object
+  properties:
+  - name: Value
+    description: Describes a Service Fabric property value.
+    types:
+    - uid: BinaryPropertyValue
+    - uid: Int64PropertyValue
+    - uid: DoublePropertyValue
+    - uid: StringPropertyValue
+    - uid: GuidPropertyValue
+    typesTitle: PropertyValue
+  - name: CustomTypeId
+    description: The property's custom type id. Using this property, the user is able to tag the type of the value of the property.
+    types:
+    - uid: string
+  - name: Kind
+    description: The kind of property batch operation, determined by the operation to be performed. The following are the possible values.
+    types:
+    - uid: Put
+    typesTitle: string
+  - name: PropertyName
+    description: The name of the Service Fabric property.
+    types:
+    - uid: string
+- name: Properties
+  description: A map containing the properties that were requested through any "Get" property batch operations. The key represents the index of the "Get" operation in the original request, in string form. The value is the property. If a property is not found, it will not be in the map.
+  kind: object
+  properties:
+  - name: ''
+    description: Information about a Service Fabric property.
+    types:
+    - uid: PropertyInfo
+- name: PropertyBatchInfoKind
+  description: The kind of property batch info, determined by the results of a property batch. The following are the possible values.
+  kind: enum
+  properties:
+  - name: Invalid
+    description: Indicates the property batch info is invalid. All Service Fabric enumerations have the invalid type.
+    types:
+    - uid: string
+  - name: Successful
+    description: The property batch succeeded.
+    types:
+    - uid: string
+  - name: Failed
+    description: The property batch failed.
+    types:
+    - uid: string
+- name: FabricErrorError
+  description: Error object containing error code and error message.
+  kind: object
+  properties:
+  - name: Code
+    description: >-
+      Defines the fabric error codes that be returned as part of the error object in response to Service Fabric API operations that are not successful. Following are the error code values that can be returned for a specific HTTP status code.
+
+        - Possible values of the error code for HTTP status code 400 (Bad Request)
+          - "FABRIC_E_INVALID_PARTITION_KEY"
+          - "FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR"
+          - "FABRIC_E_INVALID_ADDRESS"
+          - "FABRIC_E_APPLICATION_NOT_UPGRADING"
+          - "FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR"
+          - "FABRIC_E_FABRIC_NOT_UPGRADING"
+          - "FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR"
+          - "FABRIC_E_INVALID_CONFIGURATION"
+          - "FABRIC_E_INVALID_NAME_URI"
+          - "FABRIC_E_PATH_TOO_LONG"
+          - "FABRIC_E_KEY_TOO_LARGE"
+          - "FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED"
+          - "FABRIC_E_INVALID_ATOMIC_GROUP"
+          - "FABRIC_E_VALUE_EMPTY"
+          - "FABRIC_E_BACKUP_IS_ENABLED"
+          - "FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH"
+          - "FABRIC_E_INVALID_FOR_STATELESS_SERVICES"
+          - "FABRIC_E_INVALID_SERVICE_SCALING_POLICY"
+          - "E_INVALIDARG"
+
+        - Possible values of the error code for HTTP status code 404 (Not Found)
+          - "FABRIC_E_NODE_NOT_FOUND"
+          - "FABRIC_E_APPLICATION_TYPE_NOT_FOUND"
+          - "FABRIC_E_APPLICATION_NOT_FOUND"
+          - "FABRIC_E_SERVICE_TYPE_NOT_FOUND"
+          - "FABRIC_E_SERVICE_DOES_NOT_EXIST"
+          - "FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND"
+          - "FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND"
+          - "FABRIC_E_PARTITION_NOT_FOUND"
+          - "FABRIC_E_REPLICA_DOES_NOT_EXIST"
+          - "FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST"
+          - "FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND"
+          - "FABRIC_E_DIRECTORY_NOT_FOUND"
+          - "FABRIC_E_FABRIC_VERSION_NOT_FOUND"
+          - "FABRIC_E_FILE_NOT_FOUND"
+          - "FABRIC_E_NAME_DOES_NOT_EXIST"
+          - "FABRIC_E_PROPERTY_DOES_NOT_EXIST"
+          - "FABRIC_E_ENUMERATION_COMPLETED"
+          - "FABRIC_E_SERVICE_MANIFEST_NOT_FOUND"
+          - "FABRIC_E_KEY_NOT_FOUND"
+          - "FABRIC_E_HEALTH_ENTITY_NOT_FOUND"
+          - "FABRIC_E_BACKUP_NOT_ENABLED"
+          - "FABRIC_E_BACKUP_POLICY_NOT_EXISTING"
+          - "FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING"
+
+        - Possible values of the error code for HTTP status code 409 (Conflict)
+          - "FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION"
+          - "FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS"
+          - "FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS"
+          - "FABRIC_E_SERVICE_ALREADY_EXISTS"
+          - "FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_TYPE_IN_USE"
+          - "FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION"
+          - "FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS"
+          - "FABRIC_E_FABRIC_VERSION_IN_USE"
+          - "FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS"
+          - "FABRIC_E_NAME_ALREADY_EXISTS"
+          - "FABRIC_E_NAME_NOT_EMPTY"
+          - "FABRIC_E_PROPERTY_CHECK_FAILED"
+          - "FABRIC_E_SERVICE_METADATA_MISMATCH"
+          - "FABRIC_E_SERVICE_TYPE_MISMATCH"
+          - "FABRIC_E_HEALTH_STALE_REPORT"
+          - "FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED"
+          - "FABRIC_E_NODE_HAS_NOT_STOPPED_YET"
+          - "FABRIC_E_INSTANCE_ID_MISMATCH"
+          - "FABRIC_E_BACKUP_IN_PROGRESS"
+          - "FABRIC_E_RESTORE_IN_PROGRESS"
+          - "FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING"
+
+        - Possible values of the error code for HTTP status code 413 (Request Entity Too Large)
+          - "FABRIC_E_VALUE_TOO_LARGE"
+
+        - Possible values of the error code for HTTP status code 500 (Internal Server Error)
+          - "FABRIC_E_NODE_IS_UP"
+          - "E_FAIL"
+
+        - Possible values of the error code for HTTP status code 503 (Service Unavailable)
+          - "FABRIC_E_NO_WRITE_QUORUM"
+          - "FABRIC_E_NOT_PRIMARY"
+          - "FABRIC_E_NOT_READY"
+          - "FABRIC_E_RECONFIGURATION_PENDING"
+          - "FABRIC_E_SERVICE_OFFLINE"
+          - "E_ABORT"
+          - "FABRIC_E_VALUE_TOO_LARGE"
+
+        - Possible values of the error code for HTTP status code 504 (Gateway Timeout)
+          - "FABRIC_E_COMMUNICATION_ERROR"
+          - "FABRIC_E_OPERATION_NOT_COMPLETE"
+          - "FABRIC_E_TIMEOUT"
+    types:
+    - uid: FabricErrorCodes
+  - name: Message
+    description: Error message.
+    types:
+    - uid: string
+- name: PropertyBatchOperationKind
+  description: The kind of property batch operation, determined by the operation to be performed. The following are the possible values.
+  kind: enum
+  properties:
+  - name: Invalid
+    description: Indicates the property operation is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+    types:
+    - uid: string
+  - name: Put
+    description: The operation will create or edit a property. The value is 1.
+    types:
+    - uid: string
+  - name: Get
+    description: The operation will get a property. The value is 2.
+    types:
+    - uid: string
+  - name: CheckExists
+    description: The operation will check that a property exists or doesn't exists, depending on the provided value. The value is 3.
+    types:
+    - uid: string
+  - name: CheckSequence
+    description: The operation will ensure that the sequence number is equal to the provided value. The value is 4.
+    types:
+    - uid: string
+  - name: Delete
+    description: The operation will delete a property. The value is 5.
+    types:
+    - uid: string
+  - name: CheckValue
+    description: The operation will ensure that the value of a property is equal to the provided value. The value is 7.
+    types:
+    - uid: string
+- name: FabricErrorCodes
+  description: >-
+    Defines the fabric error codes that be returned as part of the error object in response to Service Fabric API operations that are not successful. Following are the error code values that can be returned for a specific HTTP status code.
+
+      - Possible values of the error code for HTTP status code 400 (Bad Request)
+        - "FABRIC_E_INVALID_PARTITION_KEY"
+        - "FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR"
+        - "FABRIC_E_INVALID_ADDRESS"
+        - "FABRIC_E_APPLICATION_NOT_UPGRADING"
+        - "FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR"
+        - "FABRIC_E_FABRIC_NOT_UPGRADING"
+        - "FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR"
+        - "FABRIC_E_INVALID_CONFIGURATION"
+        - "FABRIC_E_INVALID_NAME_URI"
+        - "FABRIC_E_PATH_TOO_LONG"
+        - "FABRIC_E_KEY_TOO_LARGE"
+        - "FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED"
+        - "FABRIC_E_INVALID_ATOMIC_GROUP"
+        - "FABRIC_E_VALUE_EMPTY"
+        - "FABRIC_E_BACKUP_IS_ENABLED"
+        - "FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH"
+        - "FABRIC_E_INVALID_FOR_STATELESS_SERVICES"
+        - "FABRIC_E_INVALID_SERVICE_SCALING_POLICY"
+        - "E_INVALIDARG"
+
+      - Possible values of the error code for HTTP status code 404 (Not Found)
+        - "FABRIC_E_NODE_NOT_FOUND"
+        - "FABRIC_E_APPLICATION_TYPE_NOT_FOUND"
+        - "FABRIC_E_APPLICATION_NOT_FOUND"
+        - "FABRIC_E_SERVICE_TYPE_NOT_FOUND"
+        - "FABRIC_E_SERVICE_DOES_NOT_EXIST"
+        - "FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND"
+        - "FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND"
+        - "FABRIC_E_PARTITION_NOT_FOUND"
+        - "FABRIC_E_REPLICA_DOES_NOT_EXIST"
+        - "FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST"
+        - "FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND"
+        - "FABRIC_E_DIRECTORY_NOT_FOUND"
+        - "FABRIC_E_FABRIC_VERSION_NOT_FOUND"
+        - "FABRIC_E_FILE_NOT_FOUND"
+        - "FABRIC_E_NAME_DOES_NOT_EXIST"
+        - "FABRIC_E_PROPERTY_DOES_NOT_EXIST"
+        - "FABRIC_E_ENUMERATION_COMPLETED"
+        - "FABRIC_E_SERVICE_MANIFEST_NOT_FOUND"
+        - "FABRIC_E_KEY_NOT_FOUND"
+        - "FABRIC_E_HEALTH_ENTITY_NOT_FOUND"
+        - "FABRIC_E_BACKUP_NOT_ENABLED"
+        - "FABRIC_E_BACKUP_POLICY_NOT_EXISTING"
+        - "FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING"
+
+      - Possible values of the error code for HTTP status code 409 (Conflict)
+        - "FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION"
+        - "FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS"
+        - "FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS"
+        - "FABRIC_E_SERVICE_ALREADY_EXISTS"
+        - "FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_TYPE_IN_USE"
+        - "FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION"
+        - "FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS"
+        - "FABRIC_E_FABRIC_VERSION_IN_USE"
+        - "FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS"
+        - "FABRIC_E_NAME_ALREADY_EXISTS"
+        - "FABRIC_E_NAME_NOT_EMPTY"
+        - "FABRIC_E_PROPERTY_CHECK_FAILED"
+        - "FABRIC_E_SERVICE_METADATA_MISMATCH"
+        - "FABRIC_E_SERVICE_TYPE_MISMATCH"
+        - "FABRIC_E_HEALTH_STALE_REPORT"
+        - "FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED"
+        - "FABRIC_E_NODE_HAS_NOT_STOPPED_YET"
+        - "FABRIC_E_INSTANCE_ID_MISMATCH"
+        - "FABRIC_E_BACKUP_IN_PROGRESS"
+        - "FABRIC_E_RESTORE_IN_PROGRESS"
+        - "FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING"
+
+      - Possible values of the error code for HTTP status code 413 (Request Entity Too Large)
+        - "FABRIC_E_VALUE_TOO_LARGE"
+
+      - Possible values of the error code for HTTP status code 500 (Internal Server Error)
+        - "FABRIC_E_NODE_IS_UP"
+        - "E_FAIL"
+
+      - Possible values of the error code for HTTP status code 503 (Service Unavailable)
+        - "FABRIC_E_NO_WRITE_QUORUM"
+        - "FABRIC_E_NOT_PRIMARY"
+        - "FABRIC_E_NOT_READY"
+        - "FABRIC_E_RECONFIGURATION_PENDING"
+        - "FABRIC_E_SERVICE_OFFLINE"
+        - "E_ABORT"
+        - "FABRIC_E_VALUE_TOO_LARGE"
+
+      - Possible values of the error code for HTTP status code 504 (Gateway Timeout)
+        - "FABRIC_E_COMMUNICATION_ERROR"
+        - "FABRIC_E_OPERATION_NOT_COMPLETE"
+        - "FABRIC_E_TIMEOUT"
+  kind: enum
+  properties:
+  - name: FABRIC_E_INVALID_PARTITION_KEY
+    types:
+    - uid: string
+  - name: FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_ADDRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_NOT_UPGRADING
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_NOT_UPGRADING
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_CONFIGURATION
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_NAME_URI
+    types:
+    - uid: string
+  - name: FABRIC_E_PATH_TOO_LONG
+    types:
+    - uid: string
+  - name: FABRIC_E_KEY_TOO_LARGE
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_ATOMIC_GROUP
+    types:
+    - uid: string
+  - name: FABRIC_E_VALUE_EMPTY
+    types:
+    - uid: string
+  - name: FABRIC_E_NODE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_TYPE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_PARTITION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_REPLICA_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_DIRECTORY_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_VERSION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_FILE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_NAME_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_PROPERTY_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_ENUMERATION_COMPLETED
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_MANIFEST_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_KEY_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_HEALTH_ENTITY_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_IN_USE
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_VERSION_IN_USE
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_NAME_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_NAME_NOT_EMPTY
+    types:
+    - uid: string
+  - name: FABRIC_E_PROPERTY_CHECK_FAILED
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_METADATA_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_TYPE_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_HEALTH_STALE_REPORT
+    types:
+    - uid: string
+  - name: FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED
+    types:
+    - uid: string
+  - name: FABRIC_E_NODE_HAS_NOT_STOPPED_YET
+    types:
+    - uid: string
+  - name: FABRIC_E_INSTANCE_ID_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_VALUE_TOO_LARGE
+    types:
+    - uid: string
+  - name: FABRIC_E_NO_WRITE_QUORUM
+    types:
+    - uid: string
+  - name: FABRIC_E_NOT_PRIMARY
+    types:
+    - uid: string
+  - name: FABRIC_E_NOT_READY
+    types:
+    - uid: string
+  - name: FABRIC_E_RECONFIGURATION_PENDING
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_OFFLINE
+    types:
+    - uid: string
+  - name: E_ABORT
+    types:
+    - uid: string
+  - name: FABRIC_E_COMMUNICATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_OPERATION_NOT_COMPLETE
+    types:
+    - uid: string
+  - name: FABRIC_E_TIMEOUT
+    types:
+    - uid: string
+  - name: FABRIC_E_NODE_IS_UP
+    types:
+    - uid: string
+  - name: E_FAIL
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_IS_ENABLED
+    types:
+    - uid: string
+  - name: FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_FOR_STATELESS_SERVICES
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_NOT_ENABLED
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_POLICY_NOT_EXISTING
+    types:
+    - uid: string
+  - name: FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_RESTORE_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_SERVICE_SCALING_POLICY
+    types:
+    - uid: string
+  - name: E_INVALIDARG
+    types:
+    - uid: string
+- name: BinaryPropertyValue
+  description: Describes a Service Fabric property value of type Binary.
+  kind: object
+  properties:
+  - name: Data
+    description: Array of bytes to be sent as an integer array. Each element of array is a number between 0 and 255.
+    types:
+    - uid: integer
+      isArray: true
+  - name: Kind
+    description: The kind of property, determined by the type of data. Following are the possible values.
+    types:
+    - uid: Binary
+    typesTitle: string
+- name: Int64PropertyValue
+  description: Describes a Service Fabric property value of type Int64.
+  kind: object
+  properties:
+  - name: Data
+    description: The data of the property value.
+    types:
+    - uid: string
+  - name: Kind
+    description: The kind of property, determined by the type of data. Following are the possible values.
+    types:
+    - uid: Int64
+    typesTitle: string
+- name: DoublePropertyValue
+  description: Describes a Service Fabric property value of type Double.
+  kind: object
+  properties:
+  - name: Data
+    description: The data of the property value.
+    types:
+    - uid: number
+  - name: Kind
+    description: The kind of property, determined by the type of data. Following are the possible values.
+    types:
+    - uid: Double
+    typesTitle: string
+- name: StringPropertyValue
+  description: Describes a Service Fabric property value of type String.
+  kind: object
+  properties:
+  - name: Data
+    description: The data of the property value.
+    types:
+    - uid: string
+  - name: Kind
+    description: The kind of property, determined by the type of data. Following are the possible values.
+    types:
+    - uid: String
+    typesTitle: string
+- name: GuidPropertyValue
+  description: Describes a Service Fabric property value of type Guid.
+  kind: object
+  properties:
+  - name: Data
+    description: The data of the property value.
+    types:
+    - uid: string
+  - name: Kind
+    description: The kind of property, determined by the type of data. Following are the possible values.
+    types:
+    - uid: Guid
+    typesTitle: string
+- name: PropertyValueKind
+  description: The kind of property, determined by the type of data. Following are the possible values.
+  kind: enum
+  properties:
+  - name: Invalid
+    description: Indicates the property is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+    types:
+    - uid: string
+  - name: Binary
+    description: The data inside the property is a binary blob. The value is 1.
+    types:
+    - uid: string
+  - name: Int64
+    description: The data inside the property is an int64. The value is 2.
+    types:
+    - uid: string
+  - name: Double
+    description: The data inside the property is a double. The value is 3.
+    types:
+    - uid: string
+  - name: String
+    description: The data inside the property is a string. The value is 4.
+    types:
+    - uid: string
+  - name: Guid
+    description: The data inside the property is a guid. The value is 5.
+    types:
+    - uid: string
+examples:
+- name: Property batch operation
+  request:
+    uri: POST http://localhost:19080/Names/samples/apps/$/GetProperties/$/SubmitBatch?api-version=6.2.0.9
+    body: >-
+      {
+        "Operations": [
+          {
+            "Kind": "CheckExists",
+            "PropertyName": "PersistentQueueAppData",
+            "Exits": true
+          },
+          {
+            "Kind": "CheckSequence",
+            "PropertyName": "PersistentQueueAppData",
+            "SequenceNumber": "12"
+          },
+          {
+            "Kind": "Put",
+            "PropertyName": "PersistentQueueAppData",
+            "Value": {
+              "Kind": "Binary",
+              "Data": [
+                1,
+                2,
+                3,
+                4,
+                5
+              ]
+            },
+            "CustomTypeId": "InitializationData"
+          },
+          {
+            "Kind": "Get",
+            "PropertyName": "PersistentQueueAppData",
+            "IncludeValue": false
+          }
+        ]
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "Kind": "Successful",
+        "Properties": {
+          "3": {
+            "Name": "PersistentQueueAppData",
+            "Metadata": {
+              "TypeId": "Binary",
+              "CustomTypeId": "InitializationData",
+              "Parent": "fabric:/samples/apps",
+              "SizeInBytes": 5,
+              "LastModifiedUtcTimestamp": "2017-07-17T05:01:19.049Z",
+              "SequenceNumber": "13"
+            }
+          }
+        }
+      }
+  - statusCode: "409"
+    body: >-
+      {
+        "Kind": "Failed",
+        "ErrorMessage": "FABRIC_E_PROPERTY_CHECK_FAILED",
+        "OperationIndex": 1
+      }
+security: []

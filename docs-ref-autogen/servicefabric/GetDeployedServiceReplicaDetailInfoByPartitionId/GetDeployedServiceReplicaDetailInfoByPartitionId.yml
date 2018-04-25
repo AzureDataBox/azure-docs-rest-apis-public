@@ -1,0 +1,1257 @@
+### YamlMime:RESTOperation
+uid: localhost:19080.servicefabric.getdeployedservicereplicadetailinfobypartitionid.getdeployedservicereplicadetailinfobypartitionid
+name: Get Deployed Service Replica Detail Info By Partition Id
+service: Service Fabric
+groupName: Get Deployed Service Replica Detail Info By Partition Id
+apiVersion: 6.2.0.9
+summary: "Gets the details of replica deployed on a Service Fabric node.  \nGets the details of the replica deployed on a Service Fabric node. The information include service kind, service name, current service operation, current service operation start date time, partition ID, replica/instance ID, reported load, and other information."
+produces:
+- application/json
+paths:
+- content: GET http://localhost:19080/Nodes/{nodeName}/$/GetPartitions/{partitionId}/$/GetReplicas?api-version=6.2.0.9
+- content: GET http://localhost:19080/Nodes/{nodeName}/$/GetPartitions/{partitionId}/$/GetReplicas?api-version=6.2.0.9&timeout={timeout}
+  isOptional: true
+uriParameters:
+- name: nodeName
+  in: path
+  isRequired: true
+  description: The name of the node.
+  types:
+  - uid: string
+- name: partitionId
+  in: path
+  isRequired: true
+  description: The identity of the partition.
+  types:
+  - uid: string
+  format: uuid
+- name: api-version
+  in: query
+  isRequired: true
+  description: >-
+    The version of the API. This parameter is required and its value must be '6.0'.
+
+
+    Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
+
+
+    Additionally the runtime accept any version that is higher than the latest supported version up to the current version of the runtime. So if the latest API version is 6.0, but if the runtime is 6.1, in order to make it easier to write the clients, the runtime will accept version 6.1 for that API. However the behavior of the API will be as per the documented 6.0 version.
+  types:
+  - uid: ApiVersion_6-0_RequiredQueryParam
+- name: timeout
+  in: query
+  description: The server timeout for performing the operation in seconds. This timeout specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
+  types:
+  - uid: integer
+  format: int64
+responses:
+- name: 200 OK
+  description: A successful operation will return 200 status code and the list of deployed service replica information.
+  types:
+  - uid: DeployedStatefulServiceReplicaDetailInfo
+  - uid: DeployedStatelessServiceInstanceDetailInfo
+  typesTitle: DeployedServiceReplicaDetailInfo
+- name: Other Status Codes
+  description: The detailed error response.
+  types:
+  - uid: FabricError
+requestHeader: []
+definitions:
+- name: ApiVersion_6-0_RequiredQueryParam
+  description: >-
+    The version of the API. This parameter is required and its value must be '6.0'.
+
+
+    Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
+
+
+    Additionally the runtime accept any version that is higher than the latest supported version up to the current version of the runtime. So if the latest API version is 6.0, but if the runtime is 6.1, in order to make it easier to write the clients, the runtime will accept version 6.1 for that API. However the behavior of the API will be as per the documented 6.0 version.
+  kind: enum
+  properties:
+  - name: "6.0"
+    description: The 6.0 version of the API.
+    types:
+    - uid: string
+- name: FabricError
+  description: The REST API operations for Service Fabric return standard HTTP status codes. This type defines the additional information returned from the Service Fabric API operations that are not successful.
+  kind: object
+  properties:
+  - name: Error
+    description: Error object containing error code and error message.
+    types:
+    - uid: FabricErrorError
+- name: DeployedStatefulServiceReplicaDetailInfo
+  description: Information about a stateful replica running in a code package. Please note DeployedServiceReplicaQueryResult will contain duplicate data like ServiceKind, ServiceName, PartitionId and replicaId.
+  kind: object
+  properties:
+  - name: ServiceKind
+    description: The kind of service (Stateless or Stateful).
+    types:
+    - uid: Stateful
+    typesTitle: string
+  - name: ServiceName
+    description: Full hierarchical name of the service in URI format starting with `fabric:`.
+    types:
+    - uid: string
+  - name: PartitionId
+    description: An internal ID used by Service Fabric to uniquely identify a partition. This is a randomly generated GUID when the service was created. The partition ID is unique and does not change for the lifetime of the service. If the same service was deleted and recreated the IDs of its partitions would be different.
+    types:
+    - uid: string
+  - name: CurrentServiceOperation
+    description: Specifies the current active life-cycle operation on a stateful service replica or stateless service instance.
+    types:
+    - uid: ServiceOperationName
+  - name: CurrentServiceOperationStartTimeUtc
+    description: The start time of the current service operation in UTC format.
+    types:
+    - uid: string
+  - name: ReportedLoad
+    description: List of load reported by replica.
+    types:
+    - uid: LoadMetricReportInfo
+      isArray: true
+  - name: ReplicaId
+    description: Id of a stateful service replica. ReplicaId is used by Service Fabric to uniquely identify a replica of a partition. It is unique within a partition and does not change for the lifetime of the replica. If a replica gets dropped and another replica gets created on the same node for the same partition, it will get a different value for the id. Sometimes the id of a stateless service instance is also referred as a replica id.
+    types:
+    - uid: string
+  - name: CurrentReplicatorOperation
+    description: Specifies the operation currently being executed by the Replicator.
+    types:
+    - uid: ReplicatorOperationName
+  - name: ReadStatus
+    description: Specifies the access status of the partition.
+    types:
+    - uid: PartitionAccessStatus
+  - name: WriteStatus
+    description: Specifies the access status of the partition.
+    types:
+    - uid: PartitionAccessStatus
+  - name: ReplicatorStatus
+    description: >-
+      Represents a base class for primary or secondary replicator status.
+
+      Contains information about the service fabric replicator like the replication/copy queue utilization, last acknowledgement received timestamp, etc.
+    types:
+    - uid: PrimaryReplicatorStatus
+    - uid: SecondaryReplicatorStatus
+    typesTitle: ReplicatorStatus
+  - name: ReplicaStatus
+    description: Key value store related information for the replica.
+    types:
+    - uid: KeyValueStoreReplicaStatus
+  - name: DeployedServiceReplicaQueryResult
+    description: Information about a stateful service replica deployed on a node.
+    types:
+    - uid: DeployedStatefulServiceReplicaInfo
+- name: DeployedStatelessServiceInstanceDetailInfo
+  description: Information about a stateless instance running in a code package. Please note that DeployedServiceReplicaQueryResult will contain duplicate data like ServiceKind, ServiceName, PartitionId and InstanceId.
+  kind: object
+  properties:
+  - name: ServiceKind
+    description: The kind of service (Stateless or Stateful).
+    types:
+    - uid: Stateless
+    typesTitle: string
+  - name: ServiceName
+    description: Full hierarchical name of the service in URI format starting with `fabric:`.
+    types:
+    - uid: string
+  - name: PartitionId
+    description: An internal ID used by Service Fabric to uniquely identify a partition. This is a randomly generated GUID when the service was created. The partition ID is unique and does not change for the lifetime of the service. If the same service was deleted and recreated the IDs of its partitions would be different.
+    types:
+    - uid: string
+  - name: CurrentServiceOperation
+    description: Specifies the current active life-cycle operation on a stateful service replica or stateless service instance.
+    types:
+    - uid: ServiceOperationName
+  - name: CurrentServiceOperationStartTimeUtc
+    description: The start time of the current service operation in UTC format.
+    types:
+    - uid: string
+  - name: ReportedLoad
+    description: List of load reported by replica.
+    types:
+    - uid: LoadMetricReportInfo
+      isArray: true
+  - name: InstanceId
+    description: Id of a stateless service instance. InstanceId is used by Service Fabric to uniquely identify an instance of a partition of a stateless service. It is unique within a partition and does not change for the lifetime of the instance. If the instance has failed over on the same or different node, it will get a different value for the InstanceId.
+    types:
+    - uid: string
+  - name: DeployedServiceReplicaQueryResult
+    description: Information about a stateless service instance deployed on a node.
+    types:
+    - uid: DeployedStatelessServiceInstanceInfo
+- name: FabricErrorError
+  description: Error object containing error code and error message.
+  kind: object
+  properties:
+  - name: Code
+    description: >-
+      Defines the fabric error codes that be returned as part of the error object in response to Service Fabric API operations that are not successful. Following are the error code values that can be returned for a specific HTTP status code.
+
+        - Possible values of the error code for HTTP status code 400 (Bad Request)
+          - "FABRIC_E_INVALID_PARTITION_KEY"
+          - "FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR"
+          - "FABRIC_E_INVALID_ADDRESS"
+          - "FABRIC_E_APPLICATION_NOT_UPGRADING"
+          - "FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR"
+          - "FABRIC_E_FABRIC_NOT_UPGRADING"
+          - "FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR"
+          - "FABRIC_E_INVALID_CONFIGURATION"
+          - "FABRIC_E_INVALID_NAME_URI"
+          - "FABRIC_E_PATH_TOO_LONG"
+          - "FABRIC_E_KEY_TOO_LARGE"
+          - "FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED"
+          - "FABRIC_E_INVALID_ATOMIC_GROUP"
+          - "FABRIC_E_VALUE_EMPTY"
+          - "FABRIC_E_BACKUP_IS_ENABLED"
+          - "FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH"
+          - "FABRIC_E_INVALID_FOR_STATELESS_SERVICES"
+          - "FABRIC_E_INVALID_SERVICE_SCALING_POLICY"
+          - "E_INVALIDARG"
+
+        - Possible values of the error code for HTTP status code 404 (Not Found)
+          - "FABRIC_E_NODE_NOT_FOUND"
+          - "FABRIC_E_APPLICATION_TYPE_NOT_FOUND"
+          - "FABRIC_E_APPLICATION_NOT_FOUND"
+          - "FABRIC_E_SERVICE_TYPE_NOT_FOUND"
+          - "FABRIC_E_SERVICE_DOES_NOT_EXIST"
+          - "FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND"
+          - "FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND"
+          - "FABRIC_E_PARTITION_NOT_FOUND"
+          - "FABRIC_E_REPLICA_DOES_NOT_EXIST"
+          - "FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST"
+          - "FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND"
+          - "FABRIC_E_DIRECTORY_NOT_FOUND"
+          - "FABRIC_E_FABRIC_VERSION_NOT_FOUND"
+          - "FABRIC_E_FILE_NOT_FOUND"
+          - "FABRIC_E_NAME_DOES_NOT_EXIST"
+          - "FABRIC_E_PROPERTY_DOES_NOT_EXIST"
+          - "FABRIC_E_ENUMERATION_COMPLETED"
+          - "FABRIC_E_SERVICE_MANIFEST_NOT_FOUND"
+          - "FABRIC_E_KEY_NOT_FOUND"
+          - "FABRIC_E_HEALTH_ENTITY_NOT_FOUND"
+          - "FABRIC_E_BACKUP_NOT_ENABLED"
+          - "FABRIC_E_BACKUP_POLICY_NOT_EXISTING"
+          - "FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING"
+
+        - Possible values of the error code for HTTP status code 409 (Conflict)
+          - "FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION"
+          - "FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS"
+          - "FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS"
+          - "FABRIC_E_SERVICE_ALREADY_EXISTS"
+          - "FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_TYPE_IN_USE"
+          - "FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION"
+          - "FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS"
+          - "FABRIC_E_FABRIC_VERSION_IN_USE"
+          - "FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS"
+          - "FABRIC_E_NAME_ALREADY_EXISTS"
+          - "FABRIC_E_NAME_NOT_EMPTY"
+          - "FABRIC_E_PROPERTY_CHECK_FAILED"
+          - "FABRIC_E_SERVICE_METADATA_MISMATCH"
+          - "FABRIC_E_SERVICE_TYPE_MISMATCH"
+          - "FABRIC_E_HEALTH_STALE_REPORT"
+          - "FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED"
+          - "FABRIC_E_NODE_HAS_NOT_STOPPED_YET"
+          - "FABRIC_E_INSTANCE_ID_MISMATCH"
+          - "FABRIC_E_BACKUP_IN_PROGRESS"
+          - "FABRIC_E_RESTORE_IN_PROGRESS"
+          - "FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING"
+
+        - Possible values of the error code for HTTP status code 413 (Request Entity Too Large)
+          - "FABRIC_E_VALUE_TOO_LARGE"
+
+        - Possible values of the error code for HTTP status code 500 (Internal Server Error)
+          - "FABRIC_E_NODE_IS_UP"
+          - "E_FAIL"
+
+        - Possible values of the error code for HTTP status code 503 (Service Unavailable)
+          - "FABRIC_E_NO_WRITE_QUORUM"
+          - "FABRIC_E_NOT_PRIMARY"
+          - "FABRIC_E_NOT_READY"
+          - "FABRIC_E_RECONFIGURATION_PENDING"
+          - "FABRIC_E_SERVICE_OFFLINE"
+          - "E_ABORT"
+          - "FABRIC_E_VALUE_TOO_LARGE"
+
+        - Possible values of the error code for HTTP status code 504 (Gateway Timeout)
+          - "FABRIC_E_COMMUNICATION_ERROR"
+          - "FABRIC_E_OPERATION_NOT_COMPLETE"
+          - "FABRIC_E_TIMEOUT"
+    types:
+    - uid: FabricErrorCodes
+  - name: Message
+    description: Error message.
+    types:
+    - uid: string
+- name: ServiceKind
+  description: The kind of service (Stateless or Stateful).
+  kind: enum
+  properties:
+  - name: Invalid
+    description: Indicates the service kind is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+    types:
+    - uid: string
+  - name: Stateless
+    description: Does not use Service Fabric to make its state highly available or reliable. The value is 1.
+    types:
+    - uid: string
+  - name: Stateful
+    description: Uses Service Fabric to make its state or part of its state highly available and reliable. The value is 2.
+    types:
+    - uid: string
+- name: ServiceOperationName
+  description: Specifies the current active life-cycle operation on a stateful service replica or stateless service instance.
+  kind: enum
+  properties:
+  - name: Unknown
+    description: Reserved for future use.
+    types:
+    - uid: string
+  - name: None
+    description: The service replica or instance is not going through any life-cycle changes.
+    types:
+    - uid: string
+  - name: Open
+    description: The service replica or instance is being opened.
+    types:
+    - uid: string
+  - name: ChangeRole
+    description: The service replica is changing roles.
+    types:
+    - uid: string
+  - name: Close
+    description: The service replica or instance is being closed.
+    types:
+    - uid: string
+  - name: Abort
+    description: The service replica or instance is being aborted.
+    types:
+    - uid: string
+- name: LoadMetricReportInfo
+  description: Information about load reported by replica.
+  kind: object
+  properties:
+  - name: Name
+    description: The name of the metric.
+    types:
+    - uid: string
+  - name: Value
+    description: The value of the load for the metric..
+    types:
+    - uid: integer
+  - name: LastReportedUtc
+    description: The UTC time when the load is reported.
+    types:
+    - uid: string
+- name: ReplicatorOperationName
+  description: Specifies the operation currently being executed by the Replicator.
+  kind: enum
+  properties:
+  - name: Invalid
+    description: Default value if the replicator is not yet ready.
+    types:
+    - uid: string
+  - name: None
+    description: Replicator is not running any operation from Service Fabric perspective.
+    types:
+    - uid: string
+  - name: Open
+    description: Replicator is opening.
+    types:
+    - uid: string
+  - name: ChangeRole
+    description: Replicator is in the process of changing its role.
+    types:
+    - uid: string
+  - name: UpdateEpoch
+    description: Due to a change in the replica set, replicator is being updated with its Epoch.
+    types:
+    - uid: string
+  - name: Close
+    description: Replicator is closing.
+    types:
+    - uid: string
+  - name: Abort
+    description: Replicator is being aborted.
+    types:
+    - uid: string
+  - name: OnDataLoss
+    description: Replicator is handling the data loss condition, where the user service may potentially be recovering state from an external source.
+    types:
+    - uid: string
+  - name: WaitForCatchup
+    description: Replicator is waiting for a quorum of replicas to be caught up to the latest state.
+    types:
+    - uid: string
+  - name: Build
+    description: Replicator is in the process of building one or more replicas.
+    types:
+    - uid: string
+- name: PartitionAccessStatus
+  description: Specifies the access status of the partition.
+  kind: enum
+  properties:
+  - name: Invalid
+    description: Indicates that the read or write operation access status is not valid. This value is not returned to the caller.
+    types:
+    - uid: string
+  - name: Granted
+    description: Indicates that the read or write operation access is granted and the operation is allowed.
+    types:
+    - uid: string
+  - name: ReconfigurationPending
+    description: Indicates that the client should try again later, because a reconfiguration is in progress.
+    types:
+    - uid: string
+  - name: NotPrimary
+    description: Indicates that this client request was received by a replica that is not a Primary replica.
+    types:
+    - uid: string
+  - name: NoWriteQuorum
+    description: Indicates that no write quorum is available and, therefore, no write operation can be accepted.
+    types:
+    - uid: string
+- name: KeyValueStoreReplicaStatus
+  description: Key value store related information for the replica.
+  kind: object
+  properties:
+  - name: Kind
+    description: The role of a replica of a stateful service.
+    types:
+    - uid: KeyValueStore
+    typesTitle: string
+  - name: DatabaseRowCountEstimate
+    description: Value indicating the estimated number of rows in the underlying database.
+    types:
+    - uid: string
+  - name: DatabaseLogicalSizeEstimate
+    description: Value indicating the estimated size of the underlying database.
+    types:
+    - uid: string
+  - name: CopyNotificationCurrentKeyFilter
+    description: Value indicating the latest key-prefix filter applied to enumeration during the callback. Null if there is no pending callback.
+    types:
+    - uid: string
+  - name: CopyNotificationCurrentProgress
+    description: Value indicating the latest number of keys enumerated during the callback. 0 if there is no pending callback.
+    types:
+    - uid: string
+  - name: StatusDetails
+    description: Value indicating the current status details of the replica.
+    types:
+    - uid: string
+- name: DeployedStatefulServiceReplicaInfo
+  description: Information about a stateful service replica deployed on a node.
+  kind: object
+  properties:
+  - name: ServiceKind
+    description: The kind of service (Stateless or Stateful).
+    types:
+    - uid: Stateful
+    typesTitle: string
+  - name: ServiceName
+    description: The full name of the service with 'fabric:' URI scheme.
+    types:
+    - uid: string
+  - name: ServiceTypeName
+    description: Name of the service type as specified in the service manifest.
+    types:
+    - uid: string
+  - name: ServiceManifestName
+    description: The name of the service manifest in which this service type is defined.
+    types:
+    - uid: string
+  - name: CodePackageName
+    description: The name of the code package that hosts this replica.
+    types:
+    - uid: string
+  - name: PartitionId
+    description: An internal ID used by Service Fabric to uniquely identify a partition. This is a randomly generated GUID when the service was created. The partition ID is unique and does not change for the lifetime of the service. If the same service was deleted and recreated the IDs of its partitions would be different.
+    types:
+    - uid: string
+  - name: ReplicaStatus
+    description: The status of a replica of a service.
+    types:
+    - uid: ReplicaStatus
+  - name: Address
+    description: The last address returned by the replica in Open or ChangeRole.
+    types:
+    - uid: string
+  - name: ServicePackageActivationId
+    description: >-
+      The ActivationId of a deployed service package. If ServicePackageActivationMode specified at the time of creating the service
+
+      is 'SharedProcess' (or if it is not specified, in which case it defaults to 'SharedProcess'), then value of ServicePackageActivationId
+
+      is always an empty string.
+    types:
+    - uid: string
+  - name: HostProcessId
+    description: Host process ID of the process that is hosting the replica. This will be zero if the replica is down. In hyper-v containers this host process ID will be from different kernel.
+    types:
+    - uid: string
+  - name: ReplicaId
+    description: Id of a stateful service replica. ReplicaId is used by Service Fabric to uniquely identify a replica of a partition. It is unique within a partition and does not change for the lifetime of the replica. If a replica gets dropped and another replica gets created on the same node for the same partition, it will get a different value for the id. Sometimes the id of a stateless service instance is also referred as a replica id.
+    types:
+    - uid: string
+  - name: ReplicaRole
+    description: The role of a replica of a stateful service.
+    types:
+    - uid: ReplicaRole
+  - name: ReconfigurationInformation
+    description: Information about current reconfiguration like phase, type, previous configuration role of replica and reconfiguration start date time.
+    types:
+    - uid: ReconfigurationInformation
+- name: DeployedStatelessServiceInstanceInfo
+  description: Information about a stateless service instance deployed on a node.
+  kind: object
+  properties:
+  - name: ServiceKind
+    description: The kind of service (Stateless or Stateful).
+    types:
+    - uid: Stateless
+    typesTitle: string
+  - name: ServiceName
+    description: The full name of the service with 'fabric:' URI scheme.
+    types:
+    - uid: string
+  - name: ServiceTypeName
+    description: Name of the service type as specified in the service manifest.
+    types:
+    - uid: string
+  - name: ServiceManifestName
+    description: The name of the service manifest in which this service type is defined.
+    types:
+    - uid: string
+  - name: CodePackageName
+    description: The name of the code package that hosts this replica.
+    types:
+    - uid: string
+  - name: PartitionId
+    description: An internal ID used by Service Fabric to uniquely identify a partition. This is a randomly generated GUID when the service was created. The partition ID is unique and does not change for the lifetime of the service. If the same service was deleted and recreated the IDs of its partitions would be different.
+    types:
+    - uid: string
+  - name: ReplicaStatus
+    description: The status of a replica of a service.
+    types:
+    - uid: ReplicaStatus
+  - name: Address
+    description: The last address returned by the replica in Open or ChangeRole.
+    types:
+    - uid: string
+  - name: ServicePackageActivationId
+    description: >-
+      The ActivationId of a deployed service package. If ServicePackageActivationMode specified at the time of creating the service
+
+      is 'SharedProcess' (or if it is not specified, in which case it defaults to 'SharedProcess'), then value of ServicePackageActivationId
+
+      is always an empty string.
+    types:
+    - uid: string
+  - name: HostProcessId
+    description: Host process ID of the process that is hosting the replica. This will be zero if the replica is down. In hyper-v containers this host process ID will be from different kernel.
+    types:
+    - uid: string
+  - name: InstanceId
+    description: Id of a stateless service instance. InstanceId is used by Service Fabric to uniquely identify an instance of a partition of a stateless service. It is unique within a partition and does not change for the lifetime of the instance. If the instance has failed over on the same or different node, it will get a different value for the InstanceId.
+    types:
+    - uid: string
+- name: FabricErrorCodes
+  description: >-
+    Defines the fabric error codes that be returned as part of the error object in response to Service Fabric API operations that are not successful. Following are the error code values that can be returned for a specific HTTP status code.
+
+      - Possible values of the error code for HTTP status code 400 (Bad Request)
+        - "FABRIC_E_INVALID_PARTITION_KEY"
+        - "FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR"
+        - "FABRIC_E_INVALID_ADDRESS"
+        - "FABRIC_E_APPLICATION_NOT_UPGRADING"
+        - "FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR"
+        - "FABRIC_E_FABRIC_NOT_UPGRADING"
+        - "FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR"
+        - "FABRIC_E_INVALID_CONFIGURATION"
+        - "FABRIC_E_INVALID_NAME_URI"
+        - "FABRIC_E_PATH_TOO_LONG"
+        - "FABRIC_E_KEY_TOO_LARGE"
+        - "FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED"
+        - "FABRIC_E_INVALID_ATOMIC_GROUP"
+        - "FABRIC_E_VALUE_EMPTY"
+        - "FABRIC_E_BACKUP_IS_ENABLED"
+        - "FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH"
+        - "FABRIC_E_INVALID_FOR_STATELESS_SERVICES"
+        - "FABRIC_E_INVALID_SERVICE_SCALING_POLICY"
+        - "E_INVALIDARG"
+
+      - Possible values of the error code for HTTP status code 404 (Not Found)
+        - "FABRIC_E_NODE_NOT_FOUND"
+        - "FABRIC_E_APPLICATION_TYPE_NOT_FOUND"
+        - "FABRIC_E_APPLICATION_NOT_FOUND"
+        - "FABRIC_E_SERVICE_TYPE_NOT_FOUND"
+        - "FABRIC_E_SERVICE_DOES_NOT_EXIST"
+        - "FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND"
+        - "FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND"
+        - "FABRIC_E_PARTITION_NOT_FOUND"
+        - "FABRIC_E_REPLICA_DOES_NOT_EXIST"
+        - "FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST"
+        - "FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND"
+        - "FABRIC_E_DIRECTORY_NOT_FOUND"
+        - "FABRIC_E_FABRIC_VERSION_NOT_FOUND"
+        - "FABRIC_E_FILE_NOT_FOUND"
+        - "FABRIC_E_NAME_DOES_NOT_EXIST"
+        - "FABRIC_E_PROPERTY_DOES_NOT_EXIST"
+        - "FABRIC_E_ENUMERATION_COMPLETED"
+        - "FABRIC_E_SERVICE_MANIFEST_NOT_FOUND"
+        - "FABRIC_E_KEY_NOT_FOUND"
+        - "FABRIC_E_HEALTH_ENTITY_NOT_FOUND"
+        - "FABRIC_E_BACKUP_NOT_ENABLED"
+        - "FABRIC_E_BACKUP_POLICY_NOT_EXISTING"
+        - "FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING"
+
+      - Possible values of the error code for HTTP status code 409 (Conflict)
+        - "FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION"
+        - "FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS"
+        - "FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS"
+        - "FABRIC_E_SERVICE_ALREADY_EXISTS"
+        - "FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_TYPE_IN_USE"
+        - "FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION"
+        - "FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS"
+        - "FABRIC_E_FABRIC_VERSION_IN_USE"
+        - "FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS"
+        - "FABRIC_E_NAME_ALREADY_EXISTS"
+        - "FABRIC_E_NAME_NOT_EMPTY"
+        - "FABRIC_E_PROPERTY_CHECK_FAILED"
+        - "FABRIC_E_SERVICE_METADATA_MISMATCH"
+        - "FABRIC_E_SERVICE_TYPE_MISMATCH"
+        - "FABRIC_E_HEALTH_STALE_REPORT"
+        - "FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED"
+        - "FABRIC_E_NODE_HAS_NOT_STOPPED_YET"
+        - "FABRIC_E_INSTANCE_ID_MISMATCH"
+        - "FABRIC_E_BACKUP_IN_PROGRESS"
+        - "FABRIC_E_RESTORE_IN_PROGRESS"
+        - "FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING"
+
+      - Possible values of the error code for HTTP status code 413 (Request Entity Too Large)
+        - "FABRIC_E_VALUE_TOO_LARGE"
+
+      - Possible values of the error code for HTTP status code 500 (Internal Server Error)
+        - "FABRIC_E_NODE_IS_UP"
+        - "E_FAIL"
+
+      - Possible values of the error code for HTTP status code 503 (Service Unavailable)
+        - "FABRIC_E_NO_WRITE_QUORUM"
+        - "FABRIC_E_NOT_PRIMARY"
+        - "FABRIC_E_NOT_READY"
+        - "FABRIC_E_RECONFIGURATION_PENDING"
+        - "FABRIC_E_SERVICE_OFFLINE"
+        - "E_ABORT"
+        - "FABRIC_E_VALUE_TOO_LARGE"
+
+      - Possible values of the error code for HTTP status code 504 (Gateway Timeout)
+        - "FABRIC_E_COMMUNICATION_ERROR"
+        - "FABRIC_E_OPERATION_NOT_COMPLETE"
+        - "FABRIC_E_TIMEOUT"
+  kind: enum
+  properties:
+  - name: FABRIC_E_INVALID_PARTITION_KEY
+    types:
+    - uid: string
+  - name: FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_ADDRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_NOT_UPGRADING
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_NOT_UPGRADING
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_CONFIGURATION
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_NAME_URI
+    types:
+    - uid: string
+  - name: FABRIC_E_PATH_TOO_LONG
+    types:
+    - uid: string
+  - name: FABRIC_E_KEY_TOO_LARGE
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_ATOMIC_GROUP
+    types:
+    - uid: string
+  - name: FABRIC_E_VALUE_EMPTY
+    types:
+    - uid: string
+  - name: FABRIC_E_NODE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_TYPE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_PARTITION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_REPLICA_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_DIRECTORY_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_VERSION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_FILE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_NAME_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_PROPERTY_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_ENUMERATION_COMPLETED
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_MANIFEST_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_KEY_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_HEALTH_ENTITY_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_IN_USE
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_VERSION_IN_USE
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_NAME_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_NAME_NOT_EMPTY
+    types:
+    - uid: string
+  - name: FABRIC_E_PROPERTY_CHECK_FAILED
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_METADATA_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_TYPE_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_HEALTH_STALE_REPORT
+    types:
+    - uid: string
+  - name: FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED
+    types:
+    - uid: string
+  - name: FABRIC_E_NODE_HAS_NOT_STOPPED_YET
+    types:
+    - uid: string
+  - name: FABRIC_E_INSTANCE_ID_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_VALUE_TOO_LARGE
+    types:
+    - uid: string
+  - name: FABRIC_E_NO_WRITE_QUORUM
+    types:
+    - uid: string
+  - name: FABRIC_E_NOT_PRIMARY
+    types:
+    - uid: string
+  - name: FABRIC_E_NOT_READY
+    types:
+    - uid: string
+  - name: FABRIC_E_RECONFIGURATION_PENDING
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_OFFLINE
+    types:
+    - uid: string
+  - name: E_ABORT
+    types:
+    - uid: string
+  - name: FABRIC_E_COMMUNICATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_OPERATION_NOT_COMPLETE
+    types:
+    - uid: string
+  - name: FABRIC_E_TIMEOUT
+    types:
+    - uid: string
+  - name: FABRIC_E_NODE_IS_UP
+    types:
+    - uid: string
+  - name: E_FAIL
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_IS_ENABLED
+    types:
+    - uid: string
+  - name: FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_FOR_STATELESS_SERVICES
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_NOT_ENABLED
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_POLICY_NOT_EXISTING
+    types:
+    - uid: string
+  - name: FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_RESTORE_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_SERVICE_SCALING_POLICY
+    types:
+    - uid: string
+  - name: E_INVALIDARG
+    types:
+    - uid: string
+- name: PrimaryReplicatorStatus
+  description: Provides statistics about the Service Fabric Replicator, when it is functioning in a Primary role.
+  kind: object
+  properties:
+  - name: Kind
+    description: The role of a replica of a stateful service.
+    types:
+    - uid: Primary
+    typesTitle: string
+  - name: ReplicationQueueStatus
+    description: Details about the replication queue on the primary replicator.
+    types:
+    - uid: ReplicatorQueueStatus
+  - name: RemoteReplicators
+    description: The status of all the active and idle secondary replicators that the primary is aware of.
+    types:
+    - uid: RemoteReplicatorStatus
+      isArray: true
+- name: ReplicaKind
+  description: The role of a replica of a stateful service.
+  kind: enum
+  properties:
+  - name: Invalid
+    description: Represents an invalid replica kind. The value is zero.
+    types:
+    - uid: string
+  - name: KeyValueStore
+    description: Represents a key value store replica. The value is 1
+    types:
+    - uid: string
+- name: ReplicaStatus
+  description: The status of a replica of a service.
+  kind: enum
+  properties:
+  - name: Invalid
+    description: Indicates the replica status is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+    types:
+    - uid: string
+  - name: InBuild
+    description: The replica is being built. This means that a primary replica is seeding this replica. The value is 1.
+    types:
+    - uid: string
+  - name: Standby
+    description: The replica is in standby. The value is 2.
+    types:
+    - uid: string
+  - name: Ready
+    description: The replica is ready. The value is 3.
+    types:
+    - uid: string
+  - name: Down
+    description: The replica is down. The value is 4.
+    types:
+    - uid: string
+  - name: Dropped
+    description: Replica is dropped. This means that the replica has been removed from the replica set. If it is persisted, its state has been deleted. The value is 5.
+    types:
+    - uid: string
+- name: ReplicaRole
+  description: The role of a replica of a stateful service.
+  kind: enum
+  properties:
+  - name: Unknown
+    description: Indicates the initial role that a replica is created in. The value is zero.
+    types:
+    - uid: string
+  - name: None
+    description: Specifies that the replica has no responsibility in regard to the replica set. The value is 1
+    types:
+    - uid: string
+  - name: Primary
+    description: Refers to the replica in the set on which all read and write operations are complete in order to enforce strong consistency semantics. Read operations are handled directly by the Primary replica, while write operations must be acknowledged by a quorum of the replicas in the replica set. There can only be one Primary replica in a replica set at a time. The value is 2.
+    types:
+    - uid: string
+  - name: IdleSecondary
+    description: Refers to a replica in the set that receives a state transfer from the Primary replica to prepare for becoming an active Secondary replica. There can be multiple Idle Secondary replicas in a replica set at a time. Idle Secondary replicas do not count as a part of a write quorum. The value is 3.
+    types:
+    - uid: string
+  - name: ActiveSecondary
+    description: Refers to a replica in the set that receives state updates from the Primary replica, applies them, and sends acknowledgements back. Secondary replicas must participate in the write quorum for a replica set. There can be multiple active Secondary replicas in a replica set at a time. The number of active Secondary replicas is configurable that the reliability subsystem should maintain. The value is 4.
+    types:
+    - uid: string
+- name: ReconfigurationInformation
+  description: Information about current reconfiguration like phase, type, previous configuration role of replica and reconfiguration start date time.
+  kind: object
+  properties:
+  - name: PreviousConfigurationRole
+    description: Replica role before reconfiguration started.
+    types:
+    - uid: ReplicaRole
+  - name: ReconfigurationPhase
+    description: Current phase of ongoing reconfiguration. If no reconfiguration is taking place then this value will be "None".
+    types:
+    - uid: ReconfigurationPhase
+  - name: ReconfigurationType
+    description: Type of current ongoing reconfiguration. If no reconfiguration is taking place then this value will be "None".
+    types:
+    - uid: ReconfigurationType
+  - name: ReconfigurationStartTimeUtc
+    description: Start time (in UTC) of the ongoing reconfiguration. If no reconfiguration is taking place then this value will be zero date-time.
+    types:
+    - uid: string
+- name: ReplicatorQueueStatus
+  description: >-
+    Provides various statistics of the queue used in the service fabric replicator.
+
+    Contains information about the service fabric replicator like the replication/copy queue utilization, last acknowledgement received timestamp, etc.
+
+    Depending on the role of the replicator, the properties in this type imply different meanings.
+  kind: object
+  properties:
+  - name: QueueUtilizationPercentage
+    description: Represents the utilization of the queue. A value of 0 indicates that the queue is empty and a value of 100 indicates the queue is full.
+    types:
+    - uid: integer
+  - name: QueueMemorySize
+    description: Represents the virtual memory consumed by the queue in bytes.
+    types:
+    - uid: string
+  - name: FirstSequenceNumber
+    description: >-
+      On a primary replicator, this is semantically the sequence number of the operation for which all the secondary replicas have sent an acknowledgement.
+
+      On a secondary replicator, this is the smallest sequence number of the operation that is present in the queue.
+    types:
+    - uid: string
+  - name: CompletedSequenceNumber
+    description: >-
+      On a primary replicator, this is semantically the highest sequence number of the operation for which all the secondary replicas have sent an acknowledgement.
+
+      On a secondary replicator, this is semantically the highest sequence number that has been applied to the persistent state.
+    types:
+    - uid: string
+  - name: CommittedSequenceNumber
+    description: >-
+      On a primary replicator, this is semantically the highest sequence number of the operation for which a write quorum of the secondary replicas have sent an acknowledgement.
+
+      On a secondary replicator, this is semantically the highest sequence number of the in-order operation received from the primary.
+    types:
+    - uid: string
+  - name: LastSequenceNumber
+    description: Represents the latest sequence number of the operation that is available in the queue.
+    types:
+    - uid: string
+- name: RemoteReplicatorStatus
+  description: Represents the state of the secondary replicator from the primary replicator’s point of view.
+  kind: object
+  properties:
+  - name: ReplicaId
+    description: Represents the replica ID of the remote secondary replicator.
+    types:
+    - uid: string
+  - name: LastAcknowledgementProcessedTimeUtc
+    description: >-
+      The last timestamp (in UTC) when an acknowledgement from the secondary replicator was processed on the primary.
+
+      UTC 0 represents an invalid value, indicating that no acknowledgement messages were ever processed.
+    types:
+    - uid: string
+  - name: LastReceivedReplicationSequenceNumber
+    description: The highest replication operation sequence number that the secondary has received from the primary.
+    types:
+    - uid: string
+  - name: LastAppliedReplicationSequenceNumber
+    description: The highest replication operation sequence number that the secondary has applied to its state.
+    types:
+    - uid: string
+  - name: IsInBuild
+    description: A value that indicates whether the secondary replica is in the process of being built.
+    types:
+    - uid: boolean
+  - name: LastReceivedCopySequenceNumber
+    description: >-
+      The highest copy operation sequence number that the secondary has received from the primary.
+
+      A value of -1 implies that the secondary has received all copy operations.
+    types:
+    - uid: string
+  - name: LastAppliedCopySequenceNumber
+    description: >-
+      The highest copy operation sequence number that the secondary has applied to its state.
+
+      A value of -1 implies that the secondary has applied all copy operations and the copy process is complete.
+    types:
+    - uid: string
+  - name: RemoteReplicatorAcknowledgementStatus
+    description: Represents the acknowledgment status for the remote secondary replicator.
+    types:
+    - uid: RemoteReplicatorAcknowledgementStatus
+- name: SecondaryActiveReplicatorStatus
+  description: Status of the secondary replicator when it is in active mode and is part of the replica set.
+  kind: object
+  properties:
+  - name: Kind
+    description: The role of a replica of a stateful service.
+    types:
+    - uid: ActiveSecondary
+    typesTitle: string
+  - name: ReplicationQueueStatus
+    description: Details about the replication queue on the secondary replicator.
+    types:
+    - uid: ReplicatorQueueStatus
+  - name: LastReplicationOperationReceivedTimeUtc
+    description: >-
+      The last time-stamp (UTC) at which a replication operation was received from the primary.
+
+      UTC 0 represents an invalid value, indicating that a replication operation message was never received.
+    types:
+    - uid: string
+  - name: IsInBuild
+    description: Value that indicates whether the replica is currently being built.
+    types:
+    - uid: boolean
+  - name: CopyQueueStatus
+    description: Details about the copy queue on the secondary replicator.
+    types:
+    - uid: ReplicatorQueueStatus
+  - name: LastCopyOperationReceivedTimeUtc
+    description: >-
+      The last time-stamp (UTC) at which a copy operation was received from the primary.
+
+      UTC 0 represents an invalid value, indicating that a copy operation message was never received.
+    types:
+    - uid: string
+  - name: LastAcknowledgementSentTimeUtc
+    description: >-
+      The last time-stamp (UTC) at which an acknowledgment was sent to the primary replicator.
+
+      UTC 0 represents an invalid value, indicating that an acknowledgment message was never sent.
+    types:
+    - uid: string
+- name: SecondaryIdleReplicatorStatus
+  description: Status of the secondary replicator when it is in idle mode and is being built by the primary.
+  kind: object
+  properties:
+  - name: Kind
+    description: The role of a replica of a stateful service.
+    types:
+    - uid: IdleSecondary
+    typesTitle: string
+  - name: ReplicationQueueStatus
+    description: Details about the replication queue on the secondary replicator.
+    types:
+    - uid: ReplicatorQueueStatus
+  - name: LastReplicationOperationReceivedTimeUtc
+    description: >-
+      The last time-stamp (UTC) at which a replication operation was received from the primary.
+
+      UTC 0 represents an invalid value, indicating that a replication operation message was never received.
+    types:
+    - uid: string
+  - name: IsInBuild
+    description: Value that indicates whether the replica is currently being built.
+    types:
+    - uid: boolean
+  - name: CopyQueueStatus
+    description: Details about the copy queue on the secondary replicator.
+    types:
+    - uid: ReplicatorQueueStatus
+  - name: LastCopyOperationReceivedTimeUtc
+    description: >-
+      The last time-stamp (UTC) at which a copy operation was received from the primary.
+
+      UTC 0 represents an invalid value, indicating that a copy operation message was never received.
+    types:
+    - uid: string
+  - name: LastAcknowledgementSentTimeUtc
+    description: >-
+      The last time-stamp (UTC) at which an acknowledgment was sent to the primary replicator.
+
+      UTC 0 represents an invalid value, indicating that an acknowledgment message was never sent.
+    types:
+    - uid: string
+- name: ReconfigurationPhase
+  description: The reconfiguration phase of a replica of a stateful service.
+  kind: enum
+  properties:
+  - name: Unknown
+    description: Indicates the invalid reconfiguration phase.
+    types:
+    - uid: string
+  - name: None
+    description: Specifies that there is no reconfiguration in progress.
+    types:
+    - uid: string
+  - name: Phase0
+    description: Refers to the phase where the reconfiguration is transferring data from the previous primary to the new primary.
+    types:
+    - uid: string
+  - name: Phase1
+    description: Refers to the phase where the reconfiguration is querying the replica set for the progress.
+    types:
+    - uid: string
+  - name: Phase2
+    description: Refers to the phase where the reconfiguration is ensuring that data from the current primary is present in a majority of the replica set.
+    types:
+    - uid: string
+  - name: Phase3
+    description: This phase is for internal use only.
+    types:
+    - uid: string
+  - name: Phase4
+    description: This phase is for internal use only.
+    types:
+    - uid: string
+  - name: AbortPhaseZero
+    description: This phase is for internal use only.
+    types:
+    - uid: string
+- name: ReconfigurationType
+  description: The type of reconfiguration for replica of a stateful service.
+  kind: enum
+  properties:
+  - name: Unknown
+    description: Indicates the invalid reconfiguration type.
+    types:
+    - uid: string
+  - name: SwapPrimary
+    description: Specifies that the primary replica is being swapped with a different replica.
+    types:
+    - uid: string
+  - name: Failover
+    description: Reconfiguration triggered in response to a primary going down. This could be due to many reasons such as primary replica crashing etc.
+    types:
+    - uid: string
+  - name: Other
+    description: Reconfigurations where the primary replica is not changing.
+    types:
+    - uid: string
+- name: RemoteReplicatorAcknowledgementStatus
+  description: Provides details about the remote replicators from the primary replicator's point of view.
+  kind: object
+  properties:
+  - name: ReplicationStreamAcknowledgementDetail
+    description: Details about the acknowledgements for operations that are part of the replication stream data.
+    types:
+    - uid: RemoteReplicatorAcknowledgementDetail
+  - name: CopyStreamAcknowledgementDetail
+    description: Details about the acknowledgements for operations that are part of the copy stream data.
+    types:
+    - uid: RemoteReplicatorAcknowledgementDetail
+- name: RemoteReplicatorAcknowledgementDetail
+  description: Provides various statistics of the acknowledgements that are being received from the remote replicator.
+  kind: object
+  properties:
+  - name: AverageReceiveDuration
+    description: Represents the average duration it takes for the remote replicator to receive an operation.
+    types:
+    - uid: string
+  - name: AverageApplyDuration
+    description: Represents the average duration it takes for the remote replicator to apply an operation. This usually entails writing the operation to disk.
+    types:
+    - uid: string
+  - name: NotReceivedCount
+    description: Represents the number of operations not yet received by a remote replicator.
+    types:
+    - uid: string
+  - name: ReceivedAndNotAppliedCount
+    description: Represents the number of operations received and not yet applied by a remote replicator.
+    types:
+    - uid: string
+examples: []
+security: []

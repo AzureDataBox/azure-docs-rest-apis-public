@@ -1,0 +1,8 @@
+### YamlMime:RESTOperationGroup
+uid: localhost:19080.servicefabric.startdataloss
+name: Start Data Loss
+apiVersion: 6.2.0.9
+service: Service Fabric
+operations:
+- uid: localhost:19080.servicefabric.startdataloss.startdataloss
+  summary: "This API will induce data loss for the specified partition. It will trigger a call to the OnDataLossAsync API of the partition.  \nThis API will induce data loss for the specified partition. It will trigger a call to the OnDataLoss API of the partition.\nActual data loss will depend on the specified DataLossMode\nPartialDataLoss - Only a quorum of replicas are removed and OnDataLoss is triggered for the partition but actual data loss depends on the presence of in-flight replication.\nFullDataLoss - All replicas are removed hence all data is lost and OnDataLoss is triggered.\n\nThis API should only be called with a stateful service as the target.\n\nCalling this API with a system service as the target is not advised.\n\nNote:  Once this API has been called, it cannot be reversed. Calling CancelOperation will only stop execution and clean up internal system state.\nIt will not restore data if the command has progressed far enough to cause data loss.\n\nCall the GetDataLossProgress API with the same OperationId to return information on the operation started with this API."

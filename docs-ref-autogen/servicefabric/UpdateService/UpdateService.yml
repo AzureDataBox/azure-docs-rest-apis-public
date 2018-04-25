@@ -1,0 +1,1297 @@
+### YamlMime:RESTOperation
+uid: localhost:19080.servicefabric.updateservice.updateservice
+name: Update Service
+service: Service Fabric
+groupName: Update Service
+apiVersion: 6.2.0.9
+summary: "Updates a Service Fabric service using the specified update description.  \nThis API allows updating properties of a running Service Fabric service. The set of properties that can be updated are a subset of the properties that were specified at the time of creating the service. The current set of properties can be obtained using `GetServiceDescription` API. Please note that updating the properties of a running service is different than upgrading your application using `StartApplicationUpgrade` API. The upgrade is a long running background operation that involves moving the application from one version to another, one upgrade domain at a time, whereas update applies the new properties immediately to the service."
+produces:
+- application/json
+paths:
+- content: POST http://localhost:19080/Services/{serviceId}/$/Update?api-version=6.2.0.9
+- content: POST http://localhost:19080/Services/{serviceId}/$/Update?api-version=6.2.0.9&timeout={timeout}
+  isOptional: true
+uriParameters:
+- name: serviceId
+  in: path
+  isRequired: true
+  description: >-
+    The identity of the service. This is typically the full name of the service without the 'fabric:' URI scheme.
+
+    Starting from version 6.0, hierarchical names are delimited with the "~" character.
+
+    For example, if the service name is "fabric:/myapp/app1/svc1", the service identity would be "myapp~app1~svc1" in 6.0+ and "myapp/app1/svc1" in previous versions.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: >-
+    The version of the API. This parameter is required and its value must be '6.0'.
+
+
+    Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
+
+
+    Additionally the runtime accept any version that is higher than the latest supported version up to the current version of the runtime. So if the latest API version is 6.0, but if the runtime is 6.1, in order to make it easier to write the clients, the runtime will accept version 6.1 for that API. However the behavior of the API will be as per the documented 6.0 version.
+  types:
+  - uid: ApiVersion_6-0_RequiredQueryParam
+- name: timeout
+  in: query
+  description: The server timeout for performing the operation in seconds. This timeout specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
+  types:
+  - uid: integer
+  format: int64
+responses:
+- name: 200 OK
+  description: A successful operation will return 202 status code.
+- name: Other Status Codes
+  description: The detailed error response.
+  types:
+  - uid: FabricError
+requestBody:
+- name: StatefulServiceUpdateDescription
+  description: Describes an update for a stateful service.
+  parameters:
+  - name: TargetReplicaSetSize
+    in: body
+    description: The target replica set size as a number.
+    types:
+    - uid: integer
+  - name: MinReplicaSetSize
+    in: body
+    description: The minimum replica set size as a number.
+    types:
+    - uid: integer
+  - name: ReplicaRestartWaitDurationSeconds
+    in: body
+    description: The duration, in seconds, between when a replica goes down and when a new replica is created.
+    types:
+    - uid: string
+  - name: QuorumLossWaitDurationSeconds
+    in: body
+    description: The maximum duration, in seconds, for which a partition is allowed to be in a state of quorum loss.
+    types:
+    - uid: string
+  - name: StandByReplicaKeepDurationSeconds
+    in: body
+    description: The definition on how long StandBy replicas should be maintained before being removed.
+    types:
+    - uid: string
+  - name: ServiceKind
+    in: body
+    isRequired: true
+    description: The service kind.
+    types:
+    - uid: Stateful
+    typesTitle: string
+  - name: Flags
+    in: body
+    description: >-
+      Flags indicating whether other properties are set. Each of the associated properties corresponds to a flag, specified below, which, if set, indicate that the property is specified.
+
+      This property can be a combination of those flags obtained using bitwise 'OR' operator.
+
+      For example, if the provided value is 6 then the flags for ReplicaRestartWaitDuration (2) and QuorumLossWaitDuration (4) are set.
+
+
+      - None - Does not indicate any other properties are set. The value is zero.
+
+      - TargetReplicaSetSize/InstanceCount - Indicates whether the TargetReplicaSetSize property (for Stateful services) or the InstanceCount property (for Stateless services) is set. The value is 1.
+
+      - ReplicaRestartWaitDuration - Indicates the ReplicaRestartWaitDuration property is set. The value is  2.
+
+      - QuorumLossWaitDuration - Indicates the QuorumLossWaitDuration property is set. The value is 4.
+
+      - StandByReplicaKeepDuration - Indicates the StandByReplicaKeepDuration property is set. The value is 8.
+
+      - MinReplicaSetSize - Indicates the MinReplicaSetSize property is set. The value is 16.
+
+      - PlacementConstraints - Indicates the PlacementConstraints property is set. The value is 32.
+
+      - PlacementPolicyList - Indicates the ServicePlacementPolicies property is set. The value is 64.
+
+      - Correlation - Indicates the CorrelationScheme property is set. The value is 128.
+
+      - Metrics - Indicates the ServiceLoadMetrics property is set. The value is 256.
+
+      - DefaultMoveCost - Indicates the DefaultMoveCost property is set. The value is 512.
+
+      - ScalingPolicy - Indicates the ScalingPolicies property is set. The value is 1024.
+    types:
+    - uid: string
+  - name: PlacementConstraints
+    in: body
+    description: 'The placement constraints as a string. Placement constraints are boolean expressions on node properties and allow for restricting a service to particular nodes based on the service requirements. For example, to place a service on nodes where NodeType is blue specify the following: "NodeColor == blue)".'
+    types:
+    - uid: string
+  - name: CorrelationScheme
+    in: body
+    description: The correlation scheme.
+    types:
+    - uid: ServiceCorrelationDescription
+      isArray: true
+  - name: LoadMetrics
+    in: body
+    description: The service load metrics.
+    types:
+    - uid: ServiceLoadMetricDescription
+      isArray: true
+  - name: ServicePlacementPolicies
+    in: body
+    description: The service placement policies.
+    types:
+    - uid: ServicePlacementInvalidDomainPolicyDescription
+      isArray: true
+    - uid: ServicePlacementNonPartiallyPlaceServicePolicyDescription
+      isArray: true
+    - uid: ServicePlacementPreferPrimaryDomainPolicyDescription
+      isArray: true
+    - uid: ServicePlacementRequiredDomainPolicyDescription
+      isArray: true
+    - uid: ServicePlacementRequireDomainDistributionPolicyDescription
+      isArray: true
+    typesTitle: ServicePlacementPolicyDescription[]
+  - name: DefaultMoveCost
+    in: body
+    description: The move cost for the service.
+    types:
+    - uid: MoveCost
+  - name: ScalingPolicies
+    in: body
+    description: Scaling policies for this service.
+    types:
+    - uid: ScalingPolicyDescription
+      isArray: true
+- name: StatelessServiceUpdateDescription
+  description: Describes an update for a stateless service.
+  parameters:
+  - name: InstanceCount
+    in: body
+    description: The instance count.
+    types:
+    - uid: integer
+  - name: ServiceKind
+    in: body
+    isRequired: true
+    description: The service kind.
+    types:
+    - uid: Stateless
+    typesTitle: string
+  - name: Flags
+    in: body
+    description: >-
+      Flags indicating whether other properties are set. Each of the associated properties corresponds to a flag, specified below, which, if set, indicate that the property is specified.
+
+      This property can be a combination of those flags obtained using bitwise 'OR' operator.
+
+      For example, if the provided value is 6 then the flags for ReplicaRestartWaitDuration (2) and QuorumLossWaitDuration (4) are set.
+
+
+      - None - Does not indicate any other properties are set. The value is zero.
+
+      - TargetReplicaSetSize/InstanceCount - Indicates whether the TargetReplicaSetSize property (for Stateful services) or the InstanceCount property (for Stateless services) is set. The value is 1.
+
+      - ReplicaRestartWaitDuration - Indicates the ReplicaRestartWaitDuration property is set. The value is  2.
+
+      - QuorumLossWaitDuration - Indicates the QuorumLossWaitDuration property is set. The value is 4.
+
+      - StandByReplicaKeepDuration - Indicates the StandByReplicaKeepDuration property is set. The value is 8.
+
+      - MinReplicaSetSize - Indicates the MinReplicaSetSize property is set. The value is 16.
+
+      - PlacementConstraints - Indicates the PlacementConstraints property is set. The value is 32.
+
+      - PlacementPolicyList - Indicates the ServicePlacementPolicies property is set. The value is 64.
+
+      - Correlation - Indicates the CorrelationScheme property is set. The value is 128.
+
+      - Metrics - Indicates the ServiceLoadMetrics property is set. The value is 256.
+
+      - DefaultMoveCost - Indicates the DefaultMoveCost property is set. The value is 512.
+
+      - ScalingPolicy - Indicates the ScalingPolicies property is set. The value is 1024.
+    types:
+    - uid: string
+  - name: PlacementConstraints
+    in: body
+    description: 'The placement constraints as a string. Placement constraints are boolean expressions on node properties and allow for restricting a service to particular nodes based on the service requirements. For example, to place a service on nodes where NodeType is blue specify the following: "NodeColor == blue)".'
+    types:
+    - uid: string
+  - name: CorrelationScheme
+    in: body
+    description: The correlation scheme.
+    types:
+    - uid: ServiceCorrelationDescription
+      isArray: true
+  - name: LoadMetrics
+    in: body
+    description: The service load metrics.
+    types:
+    - uid: ServiceLoadMetricDescription
+      isArray: true
+  - name: ServicePlacementPolicies
+    in: body
+    description: The service placement policies.
+    types:
+    - uid: ServicePlacementInvalidDomainPolicyDescription
+      isArray: true
+    - uid: ServicePlacementNonPartiallyPlaceServicePolicyDescription
+      isArray: true
+    - uid: ServicePlacementPreferPrimaryDomainPolicyDescription
+      isArray: true
+    - uid: ServicePlacementRequiredDomainPolicyDescription
+      isArray: true
+    - uid: ServicePlacementRequireDomainDistributionPolicyDescription
+      isArray: true
+    typesTitle: ServicePlacementPolicyDescription[]
+  - name: DefaultMoveCost
+    in: body
+    description: The move cost for the service.
+    types:
+    - uid: MoveCost
+  - name: ScalingPolicies
+    in: body
+    description: Scaling policies for this service.
+    types:
+    - uid: ScalingPolicyDescription
+      isArray: true
+requestHeader: []
+definitions:
+- name: StatefulServiceUpdateDescription
+  description: Describes an update for a stateful service.
+  kind: object
+  properties:
+  - name: TargetReplicaSetSize
+    description: The target replica set size as a number.
+    types:
+    - uid: integer
+  - name: MinReplicaSetSize
+    description: The minimum replica set size as a number.
+    types:
+    - uid: integer
+  - name: ReplicaRestartWaitDurationSeconds
+    description: The duration, in seconds, between when a replica goes down and when a new replica is created.
+    types:
+    - uid: string
+  - name: QuorumLossWaitDurationSeconds
+    description: The maximum duration, in seconds, for which a partition is allowed to be in a state of quorum loss.
+    types:
+    - uid: string
+  - name: StandByReplicaKeepDurationSeconds
+    description: The definition on how long StandBy replicas should be maintained before being removed.
+    types:
+    - uid: string
+  - name: ServiceKind
+    description: The service kind.
+    types:
+    - uid: Stateful
+    typesTitle: string
+  - name: Flags
+    description: >-
+      Flags indicating whether other properties are set. Each of the associated properties corresponds to a flag, specified below, which, if set, indicate that the property is specified.
+
+      This property can be a combination of those flags obtained using bitwise 'OR' operator.
+
+      For example, if the provided value is 6 then the flags for ReplicaRestartWaitDuration (2) and QuorumLossWaitDuration (4) are set.
+
+
+      - None - Does not indicate any other properties are set. The value is zero.
+
+      - TargetReplicaSetSize/InstanceCount - Indicates whether the TargetReplicaSetSize property (for Stateful services) or the InstanceCount property (for Stateless services) is set. The value is 1.
+
+      - ReplicaRestartWaitDuration - Indicates the ReplicaRestartWaitDuration property is set. The value is  2.
+
+      - QuorumLossWaitDuration - Indicates the QuorumLossWaitDuration property is set. The value is 4.
+
+      - StandByReplicaKeepDuration - Indicates the StandByReplicaKeepDuration property is set. The value is 8.
+
+      - MinReplicaSetSize - Indicates the MinReplicaSetSize property is set. The value is 16.
+
+      - PlacementConstraints - Indicates the PlacementConstraints property is set. The value is 32.
+
+      - PlacementPolicyList - Indicates the ServicePlacementPolicies property is set. The value is 64.
+
+      - Correlation - Indicates the CorrelationScheme property is set. The value is 128.
+
+      - Metrics - Indicates the ServiceLoadMetrics property is set. The value is 256.
+
+      - DefaultMoveCost - Indicates the DefaultMoveCost property is set. The value is 512.
+
+      - ScalingPolicy - Indicates the ScalingPolicies property is set. The value is 1024.
+    types:
+    - uid: string
+  - name: PlacementConstraints
+    description: 'The placement constraints as a string. Placement constraints are boolean expressions on node properties and allow for restricting a service to particular nodes based on the service requirements. For example, to place a service on nodes where NodeType is blue specify the following: "NodeColor == blue)".'
+    types:
+    - uid: string
+  - name: CorrelationScheme
+    description: The correlation scheme.
+    types:
+    - uid: ServiceCorrelationDescription
+      isArray: true
+  - name: LoadMetrics
+    description: The service load metrics.
+    types:
+    - uid: ServiceLoadMetricDescription
+      isArray: true
+  - name: ServicePlacementPolicies
+    description: The service placement policies.
+    types:
+    - uid: ServicePlacementInvalidDomainPolicyDescription
+      isArray: true
+    - uid: ServicePlacementNonPartiallyPlaceServicePolicyDescription
+      isArray: true
+    - uid: ServicePlacementPreferPrimaryDomainPolicyDescription
+      isArray: true
+    - uid: ServicePlacementRequiredDomainPolicyDescription
+      isArray: true
+    - uid: ServicePlacementRequireDomainDistributionPolicyDescription
+      isArray: true
+    typesTitle: ServicePlacementPolicyDescription[]
+  - name: DefaultMoveCost
+    description: The move cost for the service.
+    types:
+    - uid: MoveCost
+  - name: ScalingPolicies
+    description: Scaling policies for this service.
+    types:
+    - uid: ScalingPolicyDescription
+      isArray: true
+- name: StatelessServiceUpdateDescription
+  description: Describes an update for a stateless service.
+  kind: object
+  properties:
+  - name: InstanceCount
+    description: The instance count.
+    types:
+    - uid: integer
+  - name: ServiceKind
+    description: The service kind.
+    types:
+    - uid: Stateless
+    typesTitle: string
+  - name: Flags
+    description: >-
+      Flags indicating whether other properties are set. Each of the associated properties corresponds to a flag, specified below, which, if set, indicate that the property is specified.
+
+      This property can be a combination of those flags obtained using bitwise 'OR' operator.
+
+      For example, if the provided value is 6 then the flags for ReplicaRestartWaitDuration (2) and QuorumLossWaitDuration (4) are set.
+
+
+      - None - Does not indicate any other properties are set. The value is zero.
+
+      - TargetReplicaSetSize/InstanceCount - Indicates whether the TargetReplicaSetSize property (for Stateful services) or the InstanceCount property (for Stateless services) is set. The value is 1.
+
+      - ReplicaRestartWaitDuration - Indicates the ReplicaRestartWaitDuration property is set. The value is  2.
+
+      - QuorumLossWaitDuration - Indicates the QuorumLossWaitDuration property is set. The value is 4.
+
+      - StandByReplicaKeepDuration - Indicates the StandByReplicaKeepDuration property is set. The value is 8.
+
+      - MinReplicaSetSize - Indicates the MinReplicaSetSize property is set. The value is 16.
+
+      - PlacementConstraints - Indicates the PlacementConstraints property is set. The value is 32.
+
+      - PlacementPolicyList - Indicates the ServicePlacementPolicies property is set. The value is 64.
+
+      - Correlation - Indicates the CorrelationScheme property is set. The value is 128.
+
+      - Metrics - Indicates the ServiceLoadMetrics property is set. The value is 256.
+
+      - DefaultMoveCost - Indicates the DefaultMoveCost property is set. The value is 512.
+
+      - ScalingPolicy - Indicates the ScalingPolicies property is set. The value is 1024.
+    types:
+    - uid: string
+  - name: PlacementConstraints
+    description: 'The placement constraints as a string. Placement constraints are boolean expressions on node properties and allow for restricting a service to particular nodes based on the service requirements. For example, to place a service on nodes where NodeType is blue specify the following: "NodeColor == blue)".'
+    types:
+    - uid: string
+  - name: CorrelationScheme
+    description: The correlation scheme.
+    types:
+    - uid: ServiceCorrelationDescription
+      isArray: true
+  - name: LoadMetrics
+    description: The service load metrics.
+    types:
+    - uid: ServiceLoadMetricDescription
+      isArray: true
+  - name: ServicePlacementPolicies
+    description: The service placement policies.
+    types:
+    - uid: ServicePlacementInvalidDomainPolicyDescription
+      isArray: true
+    - uid: ServicePlacementNonPartiallyPlaceServicePolicyDescription
+      isArray: true
+    - uid: ServicePlacementPreferPrimaryDomainPolicyDescription
+      isArray: true
+    - uid: ServicePlacementRequiredDomainPolicyDescription
+      isArray: true
+    - uid: ServicePlacementRequireDomainDistributionPolicyDescription
+      isArray: true
+    typesTitle: ServicePlacementPolicyDescription[]
+  - name: DefaultMoveCost
+    description: The move cost for the service.
+    types:
+    - uid: MoveCost
+  - name: ScalingPolicies
+    description: Scaling policies for this service.
+    types:
+    - uid: ScalingPolicyDescription
+      isArray: true
+- name: ApiVersion_6-0_RequiredQueryParam
+  description: >-
+    The version of the API. This parameter is required and its value must be '6.0'.
+
+
+    Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
+
+
+    Additionally the runtime accept any version that is higher than the latest supported version up to the current version of the runtime. So if the latest API version is 6.0, but if the runtime is 6.1, in order to make it easier to write the clients, the runtime will accept version 6.1 for that API. However the behavior of the API will be as per the documented 6.0 version.
+  kind: enum
+  properties:
+  - name: "6.0"
+    description: The 6.0 version of the API.
+    types:
+    - uid: string
+- name: ServiceCorrelationDescription
+  description: Creates a particular correlation between services.
+  kind: object
+  properties:
+  - name: Scheme
+    description: The ServiceCorrelationScheme which describes the relationship between this service and the service specified via ServiceName.
+    types:
+    - uid: ServiceCorrelationScheme
+  - name: ServiceName
+    description: The name of the service that the correlation relationship is established with.
+    types:
+    - uid: string
+- name: ServiceLoadMetricDescription
+  description: Specifies a metric to load balance a service during runtime.
+  kind: object
+  properties:
+  - name: Name
+    description: The name of the metric. If the service chooses to report load during runtime, the load metric name should match the name that is specified in Name exactly. Note that metric names are case sensitive.
+    types:
+    - uid: string
+  - name: Weight
+    description: The service load metric relative weight, compared to other metrics configured for this service, as a number.
+    types:
+    - uid: ServiceLoadMetricWeight
+  - name: PrimaryDefaultLoad
+    description: Used only for Stateful services. The default amount of load, as a number, that this service creates for this metric when it is a Primary replica.
+    types:
+    - uid: integer
+  - name: SecondaryDefaultLoad
+    description: Used only for Stateful services. The default amount of load, as a number, that this service creates for this metric when it is a Secondary replica.
+    types:
+    - uid: integer
+  - name: DefaultLoad
+    description: Used only for Stateless services. The default amount of load, as a number, that this service creates for this metric.
+    types:
+    - uid: integer
+- name: ScalingPolicyDescription
+  description: Describes how the scaling should be performed
+  kind: object
+  properties:
+  - name: ScalingTrigger
+    description: Specifies the trigger associated with this scaling policy
+    types:
+    - uid: AveragePartitionLoadScalingTrigger
+    - uid: AverageServiceLoadScalingTrigger
+    typesTitle: ScalingTriggerDescription
+  - name: ScalingMechanism
+    description: Specifies the mechanism associated with this scaling policy
+    types:
+    - uid: PartitionInstanceCountScaleMechanism
+    - uid: AddRemoveIncrementalNamedPartitionScalingMechanism
+    typesTitle: ScalingMechanismDescription
+- name: FabricError
+  description: The REST API operations for Service Fabric return standard HTTP status codes. This type defines the additional information returned from the Service Fabric API operations that are not successful.
+  kind: object
+  properties:
+  - name: Error
+    description: Error object containing error code and error message.
+    types:
+    - uid: FabricErrorError
+- name: ServiceKind
+  description: The kind of service (Stateless or Stateful).
+  kind: enum
+  properties:
+  - name: Invalid
+    description: Indicates the service kind is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+    types:
+    - uid: string
+  - name: Stateless
+    description: Does not use Service Fabric to make its state highly available or reliable. The value is 1.
+    types:
+    - uid: string
+  - name: Stateful
+    description: Uses Service Fabric to make its state or part of its state highly available and reliable. The value is 2.
+    types:
+    - uid: string
+- name: MoveCost
+  description: Specifies the move cost for the service.
+  kind: enum
+  properties:
+  - name: Zero
+    description: Zero move cost. This value is zero.
+    types:
+    - uid: string
+  - name: Low
+    description: Specifies the move cost of the service as Low. The value is 1.
+    types:
+    - uid: string
+  - name: Medium
+    description: Specifies the move cost of the service as Medium. The value is 2.
+    types:
+    - uid: string
+  - name: High
+    description: Specifies the move cost of the service as High. The value is 3.
+    types:
+    - uid: string
+- name: ServiceCorrelationScheme
+  description: The service correlation scheme.
+  kind: enum
+  properties:
+  - name: Invalid
+    description: An invalid correlation scheme. Cannot be used. The value is zero.
+    types:
+    - uid: string
+  - name: Affinity
+    description: Indicates that this service has an affinity relationship with another service. Provided for backwards compatibility, consider preferring the Aligned or NonAlignedAffinity options. The value is 1.
+    types:
+    - uid: string
+  - name: AlignedAffinity
+    description: Aligned affinity ensures that the primaries of the partitions of the affinitized services are collocated on the same nodes. This is the default and is the same as selecting the Affinity scheme. The value is 2.
+    types:
+    - uid: string
+  - name: NonAlignedAffinity
+    description: Non-Aligned affinity guarantees that all replicas of each service will be placed on the same nodes. Unlike Aligned Affinity, this does not guarantee that replicas of particular role will be collocated. The value is 3.
+    types:
+    - uid: string
+- name: ServiceLoadMetricWeight
+  description: Determines the metric weight relative to the other metrics that are configured for this service. During runtime, if two metrics end up in conflict, the Cluster Resource Manager prefers the metric with the higher weight.
+  kind: enum
+  properties:
+  - name: Zero
+    description: Disables resource balancing for this metric. This value is zero.
+    types:
+    - uid: string
+  - name: Low
+    description: Specifies the metric weight of the service load as Low. The value is 1.
+    types:
+    - uid: string
+  - name: Medium
+    description: Specifies the metric weight of the service load as Medium. The value is 2.
+    types:
+    - uid: string
+  - name: High
+    description: Specifies the metric weight of the service load as High. The value is 3.
+    types:
+    - uid: string
+- name: ServicePlacementInvalidDomainPolicyDescription
+  description: Describes the policy to be used for placement of a Service Fabric service where a particular fault or upgrade domain should not be used for placement of the instances or replicas of that service.
+  kind: object
+  properties:
+  - name: Type
+    description: The type of placement policy for a service fabric service. Following are the possible values.
+    types:
+    - uid: InvalidDomain
+    typesTitle: string
+  - name: DomainName
+    description: The name of the domain that should not be used for placement.
+    types:
+    - uid: string
+- name: ServicePlacementNonPartiallyPlaceServicePolicyDescription
+  description: Describes the policy to be used for placement of a Service Fabric service where all replicas must be able to be placed in order for any replicas to be created.
+  kind: object
+  properties:
+  - name: Type
+    description: The type of placement policy for a service fabric service. Following are the possible values.
+    types:
+    - uid: NonPartiallyPlaceService
+    typesTitle: string
+- name: ServicePlacementPreferPrimaryDomainPolicyDescription
+  description: >-
+    Describes the policy to be used for placement of a Service Fabric service where the service's Primary replicas should optimally be placed in a particular domain.
+
+
+    This placement policy is usually used with fault domains in scenarios where the Service Fabric cluster is geographically distributed in order to indicate that a service�s primary replica should be located in a particular fault domain, which in geo-distributed scenarios usually aligns with regional or datacenter boundaries. Note that since this is an optimization it is possible that the Primary replica may not end up located in this domain due to failures, capacity limits, or other constraints.
+  kind: object
+  properties:
+  - name: Type
+    description: The type of placement policy for a service fabric service. Following are the possible values.
+    types:
+    - uid: PreferredPrimaryDomain
+    typesTitle: string
+  - name: DomainName
+    description: The name of the domain that should used for placement as per this policy.
+    types:
+    - uid: string
+- name: ServicePlacementRequiredDomainPolicyDescription
+  description: Describes the policy to be used for placement of a Service Fabric service where the instances or replicas of that service must be placed in a particular domain
+  kind: object
+  properties:
+  - name: Type
+    description: The type of placement policy for a service fabric service. Following are the possible values.
+    types:
+    - uid: RequiredDomain
+    typesTitle: string
+  - name: DomainName
+    description: The name of the domain that should used for placement as per this policy.
+    types:
+    - uid: string
+- name: ServicePlacementRequireDomainDistributionPolicyDescription
+  description: >-
+    Describes the policy to be used for placement of a Service Fabric service where two replicas from the same partition should never be placed in the same fault or upgrade domain.
+
+
+    While this is not common it can expose the service to an increased risk of concurrent failures due to unplanned outages or other cases of subsequent/concurrent failures. As an example, consider a case where replicas are deployed across different data center, with one replica per location. In the event that one of the datacenters goes offline, normally the replica that was placed in that datacenter will be packed into one of the remaining datacenters. If this is not desirable then this policy should be set.
+  kind: object
+  properties:
+  - name: Type
+    description: The type of placement policy for a service fabric service. Following are the possible values.
+    types:
+    - uid: RequiredDomainDistribution
+    typesTitle: string
+  - name: DomainName
+    description: The name of the domain that should used for placement as per this policy.
+    types:
+    - uid: string
+- name: FabricErrorError
+  description: Error object containing error code and error message.
+  kind: object
+  properties:
+  - name: Code
+    description: >-
+      Defines the fabric error codes that be returned as part of the error object in response to Service Fabric API operations that are not successful. Following are the error code values that can be returned for a specific HTTP status code.
+
+        - Possible values of the error code for HTTP status code 400 (Bad Request)
+          - "FABRIC_E_INVALID_PARTITION_KEY"
+          - "FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR"
+          - "FABRIC_E_INVALID_ADDRESS"
+          - "FABRIC_E_APPLICATION_NOT_UPGRADING"
+          - "FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR"
+          - "FABRIC_E_FABRIC_NOT_UPGRADING"
+          - "FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR"
+          - "FABRIC_E_INVALID_CONFIGURATION"
+          - "FABRIC_E_INVALID_NAME_URI"
+          - "FABRIC_E_PATH_TOO_LONG"
+          - "FABRIC_E_KEY_TOO_LARGE"
+          - "FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED"
+          - "FABRIC_E_INVALID_ATOMIC_GROUP"
+          - "FABRIC_E_VALUE_EMPTY"
+          - "FABRIC_E_BACKUP_IS_ENABLED"
+          - "FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH"
+          - "FABRIC_E_INVALID_FOR_STATELESS_SERVICES"
+          - "FABRIC_E_INVALID_SERVICE_SCALING_POLICY"
+          - "E_INVALIDARG"
+
+        - Possible values of the error code for HTTP status code 404 (Not Found)
+          - "FABRIC_E_NODE_NOT_FOUND"
+          - "FABRIC_E_APPLICATION_TYPE_NOT_FOUND"
+          - "FABRIC_E_APPLICATION_NOT_FOUND"
+          - "FABRIC_E_SERVICE_TYPE_NOT_FOUND"
+          - "FABRIC_E_SERVICE_DOES_NOT_EXIST"
+          - "FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND"
+          - "FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND"
+          - "FABRIC_E_PARTITION_NOT_FOUND"
+          - "FABRIC_E_REPLICA_DOES_NOT_EXIST"
+          - "FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST"
+          - "FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND"
+          - "FABRIC_E_DIRECTORY_NOT_FOUND"
+          - "FABRIC_E_FABRIC_VERSION_NOT_FOUND"
+          - "FABRIC_E_FILE_NOT_FOUND"
+          - "FABRIC_E_NAME_DOES_NOT_EXIST"
+          - "FABRIC_E_PROPERTY_DOES_NOT_EXIST"
+          - "FABRIC_E_ENUMERATION_COMPLETED"
+          - "FABRIC_E_SERVICE_MANIFEST_NOT_FOUND"
+          - "FABRIC_E_KEY_NOT_FOUND"
+          - "FABRIC_E_HEALTH_ENTITY_NOT_FOUND"
+          - "FABRIC_E_BACKUP_NOT_ENABLED"
+          - "FABRIC_E_BACKUP_POLICY_NOT_EXISTING"
+          - "FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING"
+
+        - Possible values of the error code for HTTP status code 409 (Conflict)
+          - "FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION"
+          - "FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS"
+          - "FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS"
+          - "FABRIC_E_SERVICE_ALREADY_EXISTS"
+          - "FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_TYPE_IN_USE"
+          - "FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION"
+          - "FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS"
+          - "FABRIC_E_FABRIC_VERSION_IN_USE"
+          - "FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS"
+          - "FABRIC_E_NAME_ALREADY_EXISTS"
+          - "FABRIC_E_NAME_NOT_EMPTY"
+          - "FABRIC_E_PROPERTY_CHECK_FAILED"
+          - "FABRIC_E_SERVICE_METADATA_MISMATCH"
+          - "FABRIC_E_SERVICE_TYPE_MISMATCH"
+          - "FABRIC_E_HEALTH_STALE_REPORT"
+          - "FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED"
+          - "FABRIC_E_NODE_HAS_NOT_STOPPED_YET"
+          - "FABRIC_E_INSTANCE_ID_MISMATCH"
+          - "FABRIC_E_BACKUP_IN_PROGRESS"
+          - "FABRIC_E_RESTORE_IN_PROGRESS"
+          - "FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING"
+
+        - Possible values of the error code for HTTP status code 413 (Request Entity Too Large)
+          - "FABRIC_E_VALUE_TOO_LARGE"
+
+        - Possible values of the error code for HTTP status code 500 (Internal Server Error)
+          - "FABRIC_E_NODE_IS_UP"
+          - "E_FAIL"
+
+        - Possible values of the error code for HTTP status code 503 (Service Unavailable)
+          - "FABRIC_E_NO_WRITE_QUORUM"
+          - "FABRIC_E_NOT_PRIMARY"
+          - "FABRIC_E_NOT_READY"
+          - "FABRIC_E_RECONFIGURATION_PENDING"
+          - "FABRIC_E_SERVICE_OFFLINE"
+          - "E_ABORT"
+          - "FABRIC_E_VALUE_TOO_LARGE"
+
+        - Possible values of the error code for HTTP status code 504 (Gateway Timeout)
+          - "FABRIC_E_COMMUNICATION_ERROR"
+          - "FABRIC_E_OPERATION_NOT_COMPLETE"
+          - "FABRIC_E_TIMEOUT"
+    types:
+    - uid: FabricErrorCodes
+  - name: Message
+    description: Error message.
+    types:
+    - uid: string
+- name: ServicePlacementPolicyType
+  description: The type of placement policy for a service fabric service. Following are the possible values.
+  kind: enum
+  properties:
+  - name: Invalid
+    description: Indicates the type of the placement policy is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+    types:
+    - uid: string
+  - name: InvalidDomain
+    description: Indicates that the ServicePlacementPolicyDescription is of type ServicePlacementInvalidDomainPolicyDescription, which indicates that a particular fault or upgrade domain cannot be used for placement of this service. The value is 1.
+    types:
+    - uid: string
+  - name: RequiredDomain
+    description: Indicates that the ServicePlacementPolicyDescription is of type ServicePlacementRequireDomainDistributionPolicyDescription indicating that the replicas of the service must be placed in a specific domain. The value is 2.
+    types:
+    - uid: string
+  - name: PreferredPrimaryDomain
+    description: Indicates that the ServicePlacementPolicyDescription is of type ServicePlacementPreferPrimaryDomainPolicyDescription, which indicates that if possible the Primary replica for the partitions of the service should be located in a particular domain as an optimization. The value is 3.
+    types:
+    - uid: string
+  - name: RequiredDomainDistribution
+    description: Indicates that the ServicePlacementPolicyDescription is of type ServicePlacementRequireDomainDistributionPolicyDescription, indicating that the system will disallow placement of any two replicas from the same partition in the same domain at any time. The value is 4.
+    types:
+    - uid: string
+  - name: NonPartiallyPlaceService
+    description: Indicates that the ServicePlacementPolicyDescription is of type ServicePlacementNonPartiallyPlaceServicePolicyDescription, which indicates that if possible all replicas of a particular partition of the service should be placed atomically. The value is 5.
+    types:
+    - uid: string
+- name: AveragePartitionLoadScalingTrigger
+  description: Represents a scaling trigger related to an average load of a metric/resource of a partition.
+  kind: object
+  properties:
+  - name: MetricName
+    description: The name of the metric for which usage should be tracked.
+    types:
+    - uid: string
+  - name: LowerLoadThreshold
+    description: The lower limit of the load below which a scale in operation should be performed.
+    types:
+    - uid: string
+  - name: UpperLoadThreshold
+    description: The upper limit of the load beyond which a scale out operation should be performed.
+    types:
+    - uid: string
+  - name: ScaleIntervalInSeconds
+    description: The period in seconds on which a decision is made whether to scale or not.
+    types:
+    - uid: integer
+  - name: Kind
+    description: Specifies the kind of scaling trigger
+    types:
+    - uid: AveragePartitionLoad
+    typesTitle: string
+- name: AverageServiceLoadScalingTrigger
+  description: Represents a scaling policy related to an average load of a metric/resource of a service.
+  kind: object
+  properties:
+  - name: MetricName
+    description: The name of the metric for which usage should be tracked.
+    types:
+    - uid: string
+  - name: LowerLoadThreshold
+    description: The lower limit of the load below which a scale in operation should be performed.
+    types:
+    - uid: string
+  - name: UpperLoadThreshold
+    description: The upper limit of the load beyond which a scale out operation should be performed.
+    types:
+    - uid: string
+  - name: ScaleIntervalInSeconds
+    description: The period in seconds on which a decision is made whether to scale or not.
+    types:
+    - uid: integer
+  - name: Kind
+    description: Specifies the kind of scaling trigger
+    types:
+    - uid: AverageServiceLoad
+    typesTitle: string
+- name: PartitionInstanceCountScaleMechanism
+  description: Represents a scaling mechanism for adding or removing instances of stateless service partition.
+  kind: object
+  properties:
+  - name: MinInstanceCount
+    description: Minimum number of instances of the partition.
+    types:
+    - uid: integer
+  - name: MaxInstanceCount
+    description: Maximum number of instances of the partition.
+    types:
+    - uid: integer
+  - name: ScaleIncrement
+    description: The number of instances to add or remove during a scaling operation.
+    types:
+    - uid: integer
+  - name: Kind
+    description: Specifies the kind of scaling mechanism
+    types:
+    - uid: PartitionInstanceCount
+    typesTitle: string
+- name: AddRemoveIncrementalNamedPartitionScalingMechanism
+  description: Represents a scaling mechanism for adding or removing named partitions of a stateless service. Partition names are in the format '0','1''N-1'
+  kind: object
+  properties:
+  - name: MinPartitionCount
+    description: Minimum number of named partitions of the service.
+    types:
+    - uid: integer
+  - name: MaxPartitionCount
+    description: Maximum number of named partitions of the service.
+    types:
+    - uid: integer
+  - name: ScaleIncrement
+    description: The number of instances to add or remove during a scaling operation.
+    types:
+    - uid: integer
+  - name: Kind
+    description: Specifies the kind of scaling mechanism
+    types:
+    - uid: AddRemoveIncrementalNamedPartition
+    typesTitle: string
+- name: FabricErrorCodes
+  description: >-
+    Defines the fabric error codes that be returned as part of the error object in response to Service Fabric API operations that are not successful. Following are the error code values that can be returned for a specific HTTP status code.
+
+      - Possible values of the error code for HTTP status code 400 (Bad Request)
+        - "FABRIC_E_INVALID_PARTITION_KEY"
+        - "FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR"
+        - "FABRIC_E_INVALID_ADDRESS"
+        - "FABRIC_E_APPLICATION_NOT_UPGRADING"
+        - "FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR"
+        - "FABRIC_E_FABRIC_NOT_UPGRADING"
+        - "FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR"
+        - "FABRIC_E_INVALID_CONFIGURATION"
+        - "FABRIC_E_INVALID_NAME_URI"
+        - "FABRIC_E_PATH_TOO_LONG"
+        - "FABRIC_E_KEY_TOO_LARGE"
+        - "FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED"
+        - "FABRIC_E_INVALID_ATOMIC_GROUP"
+        - "FABRIC_E_VALUE_EMPTY"
+        - "FABRIC_E_BACKUP_IS_ENABLED"
+        - "FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH"
+        - "FABRIC_E_INVALID_FOR_STATELESS_SERVICES"
+        - "FABRIC_E_INVALID_SERVICE_SCALING_POLICY"
+        - "E_INVALIDARG"
+
+      - Possible values of the error code for HTTP status code 404 (Not Found)
+        - "FABRIC_E_NODE_NOT_FOUND"
+        - "FABRIC_E_APPLICATION_TYPE_NOT_FOUND"
+        - "FABRIC_E_APPLICATION_NOT_FOUND"
+        - "FABRIC_E_SERVICE_TYPE_NOT_FOUND"
+        - "FABRIC_E_SERVICE_DOES_NOT_EXIST"
+        - "FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND"
+        - "FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND"
+        - "FABRIC_E_PARTITION_NOT_FOUND"
+        - "FABRIC_E_REPLICA_DOES_NOT_EXIST"
+        - "FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST"
+        - "FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND"
+        - "FABRIC_E_DIRECTORY_NOT_FOUND"
+        - "FABRIC_E_FABRIC_VERSION_NOT_FOUND"
+        - "FABRIC_E_FILE_NOT_FOUND"
+        - "FABRIC_E_NAME_DOES_NOT_EXIST"
+        - "FABRIC_E_PROPERTY_DOES_NOT_EXIST"
+        - "FABRIC_E_ENUMERATION_COMPLETED"
+        - "FABRIC_E_SERVICE_MANIFEST_NOT_FOUND"
+        - "FABRIC_E_KEY_NOT_FOUND"
+        - "FABRIC_E_HEALTH_ENTITY_NOT_FOUND"
+        - "FABRIC_E_BACKUP_NOT_ENABLED"
+        - "FABRIC_E_BACKUP_POLICY_NOT_EXISTING"
+        - "FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING"
+
+      - Possible values of the error code for HTTP status code 409 (Conflict)
+        - "FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION"
+        - "FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS"
+        - "FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS"
+        - "FABRIC_E_SERVICE_ALREADY_EXISTS"
+        - "FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_TYPE_IN_USE"
+        - "FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION"
+        - "FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS"
+        - "FABRIC_E_FABRIC_VERSION_IN_USE"
+        - "FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS"
+        - "FABRIC_E_NAME_ALREADY_EXISTS"
+        - "FABRIC_E_NAME_NOT_EMPTY"
+        - "FABRIC_E_PROPERTY_CHECK_FAILED"
+        - "FABRIC_E_SERVICE_METADATA_MISMATCH"
+        - "FABRIC_E_SERVICE_TYPE_MISMATCH"
+        - "FABRIC_E_HEALTH_STALE_REPORT"
+        - "FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED"
+        - "FABRIC_E_NODE_HAS_NOT_STOPPED_YET"
+        - "FABRIC_E_INSTANCE_ID_MISMATCH"
+        - "FABRIC_E_BACKUP_IN_PROGRESS"
+        - "FABRIC_E_RESTORE_IN_PROGRESS"
+        - "FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING"
+
+      - Possible values of the error code for HTTP status code 413 (Request Entity Too Large)
+        - "FABRIC_E_VALUE_TOO_LARGE"
+
+      - Possible values of the error code for HTTP status code 500 (Internal Server Error)
+        - "FABRIC_E_NODE_IS_UP"
+        - "E_FAIL"
+
+      - Possible values of the error code for HTTP status code 503 (Service Unavailable)
+        - "FABRIC_E_NO_WRITE_QUORUM"
+        - "FABRIC_E_NOT_PRIMARY"
+        - "FABRIC_E_NOT_READY"
+        - "FABRIC_E_RECONFIGURATION_PENDING"
+        - "FABRIC_E_SERVICE_OFFLINE"
+        - "E_ABORT"
+        - "FABRIC_E_VALUE_TOO_LARGE"
+
+      - Possible values of the error code for HTTP status code 504 (Gateway Timeout)
+        - "FABRIC_E_COMMUNICATION_ERROR"
+        - "FABRIC_E_OPERATION_NOT_COMPLETE"
+        - "FABRIC_E_TIMEOUT"
+  kind: enum
+  properties:
+  - name: FABRIC_E_INVALID_PARTITION_KEY
+    types:
+    - uid: string
+  - name: FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_ADDRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_NOT_UPGRADING
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_NOT_UPGRADING
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_CONFIGURATION
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_NAME_URI
+    types:
+    - uid: string
+  - name: FABRIC_E_PATH_TOO_LONG
+    types:
+    - uid: string
+  - name: FABRIC_E_KEY_TOO_LARGE
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_ATOMIC_GROUP
+    types:
+    - uid: string
+  - name: FABRIC_E_VALUE_EMPTY
+    types:
+    - uid: string
+  - name: FABRIC_E_NODE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_TYPE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_PARTITION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_REPLICA_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_DIRECTORY_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_VERSION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_FILE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_NAME_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_PROPERTY_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_ENUMERATION_COMPLETED
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_MANIFEST_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_KEY_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_HEALTH_ENTITY_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_IN_USE
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_VERSION_IN_USE
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_NAME_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_NAME_NOT_EMPTY
+    types:
+    - uid: string
+  - name: FABRIC_E_PROPERTY_CHECK_FAILED
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_METADATA_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_TYPE_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_HEALTH_STALE_REPORT
+    types:
+    - uid: string
+  - name: FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED
+    types:
+    - uid: string
+  - name: FABRIC_E_NODE_HAS_NOT_STOPPED_YET
+    types:
+    - uid: string
+  - name: FABRIC_E_INSTANCE_ID_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_VALUE_TOO_LARGE
+    types:
+    - uid: string
+  - name: FABRIC_E_NO_WRITE_QUORUM
+    types:
+    - uid: string
+  - name: FABRIC_E_NOT_PRIMARY
+    types:
+    - uid: string
+  - name: FABRIC_E_NOT_READY
+    types:
+    - uid: string
+  - name: FABRIC_E_RECONFIGURATION_PENDING
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_OFFLINE
+    types:
+    - uid: string
+  - name: E_ABORT
+    types:
+    - uid: string
+  - name: FABRIC_E_COMMUNICATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_OPERATION_NOT_COMPLETE
+    types:
+    - uid: string
+  - name: FABRIC_E_TIMEOUT
+    types:
+    - uid: string
+  - name: FABRIC_E_NODE_IS_UP
+    types:
+    - uid: string
+  - name: E_FAIL
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_IS_ENABLED
+    types:
+    - uid: string
+  - name: FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_FOR_STATELESS_SERVICES
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_NOT_ENABLED
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_POLICY_NOT_EXISTING
+    types:
+    - uid: string
+  - name: FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_RESTORE_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_SERVICE_SCALING_POLICY
+    types:
+    - uid: string
+  - name: E_INVALIDARG
+    types:
+    - uid: string
+- name: ScalingTriggerKind
+  description: Enumerates the ways that a service can be scaled.
+  kind: enum
+  properties:
+  - name: Invalid
+    description: Indicates the scaling trigger is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+    types:
+    - uid: string
+  - name: AveragePartitionLoad
+    description: Indicates a trigger where scaling decisions are made based on average load of a partition. The value is 1.
+    types:
+    - uid: string
+  - name: AverageServiceLoad
+    description: Indicates a trigger where scaling decisions are made based on average load of a service. The value is 2.
+    types:
+    - uid: string
+- name: ScalingMechanismKind
+  description: Enumerates the ways that a service can be scaled.
+  kind: enum
+  properties:
+  - name: Invalid
+    description: Indicates the scaling mechanism is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+    types:
+    - uid: string
+  - name: PartitionInstanceCount
+    description: Indicates a mechanism for scaling where new instances are added or removed from a partition. The value is 1.
+    types:
+    - uid: string
+  - name: AddRemoveIncrementalNamedPartition
+    description: Indicates a mechanism for scaling where new named partitions are added or removed from a service. The value is 2.
+    types:
+    - uid: string
+examples:
+- name: Stateless service
+  request:
+    uri: POST http://localhost:19080/Services/test~test1/$/Update?api-version=6.2.0.9
+    body: >-
+      {
+        "ServiceKind": "Stateless",
+        "Flags": "1568",
+        "PlacementConstraints": "Color==Red",
+        "DefaultMoveCost": "High",
+        "ScalingPolicies": [
+          {
+            "ScalingTrigger": {
+              "Kind": "AveragePartitionLoad",
+              "MetricName": "servicefabric:/_CpuCores",
+              "LowerLoadThreshold": 0.5,
+              "UpperLoadThreshold": 0.8,
+              "ScaleIntervalInSeconds": 900
+            },
+            "ScalingMechanism": {
+              "Kind": "PartitionInstanceCount",
+              "MinInstanceCount": 4,
+              "MaxInstanceCount": 6,
+              "ScaleIncrement": 2
+            }
+          }
+        ]
+      }
+  responses:
+  - statusCode: "200"
+- name: Stateful service
+  request:
+    uri: POST http://localhost:19080/Services/test~test2/$/Update?api-version=6.2.0.9
+    body: >-
+      {
+        "ServiceKind": "Stateful",
+        "Flags": "40",
+        "PlacementConstraints": "Color==Green",
+        "StandByReplicaKeepDurationSeconds": "1000"
+      }
+  responses:
+  - statusCode: "200"
+security: []

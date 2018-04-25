@@ -1,0 +1,892 @@
+### YamlMime:RESTOperation
+uid: localhost:19080.servicefabric.startclusterupgrade.startclusterupgrade
+name: Start Cluster Upgrade
+service: Service Fabric
+groupName: Start Cluster Upgrade
+apiVersion: 6.2.0.9
+summary: "Start upgrading the code or configuration version of a Service Fabric cluster.  \nValidate the supplied upgrade parameters and start upgrading the code or configuration version of a Service Fabric cluster if the parameters are valid."
+produces:
+- application/json
+paths:
+- content: POST http://localhost:19080/$/Upgrade?api-version=6.2.0.9
+- content: POST http://localhost:19080/$/Upgrade?api-version=6.2.0.9&timeout={timeout}
+  isOptional: true
+uriParameters:
+- name: api-version
+  in: query
+  isRequired: true
+  description: >-
+    The version of the API. This parameter is required and its value must be '6.0'.
+
+
+    Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
+
+
+    Additionally the runtime accept any version that is higher than the latest supported version up to the current version of the runtime. So if the latest API version is 6.0, but if the runtime is 6.1, in order to make it easier to write the clients, the runtime will accept version 6.1 for that API. However the behavior of the API will be as per the documented 6.0 version.
+  types:
+  - uid: ApiVersion_6-0_RequiredQueryParam
+- name: timeout
+  in: query
+  description: The server timeout for performing the operation in seconds. This timeout specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
+  types:
+  - uid: integer
+  format: int64
+responses:
+- name: 202 Accepted
+  description: A successful response means that the cluster code or configuration upgrade has started. Use GetUpgradeProgress operation to get the status of the upgrade.
+- name: Other Status Codes
+  description: The detailed error response.
+  types:
+  - uid: FabricError
+requestBody:
+- parameters:
+  - name: CodeVersion
+    in: body
+    description: The cluster code version.
+    types:
+    - uid: string
+  - name: ConfigVersion
+    in: body
+    description: The cluster configuration version.
+    types:
+    - uid: string
+  - name: UpgradeKind
+    in: body
+    description: The kind of upgrade out of the following possible values.
+    types:
+    - uid: UpgradeKind
+  - name: RollingUpgradeMode
+    in: body
+    description: The mode used to monitor health during a rolling upgrade. The values are UnmonitoredAuto, UnmonitoredManual, and Monitored.
+    types:
+    - uid: UpgradeMode
+  - name: UpgradeReplicaSetCheckTimeoutInSeconds
+    in: body
+    description: The maximum amount of time to block processing of an upgrade domain and prevent loss of availability when there are unexpected issues. When this timeout expires, processing of the upgrade domain will proceed regardless of availability loss issues. The timeout is reset at the start of each upgrade domain. Valid values are between 0 and 42949672925 inclusive. (unsigned 32-bit integer).
+    types:
+    - uid: integer
+  - name: ForceRestart
+    in: body
+    description: If true, then processes are forcefully restarted during upgrade even when the code version has not changed (the upgrade only changes configuration or data).
+    types:
+    - uid: boolean
+  - name: MonitoringPolicy
+    in: body
+    description: Describes the parameters for monitoring an upgrade in Monitored mode.
+    types:
+    - uid: MonitoringPolicyDescription
+  - name: ClusterHealthPolicy
+    in: body
+    description: Defines a health policy used to evaluate the health of the cluster or of a cluster node.
+    types:
+    - uid: ClusterHealthPolicy
+  - name: EnableDeltaHealthEvaluation
+    in: body
+    description: When true, enables delta health evaluation rather than absolute health evaluation after completion of each upgrade domain.
+    types:
+    - uid: boolean
+  - name: ClusterUpgradeHealthPolicy
+    in: body
+    description: Defines a health policy used to evaluate the health of the cluster during a cluster upgrade.
+    types:
+    - uid: ClusterUpgradeHealthPolicyObject
+  - name: ApplicationHealthPolicyMap
+    in: body
+    description: Defines the application health policy map used to evaluate the health of an application or one of its children entities.
+    types:
+    - uid: ApplicationHealthPolicies
+requestHeader: []
+definitions:
+- name: ApiVersion_6-0_RequiredQueryParam
+  description: >-
+    The version of the API. This parameter is required and its value must be '6.0'.
+
+
+    Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
+
+
+    Additionally the runtime accept any version that is higher than the latest supported version up to the current version of the runtime. So if the latest API version is 6.0, but if the runtime is 6.1, in order to make it easier to write the clients, the runtime will accept version 6.1 for that API. However the behavior of the API will be as per the documented 6.0 version.
+  kind: enum
+  properties:
+  - name: "6.0"
+    description: The 6.0 version of the API.
+    types:
+    - uid: string
+- name: MonitoringPolicyDescription
+  description: Describes the parameters for monitoring an upgrade in Monitored mode.
+  kind: object
+  properties:
+  - name: FailureAction
+    description: >-
+      The compensating action to perform when a Monitored upgrade encounters monitoring policy or health policy violations.
+
+      Invalid indicates the failure action is invalid. Rollback specifies that the upgrade will start rolling back automatically.
+
+      Manual indicates that the upgrade will switch to UnmonitoredManual upgrade mode.
+    types:
+    - uid: FailureAction
+  - name: HealthCheckWaitDurationInMilliseconds
+    description: The amount of time to wait after completing an upgrade domain before applying health policies. It is first interpreted as a string representing an ISO 8601 duration. If that fails, then it is interpreted as a number representing the total number of milliseconds.
+    types:
+    - uid: string
+  - name: HealthCheckStableDurationInMilliseconds
+    description: The amount of time that the application or cluster must remain healthy before the upgrade proceeds to the next upgrade domain. It is first interpreted as a string representing an ISO 8601 duration. If that fails, then it is interpreted as a number representing the total number of milliseconds.
+    types:
+    - uid: string
+  - name: HealthCheckRetryTimeoutInMilliseconds
+    description: The amount of time to retry health evaluation when the application or cluster is unhealthy before FailureAction is executed. It is first interpreted as a string representing an ISO 8601 duration. If that fails, then it is interpreted as a number representing the total number of milliseconds.
+    types:
+    - uid: string
+  - name: UpgradeTimeoutInMilliseconds
+    description: The amount of time the overall upgrade has to complete before FailureAction is executed. It is first interpreted as a string representing an ISO 8601 duration. If that fails, then it is interpreted as a number representing the total number of milliseconds.
+    types:
+    - uid: string
+  - name: UpgradeDomainTimeoutInMilliseconds
+    description: The amount of time each upgrade domain has to complete before FailureAction is executed. It is first interpreted as a string representing an ISO 8601 duration. If that fails, then it is interpreted as a number representing the total number of milliseconds.
+    types:
+    - uid: string
+- name: ClusterHealthPolicy
+  description: Defines a health policy used to evaluate the health of the cluster or of a cluster node.
+  kind: object
+  properties:
+  - name: ConsiderWarningAsError
+    description: Indicates whether warnings are treated with the same severity as errors.
+    types:
+    - uid: boolean
+  - name: MaxPercentUnhealthyNodes
+    description: >-
+      The maximum allowed percentage of unhealthy nodes before reporting an error. For example, to allow 10% of nodes to be unhealthy, this value would be 10.
+
+
+      The percentage represents the maximum tolerated percentage of nodes that can be unhealthy before the cluster is considered in error.
+
+      If the percentage is respected but there is at least one unhealthy node, the health is evaluated as Warning.
+
+      The percentage is calculated by dividing the number of unhealthy nodes over the total number of nodes in the cluster.
+
+      The computation rounds up to tolerate one failure on small numbers of nodes. Default percentage is zero.
+
+
+      In large clusters, some nodes will always be down or out for repairs, so this percentage should be configured to tolerate that.
+    types:
+    - uid: integer
+  - name: MaxPercentUnhealthyApplications
+    description: >-
+      The maximum allowed percentage of unhealthy applications before reporting an error. For example, to allow 10% of applications to be unhealthy, this value would be 10.
+
+
+      The percentage represents the maximum tolerated percentage of applications that can be unhealthy before the cluster is considered in error.
+
+      If the percentage is respected but there is at least one unhealthy application, the health is evaluated as Warning.
+
+      This is calculated by dividing the number of unhealthy applications over the total number of application instances in the cluster, excluding applications of application types that are included in the ApplicationTypeHealthPolicyMap.
+
+      The computation rounds up to tolerate one failure on small numbers of applications. Default percentage is zero.
+    types:
+    - uid: integer
+  - name: ApplicationTypeHealthPolicyMap
+    description: >-
+      Defines a map with max percentage unhealthy applications for specific application types.
+
+      Each entry specifies as key the application type name and as value an integer that represents the MaxPercentUnhealthyApplications percentage used to evaluate the applications of the specified application type.
+
+
+      The application type health policy map can be used during cluster health evaluation to describe special application types.
+
+      The application types included in the map are evaluated against the percentage specified in the map, and not with the global MaxPercentUnhealthyApplications defined in the cluster health policy.
+
+      The applications of application types specified in the map are not counted against the global pool of applications.
+
+      For example, if some applications of a type are critical, the cluster administrator can add an entry to the map for that application type
+
+      and assign it a value of 0% (that is, do not tolerate any failures).
+
+      All other applications can be evaluated with MaxPercentUnhealthyApplications set to 20% to tolerate some failures out of the thousands of application instances.
+
+      The application type health policy map is used only if the cluster manifest enables application type health evaluation using the configuration entry for HealthManager/EnableApplicationTypeHealthEvaluation.
+    types:
+    - uid: ApplicationTypeHealthPolicyMapItem
+      isArray: true
+- name: ClusterUpgradeHealthPolicyObject
+  description: Defines a health policy used to evaluate the health of the cluster during a cluster upgrade.
+  kind: object
+  properties:
+  - name: MaxPercentDeltaUnhealthyNodes
+    description: The maximum allowed percentage of nodes health degradation allowed during cluster upgrades. The delta is measured between the state of the nodes at the beginning of upgrade and the state of the nodes at the time of the health evaluation. The check is performed after every upgrade domain upgrade completion to make sure the global state of the cluster is within tolerated limits. The default value is 10%.
+    types:
+    - uid: integer
+  - name: MaxPercentUpgradeDomainDeltaUnhealthyNodes
+    description: The maximum allowed percentage of upgrade domain nodes health degradation allowed during cluster upgrades. The delta is measured between the state of the upgrade domain nodes at the beginning of upgrade and the state of the upgrade domain nodes at the time of the health evaluation. The check is performed after every upgrade domain upgrade completion for all completed upgrade domains to make sure the state of the upgrade domains is within tolerated limits. The default value is 15%.
+    types:
+    - uid: integer
+- name: ApplicationHealthPolicies
+  description: Defines the application health policy map used to evaluate the health of an application or one of its children entities.
+  kind: object
+  properties:
+  - name: ApplicationHealthPolicyMap
+    description: The wrapper that contains the map with application health policies used to evaluate specific applications in the cluster.
+    types:
+    - uid: ApplicationHealthPolicyMapItem
+      isArray: true
+- name: FabricError
+  description: The REST API operations for Service Fabric return standard HTTP status codes. This type defines the additional information returned from the Service Fabric API operations that are not successful.
+  kind: object
+  properties:
+  - name: Error
+    description: Error object containing error code and error message.
+    types:
+    - uid: FabricErrorError
+- name: StartClusterUpgradeDescription
+  description: Describes the parameters for starting a cluster upgrade.
+  kind: object
+  properties:
+  - name: CodeVersion
+    description: The cluster code version.
+    types:
+    - uid: string
+  - name: ConfigVersion
+    description: The cluster configuration version.
+    types:
+    - uid: string
+  - name: UpgradeKind
+    description: The kind of upgrade out of the following possible values.
+    types:
+    - uid: UpgradeKind
+  - name: RollingUpgradeMode
+    description: The mode used to monitor health during a rolling upgrade. The values are UnmonitoredAuto, UnmonitoredManual, and Monitored.
+    types:
+    - uid: UpgradeMode
+  - name: UpgradeReplicaSetCheckTimeoutInSeconds
+    description: The maximum amount of time to block processing of an upgrade domain and prevent loss of availability when there are unexpected issues. When this timeout expires, processing of the upgrade domain will proceed regardless of availability loss issues. The timeout is reset at the start of each upgrade domain. Valid values are between 0 and 42949672925 inclusive. (unsigned 32-bit integer).
+    types:
+    - uid: integer
+  - name: ForceRestart
+    description: If true, then processes are forcefully restarted during upgrade even when the code version has not changed (the upgrade only changes configuration or data).
+    types:
+    - uid: boolean
+  - name: MonitoringPolicy
+    description: Describes the parameters for monitoring an upgrade in Monitored mode.
+    types:
+    - uid: MonitoringPolicyDescription
+  - name: ClusterHealthPolicy
+    description: Defines a health policy used to evaluate the health of the cluster or of a cluster node.
+    types:
+    - uid: ClusterHealthPolicy
+  - name: EnableDeltaHealthEvaluation
+    description: When true, enables delta health evaluation rather than absolute health evaluation after completion of each upgrade domain.
+    types:
+    - uid: boolean
+  - name: ClusterUpgradeHealthPolicy
+    description: Defines a health policy used to evaluate the health of the cluster during a cluster upgrade.
+    types:
+    - uid: ClusterUpgradeHealthPolicyObject
+  - name: ApplicationHealthPolicyMap
+    description: Defines the application health policy map used to evaluate the health of an application or one of its children entities.
+    types:
+    - uid: ApplicationHealthPolicies
+- name: FailureAction
+  description: >-
+    The compensating action to perform when a Monitored upgrade encounters monitoring policy or health policy violations.
+
+    Invalid indicates the failure action is invalid. Rollback specifies that the upgrade will start rolling back automatically.
+
+    Manual indicates that the upgrade will switch to UnmonitoredManual upgrade mode.
+  kind: enum
+  properties:
+  - name: Invalid
+    description: Indicates the failure action is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+    types:
+    - uid: string
+  - name: Rollback
+    description: The upgrade will start rolling back automatically. The value is 1
+    types:
+    - uid: string
+  - name: Manual
+    description: The upgrade will switch to UnmonitoredManual upgrade mode. The value is 2
+    types:
+    - uid: string
+- name: ApplicationTypeHealthPolicyMapItem
+  description: Defines an item in ApplicationTypeHealthPolicyMap.
+  kind: object
+  properties:
+  - name: Key
+    description: The key of the application type health policy map item. This is the name of the application type.
+    types:
+    - uid: string
+  - name: Value
+    description: >-
+      The value of the application type health policy map item.
+
+      The max percent unhealthy applications allowed for the application type. Must be between zero and 100.
+    types:
+    - uid: integer
+- name: ApplicationHealthPolicyMapItem
+  description: Defines an item in ApplicationHealthPolicyMap.
+  kind: object
+  properties:
+  - name: Key
+    description: The key of the application health policy map item. This is the name of the application.
+    types:
+    - uid: string
+  - name: Value
+    description: The value of the application health policy map item. This is the ApplicationHealthPolicy for this application.
+    types:
+    - uid: ApplicationHealthPolicy
+- name: FabricErrorError
+  description: Error object containing error code and error message.
+  kind: object
+  properties:
+  - name: Code
+    description: >-
+      Defines the fabric error codes that be returned as part of the error object in response to Service Fabric API operations that are not successful. Following are the error code values that can be returned for a specific HTTP status code.
+
+        - Possible values of the error code for HTTP status code 400 (Bad Request)
+          - "FABRIC_E_INVALID_PARTITION_KEY"
+          - "FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR"
+          - "FABRIC_E_INVALID_ADDRESS"
+          - "FABRIC_E_APPLICATION_NOT_UPGRADING"
+          - "FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR"
+          - "FABRIC_E_FABRIC_NOT_UPGRADING"
+          - "FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR"
+          - "FABRIC_E_INVALID_CONFIGURATION"
+          - "FABRIC_E_INVALID_NAME_URI"
+          - "FABRIC_E_PATH_TOO_LONG"
+          - "FABRIC_E_KEY_TOO_LARGE"
+          - "FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED"
+          - "FABRIC_E_INVALID_ATOMIC_GROUP"
+          - "FABRIC_E_VALUE_EMPTY"
+          - "FABRIC_E_BACKUP_IS_ENABLED"
+          - "FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH"
+          - "FABRIC_E_INVALID_FOR_STATELESS_SERVICES"
+          - "FABRIC_E_INVALID_SERVICE_SCALING_POLICY"
+          - "E_INVALIDARG"
+
+        - Possible values of the error code for HTTP status code 404 (Not Found)
+          - "FABRIC_E_NODE_NOT_FOUND"
+          - "FABRIC_E_APPLICATION_TYPE_NOT_FOUND"
+          - "FABRIC_E_APPLICATION_NOT_FOUND"
+          - "FABRIC_E_SERVICE_TYPE_NOT_FOUND"
+          - "FABRIC_E_SERVICE_DOES_NOT_EXIST"
+          - "FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND"
+          - "FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND"
+          - "FABRIC_E_PARTITION_NOT_FOUND"
+          - "FABRIC_E_REPLICA_DOES_NOT_EXIST"
+          - "FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST"
+          - "FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND"
+          - "FABRIC_E_DIRECTORY_NOT_FOUND"
+          - "FABRIC_E_FABRIC_VERSION_NOT_FOUND"
+          - "FABRIC_E_FILE_NOT_FOUND"
+          - "FABRIC_E_NAME_DOES_NOT_EXIST"
+          - "FABRIC_E_PROPERTY_DOES_NOT_EXIST"
+          - "FABRIC_E_ENUMERATION_COMPLETED"
+          - "FABRIC_E_SERVICE_MANIFEST_NOT_FOUND"
+          - "FABRIC_E_KEY_NOT_FOUND"
+          - "FABRIC_E_HEALTH_ENTITY_NOT_FOUND"
+          - "FABRIC_E_BACKUP_NOT_ENABLED"
+          - "FABRIC_E_BACKUP_POLICY_NOT_EXISTING"
+          - "FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING"
+
+        - Possible values of the error code for HTTP status code 409 (Conflict)
+          - "FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION"
+          - "FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS"
+          - "FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS"
+          - "FABRIC_E_SERVICE_ALREADY_EXISTS"
+          - "FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_TYPE_IN_USE"
+          - "FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION"
+          - "FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS"
+          - "FABRIC_E_FABRIC_VERSION_IN_USE"
+          - "FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS"
+          - "FABRIC_E_NAME_ALREADY_EXISTS"
+          - "FABRIC_E_NAME_NOT_EMPTY"
+          - "FABRIC_E_PROPERTY_CHECK_FAILED"
+          - "FABRIC_E_SERVICE_METADATA_MISMATCH"
+          - "FABRIC_E_SERVICE_TYPE_MISMATCH"
+          - "FABRIC_E_HEALTH_STALE_REPORT"
+          - "FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED"
+          - "FABRIC_E_NODE_HAS_NOT_STOPPED_YET"
+          - "FABRIC_E_INSTANCE_ID_MISMATCH"
+          - "FABRIC_E_BACKUP_IN_PROGRESS"
+          - "FABRIC_E_RESTORE_IN_PROGRESS"
+          - "FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING"
+
+        - Possible values of the error code for HTTP status code 413 (Request Entity Too Large)
+          - "FABRIC_E_VALUE_TOO_LARGE"
+
+        - Possible values of the error code for HTTP status code 500 (Internal Server Error)
+          - "FABRIC_E_NODE_IS_UP"
+          - "E_FAIL"
+
+        - Possible values of the error code for HTTP status code 503 (Service Unavailable)
+          - "FABRIC_E_NO_WRITE_QUORUM"
+          - "FABRIC_E_NOT_PRIMARY"
+          - "FABRIC_E_NOT_READY"
+          - "FABRIC_E_RECONFIGURATION_PENDING"
+          - "FABRIC_E_SERVICE_OFFLINE"
+          - "E_ABORT"
+          - "FABRIC_E_VALUE_TOO_LARGE"
+
+        - Possible values of the error code for HTTP status code 504 (Gateway Timeout)
+          - "FABRIC_E_COMMUNICATION_ERROR"
+          - "FABRIC_E_OPERATION_NOT_COMPLETE"
+          - "FABRIC_E_TIMEOUT"
+    types:
+    - uid: FabricErrorCodes
+  - name: Message
+    description: Error message.
+    types:
+    - uid: string
+- name: UpgradeKind
+  description: The kind of upgrade out of the following possible values.
+  kind: enum
+  properties:
+  - name: Invalid
+    description: Indicates the upgrade kind is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+    types:
+    - uid: string
+  - name: Rolling
+    description: The upgrade progresses one upgrade domain at a time. The value is 1
+    types:
+    - uid: string
+- name: UpgradeMode
+  description: The mode used to monitor health during a rolling upgrade. The values are UnmonitoredAuto, UnmonitoredManual, and Monitored.
+  kind: enum
+  properties:
+  - name: Invalid
+    description: Indicates the upgrade mode is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+    types:
+    - uid: string
+  - name: UnmonitoredAuto
+    description: The upgrade will proceed automatically without performing any health monitoring. The value is 1
+    types:
+    - uid: string
+  - name: UnmonitoredManual
+    description: The upgrade will stop after completing each upgrade domain, giving the opportunity to manually monitor health before proceeding. The value is 2
+    types:
+    - uid: string
+  - name: Monitored
+    description: The upgrade will stop after completing each upgrade domain and automatically monitor health before proceeding. The value is 3
+    types:
+    - uid: string
+- name: ApplicationHealthPolicy
+  description: Defines a health policy used to evaluate the health of an application or one of its children entities.
+  kind: object
+  properties:
+  - name: ConsiderWarningAsError
+    description: Indicates whether warnings are treated with the same severity as errors.
+    types:
+    - uid: boolean
+  - name: MaxPercentUnhealthyDeployedApplications
+    description: >-
+      The maximum allowed percentage of unhealthy deployed applications. Allowed values are Byte values from zero to 100.
+
+      The percentage represents the maximum tolerated percentage of deployed applications that can be unhealthy before the application is considered in error.
+
+      This is calculated by dividing the number of unhealthy deployed applications over the number of nodes where the application is currently deployed on in the cluster.
+
+      The computation rounds up to tolerate one failure on small numbers of nodes. Default percentage is zero.
+    types:
+    - uid: integer
+  - name: DefaultServiceTypeHealthPolicy
+    description: The health policy used by default to evaluate the health of a service type.
+    types:
+    - uid: ServiceTypeHealthPolicy
+  - name: ServiceTypeHealthPolicyMap
+    description: The map with service type health policy per service type name. The map is empty by default.
+    types:
+    - uid: ServiceTypeHealthPolicyMapItem
+      isArray: true
+- name: FabricErrorCodes
+  description: >-
+    Defines the fabric error codes that be returned as part of the error object in response to Service Fabric API operations that are not successful. Following are the error code values that can be returned for a specific HTTP status code.
+
+      - Possible values of the error code for HTTP status code 400 (Bad Request)
+        - "FABRIC_E_INVALID_PARTITION_KEY"
+        - "FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR"
+        - "FABRIC_E_INVALID_ADDRESS"
+        - "FABRIC_E_APPLICATION_NOT_UPGRADING"
+        - "FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR"
+        - "FABRIC_E_FABRIC_NOT_UPGRADING"
+        - "FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR"
+        - "FABRIC_E_INVALID_CONFIGURATION"
+        - "FABRIC_E_INVALID_NAME_URI"
+        - "FABRIC_E_PATH_TOO_LONG"
+        - "FABRIC_E_KEY_TOO_LARGE"
+        - "FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED"
+        - "FABRIC_E_INVALID_ATOMIC_GROUP"
+        - "FABRIC_E_VALUE_EMPTY"
+        - "FABRIC_E_BACKUP_IS_ENABLED"
+        - "FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH"
+        - "FABRIC_E_INVALID_FOR_STATELESS_SERVICES"
+        - "FABRIC_E_INVALID_SERVICE_SCALING_POLICY"
+        - "E_INVALIDARG"
+
+      - Possible values of the error code for HTTP status code 404 (Not Found)
+        - "FABRIC_E_NODE_NOT_FOUND"
+        - "FABRIC_E_APPLICATION_TYPE_NOT_FOUND"
+        - "FABRIC_E_APPLICATION_NOT_FOUND"
+        - "FABRIC_E_SERVICE_TYPE_NOT_FOUND"
+        - "FABRIC_E_SERVICE_DOES_NOT_EXIST"
+        - "FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND"
+        - "FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND"
+        - "FABRIC_E_PARTITION_NOT_FOUND"
+        - "FABRIC_E_REPLICA_DOES_NOT_EXIST"
+        - "FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST"
+        - "FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND"
+        - "FABRIC_E_DIRECTORY_NOT_FOUND"
+        - "FABRIC_E_FABRIC_VERSION_NOT_FOUND"
+        - "FABRIC_E_FILE_NOT_FOUND"
+        - "FABRIC_E_NAME_DOES_NOT_EXIST"
+        - "FABRIC_E_PROPERTY_DOES_NOT_EXIST"
+        - "FABRIC_E_ENUMERATION_COMPLETED"
+        - "FABRIC_E_SERVICE_MANIFEST_NOT_FOUND"
+        - "FABRIC_E_KEY_NOT_FOUND"
+        - "FABRIC_E_HEALTH_ENTITY_NOT_FOUND"
+        - "FABRIC_E_BACKUP_NOT_ENABLED"
+        - "FABRIC_E_BACKUP_POLICY_NOT_EXISTING"
+        - "FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING"
+
+      - Possible values of the error code for HTTP status code 409 (Conflict)
+        - "FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION"
+        - "FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS"
+        - "FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS"
+        - "FABRIC_E_SERVICE_ALREADY_EXISTS"
+        - "FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_TYPE_IN_USE"
+        - "FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION"
+        - "FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS"
+        - "FABRIC_E_FABRIC_VERSION_IN_USE"
+        - "FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS"
+        - "FABRIC_E_NAME_ALREADY_EXISTS"
+        - "FABRIC_E_NAME_NOT_EMPTY"
+        - "FABRIC_E_PROPERTY_CHECK_FAILED"
+        - "FABRIC_E_SERVICE_METADATA_MISMATCH"
+        - "FABRIC_E_SERVICE_TYPE_MISMATCH"
+        - "FABRIC_E_HEALTH_STALE_REPORT"
+        - "FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED"
+        - "FABRIC_E_NODE_HAS_NOT_STOPPED_YET"
+        - "FABRIC_E_INSTANCE_ID_MISMATCH"
+        - "FABRIC_E_BACKUP_IN_PROGRESS"
+        - "FABRIC_E_RESTORE_IN_PROGRESS"
+        - "FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING"
+
+      - Possible values of the error code for HTTP status code 413 (Request Entity Too Large)
+        - "FABRIC_E_VALUE_TOO_LARGE"
+
+      - Possible values of the error code for HTTP status code 500 (Internal Server Error)
+        - "FABRIC_E_NODE_IS_UP"
+        - "E_FAIL"
+
+      - Possible values of the error code for HTTP status code 503 (Service Unavailable)
+        - "FABRIC_E_NO_WRITE_QUORUM"
+        - "FABRIC_E_NOT_PRIMARY"
+        - "FABRIC_E_NOT_READY"
+        - "FABRIC_E_RECONFIGURATION_PENDING"
+        - "FABRIC_E_SERVICE_OFFLINE"
+        - "E_ABORT"
+        - "FABRIC_E_VALUE_TOO_LARGE"
+
+      - Possible values of the error code for HTTP status code 504 (Gateway Timeout)
+        - "FABRIC_E_COMMUNICATION_ERROR"
+        - "FABRIC_E_OPERATION_NOT_COMPLETE"
+        - "FABRIC_E_TIMEOUT"
+  kind: enum
+  properties:
+  - name: FABRIC_E_INVALID_PARTITION_KEY
+    types:
+    - uid: string
+  - name: FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_ADDRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_NOT_UPGRADING
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_NOT_UPGRADING
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_CONFIGURATION
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_NAME_URI
+    types:
+    - uid: string
+  - name: FABRIC_E_PATH_TOO_LONG
+    types:
+    - uid: string
+  - name: FABRIC_E_KEY_TOO_LARGE
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_ATOMIC_GROUP
+    types:
+    - uid: string
+  - name: FABRIC_E_VALUE_EMPTY
+    types:
+    - uid: string
+  - name: FABRIC_E_NODE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_TYPE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_PARTITION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_REPLICA_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_DIRECTORY_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_VERSION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_FILE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_NAME_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_PROPERTY_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_ENUMERATION_COMPLETED
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_MANIFEST_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_KEY_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_HEALTH_ENTITY_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_IN_USE
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_VERSION_IN_USE
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_NAME_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_NAME_NOT_EMPTY
+    types:
+    - uid: string
+  - name: FABRIC_E_PROPERTY_CHECK_FAILED
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_METADATA_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_TYPE_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_HEALTH_STALE_REPORT
+    types:
+    - uid: string
+  - name: FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED
+    types:
+    - uid: string
+  - name: FABRIC_E_NODE_HAS_NOT_STOPPED_YET
+    types:
+    - uid: string
+  - name: FABRIC_E_INSTANCE_ID_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_VALUE_TOO_LARGE
+    types:
+    - uid: string
+  - name: FABRIC_E_NO_WRITE_QUORUM
+    types:
+    - uid: string
+  - name: FABRIC_E_NOT_PRIMARY
+    types:
+    - uid: string
+  - name: FABRIC_E_NOT_READY
+    types:
+    - uid: string
+  - name: FABRIC_E_RECONFIGURATION_PENDING
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_OFFLINE
+    types:
+    - uid: string
+  - name: E_ABORT
+    types:
+    - uid: string
+  - name: FABRIC_E_COMMUNICATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_OPERATION_NOT_COMPLETE
+    types:
+    - uid: string
+  - name: FABRIC_E_TIMEOUT
+    types:
+    - uid: string
+  - name: FABRIC_E_NODE_IS_UP
+    types:
+    - uid: string
+  - name: E_FAIL
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_IS_ENABLED
+    types:
+    - uid: string
+  - name: FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_FOR_STATELESS_SERVICES
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_NOT_ENABLED
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_POLICY_NOT_EXISTING
+    types:
+    - uid: string
+  - name: FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_RESTORE_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_SERVICE_SCALING_POLICY
+    types:
+    - uid: string
+  - name: E_INVALIDARG
+    types:
+    - uid: string
+- name: ServiceTypeHealthPolicy
+  description: Represents the health policy used to evaluate the health of services belonging to a service type.
+  kind: object
+  properties:
+  - name: MaxPercentUnhealthyPartitionsPerService
+    description: >-
+      The maximum allowed percentage of unhealthy partitions per service. Allowed values are Byte values from zero to 100
+
+
+      The percentage represents the maximum tolerated percentage of partitions that can be unhealthy before the service is considered in error.
+
+      If the percentage is respected but there is at least one unhealthy partition, the health is evaluated as Warning.
+
+      The percentage is calculated by dividing the number of unhealthy partitions over the total number of partitions in the service.
+
+      The computation rounds up to tolerate one failure on small numbers of partitions. Default percentage is zero.
+    types:
+    - uid: integer
+  - name: MaxPercentUnhealthyReplicasPerPartition
+    description: >-
+      The maximum allowed percentage of unhealthy replicas per partition. Allowed values are Byte values from zero to 100.
+
+
+      The percentage represents the maximum tolerated percentage of replicas that can be unhealthy before the partition is considered in error.
+
+      If the percentage is respected but there is at least one unhealthy replica, the health is evaluated as Warning.
+
+      The percentage is calculated by dividing the number of unhealthy replicas over the total number of replicas in the partition.
+
+      The computation rounds up to tolerate one failure on small numbers of replicas. Default percentage is zero.
+    types:
+    - uid: integer
+  - name: MaxPercentUnhealthyServices
+    description: >-
+      The maximum maximum allowed percentage of unhealthy services. Allowed values are Byte values from zero to 100.
+
+
+      The percentage represents the maximum tolerated percentage of services that can be unhealthy before the application is considered in error.
+
+      If the percentage is respected but there is at least one unhealthy service, the health is evaluated as Warning.
+
+      This is calculated by dividing the number of unhealthy services of the specific service type over the total number of services of the specific service type.
+
+      The computation rounds up to tolerate one failure on small numbers of services. Default percentage is zero.
+    types:
+    - uid: integer
+- name: ServiceTypeHealthPolicyMapItem
+  description: Defines an item in ServiceTypeHealthPolicyMap.
+  kind: object
+  properties:
+  - name: Key
+    description: The key of the service type health policy map item. This is the name of the service type.
+    types:
+    - uid: string
+  - name: Value
+    description: The value of the service type health policy map item. This is the ServiceTypeHealthPolicy for this service type.
+    types:
+    - uid: ServiceTypeHealthPolicy
+examples: []
+security: []

@@ -1,0 +1,4380 @@
+### YamlMime:RESTOperation
+uid: localhost:19080.servicefabric.getpartitionhealthusingpolicy.getpartitionhealthusingpolicy
+name: Get Partition Health Using Policy
+service: Service Fabric
+groupName: Get Partition Health Using Policy
+apiVersion: 6.2.0.9
+summary: "Gets the health of the specified Service Fabric partition, by using the specified health policy.  \nGets the health information of the specified partition.\nIf the application health policy is specified, the health evaluation uses it to get the aggregated health state.\nIf the policy is not specified, the health evaluation uses the application health policy defined in the application manifest, or the default health policy, if no policy is defined in the manifest.\nUse EventsHealthStateFilter to filter the collection of health events reported on the partition based on the health state.\nUse ReplicasHealthStateFilter to filter the collection of ReplicaHealthState objects on the partition. Use ApplicationHealthPolicy in the POST body to override the health policies used to evaluate the health.\nIf you specify a partition that does not exist in the health store, this request returns an error."
+produces:
+- application/json
+paths:
+- content: POST http://localhost:19080/Partitions/{partitionId}/$/GetHealth?api-version=6.2.0.9
+- content: POST http://localhost:19080/Partitions/{partitionId}/$/GetHealth?api-version=6.2.0.9&EventsHealthStateFilter={EventsHealthStateFilter}&ReplicasHealthStateFilter={ReplicasHealthStateFilter}&ExcludeHealthStatistics={ExcludeHealthStatistics}&timeout={timeout}
+  isOptional: true
+uriParameters:
+- name: partitionId
+  in: path
+  isRequired: true
+  description: The identity of the partition.
+  types:
+  - uid: string
+  format: uuid
+- name: api-version
+  in: query
+  isRequired: true
+  description: >-
+    The version of the API. This parameter is required and its value must be '6.0'.
+
+
+    Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
+
+
+    Additionally the runtime accept any version that is higher than the latest supported version up to the current version of the runtime. So if the latest API version is 6.0, but if the runtime is 6.1, in order to make it easier to write the clients, the runtime will accept version 6.1 for that API. However the behavior of the API will be as per the documented 6.0 version.
+  types:
+  - uid: ApiVersion_6-0_RequiredQueryParam
+- name: EventsHealthStateFilter
+  in: query
+  description: >-
+    Allows filtering the collection of HealthEvent objects returned based on health state.
+
+    The possible values for this parameter include integer value of one of the following health states.
+
+    Only events that match the filter are returned. All events are used to evaluate the aggregated health state.
+
+    If not specified, all entries are returned. The state values are flag based enumeration, so the value could be a combination of these value obtained using bitwise 'OR' operator. For example, If the provided value is 6 then all of the events with HealthState value of OK (2) and Warning (4) are returned.
+
+
+    - Default - Default value. Matches any HealthState. The value is zero.
+
+    - None - Filter that doesn't match any HealthState value. Used in order to return no results on a given collection of states. The value is 1.
+
+    - Ok - Filter that matches input with HealthState value Ok. The value is 2.
+
+    - Warning - Filter that matches input with HealthState value Warning. The value is 4.
+
+    - Error - Filter that matches input with HealthState value Error. The value is 8.
+
+    - All - Filter that matches input with any HealthState value. The value is 65535.
+  types:
+  - uid: integer
+- name: ReplicasHealthStateFilter
+  in: query
+  description: >-
+    Allows filtering the collection of ReplicaHealthState objects on the partition. The value can be obtained from members or bitwise operations on members of HealthStateFilter. Only replicas that match the filter will be returned. All replicas will be used to evaluate the aggregated health state. If not specified, all entries will be returned.The state values are flag based enumeration, so the value could be a combination of these value obtained using bitwise 'OR' operator. For example, If the provided value is 6 then all of the events with HealthState value of OK (2) and Warning (4) will be returned. The possible values for this parameter include integer value of one of the following health states.
+
+
+    - Default - Default value. Matches any HealthState. The value is zero.
+
+    - None - Filter that doesn't match any HealthState value. Used in order to return no results on a given collection of states. The value is 1.
+
+    - Ok - Filter that matches input with HealthState value Ok. The value is 2.
+
+    - Warning - Filter that matches input with HealthState value Warning. The value is 4.
+
+    - Error - Filter that matches input with HealthState value Error. The value is 8.
+
+    - All - Filter that matches input with any HealthState value. The value is 65535.
+  types:
+  - uid: integer
+- name: ExcludeHealthStatistics
+  in: query
+  description: >-
+    Indicates whether the health statistics should be returned as part of the query result. False by default.
+
+    The statistics show the number of children entities in health state Ok, Warning, and Error.
+  types:
+  - uid: boolean
+- name: timeout
+  in: query
+  description: The server timeout for performing the operation in seconds. This timeout specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
+  types:
+  - uid: integer
+  format: int64
+responses:
+- name: 200 OK
+  description: A successful operation will return 200 status code and the health information about the specified partition.
+  types:
+  - uid: PartitionHealth
+- name: Other Status Codes
+  description: The detailed error response.
+  types:
+  - uid: FabricError
+requestBody:
+- parameters:
+  - name: ConsiderWarningAsError
+    in: body
+    description: Indicates whether warnings are treated with the same severity as errors.
+    types:
+    - uid: boolean
+  - name: MaxPercentUnhealthyDeployedApplications
+    in: body
+    description: >-
+      The maximum allowed percentage of unhealthy deployed applications. Allowed values are Byte values from zero to 100.
+
+      The percentage represents the maximum tolerated percentage of deployed applications that can be unhealthy before the application is considered in error.
+
+      This is calculated by dividing the number of unhealthy deployed applications over the number of nodes where the application is currently deployed on in the cluster.
+
+      The computation rounds up to tolerate one failure on small numbers of nodes. Default percentage is zero.
+    types:
+    - uid: integer
+  - name: DefaultServiceTypeHealthPolicy
+    in: body
+    description: The health policy used by default to evaluate the health of a service type.
+    types:
+    - uid: ServiceTypeHealthPolicy
+  - name: ServiceTypeHealthPolicyMap
+    in: body
+    description: The map with service type health policy per service type name. The map is empty by default.
+    types:
+    - uid: ServiceTypeHealthPolicyMapItem
+      isArray: true
+requestHeader: []
+definitions:
+- name: ApiVersion_6-0_RequiredQueryParam
+  description: >-
+    The version of the API. This parameter is required and its value must be '6.0'.
+
+
+    Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
+
+
+    Additionally the runtime accept any version that is higher than the latest supported version up to the current version of the runtime. So if the latest API version is 6.0, but if the runtime is 6.1, in order to make it easier to write the clients, the runtime will accept version 6.1 for that API. However the behavior of the API will be as per the documented 6.0 version.
+  kind: enum
+  properties:
+  - name: "6.0"
+    description: The 6.0 version of the API.
+    types:
+    - uid: string
+- name: ServiceTypeHealthPolicy
+  description: Represents the health policy used to evaluate the health of services belonging to a service type.
+  kind: object
+  properties:
+  - name: MaxPercentUnhealthyPartitionsPerService
+    description: >-
+      The maximum allowed percentage of unhealthy partitions per service. Allowed values are Byte values from zero to 100
+
+
+      The percentage represents the maximum tolerated percentage of partitions that can be unhealthy before the service is considered in error.
+
+      If the percentage is respected but there is at least one unhealthy partition, the health is evaluated as Warning.
+
+      The percentage is calculated by dividing the number of unhealthy partitions over the total number of partitions in the service.
+
+      The computation rounds up to tolerate one failure on small numbers of partitions. Default percentage is zero.
+    types:
+    - uid: integer
+  - name: MaxPercentUnhealthyReplicasPerPartition
+    description: >-
+      The maximum allowed percentage of unhealthy replicas per partition. Allowed values are Byte values from zero to 100.
+
+
+      The percentage represents the maximum tolerated percentage of replicas that can be unhealthy before the partition is considered in error.
+
+      If the percentage is respected but there is at least one unhealthy replica, the health is evaluated as Warning.
+
+      The percentage is calculated by dividing the number of unhealthy replicas over the total number of replicas in the partition.
+
+      The computation rounds up to tolerate one failure on small numbers of replicas. Default percentage is zero.
+    types:
+    - uid: integer
+  - name: MaxPercentUnhealthyServices
+    description: >-
+      The maximum maximum allowed percentage of unhealthy services. Allowed values are Byte values from zero to 100.
+
+
+      The percentage represents the maximum tolerated percentage of services that can be unhealthy before the application is considered in error.
+
+      If the percentage is respected but there is at least one unhealthy service, the health is evaluated as Warning.
+
+      This is calculated by dividing the number of unhealthy services of the specific service type over the total number of services of the specific service type.
+
+      The computation rounds up to tolerate one failure on small numbers of services. Default percentage is zero.
+    types:
+    - uid: integer
+- name: ServiceTypeHealthPolicyMapItem
+  description: Defines an item in ServiceTypeHealthPolicyMap.
+  kind: object
+  properties:
+  - name: Key
+    description: The key of the service type health policy map item. This is the name of the service type.
+    types:
+    - uid: string
+  - name: Value
+    description: The value of the service type health policy map item. This is the ServiceTypeHealthPolicy for this service type.
+    types:
+    - uid: ServiceTypeHealthPolicy
+- name: PartitionHealth
+  description: Information about the health of a Service Fabric partition.
+  kind: object
+  properties:
+  - name: AggregatedHealthState
+    description: >-
+      The HealthState representing the aggregated health state of the entity computed by Health Manager.
+
+      The health evaluation of the entity reflects all events reported on the entity and its children (if any).
+
+      The aggregation is done by applying the desired health policy.
+    types:
+    - uid: HealthState
+  - name: HealthEvents
+    description: The list of health events reported on the entity.
+    types:
+    - uid: HealthEvent
+      isArray: true
+  - name: UnhealthyEvaluations
+    description: The unhealthy evaluations that show why the current aggregated health state was returned by Health Manager.
+    types:
+    - uid: HealthEvaluationWrapper
+      isArray: true
+  - name: HealthStatistics
+    description: Shows the health statistics for all children types of the queried entity.
+    types:
+    - uid: HealthStatistics
+  - name: PartitionId
+    description: ID of the partition whose health information is described by this object.
+    types:
+    - uid: string
+  - name: ReplicaHealthStates
+    description: The list of replica health states associated with the partition.
+    types:
+    - uid: ClusterEvent
+      isArray: true
+    - uid: ClusterEventList
+      isArray: true
+    - uid: ContainerInstanceEvent
+      isArray: true
+    - uid: ContainerInstanceEventList
+      isArray: true
+    - uid: Int64RangePartitionInformation
+      isArray: true
+    - uid: NamedPartitionInformation
+      isArray: true
+    - uid: EnsureAvailabilitySafetyCheck
+      isArray: true
+    - uid: EnsurePartitionQurumSafetyCheck
+      isArray: true
+    - uid: SeedNodeSafetyCheck
+      isArray: true
+    - uid: ServicePlacementNonPartiallyPlaceServicePolicyDescription
+      isArray: true
+    - uid: SingletonPartitionInformation
+      isArray: true
+    - uid: StatefulServicePartitionInfo
+      isArray: true
+    - uid: StatefulServiceTypeDescription
+      isArray: true
+    - uid: StatelessServiceInfo
+      isArray: true
+    - uid: StatelessServicePartitionInfo
+      isArray: true
+    - uid: StatelessServiceTypeDescription
+      isArray: true
+    - uid: WaitForInbuildReplicaSafetyCheck
+      isArray: true
+    - uid: WaitForPrimaryPlacementSafetyCheck
+      isArray: true
+    - uid: WaitForPrimarySwapSafetyCheck
+      isArray: true
+    - uid: WaitForReconfigurationSafetyCheck
+      isArray: true
+    - uid: NamedPartitionSchemeDescription
+      isArray: true
+    - uid: SingletonPartitionSchemeDescription
+      isArray: true
+    - uid: UniformInt64RangePartitionSchemeDescription
+      isArray: true
+    - uid: StatefulServiceDescription
+      isArray: true
+    - uid: StatelessServiceDescription
+      isArray: true
+    - uid: SecondaryActiveReplicatorStatus
+      isArray: true
+    - uid: SecondaryIdleReplicatorStatus
+      isArray: true
+    - uid: StatefulServiceUpdateDescription
+      isArray: true
+    - uid: StatelessServiceUpdateDescription
+      isArray: true
+    - uid: BinaryPropertyValue
+      isArray: true
+    - uid: Int64PropertyValue
+      isArray: true
+    - uid: DoublePropertyValue
+      isArray: true
+    - uid: StringPropertyValue
+      isArray: true
+    - uid: GuidPropertyValue
+      isArray: true
+    - uid: CheckExistsPropertyBatchOperation
+      isArray: true
+    - uid: CheckSequencePropertyBatchOperation
+      isArray: true
+    - uid: CheckValuePropertyBatchOperation
+      isArray: true
+    - uid: DeletePropertyBatchOperation
+      isArray: true
+    - uid: GetPropertyBatchOperation
+      isArray: true
+    - uid: PutPropertyBatchOperation
+      isArray: true
+    - uid: SuccessfulPropertyBatchInfo
+      isArray: true
+    - uid: FailedPropertyBatchInfo
+      isArray: true
+    - uid: AzureBlobBackupStorageDescription
+      isArray: true
+    - uid: FileShareBackupStorageDescription
+      isArray: true
+    - uid: FrequencyBasedBackupScheduleDescription
+      isArray: true
+    - uid: TimeBasedBackupScheduleDescription
+      isArray: true
+    - uid: AveragePartitionLoadScalingTrigger
+      isArray: true
+    - uid: AverageServiceLoadScalingTrigger
+      isArray: true
+    - uid: PartitionInstanceCountScaleMechanism
+      isArray: true
+    - uid: AddRemoveIncrementalNamedPartitionScalingMechanism
+      isArray: true
+    typesTitle: object[]
+- name: FabricError
+  description: The REST API operations for Service Fabric return standard HTTP status codes. This type defines the additional information returned from the Service Fabric API operations that are not successful.
+  kind: object
+  properties:
+  - name: Error
+    description: Error object containing error code and error message.
+    types:
+    - uid: FabricErrorError
+- name: ApplicationHealthPolicy
+  description: Defines a health policy used to evaluate the health of an application or one of its children entities.
+  kind: object
+  properties:
+  - name: ConsiderWarningAsError
+    description: Indicates whether warnings are treated with the same severity as errors.
+    types:
+    - uid: boolean
+  - name: MaxPercentUnhealthyDeployedApplications
+    description: >-
+      The maximum allowed percentage of unhealthy deployed applications. Allowed values are Byte values from zero to 100.
+
+      The percentage represents the maximum tolerated percentage of deployed applications that can be unhealthy before the application is considered in error.
+
+      This is calculated by dividing the number of unhealthy deployed applications over the number of nodes where the application is currently deployed on in the cluster.
+
+      The computation rounds up to tolerate one failure on small numbers of nodes. Default percentage is zero.
+    types:
+    - uid: integer
+  - name: DefaultServiceTypeHealthPolicy
+    description: The health policy used by default to evaluate the health of a service type.
+    types:
+    - uid: ServiceTypeHealthPolicy
+  - name: ServiceTypeHealthPolicyMap
+    description: The map with service type health policy per service type name. The map is empty by default.
+    types:
+    - uid: ServiceTypeHealthPolicyMapItem
+      isArray: true
+- name: HealthState
+  description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+  kind: enum
+  properties:
+  - name: Invalid
+    description: Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
+    types:
+    - uid: string
+  - name: Ok
+    description: Indicates the health state is okay. The value is 1.
+    types:
+    - uid: string
+  - name: Warning
+    description: Indicates the health state is at a warning level. The value is 2.
+    types:
+    - uid: string
+  - name: Error
+    description: Indicates the health state is at an error level. Error health state should be investigated, as they can impact the correct functionality of the cluster. The value is 3.
+    types:
+    - uid: string
+  - name: Unknown
+    description: Indicates an unknown health status. The value is 65535.
+    types:
+    - uid: string
+- name: HealthEvent
+  description: Represents health information reported on a health entity, such as cluster, application or node, with additional metadata added by the Health Manager.
+  kind: object
+  properties:
+  - name: SourceId
+    description: The source name which identifies the client/watchdog/system component which generated the health information.
+    types:
+    - uid: string
+  - name: Property
+    description: >-
+      The property of the health information. An entity can have health reports for different properties.
+
+      The property is a string and not a fixed enumeration to allow the reporter flexibility to categorize the state condition that triggers the report.
+
+      For example, a reporter with SourceId "LocalWatchdog" can monitor the state of the available disk on a node,
+
+      so it can report "AvailableDisk" property on that node.
+
+      The same reporter can monitor the node connectivity, so it can report a property "Connectivity" on the same node.
+
+      In the health store, these reports are treated as separate health events for the specified node.
+
+
+      Together with the SourceId, the property uniquely identifies the health information.
+    types:
+    - uid: string
+  - name: HealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: TimeToLiveInMilliSeconds
+    description: >-
+      The duration for which this health report is valid. This field uses ISO8601 format for specifying the duration.
+
+      When clients report periodically, they should send reports with higher frequency than time to live.
+
+      If clients report on transition, they can set the time to live to infinite.
+
+      When time to live expires, the health event that contains the health information
+
+      is either removed from health store, if RemoveWhenExpired is true, or evaluated at error, if RemoveWhenExpired false.
+
+
+      If not specified, time to live defaults to infinite value.
+    types:
+    - uid: string
+  - name: Description
+    description: >-
+      The description of the health information. It represents free text used to add human readable information about the report.
+
+      The maximum string length for the description is 4096 characters.
+
+      If the provided string is longer, it will be automatically truncated.
+
+      When truncated, the last characters of the description contain a marker "[Truncated]", and total string size is 4096 characters.
+
+      The presence of the marker indicates to users that truncation occurred.
+
+      Note that when truncated, the description has less than 4096 characters from the original string.
+    types:
+    - uid: string
+  - name: SequenceNumber
+    description: >-
+      The sequence number for this health report as a numeric string.
+
+      The report sequence number is used by the health store to detect stale reports.
+
+      If not specified, a sequence number is auto-generated by the health client when a report is added.
+    types:
+    - uid: string
+  - name: RemoveWhenExpired
+    description: >-
+      Value that indicates whether the report is removed from health store when it expires.
+
+      If set to true, the report is removed from the health store after it expires.
+
+      If set to false, the report is treated as an error when expired. The value of this property is false by default.
+
+      When clients report periodically, they should set RemoveWhenExpired false (default).
+
+      This way, is the reporter has issues (eg. deadlock) and can't report, the entity is evaluated at error when the health report expires.
+
+      This flags the entity as being in Error health state.
+    types:
+    - uid: boolean
+  - name: IsExpired
+    description: Returns true if the health event is expired, otherwise false.
+    types:
+    - uid: boolean
+  - name: SourceUtcTimestamp
+    description: The date and time when the health report was sent by the source.
+    types:
+    - uid: string
+  - name: LastModifiedUtcTimestamp
+    description: The date and time when the health report was last modified by the health store.
+    types:
+    - uid: string
+  - name: LastOkTransitionAt
+    description: >-
+      If the current health state is 'Ok', this property returns the time at which the health report was first reported with 'Ok'.
+
+      For periodic reporting, many reports with the same state may have been generated.
+
+      This property returns the date and time when the first 'Ok' health report was received.
+
+
+      If the current health state is 'Error' or 'Warning', returns the date and time at which the health state was last in 'Ok', before transitioning to a different state.
+
+
+      If the health state was never 'Ok', the value will be zero date-time.
+    types:
+    - uid: string
+  - name: LastWarningTransitionAt
+    description: >-
+      If the current health state is 'Warning', this property returns the time at which the health report was first reported with 'Warning'. For periodic reporting, many reports with the same state may have been generated however, this property returns only the date and time at the first 'Warning' health report was received.
+
+
+      If the current health state is 'Ok' or 'Error', returns the date and time at which the health state was last in 'Warning', before transitioning to a different state.
+
+
+      If the health state was never 'Warning', the value will be zero date-time.
+    types:
+    - uid: string
+  - name: LastErrorTransitionAt
+    description: >-
+      If the current health state is 'Error', this property returns the time at which the health report was first reported with 'Error'. For periodic reporting, many reports with the same state may have been generated however, this property returns only the date and time at the first 'Error' health report was received.
+
+
+      If the current health state is 'Ok' or 'Warning', returns the date and time at which the health state was last in 'Error', before transitioning to a different state.
+
+
+      If the health state was never 'Error', the value will be zero date-time.
+    types:
+    - uid: string
+- name: HealthEvaluationWrapper
+  description: Wrapper object for health evaluation.
+  kind: object
+  properties:
+  - name: HealthEvaluation
+    description: Represents a health evaluation which describes the data and the algorithm used by health manager to evaluate the health of an entity.
+    types:
+    - uid: ApplicationHealthEvaluation
+    - uid: ApplicationsHealthEvaluation
+    - uid: ApplicationTypeApplicationsHealthEvaluation
+    - uid: DeltaNodesCheckHealthEvaluation
+    - uid: DeployedApplicationHealthEvaluation
+    - uid: DeployedApplicationsHealthEvaluation
+    - uid: DeployedServicePackageHealthEvaluation
+    - uid: DeployedServicePackagesHealthEvaluation
+    - uid: EventHealthEvaluation
+    - uid: NodeHealthEvaluation
+    - uid: NodesHealthEvaluation
+    - uid: PartitionHealthEvaluation
+    - uid: PartitionsHealthEvaluation
+    - uid: ReplicaHealthEvaluation
+    - uid: ReplicasHealthEvaluation
+    - uid: ServiceHealthEvaluation
+    - uid: ServicesHealthEvaluation
+    - uid: SystemApplicationHealthEvaluation
+    - uid: UpgradeDomainDeltaNodesCheckHealthEvaluation
+    - uid: UpgradeDomainNodesHealthEvaluation
+    typesTitle: HealthEvaluation
+- name: HealthStatistics
+  description: >-
+    The health statistics of an entity, returned as part of the health query result when the query description is configured to include statistics.
+
+    The statistics include health state counts for all children types of the current entity.
+
+    For example, for cluster, the health statistics include health state counts for nodes, applications, services, partitions, replicas, deployed applications and deployed service packages.
+
+    For partition, the health statistics include health counts for replicas.
+  kind: object
+  properties:
+  - name: HealthStateCountList
+    description: List of health state counts per entity kind, which keeps track of how many children of the queried entity are in Ok, Warning and Error state.
+    types:
+    - uid: EntityKindHealthStateCount
+      isArray: true
+- name: FabricErrorError
+  description: Error object containing error code and error message.
+  kind: object
+  properties:
+  - name: Code
+    description: >-
+      Defines the fabric error codes that be returned as part of the error object in response to Service Fabric API operations that are not successful. Following are the error code values that can be returned for a specific HTTP status code.
+
+        - Possible values of the error code for HTTP status code 400 (Bad Request)
+          - "FABRIC_E_INVALID_PARTITION_KEY"
+          - "FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR"
+          - "FABRIC_E_INVALID_ADDRESS"
+          - "FABRIC_E_APPLICATION_NOT_UPGRADING"
+          - "FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR"
+          - "FABRIC_E_FABRIC_NOT_UPGRADING"
+          - "FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR"
+          - "FABRIC_E_INVALID_CONFIGURATION"
+          - "FABRIC_E_INVALID_NAME_URI"
+          - "FABRIC_E_PATH_TOO_LONG"
+          - "FABRIC_E_KEY_TOO_LARGE"
+          - "FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED"
+          - "FABRIC_E_INVALID_ATOMIC_GROUP"
+          - "FABRIC_E_VALUE_EMPTY"
+          - "FABRIC_E_BACKUP_IS_ENABLED"
+          - "FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH"
+          - "FABRIC_E_INVALID_FOR_STATELESS_SERVICES"
+          - "FABRIC_E_INVALID_SERVICE_SCALING_POLICY"
+          - "E_INVALIDARG"
+
+        - Possible values of the error code for HTTP status code 404 (Not Found)
+          - "FABRIC_E_NODE_NOT_FOUND"
+          - "FABRIC_E_APPLICATION_TYPE_NOT_FOUND"
+          - "FABRIC_E_APPLICATION_NOT_FOUND"
+          - "FABRIC_E_SERVICE_TYPE_NOT_FOUND"
+          - "FABRIC_E_SERVICE_DOES_NOT_EXIST"
+          - "FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND"
+          - "FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND"
+          - "FABRIC_E_PARTITION_NOT_FOUND"
+          - "FABRIC_E_REPLICA_DOES_NOT_EXIST"
+          - "FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST"
+          - "FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND"
+          - "FABRIC_E_DIRECTORY_NOT_FOUND"
+          - "FABRIC_E_FABRIC_VERSION_NOT_FOUND"
+          - "FABRIC_E_FILE_NOT_FOUND"
+          - "FABRIC_E_NAME_DOES_NOT_EXIST"
+          - "FABRIC_E_PROPERTY_DOES_NOT_EXIST"
+          - "FABRIC_E_ENUMERATION_COMPLETED"
+          - "FABRIC_E_SERVICE_MANIFEST_NOT_FOUND"
+          - "FABRIC_E_KEY_NOT_FOUND"
+          - "FABRIC_E_HEALTH_ENTITY_NOT_FOUND"
+          - "FABRIC_E_BACKUP_NOT_ENABLED"
+          - "FABRIC_E_BACKUP_POLICY_NOT_EXISTING"
+          - "FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING"
+
+        - Possible values of the error code for HTTP status code 409 (Conflict)
+          - "FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION"
+          - "FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS"
+          - "FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS"
+          - "FABRIC_E_SERVICE_ALREADY_EXISTS"
+          - "FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_TYPE_IN_USE"
+          - "FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION"
+          - "FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS"
+          - "FABRIC_E_FABRIC_VERSION_IN_USE"
+          - "FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS"
+          - "FABRIC_E_NAME_ALREADY_EXISTS"
+          - "FABRIC_E_NAME_NOT_EMPTY"
+          - "FABRIC_E_PROPERTY_CHECK_FAILED"
+          - "FABRIC_E_SERVICE_METADATA_MISMATCH"
+          - "FABRIC_E_SERVICE_TYPE_MISMATCH"
+          - "FABRIC_E_HEALTH_STALE_REPORT"
+          - "FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED"
+          - "FABRIC_E_NODE_HAS_NOT_STOPPED_YET"
+          - "FABRIC_E_INSTANCE_ID_MISMATCH"
+          - "FABRIC_E_BACKUP_IN_PROGRESS"
+          - "FABRIC_E_RESTORE_IN_PROGRESS"
+          - "FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING"
+
+        - Possible values of the error code for HTTP status code 413 (Request Entity Too Large)
+          - "FABRIC_E_VALUE_TOO_LARGE"
+
+        - Possible values of the error code for HTTP status code 500 (Internal Server Error)
+          - "FABRIC_E_NODE_IS_UP"
+          - "E_FAIL"
+
+        - Possible values of the error code for HTTP status code 503 (Service Unavailable)
+          - "FABRIC_E_NO_WRITE_QUORUM"
+          - "FABRIC_E_NOT_PRIMARY"
+          - "FABRIC_E_NOT_READY"
+          - "FABRIC_E_RECONFIGURATION_PENDING"
+          - "FABRIC_E_SERVICE_OFFLINE"
+          - "E_ABORT"
+          - "FABRIC_E_VALUE_TOO_LARGE"
+
+        - Possible values of the error code for HTTP status code 504 (Gateway Timeout)
+          - "FABRIC_E_COMMUNICATION_ERROR"
+          - "FABRIC_E_OPERATION_NOT_COMPLETE"
+          - "FABRIC_E_TIMEOUT"
+    types:
+    - uid: FabricErrorCodes
+  - name: Message
+    description: Error message.
+    types:
+    - uid: string
+- name: EntityKindHealthStateCount
+  description: Represents health state count for entities of the specified entity kind.
+  kind: object
+  properties:
+  - name: EntityKind
+    description: The entity kind for which health states are evaluated.
+    types:
+    - uid: EntityKind
+  - name: HealthStateCount
+    description: The health state count for the entities of the specified kind.
+    types:
+    - uid: HealthStateCount
+- name: ClusterEventList
+  description: A list of ClusterEvent objects.
+  kind: object
+  properties:
+  - name: Kind
+    description: The kind of FabricEvent.
+    types:
+    - uid: ClusterEvent
+    typesTitle: string
+  - name: EventInstanceId
+    description: The identifier for the FabricEvent instance.
+    types:
+    - uid: string
+  - name: TimeStamp
+    description: The time event was logged.
+    types:
+    - uid: string
+  - name: HasCorrelatedEvents
+    description: Shows there is existing related events available.
+    types:
+    - uid: boolean
+- name: ContainerInstanceEvent
+  description: Represents the base for all Container Events.
+  kind: object
+  properties:
+  - name: Kind
+    description: The kind of FabricEvent.
+    types:
+    - uid: ContainerInstanceEvent
+    typesTitle: string
+  - name: EventInstanceId
+    description: The identifier for the FabricEvent instance.
+    types:
+    - uid: string
+  - name: TimeStamp
+    description: The time event was logged.
+    types:
+    - uid: string
+  - name: HasCorrelatedEvents
+    description: Shows there is existing related events available.
+    types:
+    - uid: boolean
+- name: ContainerInstanceEventList
+  description: A list of ContainerInstanceEvent objects.
+  kind: object
+  properties:
+  - name: Kind
+    description: The kind of FabricEvent.
+    types:
+    - uid: ContainerInstanceEvent
+    typesTitle: string
+  - name: EventInstanceId
+    description: The identifier for the FabricEvent instance.
+    types:
+    - uid: string
+  - name: TimeStamp
+    description: The time event was logged.
+    types:
+    - uid: string
+  - name: HasCorrelatedEvents
+    description: Shows there is existing related events available.
+    types:
+    - uid: boolean
+- name: Int64RangePartitionInformation
+  description: Describes the partition information for the integer range that is based on partition schemes.
+  kind: object
+  properties:
+  - name: LowKey
+    description: Specifies the minimum key value handled by this partition.
+    types:
+    - uid: string
+  - name: HighKey
+    description: Specifies the maximum key value handled by this partition.
+    types:
+    - uid: string
+  - name: ServicePartitionKind
+    description: The kind of partitioning scheme used to partition the service.
+    types:
+    - uid: Int64Range
+    typesTitle: string
+  - name: Id
+    description: An internal ID used by Service Fabric to uniquely identify a partition. This is a randomly generated GUID when the service was created. The partition ID is unique and does not change for the lifetime of the service. If the same service was deleted and recreated the IDs of its partitions would be different.
+    types:
+    - uid: string
+- name: NamedPartitionInformation
+  description: Describes the partition information for the name as a string that is based on partition schemes.
+  kind: object
+  properties:
+  - name: Name
+    description: Name of the partition.
+    types:
+    - uid: string
+  - name: ServicePartitionKind
+    description: The kind of partitioning scheme used to partition the service.
+    types:
+    - uid: Named
+    typesTitle: string
+  - name: Id
+    description: An internal ID used by Service Fabric to uniquely identify a partition. This is a randomly generated GUID when the service was created. The partition ID is unique and does not change for the lifetime of the service. If the same service was deleted and recreated the IDs of its partitions would be different.
+    types:
+    - uid: string
+- name: EnsureAvailabilitySafetyCheck
+  description: Safety check that waits to ensure the availability of the partition. It waits until there are replicas available such that bringing down this replica will not cause availability loss for the partition.
+  kind: object
+  properties:
+  - name: Kind
+    description: The kind of safety check performed by service fabric before continuing with the operations. These checks ensure the availability of the service and the reliability of the state. Following are the kinds of safety checks.
+    types:
+    - uid: EnsureAvailability
+    typesTitle: string
+  - name: PartitionId
+    description: Id of the partition which is undergoing the safety check.
+    types:
+    - uid: string
+- name: EnsurePartitionQurumSafetyCheck
+  description: Safety check that ensures that a quorum of replicas are not lost for a partition.
+  kind: object
+  properties:
+  - name: Kind
+    description: The kind of safety check performed by service fabric before continuing with the operations. These checks ensure the availability of the service and the reliability of the state. Following are the kinds of safety checks.
+    types:
+    - uid: EnsurePartitionQuorum
+    typesTitle: string
+  - name: PartitionId
+    description: Id of the partition which is undergoing the safety check.
+    types:
+    - uid: string
+- name: SeedNodeSafetyCheck
+  description: Represents a safety check for the seed nodes being performed by service fabric before continuing with node level operations.
+  kind: object
+  properties:
+  - name: Kind
+    description: The kind of safety check performed by service fabric before continuing with the operations. These checks ensure the availability of the service and the reliability of the state. Following are the kinds of safety checks.
+    types:
+    - uid: EnsureSeedNodeQuorum
+    typesTitle: string
+- name: ServicePlacementNonPartiallyPlaceServicePolicyDescription
+  description: Describes the policy to be used for placement of a Service Fabric service where all replicas must be able to be placed in order for any replicas to be created.
+  kind: object
+  properties:
+  - name: Type
+    description: The type of placement policy for a service fabric service. Following are the possible values.
+    types:
+    - uid: NonPartiallyPlaceService
+    typesTitle: string
+- name: SingletonPartitionInformation
+  description: Information about a partition that is singleton. The services with singleton partitioning scheme are effectively non-partitioned. They only have one partition.
+  kind: object
+  properties:
+  - name: ServicePartitionKind
+    description: The kind of partitioning scheme used to partition the service.
+    types:
+    - uid: Singleton
+    typesTitle: string
+  - name: Id
+    description: An internal ID used by Service Fabric to uniquely identify a partition. This is a randomly generated GUID when the service was created. The partition ID is unique and does not change for the lifetime of the service. If the same service was deleted and recreated the IDs of its partitions would be different.
+    types:
+    - uid: string
+- name: StatefulServicePartitionInfo
+  description: Information about a partition of a stateful Service Fabric service..
+  kind: object
+  properties:
+  - name: TargetReplicaSetSize
+    description: The target replica set size as a number.
+    types:
+    - uid: integer
+  - name: MinReplicaSetSize
+    description: The minimum replica set size as a number.
+    types:
+    - uid: integer
+  - name: LastQuorumLossDuration
+    description: The duration for which this partition was in quorum loss. If the partition is currently in quorum loss, it returns the duration since it has been in that state. This field is using ISO8601 format for specifying the duration.
+    types:
+    - uid: string
+  - name: CurrentConfigurationEpoch
+    description: An Epoch is a configuration number for the partition as a whole. When the configuration of the replica set changes, for example when the Primary replica changes, the operations that are replicated from the new Primary replica are said to be a new Epoch from the ones which were sent by the old Primary replica.
+    types:
+    - uid: Epoch
+  - name: ServiceKind
+    description: The kind of service (Stateless or Stateful).
+    types:
+    - uid: Stateful
+    typesTitle: string
+  - name: HealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: PartitionStatus
+    description: The status of the service fabric service partition.
+    types:
+    - uid: ServicePartitionStatus
+  - name: PartitionInformation
+    description: Information about the partition identity, partitioning scheme and keys supported by it.
+    types:
+    - uid: Int64RangePartitionInformation
+    - uid: NamedPartitionInformation
+    - uid: SingletonPartitionInformation
+    typesTitle: PartitionInformation
+- name: StatefulServiceTypeDescription
+  description: Describes a stateful service type defined in the service manifest of a provisioned application type.
+  kind: object
+  properties:
+  - name: HasPersistedState
+    description: A flag indicating whether this is a persistent service which stores states on the local disk. If it is then the value of this property is true, if not it is false.
+    types:
+    - uid: boolean
+  - name: Kind
+    description: The kind of service (Stateless or Stateful).
+    types:
+    - uid: Stateful
+    typesTitle: string
+  - name: IsStateful
+    description: Indicates whether the service type is a stateful service type or a stateless service type. This property is true if the service type is a stateful service type, false otherwise.
+    types:
+    - uid: boolean
+  - name: ServiceTypeName
+    description: Name of the service type as specified in the service manifest.
+    types:
+    - uid: string
+  - name: PlacementConstraints
+    description: The placement constraint to be used when instantiating this service in a Service Fabric cluster.
+    types:
+    - uid: string
+  - name: LoadMetrics
+    description: The service load metrics is given as an array of ServiceLoadMetricDescription objects.
+    types:
+    - uid: ServiceLoadMetricDescription
+      isArray: true
+  - name: ServicePlacementPolicies
+    description: List of service placement policy descriptions.
+    types:
+    - uid: ServicePlacementInvalidDomainPolicyDescription
+      isArray: true
+    - uid: ServicePlacementNonPartiallyPlaceServicePolicyDescription
+      isArray: true
+    - uid: ServicePlacementPreferPrimaryDomainPolicyDescription
+      isArray: true
+    - uid: ServicePlacementRequiredDomainPolicyDescription
+      isArray: true
+    - uid: ServicePlacementRequireDomainDistributionPolicyDescription
+      isArray: true
+    typesTitle: ServicePlacementPolicyDescription[]
+  - name: Extensions
+    description: List of service type extensions.
+    types:
+    - uid: ServiceTypeExtensionDescription
+      isArray: true
+- name: StatelessServiceInfo
+  description: Information about a stateless Service Fabric service.
+  kind: object
+  properties:
+  - name: Id
+    description: >-
+      The identity of the service. This is an encoded representation of the service name. This is used in the REST APIs to identify the service resource.
+
+      Starting in version 6.0, hierarchical names are delimited with the "\~" character. For example, if the service name is "fabric:/myapp/app1/svc1",
+
+      the service identity would be "myapp~app1\~svc1" in 6.0+ and "myapp/app1/svc1" in previous versions.
+    types:
+    - uid: string
+  - name: ServiceKind
+    description: The kind of service (Stateless or Stateful).
+    types:
+    - uid: Stateless
+    typesTitle: string
+  - name: Name
+    description: The full name of the service with 'fabric:' URI scheme.
+    types:
+    - uid: string
+  - name: TypeName
+    description: Name of the service type as specified in the service manifest.
+    types:
+    - uid: string
+  - name: ManifestVersion
+    description: The version of the service manifest.
+    types:
+    - uid: string
+  - name: HealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: ServiceStatus
+    description: The status of the application.
+    types:
+    - uid: ServiceStatus
+  - name: IsServiceGroup
+    description: Whether the service is in a service group.
+    types:
+    - uid: boolean
+- name: StatelessServicePartitionInfo
+  description: Information about a partition of a stateless Service Fabric service.
+  kind: object
+  properties:
+  - name: InstanceCount
+    description: Number of instances of this partition.
+    types:
+    - uid: integer
+  - name: ServiceKind
+    description: The kind of service (Stateless or Stateful).
+    types:
+    - uid: Stateless
+    typesTitle: string
+  - name: HealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: PartitionStatus
+    description: The status of the service fabric service partition.
+    types:
+    - uid: ServicePartitionStatus
+  - name: PartitionInformation
+    description: Information about the partition identity, partitioning scheme and keys supported by it.
+    types:
+    - uid: Int64RangePartitionInformation
+    - uid: NamedPartitionInformation
+    - uid: SingletonPartitionInformation
+    typesTitle: PartitionInformation
+- name: StatelessServiceTypeDescription
+  description: Describes a stateless service type defined in the service manifest of a provisioned application type.
+  kind: object
+  properties:
+  - name: UseImplicitHost
+    description: A flag indicating if this type is not implemented and hosted by a user service process, but is implicitly hosted by a system created process. This value is true for services using the guest executable services, false otherwise.
+    types:
+    - uid: boolean
+  - name: Kind
+    description: The kind of service (Stateless or Stateful).
+    types:
+    - uid: Stateless
+    typesTitle: string
+  - name: IsStateful
+    description: Indicates whether the service type is a stateful service type or a stateless service type. This property is true if the service type is a stateful service type, false otherwise.
+    types:
+    - uid: boolean
+  - name: ServiceTypeName
+    description: Name of the service type as specified in the service manifest.
+    types:
+    - uid: string
+  - name: PlacementConstraints
+    description: The placement constraint to be used when instantiating this service in a Service Fabric cluster.
+    types:
+    - uid: string
+  - name: LoadMetrics
+    description: The service load metrics is given as an array of ServiceLoadMetricDescription objects.
+    types:
+    - uid: ServiceLoadMetricDescription
+      isArray: true
+  - name: ServicePlacementPolicies
+    description: List of service placement policy descriptions.
+    types:
+    - uid: ServicePlacementInvalidDomainPolicyDescription
+      isArray: true
+    - uid: ServicePlacementNonPartiallyPlaceServicePolicyDescription
+      isArray: true
+    - uid: ServicePlacementPreferPrimaryDomainPolicyDescription
+      isArray: true
+    - uid: ServicePlacementRequiredDomainPolicyDescription
+      isArray: true
+    - uid: ServicePlacementRequireDomainDistributionPolicyDescription
+      isArray: true
+    typesTitle: ServicePlacementPolicyDescription[]
+  - name: Extensions
+    description: List of service type extensions.
+    types:
+    - uid: ServiceTypeExtensionDescription
+      isArray: true
+- name: WaitForInbuildReplicaSafetyCheck
+  description: Safety check that waits for the replica build operation to finish. This indicates that there is a replica that is going through the copy or is providing data for building another replica. Bring the node down will abort this copy operation which are typically expensive involving data movements.
+  kind: object
+  properties:
+  - name: Kind
+    description: The kind of safety check performed by service fabric before continuing with the operations. These checks ensure the availability of the service and the reliability of the state. Following are the kinds of safety checks.
+    types:
+    - uid: WaitForInbuildReplica
+    typesTitle: string
+  - name: PartitionId
+    description: Id of the partition which is undergoing the safety check.
+    types:
+    - uid: string
+- name: WaitForPrimaryPlacementSafetyCheck
+  description: Safety check that waits for the primary replica that was moved out of the node due to upgrade to be placed back again on that node.
+  kind: object
+  properties:
+  - name: Kind
+    description: The kind of safety check performed by service fabric before continuing with the operations. These checks ensure the availability of the service and the reliability of the state. Following are the kinds of safety checks.
+    types:
+    - uid: WaitForPrimaryPlacement
+    typesTitle: string
+  - name: PartitionId
+    description: Id of the partition which is undergoing the safety check.
+    types:
+    - uid: string
+- name: WaitForPrimarySwapSafetyCheck
+  description: Safety check that waits for the primary replica to be moved out of the node before starting an upgrade to ensure the availability of the primary replica for the partition.
+  kind: object
+  properties:
+  - name: Kind
+    description: The kind of safety check performed by service fabric before continuing with the operations. These checks ensure the availability of the service and the reliability of the state. Following are the kinds of safety checks.
+    types:
+    - uid: WaitForPrimarySwap
+    typesTitle: string
+  - name: PartitionId
+    description: Id of the partition which is undergoing the safety check.
+    types:
+    - uid: string
+- name: WaitForReconfigurationSafetyCheck
+  description: Safety check that waits for the current reconfiguration of the partition to be completed before starting an upgrade.
+  kind: object
+  properties:
+  - name: Kind
+    description: The kind of safety check performed by service fabric before continuing with the operations. These checks ensure the availability of the service and the reliability of the state. Following are the kinds of safety checks.
+    types:
+    - uid: WaitForReconfiguration
+    typesTitle: string
+  - name: PartitionId
+    description: Id of the partition which is undergoing the safety check.
+    types:
+    - uid: string
+- name: NamedPartitionSchemeDescription
+  description: Describes the named partition scheme of the service.
+  kind: object
+  properties:
+  - name: Count
+    description: The number of partitions.
+    types:
+    - uid: integer
+  - name: Names
+    description: Array of size specified by the ‘Count’ parameter, for the names of the partitions.
+    types:
+    - uid: string
+      isArray: true
+  - name: PartitionScheme
+    description: Specifies how the service is partitioned.
+    types:
+    - uid: Named
+    typesTitle: string
+- name: SingletonPartitionSchemeDescription
+  description: Describes the partition scheme of a singleton-partitioned, or non-partitioned service.
+  kind: object
+  properties:
+  - name: PartitionScheme
+    description: Specifies how the service is partitioned.
+    types:
+    - uid: Singleton
+    typesTitle: string
+- name: UniformInt64RangePartitionSchemeDescription
+  description: Describes a partitioning scheme where an integer range is allocated evenly across a number of partitions.
+  kind: object
+  properties:
+  - name: Count
+    description: The number of partitions.
+    types:
+    - uid: integer
+  - name: LowKey
+    description: >-
+      String indicating the lower bound of the partition key range that
+
+      should be split between the partitions.
+    types:
+    - uid: string
+  - name: HighKey
+    description: >-
+      String indicating the upper bound of the partition key range that
+
+      should be split between the partitions.
+    types:
+    - uid: string
+  - name: PartitionScheme
+    description: Specifies how the service is partitioned.
+    types:
+    - uid: UniformInt64Range
+    typesTitle: string
+- name: StatefulServiceDescription
+  description: Describes a stateful service.
+  kind: object
+  properties:
+  - name: TargetReplicaSetSize
+    description: The target replica set size as a number.
+    types:
+    - uid: integer
+  - name: MinReplicaSetSize
+    description: The minimum replica set size as a number.
+    types:
+    - uid: integer
+  - name: HasPersistedState
+    description: A flag indicating whether this is a persistent service which stores states on the local disk. If it is then the value of this property is true, if not it is false.
+    types:
+    - uid: boolean
+  - name: Flags
+    description: >-
+      Flags indicating whether other properties are set. Each of the associated properties corresponds to a flag, specified below, which, if set, indicate that the property is specified.
+
+      This property can be a combination of those flags obtained using bitwise 'OR' operator.
+
+      For example, if the provided value is 6 then the flags for QuorumLossWaitDuration (2) and StandByReplicaKeepDuration(4) are set.
+
+
+      - None - Does not indicate any other properties are set. The value is zero.
+
+      - ReplicaRestartWaitDuration - Indicates the ReplicaRestartWaitDuration property is set. The value is 1.
+
+      - QuorumLossWaitDuration - Indicates the QuorumLossWaitDuration property is set. The value is 2.
+
+      - StandByReplicaKeepDuration - Indicates the StandByReplicaKeepDuration property is set. The value is 4.
+    types:
+    - uid: integer
+  - name: ReplicaRestartWaitDurationSeconds
+    description: The duration, in seconds, between when a replica goes down and when a new replica is created.
+    types:
+    - uid: integer
+  - name: QuorumLossWaitDurationSeconds
+    description: The maximum duration, in seconds, for which a partition is allowed to be in a state of quorum loss.
+    types:
+    - uid: integer
+  - name: StandByReplicaKeepDurationSeconds
+    description: The definition on how long StandBy replicas should be maintained before being removed.
+    types:
+    - uid: integer
+  - name: ServiceKind
+    description: The service kind.
+    types:
+    - uid: Stateful
+    typesTitle: string
+  - name: ApplicationName
+    description: The name of the application, including the 'fabric:' URI scheme.
+    types:
+    - uid: string
+  - name: ServiceName
+    description: The full name of the service with 'fabric:' URI scheme.
+    types:
+    - uid: string
+  - name: ServiceTypeName
+    description: Name of the service type as specified in the service manifest.
+    types:
+    - uid: string
+  - name: InitializationData
+    description: The initialization data as an array of bytes. Initialization data is passed to service instances or replicas when they are created.
+    types:
+    - uid: integer
+      isArray: true
+  - name: PartitionDescription
+    description: The partition description as an object.
+    types:
+    - uid: NamedPartitionSchemeDescription
+    - uid: SingletonPartitionSchemeDescription
+    - uid: UniformInt64RangePartitionSchemeDescription
+    typesTitle: PartitionSchemeDescription
+  - name: PlacementConstraints
+    description: 'The placement constraints as a string. Placement constraints are boolean expressions on node properties and allow for restricting a service to particular nodes based on the service requirements. For example, to place a service on nodes where NodeType is blue specify the following: "NodeColor == blue)".'
+    types:
+    - uid: string
+  - name: CorrelationScheme
+    description: The correlation scheme.
+    types:
+    - uid: ServiceCorrelationDescription
+      isArray: true
+  - name: ServiceLoadMetrics
+    description: The service load metrics.
+    types:
+    - uid: ServiceLoadMetricDescription
+      isArray: true
+  - name: ServicePlacementPolicies
+    description: The service placement policies.
+    types:
+    - uid: ServicePlacementInvalidDomainPolicyDescription
+      isArray: true
+    - uid: ServicePlacementNonPartiallyPlaceServicePolicyDescription
+      isArray: true
+    - uid: ServicePlacementPreferPrimaryDomainPolicyDescription
+      isArray: true
+    - uid: ServicePlacementRequiredDomainPolicyDescription
+      isArray: true
+    - uid: ServicePlacementRequireDomainDistributionPolicyDescription
+      isArray: true
+    typesTitle: ServicePlacementPolicyDescription[]
+  - name: DefaultMoveCost
+    description: The move cost for the service.
+    types:
+    - uid: MoveCost
+  - name: IsDefaultMoveCostSpecified
+    description: Indicates if the DefaultMoveCost property is specified.
+    types:
+    - uid: boolean
+  - name: ServicePackageActivationMode
+    description: The activation mode of service package to be used for a service.
+    types:
+    - uid: ServicePackageActivationMode
+  - name: ServiceDnsName
+    description: The DNS name of the service. It requires the DNS system service to be enabled in Service Fabric cluster.
+    types:
+    - uid: string
+  - name: ScalingPolicies
+    description: Scaling policies for this service.
+    types:
+    - uid: ScalingPolicyDescription
+      isArray: true
+- name: StatelessServiceDescription
+  description: Describes a stateless service.
+  kind: object
+  properties:
+  - name: InstanceCount
+    description: The instance count.
+    types:
+    - uid: integer
+  - name: ServiceKind
+    description: The service kind.
+    types:
+    - uid: Stateless
+    typesTitle: string
+  - name: ApplicationName
+    description: The name of the application, including the 'fabric:' URI scheme.
+    types:
+    - uid: string
+  - name: ServiceName
+    description: The full name of the service with 'fabric:' URI scheme.
+    types:
+    - uid: string
+  - name: ServiceTypeName
+    description: Name of the service type as specified in the service manifest.
+    types:
+    - uid: string
+  - name: InitializationData
+    description: The initialization data as an array of bytes. Initialization data is passed to service instances or replicas when they are created.
+    types:
+    - uid: integer
+      isArray: true
+  - name: PartitionDescription
+    description: The partition description as an object.
+    types:
+    - uid: NamedPartitionSchemeDescription
+    - uid: SingletonPartitionSchemeDescription
+    - uid: UniformInt64RangePartitionSchemeDescription
+    typesTitle: PartitionSchemeDescription
+  - name: PlacementConstraints
+    description: 'The placement constraints as a string. Placement constraints are boolean expressions on node properties and allow for restricting a service to particular nodes based on the service requirements. For example, to place a service on nodes where NodeType is blue specify the following: "NodeColor == blue)".'
+    types:
+    - uid: string
+  - name: CorrelationScheme
+    description: The correlation scheme.
+    types:
+    - uid: ServiceCorrelationDescription
+      isArray: true
+  - name: ServiceLoadMetrics
+    description: The service load metrics.
+    types:
+    - uid: ServiceLoadMetricDescription
+      isArray: true
+  - name: ServicePlacementPolicies
+    description: The service placement policies.
+    types:
+    - uid: ServicePlacementInvalidDomainPolicyDescription
+      isArray: true
+    - uid: ServicePlacementNonPartiallyPlaceServicePolicyDescription
+      isArray: true
+    - uid: ServicePlacementPreferPrimaryDomainPolicyDescription
+      isArray: true
+    - uid: ServicePlacementRequiredDomainPolicyDescription
+      isArray: true
+    - uid: ServicePlacementRequireDomainDistributionPolicyDescription
+      isArray: true
+    typesTitle: ServicePlacementPolicyDescription[]
+  - name: DefaultMoveCost
+    description: The move cost for the service.
+    types:
+    - uid: MoveCost
+  - name: IsDefaultMoveCostSpecified
+    description: Indicates if the DefaultMoveCost property is specified.
+    types:
+    - uid: boolean
+  - name: ServicePackageActivationMode
+    description: The activation mode of service package to be used for a service.
+    types:
+    - uid: ServicePackageActivationMode
+  - name: ServiceDnsName
+    description: The DNS name of the service. It requires the DNS system service to be enabled in Service Fabric cluster.
+    types:
+    - uid: string
+  - name: ScalingPolicies
+    description: Scaling policies for this service.
+    types:
+    - uid: ScalingPolicyDescription
+      isArray: true
+- name: SecondaryActiveReplicatorStatus
+  description: Status of the secondary replicator when it is in active mode and is part of the replica set.
+  kind: object
+  properties:
+  - name: Kind
+    description: The role of a replica of a stateful service.
+    types:
+    - uid: ActiveSecondary
+    typesTitle: string
+  - name: ReplicationQueueStatus
+    description: Details about the replication queue on the secondary replicator.
+    types:
+    - uid: ReplicatorQueueStatus
+  - name: LastReplicationOperationReceivedTimeUtc
+    description: >-
+      The last time-stamp (UTC) at which a replication operation was received from the primary.
+
+      UTC 0 represents an invalid value, indicating that a replication operation message was never received.
+    types:
+    - uid: string
+  - name: IsInBuild
+    description: Value that indicates whether the replica is currently being built.
+    types:
+    - uid: boolean
+  - name: CopyQueueStatus
+    description: Details about the copy queue on the secondary replicator.
+    types:
+    - uid: ReplicatorQueueStatus
+  - name: LastCopyOperationReceivedTimeUtc
+    description: >-
+      The last time-stamp (UTC) at which a copy operation was received from the primary.
+
+      UTC 0 represents an invalid value, indicating that a copy operation message was never received.
+    types:
+    - uid: string
+  - name: LastAcknowledgementSentTimeUtc
+    description: >-
+      The last time-stamp (UTC) at which an acknowledgment was sent to the primary replicator.
+
+      UTC 0 represents an invalid value, indicating that an acknowledgment message was never sent.
+    types:
+    - uid: string
+- name: SecondaryIdleReplicatorStatus
+  description: Status of the secondary replicator when it is in idle mode and is being built by the primary.
+  kind: object
+  properties:
+  - name: Kind
+    description: The role of a replica of a stateful service.
+    types:
+    - uid: IdleSecondary
+    typesTitle: string
+  - name: ReplicationQueueStatus
+    description: Details about the replication queue on the secondary replicator.
+    types:
+    - uid: ReplicatorQueueStatus
+  - name: LastReplicationOperationReceivedTimeUtc
+    description: >-
+      The last time-stamp (UTC) at which a replication operation was received from the primary.
+
+      UTC 0 represents an invalid value, indicating that a replication operation message was never received.
+    types:
+    - uid: string
+  - name: IsInBuild
+    description: Value that indicates whether the replica is currently being built.
+    types:
+    - uid: boolean
+  - name: CopyQueueStatus
+    description: Details about the copy queue on the secondary replicator.
+    types:
+    - uid: ReplicatorQueueStatus
+  - name: LastCopyOperationReceivedTimeUtc
+    description: >-
+      The last time-stamp (UTC) at which a copy operation was received from the primary.
+
+      UTC 0 represents an invalid value, indicating that a copy operation message was never received.
+    types:
+    - uid: string
+  - name: LastAcknowledgementSentTimeUtc
+    description: >-
+      The last time-stamp (UTC) at which an acknowledgment was sent to the primary replicator.
+
+      UTC 0 represents an invalid value, indicating that an acknowledgment message was never sent.
+    types:
+    - uid: string
+- name: StatefulServiceUpdateDescription
+  description: Describes an update for a stateful service.
+  kind: object
+  properties:
+  - name: TargetReplicaSetSize
+    description: The target replica set size as a number.
+    types:
+    - uid: integer
+  - name: MinReplicaSetSize
+    description: The minimum replica set size as a number.
+    types:
+    - uid: integer
+  - name: ReplicaRestartWaitDurationSeconds
+    description: The duration, in seconds, between when a replica goes down and when a new replica is created.
+    types:
+    - uid: string
+  - name: QuorumLossWaitDurationSeconds
+    description: The maximum duration, in seconds, for which a partition is allowed to be in a state of quorum loss.
+    types:
+    - uid: string
+  - name: StandByReplicaKeepDurationSeconds
+    description: The definition on how long StandBy replicas should be maintained before being removed.
+    types:
+    - uid: string
+  - name: ServiceKind
+    description: The service kind.
+    types:
+    - uid: Stateful
+    typesTitle: string
+  - name: Flags
+    description: >-
+      Flags indicating whether other properties are set. Each of the associated properties corresponds to a flag, specified below, which, if set, indicate that the property is specified.
+
+      This property can be a combination of those flags obtained using bitwise 'OR' operator.
+
+      For example, if the provided value is 6 then the flags for ReplicaRestartWaitDuration (2) and QuorumLossWaitDuration (4) are set.
+
+
+      - None - Does not indicate any other properties are set. The value is zero.
+
+      - TargetReplicaSetSize/InstanceCount - Indicates whether the TargetReplicaSetSize property (for Stateful services) or the InstanceCount property (for Stateless services) is set. The value is 1.
+
+      - ReplicaRestartWaitDuration - Indicates the ReplicaRestartWaitDuration property is set. The value is  2.
+
+      - QuorumLossWaitDuration - Indicates the QuorumLossWaitDuration property is set. The value is 4.
+
+      - StandByReplicaKeepDuration - Indicates the StandByReplicaKeepDuration property is set. The value is 8.
+
+      - MinReplicaSetSize - Indicates the MinReplicaSetSize property is set. The value is 16.
+
+      - PlacementConstraints - Indicates the PlacementConstraints property is set. The value is 32.
+
+      - PlacementPolicyList - Indicates the ServicePlacementPolicies property is set. The value is 64.
+
+      - Correlation - Indicates the CorrelationScheme property is set. The value is 128.
+
+      - Metrics - Indicates the ServiceLoadMetrics property is set. The value is 256.
+
+      - DefaultMoveCost - Indicates the DefaultMoveCost property is set. The value is 512.
+
+      - ScalingPolicy - Indicates the ScalingPolicies property is set. The value is 1024.
+    types:
+    - uid: string
+  - name: PlacementConstraints
+    description: 'The placement constraints as a string. Placement constraints are boolean expressions on node properties and allow for restricting a service to particular nodes based on the service requirements. For example, to place a service on nodes where NodeType is blue specify the following: "NodeColor == blue)".'
+    types:
+    - uid: string
+  - name: CorrelationScheme
+    description: The correlation scheme.
+    types:
+    - uid: ServiceCorrelationDescription
+      isArray: true
+  - name: LoadMetrics
+    description: The service load metrics.
+    types:
+    - uid: ServiceLoadMetricDescription
+      isArray: true
+  - name: ServicePlacementPolicies
+    description: The service placement policies.
+    types:
+    - uid: ServicePlacementInvalidDomainPolicyDescription
+      isArray: true
+    - uid: ServicePlacementNonPartiallyPlaceServicePolicyDescription
+      isArray: true
+    - uid: ServicePlacementPreferPrimaryDomainPolicyDescription
+      isArray: true
+    - uid: ServicePlacementRequiredDomainPolicyDescription
+      isArray: true
+    - uid: ServicePlacementRequireDomainDistributionPolicyDescription
+      isArray: true
+    typesTitle: ServicePlacementPolicyDescription[]
+  - name: DefaultMoveCost
+    description: The move cost for the service.
+    types:
+    - uid: MoveCost
+  - name: ScalingPolicies
+    description: Scaling policies for this service.
+    types:
+    - uid: ScalingPolicyDescription
+      isArray: true
+- name: StatelessServiceUpdateDescription
+  description: Describes an update for a stateless service.
+  kind: object
+  properties:
+  - name: InstanceCount
+    description: The instance count.
+    types:
+    - uid: integer
+  - name: ServiceKind
+    description: The service kind.
+    types:
+    - uid: Stateless
+    typesTitle: string
+  - name: Flags
+    description: >-
+      Flags indicating whether other properties are set. Each of the associated properties corresponds to a flag, specified below, which, if set, indicate that the property is specified.
+
+      This property can be a combination of those flags obtained using bitwise 'OR' operator.
+
+      For example, if the provided value is 6 then the flags for ReplicaRestartWaitDuration (2) and QuorumLossWaitDuration (4) are set.
+
+
+      - None - Does not indicate any other properties are set. The value is zero.
+
+      - TargetReplicaSetSize/InstanceCount - Indicates whether the TargetReplicaSetSize property (for Stateful services) or the InstanceCount property (for Stateless services) is set. The value is 1.
+
+      - ReplicaRestartWaitDuration - Indicates the ReplicaRestartWaitDuration property is set. The value is  2.
+
+      - QuorumLossWaitDuration - Indicates the QuorumLossWaitDuration property is set. The value is 4.
+
+      - StandByReplicaKeepDuration - Indicates the StandByReplicaKeepDuration property is set. The value is 8.
+
+      - MinReplicaSetSize - Indicates the MinReplicaSetSize property is set. The value is 16.
+
+      - PlacementConstraints - Indicates the PlacementConstraints property is set. The value is 32.
+
+      - PlacementPolicyList - Indicates the ServicePlacementPolicies property is set. The value is 64.
+
+      - Correlation - Indicates the CorrelationScheme property is set. The value is 128.
+
+      - Metrics - Indicates the ServiceLoadMetrics property is set. The value is 256.
+
+      - DefaultMoveCost - Indicates the DefaultMoveCost property is set. The value is 512.
+
+      - ScalingPolicy - Indicates the ScalingPolicies property is set. The value is 1024.
+    types:
+    - uid: string
+  - name: PlacementConstraints
+    description: 'The placement constraints as a string. Placement constraints are boolean expressions on node properties and allow for restricting a service to particular nodes based on the service requirements. For example, to place a service on nodes where NodeType is blue specify the following: "NodeColor == blue)".'
+    types:
+    - uid: string
+  - name: CorrelationScheme
+    description: The correlation scheme.
+    types:
+    - uid: ServiceCorrelationDescription
+      isArray: true
+  - name: LoadMetrics
+    description: The service load metrics.
+    types:
+    - uid: ServiceLoadMetricDescription
+      isArray: true
+  - name: ServicePlacementPolicies
+    description: The service placement policies.
+    types:
+    - uid: ServicePlacementInvalidDomainPolicyDescription
+      isArray: true
+    - uid: ServicePlacementNonPartiallyPlaceServicePolicyDescription
+      isArray: true
+    - uid: ServicePlacementPreferPrimaryDomainPolicyDescription
+      isArray: true
+    - uid: ServicePlacementRequiredDomainPolicyDescription
+      isArray: true
+    - uid: ServicePlacementRequireDomainDistributionPolicyDescription
+      isArray: true
+    typesTitle: ServicePlacementPolicyDescription[]
+  - name: DefaultMoveCost
+    description: The move cost for the service.
+    types:
+    - uid: MoveCost
+  - name: ScalingPolicies
+    description: Scaling policies for this service.
+    types:
+    - uid: ScalingPolicyDescription
+      isArray: true
+- name: BinaryPropertyValue
+  description: Describes a Service Fabric property value of type Binary.
+  kind: object
+  properties:
+  - name: Data
+    description: Array of bytes to be sent as an integer array. Each element of array is a number between 0 and 255.
+    types:
+    - uid: integer
+      isArray: true
+  - name: Kind
+    description: The kind of property, determined by the type of data. Following are the possible values.
+    types:
+    - uid: Binary
+    typesTitle: string
+- name: Int64PropertyValue
+  description: Describes a Service Fabric property value of type Int64.
+  kind: object
+  properties:
+  - name: Data
+    description: The data of the property value.
+    types:
+    - uid: string
+  - name: Kind
+    description: The kind of property, determined by the type of data. Following are the possible values.
+    types:
+    - uid: Int64
+    typesTitle: string
+- name: DoublePropertyValue
+  description: Describes a Service Fabric property value of type Double.
+  kind: object
+  properties:
+  - name: Data
+    description: The data of the property value.
+    types:
+    - uid: number
+  - name: Kind
+    description: The kind of property, determined by the type of data. Following are the possible values.
+    types:
+    - uid: Double
+    typesTitle: string
+- name: StringPropertyValue
+  description: Describes a Service Fabric property value of type String.
+  kind: object
+  properties:
+  - name: Data
+    description: The data of the property value.
+    types:
+    - uid: string
+  - name: Kind
+    description: The kind of property, determined by the type of data. Following are the possible values.
+    types:
+    - uid: String
+    typesTitle: string
+- name: GuidPropertyValue
+  description: Describes a Service Fabric property value of type Guid.
+  kind: object
+  properties:
+  - name: Data
+    description: The data of the property value.
+    types:
+    - uid: string
+  - name: Kind
+    description: The kind of property, determined by the type of data. Following are the possible values.
+    types:
+    - uid: Guid
+    typesTitle: string
+- name: CheckExistsPropertyBatchOperation
+  description: >-
+    Represents a PropertyBatchOperation that compares the Boolean existence of a property with the Exists argument.
+
+    The PropertyBatchOperation operation fails if the property's existence is not equal to the Exists argument.
+
+    The CheckExistsPropertyBatchOperation is generally used as a precondition for the write operations in the batch.
+
+    Note that if one PropertyBatchOperation in a PropertyBatch fails,
+
+    the entire batch fails and cannot be committed in a transactional manner.
+  kind: object
+  properties:
+  - name: Exists
+    description: Whether or not the property should exist for the operation to pass.
+    types:
+    - uid: boolean
+  - name: Kind
+    description: The kind of property batch operation, determined by the operation to be performed. The following are the possible values.
+    types:
+    - uid: CheckExists
+    typesTitle: string
+  - name: PropertyName
+    description: The name of the Service Fabric property.
+    types:
+    - uid: string
+- name: CheckSequencePropertyBatchOperation
+  description: >-
+    Compares the Sequence Number of a property with the SequenceNumber argument.
+
+    A property's sequence number can be thought of as that property's version.
+
+    Every time the property is modified, its sequence number is increased.
+
+    The sequence number can be found in a property's metadata.
+
+    The comparison fails if the sequence numbers are not equal.
+
+    CheckSequencePropertyBatchOperation is generally used as a precondition for the write operations in the batch.
+
+    Note that if one PropertyBatchOperation in a PropertyBatch fails,
+
+    the entire batch fails and cannot be committed in a transactional manner.
+  kind: object
+  properties:
+  - name: SequenceNumber
+    description: The expected sequence number.
+    types:
+    - uid: string
+  - name: Kind
+    description: The kind of property batch operation, determined by the operation to be performed. The following are the possible values.
+    types:
+    - uid: CheckSequence
+    typesTitle: string
+  - name: PropertyName
+    description: The name of the Service Fabric property.
+    types:
+    - uid: string
+- name: CheckValuePropertyBatchOperation
+  description: >-
+    Represents a PropertyBatchOperation that compares the value of the property with the expected value.
+
+    The CheckValuePropertyBatchOperation is generally used as a precondition for the write operations in the batch.
+
+    Note that if one PropertyBatchOperation in a PropertyBatch fails,
+
+    the entire batch fails and cannot be committed in a transactional manner.
+  kind: object
+  properties:
+  - name: Value
+    description: The expected property value.
+    types:
+    - uid: BinaryPropertyValue
+    - uid: Int64PropertyValue
+    - uid: DoublePropertyValue
+    - uid: StringPropertyValue
+    - uid: GuidPropertyValue
+    typesTitle: PropertyValue
+  - name: Kind
+    description: The kind of property batch operation, determined by the operation to be performed. The following are the possible values.
+    types:
+    - uid: CheckValue
+    typesTitle: string
+  - name: PropertyName
+    description: The name of the Service Fabric property.
+    types:
+    - uid: string
+- name: DeletePropertyBatchOperation
+  description: >-
+    Represents a PropertyBatchOperation that deletes a specified property if it exists.
+
+    Note that if one PropertyBatchOperation in a PropertyBatch fails,
+
+    the entire batch fails and cannot be committed in a transactional manner.
+  kind: object
+  properties:
+  - name: Kind
+    description: The kind of property batch operation, determined by the operation to be performed. The following are the possible values.
+    types:
+    - uid: Delete
+    typesTitle: string
+  - name: PropertyName
+    description: The name of the Service Fabric property.
+    types:
+    - uid: string
+- name: GetPropertyBatchOperation
+  description: >-
+    Represents a PropertyBatchOperation that gets the specified property if it exists.
+
+    Note that if one PropertyBatchOperation in a PropertyBatch fails,
+
+    the entire batch fails and cannot be committed in a transactional manner.
+  kind: object
+  properties:
+  - name: IncludeValue
+    description: >-
+      Whether or not to return the property value with the metadata.
+
+      True if values should be returned with the metadata; False to return only property metadata.
+    types:
+    - uid: boolean
+  - name: Kind
+    description: The kind of property batch operation, determined by the operation to be performed. The following are the possible values.
+    types:
+    - uid: Get
+    typesTitle: string
+  - name: PropertyName
+    description: The name of the Service Fabric property.
+    types:
+    - uid: string
+- name: PutPropertyBatchOperation
+  description: >-
+    Puts the specified property under the specified name.
+
+    Note that if one PropertyBatchOperation in a PropertyBatch fails,
+
+    the entire batch fails and cannot be committed in a transactional manner.
+  kind: object
+  properties:
+  - name: Value
+    description: Describes a Service Fabric property value.
+    types:
+    - uid: BinaryPropertyValue
+    - uid: Int64PropertyValue
+    - uid: DoublePropertyValue
+    - uid: StringPropertyValue
+    - uid: GuidPropertyValue
+    typesTitle: PropertyValue
+  - name: CustomTypeId
+    description: The property's custom type id. Using this property, the user is able to tag the type of the value of the property.
+    types:
+    - uid: string
+  - name: Kind
+    description: The kind of property batch operation, determined by the operation to be performed. The following are the possible values.
+    types:
+    - uid: Put
+    typesTitle: string
+  - name: PropertyName
+    description: The name of the Service Fabric property.
+    types:
+    - uid: string
+- name: SuccessfulPropertyBatchInfo
+  description: Derived from PropertyBatchInfo. Represents the property batch succeeding. Contains the results of any "Get" operations in the batch.
+  kind: object
+  properties:
+  - name: Properties
+    description: A map containing the properties that were requested through any "Get" property batch operations. The key represents the index of the "Get" operation in the original request, in string form. The value is the property. If a property is not found, it will not be in the map.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: PropertyInfo
+  - name: Kind
+    description: The kind of property batch info, determined by the results of a property batch. The following are the possible values.
+    types:
+    - uid: Successful
+    typesTitle: string
+- name: FailedPropertyBatchInfo
+  description: Derived from PropertyBatchInfo. Represents the property batch failing. Contains information about the specific batch failure.
+  kind: object
+  properties:
+  - name: ErrorMessage
+    description: The error message of the failed operation. Describes the exception thrown due to the first unsuccessful operation in the property batch.
+    types:
+    - uid: string
+  - name: OperationIndex
+    description: The index of the unsuccessful operation in the property batch.
+    types:
+    - uid: integer
+  - name: Kind
+    description: The kind of property batch info, determined by the results of a property batch. The following are the possible values.
+    types:
+    - uid: Failed
+    typesTitle: string
+- name: AzureBlobBackupStorageDescription
+  description: Describes the parameters for Azure blob store used for storing and enumerating backups.
+  kind: object
+  properties:
+  - name: ConnectionString
+    description: The connection string to connect to the Azure blob store.
+    types:
+    - uid: string
+  - name: ContainerName
+    description: The name of the container in the blob store to store and enumerate backups from.
+    types:
+    - uid: string
+  - name: StorageKind
+    description: The kind of backup storage, where backups are saved.
+    types:
+    - uid: AzureBlobStore
+    typesTitle: string
+  - name: FriendlyName
+    description: Friendly name for this backup storage.
+    types:
+    - uid: string
+- name: FileShareBackupStorageDescription
+  description: Describes the parameters for file share storage used for storing or enumerating backups.
+  kind: object
+  properties:
+  - name: Path
+    description: UNC path of the file share where to store or enumerate backups from.
+    types:
+    - uid: string
+  - name: PrimaryUserName
+    description: Primary user name to access the file share.
+    types:
+    - uid: string
+  - name: PrimaryPassword
+    description: Primary password to access the share location.
+    types:
+    - uid: string
+  - name: SecondaryUserName
+    description: Secondary user name to access the file share.
+    types:
+    - uid: string
+  - name: SecondaryPassword
+    description: Secondary password to access the share location
+    types:
+    - uid: string
+  - name: StorageKind
+    description: The kind of backup storage, where backups are saved.
+    types:
+    - uid: FileShare
+    typesTitle: string
+  - name: FriendlyName
+    description: Friendly name for this backup storage.
+    types:
+    - uid: string
+- name: FrequencyBasedBackupScheduleDescription
+  description: Describes the frequency based backup schedule.
+  kind: object
+  properties:
+  - name: Interval
+    description: Defines the interval with which backups are periodically taken. It should be specified in ISO8601 format. Timespan in seconds is not supported and will be ignored while creating the policy.
+    types:
+    - uid: string
+  - name: ScheduleKind
+    description: The kind of backup schedule, time based or frequency based.
+    types:
+    - uid: FrequencyBased
+    typesTitle: string
+- name: TimeBasedBackupScheduleDescription
+  description: Describes the time based backup schedule.
+  kind: object
+  properties:
+  - name: ScheduleFrequencyType
+    description: Describes the frequency with which to run the time based backup schedule.
+    types:
+    - uid: BackupScheduleFrequencyType
+  - name: RunDays
+    description: List of days of a week when to trigger the periodic backup. This is valid only when the backup schedule frequency type is weekly.
+    types:
+    - uid: string
+      isArray: true
+  - name: RunTimes
+    description: Represents the list of exact time during the day in ISO8601 format. Like '19:00:00' will represent '7PM' during the day. Date specified along with time will be ignored.
+    types:
+    - uid: string
+      isArray: true
+  - name: ScheduleKind
+    description: The kind of backup schedule, time based or frequency based.
+    types:
+    - uid: TimeBased
+    typesTitle: string
+- name: AveragePartitionLoadScalingTrigger
+  description: Represents a scaling trigger related to an average load of a metric/resource of a partition.
+  kind: object
+  properties:
+  - name: MetricName
+    description: The name of the metric for which usage should be tracked.
+    types:
+    - uid: string
+  - name: LowerLoadThreshold
+    description: The lower limit of the load below which a scale in operation should be performed.
+    types:
+    - uid: string
+  - name: UpperLoadThreshold
+    description: The upper limit of the load beyond which a scale out operation should be performed.
+    types:
+    - uid: string
+  - name: ScaleIntervalInSeconds
+    description: The period in seconds on which a decision is made whether to scale or not.
+    types:
+    - uid: integer
+  - name: Kind
+    description: Specifies the kind of scaling trigger
+    types:
+    - uid: AveragePartitionLoad
+    typesTitle: string
+- name: AverageServiceLoadScalingTrigger
+  description: Represents a scaling policy related to an average load of a metric/resource of a service.
+  kind: object
+  properties:
+  - name: MetricName
+    description: The name of the metric for which usage should be tracked.
+    types:
+    - uid: string
+  - name: LowerLoadThreshold
+    description: The lower limit of the load below which a scale in operation should be performed.
+    types:
+    - uid: string
+  - name: UpperLoadThreshold
+    description: The upper limit of the load beyond which a scale out operation should be performed.
+    types:
+    - uid: string
+  - name: ScaleIntervalInSeconds
+    description: The period in seconds on which a decision is made whether to scale or not.
+    types:
+    - uid: integer
+  - name: Kind
+    description: Specifies the kind of scaling trigger
+    types:
+    - uid: AverageServiceLoad
+    typesTitle: string
+- name: PartitionInstanceCountScaleMechanism
+  description: Represents a scaling mechanism for adding or removing instances of stateless service partition.
+  kind: object
+  properties:
+  - name: MinInstanceCount
+    description: Minimum number of instances of the partition.
+    types:
+    - uid: integer
+  - name: MaxInstanceCount
+    description: Maximum number of instances of the partition.
+    types:
+    - uid: integer
+  - name: ScaleIncrement
+    description: The number of instances to add or remove during a scaling operation.
+    types:
+    - uid: integer
+  - name: Kind
+    description: Specifies the kind of scaling mechanism
+    types:
+    - uid: PartitionInstanceCount
+    typesTitle: string
+- name: AddRemoveIncrementalNamedPartitionScalingMechanism
+  description: Represents a scaling mechanism for adding or removing named partitions of a stateless service. Partition names are in the format '0','1''N-1'
+  kind: object
+  properties:
+  - name: MinPartitionCount
+    description: Minimum number of named partitions of the service.
+    types:
+    - uid: integer
+  - name: MaxPartitionCount
+    description: Maximum number of named partitions of the service.
+    types:
+    - uid: integer
+  - name: ScaleIncrement
+    description: The number of instances to add or remove during a scaling operation.
+    types:
+    - uid: integer
+  - name: Kind
+    description: Specifies the kind of scaling mechanism
+    types:
+    - uid: AddRemoveIncrementalNamedPartition
+    typesTitle: string
+- name: FabricErrorCodes
+  description: >-
+    Defines the fabric error codes that be returned as part of the error object in response to Service Fabric API operations that are not successful. Following are the error code values that can be returned for a specific HTTP status code.
+
+      - Possible values of the error code for HTTP status code 400 (Bad Request)
+        - "FABRIC_E_INVALID_PARTITION_KEY"
+        - "FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR"
+        - "FABRIC_E_INVALID_ADDRESS"
+        - "FABRIC_E_APPLICATION_NOT_UPGRADING"
+        - "FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR"
+        - "FABRIC_E_FABRIC_NOT_UPGRADING"
+        - "FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR"
+        - "FABRIC_E_INVALID_CONFIGURATION"
+        - "FABRIC_E_INVALID_NAME_URI"
+        - "FABRIC_E_PATH_TOO_LONG"
+        - "FABRIC_E_KEY_TOO_LARGE"
+        - "FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED"
+        - "FABRIC_E_INVALID_ATOMIC_GROUP"
+        - "FABRIC_E_VALUE_EMPTY"
+        - "FABRIC_E_BACKUP_IS_ENABLED"
+        - "FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH"
+        - "FABRIC_E_INVALID_FOR_STATELESS_SERVICES"
+        - "FABRIC_E_INVALID_SERVICE_SCALING_POLICY"
+        - "E_INVALIDARG"
+
+      - Possible values of the error code for HTTP status code 404 (Not Found)
+        - "FABRIC_E_NODE_NOT_FOUND"
+        - "FABRIC_E_APPLICATION_TYPE_NOT_FOUND"
+        - "FABRIC_E_APPLICATION_NOT_FOUND"
+        - "FABRIC_E_SERVICE_TYPE_NOT_FOUND"
+        - "FABRIC_E_SERVICE_DOES_NOT_EXIST"
+        - "FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND"
+        - "FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND"
+        - "FABRIC_E_PARTITION_NOT_FOUND"
+        - "FABRIC_E_REPLICA_DOES_NOT_EXIST"
+        - "FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST"
+        - "FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND"
+        - "FABRIC_E_DIRECTORY_NOT_FOUND"
+        - "FABRIC_E_FABRIC_VERSION_NOT_FOUND"
+        - "FABRIC_E_FILE_NOT_FOUND"
+        - "FABRIC_E_NAME_DOES_NOT_EXIST"
+        - "FABRIC_E_PROPERTY_DOES_NOT_EXIST"
+        - "FABRIC_E_ENUMERATION_COMPLETED"
+        - "FABRIC_E_SERVICE_MANIFEST_NOT_FOUND"
+        - "FABRIC_E_KEY_NOT_FOUND"
+        - "FABRIC_E_HEALTH_ENTITY_NOT_FOUND"
+        - "FABRIC_E_BACKUP_NOT_ENABLED"
+        - "FABRIC_E_BACKUP_POLICY_NOT_EXISTING"
+        - "FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING"
+
+      - Possible values of the error code for HTTP status code 409 (Conflict)
+        - "FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION"
+        - "FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS"
+        - "FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS"
+        - "FABRIC_E_SERVICE_ALREADY_EXISTS"
+        - "FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_TYPE_IN_USE"
+        - "FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION"
+        - "FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS"
+        - "FABRIC_E_FABRIC_VERSION_IN_USE"
+        - "FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS"
+        - "FABRIC_E_NAME_ALREADY_EXISTS"
+        - "FABRIC_E_NAME_NOT_EMPTY"
+        - "FABRIC_E_PROPERTY_CHECK_FAILED"
+        - "FABRIC_E_SERVICE_METADATA_MISMATCH"
+        - "FABRIC_E_SERVICE_TYPE_MISMATCH"
+        - "FABRIC_E_HEALTH_STALE_REPORT"
+        - "FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED"
+        - "FABRIC_E_NODE_HAS_NOT_STOPPED_YET"
+        - "FABRIC_E_INSTANCE_ID_MISMATCH"
+        - "FABRIC_E_BACKUP_IN_PROGRESS"
+        - "FABRIC_E_RESTORE_IN_PROGRESS"
+        - "FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING"
+
+      - Possible values of the error code for HTTP status code 413 (Request Entity Too Large)
+        - "FABRIC_E_VALUE_TOO_LARGE"
+
+      - Possible values of the error code for HTTP status code 500 (Internal Server Error)
+        - "FABRIC_E_NODE_IS_UP"
+        - "E_FAIL"
+
+      - Possible values of the error code for HTTP status code 503 (Service Unavailable)
+        - "FABRIC_E_NO_WRITE_QUORUM"
+        - "FABRIC_E_NOT_PRIMARY"
+        - "FABRIC_E_NOT_READY"
+        - "FABRIC_E_RECONFIGURATION_PENDING"
+        - "FABRIC_E_SERVICE_OFFLINE"
+        - "E_ABORT"
+        - "FABRIC_E_VALUE_TOO_LARGE"
+
+      - Possible values of the error code for HTTP status code 504 (Gateway Timeout)
+        - "FABRIC_E_COMMUNICATION_ERROR"
+        - "FABRIC_E_OPERATION_NOT_COMPLETE"
+        - "FABRIC_E_TIMEOUT"
+  kind: enum
+  properties:
+  - name: FABRIC_E_INVALID_PARTITION_KEY
+    types:
+    - uid: string
+  - name: FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_ADDRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_NOT_UPGRADING
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_NOT_UPGRADING
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_CONFIGURATION
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_NAME_URI
+    types:
+    - uid: string
+  - name: FABRIC_E_PATH_TOO_LONG
+    types:
+    - uid: string
+  - name: FABRIC_E_KEY_TOO_LARGE
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_ATOMIC_GROUP
+    types:
+    - uid: string
+  - name: FABRIC_E_VALUE_EMPTY
+    types:
+    - uid: string
+  - name: FABRIC_E_NODE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_TYPE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_PARTITION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_REPLICA_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_DIRECTORY_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_VERSION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_FILE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_NAME_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_PROPERTY_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_ENUMERATION_COMPLETED
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_MANIFEST_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_KEY_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_HEALTH_ENTITY_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_IN_USE
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_VERSION_IN_USE
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_NAME_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_NAME_NOT_EMPTY
+    types:
+    - uid: string
+  - name: FABRIC_E_PROPERTY_CHECK_FAILED
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_METADATA_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_TYPE_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_HEALTH_STALE_REPORT
+    types:
+    - uid: string
+  - name: FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED
+    types:
+    - uid: string
+  - name: FABRIC_E_NODE_HAS_NOT_STOPPED_YET
+    types:
+    - uid: string
+  - name: FABRIC_E_INSTANCE_ID_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_VALUE_TOO_LARGE
+    types:
+    - uid: string
+  - name: FABRIC_E_NO_WRITE_QUORUM
+    types:
+    - uid: string
+  - name: FABRIC_E_NOT_PRIMARY
+    types:
+    - uid: string
+  - name: FABRIC_E_NOT_READY
+    types:
+    - uid: string
+  - name: FABRIC_E_RECONFIGURATION_PENDING
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_OFFLINE
+    types:
+    - uid: string
+  - name: E_ABORT
+    types:
+    - uid: string
+  - name: FABRIC_E_COMMUNICATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_OPERATION_NOT_COMPLETE
+    types:
+    - uid: string
+  - name: FABRIC_E_TIMEOUT
+    types:
+    - uid: string
+  - name: FABRIC_E_NODE_IS_UP
+    types:
+    - uid: string
+  - name: E_FAIL
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_IS_ENABLED
+    types:
+    - uid: string
+  - name: FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_FOR_STATELESS_SERVICES
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_NOT_ENABLED
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_POLICY_NOT_EXISTING
+    types:
+    - uid: string
+  - name: FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_RESTORE_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_SERVICE_SCALING_POLICY
+    types:
+    - uid: string
+  - name: E_INVALIDARG
+    types:
+    - uid: string
+- name: ApplicationHealthEvaluation
+  description: Represents health evaluation for an application, containing information about the data and the algorithm used by the health store to evaluate health.
+  kind: object
+  properties:
+  - name: Kind
+    description: The health manager in the cluster performs health evaluations in determining the aggregated health state of an entity. This enumeration provides information on the kind of evaluation that was performed. Following are the possible values.
+    types:
+    - uid: Application
+    typesTitle: string
+  - name: AggregatedHealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: Description
+    description: Description of the health evaluation, which represents a summary of the evaluation process.
+    types:
+    - uid: string
+  - name: ApplicationName
+    description: The name of the application, including the 'fabric:' URI scheme.
+    types:
+    - uid: string
+  - name: UnhealthyEvaluations
+    description: List of unhealthy evaluations that led to the current aggregated health state of the application. The types of the unhealthy evaluations can be DeployedApplicationsHealthEvaluation, ServicesHealthEvaluation or EventHealthEvaluation.
+    types:
+    - uid: HealthEvaluationWrapper
+      isArray: true
+- name: ApplicationsHealthEvaluation
+  description: Represents health evaluation for applications, containing health evaluations for each unhealthy application that impacted current aggregated health state.
+  kind: object
+  properties:
+  - name: Kind
+    description: The health manager in the cluster performs health evaluations in determining the aggregated health state of an entity. This enumeration provides information on the kind of evaluation that was performed. Following are the possible values.
+    types:
+    - uid: Applications
+    typesTitle: string
+  - name: AggregatedHealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: Description
+    description: Description of the health evaluation, which represents a summary of the evaluation process.
+    types:
+    - uid: string
+  - name: MaxPercentUnhealthyApplications
+    description: Maximum allowed percentage of unhealthy applications from the ClusterHealthPolicy.
+    types:
+    - uid: integer
+  - name: TotalCount
+    description: Total number of applications from the health store.
+    types:
+    - uid: integer
+  - name: UnhealthyEvaluations
+    description: List of unhealthy evaluations that led to the aggregated health state. Includes all the unhealthy ApplicationHealthEvaluation that impacted the aggregated health.
+    types:
+    - uid: HealthEvaluationWrapper
+      isArray: true
+- name: ApplicationTypeApplicationsHealthEvaluation
+  description: Represents health evaluation for applications of a particular application type. The application type applications evaluation can be returned when cluster health evaluation returns unhealthy aggregated health state, either Error or Warning. It contains health evaluations for each unhealthy application of the included application type that impacted current aggregated health state.
+  kind: object
+  properties:
+  - name: Kind
+    description: The health manager in the cluster performs health evaluations in determining the aggregated health state of an entity. This enumeration provides information on the kind of evaluation that was performed. Following are the possible values.
+    types:
+    - uid: ApplicationTypeApplications
+    typesTitle: string
+  - name: AggregatedHealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: Description
+    description: Description of the health evaluation, which represents a summary of the evaluation process.
+    types:
+    - uid: string
+  - name: ApplicationTypeName
+    description: The application type name as defined in the application manifest.
+    types:
+    - uid: string
+  - name: MaxPercentUnhealthyApplications
+    description: Maximum allowed percentage of unhealthy applications for the application type, specified as an entry in ApplicationTypeHealthPolicyMap.
+    types:
+    - uid: integer
+  - name: TotalCount
+    description: Total number of applications of the application type found in the health store.
+    types:
+    - uid: integer
+  - name: UnhealthyEvaluations
+    description: List of unhealthy evaluations that led to the aggregated health state. Includes all the unhealthy ApplicationHealthEvaluation of this application type that impacted the aggregated health.
+    types:
+    - uid: HealthEvaluationWrapper
+      isArray: true
+- name: DeltaNodesCheckHealthEvaluation
+  description: >-
+    Represents health evaluation for delta nodes, containing health evaluations for each unhealthy node that impacted current aggregated health state.
+
+    Can be returned during cluster upgrade when the aggregated health state of the cluster is Warning or Error.
+  kind: object
+  properties:
+  - name: Kind
+    description: The health manager in the cluster performs health evaluations in determining the aggregated health state of an entity. This enumeration provides information on the kind of evaluation that was performed. Following are the possible values.
+    types:
+    - uid: DeltaNodesCheck
+    typesTitle: string
+  - name: AggregatedHealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: Description
+    description: Description of the health evaluation, which represents a summary of the evaluation process.
+    types:
+    - uid: string
+  - name: BaselineErrorCount
+    description: Number of nodes with aggregated heath state Error in the health store at the beginning of the cluster upgrade.
+    types:
+    - uid: integer
+  - name: BaselineTotalCount
+    description: Total number of nodes in the health store at the beginning of the cluster upgrade.
+    types:
+    - uid: integer
+  - name: MaxPercentDeltaUnhealthyNodes
+    description: Maximum allowed percentage of delta unhealthy nodes from the ClusterUpgradeHealthPolicy.
+    types:
+    - uid: integer
+  - name: TotalCount
+    description: Total number of nodes in the health store.
+    types:
+    - uid: integer
+  - name: UnhealthyEvaluations
+    description: >-
+      List of unhealthy evaluations that led to the aggregated health state.
+
+      Includes all the unhealthy NodeHealthEvaluation that impacted the aggregated health.
+    types:
+    - uid: HealthEvaluationWrapper
+      isArray: true
+- name: DeployedApplicationHealthEvaluation
+  description: Represents health evaluation for a deployed application, containing information about the data and the algorithm used by the health store to evaluate health.
+  kind: object
+  properties:
+  - name: Kind
+    description: The health manager in the cluster performs health evaluations in determining the aggregated health state of an entity. This enumeration provides information on the kind of evaluation that was performed. Following are the possible values.
+    types:
+    - uid: DeployedApplication
+    typesTitle: string
+  - name: AggregatedHealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: Description
+    description: Description of the health evaluation, which represents a summary of the evaluation process.
+    types:
+    - uid: string
+  - name: NodeName
+    description: Name of the node where the application is deployed to.
+    types:
+    - uid: string
+  - name: ApplicationName
+    description: The name of the application, including the 'fabric:' URI scheme.
+    types:
+    - uid: string
+  - name: UnhealthyEvaluations
+    description: >-
+      List of  unhealthy evaluations that led to the current aggregated health state of the deployed application.
+
+      The types of the unhealthy evaluations can be DeployedServicePackagesHealthEvaluation or EventHealthEvaluation.
+    types:
+    - uid: HealthEvaluationWrapper
+      isArray: true
+- name: DeployedApplicationsHealthEvaluation
+  description: >-
+    Represents health evaluation for deployed applications, containing health evaluations for each unhealthy deployed application that impacted current aggregated health state.
+
+    Can be returned when evaluating application health and the aggregated health state is either Error or Warning.
+  kind: object
+  properties:
+  - name: Kind
+    description: The health manager in the cluster performs health evaluations in determining the aggregated health state of an entity. This enumeration provides information on the kind of evaluation that was performed. Following are the possible values.
+    types:
+    - uid: DeployedApplications
+    typesTitle: string
+  - name: AggregatedHealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: Description
+    description: Description of the health evaluation, which represents a summary of the evaluation process.
+    types:
+    - uid: string
+  - name: MaxPercentUnhealthyDeployedApplications
+    description: Maximum allowed percentage of unhealthy deployed applications from the ApplicationHealthPolicy.
+    types:
+    - uid: integer
+  - name: TotalCount
+    description: Total number of deployed applications of the application in the health store.
+    types:
+    - uid: integer
+  - name: UnhealthyEvaluations
+    description: List of unhealthy evaluations that led to the aggregated health state. Includes all the unhealthy DeployedApplicationHealthEvaluation that impacted the aggregated health.
+    types:
+    - uid: HealthEvaluationWrapper
+      isArray: true
+- name: DeployedServicePackageHealthEvaluation
+  description: Represents health evaluation for a deployed service package, containing information about the data and the algorithm used by health store to evaluate health. The evaluation is returned only when the aggregated health state is either Error or Warning.
+  kind: object
+  properties:
+  - name: Kind
+    description: The health manager in the cluster performs health evaluations in determining the aggregated health state of an entity. This enumeration provides information on the kind of evaluation that was performed. Following are the possible values.
+    types:
+    - uid: DeployedServicePackage
+    typesTitle: string
+  - name: AggregatedHealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: Description
+    description: Description of the health evaluation, which represents a summary of the evaluation process.
+    types:
+    - uid: string
+  - name: NodeName
+    description: The name of a Service Fabric node.
+    types:
+    - uid: string
+  - name: ApplicationName
+    description: The name of the application, including the 'fabric:' URI scheme.
+    types:
+    - uid: string
+  - name: ServiceManifestName
+    description: The name of the service manifest.
+    types:
+    - uid: string
+  - name: UnhealthyEvaluations
+    description: List of unhealthy evaluations that led to the current aggregated health state. The type of the unhealthy evaluations can be EventHealthEvaluation.
+    types:
+    - uid: HealthEvaluationWrapper
+      isArray: true
+- name: DeployedServicePackagesHealthEvaluation
+  description: Represents health evaluation for deployed service packages, containing health evaluations for each unhealthy deployed service package that impacted current aggregated health state. Can be returned when evaluating deployed application health and the aggregated health state is either Error or Warning.
+  kind: object
+  properties:
+  - name: Kind
+    description: The health manager in the cluster performs health evaluations in determining the aggregated health state of an entity. This enumeration provides information on the kind of evaluation that was performed. Following are the possible values.
+    types:
+    - uid: DeployedServicePackages
+    typesTitle: string
+  - name: AggregatedHealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: Description
+    description: Description of the health evaluation, which represents a summary of the evaluation process.
+    types:
+    - uid: string
+  - name: TotalCount
+    description: Total number of deployed service packages of the deployed application in the health store.
+    types:
+    - uid: integer
+  - name: UnhealthyEvaluations
+    description: List of unhealthy evaluations that led to the aggregated health state. Includes all the unhealthy DeployedServicePackageHealthEvaluation that impacted the aggregated health.
+    types:
+    - uid: HealthEvaluationWrapper
+      isArray: true
+- name: EventHealthEvaluation
+  description: >-
+    Represents health evaluation of a HealthEvent that was reported on the entity.
+
+    The health evaluation is returned when evaluating health of an entity results in Error or Warning.
+  kind: object
+  properties:
+  - name: Kind
+    description: The health manager in the cluster performs health evaluations in determining the aggregated health state of an entity. This enumeration provides information on the kind of evaluation that was performed. Following are the possible values.
+    types:
+    - uid: Event
+    typesTitle: string
+  - name: AggregatedHealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: Description
+    description: Description of the health evaluation, which represents a summary of the evaluation process.
+    types:
+    - uid: string
+  - name: ConsiderWarningAsError
+    description: Indicates whether warnings are treated with the same severity as errors. The field is specified in the health policy used to evaluate the entity.
+    types:
+    - uid: boolean
+  - name: UnhealthyEvent
+    description: Represents health information reported on a health entity, such as cluster, application or node, with additional metadata added by the Health Manager.
+    types:
+    - uid: HealthEvent
+- name: NodeHealthEvaluation
+  description: Represents health evaluation for a node, containing information about the data and the algorithm used by health store to evaluate health. The evaluation is returned only when the aggregated health state is either Error or Warning.
+  kind: object
+  properties:
+  - name: Kind
+    description: The health manager in the cluster performs health evaluations in determining the aggregated health state of an entity. This enumeration provides information on the kind of evaluation that was performed. Following are the possible values.
+    types:
+    - uid: Node
+    typesTitle: string
+  - name: AggregatedHealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: Description
+    description: Description of the health evaluation, which represents a summary of the evaluation process.
+    types:
+    - uid: string
+  - name: NodeName
+    description: The name of a Service Fabric node.
+    types:
+    - uid: string
+  - name: UnhealthyEvaluations
+    description: List of unhealthy evaluations that led to the current aggregated health state of the node. The types of the unhealthy evaluations can be EventHealthEvaluation.
+    types:
+    - uid: HealthEvaluationWrapper
+      isArray: true
+- name: NodesHealthEvaluation
+  description: Represents health evaluation for nodes, containing health evaluations for each unhealthy node that impacted current aggregated health state. Can be returned when evaluating cluster health and the aggregated health state is either Error or Warning.
+  kind: object
+  properties:
+  - name: Kind
+    description: The health manager in the cluster performs health evaluations in determining the aggregated health state of an entity. This enumeration provides information on the kind of evaluation that was performed. Following are the possible values.
+    types:
+    - uid: Nodes
+    typesTitle: string
+  - name: AggregatedHealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: Description
+    description: Description of the health evaluation, which represents a summary of the evaluation process.
+    types:
+    - uid: string
+  - name: MaxPercentUnhealthyNodes
+    description: Maximum allowed percentage of unhealthy nodes from the ClusterHealthPolicy.
+    types:
+    - uid: integer
+  - name: TotalCount
+    description: Total number of nodes found in the health store.
+    types:
+    - uid: integer
+  - name: UnhealthyEvaluations
+    description: List of unhealthy evaluations that led to the aggregated health state. Includes all the unhealthy NodeHealthEvaluation that impacted the aggregated health.
+    types:
+    - uid: HealthEvaluationWrapper
+      isArray: true
+- name: PartitionHealthEvaluation
+  description: Represents health evaluation for a partition, containing information about the data and the algorithm used by health store to evaluate health. The evaluation is returned only when the aggregated health state is either Error or Warning.
+  kind: object
+  properties:
+  - name: Kind
+    description: The health manager in the cluster performs health evaluations in determining the aggregated health state of an entity. This enumeration provides information on the kind of evaluation that was performed. Following are the possible values.
+    types:
+    - uid: Partition
+    typesTitle: string
+  - name: AggregatedHealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: Description
+    description: Description of the health evaluation, which represents a summary of the evaluation process.
+    types:
+    - uid: string
+  - name: PartitionId
+    description: Id of the partition whose health evaluation is described by this object.
+    types:
+    - uid: string
+  - name: UnhealthyEvaluations
+    description: List of unhealthy evaluations that led to the current aggregated health state of the partition. The types of the unhealthy evaluations can be ReplicasHealthEvaluation or EventHealthEvaluation.
+    types:
+    - uid: HealthEvaluationWrapper
+      isArray: true
+- name: PartitionsHealthEvaluation
+  description: Represents health evaluation for the partitions of a service, containing health evaluations for each unhealthy partition that impacts current aggregated health state. Can be returned when evaluating service health and the aggregated health state is either Error or Warning.
+  kind: object
+  properties:
+  - name: Kind
+    description: The health manager in the cluster performs health evaluations in determining the aggregated health state of an entity. This enumeration provides information on the kind of evaluation that was performed. Following are the possible values.
+    types:
+    - uid: Partitions
+    typesTitle: string
+  - name: AggregatedHealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: Description
+    description: Description of the health evaluation, which represents a summary of the evaluation process.
+    types:
+    - uid: string
+  - name: MaxPercentUnhealthyPartitionsPerService
+    description: Maximum allowed percentage of unhealthy partitions per service from the ServiceTypeHealthPolicy.
+    types:
+    - uid: integer
+  - name: TotalCount
+    description: Total number of partitions of the service from the health store.
+    types:
+    - uid: integer
+  - name: UnhealthyEvaluations
+    description: List of unhealthy evaluations that led to the aggregated health state. Includes all the unhealthy PartitionHealthEvaluation that impacted the aggregated health.
+    types:
+    - uid: HealthEvaluationWrapper
+      isArray: true
+- name: ReplicaHealthEvaluation
+  description: Represents health evaluation for a replica, containing information about the data and the algorithm used by health store to evaluate health. The evaluation is returned only when the aggregated health state is either Error or Warning.
+  kind: object
+  properties:
+  - name: Kind
+    description: The health manager in the cluster performs health evaluations in determining the aggregated health state of an entity. This enumeration provides information on the kind of evaluation that was performed. Following are the possible values.
+    types:
+    - uid: Replica
+    typesTitle: string
+  - name: AggregatedHealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: Description
+    description: Description of the health evaluation, which represents a summary of the evaluation process.
+    types:
+    - uid: string
+  - name: PartitionId
+    description: Id of the partition to which the replica belongs.
+    types:
+    - uid: string
+  - name: ReplicaOrInstanceId
+    description: Id of a stateful service replica or a stateless service instance. This ID is used in the queries that apply to both stateful and stateless services. It is used by Service Fabric to uniquely identify a replica of a partition of a stateful service or an instance of a stateless service partition. It is unique within a partition and does not change for the lifetime of the replica or the instance. If a stateful replica gets dropped and another replica gets created on the same node for the same partition, it will get a different value for the ID. If a stateless instance is failed over on the same or different node it will get a different value for the ID.
+    types:
+    - uid: string
+  - name: UnhealthyEvaluations
+    description: List of unhealthy evaluations that led to the current aggregated health state of the replica. The types of the unhealthy evaluations can be EventHealthEvaluation.
+    types:
+    - uid: HealthEvaluationWrapper
+      isArray: true
+- name: ReplicasHealthEvaluation
+  description: Represents health evaluation for replicas, containing health evaluations for each unhealthy replica that impacted current aggregated health state. Can be returned when evaluating partition health and the aggregated health state is either Error or Warning.
+  kind: object
+  properties:
+  - name: Kind
+    description: The health manager in the cluster performs health evaluations in determining the aggregated health state of an entity. This enumeration provides information on the kind of evaluation that was performed. Following are the possible values.
+    types:
+    - uid: Replicas
+    typesTitle: string
+  - name: AggregatedHealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: Description
+    description: Description of the health evaluation, which represents a summary of the evaluation process.
+    types:
+    - uid: string
+  - name: MaxPercentUnhealthyReplicasPerPartition
+    description: Maximum allowed percentage of unhealthy replicas per partition from the ApplicationHealthPolicy.
+    types:
+    - uid: integer
+  - name: TotalCount
+    description: Total number of replicas in the partition from the health store.
+    types:
+    - uid: integer
+  - name: UnhealthyEvaluations
+    description: List of unhealthy evaluations that led to the aggregated health state. Includes all the unhealthy ReplicaHealthEvaluation that impacted the aggregated health.
+    types:
+    - uid: HealthEvaluationWrapper
+      isArray: true
+- name: ServiceHealthEvaluation
+  description: Represents health evaluation for a service, containing information about the data and the algorithm used by health store to evaluate health. The evaluation is returned only when the aggregated health state is either Error or Warning.
+  kind: object
+  properties:
+  - name: Kind
+    description: The health manager in the cluster performs health evaluations in determining the aggregated health state of an entity. This enumeration provides information on the kind of evaluation that was performed. Following are the possible values.
+    types:
+    - uid: Service
+    typesTitle: string
+  - name: AggregatedHealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: Description
+    description: Description of the health evaluation, which represents a summary of the evaluation process.
+    types:
+    - uid: string
+  - name: ServiceName
+    description: Name of the service whose health evaluation is described by this object.
+    types:
+    - uid: string
+  - name: UnhealthyEvaluations
+    description: List of unhealthy evaluations that led to the current aggregated health state of the service. The types of the unhealthy evaluations can be PartitionsHealthEvaluation or EventHealthEvaluation.
+    types:
+    - uid: HealthEvaluationWrapper
+      isArray: true
+- name: ServicesHealthEvaluation
+  description: Represents health evaluation for services of a certain service type belonging to an application, containing health evaluations for each unhealthy service that impacted current aggregated health state. Can be returned when evaluating application health and the aggregated health state is either Error or Warning.
+  kind: object
+  properties:
+  - name: Kind
+    description: The health manager in the cluster performs health evaluations in determining the aggregated health state of an entity. This enumeration provides information on the kind of evaluation that was performed. Following are the possible values.
+    types:
+    - uid: Services
+    typesTitle: string
+  - name: AggregatedHealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: Description
+    description: Description of the health evaluation, which represents a summary of the evaluation process.
+    types:
+    - uid: string
+  - name: ServiceTypeName
+    description: Name of the service type of the services.
+    types:
+    - uid: string
+  - name: MaxPercentUnhealthyServices
+    description: Maximum allowed percentage of unhealthy services from the ServiceTypeHealthPolicy.
+    types:
+    - uid: integer
+  - name: TotalCount
+    description: Total number of services of the current service type in the application from the health store.
+    types:
+    - uid: integer
+  - name: UnhealthyEvaluations
+    description: List of unhealthy evaluations that led to the aggregated health state. Includes all the unhealthy ServiceHealthEvaluation that impacted the aggregated health.
+    types:
+    - uid: HealthEvaluationWrapper
+      isArray: true
+- name: SystemApplicationHealthEvaluation
+  description: Represents health evaluation for the fabric:/System application, containing information about the data and the algorithm used by health store to evaluate health. The evaluation is returned only when the aggregated health state of the cluster is either Error or Warning.
+  kind: object
+  properties:
+  - name: Kind
+    description: The health manager in the cluster performs health evaluations in determining the aggregated health state of an entity. This enumeration provides information on the kind of evaluation that was performed. Following are the possible values.
+    types:
+    - uid: SystemApplication
+    typesTitle: string
+  - name: AggregatedHealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: Description
+    description: Description of the health evaluation, which represents a summary of the evaluation process.
+    types:
+    - uid: string
+  - name: UnhealthyEvaluations
+    description: List of unhealthy evaluations that led to the current aggregated health state of the system application. The types of the unhealthy evaluations can be DeployedApplicationsHealthEvaluation, ServicesHealthEvaluation or EventHealthEvaluation.
+    types:
+    - uid: HealthEvaluationWrapper
+      isArray: true
+- name: UpgradeDomainDeltaNodesCheckHealthEvaluation
+  description: >-
+    Represents health evaluation for delta unhealthy cluster nodes in an upgrade domain, containing health evaluations for each unhealthy node that impacted current aggregated health state.
+
+    Can be returned during cluster upgrade when cluster aggregated health state is Warning or Error.
+  kind: object
+  properties:
+  - name: Kind
+    description: The health manager in the cluster performs health evaluations in determining the aggregated health state of an entity. This enumeration provides information on the kind of evaluation that was performed. Following are the possible values.
+    types:
+    - uid: UpgradeDomainDeltaNodesCheck
+    typesTitle: string
+  - name: AggregatedHealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: Description
+    description: Description of the health evaluation, which represents a summary of the evaluation process.
+    types:
+    - uid: string
+  - name: UpgradeDomainName
+    description: Name of the upgrade domain where nodes health is currently evaluated.
+    types:
+    - uid: string
+  - name: BaselineErrorCount
+    description: Number of upgrade domain nodes with aggregated heath state Error in the health store at the beginning of the cluster upgrade.
+    types:
+    - uid: integer
+  - name: BaselineTotalCount
+    description: Total number of upgrade domain nodes in the health store at the beginning of the cluster upgrade.
+    types:
+    - uid: integer
+  - name: MaxPercentDeltaUnhealthyNodes
+    description: Maximum allowed percentage of upgrade domain delta unhealthy nodes from the ClusterUpgradeHealthPolicy.
+    types:
+    - uid: integer
+  - name: TotalCount
+    description: Total number of upgrade domain nodes in the health store.
+    types:
+    - uid: integer
+  - name: UnhealthyEvaluations
+    description: List of unhealthy evaluations that led to the aggregated health state. Includes all the unhealthy NodeHealthEvaluation that impacted the aggregated health.
+    types:
+    - uid: HealthEvaluationWrapper
+      isArray: true
+- name: UpgradeDomainNodesHealthEvaluation
+  description: Represents health evaluation for cluster nodes in an upgrade domain, containing health evaluations for each unhealthy node that impacted current aggregated health state. Can be returned when evaluating cluster health during cluster upgrade and the aggregated health state is either Error or Warning.
+  kind: object
+  properties:
+  - name: Kind
+    description: The health manager in the cluster performs health evaluations in determining the aggregated health state of an entity. This enumeration provides information on the kind of evaluation that was performed. Following are the possible values.
+    types:
+    - uid: UpgradeDomainNodes
+    typesTitle: string
+  - name: AggregatedHealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: Description
+    description: Description of the health evaluation, which represents a summary of the evaluation process.
+    types:
+    - uid: string
+  - name: UpgradeDomainName
+    description: Name of the upgrade domain where nodes health is currently evaluated.
+    types:
+    - uid: string
+  - name: MaxPercentUnhealthyNodes
+    description: Maximum allowed percentage of unhealthy nodes from the ClusterHealthPolicy.
+    types:
+    - uid: integer
+  - name: TotalCount
+    description: Total number of nodes in the current upgrade domain.
+    types:
+    - uid: integer
+  - name: UnhealthyEvaluations
+    description: List of unhealthy evaluations that led to the aggregated health state. Includes all the unhealthy NodeHealthEvaluation that impacted the aggregated health.
+    types:
+    - uid: HealthEvaluationWrapper
+      isArray: true
+- name: EntityKind
+  description: The entity type of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+  kind: enum
+  properties:
+  - name: Invalid
+    description: Indicates an invalid entity kind. All Service Fabric enumerations have the invalid type. The value is zero.
+    types:
+    - uid: string
+  - name: Node
+    description: Indicates the entity is a Service Fabric node. The value is 1.
+    types:
+    - uid: string
+  - name: Partition
+    description: Indicates the entity is a Service Fabric partition. The value is 2.
+    types:
+    - uid: string
+  - name: Service
+    description: Indicates the entity is a Service Fabric service. The value is 3.
+    types:
+    - uid: string
+  - name: Application
+    description: Indicates the entity is a Service Fabric application. The value is 4.
+    types:
+    - uid: string
+  - name: Replica
+    description: Indicates the entity is a Service Fabric replica. The value is 5.
+    types:
+    - uid: string
+  - name: DeployedApplication
+    description: Indicates the entity is a Service Fabric deployed application. The value is 6.
+    types:
+    - uid: string
+  - name: DeployedServicePackage
+    description: Indicates the entity is a Service Fabric deployed service package. The value is 7.
+    types:
+    - uid: string
+  - name: Cluster
+    description: Indicates the entity is a Service Fabric cluster. The value is 8.
+    types:
+    - uid: string
+- name: HealthStateCount
+  description: Represents information about how many health entities are in Ok, Warning and Error health state.
+  kind: object
+  properties:
+  - name: OkCount
+    description: The number of health entities with aggregated health state Ok.
+    types:
+    - uid: integer
+  - name: WarningCount
+    description: The number of health entities with aggregated health state Warning.
+    types:
+    - uid: integer
+  - name: ErrorCount
+    description: The number of health entities with aggregated health state Error.
+    types:
+    - uid: integer
+- name: ClusterHealthReportCreatedEvent
+  description: Cluster Health Report Created event.
+  kind: object
+  properties:
+  - name: Kind
+    description: The kind of FabricEvent.
+    types:
+    - uid: ClusterEvent
+    typesTitle: string
+  - name: EventInstanceId
+    description: The identifier for the FabricEvent instance.
+    types:
+    - uid: string
+  - name: TimeStamp
+    description: The time event was logged.
+    types:
+    - uid: string
+  - name: HasCorrelatedEvents
+    description: Shows there is existing related events available.
+    types:
+    - uid: boolean
+  - name: SourceId
+    description: Id of report source.
+    types:
+    - uid: string
+  - name: Property
+    description: Describes the property.
+    types:
+    - uid: string
+  - name: HealthState
+    description: Describes the property health state.
+    types:
+    - uid: string
+  - name: TimeToLiveMs
+    description: Time to live in milli-seconds.
+    types:
+    - uid: integer
+  - name: SequenceNumber
+    description: Sequence number of report.
+    types:
+    - uid: integer
+  - name: Description
+    description: Description of report.
+    types:
+    - uid: string
+  - name: RemoveWhenExpired
+    description: Indicates the removal when it expires.
+    types:
+    - uid: boolean
+  - name: SourceUtcTimestamp
+    description: Source time.
+    types:
+    - uid: string
+- name: ClusterHealthReportExpiredEvent
+  description: Cluster Health Report Expired event.
+  kind: object
+  properties:
+  - name: Kind
+    description: The kind of FabricEvent.
+    types:
+    - uid: ClusterEvent
+    typesTitle: string
+  - name: EventInstanceId
+    description: The identifier for the FabricEvent instance.
+    types:
+    - uid: string
+  - name: TimeStamp
+    description: The time event was logged.
+    types:
+    - uid: string
+  - name: HasCorrelatedEvents
+    description: Shows there is existing related events available.
+    types:
+    - uid: boolean
+  - name: SourceId
+    description: Id of report source.
+    types:
+    - uid: string
+  - name: Property
+    description: Describes the property.
+    types:
+    - uid: string
+  - name: HealthState
+    description: Describes the property health state.
+    types:
+    - uid: string
+  - name: TimeToLiveMs
+    description: Time to live in milli-seconds.
+    types:
+    - uid: integer
+  - name: SequenceNumber
+    description: Sequence number of report.
+    types:
+    - uid: integer
+  - name: Description
+    description: Description of report.
+    types:
+    - uid: string
+  - name: RemoveWhenExpired
+    description: Indicates the removal when it expires.
+    types:
+    - uid: boolean
+  - name: SourceUtcTimestamp
+    description: Source time.
+    types:
+    - uid: string
+- name: ClusterUpgradeCompleteEvent
+  description: Cluster Upgrade Complete event.
+  kind: object
+  properties:
+  - name: Kind
+    description: The kind of FabricEvent.
+    types:
+    - uid: ClusterEvent
+    typesTitle: string
+  - name: EventInstanceId
+    description: The identifier for the FabricEvent instance.
+    types:
+    - uid: string
+  - name: TimeStamp
+    description: The time event was logged.
+    types:
+    - uid: string
+  - name: HasCorrelatedEvents
+    description: Shows there is existing related events available.
+    types:
+    - uid: boolean
+  - name: TargetClusterVersion
+    description: Target Cluster version.
+    types:
+    - uid: string
+  - name: OverallUpgradeElapsedTimeInMs
+    description: Overall duration of upgrade in milli-seconds.
+    types:
+    - uid: number
+- name: ClusterUpgradeDomainCompleteEvent
+  description: Cluster Upgrade Domain Complete event.
+  kind: object
+  properties:
+  - name: Kind
+    description: The kind of FabricEvent.
+    types:
+    - uid: ClusterEvent
+    typesTitle: string
+  - name: EventInstanceId
+    description: The identifier for the FabricEvent instance.
+    types:
+    - uid: string
+  - name: TimeStamp
+    description: The time event was logged.
+    types:
+    - uid: string
+  - name: HasCorrelatedEvents
+    description: Shows there is existing related events available.
+    types:
+    - uid: boolean
+  - name: TargetClusterVersion
+    description: Target Cluster version.
+    types:
+    - uid: string
+  - name: UpgradeState
+    description: State of upgrade.
+    types:
+    - uid: string
+  - name: UpgradeDomains
+    description: Upgrade domains.
+    types:
+    - uid: string
+  - name: UpgradeDomainElapsedTimeInMs
+    description: Duration of domain upgrade in milli-seconds.
+    types:
+    - uid: number
+- name: ClusterUpgradeRollbackCompleteEvent
+  description: Cluster Upgrade Rollback Complete event.
+  kind: object
+  properties:
+  - name: Kind
+    description: The kind of FabricEvent.
+    types:
+    - uid: ClusterEvent
+    typesTitle: string
+  - name: EventInstanceId
+    description: The identifier for the FabricEvent instance.
+    types:
+    - uid: string
+  - name: TimeStamp
+    description: The time event was logged.
+    types:
+    - uid: string
+  - name: HasCorrelatedEvents
+    description: Shows there is existing related events available.
+    types:
+    - uid: boolean
+  - name: TargetClusterVersion
+    description: Target Cluster version.
+    types:
+    - uid: string
+  - name: FailureReason
+    description: Describes failure.
+    types:
+    - uid: string
+  - name: OverallUpgradeElapsedTimeInMs
+    description: Overall duration of upgrade in milli-seconds.
+    types:
+    - uid: number
+- name: ClusterUpgradeRollbackStartEvent
+  description: Cluster Upgrade Rollback Start event.
+  kind: object
+  properties:
+  - name: Kind
+    description: The kind of FabricEvent.
+    types:
+    - uid: ClusterEvent
+    typesTitle: string
+  - name: EventInstanceId
+    description: The identifier for the FabricEvent instance.
+    types:
+    - uid: string
+  - name: TimeStamp
+    description: The time event was logged.
+    types:
+    - uid: string
+  - name: HasCorrelatedEvents
+    description: Shows there is existing related events available.
+    types:
+    - uid: boolean
+  - name: TargetClusterVersion
+    description: Target Cluster version.
+    types:
+    - uid: string
+  - name: FailureReason
+    description: Describes failure.
+    types:
+    - uid: string
+  - name: OverallUpgradeElapsedTimeInMs
+    description: Overall duration of upgrade in milli-seconds.
+    types:
+    - uid: number
+- name: ClusterUpgradeStartEvent
+  description: Cluster Upgrade Start event.
+  kind: object
+  properties:
+  - name: Kind
+    description: The kind of FabricEvent.
+    types:
+    - uid: ClusterEvent
+    typesTitle: string
+  - name: EventInstanceId
+    description: The identifier for the FabricEvent instance.
+    types:
+    - uid: string
+  - name: TimeStamp
+    description: The time event was logged.
+    types:
+    - uid: string
+  - name: HasCorrelatedEvents
+    description: Shows there is existing related events available.
+    types:
+    - uid: boolean
+  - name: CurrentClusterVersion
+    description: Current Cluster version.
+    types:
+    - uid: string
+  - name: TargetClusterVersion
+    description: Target Cluster version.
+    types:
+    - uid: string
+  - name: UpgradeType
+    description: Type of upgrade.
+    types:
+    - uid: string
+  - name: RollingUpgradeMode
+    description: Mode of upgrade.
+    types:
+    - uid: string
+  - name: FailureAction
+    description: Action if failed.
+    types:
+    - uid: string
+- name: ChaosStoppedEvent
+  description: Chaos Stopped event.
+  kind: object
+  properties:
+  - name: Kind
+    description: The kind of FabricEvent.
+    types:
+    - uid: ClusterEvent
+    typesTitle: string
+  - name: EventInstanceId
+    description: The identifier for the FabricEvent instance.
+    types:
+    - uid: string
+  - name: TimeStamp
+    description: The time event was logged.
+    types:
+    - uid: string
+  - name: HasCorrelatedEvents
+    description: Shows there is existing related events available.
+    types:
+    - uid: boolean
+  - name: Reason
+    description: Describes reason.
+    types:
+    - uid: string
+- name: ChaosStartedEvent
+  description: Chaos Started event.
+  kind: object
+  properties:
+  - name: Kind
+    description: The kind of FabricEvent.
+    types:
+    - uid: ClusterEvent
+    typesTitle: string
+  - name: EventInstanceId
+    description: The identifier for the FabricEvent instance.
+    types:
+    - uid: string
+  - name: TimeStamp
+    description: The time event was logged.
+    types:
+    - uid: string
+  - name: HasCorrelatedEvents
+    description: Shows there is existing related events available.
+    types:
+    - uid: boolean
+  - name: MaxConcurrentFaults
+    description: Maximum number of concurrent faults.
+    types:
+    - uid: integer
+  - name: TimeToRunInSeconds
+    description: Time to run in seconds.
+    types:
+    - uid: number
+  - name: MaxClusterStabilizationTimeoutInSeconds
+    description: Maximum timeout for cluster stabilization in seconds.
+    types:
+    - uid: number
+  - name: WaitTimeBetweenIterationsInSeconds
+    description: Wait time between iterations in seconds.
+    types:
+    - uid: number
+  - name: WaitTimeBetweenFautlsInSeconds
+    description: Wait time between faults in seconds.
+    types:
+    - uid: number
+  - name: MoveReplicaFaultEnabled
+    description: Indicates MoveReplica fault is enabled.
+    types:
+    - uid: boolean
+  - name: IncludedNodeTypeList
+    description: List of included Node types.
+    types:
+    - uid: string
+  - name: IncludedApplicationList
+    description: List of included Applications.
+    types:
+    - uid: string
+  - name: ClusterHealthPolicy
+    description: Health policy.
+    types:
+    - uid: string
+  - name: ChaosContext
+    description: Chaos Context.
+    types:
+    - uid: string
+- name: FabricEventKind
+  description: The kind of FabricEvent.
+  kind: enum
+  properties:
+  - name: ClusterEvent
+    types:
+    - uid: string
+  - name: ContainerInstanceEvent
+    types:
+    - uid: string
+  - name: NodeEvent
+    types:
+    - uid: string
+  - name: ApplicationEvent
+    types:
+    - uid: string
+  - name: ServiceEvent
+    types:
+    - uid: string
+  - name: PartitionEvent
+    types:
+    - uid: string
+  - name: ReplicaEvent
+    types:
+    - uid: string
+  - name: PartitionAnalysisEvent
+    types:
+    - uid: string
+  - name: ApplicationCreated
+    types:
+    - uid: string
+  - name: ApplicationDeleted
+    types:
+    - uid: string
+  - name: ApplicationHealthReportCreated
+    types:
+    - uid: string
+  - name: ApplicationHealthReportExpired
+    types:
+    - uid: string
+  - name: ApplicationUpgradeComplete
+    types:
+    - uid: string
+  - name: ApplicationUpgradeDomainComplete
+    types:
+    - uid: string
+  - name: ApplicationUpgradeRollbackComplete
+    types:
+    - uid: string
+  - name: ApplicationUpgradeRollbackStart
+    types:
+    - uid: string
+  - name: ApplicationUpgradeStart
+    types:
+    - uid: string
+  - name: DeployedApplicationHealthReportCreated
+    types:
+    - uid: string
+  - name: DeployedApplicationHealthReportExpired
+    types:
+    - uid: string
+  - name: ProcessDeactivated
+    types:
+    - uid: string
+  - name: ContainerDeactivated
+    types:
+    - uid: string
+  - name: NodeAborted
+    types:
+    - uid: string
+  - name: NodeAborting
+    types:
+    - uid: string
+  - name: NodeAdded
+    types:
+    - uid: string
+  - name: NodeClose
+    types:
+    - uid: string
+  - name: NodeClosing
+    types:
+    - uid: string
+  - name: NodeDeactivateComplete
+    types:
+    - uid: string
+  - name: NodeDeactivateStart
+    types:
+    - uid: string
+  - name: NodeDown
+    types:
+    - uid: string
+  - name: NodeHealthReportCreated
+    types:
+    - uid: string
+  - name: NodeHealthReportExpired
+    types:
+    - uid: string
+  - name: NodeOpenedSuccess
+    types:
+    - uid: string
+  - name: NodeOpenFailed
+    types:
+    - uid: string
+  - name: NodeOpening
+    types:
+    - uid: string
+  - name: NodeRemoved
+    types:
+    - uid: string
+  - name: NodeUp
+    types:
+    - uid: string
+  - name: PartitionHealthReportCreated
+    types:
+    - uid: string
+  - name: PartitionHealthReportExpired
+    types:
+    - uid: string
+  - name: PartitionReconfigurationCompleted
+    types:
+    - uid: string
+  - name: PartitionPrimaryMoveAnalysis
+    types:
+    - uid: string
+  - name: ServiceCreated
+    types:
+    - uid: string
+  - name: ServiceDeleted
+    types:
+    - uid: string
+  - name: ServiceHealthReportCreated
+    types:
+    - uid: string
+  - name: ServiceHealthReportExpired
+    types:
+    - uid: string
+  - name: DeployedServiceHealthReportCreated
+    types:
+    - uid: string
+  - name: DeployedServiceHealthReportExpired
+    types:
+    - uid: string
+  - name: StatefulReplicaHealthReportCreated
+    types:
+    - uid: string
+  - name: StatefulReplicaHealthReportExpired
+    types:
+    - uid: string
+  - name: StatelessReplicaHealthReportCreated
+    types:
+    - uid: string
+  - name: StatelessReplicaHealthReportExpired
+    types:
+    - uid: string
+  - name: ClusterHealthReportCreated
+    types:
+    - uid: string
+  - name: ClusterHealthReportExpired
+    types:
+    - uid: string
+  - name: ClusterUpgradeComplete
+    types:
+    - uid: string
+  - name: ClusterUpgradeDomainComplete
+    types:
+    - uid: string
+  - name: ClusterUpgradeRollbackComplete
+    types:
+    - uid: string
+  - name: ClusterUpgradeRollbackStart
+    types:
+    - uid: string
+  - name: ClusterUpgradeStart
+    types:
+    - uid: string
+  - name: ChaosStopped
+    types:
+    - uid: string
+  - name: ChaosStarted
+    types:
+    - uid: string
+  - name: ChaosRestartNodeFaultCompleted
+    types:
+    - uid: string
+  - name: ChaosRestartCodePackageFaultScheduled
+    types:
+    - uid: string
+  - name: ChaosRestartCodePackageFaultCompleted
+    types:
+    - uid: string
+  - name: ChaosRemoveReplicaFaultScheduled
+    types:
+    - uid: string
+  - name: ChaosRemoveReplicaFaultCompleted
+    types:
+    - uid: string
+  - name: ChaosMoveSecondaryFaultScheduled
+    types:
+    - uid: string
+  - name: ChaosMovePrimaryFaultScheduled
+    types:
+    - uid: string
+  - name: ChaosRestartReplicaFaultScheduled
+    types:
+    - uid: string
+  - name: ChaosRestartNodeFaultScheduled
+    types:
+    - uid: string
+- name: ServicePartitionKind
+  description: The kind of partitioning scheme used to partition the service.
+  kind: enum
+  properties:
+  - name: Invalid
+    description: Indicates the partition kind is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+    types:
+    - uid: string
+  - name: Singleton
+    description: Indicates that there is only one partition, and SingletonPartitionSchemeDescription was specified while creating the service. The value is 1.
+    types:
+    - uid: string
+  - name: Int64Range
+    description: Indicates that the partition is based on Int64 key ranges, and UniformInt64RangePartitionSchemeDescription was specified while creating the service. The value is 2.
+    types:
+    - uid: string
+  - name: Named
+    description: Indicates that the partition is based on string names, and NamedPartitionInformation  was specified while creating the service. The value is 3.
+    types:
+    - uid: string
+- name: SafetyCheckKind
+  description: The kind of safety check performed by service fabric before continuing with the operations. These checks ensure the availability of the service and the reliability of the state. Following are the kinds of safety checks.
+  kind: enum
+  properties:
+  - name: Invalid
+    description: Indicates that the upgrade safety check kind is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+    types:
+    - uid: string
+  - name: EnsureSeedNodeQuorum
+    description: Indicates that if we bring down the node then this will result in global seed node quorum loss. The value is 1.
+    types:
+    - uid: string
+  - name: EnsurePartitionQuorum
+    description: Indicates that there is some partition for which if we bring down the replica on the node, it will result in quorum loss for that partition. The value is 2.
+    types:
+    - uid: string
+  - name: WaitForPrimaryPlacement
+    description: Indicates that there is some replica on the node that was moved out of this node due to upgrade. Service Fabric is now waiting for the primary to be moved back to this node. The value is 3.
+    types:
+    - uid: string
+  - name: WaitForPrimarySwap
+    description: Indicates that Service Fabric is waiting for a primary replica to be moved out of the node before starting upgrade on that node. The value is 4.
+    types:
+    - uid: string
+  - name: WaitForReconfiguration
+    description: Indicates that there is some replica on the node that is involved in a reconfiguration. Service Fabric is waiting for the reconfiguration to be complete before staring upgrade on that node. The value is 5.
+    types:
+    - uid: string
+  - name: WaitForInbuildReplica
+    description: Indicates that there is either a replica on the node that is going through copy, or there is a primary replica on the node that is copying data to some other replica. In both cases, bringing down the replica on the node due to upgrade will abort the copy. The value is 6.
+    types:
+    - uid: string
+  - name: EnsureAvailability
+    description: Indicates that there is either a stateless service partition on the node having exactly one instance, or there is a primary replica on the node for which the partition is quorum loss. In both cases, bringing down the replicas due to upgrade will result in loss of availability. The value is 7.
+    types:
+    - uid: string
+- name: ServicePlacementPolicyType
+  description: The type of placement policy for a service fabric service. Following are the possible values.
+  kind: enum
+  properties:
+  - name: Invalid
+    description: Indicates the type of the placement policy is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+    types:
+    - uid: string
+  - name: InvalidDomain
+    description: Indicates that the ServicePlacementPolicyDescription is of type ServicePlacementInvalidDomainPolicyDescription, which indicates that a particular fault or upgrade domain cannot be used for placement of this service. The value is 1.
+    types:
+    - uid: string
+  - name: RequiredDomain
+    description: Indicates that the ServicePlacementPolicyDescription is of type ServicePlacementRequireDomainDistributionPolicyDescription indicating that the replicas of the service must be placed in a specific domain. The value is 2.
+    types:
+    - uid: string
+  - name: PreferredPrimaryDomain
+    description: Indicates that the ServicePlacementPolicyDescription is of type ServicePlacementPreferPrimaryDomainPolicyDescription, which indicates that if possible the Primary replica for the partitions of the service should be located in a particular domain as an optimization. The value is 3.
+    types:
+    - uid: string
+  - name: RequiredDomainDistribution
+    description: Indicates that the ServicePlacementPolicyDescription is of type ServicePlacementRequireDomainDistributionPolicyDescription, indicating that the system will disallow placement of any two replicas from the same partition in the same domain at any time. The value is 4.
+    types:
+    - uid: string
+  - name: NonPartiallyPlaceService
+    description: Indicates that the ServicePlacementPolicyDescription is of type ServicePlacementNonPartiallyPlaceServicePolicyDescription, which indicates that if possible all replicas of a particular partition of the service should be placed atomically. The value is 5.
+    types:
+    - uid: string
+- name: Epoch
+  description: An Epoch is a configuration number for the partition as a whole. When the configuration of the replica set changes, for example when the Primary replica changes, the operations that are replicated from the new Primary replica are said to be a new Epoch from the ones which were sent by the old Primary replica.
+  kind: object
+  properties:
+  - name: ConfigurationVersion
+    description: The current configuration number of this Epoch. The configuration number is an increasing value that is updated whenever the configuration of this replica set changes.
+    types:
+    - uid: string
+  - name: DataLossVersion
+    description: The current dataloss number of this Epoch. The data loss number property is an increasing value which is updated whenever data loss is suspected, as when loss of a quorum of replicas in the replica set that includes the Primary replica.
+    types:
+    - uid: string
+- name: ServiceKind
+  description: The kind of service (Stateless or Stateful).
+  kind: enum
+  properties:
+  - name: Invalid
+    description: Indicates the service kind is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+    types:
+    - uid: string
+  - name: Stateless
+    description: Does not use Service Fabric to make its state highly available or reliable. The value is 1.
+    types:
+    - uid: string
+  - name: Stateful
+    description: Uses Service Fabric to make its state or part of its state highly available and reliable. The value is 2.
+    types:
+    - uid: string
+- name: ServicePartitionStatus
+  description: The status of the service fabric service partition.
+  kind: enum
+  properties:
+  - name: Invalid
+    description: Indicates the partition status is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+    types:
+    - uid: string
+  - name: Ready
+    description: Indicates that the partition is ready. This means that for a stateless service partition there is at least one instance that is up and for a stateful service partition the number of ready replicas is greater than or equal to the MinReplicaSetSize. The value is 1.
+    types:
+    - uid: string
+  - name: NotReady
+    description: Indicates that the partition is not ready. This status is returned when none of the other states apply. The value is 2.
+    types:
+    - uid: string
+  - name: InQuorumLoss
+    description: Indicates that the partition is in quorum loss. This means that number of replicas that are up and participating in a replica set is less than MinReplicaSetSize for this partition. The value is 3.
+    types:
+    - uid: string
+  - name: Reconfiguring
+    description: Indicates that the partition is undergoing reconfiguration of its replica sets. This can happen due to failover, upgrade, load balancing or addition or removal of replicas from the replica set. The value is 4.
+    types:
+    - uid: string
+  - name: Deleting
+    description: Indicates that the partition is being deleted. The value is 5.
+    types:
+    - uid: string
+- name: ServiceLoadMetricDescription
+  description: Specifies a metric to load balance a service during runtime.
+  kind: object
+  properties:
+  - name: Name
+    description: The name of the metric. If the service chooses to report load during runtime, the load metric name should match the name that is specified in Name exactly. Note that metric names are case sensitive.
+    types:
+    - uid: string
+  - name: Weight
+    description: The service load metric relative weight, compared to other metrics configured for this service, as a number.
+    types:
+    - uid: ServiceLoadMetricWeight
+  - name: PrimaryDefaultLoad
+    description: Used only for Stateful services. The default amount of load, as a number, that this service creates for this metric when it is a Primary replica.
+    types:
+    - uid: integer
+  - name: SecondaryDefaultLoad
+    description: Used only for Stateful services. The default amount of load, as a number, that this service creates for this metric when it is a Secondary replica.
+    types:
+    - uid: integer
+  - name: DefaultLoad
+    description: Used only for Stateless services. The default amount of load, as a number, that this service creates for this metric.
+    types:
+    - uid: integer
+- name: ServiceTypeExtensionDescription
+  description: Describes extension of a service type defined in the service manifest.
+  kind: object
+  properties:
+  - name: Key
+    description: The name of the extension.
+    types:
+    - uid: string
+  - name: Value
+    description: The extension value.
+    types:
+    - uid: string
+- name: ServiceStatus
+  description: The status of the application.
+  kind: enum
+  properties:
+  - name: Unknown
+    description: Indicates the service status is unknown. The value is zero.
+    types:
+    - uid: string
+  - name: Active
+    description: Indicates the service status is active. The value is 1.
+    types:
+    - uid: string
+  - name: Upgrading
+    description: Indicates the service is upgrading. The value is 2.
+    types:
+    - uid: string
+  - name: Deleting
+    description: Indicates the service is being deleted. The value is 3.
+    types:
+    - uid: string
+  - name: Creating
+    description: Indicates the service is being created. The value is 4.
+    types:
+    - uid: string
+  - name: Failed
+    description: Indicates creation or deletion was terminated due to persistent failures. Another create/delete request can be accepted. The value is 5.
+    types:
+    - uid: string
+- name: PartitionScheme
+  description: Enumerates the ways that a service can be partitioned.
+  kind: enum
+  properties:
+  - name: Invalid
+    description: Indicates the partition kind is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+    types:
+    - uid: string
+  - name: Singleton
+    description: Indicates that the partition is based on string names, and is a SingletonPartitionSchemeDescription object, The value is 1.
+    types:
+    - uid: string
+  - name: UniformInt64Range
+    description: Indicates that the partition is based on Int64 key ranges, and is a UniformInt64RangePartitionSchemeDescription object. The value is 2.
+    types:
+    - uid: string
+  - name: Named
+    description: Indicates that the partition is based on string names, and is a NamedPartitionSchemeDescription object. The value is 3
+    types:
+    - uid: string
+- name: ServiceCorrelationDescription
+  description: Creates a particular correlation between services.
+  kind: object
+  properties:
+  - name: Scheme
+    description: The ServiceCorrelationScheme which describes the relationship between this service and the service specified via ServiceName.
+    types:
+    - uid: ServiceCorrelationScheme
+  - name: ServiceName
+    description: The name of the service that the correlation relationship is established with.
+    types:
+    - uid: string
+- name: MoveCost
+  description: Specifies the move cost for the service.
+  kind: enum
+  properties:
+  - name: Zero
+    description: Zero move cost. This value is zero.
+    types:
+    - uid: string
+  - name: Low
+    description: Specifies the move cost of the service as Low. The value is 1.
+    types:
+    - uid: string
+  - name: Medium
+    description: Specifies the move cost of the service as Medium. The value is 2.
+    types:
+    - uid: string
+  - name: High
+    description: Specifies the move cost of the service as High. The value is 3.
+    types:
+    - uid: string
+- name: ServicePackageActivationMode
+  description: The activation mode of service package to be used for a Service Fabric service. This is specified at the time of creating the Service.
+  kind: enum
+  properties:
+  - name: SharedProcess
+    description: This is the default activation mode. With this activation mode, replicas or instances from different partition(s) of service, on a given node, will share same activation of service package on a node. The value is zero.
+    types:
+    - uid: string
+  - name: ExclusiveProcess
+    description: With this activation mode, each replica or instance of service, on a given node, will have its own dedicated activation of service package on a node. The value is 1.
+    types:
+    - uid: string
+- name: ScalingPolicyDescription
+  description: Describes how the scaling should be performed
+  kind: object
+  properties:
+  - name: ScalingTrigger
+    description: Specifies the trigger associated with this scaling policy
+    types:
+    - uid: AveragePartitionLoadScalingTrigger
+    - uid: AverageServiceLoadScalingTrigger
+    typesTitle: ScalingTriggerDescription
+  - name: ScalingMechanism
+    description: Specifies the mechanism associated with this scaling policy
+    types:
+    - uid: PartitionInstanceCountScaleMechanism
+    - uid: AddRemoveIncrementalNamedPartitionScalingMechanism
+    typesTitle: ScalingMechanismDescription
+- name: ReplicaRole
+  description: The role of a replica of a stateful service.
+  kind: enum
+  properties:
+  - name: Unknown
+    description: Indicates the initial role that a replica is created in. The value is zero.
+    types:
+    - uid: string
+  - name: None
+    description: Specifies that the replica has no responsibility in regard to the replica set. The value is 1
+    types:
+    - uid: string
+  - name: Primary
+    description: Refers to the replica in the set on which all read and write operations are complete in order to enforce strong consistency semantics. Read operations are handled directly by the Primary replica, while write operations must be acknowledged by a quorum of the replicas in the replica set. There can only be one Primary replica in a replica set at a time. The value is 2.
+    types:
+    - uid: string
+  - name: IdleSecondary
+    description: Refers to a replica in the set that receives a state transfer from the Primary replica to prepare for becoming an active Secondary replica. There can be multiple Idle Secondary replicas in a replica set at a time. Idle Secondary replicas do not count as a part of a write quorum. The value is 3.
+    types:
+    - uid: string
+  - name: ActiveSecondary
+    description: Refers to a replica in the set that receives state updates from the Primary replica, applies them, and sends acknowledgements back. Secondary replicas must participate in the write quorum for a replica set. There can be multiple active Secondary replicas in a replica set at a time. The number of active Secondary replicas is configurable that the reliability subsystem should maintain. The value is 4.
+    types:
+    - uid: string
+- name: ReplicatorQueueStatus
+  description: >-
+    Provides various statistics of the queue used in the service fabric replicator.
+
+    Contains information about the service fabric replicator like the replication/copy queue utilization, last acknowledgement received timestamp, etc.
+
+    Depending on the role of the replicator, the properties in this type imply different meanings.
+  kind: object
+  properties:
+  - name: QueueUtilizationPercentage
+    description: Represents the utilization of the queue. A value of 0 indicates that the queue is empty and a value of 100 indicates the queue is full.
+    types:
+    - uid: integer
+  - name: QueueMemorySize
+    description: Represents the virtual memory consumed by the queue in bytes.
+    types:
+    - uid: string
+  - name: FirstSequenceNumber
+    description: >-
+      On a primary replicator, this is semantically the sequence number of the operation for which all the secondary replicas have sent an acknowledgement.
+
+      On a secondary replicator, this is the smallest sequence number of the operation that is present in the queue.
+    types:
+    - uid: string
+  - name: CompletedSequenceNumber
+    description: >-
+      On a primary replicator, this is semantically the highest sequence number of the operation for which all the secondary replicas have sent an acknowledgement.
+
+      On a secondary replicator, this is semantically the highest sequence number that has been applied to the persistent state.
+    types:
+    - uid: string
+  - name: CommittedSequenceNumber
+    description: >-
+      On a primary replicator, this is semantically the highest sequence number of the operation for which a write quorum of the secondary replicas have sent an acknowledgement.
+
+      On a secondary replicator, this is semantically the highest sequence number of the in-order operation received from the primary.
+    types:
+    - uid: string
+  - name: LastSequenceNumber
+    description: Represents the latest sequence number of the operation that is available in the queue.
+    types:
+    - uid: string
+- name: PropertyValueKind
+  description: The kind of property, determined by the type of data. Following are the possible values.
+  kind: enum
+  properties:
+  - name: Invalid
+    description: Indicates the property is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+    types:
+    - uid: string
+  - name: Binary
+    description: The data inside the property is a binary blob. The value is 1.
+    types:
+    - uid: string
+  - name: Int64
+    description: The data inside the property is an int64. The value is 2.
+    types:
+    - uid: string
+  - name: Double
+    description: The data inside the property is a double. The value is 3.
+    types:
+    - uid: string
+  - name: String
+    description: The data inside the property is a string. The value is 4.
+    types:
+    - uid: string
+  - name: Guid
+    description: The data inside the property is a guid. The value is 5.
+    types:
+    - uid: string
+- name: PropertyBatchOperationKind
+  description: The kind of property batch operation, determined by the operation to be performed. The following are the possible values.
+  kind: enum
+  properties:
+  - name: Invalid
+    description: Indicates the property operation is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+    types:
+    - uid: string
+  - name: Put
+    description: The operation will create or edit a property. The value is 1.
+    types:
+    - uid: string
+  - name: Get
+    description: The operation will get a property. The value is 2.
+    types:
+    - uid: string
+  - name: CheckExists
+    description: The operation will check that a property exists or doesn't exists, depending on the provided value. The value is 3.
+    types:
+    - uid: string
+  - name: CheckSequence
+    description: The operation will ensure that the sequence number is equal to the provided value. The value is 4.
+    types:
+    - uid: string
+  - name: Delete
+    description: The operation will delete a property. The value is 5.
+    types:
+    - uid: string
+  - name: CheckValue
+    description: The operation will ensure that the value of a property is equal to the provided value. The value is 7.
+    types:
+    - uid: string
+- name: Properties
+  description: A map containing the properties that were requested through any "Get" property batch operations. The key represents the index of the "Get" operation in the original request, in string form. The value is the property. If a property is not found, it will not be in the map.
+  kind: object
+  properties:
+  - name: ''
+    description: Information about a Service Fabric property.
+    types:
+    - uid: PropertyInfo
+- name: PropertyBatchInfoKind
+  description: The kind of property batch info, determined by the results of a property batch. The following are the possible values.
+  kind: enum
+  properties:
+  - name: Invalid
+    description: Indicates the property batch info is invalid. All Service Fabric enumerations have the invalid type.
+    types:
+    - uid: string
+  - name: Successful
+    description: The property batch succeeded.
+    types:
+    - uid: string
+  - name: Failed
+    description: The property batch failed.
+    types:
+    - uid: string
+- name: BackupStorageKind
+  description: The kind of backup storage, where backups are saved.
+  kind: enum
+  properties:
+  - name: Invalid
+    description: Indicates an invalid backup storage kind. All Service Fabric enumerations have the invalid type.
+    types:
+    - uid: string
+  - name: FileShare
+    description: Indicates file/ SMB share to be used as backup storage.
+    types:
+    - uid: string
+  - name: AzureBlobStore
+    description: Indicates Azure blob store to be used as backup storage.
+    types:
+    - uid: string
+- name: BackupScheduleKind
+  description: The kind of backup schedule, time based or frequency based.
+  kind: enum
+  properties:
+  - name: Invalid
+    description: Indicates an invalid backup schedule kind. All Service Fabric enumerations have the invalid type.
+    types:
+    - uid: string
+  - name: TimeBased
+    description: Indicates a time-based backup schedule.
+    types:
+    - uid: string
+  - name: FrequencyBased
+    description: Indicates a frequency-based backup schedule.
+    types:
+    - uid: string
+- name: BackupScheduleFrequencyType
+  description: Describes the frequency with which to run the time based backup schedule.
+  kind: enum
+  properties:
+  - name: Invalid
+    description: Indicates an invalid backup schedule frequency type. All Service Fabric enumerations have the invalid type.
+    types:
+    - uid: string
+  - name: Daily
+    description: Indicates that the time based backup schedule is repeated at a daily frequency.
+    types:
+    - uid: string
+  - name: Weekly
+    description: Indicates that the time based backup schedule is repeated at a weekly frequency.
+    types:
+    - uid: string
+- name: ScalingTriggerKind
+  description: Enumerates the ways that a service can be scaled.
+  kind: enum
+  properties:
+  - name: Invalid
+    description: Indicates the scaling trigger is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+    types:
+    - uid: string
+  - name: AveragePartitionLoad
+    description: Indicates a trigger where scaling decisions are made based on average load of a partition. The value is 1.
+    types:
+    - uid: string
+  - name: AverageServiceLoad
+    description: Indicates a trigger where scaling decisions are made based on average load of a service. The value is 2.
+    types:
+    - uid: string
+- name: ScalingMechanismKind
+  description: Enumerates the ways that a service can be scaled.
+  kind: enum
+  properties:
+  - name: Invalid
+    description: Indicates the scaling mechanism is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+    types:
+    - uid: string
+  - name: PartitionInstanceCount
+    description: Indicates a mechanism for scaling where new instances are added or removed from a partition. The value is 1.
+    types:
+    - uid: string
+  - name: AddRemoveIncrementalNamedPartition
+    description: Indicates a mechanism for scaling where new named partitions are added or removed from a service. The value is 2.
+    types:
+    - uid: string
+- name: HealthEvaluationKind
+  description: The health manager in the cluster performs health evaluations in determining the aggregated health state of an entity. This enumeration provides information on the kind of evaluation that was performed. Following are the possible values.
+  kind: enum
+  properties:
+  - name: Invalid
+    description: Indicates that the health evaluation is invalid. The value is zero.
+    types:
+    - uid: string
+  - name: Event
+    description: Indicates that the health evaluation is for a health event. The value is 1.
+    types:
+    - uid: string
+  - name: Replicas
+    description: Indicates that the health evaluation is for the replicas of a partition. The value is 2.
+    types:
+    - uid: string
+  - name: Partitions
+    description: Indicates that the health evaluation is for the partitions of a service. The value is 3.
+    types:
+    - uid: string
+  - name: DeployedServicePackages
+    description: Indicates that the health evaluation is for the deployed service packages of a deployed application. The value is 4.
+    types:
+    - uid: string
+  - name: DeployedApplications
+    description: Indicates that the health evaluation is for the deployed applications of an application. The value is 5.
+    types:
+    - uid: string
+  - name: Services
+    description: Indicates that the health evaluation is for services of an application. The value is 6.
+    types:
+    - uid: string
+  - name: Nodes
+    description: Indicates that the health evaluation is for the cluster nodes. The value is 7.
+    types:
+    - uid: string
+  - name: Applications
+    description: Indicates that the health evaluation is for the cluster applications. The value is 8.
+    types:
+    - uid: string
+  - name: SystemApplication
+    description: Indicates that the health evaluation is for the system application. The value is 9.
+    types:
+    - uid: string
+  - name: UpgradeDomainDeployedApplications
+    description: Indicates that the health evaluation is for the deployed applications of an application in an upgrade domain. The value is 10.
+    types:
+    - uid: string
+  - name: UpgradeDomainNodes
+    description: Indicates that the health evaluation is for the cluster nodes in an upgrade domain. The value is 11.
+    types:
+    - uid: string
+  - name: Replica
+    description: Indicates that the health evaluation is for a replica. The value is 13.
+    types:
+    - uid: string
+  - name: Partition
+    description: Indicates that the health evaluation is for a partition. The value is 14.
+    types:
+    - uid: string
+  - name: DeployedServicePackage
+    description: Indicates that the health evaluation is for a deployed service package. The value is 16.
+    types:
+    - uid: string
+  - name: DeployedApplication
+    description: Indicates that the health evaluation is for a deployed application. The value is 17.
+    types:
+    - uid: string
+  - name: Service
+    description: Indicates that the health evaluation is for a service. The value is 15.
+    types:
+    - uid: string
+  - name: Node
+    description: Indicates that the health evaluation is for a node. The value is 12.
+    types:
+    - uid: string
+  - name: Application
+    description: Indicates that the health evaluation is for an application. The value is 18.
+    types:
+    - uid: string
+  - name: DeltaNodesCheck
+    description: Indicates that the health evaluation is for the delta of unhealthy cluster nodes. The value is 19.
+    types:
+    - uid: string
+  - name: UpgradeDomainDeltaNodesCheck
+    description: Indicates that the health evaluation is for the delta of unhealthy upgrade domain cluster nodes. The value is 20.
+    types:
+    - uid: string
+  - name: ApplicationTypeApplications
+    description: – Indicates that the health evaluation is for applications of an application type. The value is 21.
+    types:
+    - uid: string
+- name: ServiceLoadMetricWeight
+  description: Determines the metric weight relative to the other metrics that are configured for this service. During runtime, if two metrics end up in conflict, the Cluster Resource Manager prefers the metric with the higher weight.
+  kind: enum
+  properties:
+  - name: Zero
+    description: Disables resource balancing for this metric. This value is zero.
+    types:
+    - uid: string
+  - name: Low
+    description: Specifies the metric weight of the service load as Low. The value is 1.
+    types:
+    - uid: string
+  - name: Medium
+    description: Specifies the metric weight of the service load as Medium. The value is 2.
+    types:
+    - uid: string
+  - name: High
+    description: Specifies the metric weight of the service load as High. The value is 3.
+    types:
+    - uid: string
+- name: ServicePlacementInvalidDomainPolicyDescription
+  description: Describes the policy to be used for placement of a Service Fabric service where a particular fault or upgrade domain should not be used for placement of the instances or replicas of that service.
+  kind: object
+  properties:
+  - name: Type
+    description: The type of placement policy for a service fabric service. Following are the possible values.
+    types:
+    - uid: InvalidDomain
+    typesTitle: string
+  - name: DomainName
+    description: The name of the domain that should not be used for placement.
+    types:
+    - uid: string
+- name: ServicePlacementPreferPrimaryDomainPolicyDescription
+  description: >-
+    Describes the policy to be used for placement of a Service Fabric service where the service's Primary replicas should optimally be placed in a particular domain.
+
+
+    This placement policy is usually used with fault domains in scenarios where the Service Fabric cluster is geographically distributed in order to indicate that a service�s primary replica should be located in a particular fault domain, which in geo-distributed scenarios usually aligns with regional or datacenter boundaries. Note that since this is an optimization it is possible that the Primary replica may not end up located in this domain due to failures, capacity limits, or other constraints.
+  kind: object
+  properties:
+  - name: Type
+    description: The type of placement policy for a service fabric service. Following are the possible values.
+    types:
+    - uid: PreferredPrimaryDomain
+    typesTitle: string
+  - name: DomainName
+    description: The name of the domain that should used for placement as per this policy.
+    types:
+    - uid: string
+- name: ServicePlacementRequiredDomainPolicyDescription
+  description: Describes the policy to be used for placement of a Service Fabric service where the instances or replicas of that service must be placed in a particular domain
+  kind: object
+  properties:
+  - name: Type
+    description: The type of placement policy for a service fabric service. Following are the possible values.
+    types:
+    - uid: RequiredDomain
+    typesTitle: string
+  - name: DomainName
+    description: The name of the domain that should used for placement as per this policy.
+    types:
+    - uid: string
+- name: ServicePlacementRequireDomainDistributionPolicyDescription
+  description: >-
+    Describes the policy to be used for placement of a Service Fabric service where two replicas from the same partition should never be placed in the same fault or upgrade domain.
+
+
+    While this is not common it can expose the service to an increased risk of concurrent failures due to unplanned outages or other cases of subsequent/concurrent failures. As an example, consider a case where replicas are deployed across different data center, with one replica per location. In the event that one of the datacenters goes offline, normally the replica that was placed in that datacenter will be packed into one of the remaining datacenters. If this is not desirable then this policy should be set.
+  kind: object
+  properties:
+  - name: Type
+    description: The type of placement policy for a service fabric service. Following are the possible values.
+    types:
+    - uid: RequiredDomainDistribution
+    typesTitle: string
+  - name: DomainName
+    description: The name of the domain that should used for placement as per this policy.
+    types:
+    - uid: string
+- name: ServiceCorrelationScheme
+  description: The service correlation scheme.
+  kind: enum
+  properties:
+  - name: Invalid
+    description: An invalid correlation scheme. Cannot be used. The value is zero.
+    types:
+    - uid: string
+  - name: Affinity
+    description: Indicates that this service has an affinity relationship with another service. Provided for backwards compatibility, consider preferring the Aligned or NonAlignedAffinity options. The value is 1.
+    types:
+    - uid: string
+  - name: AlignedAffinity
+    description: Aligned affinity ensures that the primaries of the partitions of the affinitized services are collocated on the same nodes. This is the default and is the same as selecting the Affinity scheme. The value is 2.
+    types:
+    - uid: string
+  - name: NonAlignedAffinity
+    description: Non-Aligned affinity guarantees that all replicas of each service will be placed on the same nodes. Unlike Aligned Affinity, this does not guarantee that replicas of particular role will be collocated. The value is 3.
+    types:
+    - uid: string
+examples: []
+security: []

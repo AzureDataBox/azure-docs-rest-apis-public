@@ -1,0 +1,8 @@
+### YamlMime:RESTOperationGroup
+uid: localhost:19080.servicefabric.canceloperation
+name: Cancel Operation
+apiVersion: 6.2.0.9
+service: Service Fabric
+operations:
+- uid: localhost:19080.servicefabric.canceloperation.canceloperation
+  summary: "Cancels a user-induced fault operation.  \nThe following is a list of APIs that start fault operations that may be cancelled using CancelOperation -\n- StartDataLoss\n- StartQuorumLoss\n- StartPartitionRestart\n- StartNodeTransition\n\nIf force is false, then the specified user-induced operation will be gracefully stopped and cleaned up.  If force is true, the command will be aborted, and some internal state\nmay be left behind.  Specifying force as true should be used with care.  Calling this API with force set to true is not allowed until this API has already\nbeen called on the same test command with force set to false first, or unless the test command already has an OperationState of OperationState.RollingBack.\nClarification: OperationState.RollingBack means that the system will/is be cleaning up internal system state caused by executing the command.  It will not restore data if the\ntest command was to cause data loss.  For example, if you call StartDataLoss then call this API, the system will only clean up internal state from running the command.\nIt will not restore the target partition's data, if the command progressed far enough to cause data loss.\n\nImportant note:  if this API is invoked with force==true, internal state may be left behind."

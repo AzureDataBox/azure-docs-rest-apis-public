@@ -1,0 +1,1776 @@
+### YamlMime:RESTOperation
+uid: localhost:19080.servicefabric.getapplicationeventlist.getapplicationeventlist
+name: Get Application Event List
+service: Service Fabric
+groupName: Get Application Event List
+apiVersion: 6.2.0.9
+summary: "Gets an Application-related events.  \nThe response is list of ApplicationEvent objects."
+produces:
+- application/json
+paths:
+- content: GET http://localhost:19080/EventsStore/Applications/{applicationId}/$/Events?api-version=6.2.0.9&StartTimeUtc={StartTimeUtc}&EndTimeUtc={EndTimeUtc}
+- content: GET http://localhost:19080/EventsStore/Applications/{applicationId}/$/Events?api-version=6.2.0.9&timeout={timeout}&StartTimeUtc={StartTimeUtc}&EndTimeUtc={EndTimeUtc}&EventsTypesFilter={EventsTypesFilter}&ExcludeAnalysisEvents={ExcludeAnalysisEvents}&SkipCorrelationLookup={SkipCorrelationLookup}
+  isOptional: true
+uriParameters:
+- name: applicationId
+  in: path
+  isRequired: true
+  description: >-
+    The identity of the application. This is typically the full name of the application without the 'fabric:' URI scheme.
+
+    Starting from version 6.0, hierarchical names are delimited with the "~" character.
+
+    For example, if the application name is "fabric:/myapp/app1", the application identity would be "myapp~app1" in 6.0+ and "myapp/app1" in previous versions.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API. This parameter is required and its value must be '6.2-preview'.
+  types:
+  - uid: ApiVersion_6-2-Preview_RequiredQueryParam
+- name: timeout
+  in: query
+  description: The server timeout for performing the operation in seconds. This timeout specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
+  types:
+  - uid: integer
+  format: int64
+- name: StartTimeUtc
+  in: query
+  isRequired: true
+  description: The start time of a lookup query in ISO UTC yyyy-MM-ddTHH:mm:ssZ.
+  types:
+  - uid: string
+- name: EndTimeUtc
+  in: query
+  isRequired: true
+  description: The end time of a lookup query in ISO UTC yyyy-MM-ddTHH:mm:ssZ.
+  types:
+  - uid: string
+- name: EventsTypesFilter
+  in: query
+  description: This is a comma separated string specifying the types of FabricEvents that should only be included in the response.
+  types:
+  - uid: string
+- name: ExcludeAnalysisEvents
+  in: query
+  description: This param disables the retrieval of AnalysisEvents if true is passed.
+  types:
+  - uid: boolean
+- name: SkipCorrelationLookup
+  in: query
+  description: This param disables the search of CorrelatedEvents information if true is passed. otherwise the CorrelationEvents get processed and HasCorrelatedEvents field in every FabricEvent gets populated.
+  types:
+  - uid: boolean
+responses:
+- name: 200 OK
+  description: List of events objects with base type ApplicationEvent.
+  types:
+  - uid: ApplicationEvent
+    isArray: true
+- name: Other Status Codes
+  description: The detailed error response.
+  types:
+  - uid: FabricError
+requestHeader: []
+definitions:
+- name: ApiVersion_6-2-Preview_RequiredQueryParam
+  description: The version of the API. This parameter is required and its value must be '6.2-preview'.
+  kind: enum
+  properties:
+  - name: 6.2-preview
+    description: The version number for the preview functionality of 6.2 runtime
+    types:
+    - uid: string
+- name: FabricError
+  description: The REST API operations for Service Fabric return standard HTTP status codes. This type defines the additional information returned from the Service Fabric API operations that are not successful.
+  kind: object
+  properties:
+  - name: Error
+    description: Error object containing error code and error message.
+    types:
+    - uid: FabricErrorError
+- name: ApplicationCreatedEvent
+  description: Application Created event.
+  kind: object
+  properties:
+  - name: Kind
+    description: The kind of FabricEvent.
+    types:
+    - uid: ApplicationEvent
+    typesTitle: string
+  - name: EventInstanceId
+    description: The identifier for the FabricEvent instance.
+    types:
+    - uid: string
+  - name: TimeStamp
+    description: The time event was logged.
+    types:
+    - uid: string
+  - name: HasCorrelatedEvents
+    description: Shows there is existing related events available.
+    types:
+    - uid: boolean
+  - name: ApplicationId
+    description: >-
+      The identity of the application. This is an encoded representation of the application name. This is used in the REST APIs to identify the application resource.
+
+      Starting in version 6.0, hierarchical names are delimited with the "\~" character. For example, if the application name is "fabric:/myapp/app1",
+
+      the application identity would be "myapp\~app1" in 6.0+ and "myapp/app1" in previous versions.
+    types:
+    - uid: string
+  - name: ApplicationTypeName
+    description: Application type name.
+    types:
+    - uid: string
+  - name: ApplicationTypeVersion
+    description: Application type version.
+    types:
+    - uid: string
+  - name: ApplicationDefinitionKind
+    description: Application definition kind.
+    types:
+    - uid: string
+- name: ApplicationDeletedEvent
+  description: Application Deleted event.
+  kind: object
+  properties:
+  - name: Kind
+    description: The kind of FabricEvent.
+    types:
+    - uid: ApplicationEvent
+    typesTitle: string
+  - name: EventInstanceId
+    description: The identifier for the FabricEvent instance.
+    types:
+    - uid: string
+  - name: TimeStamp
+    description: The time event was logged.
+    types:
+    - uid: string
+  - name: HasCorrelatedEvents
+    description: Shows there is existing related events available.
+    types:
+    - uid: boolean
+  - name: ApplicationId
+    description: >-
+      The identity of the application. This is an encoded representation of the application name. This is used in the REST APIs to identify the application resource.
+
+      Starting in version 6.0, hierarchical names are delimited with the "\~" character. For example, if the application name is "fabric:/myapp/app1",
+
+      the application identity would be "myapp\~app1" in 6.0+ and "myapp/app1" in previous versions.
+    types:
+    - uid: string
+  - name: ApplicationTypeName
+    description: Application type name.
+    types:
+    - uid: string
+  - name: ApplicationTypeVersion
+    description: Application type version.
+    types:
+    - uid: string
+- name: ApplicationHealthReportCreatedEvent
+  description: Application Health Report Created event.
+  kind: object
+  properties:
+  - name: Kind
+    description: The kind of FabricEvent.
+    types:
+    - uid: ApplicationEvent
+    typesTitle: string
+  - name: EventInstanceId
+    description: The identifier for the FabricEvent instance.
+    types:
+    - uid: string
+  - name: TimeStamp
+    description: The time event was logged.
+    types:
+    - uid: string
+  - name: HasCorrelatedEvents
+    description: Shows there is existing related events available.
+    types:
+    - uid: boolean
+  - name: ApplicationId
+    description: >-
+      The identity of the application. This is an encoded representation of the application name. This is used in the REST APIs to identify the application resource.
+
+      Starting in version 6.0, hierarchical names are delimited with the "\~" character. For example, if the application name is "fabric:/myapp/app1",
+
+      the application identity would be "myapp\~app1" in 6.0+ and "myapp/app1" in previous versions.
+    types:
+    - uid: string
+  - name: ApplicationInstanceId
+    description: Id of Application instance.
+    types:
+    - uid: integer
+  - name: SourceId
+    description: Id of report source.
+    types:
+    - uid: string
+  - name: Property
+    description: Describes the property.
+    types:
+    - uid: string
+  - name: HealthState
+    description: Describes the property health state.
+    types:
+    - uid: string
+  - name: TimeToLiveMs
+    description: Time to live in milli-seconds.
+    types:
+    - uid: integer
+  - name: SequenceNumber
+    description: Sequence number of report.
+    types:
+    - uid: integer
+  - name: Description
+    description: Description of report.
+    types:
+    - uid: string
+  - name: RemoveWhenExpired
+    description: Indicates the removal when it expires.
+    types:
+    - uid: boolean
+  - name: SourceUtcTimestamp
+    description: Source time.
+    types:
+    - uid: string
+- name: ApplicationHealthReportExpiredEvent
+  description: Application Health Report Expired event.
+  kind: object
+  properties:
+  - name: Kind
+    description: The kind of FabricEvent.
+    types:
+    - uid: ApplicationEvent
+    typesTitle: string
+  - name: EventInstanceId
+    description: The identifier for the FabricEvent instance.
+    types:
+    - uid: string
+  - name: TimeStamp
+    description: The time event was logged.
+    types:
+    - uid: string
+  - name: HasCorrelatedEvents
+    description: Shows there is existing related events available.
+    types:
+    - uid: boolean
+  - name: ApplicationId
+    description: >-
+      The identity of the application. This is an encoded representation of the application name. This is used in the REST APIs to identify the application resource.
+
+      Starting in version 6.0, hierarchical names are delimited with the "\~" character. For example, if the application name is "fabric:/myapp/app1",
+
+      the application identity would be "myapp\~app1" in 6.0+ and "myapp/app1" in previous versions.
+    types:
+    - uid: string
+  - name: ApplicationInstanceId
+    description: Id of Application instance.
+    types:
+    - uid: integer
+  - name: SourceId
+    description: Id of report source.
+    types:
+    - uid: string
+  - name: Property
+    description: Describes the property.
+    types:
+    - uid: string
+  - name: HealthState
+    description: Describes the property health state.
+    types:
+    - uid: string
+  - name: TimeToLiveMs
+    description: Time to live in milli-seconds.
+    types:
+    - uid: integer
+  - name: SequenceNumber
+    description: Sequence number of report.
+    types:
+    - uid: integer
+  - name: Description
+    description: Description of report.
+    types:
+    - uid: string
+  - name: RemoveWhenExpired
+    description: Indicates the removal when it expires.
+    types:
+    - uid: boolean
+  - name: SourceUtcTimestamp
+    description: Source time.
+    types:
+    - uid: string
+- name: ApplicationUpgradeCompleteEvent
+  description: Application Upgrade Complete event.
+  kind: object
+  properties:
+  - name: Kind
+    description: The kind of FabricEvent.
+    types:
+    - uid: ApplicationEvent
+    typesTitle: string
+  - name: EventInstanceId
+    description: The identifier for the FabricEvent instance.
+    types:
+    - uid: string
+  - name: TimeStamp
+    description: The time event was logged.
+    types:
+    - uid: string
+  - name: HasCorrelatedEvents
+    description: Shows there is existing related events available.
+    types:
+    - uid: boolean
+  - name: ApplicationId
+    description: >-
+      The identity of the application. This is an encoded representation of the application name. This is used in the REST APIs to identify the application resource.
+
+      Starting in version 6.0, hierarchical names are delimited with the "\~" character. For example, if the application name is "fabric:/myapp/app1",
+
+      the application identity would be "myapp\~app1" in 6.0+ and "myapp/app1" in previous versions.
+    types:
+    - uid: string
+  - name: ApplicationTypeName
+    description: Application type name.
+    types:
+    - uid: string
+  - name: ApplicationTypeVersion
+    description: Application type version.
+    types:
+    - uid: string
+  - name: OverallUpgradeElapsedTimeInMs
+    description: Overall upgrade time in milli-seconds.
+    types:
+    - uid: number
+- name: ApplicationUpgradeDomainCompleteEvent
+  description: Application Upgrade Domain Complete event.
+  kind: object
+  properties:
+  - name: Kind
+    description: The kind of FabricEvent.
+    types:
+    - uid: ApplicationEvent
+    typesTitle: string
+  - name: EventInstanceId
+    description: The identifier for the FabricEvent instance.
+    types:
+    - uid: string
+  - name: TimeStamp
+    description: The time event was logged.
+    types:
+    - uid: string
+  - name: HasCorrelatedEvents
+    description: Shows there is existing related events available.
+    types:
+    - uid: boolean
+  - name: ApplicationId
+    description: >-
+      The identity of the application. This is an encoded representation of the application name. This is used in the REST APIs to identify the application resource.
+
+      Starting in version 6.0, hierarchical names are delimited with the "\~" character. For example, if the application name is "fabric:/myapp/app1",
+
+      the application identity would be "myapp\~app1" in 6.0+ and "myapp/app1" in previous versions.
+    types:
+    - uid: string
+  - name: ApplicationTypeName
+    description: Application type name.
+    types:
+    - uid: string
+  - name: CurrentApplicationTypeVersion
+    description: Current Application type version.
+    types:
+    - uid: string
+  - name: ApplicationTypeVersion
+    description: Target Application type version.
+    types:
+    - uid: string
+  - name: UpgradeState
+    description: State of upgrade.
+    types:
+    - uid: string
+  - name: UpgradeDomains
+    description: Upgrade domains.
+    types:
+    - uid: string
+  - name: UpgradeDomainElapsedTimeInMs
+    description: Upgrade time of domain in milli-seconds.
+    types:
+    - uid: number
+- name: ApplicationUpgradeRollbackCompleteEvent
+  description: Application Upgrade Rollback Complete event.
+  kind: object
+  properties:
+  - name: Kind
+    description: The kind of FabricEvent.
+    types:
+    - uid: ApplicationEvent
+    typesTitle: string
+  - name: EventInstanceId
+    description: The identifier for the FabricEvent instance.
+    types:
+    - uid: string
+  - name: TimeStamp
+    description: The time event was logged.
+    types:
+    - uid: string
+  - name: HasCorrelatedEvents
+    description: Shows there is existing related events available.
+    types:
+    - uid: boolean
+  - name: ApplicationId
+    description: >-
+      The identity of the application. This is an encoded representation of the application name. This is used in the REST APIs to identify the application resource.
+
+      Starting in version 6.0, hierarchical names are delimited with the "\~" character. For example, if the application name is "fabric:/myapp/app1",
+
+      the application identity would be "myapp\~app1" in 6.0+ and "myapp/app1" in previous versions.
+    types:
+    - uid: string
+  - name: ApplicationTypeName
+    description: Application type name.
+    types:
+    - uid: string
+  - name: ApplicationTypeVersion
+    description: Application type version.
+    types:
+    - uid: string
+  - name: FailureReason
+    description: Describes reason of failure.
+    types:
+    - uid: string
+  - name: OverallUpgradeElapsedTimeInMs
+    description: Overall upgrade time in milli-seconds.
+    types:
+    - uid: number
+- name: ApplicationUpgradeRollbackStartEvent
+  description: Application Upgrade Rollback Start event.
+  kind: object
+  properties:
+  - name: Kind
+    description: The kind of FabricEvent.
+    types:
+    - uid: ApplicationEvent
+    typesTitle: string
+  - name: EventInstanceId
+    description: The identifier for the FabricEvent instance.
+    types:
+    - uid: string
+  - name: TimeStamp
+    description: The time event was logged.
+    types:
+    - uid: string
+  - name: HasCorrelatedEvents
+    description: Shows there is existing related events available.
+    types:
+    - uid: boolean
+  - name: ApplicationId
+    description: >-
+      The identity of the application. This is an encoded representation of the application name. This is used in the REST APIs to identify the application resource.
+
+      Starting in version 6.0, hierarchical names are delimited with the "\~" character. For example, if the application name is "fabric:/myapp/app1",
+
+      the application identity would be "myapp\~app1" in 6.0+ and "myapp/app1" in previous versions.
+    types:
+    - uid: string
+  - name: ApplicationTypeName
+    description: Application type name.
+    types:
+    - uid: string
+  - name: CurrentApplicationTypeVersion
+    description: Current Application type version.
+    types:
+    - uid: string
+  - name: ApplicationTypeVersion
+    description: Target Application type version.
+    types:
+    - uid: string
+  - name: FailureReason
+    description: Describes reason of failure.
+    types:
+    - uid: string
+  - name: OverallUpgradeElapsedTimeInMs
+    description: Overall upgrade time in milli-seconds.
+    types:
+    - uid: number
+- name: ApplicationUpgradeStartEvent
+  description: Application Upgrade Start event.
+  kind: object
+  properties:
+  - name: Kind
+    description: The kind of FabricEvent.
+    types:
+    - uid: ApplicationEvent
+    typesTitle: string
+  - name: EventInstanceId
+    description: The identifier for the FabricEvent instance.
+    types:
+    - uid: string
+  - name: TimeStamp
+    description: The time event was logged.
+    types:
+    - uid: string
+  - name: HasCorrelatedEvents
+    description: Shows there is existing related events available.
+    types:
+    - uid: boolean
+  - name: ApplicationId
+    description: >-
+      The identity of the application. This is an encoded representation of the application name. This is used in the REST APIs to identify the application resource.
+
+      Starting in version 6.0, hierarchical names are delimited with the "\~" character. For example, if the application name is "fabric:/myapp/app1",
+
+      the application identity would be "myapp\~app1" in 6.0+ and "myapp/app1" in previous versions.
+    types:
+    - uid: string
+  - name: ApplicationTypeName
+    description: Application type name.
+    types:
+    - uid: string
+  - name: CurrentApplicationTypeVersion
+    description: Current Application type version.
+    types:
+    - uid: string
+  - name: ApplicationTypeVersion
+    description: Target Application type version.
+    types:
+    - uid: string
+  - name: UpgradeType
+    description: Type of upgrade.
+    types:
+    - uid: string
+  - name: RollingUpgradeMode
+    description: Mode of upgrade.
+    types:
+    - uid: string
+  - name: FailureAction
+    description: Action if failed.
+    types:
+    - uid: string
+- name: DeployedApplicationHealthReportCreatedEvent
+  description: Deployed Application Health Report Created event.
+  kind: object
+  properties:
+  - name: Kind
+    description: The kind of FabricEvent.
+    types:
+    - uid: ApplicationEvent
+    typesTitle: string
+  - name: EventInstanceId
+    description: The identifier for the FabricEvent instance.
+    types:
+    - uid: string
+  - name: TimeStamp
+    description: The time event was logged.
+    types:
+    - uid: string
+  - name: HasCorrelatedEvents
+    description: Shows there is existing related events available.
+    types:
+    - uid: boolean
+  - name: ApplicationId
+    description: >-
+      The identity of the application. This is an encoded representation of the application name. This is used in the REST APIs to identify the application resource.
+
+      Starting in version 6.0, hierarchical names are delimited with the "\~" character. For example, if the application name is "fabric:/myapp/app1",
+
+      the application identity would be "myapp\~app1" in 6.0+ and "myapp/app1" in previous versions.
+    types:
+    - uid: string
+  - name: ApplicationInstanceId
+    description: Id of Application instance.
+    types:
+    - uid: integer
+  - name: NodeName
+    description: The name of a Service Fabric node.
+    types:
+    - uid: string
+  - name: SourceId
+    description: Id of report source.
+    types:
+    - uid: string
+  - name: Property
+    description: Describes the property.
+    types:
+    - uid: string
+  - name: HealthState
+    description: Describes the property health state.
+    types:
+    - uid: string
+  - name: TimeToLiveMs
+    description: Time to live in milli-seconds.
+    types:
+    - uid: integer
+  - name: SequenceNumber
+    description: Sequence number of report.
+    types:
+    - uid: integer
+  - name: Description
+    description: Description of report.
+    types:
+    - uid: string
+  - name: RemoveWhenExpired
+    description: Indicates the removal when it expires.
+    types:
+    - uid: boolean
+  - name: SourceUtcTimestamp
+    description: Source time.
+    types:
+    - uid: string
+- name: DeployedApplicationHealthReportExpiredEvent
+  description: Deployed Application Health Report Expired event.
+  kind: object
+  properties:
+  - name: Kind
+    description: The kind of FabricEvent.
+    types:
+    - uid: ApplicationEvent
+    typesTitle: string
+  - name: EventInstanceId
+    description: The identifier for the FabricEvent instance.
+    types:
+    - uid: string
+  - name: TimeStamp
+    description: The time event was logged.
+    types:
+    - uid: string
+  - name: HasCorrelatedEvents
+    description: Shows there is existing related events available.
+    types:
+    - uid: boolean
+  - name: ApplicationId
+    description: >-
+      The identity of the application. This is an encoded representation of the application name. This is used in the REST APIs to identify the application resource.
+
+      Starting in version 6.0, hierarchical names are delimited with the "\~" character. For example, if the application name is "fabric:/myapp/app1",
+
+      the application identity would be "myapp\~app1" in 6.0+ and "myapp/app1" in previous versions.
+    types:
+    - uid: string
+  - name: ApplicationInstanceId
+    description: Id of Application instance.
+    types:
+    - uid: integer
+  - name: NodeName
+    description: The name of a Service Fabric node.
+    types:
+    - uid: string
+  - name: SourceId
+    description: Id of report source.
+    types:
+    - uid: string
+  - name: Property
+    description: Describes the property.
+    types:
+    - uid: string
+  - name: HealthState
+    description: Describes the property health state.
+    types:
+    - uid: string
+  - name: TimeToLiveMs
+    description: Time to live in milli-seconds.
+    types:
+    - uid: integer
+  - name: SequenceNumber
+    description: Sequence number of report.
+    types:
+    - uid: integer
+  - name: Description
+    description: Description of report.
+    types:
+    - uid: string
+  - name: RemoveWhenExpired
+    description: Indicates the removal when it expires.
+    types:
+    - uid: boolean
+  - name: SourceUtcTimestamp
+    description: Source time.
+    types:
+    - uid: string
+- name: ProcessDeactivatedEvent
+  description: Process Deactivated event.
+  kind: object
+  properties:
+  - name: Kind
+    description: The kind of FabricEvent.
+    types:
+    - uid: ApplicationEvent
+    typesTitle: string
+  - name: EventInstanceId
+    description: The identifier for the FabricEvent instance.
+    types:
+    - uid: string
+  - name: TimeStamp
+    description: The time event was logged.
+    types:
+    - uid: string
+  - name: HasCorrelatedEvents
+    description: Shows there is existing related events available.
+    types:
+    - uid: boolean
+  - name: ApplicationId
+    description: >-
+      The identity of the application. This is an encoded representation of the application name. This is used in the REST APIs to identify the application resource.
+
+      Starting in version 6.0, hierarchical names are delimited with the "\~" character. For example, if the application name is "fabric:/myapp/app1",
+
+      the application identity would be "myapp\~app1" in 6.0+ and "myapp/app1" in previous versions.
+    types:
+    - uid: string
+  - name: ServiceName
+    description: Name of Service.
+    types:
+    - uid: string
+  - name: ServicePackageName
+    description: Name of Service package.
+    types:
+    - uid: string
+  - name: ServicePackageActivationId
+    description: Activation Id of Service package.
+    types:
+    - uid: string
+  - name: IsExclusive
+    description: Indicates IsExclusive flag.
+    types:
+    - uid: boolean
+  - name: CodePackageName
+    description: Name of Code package.
+    types:
+    - uid: string
+  - name: EntryPointType
+    description: Type of EntryPoint.
+    types:
+    - uid: string
+  - name: ExeName
+    description: Name of executable.
+    types:
+    - uid: string
+  - name: ProcessId
+    description: Process Id.
+    types:
+    - uid: integer
+  - name: HostId
+    description: Host Id.
+    types:
+    - uid: string
+  - name: ExitCode
+    description: Exit code of process.
+    types:
+    - uid: integer
+  - name: UnexpectedTermination
+    description: Indicates if termination is unexpected.
+    types:
+    - uid: boolean
+  - name: StartTime
+    description: Start time of process.
+    types:
+    - uid: string
+- name: ContainerDeactivatedEvent
+  description: Container Deactivated event.
+  kind: object
+  properties:
+  - name: Kind
+    description: The kind of FabricEvent.
+    types:
+    - uid: ApplicationEvent
+    typesTitle: string
+  - name: EventInstanceId
+    description: The identifier for the FabricEvent instance.
+    types:
+    - uid: string
+  - name: TimeStamp
+    description: The time event was logged.
+    types:
+    - uid: string
+  - name: HasCorrelatedEvents
+    description: Shows there is existing related events available.
+    types:
+    - uid: boolean
+  - name: ApplicationId
+    description: >-
+      The identity of the application. This is an encoded representation of the application name. This is used in the REST APIs to identify the application resource.
+
+      Starting in version 6.0, hierarchical names are delimited with the "\~" character. For example, if the application name is "fabric:/myapp/app1",
+
+      the application identity would be "myapp\~app1" in 6.0+ and "myapp/app1" in previous versions.
+    types:
+    - uid: string
+  - name: ServiceName
+    description: Name of Service.
+    types:
+    - uid: string
+  - name: ServicePackageName
+    description: Name of Service package.
+    types:
+    - uid: string
+  - name: ServicePackageActivationId
+    description: Activation Id of Service package.
+    types:
+    - uid: string
+  - name: IsExclusive
+    description: Indicates IsExclusive flag.
+    types:
+    - uid: boolean
+  - name: CodePackageName
+    description: Name of Code package.
+    types:
+    - uid: string
+  - name: EntryPointType
+    description: Type of EntryPoint.
+    types:
+    - uid: string
+  - name: ImageName
+    description: Name of Container image.
+    types:
+    - uid: string
+  - name: ContainerName
+    description: Name of Container.
+    types:
+    - uid: string
+  - name: HostId
+    description: Host Id.
+    types:
+    - uid: string
+  - name: ExitCode
+    description: Exit code of process.
+    types:
+    - uid: integer
+  - name: UnexpectedTermination
+    description: Indicates if termination is unexpected.
+    types:
+    - uid: boolean
+  - name: StartTime
+    description: Start time of process.
+    types:
+    - uid: string
+- name: DeployedServiceHealthReportCreatedEvent
+  description: Deployed Service Health Report Created event.
+  kind: object
+  properties:
+  - name: Kind
+    description: The kind of FabricEvent.
+    types:
+    - uid: ApplicationEvent
+    typesTitle: string
+  - name: EventInstanceId
+    description: The identifier for the FabricEvent instance.
+    types:
+    - uid: string
+  - name: TimeStamp
+    description: The time event was logged.
+    types:
+    - uid: string
+  - name: HasCorrelatedEvents
+    description: Shows there is existing related events available.
+    types:
+    - uid: boolean
+  - name: ApplicationId
+    description: >-
+      The identity of the application. This is an encoded representation of the application name. This is used in the REST APIs to identify the application resource.
+
+      Starting in version 6.0, hierarchical names are delimited with the "\~" character. For example, if the application name is "fabric:/myapp/app1",
+
+      the application identity would be "myapp\~app1" in 6.0+ and "myapp/app1" in previous versions.
+    types:
+    - uid: string
+  - name: ServiceManifestName
+    description: Service manifest name.
+    types:
+    - uid: string
+  - name: ServicePackageInstanceId
+    description: Id of Service package instance.
+    types:
+    - uid: integer
+  - name: ServicePackageActivationId
+    description: Id of Service package activation.
+    types:
+    - uid: string
+  - name: NodeName
+    description: The name of a Service Fabric node.
+    types:
+    - uid: string
+  - name: SourceId
+    description: Id of report source.
+    types:
+    - uid: string
+  - name: Property
+    description: Describes the property.
+    types:
+    - uid: string
+  - name: HealthState
+    description: Describes the property health state.
+    types:
+    - uid: string
+  - name: TTLTimespan
+    description: Time to live in milli-seconds.
+    types:
+    - uid: integer
+  - name: SequenceNumber
+    description: Sequence number of report.
+    types:
+    - uid: integer
+  - name: Description
+    description: Description of report.
+    types:
+    - uid: string
+  - name: RemoveWhenExpired
+    description: Indicates the removal when it expires.
+    types:
+    - uid: boolean
+  - name: SourceUtcTimestamp
+    description: Source time.
+    types:
+    - uid: string
+- name: DeployedServiceHealthReportExpiredEvent
+  description: Deployed Service Health Report Expired event.
+  kind: object
+  properties:
+  - name: Kind
+    description: The kind of FabricEvent.
+    types:
+    - uid: ApplicationEvent
+    typesTitle: string
+  - name: EventInstanceId
+    description: The identifier for the FabricEvent instance.
+    types:
+    - uid: string
+  - name: TimeStamp
+    description: The time event was logged.
+    types:
+    - uid: string
+  - name: HasCorrelatedEvents
+    description: Shows there is existing related events available.
+    types:
+    - uid: boolean
+  - name: ApplicationId
+    description: >-
+      The identity of the application. This is an encoded representation of the application name. This is used in the REST APIs to identify the application resource.
+
+      Starting in version 6.0, hierarchical names are delimited with the "\~" character. For example, if the application name is "fabric:/myapp/app1",
+
+      the application identity would be "myapp\~app1" in 6.0+ and "myapp/app1" in previous versions.
+    types:
+    - uid: string
+  - name: ServiceManifest
+    description: Service manifest name.
+    types:
+    - uid: string
+  - name: ServicePackageInstanceId
+    description: Id of Service package instance.
+    types:
+    - uid: integer
+  - name: ServicePackageActivationId
+    description: Id of Service package activation.
+    types:
+    - uid: string
+  - name: NodeName
+    description: The name of a Service Fabric node.
+    types:
+    - uid: string
+  - name: SourceId
+    description: Id of report source.
+    types:
+    - uid: string
+  - name: Property
+    description: Describes the property.
+    types:
+    - uid: string
+  - name: HealthState
+    description: Describes the property health state.
+    types:
+    - uid: string
+  - name: TTLTimespan
+    description: Time to live in milli-seconds.
+    types:
+    - uid: integer
+  - name: SequenceNumber
+    description: Sequence number of report.
+    types:
+    - uid: integer
+  - name: Description
+    description: Description of report.
+    types:
+    - uid: string
+  - name: RemoveWhenExpired
+    description: Indicates the removal when it expires.
+    types:
+    - uid: boolean
+  - name: SourceUtcTimestamp
+    description: Source time.
+    types:
+    - uid: string
+- name: ChaosRestartCodePackageFaultScheduledEvent
+  description: Chaos Restart Code Package Fault Scheduled event.
+  kind: object
+  properties:
+  - name: Kind
+    description: The kind of FabricEvent.
+    types:
+    - uid: ApplicationEvent
+    typesTitle: string
+  - name: EventInstanceId
+    description: The identifier for the FabricEvent instance.
+    types:
+    - uid: string
+  - name: TimeStamp
+    description: The time event was logged.
+    types:
+    - uid: string
+  - name: HasCorrelatedEvents
+    description: Shows there is existing related events available.
+    types:
+    - uid: boolean
+  - name: ApplicationId
+    description: >-
+      The identity of the application. This is an encoded representation of the application name. This is used in the REST APIs to identify the application resource.
+
+      Starting in version 6.0, hierarchical names are delimited with the "\~" character. For example, if the application name is "fabric:/myapp/app1",
+
+      the application identity would be "myapp\~app1" in 6.0+ and "myapp/app1" in previous versions.
+    types:
+    - uid: string
+  - name: FaultGroupId
+    description: Id of fault group.
+    types:
+    - uid: string
+  - name: FaultId
+    description: Id of fault.
+    types:
+    - uid: string
+  - name: NodeName
+    description: The name of a Service Fabric node.
+    types:
+    - uid: string
+  - name: ServiceManifestName
+    description: Service manifest name.
+    types:
+    - uid: string
+  - name: CodePackageName
+    description: Code package name.
+    types:
+    - uid: string
+  - name: ServicePackageActivationId
+    description: Id of Service package activation.
+    types:
+    - uid: string
+- name: ChaosRestartCodePackageFaultCompletedEvent
+  description: Chaos Restart Code Package Fault Completed event.
+  kind: object
+  properties:
+  - name: Kind
+    description: The kind of FabricEvent.
+    types:
+    - uid: ApplicationEvent
+    typesTitle: string
+  - name: EventInstanceId
+    description: The identifier for the FabricEvent instance.
+    types:
+    - uid: string
+  - name: TimeStamp
+    description: The time event was logged.
+    types:
+    - uid: string
+  - name: HasCorrelatedEvents
+    description: Shows there is existing related events available.
+    types:
+    - uid: boolean
+  - name: ApplicationId
+    description: >-
+      The identity of the application. This is an encoded representation of the application name. This is used in the REST APIs to identify the application resource.
+
+      Starting in version 6.0, hierarchical names are delimited with the "\~" character. For example, if the application name is "fabric:/myapp/app1",
+
+      the application identity would be "myapp\~app1" in 6.0+ and "myapp/app1" in previous versions.
+    types:
+    - uid: string
+  - name: FaultGroupId
+    description: Id of fault group.
+    types:
+    - uid: string
+  - name: FaultId
+    description: Id of fault.
+    types:
+    - uid: string
+  - name: NodeName
+    description: The name of a Service Fabric node.
+    types:
+    - uid: string
+  - name: ServiceManifestName
+    description: Service manifest name.
+    types:
+    - uid: string
+  - name: CodePackageName
+    description: Code package name.
+    types:
+    - uid: string
+  - name: ServicePackageActivationId
+    description: Id of Service package activation.
+    types:
+    - uid: string
+- name: FabricErrorError
+  description: Error object containing error code and error message.
+  kind: object
+  properties:
+  - name: Code
+    description: >-
+      Defines the fabric error codes that be returned as part of the error object in response to Service Fabric API operations that are not successful. Following are the error code values that can be returned for a specific HTTP status code.
+
+        - Possible values of the error code for HTTP status code 400 (Bad Request)
+          - "FABRIC_E_INVALID_PARTITION_KEY"
+          - "FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR"
+          - "FABRIC_E_INVALID_ADDRESS"
+          - "FABRIC_E_APPLICATION_NOT_UPGRADING"
+          - "FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR"
+          - "FABRIC_E_FABRIC_NOT_UPGRADING"
+          - "FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR"
+          - "FABRIC_E_INVALID_CONFIGURATION"
+          - "FABRIC_E_INVALID_NAME_URI"
+          - "FABRIC_E_PATH_TOO_LONG"
+          - "FABRIC_E_KEY_TOO_LARGE"
+          - "FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED"
+          - "FABRIC_E_INVALID_ATOMIC_GROUP"
+          - "FABRIC_E_VALUE_EMPTY"
+          - "FABRIC_E_BACKUP_IS_ENABLED"
+          - "FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH"
+          - "FABRIC_E_INVALID_FOR_STATELESS_SERVICES"
+          - "FABRIC_E_INVALID_SERVICE_SCALING_POLICY"
+          - "E_INVALIDARG"
+
+        - Possible values of the error code for HTTP status code 404 (Not Found)
+          - "FABRIC_E_NODE_NOT_FOUND"
+          - "FABRIC_E_APPLICATION_TYPE_NOT_FOUND"
+          - "FABRIC_E_APPLICATION_NOT_FOUND"
+          - "FABRIC_E_SERVICE_TYPE_NOT_FOUND"
+          - "FABRIC_E_SERVICE_DOES_NOT_EXIST"
+          - "FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND"
+          - "FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND"
+          - "FABRIC_E_PARTITION_NOT_FOUND"
+          - "FABRIC_E_REPLICA_DOES_NOT_EXIST"
+          - "FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST"
+          - "FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND"
+          - "FABRIC_E_DIRECTORY_NOT_FOUND"
+          - "FABRIC_E_FABRIC_VERSION_NOT_FOUND"
+          - "FABRIC_E_FILE_NOT_FOUND"
+          - "FABRIC_E_NAME_DOES_NOT_EXIST"
+          - "FABRIC_E_PROPERTY_DOES_NOT_EXIST"
+          - "FABRIC_E_ENUMERATION_COMPLETED"
+          - "FABRIC_E_SERVICE_MANIFEST_NOT_FOUND"
+          - "FABRIC_E_KEY_NOT_FOUND"
+          - "FABRIC_E_HEALTH_ENTITY_NOT_FOUND"
+          - "FABRIC_E_BACKUP_NOT_ENABLED"
+          - "FABRIC_E_BACKUP_POLICY_NOT_EXISTING"
+          - "FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING"
+
+        - Possible values of the error code for HTTP status code 409 (Conflict)
+          - "FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION"
+          - "FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS"
+          - "FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS"
+          - "FABRIC_E_SERVICE_ALREADY_EXISTS"
+          - "FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_TYPE_IN_USE"
+          - "FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION"
+          - "FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS"
+          - "FABRIC_E_FABRIC_VERSION_IN_USE"
+          - "FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS"
+          - "FABRIC_E_NAME_ALREADY_EXISTS"
+          - "FABRIC_E_NAME_NOT_EMPTY"
+          - "FABRIC_E_PROPERTY_CHECK_FAILED"
+          - "FABRIC_E_SERVICE_METADATA_MISMATCH"
+          - "FABRIC_E_SERVICE_TYPE_MISMATCH"
+          - "FABRIC_E_HEALTH_STALE_REPORT"
+          - "FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED"
+          - "FABRIC_E_NODE_HAS_NOT_STOPPED_YET"
+          - "FABRIC_E_INSTANCE_ID_MISMATCH"
+          - "FABRIC_E_BACKUP_IN_PROGRESS"
+          - "FABRIC_E_RESTORE_IN_PROGRESS"
+          - "FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING"
+
+        - Possible values of the error code for HTTP status code 413 (Request Entity Too Large)
+          - "FABRIC_E_VALUE_TOO_LARGE"
+
+        - Possible values of the error code for HTTP status code 500 (Internal Server Error)
+          - "FABRIC_E_NODE_IS_UP"
+          - "E_FAIL"
+
+        - Possible values of the error code for HTTP status code 503 (Service Unavailable)
+          - "FABRIC_E_NO_WRITE_QUORUM"
+          - "FABRIC_E_NOT_PRIMARY"
+          - "FABRIC_E_NOT_READY"
+          - "FABRIC_E_RECONFIGURATION_PENDING"
+          - "FABRIC_E_SERVICE_OFFLINE"
+          - "E_ABORT"
+          - "FABRIC_E_VALUE_TOO_LARGE"
+
+        - Possible values of the error code for HTTP status code 504 (Gateway Timeout)
+          - "FABRIC_E_COMMUNICATION_ERROR"
+          - "FABRIC_E_OPERATION_NOT_COMPLETE"
+          - "FABRIC_E_TIMEOUT"
+    types:
+    - uid: FabricErrorCodes
+  - name: Message
+    description: Error message.
+    types:
+    - uid: string
+- name: FabricEventKind
+  description: The kind of FabricEvent.
+  kind: enum
+  properties:
+  - name: ClusterEvent
+    types:
+    - uid: string
+  - name: ContainerInstanceEvent
+    types:
+    - uid: string
+  - name: NodeEvent
+    types:
+    - uid: string
+  - name: ApplicationEvent
+    types:
+    - uid: string
+  - name: ServiceEvent
+    types:
+    - uid: string
+  - name: PartitionEvent
+    types:
+    - uid: string
+  - name: ReplicaEvent
+    types:
+    - uid: string
+  - name: PartitionAnalysisEvent
+    types:
+    - uid: string
+  - name: ApplicationCreated
+    types:
+    - uid: string
+  - name: ApplicationDeleted
+    types:
+    - uid: string
+  - name: ApplicationHealthReportCreated
+    types:
+    - uid: string
+  - name: ApplicationHealthReportExpired
+    types:
+    - uid: string
+  - name: ApplicationUpgradeComplete
+    types:
+    - uid: string
+  - name: ApplicationUpgradeDomainComplete
+    types:
+    - uid: string
+  - name: ApplicationUpgradeRollbackComplete
+    types:
+    - uid: string
+  - name: ApplicationUpgradeRollbackStart
+    types:
+    - uid: string
+  - name: ApplicationUpgradeStart
+    types:
+    - uid: string
+  - name: DeployedApplicationHealthReportCreated
+    types:
+    - uid: string
+  - name: DeployedApplicationHealthReportExpired
+    types:
+    - uid: string
+  - name: ProcessDeactivated
+    types:
+    - uid: string
+  - name: ContainerDeactivated
+    types:
+    - uid: string
+  - name: NodeAborted
+    types:
+    - uid: string
+  - name: NodeAborting
+    types:
+    - uid: string
+  - name: NodeAdded
+    types:
+    - uid: string
+  - name: NodeClose
+    types:
+    - uid: string
+  - name: NodeClosing
+    types:
+    - uid: string
+  - name: NodeDeactivateComplete
+    types:
+    - uid: string
+  - name: NodeDeactivateStart
+    types:
+    - uid: string
+  - name: NodeDown
+    types:
+    - uid: string
+  - name: NodeHealthReportCreated
+    types:
+    - uid: string
+  - name: NodeHealthReportExpired
+    types:
+    - uid: string
+  - name: NodeOpenedSuccess
+    types:
+    - uid: string
+  - name: NodeOpenFailed
+    types:
+    - uid: string
+  - name: NodeOpening
+    types:
+    - uid: string
+  - name: NodeRemoved
+    types:
+    - uid: string
+  - name: NodeUp
+    types:
+    - uid: string
+  - name: PartitionHealthReportCreated
+    types:
+    - uid: string
+  - name: PartitionHealthReportExpired
+    types:
+    - uid: string
+  - name: PartitionReconfigurationCompleted
+    types:
+    - uid: string
+  - name: PartitionPrimaryMoveAnalysis
+    types:
+    - uid: string
+  - name: ServiceCreated
+    types:
+    - uid: string
+  - name: ServiceDeleted
+    types:
+    - uid: string
+  - name: ServiceHealthReportCreated
+    types:
+    - uid: string
+  - name: ServiceHealthReportExpired
+    types:
+    - uid: string
+  - name: DeployedServiceHealthReportCreated
+    types:
+    - uid: string
+  - name: DeployedServiceHealthReportExpired
+    types:
+    - uid: string
+  - name: StatefulReplicaHealthReportCreated
+    types:
+    - uid: string
+  - name: StatefulReplicaHealthReportExpired
+    types:
+    - uid: string
+  - name: StatelessReplicaHealthReportCreated
+    types:
+    - uid: string
+  - name: StatelessReplicaHealthReportExpired
+    types:
+    - uid: string
+  - name: ClusterHealthReportCreated
+    types:
+    - uid: string
+  - name: ClusterHealthReportExpired
+    types:
+    - uid: string
+  - name: ClusterUpgradeComplete
+    types:
+    - uid: string
+  - name: ClusterUpgradeDomainComplete
+    types:
+    - uid: string
+  - name: ClusterUpgradeRollbackComplete
+    types:
+    - uid: string
+  - name: ClusterUpgradeRollbackStart
+    types:
+    - uid: string
+  - name: ClusterUpgradeStart
+    types:
+    - uid: string
+  - name: ChaosStopped
+    types:
+    - uid: string
+  - name: ChaosStarted
+    types:
+    - uid: string
+  - name: ChaosRestartNodeFaultCompleted
+    types:
+    - uid: string
+  - name: ChaosRestartCodePackageFaultScheduled
+    types:
+    - uid: string
+  - name: ChaosRestartCodePackageFaultCompleted
+    types:
+    - uid: string
+  - name: ChaosRemoveReplicaFaultScheduled
+    types:
+    - uid: string
+  - name: ChaosRemoveReplicaFaultCompleted
+    types:
+    - uid: string
+  - name: ChaosMoveSecondaryFaultScheduled
+    types:
+    - uid: string
+  - name: ChaosMovePrimaryFaultScheduled
+    types:
+    - uid: string
+  - name: ChaosRestartReplicaFaultScheduled
+    types:
+    - uid: string
+  - name: ChaosRestartNodeFaultScheduled
+    types:
+    - uid: string
+- name: FabricErrorCodes
+  description: >-
+    Defines the fabric error codes that be returned as part of the error object in response to Service Fabric API operations that are not successful. Following are the error code values that can be returned for a specific HTTP status code.
+
+      - Possible values of the error code for HTTP status code 400 (Bad Request)
+        - "FABRIC_E_INVALID_PARTITION_KEY"
+        - "FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR"
+        - "FABRIC_E_INVALID_ADDRESS"
+        - "FABRIC_E_APPLICATION_NOT_UPGRADING"
+        - "FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR"
+        - "FABRIC_E_FABRIC_NOT_UPGRADING"
+        - "FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR"
+        - "FABRIC_E_INVALID_CONFIGURATION"
+        - "FABRIC_E_INVALID_NAME_URI"
+        - "FABRIC_E_PATH_TOO_LONG"
+        - "FABRIC_E_KEY_TOO_LARGE"
+        - "FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED"
+        - "FABRIC_E_INVALID_ATOMIC_GROUP"
+        - "FABRIC_E_VALUE_EMPTY"
+        - "FABRIC_E_BACKUP_IS_ENABLED"
+        - "FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH"
+        - "FABRIC_E_INVALID_FOR_STATELESS_SERVICES"
+        - "FABRIC_E_INVALID_SERVICE_SCALING_POLICY"
+        - "E_INVALIDARG"
+
+      - Possible values of the error code for HTTP status code 404 (Not Found)
+        - "FABRIC_E_NODE_NOT_FOUND"
+        - "FABRIC_E_APPLICATION_TYPE_NOT_FOUND"
+        - "FABRIC_E_APPLICATION_NOT_FOUND"
+        - "FABRIC_E_SERVICE_TYPE_NOT_FOUND"
+        - "FABRIC_E_SERVICE_DOES_NOT_EXIST"
+        - "FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND"
+        - "FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND"
+        - "FABRIC_E_PARTITION_NOT_FOUND"
+        - "FABRIC_E_REPLICA_DOES_NOT_EXIST"
+        - "FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST"
+        - "FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND"
+        - "FABRIC_E_DIRECTORY_NOT_FOUND"
+        - "FABRIC_E_FABRIC_VERSION_NOT_FOUND"
+        - "FABRIC_E_FILE_NOT_FOUND"
+        - "FABRIC_E_NAME_DOES_NOT_EXIST"
+        - "FABRIC_E_PROPERTY_DOES_NOT_EXIST"
+        - "FABRIC_E_ENUMERATION_COMPLETED"
+        - "FABRIC_E_SERVICE_MANIFEST_NOT_FOUND"
+        - "FABRIC_E_KEY_NOT_FOUND"
+        - "FABRIC_E_HEALTH_ENTITY_NOT_FOUND"
+        - "FABRIC_E_BACKUP_NOT_ENABLED"
+        - "FABRIC_E_BACKUP_POLICY_NOT_EXISTING"
+        - "FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING"
+
+      - Possible values of the error code for HTTP status code 409 (Conflict)
+        - "FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION"
+        - "FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS"
+        - "FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS"
+        - "FABRIC_E_SERVICE_ALREADY_EXISTS"
+        - "FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_TYPE_IN_USE"
+        - "FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION"
+        - "FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS"
+        - "FABRIC_E_FABRIC_VERSION_IN_USE"
+        - "FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS"
+        - "FABRIC_E_NAME_ALREADY_EXISTS"
+        - "FABRIC_E_NAME_NOT_EMPTY"
+        - "FABRIC_E_PROPERTY_CHECK_FAILED"
+        - "FABRIC_E_SERVICE_METADATA_MISMATCH"
+        - "FABRIC_E_SERVICE_TYPE_MISMATCH"
+        - "FABRIC_E_HEALTH_STALE_REPORT"
+        - "FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED"
+        - "FABRIC_E_NODE_HAS_NOT_STOPPED_YET"
+        - "FABRIC_E_INSTANCE_ID_MISMATCH"
+        - "FABRIC_E_BACKUP_IN_PROGRESS"
+        - "FABRIC_E_RESTORE_IN_PROGRESS"
+        - "FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING"
+
+      - Possible values of the error code for HTTP status code 413 (Request Entity Too Large)
+        - "FABRIC_E_VALUE_TOO_LARGE"
+
+      - Possible values of the error code for HTTP status code 500 (Internal Server Error)
+        - "FABRIC_E_NODE_IS_UP"
+        - "E_FAIL"
+
+      - Possible values of the error code for HTTP status code 503 (Service Unavailable)
+        - "FABRIC_E_NO_WRITE_QUORUM"
+        - "FABRIC_E_NOT_PRIMARY"
+        - "FABRIC_E_NOT_READY"
+        - "FABRIC_E_RECONFIGURATION_PENDING"
+        - "FABRIC_E_SERVICE_OFFLINE"
+        - "E_ABORT"
+        - "FABRIC_E_VALUE_TOO_LARGE"
+
+      - Possible values of the error code for HTTP status code 504 (Gateway Timeout)
+        - "FABRIC_E_COMMUNICATION_ERROR"
+        - "FABRIC_E_OPERATION_NOT_COMPLETE"
+        - "FABRIC_E_TIMEOUT"
+  kind: enum
+  properties:
+  - name: FABRIC_E_INVALID_PARTITION_KEY
+    types:
+    - uid: string
+  - name: FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_ADDRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_NOT_UPGRADING
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_NOT_UPGRADING
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_CONFIGURATION
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_NAME_URI
+    types:
+    - uid: string
+  - name: FABRIC_E_PATH_TOO_LONG
+    types:
+    - uid: string
+  - name: FABRIC_E_KEY_TOO_LARGE
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_ATOMIC_GROUP
+    types:
+    - uid: string
+  - name: FABRIC_E_VALUE_EMPTY
+    types:
+    - uid: string
+  - name: FABRIC_E_NODE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_TYPE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_PARTITION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_REPLICA_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_DIRECTORY_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_VERSION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_FILE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_NAME_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_PROPERTY_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_ENUMERATION_COMPLETED
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_MANIFEST_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_KEY_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_HEALTH_ENTITY_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_IN_USE
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_VERSION_IN_USE
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_NAME_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_NAME_NOT_EMPTY
+    types:
+    - uid: string
+  - name: FABRIC_E_PROPERTY_CHECK_FAILED
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_METADATA_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_TYPE_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_HEALTH_STALE_REPORT
+    types:
+    - uid: string
+  - name: FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED
+    types:
+    - uid: string
+  - name: FABRIC_E_NODE_HAS_NOT_STOPPED_YET
+    types:
+    - uid: string
+  - name: FABRIC_E_INSTANCE_ID_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_VALUE_TOO_LARGE
+    types:
+    - uid: string
+  - name: FABRIC_E_NO_WRITE_QUORUM
+    types:
+    - uid: string
+  - name: FABRIC_E_NOT_PRIMARY
+    types:
+    - uid: string
+  - name: FABRIC_E_NOT_READY
+    types:
+    - uid: string
+  - name: FABRIC_E_RECONFIGURATION_PENDING
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_OFFLINE
+    types:
+    - uid: string
+  - name: E_ABORT
+    types:
+    - uid: string
+  - name: FABRIC_E_COMMUNICATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_OPERATION_NOT_COMPLETE
+    types:
+    - uid: string
+  - name: FABRIC_E_TIMEOUT
+    types:
+    - uid: string
+  - name: FABRIC_E_NODE_IS_UP
+    types:
+    - uid: string
+  - name: E_FAIL
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_IS_ENABLED
+    types:
+    - uid: string
+  - name: FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_FOR_STATELESS_SERVICES
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_NOT_ENABLED
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_POLICY_NOT_EXISTING
+    types:
+    - uid: string
+  - name: FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_RESTORE_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_SERVICE_SCALING_POLICY
+    types:
+    - uid: string
+  - name: E_INVALIDARG
+    types:
+    - uid: string
+examples:
+- name: Get Application-related events
+  request:
+    uri: GET http://localhost:19080/EventsStore/Applications/app1/$/Events?api-version=6.2.0.9&StartTimeUtc=4/3/2018 6:00:00 PM&EndTimeUtc=4/4/2018 6:00:00 PM
+  responses:
+  - statusCode: "200"
+    body: >-
+      [
+        {
+          "Kind": "ApplicationCreated",
+          "ApplicationTypeName": "App1Type",
+          "ApplicationTypeVersion": "1.0.1",
+          "ApplicationDefinitionKind": "ServiceFabricApplicationDescription",
+          "ApplicationId": "app1",
+          "EventInstanceId": "8a7a0c42-67ca-4cd3-9160-edcdb822db10",
+          "TimeStamp": "2018-04-03T20:21:23.5774199Z",
+          "HasCorrelatedEvents": false
+        }
+      ]
+security: []

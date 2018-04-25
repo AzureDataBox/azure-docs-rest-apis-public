@@ -1,0 +1,1416 @@
+### YamlMime:RESTOperation
+uid: localhost:19080.servicefabric.getclusterhealthchunkusingpolicyandadvancedfilters.getclusterhealthchunkusingpolicyandadvancedfilters
+name: Get Cluster Health Chunk Using Policy And Advanced Filters
+service: Service Fabric
+groupName: Get Cluster Health Chunk Using Policy And Advanced Filters
+apiVersion: 6.2.0.9
+summary: "Gets the health of a Service Fabric cluster using health chunks.  \nGets the health of a Service Fabric cluster using health chunks. The health evaluation is done based on the input cluster health chunk query description.\nThe query description allows users to specify health policies for evaluating the cluster and its children.\nUsers can specify very flexible filters to select which cluster entities to return. The selection can be done based on the entities health state and based on the hierarchy.\nThe query can return multi-level children of the entities based on the specified filters. For example, it can return one application with a specified name, and for this application, return\nonly services that are in Error or Warning, and all partitions and replicas for one of these services."
+produces:
+- application/json
+paths:
+- content: POST http://localhost:19080/$/GetClusterHealthChunk?api-version=6.2.0.9
+- content: POST http://localhost:19080/$/GetClusterHealthChunk?api-version=6.2.0.9&timeout={timeout}
+  isOptional: true
+uriParameters:
+- name: api-version
+  in: query
+  isRequired: true
+  description: >-
+    The version of the API. This parameter is required and its value must be '6.0'.
+
+
+    Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
+
+
+    Additionally the runtime accept any version that is higher than the latest supported version up to the current version of the runtime. So if the latest API version is 6.0, but if the runtime is 6.1, in order to make it easier to write the clients, the runtime will accept version 6.1 for that API. However the behavior of the API will be as per the documented 6.0 version.
+  types:
+  - uid: ApiVersion_6-0_RequiredQueryParam
+- name: timeout
+  in: query
+  description: The server timeout for performing the operation in seconds. This timeout specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
+  types:
+  - uid: integer
+  format: int64
+responses:
+- name: 200 OK
+  description: A successful operation will return 200 status code and the requested cluster health chunk information.
+  types:
+  - uid: ClusterHealthChunk
+- name: Other Status Codes
+  description: The detailed error response.
+  types:
+  - uid: FabricError
+requestBody:
+- parameters:
+  - name: NodeFilters
+    in: body
+    description: >-
+      Defines a list of filters that specify which nodes to be included in the returned cluster health chunk.
+
+      If no filters are specified, no nodes are returned. All the nodes are used to evaluate the cluster's aggregated health state, regardless of the input filters.
+
+      The cluster health chunk query may specify multiple node filters.
+
+      For example, it can specify a filter to return all nodes with health state Error and another filter to always include a node identified by its NodeName.
+    types:
+    - uid: NodeHealthStateFilter
+      isArray: true
+  - name: ApplicationFilters
+    in: body
+    description: >-
+      Defines a list of filters that specify which applications to be included in the returned cluster health chunk.
+
+      If no filters are specified, no applications are returned. All the applications are used to evaluate the cluster's aggregated health state, regardless of the input filters.
+
+      The cluster health chunk query may specify multiple application filters.
+
+      For example, it can specify a filter to return all applications with health state Error and another filter to always include applications of a specified application type.
+    types:
+    - uid: ApplicationHealthStateFilter
+      isArray: true
+  - name: ClusterHealthPolicy
+    in: body
+    description: Defines a health policy used to evaluate the health of the cluster or of a cluster node.
+    types:
+    - uid: ClusterHealthPolicy
+  - name: ApplicationHealthPolicies
+    in: body
+    description: Defines the application health policy map used to evaluate the health of an application or one of its children entities.
+    types:
+    - uid: ApplicationHealthPolicies
+requestHeader: []
+definitions:
+- name: ApiVersion_6-0_RequiredQueryParam
+  description: >-
+    The version of the API. This parameter is required and its value must be '6.0'.
+
+
+    Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
+
+
+    Additionally the runtime accept any version that is higher than the latest supported version up to the current version of the runtime. So if the latest API version is 6.0, but if the runtime is 6.1, in order to make it easier to write the clients, the runtime will accept version 6.1 for that API. However the behavior of the API will be as per the documented 6.0 version.
+  kind: enum
+  properties:
+  - name: "6.0"
+    description: The 6.0 version of the API.
+    types:
+    - uid: string
+- name: NodeHealthStateFilter
+  description: >-
+    Defines matching criteria to determine whether a node should be included in the returned cluster health chunk.
+
+    One filter can match zero, one or multiple nodes, depending on its properties.
+
+    Can be specified in the cluster health chunk query description.
+  kind: object
+  properties:
+  - name: NodeNameFilter
+    description: >-
+      Name of the node that matches the filter. The filter is applied only to the specified node, if it exists.
+
+      If the node doesn't exist, no node is returned in the cluster health chunk based on this filter.
+
+      If the node exists, it is included in the cluster health chunk if the health state matches the other filter properties.
+
+      If not specified, all nodes that match the parent filters (if any) are taken into consideration and matched against the other filter members, like health state filter.
+    types:
+    - uid: string
+  - name: HealthStateFilter
+    description: >-
+      The filter for the health state of the nodes. It allows selecting nodes if they match the desired health states.
+
+      The possible values are integer value of one of the following health states. Only nodes that match the filter are returned. All nodes are used to evaluate the cluster aggregated health state.
+
+      If not specified, default value is None, unless the node name is specified. If the filter has default value and node name is specified, the matching node is returned.
+
+      The state values are flag based enumeration, so the value could be a combination of these values obtained using bitwise 'OR' operator.
+
+      For example, if the provided value is 6, it matches nodes with HealthState value of OK (2) and Warning (4).
+
+
+      - Default - Default value. Matches any HealthState. The value is zero.
+
+      - None - Filter that doesn't match any HealthState value. Used in order to return no results on a given collection of states. The value is 1.
+
+      - Ok - Filter that matches input with HealthState value Ok. The value is 2.
+
+      - Warning - Filter that matches input with HealthState value Warning. The value is 4.
+
+      - Error - Filter that matches input with HealthState value Error. The value is 8.
+
+      - All - Filter that matches input with any HealthState value. The value is 65535.
+    types:
+    - uid: integer
+- name: ApplicationHealthStateFilter
+  description: >-
+    Defines matching criteria to determine whether a application should be included in the cluster health chunk.
+
+    One filter can match zero, one or multiple applications, depending on its properties.
+  kind: object
+  properties:
+  - name: ApplicationNameFilter
+    description: >-
+      The name of the application that matches the filter, as a fabric uri. The filter is applied only to the specified application, if it exists.
+
+      If the application doesn't exist, no application is returned in the cluster health chunk based on this filter.
+
+      If the application exists, it is included in the cluster health chunk if it respects the other filter properties.
+
+      If not specified, all applications are matched against the other filter members, like health state filter.
+    types:
+    - uid: string
+  - name: ApplicationTypeNameFilter
+    description: >-
+      The name of the application type that matches the filter.
+
+      If specified, the filter is applied only to applications of the selected application type, if any exists.
+
+      If no applications of the specified application type exists, no application is returned in the cluster health chunk based on this filter.
+
+      Each application of the specified application type is included in the cluster health chunk if it respects the other filter properties.
+
+      If not specified, all applications are matched against the other filter members, like health state filter.
+    types:
+    - uid: string
+  - name: HealthStateFilter
+    description: >-
+      The filter for the health state of the applications. It allows selecting applications if they match the desired health states.
+
+      The possible values are integer value of one of the following health states. Only applications that match the filter are returned. All applications are used to evaluate the cluster aggregated health state.
+
+      If not specified, default value is None, unless the application name or the application type name are specified. If the filter has default value and application name is specified, the matching application is returned.
+
+      The state values are flag based enumeration, so the value could be a combination of these values obtained using bitwise 'OR' operator.
+
+      For example, if the provided value is 6, it matches applications with HealthState value of OK (2) and Warning (4).
+
+
+      - Default - Default value. Matches any HealthState. The value is zero.
+
+      - None - Filter that doesn't match any HealthState value. Used in order to return no results on a given collection of states. The value is 1.
+
+      - Ok - Filter that matches input with HealthState value Ok. The value is 2.
+
+      - Warning - Filter that matches input with HealthState value Warning. The value is 4.
+
+      - Error - Filter that matches input with HealthState value Error. The value is 8.
+
+      - All - Filter that matches input with any HealthState value. The value is 65535.
+    types:
+    - uid: integer
+  - name: ServiceFilters
+    description: >-
+      Defines a list of filters that specify which services to be included in the returned cluster health chunk as children of the application. The services are returned only if the parent application matches a filter.
+
+      If the list is empty, no services are returned. All the services are used to evaluate the parent application aggregated health state, regardless of the input filters.
+
+      The application filter may specify multiple service filters.
+
+      For example, it can specify a filter to return all services with health state Error and another filter to always include a service identified by its service name.
+    types:
+    - uid: ServiceHealthStateFilter
+      isArray: true
+  - name: DeployedApplicationFilters
+    description: >-
+      Defines a list of filters that specify which deployed applications to be included in the returned cluster health chunk as children of the application. The deployed applications are returned only if the parent application matches a filter.
+
+      If the list is empty, no deployed applications are returned. All the deployed applications are used to evaluate the parent application aggregated health state, regardless of the input filters.
+
+      The application filter may specify multiple deployed application filters.
+
+      For example, it can specify a filter to return all deployed applications with health state Error and another filter to always include a deployed application on a specified node.
+    types:
+    - uid: DeployedApplicationHealthStateFilter
+      isArray: true
+- name: ClusterHealthPolicy
+  description: Defines a health policy used to evaluate the health of the cluster or of a cluster node.
+  kind: object
+  properties:
+  - name: ConsiderWarningAsError
+    description: Indicates whether warnings are treated with the same severity as errors.
+    types:
+    - uid: boolean
+  - name: MaxPercentUnhealthyNodes
+    description: >-
+      The maximum allowed percentage of unhealthy nodes before reporting an error. For example, to allow 10% of nodes to be unhealthy, this value would be 10.
+
+
+      The percentage represents the maximum tolerated percentage of nodes that can be unhealthy before the cluster is considered in error.
+
+      If the percentage is respected but there is at least one unhealthy node, the health is evaluated as Warning.
+
+      The percentage is calculated by dividing the number of unhealthy nodes over the total number of nodes in the cluster.
+
+      The computation rounds up to tolerate one failure on small numbers of nodes. Default percentage is zero.
+
+
+      In large clusters, some nodes will always be down or out for repairs, so this percentage should be configured to tolerate that.
+    types:
+    - uid: integer
+  - name: MaxPercentUnhealthyApplications
+    description: >-
+      The maximum allowed percentage of unhealthy applications before reporting an error. For example, to allow 10% of applications to be unhealthy, this value would be 10.
+
+
+      The percentage represents the maximum tolerated percentage of applications that can be unhealthy before the cluster is considered in error.
+
+      If the percentage is respected but there is at least one unhealthy application, the health is evaluated as Warning.
+
+      This is calculated by dividing the number of unhealthy applications over the total number of application instances in the cluster, excluding applications of application types that are included in the ApplicationTypeHealthPolicyMap.
+
+      The computation rounds up to tolerate one failure on small numbers of applications. Default percentage is zero.
+    types:
+    - uid: integer
+  - name: ApplicationTypeHealthPolicyMap
+    description: >-
+      Defines a map with max percentage unhealthy applications for specific application types.
+
+      Each entry specifies as key the application type name and as value an integer that represents the MaxPercentUnhealthyApplications percentage used to evaluate the applications of the specified application type.
+
+
+      The application type health policy map can be used during cluster health evaluation to describe special application types.
+
+      The application types included in the map are evaluated against the percentage specified in the map, and not with the global MaxPercentUnhealthyApplications defined in the cluster health policy.
+
+      The applications of application types specified in the map are not counted against the global pool of applications.
+
+      For example, if some applications of a type are critical, the cluster administrator can add an entry to the map for that application type
+
+      and assign it a value of 0% (that is, do not tolerate any failures).
+
+      All other applications can be evaluated with MaxPercentUnhealthyApplications set to 20% to tolerate some failures out of the thousands of application instances.
+
+      The application type health policy map is used only if the cluster manifest enables application type health evaluation using the configuration entry for HealthManager/EnableApplicationTypeHealthEvaluation.
+    types:
+    - uid: ApplicationTypeHealthPolicyMapItem
+      isArray: true
+- name: ApplicationHealthPolicies
+  description: Defines the application health policy map used to evaluate the health of an application or one of its children entities.
+  kind: object
+  properties:
+  - name: ApplicationHealthPolicyMap
+    description: The wrapper that contains the map with application health policies used to evaluate specific applications in the cluster.
+    types:
+    - uid: ApplicationHealthPolicyMapItem
+      isArray: true
+- name: ClusterHealthChunk
+  description: >-
+    Represents the health chunk of the cluster.
+
+    Contains the cluster aggregated health state, and the cluster entities that respect the input filter.
+  kind: object
+  properties:
+  - name: HealthState
+    description: >-
+      The HealthState representing the aggregated health state of the cluster computed by Health Manager.
+
+      The health evaluation of the entity reflects all events reported on the entity and its children (if any).
+
+      The aggregation is done by applying the desired cluster health policy and the application health policies.
+    types:
+    - uid: HealthState
+  - name: NodeHealthStateChunks
+    description: The list of node health state chunks in the cluster that respect the filters in the cluster health chunk query description.
+    types:
+    - uid: NodeHealthStateChunkList
+  - name: ApplicationHealthStateChunks
+    description: The list of application health state chunks in the cluster that respect the filters in the cluster health chunk query description.
+    types:
+    - uid: ApplicationHealthStateChunkList
+- name: FabricError
+  description: The REST API operations for Service Fabric return standard HTTP status codes. This type defines the additional information returned from the Service Fabric API operations that are not successful.
+  kind: object
+  properties:
+  - name: Error
+    description: Error object containing error code and error message.
+    types:
+    - uid: FabricErrorError
+- name: ClusterHealthChunkQueryDescription
+  description: The cluster health chunk query description, which can specify the health policies to evaluate cluster health and very expressive filters to select which cluster entities to include in response.
+  kind: object
+  properties:
+  - name: NodeFilters
+    description: >-
+      Defines a list of filters that specify which nodes to be included in the returned cluster health chunk.
+
+      If no filters are specified, no nodes are returned. All the nodes are used to evaluate the cluster's aggregated health state, regardless of the input filters.
+
+      The cluster health chunk query may specify multiple node filters.
+
+      For example, it can specify a filter to return all nodes with health state Error and another filter to always include a node identified by its NodeName.
+    types:
+    - uid: NodeHealthStateFilter
+      isArray: true
+  - name: ApplicationFilters
+    description: >-
+      Defines a list of filters that specify which applications to be included in the returned cluster health chunk.
+
+      If no filters are specified, no applications are returned. All the applications are used to evaluate the cluster's aggregated health state, regardless of the input filters.
+
+      The cluster health chunk query may specify multiple application filters.
+
+      For example, it can specify a filter to return all applications with health state Error and another filter to always include applications of a specified application type.
+    types:
+    - uid: ApplicationHealthStateFilter
+      isArray: true
+  - name: ClusterHealthPolicy
+    description: Defines a health policy used to evaluate the health of the cluster or of a cluster node.
+    types:
+    - uid: ClusterHealthPolicy
+  - name: ApplicationHealthPolicies
+    description: Defines the application health policy map used to evaluate the health of an application or one of its children entities.
+    types:
+    - uid: ApplicationHealthPolicies
+- name: ServiceHealthStateFilter
+  description: >-
+    Defines matching criteria to determine whether a service should be included as a child of an application in the cluster health chunk.
+
+    The services are only returned if the parent application matches a filter specified in the cluster health chunk query description.
+
+    One filter can match zero, one or multiple services, depending on its properties.
+  kind: object
+  properties:
+  - name: ServiceNameFilter
+    description: >-
+      The name of the service that matches the filter. The filter is applied only to the specified service, if it exists.
+
+      If the service doesn't exist, no service is returned in the cluster health chunk based on this filter.
+
+      If the service exists, it is included as the application's child if the health state matches the other filter properties.
+
+      If not specified, all services that match the parent filters (if any) are taken into consideration and matched against the other filter members, like health state filter.
+    types:
+    - uid: string
+  - name: HealthStateFilter
+    description: >-
+      The filter for the health state of the services. It allows selecting services if they match the desired health states.
+
+      The possible values are integer value of one of the following health states. Only services that match the filter are returned. All services are used to evaluate the cluster aggregated health state.
+
+      If not specified, default value is None, unless the service name is specified. If the filter has default value and service name is specified, the matching service is returned.
+
+      The state values are flag based enumeration, so the value could be a combination of these values obtained using bitwise 'OR' operator.
+
+      For example, if the provided value is 6, it matches services with HealthState value of OK (2) and Warning (4).
+
+
+      - Default - Default value. Matches any HealthState. The value is zero.
+
+      - None - Filter that doesn't match any HealthState value. Used in order to return no results on a given collection of states. The value is 1.
+
+      - Ok - Filter that matches input with HealthState value Ok. The value is 2.
+
+      - Warning - Filter that matches input with HealthState value Warning. The value is 4.
+
+      - Error - Filter that matches input with HealthState value Error. The value is 8.
+
+      - All - Filter that matches input with any HealthState value. The value is 65535.
+    types:
+    - uid: integer
+  - name: PartitionFilters
+    description: >-
+      Defines a list of filters that specify which partitions to be included in the returned cluster health chunk as children of the service. The partitions are returned only if the parent service matches a filter.
+
+      If the list is empty, no partitions are returned. All the partitions are used to evaluate the parent service aggregated health state, regardless of the input filters.
+
+      The service filter may specify multiple partition filters.
+
+      For example, it can specify a filter to return all partitions with health state Error and another filter to always include a partition identified by its partition ID.
+    types:
+    - uid: PartitionHealthStateFilter
+      isArray: true
+- name: DeployedApplicationHealthStateFilter
+  description: >-
+    Defines matching criteria to determine whether a deployed application should be included as a child of an application in the cluster health chunk.
+
+    The deployed applications are only returned if the parent application matches a filter specified in the cluster health chunk query description.
+
+    One filter can match zero, one or multiple deployed applications, depending on its properties.
+  kind: object
+  properties:
+  - name: NodeNameFilter
+    description: >-
+      The name of the node where the application is deployed in order to match the filter.
+
+      If specified, the filter is applied only to the application deployed on the specified node.
+
+      If the application is not deployed on the node with the specified name, no deployed application is returned in the cluster health chunk based on this filter.
+
+      Otherwise, the deployed application is included in the cluster health chunk if it respects the other filter properties.
+
+      If not specified, all deployed applications that match the parent filters (if any) are taken into consideration and matched against the other filter members, like health state filter.
+    types:
+    - uid: string
+  - name: HealthStateFilter
+    description: >-
+      The filter for the health state of the deployed applications. It allows selecting deployed applications if they match the desired health states.
+
+      The possible values are integer value of one of the following health states. Only deployed applications that match the filter are returned. All deployed applications are used to evaluate the cluster aggregated health state.
+
+      If not specified, default value is None, unless the node name is specified. If the filter has default value and node name is specified, the matching deployed application is returned.
+
+      The state values are flag based enumeration, so the value could be a combination of these values obtained using bitwise 'OR' operator.
+
+      For example, if the provided value is 6, it matches deployed applications with HealthState value of OK (2) and Warning (4).
+
+
+      - Default - Default value. Matches any HealthState. The value is zero.
+
+      - None - Filter that doesn't match any HealthState value. Used in order to return no results on a given collection of states. The value is 1.
+
+      - Ok - Filter that matches input with HealthState value Ok. The value is 2.
+
+      - Warning - Filter that matches input with HealthState value Warning. The value is 4.
+
+      - Error - Filter that matches input with HealthState value Error. The value is 8.
+
+      - All - Filter that matches input with any HealthState value. The value is 65535.
+    types:
+    - uid: integer
+  - name: DeployedServicePackageFilters
+    description: >-
+      Defines a list of filters that specify which deployed service packages to be included in the returned cluster health chunk as children of the parent deployed application. The deployed service packages are returned only if the parent deployed application matches a filter.
+
+      If the list is empty, no deployed service packages are returned. All the deployed service packages are used to evaluate the parent deployed application aggregated health state, regardless of the input filters.
+
+      The deployed application filter may specify multiple deployed service package filters.
+
+      For example, it can specify a filter to return all deployed service packages with health state Error and another filter to always include a deployed service package on a node.
+    types:
+    - uid: DeployedServicePackageHealthStateFilter
+      isArray: true
+- name: ApplicationTypeHealthPolicyMapItem
+  description: Defines an item in ApplicationTypeHealthPolicyMap.
+  kind: object
+  properties:
+  - name: Key
+    description: The key of the application type health policy map item. This is the name of the application type.
+    types:
+    - uid: string
+  - name: Value
+    description: >-
+      The value of the application type health policy map item.
+
+      The max percent unhealthy applications allowed for the application type. Must be between zero and 100.
+    types:
+    - uid: integer
+- name: ApplicationHealthPolicyMapItem
+  description: Defines an item in ApplicationHealthPolicyMap.
+  kind: object
+  properties:
+  - name: Key
+    description: The key of the application health policy map item. This is the name of the application.
+    types:
+    - uid: string
+  - name: Value
+    description: The value of the application health policy map item. This is the ApplicationHealthPolicy for this application.
+    types:
+    - uid: ApplicationHealthPolicy
+- name: HealthState
+  description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+  kind: enum
+  properties:
+  - name: Invalid
+    description: Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
+    types:
+    - uid: string
+  - name: Ok
+    description: Indicates the health state is okay. The value is 1.
+    types:
+    - uid: string
+  - name: Warning
+    description: Indicates the health state is at a warning level. The value is 2.
+    types:
+    - uid: string
+  - name: Error
+    description: Indicates the health state is at an error level. Error health state should be investigated, as they can impact the correct functionality of the cluster. The value is 3.
+    types:
+    - uid: string
+  - name: Unknown
+    description: Indicates an unknown health status. The value is 65535.
+    types:
+    - uid: string
+- name: NodeHealthStateChunkList
+  description: The list of node health state chunks in the cluster that respect the input filters in the chunk query. Returned by get cluster health state chunks query.
+  kind: object
+  properties:
+  - name: TotalCount
+    description: Total number of entity health state objects that match the specified filters from the cluster health chunk query description.
+    types:
+    - uid: integer
+  - name: Items
+    description: The list of node health state chunks that respect the input filters in the chunk query.
+    types:
+    - uid: NodeHealthStateChunk
+      isArray: true
+- name: ApplicationHealthStateChunkList
+  description: The list of application health state chunks in the cluster that respect the input filters in the chunk query. Returned by get cluster health state chunks query.
+  kind: object
+  properties:
+  - name: TotalCount
+    description: Total number of entity health state objects that match the specified filters from the cluster health chunk query description.
+    types:
+    - uid: integer
+  - name: Items
+    description: The list of application health state chunks that respect the input filters in the chunk query.
+    types:
+    - uid: ApplicationHealthStateChunk
+      isArray: true
+- name: FabricErrorError
+  description: Error object containing error code and error message.
+  kind: object
+  properties:
+  - name: Code
+    description: >-
+      Defines the fabric error codes that be returned as part of the error object in response to Service Fabric API operations that are not successful. Following are the error code values that can be returned for a specific HTTP status code.
+
+        - Possible values of the error code for HTTP status code 400 (Bad Request)
+          - "FABRIC_E_INVALID_PARTITION_KEY"
+          - "FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR"
+          - "FABRIC_E_INVALID_ADDRESS"
+          - "FABRIC_E_APPLICATION_NOT_UPGRADING"
+          - "FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR"
+          - "FABRIC_E_FABRIC_NOT_UPGRADING"
+          - "FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR"
+          - "FABRIC_E_INVALID_CONFIGURATION"
+          - "FABRIC_E_INVALID_NAME_URI"
+          - "FABRIC_E_PATH_TOO_LONG"
+          - "FABRIC_E_KEY_TOO_LARGE"
+          - "FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED"
+          - "FABRIC_E_INVALID_ATOMIC_GROUP"
+          - "FABRIC_E_VALUE_EMPTY"
+          - "FABRIC_E_BACKUP_IS_ENABLED"
+          - "FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH"
+          - "FABRIC_E_INVALID_FOR_STATELESS_SERVICES"
+          - "FABRIC_E_INVALID_SERVICE_SCALING_POLICY"
+          - "E_INVALIDARG"
+
+        - Possible values of the error code for HTTP status code 404 (Not Found)
+          - "FABRIC_E_NODE_NOT_FOUND"
+          - "FABRIC_E_APPLICATION_TYPE_NOT_FOUND"
+          - "FABRIC_E_APPLICATION_NOT_FOUND"
+          - "FABRIC_E_SERVICE_TYPE_NOT_FOUND"
+          - "FABRIC_E_SERVICE_DOES_NOT_EXIST"
+          - "FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND"
+          - "FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND"
+          - "FABRIC_E_PARTITION_NOT_FOUND"
+          - "FABRIC_E_REPLICA_DOES_NOT_EXIST"
+          - "FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST"
+          - "FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND"
+          - "FABRIC_E_DIRECTORY_NOT_FOUND"
+          - "FABRIC_E_FABRIC_VERSION_NOT_FOUND"
+          - "FABRIC_E_FILE_NOT_FOUND"
+          - "FABRIC_E_NAME_DOES_NOT_EXIST"
+          - "FABRIC_E_PROPERTY_DOES_NOT_EXIST"
+          - "FABRIC_E_ENUMERATION_COMPLETED"
+          - "FABRIC_E_SERVICE_MANIFEST_NOT_FOUND"
+          - "FABRIC_E_KEY_NOT_FOUND"
+          - "FABRIC_E_HEALTH_ENTITY_NOT_FOUND"
+          - "FABRIC_E_BACKUP_NOT_ENABLED"
+          - "FABRIC_E_BACKUP_POLICY_NOT_EXISTING"
+          - "FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING"
+
+        - Possible values of the error code for HTTP status code 409 (Conflict)
+          - "FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION"
+          - "FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS"
+          - "FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS"
+          - "FABRIC_E_SERVICE_ALREADY_EXISTS"
+          - "FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS"
+          - "FABRIC_E_APPLICATION_TYPE_IN_USE"
+          - "FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION"
+          - "FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS"
+          - "FABRIC_E_FABRIC_VERSION_IN_USE"
+          - "FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS"
+          - "FABRIC_E_NAME_ALREADY_EXISTS"
+          - "FABRIC_E_NAME_NOT_EMPTY"
+          - "FABRIC_E_PROPERTY_CHECK_FAILED"
+          - "FABRIC_E_SERVICE_METADATA_MISMATCH"
+          - "FABRIC_E_SERVICE_TYPE_MISMATCH"
+          - "FABRIC_E_HEALTH_STALE_REPORT"
+          - "FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED"
+          - "FABRIC_E_NODE_HAS_NOT_STOPPED_YET"
+          - "FABRIC_E_INSTANCE_ID_MISMATCH"
+          - "FABRIC_E_BACKUP_IN_PROGRESS"
+          - "FABRIC_E_RESTORE_IN_PROGRESS"
+          - "FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING"
+
+        - Possible values of the error code for HTTP status code 413 (Request Entity Too Large)
+          - "FABRIC_E_VALUE_TOO_LARGE"
+
+        - Possible values of the error code for HTTP status code 500 (Internal Server Error)
+          - "FABRIC_E_NODE_IS_UP"
+          - "E_FAIL"
+
+        - Possible values of the error code for HTTP status code 503 (Service Unavailable)
+          - "FABRIC_E_NO_WRITE_QUORUM"
+          - "FABRIC_E_NOT_PRIMARY"
+          - "FABRIC_E_NOT_READY"
+          - "FABRIC_E_RECONFIGURATION_PENDING"
+          - "FABRIC_E_SERVICE_OFFLINE"
+          - "E_ABORT"
+          - "FABRIC_E_VALUE_TOO_LARGE"
+
+        - Possible values of the error code for HTTP status code 504 (Gateway Timeout)
+          - "FABRIC_E_COMMUNICATION_ERROR"
+          - "FABRIC_E_OPERATION_NOT_COMPLETE"
+          - "FABRIC_E_TIMEOUT"
+    types:
+    - uid: FabricErrorCodes
+  - name: Message
+    description: Error message.
+    types:
+    - uid: string
+- name: PartitionHealthStateFilter
+  description: >-
+    Defines matching criteria to determine whether a partition should be included as a child of a service in the cluster health chunk.
+
+    The partitions are only returned if the parent entities match a filter specified in the cluster health chunk query description. The parent service and application must be included in the cluster health chunk.
+
+    One filter can match zero, one or multiple partitions, depending on its properties.
+  kind: object
+  properties:
+  - name: PartitionIdFilter
+    description: >-
+      ID of the partition that matches the filter. The filter is applied only to the specified partition, if it exists.
+
+      If the partition doesn't exist, no partition is returned in the cluster health chunk based on this filter.
+
+      If the partition exists, it is included in the cluster health chunk if it respects the other filter properties.
+
+      If not specified, all partitions that match the parent filters (if any) are taken into consideration and matched against the other filter members, like health state filter.
+    types:
+    - uid: string
+  - name: HealthStateFilter
+    description: >-
+      The filter for the health state of the partitions. It allows selecting partitions if they match the desired health states.
+
+      The possible values are integer value of one of the following health states. Only partitions that match the filter are returned. All partitions are used to evaluate the cluster aggregated health state.
+
+      If not specified, default value is None, unless the partition ID is specified. If the filter has default value and partition ID is specified, the matching partition is returned.
+
+      The state values are flag based enumeration, so the value could be a combination of these values obtained using bitwise 'OR' operator.
+
+      For example, if the provided value is 6, it matches partitions with HealthState value of OK (2) and Warning (4).
+
+
+      - Default - Default value. Matches any HealthState. The value is zero.
+
+      - None - Filter that doesn't match any HealthState value. Used in order to return no results on a given collection of states. The value is 1.
+
+      - Ok - Filter that matches input with HealthState value Ok. The value is 2.
+
+      - Warning - Filter that matches input with HealthState value Warning. The value is 4.
+
+      - Error - Filter that matches input with HealthState value Error. The value is 8.
+
+      - All - Filter that matches input with any HealthState value. The value is 65535.
+    types:
+    - uid: integer
+  - name: ReplicaFilters
+    description: >-
+      Defines a list of filters that specify which replicas to be included in the returned cluster health chunk as children of the parent partition. The replicas are returned only if the parent partition matches a filter.
+
+      If the list is empty, no replicas are returned. All the replicas are used to evaluate the parent partition aggregated health state, regardless of the input filters.
+
+      The partition filter may specify multiple replica filters.
+
+      For example, it can specify a filter to return all replicas with health state Error and another filter to always include a replica identified by its replica id.
+    types:
+    - uid: ReplicaHealthStateFilter
+      isArray: true
+- name: DeployedServicePackageHealthStateFilter
+  description: >-
+    Defines matching criteria to determine whether a deployed service package should be included as a child of a deployed application in the cluster health chunk.
+
+    The deployed service packages are only returned if the parent entities match a filter specified in the cluster health chunk query description. The parent deployed application and its parent application must be included in the cluster health chunk.
+
+    One filter can match zero, one or multiple deployed service packages, depending on its properties.
+  kind: object
+  properties:
+  - name: ServiceManifestNameFilter
+    description: >-
+      The name of the service manifest which identifies the deployed service packages that matches the filter.
+
+      If specified, the filter is applied only to the specified deployed service packages, if any.
+
+      If no deployed service packages with specified manifest name exist, nothing is returned in the cluster health chunk based on this filter.
+
+      If any deployed service package exists, they are included in the cluster health chunk if it respects the other filter properties.
+
+      If not specified, all deployed service packages that match the parent filters (if any) are taken into consideration and matched against the other filter members, like health state filter.
+    types:
+    - uid: string
+  - name: ServicePackageActivationIdFilter
+    description: >-
+      The activation ID of a deployed service package that matches the filter.
+
+      If not specified, the filter applies to all deployed service packages that match the other parameters.
+
+      If specified, the filter matches only the deployed service package with the specified activation ID.
+    types:
+    - uid: string
+  - name: HealthStateFilter
+    description: >-
+      The filter for the health state of the deployed service packages. It allows selecting deployed service packages if they match the desired health states.
+
+      The possible values are integer value of one of the following health states. Only deployed service packages that match the filter are returned. All deployed service packages are used to evaluate the parent deployed application aggregated health state.
+
+      If not specified, default value is None, unless the deployed service package ID is specified. If the filter has default value and deployed service package ID is specified, the matching deployed service package is returned.
+
+      The state values are flag based enumeration, so the value could be a combination of these values obtained using bitwise 'OR' operator.
+
+      For example, if the provided value is 6, it matches deployed service packages with HealthState value of OK (2) and Warning (4).
+
+
+      - Default - Default value. Matches any HealthState. The value is zero.
+
+      - None - Filter that doesn't match any HealthState value. Used in order to return no results on a given collection of states. The value is 1.
+
+      - Ok - Filter that matches input with HealthState value Ok. The value is 2.
+
+      - Warning - Filter that matches input with HealthState value Warning. The value is 4.
+
+      - Error - Filter that matches input with HealthState value Error. The value is 8.
+
+      - All - Filter that matches input with any HealthState value. The value is 65535.
+    types:
+    - uid: integer
+- name: ApplicationHealthPolicy
+  description: Defines a health policy used to evaluate the health of an application or one of its children entities.
+  kind: object
+  properties:
+  - name: ConsiderWarningAsError
+    description: Indicates whether warnings are treated with the same severity as errors.
+    types:
+    - uid: boolean
+  - name: MaxPercentUnhealthyDeployedApplications
+    description: >-
+      The maximum allowed percentage of unhealthy deployed applications. Allowed values are Byte values from zero to 100.
+
+      The percentage represents the maximum tolerated percentage of deployed applications that can be unhealthy before the application is considered in error.
+
+      This is calculated by dividing the number of unhealthy deployed applications over the number of nodes where the application is currently deployed on in the cluster.
+
+      The computation rounds up to tolerate one failure on small numbers of nodes. Default percentage is zero.
+    types:
+    - uid: integer
+  - name: DefaultServiceTypeHealthPolicy
+    description: The health policy used by default to evaluate the health of a service type.
+    types:
+    - uid: ServiceTypeHealthPolicy
+  - name: ServiceTypeHealthPolicyMap
+    description: The map with service type health policy per service type name. The map is empty by default.
+    types:
+    - uid: ServiceTypeHealthPolicyMapItem
+      isArray: true
+- name: NodeHealthStateChunk
+  description: Represents the health state chunk of a node, which contains the node name and its aggregated health state.
+  kind: object
+  properties:
+  - name: HealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: NodeName
+    description: The name of a Service Fabric node.
+    types:
+    - uid: string
+- name: ApplicationHealthStateChunk
+  description: >-
+    Represents the health state chunk of a application.
+
+    The application health state chunk contains the application name, its aggregated health state and any children services and deployed applications that respect the filters in cluster health chunk query description.
+  kind: object
+  properties:
+  - name: HealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: ApplicationName
+    description: The name of the application, including the 'fabric:' URI scheme.
+    types:
+    - uid: string
+  - name: ApplicationTypeName
+    description: The application type name as defined in the application manifest.
+    types:
+    - uid: string
+  - name: ServiceHealthStateChunks
+    description: The list of service health state chunks in the cluster that respect the filters in the cluster health chunk query description.
+    types:
+    - uid: ServiceHealthStateChunkList
+  - name: DeployedApplicationHealthStateChunks
+    description: The list of deployed application health state chunks in the cluster that respect the filters in the cluster health chunk query description.
+    types:
+    - uid: DeployedApplicationHealthStateChunkList
+- name: FabricErrorCodes
+  description: >-
+    Defines the fabric error codes that be returned as part of the error object in response to Service Fabric API operations that are not successful. Following are the error code values that can be returned for a specific HTTP status code.
+
+      - Possible values of the error code for HTTP status code 400 (Bad Request)
+        - "FABRIC_E_INVALID_PARTITION_KEY"
+        - "FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR"
+        - "FABRIC_E_INVALID_ADDRESS"
+        - "FABRIC_E_APPLICATION_NOT_UPGRADING"
+        - "FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR"
+        - "FABRIC_E_FABRIC_NOT_UPGRADING"
+        - "FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR"
+        - "FABRIC_E_INVALID_CONFIGURATION"
+        - "FABRIC_E_INVALID_NAME_URI"
+        - "FABRIC_E_PATH_TOO_LONG"
+        - "FABRIC_E_KEY_TOO_LARGE"
+        - "FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED"
+        - "FABRIC_E_INVALID_ATOMIC_GROUP"
+        - "FABRIC_E_VALUE_EMPTY"
+        - "FABRIC_E_BACKUP_IS_ENABLED"
+        - "FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH"
+        - "FABRIC_E_INVALID_FOR_STATELESS_SERVICES"
+        - "FABRIC_E_INVALID_SERVICE_SCALING_POLICY"
+        - "E_INVALIDARG"
+
+      - Possible values of the error code for HTTP status code 404 (Not Found)
+        - "FABRIC_E_NODE_NOT_FOUND"
+        - "FABRIC_E_APPLICATION_TYPE_NOT_FOUND"
+        - "FABRIC_E_APPLICATION_NOT_FOUND"
+        - "FABRIC_E_SERVICE_TYPE_NOT_FOUND"
+        - "FABRIC_E_SERVICE_DOES_NOT_EXIST"
+        - "FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND"
+        - "FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND"
+        - "FABRIC_E_PARTITION_NOT_FOUND"
+        - "FABRIC_E_REPLICA_DOES_NOT_EXIST"
+        - "FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST"
+        - "FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND"
+        - "FABRIC_E_DIRECTORY_NOT_FOUND"
+        - "FABRIC_E_FABRIC_VERSION_NOT_FOUND"
+        - "FABRIC_E_FILE_NOT_FOUND"
+        - "FABRIC_E_NAME_DOES_NOT_EXIST"
+        - "FABRIC_E_PROPERTY_DOES_NOT_EXIST"
+        - "FABRIC_E_ENUMERATION_COMPLETED"
+        - "FABRIC_E_SERVICE_MANIFEST_NOT_FOUND"
+        - "FABRIC_E_KEY_NOT_FOUND"
+        - "FABRIC_E_HEALTH_ENTITY_NOT_FOUND"
+        - "FABRIC_E_BACKUP_NOT_ENABLED"
+        - "FABRIC_E_BACKUP_POLICY_NOT_EXISTING"
+        - "FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING"
+
+      - Possible values of the error code for HTTP status code 409 (Conflict)
+        - "FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION"
+        - "FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS"
+        - "FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS"
+        - "FABRIC_E_SERVICE_ALREADY_EXISTS"
+        - "FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS"
+        - "FABRIC_E_APPLICATION_TYPE_IN_USE"
+        - "FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION"
+        - "FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS"
+        - "FABRIC_E_FABRIC_VERSION_IN_USE"
+        - "FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS"
+        - "FABRIC_E_NAME_ALREADY_EXISTS"
+        - "FABRIC_E_NAME_NOT_EMPTY"
+        - "FABRIC_E_PROPERTY_CHECK_FAILED"
+        - "FABRIC_E_SERVICE_METADATA_MISMATCH"
+        - "FABRIC_E_SERVICE_TYPE_MISMATCH"
+        - "FABRIC_E_HEALTH_STALE_REPORT"
+        - "FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED"
+        - "FABRIC_E_NODE_HAS_NOT_STOPPED_YET"
+        - "FABRIC_E_INSTANCE_ID_MISMATCH"
+        - "FABRIC_E_BACKUP_IN_PROGRESS"
+        - "FABRIC_E_RESTORE_IN_PROGRESS"
+        - "FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING"
+
+      - Possible values of the error code for HTTP status code 413 (Request Entity Too Large)
+        - "FABRIC_E_VALUE_TOO_LARGE"
+
+      - Possible values of the error code for HTTP status code 500 (Internal Server Error)
+        - "FABRIC_E_NODE_IS_UP"
+        - "E_FAIL"
+
+      - Possible values of the error code for HTTP status code 503 (Service Unavailable)
+        - "FABRIC_E_NO_WRITE_QUORUM"
+        - "FABRIC_E_NOT_PRIMARY"
+        - "FABRIC_E_NOT_READY"
+        - "FABRIC_E_RECONFIGURATION_PENDING"
+        - "FABRIC_E_SERVICE_OFFLINE"
+        - "E_ABORT"
+        - "FABRIC_E_VALUE_TOO_LARGE"
+
+      - Possible values of the error code for HTTP status code 504 (Gateway Timeout)
+        - "FABRIC_E_COMMUNICATION_ERROR"
+        - "FABRIC_E_OPERATION_NOT_COMPLETE"
+        - "FABRIC_E_TIMEOUT"
+  kind: enum
+  properties:
+  - name: FABRIC_E_INVALID_PARTITION_KEY
+    types:
+    - uid: string
+  - name: FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_ADDRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_NOT_UPGRADING
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_NOT_UPGRADING
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_CONFIGURATION
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_NAME_URI
+    types:
+    - uid: string
+  - name: FABRIC_E_PATH_TOO_LONG
+    types:
+    - uid: string
+  - name: FABRIC_E_KEY_TOO_LARGE
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_ATOMIC_GROUP
+    types:
+    - uid: string
+  - name: FABRIC_E_VALUE_EMPTY
+    types:
+    - uid: string
+  - name: FABRIC_E_NODE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_TYPE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_PARTITION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_REPLICA_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_DIRECTORY_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_VERSION_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_FILE_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_NAME_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_PROPERTY_DOES_NOT_EXIST
+    types:
+    - uid: string
+  - name: FABRIC_E_ENUMERATION_COMPLETED
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_MANIFEST_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_KEY_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_HEALTH_ENTITY_NOT_FOUND
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_APPLICATION_TYPE_IN_USE
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_VERSION_IN_USE
+    types:
+    - uid: string
+  - name: FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_NAME_ALREADY_EXISTS
+    types:
+    - uid: string
+  - name: FABRIC_E_NAME_NOT_EMPTY
+    types:
+    - uid: string
+  - name: FABRIC_E_PROPERTY_CHECK_FAILED
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_METADATA_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_TYPE_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_HEALTH_STALE_REPORT
+    types:
+    - uid: string
+  - name: FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED
+    types:
+    - uid: string
+  - name: FABRIC_E_NODE_HAS_NOT_STOPPED_YET
+    types:
+    - uid: string
+  - name: FABRIC_E_INSTANCE_ID_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_VALUE_TOO_LARGE
+    types:
+    - uid: string
+  - name: FABRIC_E_NO_WRITE_QUORUM
+    types:
+    - uid: string
+  - name: FABRIC_E_NOT_PRIMARY
+    types:
+    - uid: string
+  - name: FABRIC_E_NOT_READY
+    types:
+    - uid: string
+  - name: FABRIC_E_RECONFIGURATION_PENDING
+    types:
+    - uid: string
+  - name: FABRIC_E_SERVICE_OFFLINE
+    types:
+    - uid: string
+  - name: E_ABORT
+    types:
+    - uid: string
+  - name: FABRIC_E_COMMUNICATION_ERROR
+    types:
+    - uid: string
+  - name: FABRIC_E_OPERATION_NOT_COMPLETE
+    types:
+    - uid: string
+  - name: FABRIC_E_TIMEOUT
+    types:
+    - uid: string
+  - name: FABRIC_E_NODE_IS_UP
+    types:
+    - uid: string
+  - name: E_FAIL
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_IS_ENABLED
+    types:
+    - uid: string
+  - name: FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_FOR_STATELESS_SERVICES
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_NOT_ENABLED
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_POLICY_NOT_EXISTING
+    types:
+    - uid: string
+  - name: FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_RESTORE_IN_PROGRESS
+    types:
+    - uid: string
+  - name: FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING
+    types:
+    - uid: string
+  - name: FABRIC_E_INVALID_SERVICE_SCALING_POLICY
+    types:
+    - uid: string
+  - name: E_INVALIDARG
+    types:
+    - uid: string
+- name: ReplicaHealthStateFilter
+  description: >-
+    Defines matching criteria to determine whether a replica should be included as a child of a partition in the cluster health chunk.
+
+    The replicas are only returned if the parent entities match a filter specified in the cluster health chunk query description. The parent partition, service and application must be included in the cluster health chunk.
+
+    One filter can match zero, one or multiple replicas, depending on its properties.
+  kind: object
+  properties:
+  - name: ReplicaOrInstanceIdFilter
+    description: >-
+      Id of the stateful service replica or stateless service instance that matches the filter. The filter is applied only to the specified replica, if it exists.
+
+      If the replica doesn't exist, no replica is returned in the cluster health chunk based on this filter.
+
+      If the replica exists, it is included in the cluster health chunk if it respects the other filter properties.
+
+      If not specified, all replicas that match the parent filters (if any) are taken into consideration and matched against the other filter members, like health state filter.
+    types:
+    - uid: string
+  - name: HealthStateFilter
+    description: >-
+      The filter for the health state of the replicas. It allows selecting replicas if they match the desired health states.
+
+      The possible values are integer value of one of the following health states. Only replicas that match the filter are returned. All replicas are used to evaluate the parent partition aggregated health state.
+
+      If not specified, default value is None, unless the replica ID is specified. If the filter has default value and replica ID is specified, the matching replica is returned.
+
+      The state values are flag based enumeration, so the value could be a combination of these values obtained using bitwise 'OR' operator.
+
+      For example, if the provided value is 6, it matches replicas with HealthState value of OK (2) and Warning (4).
+
+
+      - Default - Default value. Matches any HealthState. The value is zero.
+
+      - None - Filter that doesn't match any HealthState value. Used in order to return no results on a given collection of states. The value is 1.
+
+      - Ok - Filter that matches input with HealthState value Ok. The value is 2.
+
+      - Warning - Filter that matches input with HealthState value Warning. The value is 4.
+
+      - Error - Filter that matches input with HealthState value Error. The value is 8.
+
+      - All - Filter that matches input with any HealthState value. The value is 65535.
+    types:
+    - uid: integer
+- name: ServiceTypeHealthPolicy
+  description: Represents the health policy used to evaluate the health of services belonging to a service type.
+  kind: object
+  properties:
+  - name: MaxPercentUnhealthyPartitionsPerService
+    description: >-
+      The maximum allowed percentage of unhealthy partitions per service. Allowed values are Byte values from zero to 100
+
+
+      The percentage represents the maximum tolerated percentage of partitions that can be unhealthy before the service is considered in error.
+
+      If the percentage is respected but there is at least one unhealthy partition, the health is evaluated as Warning.
+
+      The percentage is calculated by dividing the number of unhealthy partitions over the total number of partitions in the service.
+
+      The computation rounds up to tolerate one failure on small numbers of partitions. Default percentage is zero.
+    types:
+    - uid: integer
+  - name: MaxPercentUnhealthyReplicasPerPartition
+    description: >-
+      The maximum allowed percentage of unhealthy replicas per partition. Allowed values are Byte values from zero to 100.
+
+
+      The percentage represents the maximum tolerated percentage of replicas that can be unhealthy before the partition is considered in error.
+
+      If the percentage is respected but there is at least one unhealthy replica, the health is evaluated as Warning.
+
+      The percentage is calculated by dividing the number of unhealthy replicas over the total number of replicas in the partition.
+
+      The computation rounds up to tolerate one failure on small numbers of replicas. Default percentage is zero.
+    types:
+    - uid: integer
+  - name: MaxPercentUnhealthyServices
+    description: >-
+      The maximum maximum allowed percentage of unhealthy services. Allowed values are Byte values from zero to 100.
+
+
+      The percentage represents the maximum tolerated percentage of services that can be unhealthy before the application is considered in error.
+
+      If the percentage is respected but there is at least one unhealthy service, the health is evaluated as Warning.
+
+      This is calculated by dividing the number of unhealthy services of the specific service type over the total number of services of the specific service type.
+
+      The computation rounds up to tolerate one failure on small numbers of services. Default percentage is zero.
+    types:
+    - uid: integer
+- name: ServiceTypeHealthPolicyMapItem
+  description: Defines an item in ServiceTypeHealthPolicyMap.
+  kind: object
+  properties:
+  - name: Key
+    description: The key of the service type health policy map item. This is the name of the service type.
+    types:
+    - uid: string
+  - name: Value
+    description: The value of the service type health policy map item. This is the ServiceTypeHealthPolicy for this service type.
+    types:
+    - uid: ServiceTypeHealthPolicy
+- name: ServiceHealthStateChunkList
+  description: The list of service health state chunks that respect the input filters in the chunk query. Returned by get cluster health state chunks query.
+  kind: object
+  properties:
+  - name: Items
+    description: The list of service health state chunks that respect the input filters in the chunk query.
+    types:
+    - uid: ServiceHealthStateChunk
+      isArray: true
+- name: DeployedApplicationHealthStateChunkList
+  description: The list of deployed application health state chunks that respect the input filters in the chunk query. Returned by get cluster health state chunks query.
+  kind: object
+  properties:
+  - name: Items
+    description: The list of deployed application health state chunks that respect the input filters in the chunk query.
+    types:
+    - uid: DeployedApplicationHealthStateChunk
+      isArray: true
+- name: ServiceHealthStateChunk
+  description: Represents the health state chunk of a service, which contains the service name, its aggregated health state and any partitions that respect the filters in the cluster health chunk query description.
+  kind: object
+  properties:
+  - name: HealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: ServiceName
+    description: The name of the service whose health state chunk is provided in this object.
+    types:
+    - uid: string
+  - name: PartitionHealthStateChunks
+    description: The list of partition health state chunks belonging to the service that respect the filters in the cluster health chunk query description.
+    types:
+    - uid: PartitionHealthStateChunkList
+- name: DeployedApplicationHealthStateChunk
+  description: Represents the health state chunk of a deployed application, which contains the node where the application is deployed, the aggregated health state and any deployed service packages that respect the chunk query description filters.
+  kind: object
+  properties:
+  - name: HealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: NodeName
+    description: The name of node where the application is deployed.
+    types:
+    - uid: string
+  - name: DeployedServicePackageHealthStateChunks
+    description: The list of deployed service package health state chunks belonging to the deployed application that respect the filters in the cluster health chunk query description.
+    types:
+    - uid: DeployedServicePackageHealthStateChunkList
+- name: PartitionHealthStateChunkList
+  description: >-
+    The list of partition health state chunks that respect the input filters in the chunk query description.
+
+    Returned by get cluster health state chunks query as part of the parent application hierarchy.
+  kind: object
+  properties:
+  - name: Items
+    description: The list of partition health state chunks that respect the input filters in the chunk query.
+    types:
+    - uid: PartitionHealthStateChunk
+      isArray: true
+- name: DeployedServicePackageHealthStateChunkList
+  description: The list of deployed service package health state chunks that respect the input filters in the chunk query. Returned by get cluster health state chunks query.
+  kind: object
+  properties:
+  - name: Items
+    description: The list of deployed service package health state chunks that respect the input filters in the chunk query.
+    types:
+    - uid: DeployedServicePackageHealthStateChunk
+      isArray: true
+- name: PartitionHealthStateChunk
+  description: Represents the health state chunk of a partition, which contains the partition ID, its aggregated health state and any replicas that respect the filters in the cluster health chunk query description.
+  kind: object
+  properties:
+  - name: HealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: PartitionId
+    description: The Id of the partition.
+    types:
+    - uid: string
+  - name: ReplicaHealthStateChunks
+    description: The list of replica health state chunks belonging to the partition that respect the filters in the cluster health chunk query description.
+    types:
+    - uid: ReplicaHealthStateChunkList
+- name: DeployedServicePackageHealthStateChunk
+  description: Represents the health state chunk of a deployed service package, which contains the service manifest name and the service package aggregated health state.
+  kind: object
+  properties:
+  - name: HealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: ServiceManifestName
+    description: The name of the service manifest.
+    types:
+    - uid: string
+  - name: ServicePackageActivationId
+    description: >-
+      The ActivationId of a deployed service package. If ServicePackageActivationMode specified at the time of creating the service
+
+      is 'SharedProcess' (or if it is not specified, in which case it defaults to 'SharedProcess'), then value of ServicePackageActivationId
+
+      is always an empty string.
+    types:
+    - uid: string
+- name: ReplicaHealthStateChunkList
+  description: The list of replica health state chunks that respect the input filters in the chunk query. Returned by get cluster health state chunks query.
+  kind: object
+  properties:
+  - name: Items
+    description: The list of replica health state chunks that respect the input filters in the chunk query.
+    types:
+    - uid: ReplicaHealthStateChunk
+      isArray: true
+- name: ReplicaHealthStateChunk
+  description: >-
+    Represents the health state chunk of a stateful service replica or a stateless service instance.
+
+    The replica health state contains the replica ID and its aggregated health state.
+  kind: object
+  properties:
+  - name: HealthState
+    description: The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+    types:
+    - uid: HealthState
+  - name: ReplicaOrInstanceId
+    description: Id of a stateful service replica or a stateless service instance. This ID is used in the queries that apply to both stateful and stateless services. It is used by Service Fabric to uniquely identify a replica of a partition of a stateful service or an instance of a stateless service partition. It is unique within a partition and does not change for the lifetime of the replica or the instance. If a stateful replica gets dropped and another replica gets created on the same node for the same partition, it will get a different value for the ID. If a stateless instance is failed over on the same or different node it will get a different value for the ID.
+    types:
+    - uid: string
+examples: []
+security: []
