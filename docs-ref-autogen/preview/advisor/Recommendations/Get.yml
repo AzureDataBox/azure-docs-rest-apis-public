@@ -3,14 +3,14 @@ uid: management.azure.com.advisor.recommendations.get
 name: Get
 service: Advisor
 groupName: Recommendations
-apiVersion: 2017-03-31
+apiVersion: 2016-07-12-preview
 summary: Obtains details of a cached recommendation.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/{resourceUri}/providers/Microsoft.Advisor/recommendations/{recommendationId}?api-version=2017-03-31
+- content: GET https://management.azure.com/{resourceUri}/providers/Microsoft.Advisor/recommendations/{recommendationId}?api-version=2016-07-12-preview
 uriParameters:
 - name: resourceUri
   in: path
@@ -32,7 +32,7 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK. Successfully got recommendation detail.
+  description: OK
   types:
   - uid: ResourceRecommendationBase
 requestHeader: []
@@ -41,6 +41,23 @@ definitions:
   description: Advisor Recommendation.
   kind: object
   properties:
+  - name: id
+    description: The fully qualified recommendation ID, for example /subscriptions/subscriptionId/resourceGroups/resourceGroup1/providers/Microsoft.ClassicCompute/virtualMachines/vm1/providers/Microsoft.Advisor/recommendations/recommendationGUID.
+    types:
+    - uid: string
+  - name: name
+    description: The name of recommendation.
+    types:
+    - uid: string
+  - name: suppressionIds
+    description: The list of snoozed and dismissed rules for the recommendation.
+    types:
+    - uid: string
+      isArray: true
+  - name: type
+    description: 'The recommendation type: Microsoft.Advisor/recommendations.'
+    types:
+    - uid: string
   - name: properties.category
     description: The category of the recommendation.
     types:
@@ -81,26 +98,6 @@ definitions:
     description: A summary of the recommendation.
     types:
     - uid: ShortDescription
-  - name: properties.suppressionIds
-    description: The list of snoozed and dismissed rules for the recommendation.
-    types:
-    - uid: string
-      isArray: true
-  - name: id
-    isReadyOnly: true
-    description: The resource ID.
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: The name of the resource.
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: The type of the resource.
-    types:
-    - uid: string
 - name: category
   description: The category of the recommendation.
   kind: enum
@@ -158,7 +155,7 @@ definitions:
 examples:
 - name: GetRecommendationDetail
   request:
-    uri: GET https://management.azure.com/resourceUri/providers/Microsoft.Advisor/recommendations/recommendationId?api-version=2017-03-31
+    uri: GET https://management.azure.com/resourceUri/providers/Microsoft.Advisor/recommendations/recommendationId?api-version=2016-07-12-preview
   responses:
   - statusCode: "200"
     body: >-

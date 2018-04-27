@@ -3,15 +3,15 @@ uid: management.azure.com.advisor.recommendations.list
 name: List
 service: Advisor
 groupName: Recommendations
-apiVersion: 2017-03-31
+apiVersion: 2016-07-12-preview
 summary: Obtains cached recommendations for a subscription. The recommendations are generated or computed by invoking generateRecommendations.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/recommendations?api-version=2017-03-31
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/recommendations?api-version=2017-03-31&$filter={$filter}&$top={$top}&$skipToken={$skipToken}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/recommendations?api-version=2016-07-12-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/recommendations?api-version=2016-07-12-preview&$filter={$filter}&$top={$top}&$skipToken={$skipToken}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -43,7 +43,7 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK. Successfully obtained cached recommendations.
+  description: OK.
   types:
   - uid: ResourceRecommendationBaseListResult
 requestHeader: []
@@ -65,6 +65,23 @@ definitions:
   description: Advisor Recommendation.
   kind: object
   properties:
+  - name: id
+    description: The fully qualified recommendation ID, for example /subscriptions/subscriptionId/resourceGroups/resourceGroup1/providers/Microsoft.ClassicCompute/virtualMachines/vm1/providers/Microsoft.Advisor/recommendations/recommendationGUID.
+    types:
+    - uid: string
+  - name: name
+    description: The name of recommendation.
+    types:
+    - uid: string
+  - name: suppressionIds
+    description: The list of snoozed and dismissed rules for the recommendation.
+    types:
+    - uid: string
+      isArray: true
+  - name: type
+    description: 'The recommendation type: Microsoft.Advisor/recommendations.'
+    types:
+    - uid: string
   - name: properties.category
     description: The category of the recommendation.
     types:
@@ -105,26 +122,6 @@ definitions:
     description: A summary of the recommendation.
     types:
     - uid: ShortDescription
-  - name: properties.suppressionIds
-    description: The list of snoozed and dismissed rules for the recommendation.
-    types:
-    - uid: string
-      isArray: true
-  - name: id
-    isReadyOnly: true
-    description: The resource ID.
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: The name of the resource.
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: The type of the resource.
-    types:
-    - uid: string
 - name: category
   description: The category of the recommendation.
   kind: enum
@@ -182,12 +179,12 @@ definitions:
 examples:
 - name: ListRecommendations
   request:
-    uri: GET https://management.azure.com/subscriptions/subscriptionId/providers/Microsoft.Advisor/recommendations?api-version=2017-03-31&$top=10
+    uri: GET https://management.azure.com/subscriptions/subscriptionId/providers/Microsoft.Advisor/recommendations?api-version=2016-07-12-preview&$top=10
   responses:
   - statusCode: "200"
     body: >-
       {
-        "nextLink": "https://management.azure.com/subscriptions/subscriptionId/providers/Microsoft.Advisor/recommendations?api-version=2017-03-31&$top=10&$skiptoken=skiptoken",
+        "nextLink": "https://management.azure.com/subscriptions/subscriptionId/providers/Microsoft.Advisor/recommendations?api-version=2016-07-12-preview&$top=10&$skiptoken=skiptoken",
         "value": [
           {
             "id": "/resourceUri/providers/Microsoft.Advisor/recommendations/recGUID",
