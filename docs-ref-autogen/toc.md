@@ -1312,6 +1312,9 @@
 #### [List Skus](cognitiveservices/CognitiveServicesAccounts/ListSkus.yml)
 #### [Regenerate Key](cognitiveservices/CognitiveServicesAccounts/RegenerateKey.yml)
 #### [Update](cognitiveservices/CognitiveServicesAccounts/Update.yml)
+### Bing Visual Search
+#### [Images](cognitiveservices/bingvisualsearch/Images.yml)
+##### [Visual Search](cognitiveservices/bingvisualsearch/Images/VisualSearch.yml)
 # [Compute](../docs-ref-conceptual/compute/index.md)
 ## [Cloud Services (classic)](../docs-ref-conceptual/compute/cloudservices/index.md)
 ### [Add Extension](../docs-ref-conceptual/compute/cloudservices/rest-add-extension.md)
