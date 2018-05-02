@@ -1,141 +1,387 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.mediaservices.operations.list
+uid: mediaservices.operations.list
 name: List
 service: Media Services
 groupName: Operations
-apiVersion: 2015-10-01
-summary: Lists all of the available Media Services REST API operations.
+apiVersion: 2018-03-30-preview
+summary: "List Operations  \nLists all the Media Services operations."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.Media/operations?api-version=2015-10-01
+- content: GET https:///providers/Microsoft.Media/operations?api-version=2018-03-30-preview
 uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request. The current version is 2015-10-01.
+  description: The Version of the API to be used with the client request.
   types:
   - uid: string
 responses:
 - name: 200 OK
-  description: Success. Returns a list of operations.
+  description: OK
   types:
-  - uid: OperationListResult
+  - uid: OperationCollection
+- name: Other Status Codes
+  description: Detailed error information.
+  types:
+  - uid: ApiError
 requestHeader: []
 definitions:
-- name: OperationListResult
-  description: Result of the request to list Media Services operations.
+- name: OperationCollection
+  description: A collection of Operation items.
   kind: object
   properties:
   - name: value
-    isReadyOnly: true
-    description: A Media Services REST API operation
+    description: A collection of Operation items.
     types:
     - uid: Operation
       isArray: true
-  - name: nextLink
-    isReadyOnly: true
-    description: URL to get the next set of operation list results if there are any.
+  - name: '@odata.nextLink'
+    description: A link to the next page of the collection (when the collection contains too many results to return in one response).
     types:
     - uid: string
+- name: ApiError
+  description: The API error.
+  kind: object
+  properties:
+  - name: error
+    description: The error properties.
+    types:
+    - uid: ODataError
 - name: Operation
-  description: A Media Services REST API operation
+  description: An operation.
   kind: object
   properties:
   - name: name
-    isReadyOnly: true
-    description: 'Operation name: {provider}/{resource}/{operation}'
+    description: The operation name.
     types:
     - uid: string
   - name: display
-    description: The object that represents the operation.
+    description: The operation display name.
     types:
-    - uid: Display
-- name: Display
-  description: The object that represents the operation.
+    - uid: OperationDisplay
+- name: ODataError
+  description: Information about an error.
+  kind: object
+  properties:
+  - name: code
+    description: A language-independent error name.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error (for example, the name of the property in error).
+    types:
+    - uid: string
+  - name: details
+    description: The error details.
+    types:
+    - uid: ODataError
+      isArray: true
+- name: OperationDisplay
+  description: Operation details.
   kind: object
   properties:
   - name: provider
-    isReadyOnly: true
-    description: 'Service provider: Microsoft.Media'
+    description: The service provider.
     types:
     - uid: string
   - name: resource
-    isReadyOnly: true
-    description: 'Resource on which the operation is performed: Invoice, etc.'
+    description: Resource on which the operation is performed.
     types:
     - uid: string
   - name: operation
-    isReadyOnly: true
-    description: 'Operation type: Read, write, delete, etc.'
+    description: The operation type.
+    types:
+    - uid: string
+  - name: description
+    description: The operation description.
     types:
     - uid: string
 examples:
-- name: OperationsList
+- name: List Operations
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Media/operations?api-version=2015-10-01
+    uri: GET https:///providers/Microsoft.Media/operations?api-version=2018-03-30-preview
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
+            "name": "Microsoft.Media/register/action",
+            "display": {
+              "provider": "Microsoft Media Services",
+              "resource": "Microsoft Media Services",
+              "operation": "Registers the Media Services Resource Provider",
+              "description": "Registers the subscription for the Media Services resource provider and enables the creation of Media Services accounts"
+            }
+          },
+          {
+            "name": "Microsoft.Media/checknameavailability/action",
+            "display": {
+              "provider": "Microsoft Media Services",
+              "resource": "Microsoft Media Services",
+              "operation": "Check Name Availability",
+              "description": "Checks if a Media Services account name is available"
+            }
+          },
+          {
+            "name": "Microsoft.Media/operations/read",
+            "display": {
+              "provider": "Microsoft Media Services",
+              "resource": "Available Operations",
+              "operation": "Read Media Services Account",
+              "description": "Read any Media Services Account"
+            }
+          },
+          {
             "name": "Microsoft.Media/mediaservices/read",
             "display": {
-              "provider": "Microsoft.Media",
-              "resource": "MediaService",
-              "operation": "read"
+              "provider": "Microsoft Media Services",
+              "resource": "Media Services Account",
+              "operation": "Read Media Services Account",
+              "description": "Read any Media Services Account"
             }
           },
           {
             "name": "Microsoft.Media/mediaservices/write",
             "display": {
-              "provider": "Microsoft.Media",
-              "resource": "MediaService",
-              "operation": "write"
+              "provider": "Microsoft Media Services",
+              "resource": "Media Services Account",
+              "operation": "Create or Update Media Services Account",
+              "description": "Create or Update any Media Services Account"
             }
           },
           {
             "name": "Microsoft.Media/mediaservices/delete",
             "display": {
-              "provider": "Microsoft.Media",
-              "resource": "MediaService",
-              "operation": "delete"
+              "provider": "Microsoft Media Services",
+              "resource": "Media Services Account",
+              "operation": "Delete Media Services Account",
+              "description": "Delete any Media Services Account"
             }
           },
           {
-            "name": "Microsoft.Media/mediaservices/regenerateKey/action",
+            "name": "Microsoft.Media/mediaservices/assets/read",
             "display": {
-              "provider": "Microsoft.Media",
-              "resource": "MediaService",
-              "operation": "regenerateKey"
+              "provider": "Microsoft Media Services",
+              "resource": "Asset",
+              "operation": "Read Asset",
+              "description": "Read any Asset"
             }
           },
           {
-            "name": "Microsoft.Media/mediaservices/listKeys/action",
+            "name": "Microsoft.Media/mediaservices/assets/write",
             "display": {
-              "provider": "Microsoft.Media",
-              "resource": "MediaService",
-              "operation": "listKeys"
+              "provider": "Microsoft Media Services",
+              "resource": "Asset",
+              "operation": "Create or Update Asset",
+              "description": "Create or Update any Asset"
             }
           },
           {
-            "name": "Microsoft.Media/mediaservices/syncStorageKeys/action",
+            "name": "Microsoft.Media/mediaservices/assets/delete",
             "display": {
-              "provider": "Microsoft.Media",
-              "resource": "MediaService",
-              "operation": "syncStorageKeys"
+              "provider": "Microsoft Media Services",
+              "resource": "Asset",
+              "operation": "Delete Asset",
+              "description": "Delete any Asset"
+            }
+          },
+          {
+            "name": "Microsoft.Media/mediaservices/assets/listContainerSas/action",
+            "display": {
+              "provider": "Microsoft Media Services",
+              "resource": "Asset",
+              "operation": "List Asset Container SAS URLs",
+              "description": "List Asset Container SAS URLs"
+            }
+          },
+          {
+            "name": "Microsoft.Media/mediaservices/assets/getEncryptionKey/action",
+            "display": {
+              "provider": "Microsoft Media Services",
+              "resource": "Asset",
+              "operation": "Get Asset Encryption Key",
+              "description": "Get Asset Encryption Key"
+            }
+          },
+          {
+            "name": "Microsoft.Media/mediaservices/streamingPolicies/read",
+            "display": {
+              "provider": "Microsoft Media Services",
+              "resource": "Streaming Policy",
+              "operation": "Read Streaming Policy",
+              "description": "Read any Streaming Policy"
+            }
+          },
+          {
+            "name": "Microsoft.Media/mediaservices/streamingPolicies/write",
+            "display": {
+              "provider": "Microsoft Media Services",
+              "resource": "Streaming Policy",
+              "operation": "Create or Update Streaming Policy",
+              "description": "Create or Update any Streaming Policy"
+            }
+          },
+          {
+            "name": "Microsoft.Media/mediaservices/streamingPolicies/delete",
+            "display": {
+              "provider": "Microsoft Media Services",
+              "resource": "Streaming Policy",
+              "operation": "Delete Streaming Policy",
+              "description": "Delete any Streaming Policy"
+            }
+          },
+          {
+            "name": "Microsoft.Media/mediaservices/streamingLocators/read",
+            "display": {
+              "provider": "Microsoft Media Services",
+              "resource": "Streaming Locator",
+              "operation": "Read Streaming Locator",
+              "description": "Read any Streaming Locator"
+            }
+          },
+          {
+            "name": "Microsoft.Media/mediaservices/streamingLocators/write",
+            "display": {
+              "provider": "Microsoft Media Services",
+              "resource": "Streaming Locator",
+              "operation": "Create or Update Streaming Locator",
+              "description": "Create or Update any Streaming Locator"
+            }
+          },
+          {
+            "name": "Microsoft.Media/mediaservices/streamingLocators/delete",
+            "display": {
+              "provider": "Microsoft Media Services",
+              "resource": "Streaming Locator",
+              "operation": "Delete Streaming Locator",
+              "description": "Delete any Streaming Locator"
+            }
+          },
+          {
+            "name": "Microsoft.Media/mediaservices/streamingLocators/listContentKeys/action",
+            "display": {
+              "provider": "Microsoft Media Services",
+              "resource": "Streaming Locator",
+              "operation": "List Content Keys",
+              "description": "List Content Keys"
+            }
+          },
+          {
+            "name": "Microsoft.Media/mediaservices/streamingLocators/listPaths/action",
+            "display": {
+              "provider": "Microsoft Media Services",
+              "resource": "Streaming Locator",
+              "operation": "List Paths",
+              "description": "List Paths"
+            }
+          },
+          {
+            "name": "Microsoft.Media/mediaservices/contentKeyPolicies/read",
+            "display": {
+              "provider": "Microsoft Media Services",
+              "resource": "Content Key Policy",
+              "operation": "Read Content Key Policy",
+              "description": "Read any Content Key Policy"
+            }
+          },
+          {
+            "name": "Microsoft.Media/mediaservices/contentKeyPolicies/write",
+            "display": {
+              "provider": "Microsoft Media Services",
+              "resource": "Content Key Policy",
+              "operation": "Create or Update Content Key Policy",
+              "description": "Create or Update any Content Key Policy"
+            }
+          },
+          {
+            "name": "Microsoft.Media/mediaservices/contentKeyPolicies/delete",
+            "display": {
+              "provider": "Microsoft Media Services",
+              "resource": "Content Key Policy",
+              "operation": "Delete Content Key Policy",
+              "description": "Delete any Content Key Policy"
+            }
+          },
+          {
+            "name": "Microsoft.Media/mediaservices/contentKeyPolicies/getPolicyPropertiesWithSecrets/action",
+            "display": {
+              "provider": "Microsoft Media Services",
+              "resource": "Content Key Policy",
+              "operation": "Get Policy Properties With Secrets",
+              "description": "Get Policy Properties With Secrets"
+            }
+          },
+          {
+            "name": "Microsoft.Media/mediaservices/transforms/read",
+            "display": {
+              "provider": "Microsoft Media Services",
+              "resource": "Transform",
+              "operation": "Read Transform",
+              "description": "Read any Transform"
+            }
+          },
+          {
+            "name": "Microsoft.Media/mediaservices/transforms/write",
+            "display": {
+              "provider": "Microsoft Media Services",
+              "resource": "Transform",
+              "operation": "Create or Update Transform",
+              "description": "Create or Update any Transform"
+            }
+          },
+          {
+            "name": "Microsoft.Media/mediaservices/transforms/delete",
+            "display": {
+              "provider": "Microsoft Media Services",
+              "resource": "Transform",
+              "operation": "Delete Transform",
+              "description": "Delete any Transform"
+            }
+          },
+          {
+            "name": "Microsoft.Media/mediaservices/transforms/jobs/read",
+            "display": {
+              "provider": "Microsoft Media Services",
+              "resource": "Job",
+              "operation": "Read Job",
+              "description": "Read any Job"
+            }
+          },
+          {
+            "name": "Microsoft.Media/mediaservices/transforms/jobs/write",
+            "display": {
+              "provider": "Microsoft Media Services",
+              "resource": "Job",
+              "operation": "Create or Update Job",
+              "description": "Create or Update any Job"
+            }
+          },
+          {
+            "name": "Microsoft.Media/mediaservices/transforms/jobs/delete",
+            "display": {
+              "provider": "Microsoft Media Services",
+              "resource": "Job",
+              "operation": "Delete Job",
+              "description": "Delete any Job"
+            }
+          },
+          {
+            "name": "Microsoft.Media/mediaservices/transforms/jobs/cancelJob/action",
+            "display": {
+              "provider": "Microsoft Media Services",
+              "resource": "Job",
+              "operation": "Cancel Job",
+              "description": "Cancel Job"
             }
           }
         ]
       }
-security:
-- type: oauth2
-  description: Azure Active Directory OAuth2 Flow
-  flow: implicit
-  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
-  scopes:
-  - name: user_impersonation
-    description: impersonate your user account
+security: []
