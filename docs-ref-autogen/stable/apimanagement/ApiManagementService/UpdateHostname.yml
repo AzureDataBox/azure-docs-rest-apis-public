@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.apimanagementservice.updatehostname
 name: Update Hostname
 service: API Management
 groupName: Api Management Service
-apiVersion: 2018-01-01
+apiVersion: 2017-03-01
 summary: Creates, updates, or deletes the custom hostnames for an API Management service. The custom hostname can be applied to the Proxy and Portal endpoint. This is a long running operation and could take several minutes to complete. This operation will be deprecated in the next version update.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/updatehostname?api-version=2018-01-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/updatehostname?api-version=2017-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -179,15 +179,9 @@ definitions:
     types:
     - uid: HostnameConfiguration
       isArray: true
-  - name: properties.publicIPAddresses
+  - name: properties.staticIps
     isReadyOnly: true
-    description: Public Static Load Balanced IP addresses of the API Management service in Primary region. Available only for Basic, Standard and Premium SKU.
-    types:
-    - uid: string
-      isArray: true
-  - name: properties.privateIPAddresses
-    isReadyOnly: true
-    description: Private Static Load Balanced IP addresses of the API Management service in Primary region which is deployed in an Internal Virtual Network. Available only for Basic, Standard and Premium SKU.
+    description: Static IP addresses of the API Management service virtual machines. Available only for Standard and Premium SKU.
     types:
     - uid: string
       isArray: true
@@ -360,15 +354,9 @@ definitions:
     description: SKU properties of the API Management service.
     types:
     - uid: ApiManagementServiceSkuProperties
-  - name: publicIPAddresses
+  - name: staticIps
     isReadyOnly: true
-    description: Public Static Load Balanced IP addresses of the API Management service in the additional location. Available only for Basic, Standard and Premium SKU.
-    types:
-    - uid: string
-      isArray: true
-  - name: privateIPAddresses
-    isReadyOnly: true
-    description: Private Static Load Balanced IP addresses of the API Management service which is deployed in an Internal Virtual Network in a particular additional location. Available only for Basic, Standard and Premium SKU.
+    description: Static IP addresses of the location's virtual machines.
     types:
     - uid: string
       isArray: true
@@ -394,7 +382,7 @@ definitions:
     types:
     - uid: string
   - name: storeName
-    description: The System.Security.Cryptography.x509certificates.Storename certificate store location. Only Root and CertificateAuthority are valid locations.
+    description: The local certificate store location. Only Root and CertificateAuthority are valid locations.
     types:
     - uid: CertificateAuthority
     - uid: Root
@@ -450,7 +438,7 @@ definitions:
 examples:
 - name: ApiManagementServiceUpdateHostName
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/updatehostname?api-version=2018-01-01
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/updatehostname?api-version=2017-03-01
     body: >-
       {
         "update": [
@@ -516,7 +504,7 @@ examples:
           "portalUrl": "https://apimService1.portal.azure-api.net",
           "managementApiUrl": "https://apimService1.management.azure-api.net",
           "scmUrl": "https://apimService1.scm.azure-api.net",
-          "publicIPAddresses": [
+          "staticIps": [
             "52.173.22.222"
           ],
           "additionalLocations": [
@@ -526,7 +514,7 @@ examples:
                 "name": "Premium",
                 "capacity": 1
               },
-              "publicIPAddresses": [
+              "staticIps": [
                 "40.78.99.244"
               ]
             }
@@ -604,7 +592,7 @@ examples:
               }
             }
           ],
-          "publicIPAddresses": [
+          "staticIps": [
             "52.173.22.222"
           ],
           "additionalLocations": [
@@ -614,7 +602,7 @@ examples:
                 "name": "Premium",
                 "capacity": 1
               },
-              "publicIPAddresses": [
+              "staticIps": [
                 "40.78.99.244"
               ]
             }

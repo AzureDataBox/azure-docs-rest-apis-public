@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.apiissueattachment.delete
 name: Delete
 service: API Management
 groupName: Api Issue Attachment
-apiVersion: 2018-01-01
+apiVersion: 2017-03-01
 summary: Deletes the specified comment from an Issue.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues/{issueId}/attachments/{attachmentId}?api-version=2018-01-01
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues/{issueId}/attachments/{attachmentId}?api-version=2017-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -37,7 +37,7 @@ uriParameters:
   description: API identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
+  pattern: ^[^*#&+:<>?]+$
 - name: issueId
   in: path
   isRequired: true
@@ -59,8 +59,6 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: 200 OK
-  description: The issue Attachment was successfully deleted.
 - name: 204 No Content
   description: The issue Attachment was successfully deleted.
 - name: Other Status Codes
@@ -76,18 +74,18 @@ requestHeader:
   - uid: string
 definitions:
 - name: ErrorResponse
-  description: Error Response.
+  description: Error Body contract.
   kind: object
   properties:
-  - name: error.code
+  - name: code
     description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
     types:
     - uid: string
-  - name: error.message
+  - name: message
     description: Human-readable representation of the error.
     types:
     - uid: string
-  - name: error.details
+  - name: details
     description: The list of invalid fields send in request, in case of validation error.
     types:
     - uid: ErrorFieldContract
@@ -111,12 +109,11 @@ definitions:
 examples:
 - name: ApiManagementDeleteApiIssueAttachment
   request:
-    uri: DELETE https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d1f7558aa04f15146d9d8a/issues/57d2ef278aa04f0ad01d6cdc/attachments/57d2ef278aa04f0888cba3f3?api-version=2018-01-01
+    uri: DELETE https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d1f7558aa04f15146d9d8a/issues/57d2ef278aa04f0ad01d6cdc/attachments/57d2ef278aa04f0888cba3f3?api-version=2017-03-01
     headers:
     - name: If-Match
       value: '*'
   responses:
-  - statusCode: "200"
   - statusCode: "204"
 security:
 - type: oauth2

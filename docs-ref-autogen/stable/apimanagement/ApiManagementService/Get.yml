@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.apimanagementservice.get
 name: Get
 service: API Management
 groupName: Api Management Service
-apiVersion: 2018-01-01
+apiVersion: 2017-03-01
 summary: Gets an API Management service resource description.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}?api-version=2018-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}?api-version=2017-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -145,15 +145,9 @@ definitions:
     types:
     - uid: HostnameConfiguration
       isArray: true
-  - name: properties.publicIPAddresses
+  - name: properties.staticIps
     isReadyOnly: true
-    description: Public Static Load Balanced IP addresses of the API Management service in Primary region. Available only for Basic, Standard and Premium SKU.
-    types:
-    - uid: string
-      isArray: true
-  - name: properties.privateIPAddresses
-    isReadyOnly: true
-    description: Private Static Load Balanced IP addresses of the API Management service in Primary region which is deployed in an Internal Virtual Network. Available only for Basic, Standard and Premium SKU.
+    description: Static IP addresses of the API Management service virtual machines. Available only for Standard and Premium SKU.
     types:
     - uid: string
       isArray: true
@@ -280,15 +274,9 @@ definitions:
     description: SKU properties of the API Management service.
     types:
     - uid: ApiManagementServiceSkuProperties
-  - name: publicIPAddresses
+  - name: staticIps
     isReadyOnly: true
-    description: Public Static Load Balanced IP addresses of the API Management service in the additional location. Available only for Basic, Standard and Premium SKU.
-    types:
-    - uid: string
-      isArray: true
-  - name: privateIPAddresses
-    isReadyOnly: true
-    description: Private Static Load Balanced IP addresses of the API Management service which is deployed in an Internal Virtual Network in a particular additional location. Available only for Basic, Standard and Premium SKU.
+    description: Static IP addresses of the location's virtual machines.
     types:
     - uid: string
       isArray: true
@@ -314,7 +302,7 @@ definitions:
     types:
     - uid: string
   - name: storeName
-    description: The System.Security.Cryptography.x509certificates.Storename certificate store location. Only Root and CertificateAuthority are valid locations.
+    description: The local certificate store location. Only Root and CertificateAuthority are valid locations.
     types:
     - uid: CertificateAuthority
     - uid: Root
@@ -402,7 +390,7 @@ definitions:
 examples:
 - name: ApiManagementServiceGetService
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1?api-version=2018-01-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1?api-version=2017-03-01
   responses:
   - statusCode: "200"
     body: >-
@@ -460,7 +448,7 @@ examples:
               }
             }
           ],
-          "publicIPAddresses": [
+          "staticIps": [
             "52.173.22.222"
           ],
           "additionalLocations": [
@@ -470,7 +458,7 @@ examples:
                 "name": "Premium",
                 "capacity": 1
               },
-              "publicIPAddresses": [
+              "staticIps": [
                 "40.78.99.244"
               ],
               "gatewayRegionalUrl": "https://apimService1-westus-01.regional.azure-api.net"
@@ -485,7 +473,7 @@ examples:
       }
 - name: ApiManagementServiceGetServiceHavingMsi
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1?api-version=2018-01-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1?api-version=2017-03-01
   responses:
   - statusCode: "200"
     body: >-
@@ -521,7 +509,7 @@ examples:
               "defaultSslBinding": true
             }
           ],
-          "publicIPAddresses": [
+          "staticIps": [
             "13.xx.76.xxx"
           ]
         },
@@ -533,88 +521,6 @@ examples:
           "type": "SystemAssigned",
           "principalId": "ae7d906a-xxx-408a-xxxx-6b9d60e5756b",
           "tenantId": "72f988bf-xxx-41af-xxxx-2d7cd011db47"
-        }
-      }
-- name: ApiManagementServiceGetMultiRegionInternalVnet
-  request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1?api-version=2018-01-01
-  responses:
-  - statusCode: "200"
-    body: >-
-      {
-        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimservice1",
-        "name": "apimservice1",
-        "type": "Microsoft.ApiManagement/service",
-        "tags": {},
-        "location": "West US",
-        "etag": "AAAAAADqC0c=",
-        "properties": {
-          "publisherEmail": "abcs@contoso.com",
-          "publisherName": "contoso publisher",
-          "notificationSenderEmail": "apimgmt-noreply@mail.windowsazure.com",
-          "provisioningState": "Succeeded",
-          "targetProvisioningState": "",
-          "createdAtUtc": "2018-02-02T01:42:09.1268424Z",
-          "gatewayUrl": "https://apimservice1.azure-api.net",
-          "gatewayRegionalUrl": "https://apimservice1-westus-01.regional.azure-api.net",
-          "portalUrl": "https://apimservice1.portal.azure-api.net",
-          "managementApiUrl": "https://apimservice1.management.azure-api.net",
-          "scmUrl": "https://apimservice1.scm.azure-api.net",
-          "hostnameConfigurations": [
-            {
-              "type": "Proxy",
-              "hostName": "apimgatewaytest.preview.net",
-              "negotiateClientCertificate": false,
-              "certificate": {
-                "expiry": "2019-08-16T16:51:34+00:00",
-                "thumbprint": "B4330123DBAXXXXXXXXX1F35E84493476",
-                "subject": "CN=*.preview.net"
-              },
-              "defaultSslBinding": true
-            }
-          ],
-          "publicIPAddresses": [
-            "137.XXX.11.74"
-          ],
-          "privateIPAddresses": [
-            "172.XX.0.5"
-          ],
-          "additionalLocations": [
-            {
-              "location": "West US 2",
-              "sku": {
-                "name": "Premium",
-                "capacity": 1
-              },
-              "publicIPAddresses": [
-                "40.XXX.79.187"
-              ],
-              "privateIPAddresses": [
-                "10.0.X.6"
-              ],
-              "virtualNetworkConfiguration": {
-                "subnetResourceId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/APIMVNet/subnets/apim-internal-sub"
-              },
-              "gatewayRegionalUrl": "https://apimservice1-westus2-01.regional.azure-api.net"
-            }
-          ],
-          "virtualNetworkConfiguration": {
-            "subnetResourceId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/apim-appGateway-vnet/subnets/apim-subnet"
-          },
-          "customProperties": {
-            "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10": "True",
-            "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11": "True",
-            "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Ssl30": "False",
-            "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TripleDes168": "True",
-            "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls10": "True",
-            "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls11": "True",
-            "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Ssl30": "False"
-          },
-          "virtualNetworkType": "Internal"
-        },
-        "sku": {
-          "name": "Premium",
-          "capacity": 1
         }
       }
 security:

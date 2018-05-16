@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.notificationrecipientuser.delete
 name: Delete
 service: API Management
 groupName: Notification Recipient User
-apiVersion: 2018-01-01
+apiVersion: 2017-03-01
 summary: Removes the API Management user from the list of Notification.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/notifications/{notificationName}/recipientUsers/{uid}?api-version=2018-01-01
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/notifications/{notificationName}/recipientUsers/{uid}?api-version=2017-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -43,7 +43,7 @@ uriParameters:
   description: User identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
+  pattern: ^[^*#&+:<>?]+$
 - name: api-version
   in: query
   isRequired: true
@@ -51,8 +51,6 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: 200 OK
-  description: Recipient User was successfully removed from the notification list.
 - name: 204 No Content
   description: Recipient User was successfully removed from the notification list.
 - name: Other Status Codes
@@ -94,18 +92,18 @@ definitions:
     types:
     - uid: string
 - name: ErrorResponse
-  description: Error Response.
+  description: Error Body contract.
   kind: object
   properties:
-  - name: error.code
+  - name: code
     description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
     types:
     - uid: string
-  - name: error.message
+  - name: message
     description: Human-readable representation of the error.
     types:
     - uid: string
-  - name: error.details
+  - name: details
     description: The list of invalid fields send in request, in case of validation error.
     types:
     - uid: ErrorFieldContract
@@ -129,9 +127,8 @@ definitions:
 examples:
 - name: ApiManagementDeleteNotificationRecipientUser
   request:
-    uri: DELETE https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/notifications/RequestPublisherNotificationMessage/recipientUsers/576823d0a40f7e74ec07d642?api-version=2018-01-01
+    uri: DELETE https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/notifications/RequestPublisherNotificationMessage/recipientUsers/576823d0a40f7e74ec07d642?api-version=2017-03-01
   responses:
-  - statusCode: "200"
   - statusCode: "204"
 security:
 - type: oauth2
