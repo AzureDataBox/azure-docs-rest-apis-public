@@ -1,0 +1,209 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.application-insights.analyticsitem.put
+name: Put
+service: Application Insights
+groupName: Analytics Item
+apiVersion: 2015-05-01
+summary: Adds or Updates a specific Analytics Item within an Application Insights component.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/components/{resourceName}/{scopePath}/item?api-version=2015-05-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/components/{resourceName}/{scopePath}/item?api-version=2015-05-01&overrideItem={overrideItem}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: resourceName
+  in: path
+  isRequired: true
+  description: The name of the Application Insights component resource.
+  types:
+  - uid: string
+- name: scopePath
+  in: path
+  isRequired: true
+  description: Enum indicating if this item definition is owned by a specific user or is shared between all users with access to the Application Insights component.
+  types:
+  - uid: ItemScopePath
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+- name: overrideItem
+  in: query
+  description: Flag indicating whether or not to force save an item. This allows overriding an item if it already exists.
+  types:
+  - uid: boolean
+responses:
+- name: 200 OK
+  description: The new or updated item associated with the Application Insights component.
+  types:
+  - uid: ApplicationInsightsComponentAnalyticsItem
+requestBody:
+- parameters:
+  - name: Id
+    in: body
+    description: Internally assigned unique id of the item definition.
+    types:
+    - uid: string
+  - name: Name
+    in: body
+    description: The user-defined name of the item.
+    types:
+    - uid: string
+  - name: Content
+    in: body
+    description: The content of this item
+    types:
+    - uid: string
+  - name: Scope
+    in: body
+    description: Enum indicating if this item definition is owned by a specific user or is shared between all users with access to the Application Insights component.
+    types:
+    - uid: ItemScope
+  - name: Type
+    in: body
+    description: Enum indicating the type of the Analytics item.
+    types:
+    - uid: ItemType
+  - name: Properties
+    in: body
+    description: A set of properties that can be defined in the context of a specific item type. Each type may have its own properties.
+    types:
+    - uid: ApplicationInsightsComponentAnalyticsItemProperties
+requestHeader: []
+definitions:
+- name: ItemScopePath
+  description: Enum indicating if this item definition is owned by a specific user or is shared between all users with access to the Application Insights component.
+  kind: enum
+  properties:
+  - name: analyticsItems
+    types:
+    - uid: string
+  - name: myanalyticsItems
+    types:
+    - uid: string
+- name: ApplicationInsightsComponentAnalyticsItemProperties
+  description: A set of properties that can be defined in the context of a specific item type. Each type may have its own properties.
+  kind: object
+  properties:
+  - name: functionAlias
+    description: A function alias, used when the type of the item is Function
+    types:
+    - uid: string
+- name: ApplicationInsightsComponentAnalyticsItem
+  description: Properties that define an Analytics item that is associated to an Application Insights component.
+  kind: object
+  properties:
+  - name: Id
+    description: Internally assigned unique id of the item definition.
+    types:
+    - uid: string
+  - name: Name
+    description: The user-defined name of the item.
+    types:
+    - uid: string
+  - name: Content
+    description: The content of this item
+    types:
+    - uid: string
+  - name: Version
+    isReadyOnly: true
+    description: This instance's version of the data model. This can change as new features are added.
+    types:
+    - uid: string
+  - name: Scope
+    description: Enum indicating if this item definition is owned by a specific user or is shared between all users with access to the Application Insights component.
+    types:
+    - uid: ItemScope
+  - name: Type
+    description: Enum indicating the type of the Analytics item.
+    types:
+    - uid: ItemType
+  - name: TimeCreated
+    isReadyOnly: true
+    description: Date and time in UTC when this item was created.
+    types:
+    - uid: string
+  - name: TimeModified
+    isReadyOnly: true
+    description: Date and time in UTC of the last modification that was made to this item.
+    types:
+    - uid: string
+  - name: Properties
+    description: A set of properties that can be defined in the context of a specific item type. Each type may have its own properties.
+    types:
+    - uid: ApplicationInsightsComponentAnalyticsItemProperties
+- name: ItemScope
+  description: Enum indicating if this item definition is owned by a specific user or is shared between all users with access to the Application Insights component.
+  kind: enum
+  properties:
+  - name: shared
+    types:
+    - uid: string
+  - name: user
+    types:
+    - uid: string
+- name: ItemType
+  description: Enum indicating the type of the Analytics item.
+  kind: enum
+  properties:
+  - name: query
+    types:
+    - uid: string
+  - name: function
+    types:
+    - uid: string
+  - name: folder
+    types:
+    - uid: string
+  - name: recent
+    types:
+    - uid: string
+examples:
+- name: AnalyticsItemPut
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/my-resource-group/providers/microsoft.insights/components/my-component/analyticsItems/item?api-version=2015-05-01
+    body: >-
+      {
+        "Scope": "shared",
+        "Type": "query",
+        "Name": "Exceptions - New in the last 24 hours",
+        "Content": "let newExceptionsTimeRange = 1d;\nlet timeRangeToCheckBefore = 7d;\nexceptions\n| where timestamp < ago(timeRangeToCheckBefore)\n| summarize count() by problemId\n| join kind= rightanti (\nexceptions\n| where timestamp >= ago(newExceptionsTimeRange)\n| extend stack = tostring(details[0].rawStack)\n| summarize count(), dcount(user_AuthenticatedId), min(timestamp), max(timestamp), any(stack) by problemId  \n) on problemId \n| order by  count_ desc\n"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "Scope": "shared",
+        "Type": "query",
+        "Name": "Exceptions - New in the last 24 hours",
+        "Id": "3466c160-4a10-4df8-afdf-0007f3f6dee5",
+        "Content": "let newExceptionsTimeRange = 1d;\nlet timeRangeToCheckBefore = 7d;\nexceptions\n| where timestamp < ago(timeRangeToCheckBefore)\n| summarize count() by problemId\n| join kind= rightanti (\nexceptions\n| where timestamp >= ago(newExceptionsTimeRange)\n| extend stack = tostring(details[0].rawStack)\n| summarize count(), dcount(user_AuthenticatedId), min(timestamp), max(timestamp), any(stack) by problemId  \n) on problemId \n| order by  count_ desc\n",
+        "TimeModified": "2018-02-14T13:13:19.3381394Z",
+        "TimeCreated": "2018-02-12T11:44:39.2980634Z",
+        "Version": "1.0"
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.webapps.get
 name: Get
 service: App Service
 groupName: Web Apps
-apiVersion: 2016-08-01
+apiVersion: 2018-02-01
 summary: Gets the details of a web, mobile, or API app.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}?api-version=2016-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}?api-version=2018-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -104,6 +104,10 @@ definitions:
     - uid: string
   - name: properties.reserved
     description: <code>true</code> if reserved; otherwise, <code>false</code>.
+    types:
+    - uid: boolean
+  - name: properties.isXenon
+    description: Hyper-V sandbox.
     types:
     - uid: boolean
   - name: properties.lastModifiedTimeUtc
@@ -263,6 +267,11 @@ definitions:
     description: Principal Id of managed service identity.
     types:
     - uid: string
+  - name: identityIds
+    description: Array of UserAssigned managed service identities.
+    types:
+    - uid: string
+      isArray: true
 - name: UsageState
   description: State indicating whether the app has exceeded its quota usage. Read-only.
   kind: enum
@@ -345,6 +354,10 @@ definitions:
     - uid: string
   - name: linuxFxVersion
     description: Linux App Framework and version
+    types:
+    - uid: string
+  - name: xenonFxVersion
+    description: Xenon App Framework and version
     types:
     - uid: string
   - name: requestTracingEnabled
@@ -492,6 +505,14 @@ definitions:
     description: <code>true</code> to enable local MySQL; otherwise, <code>false</code>.
     types:
     - uid: boolean
+  - name: managedServiceIdentityId
+    description: Managed Service Identity Id
+    types:
+    - uid: integer
+  - name: xManagedServiceIdentityId
+    description: Explicit Managed Service Identity Id
+    types:
+    - uid: integer
   - name: ipSecurityRestrictions
     description: IP security restrictions.
     types:
@@ -574,10 +595,6 @@ definitions:
     description: Name of Traffic Manager profile to create. This is only needed if Traffic Manager profile does not already exist.
     types:
     - uid: string
-  - name: ignoreQuotas
-    description: <code>true</code> if quotas should be ignored; otherwise, <code>false</code>.
-    types:
-    - uid: boolean
 - name: SnapshotRecoveryRequest
   description: Details about app recovery operation.
   kind: object
@@ -648,6 +665,9 @@ definitions:
   kind: enum
   properties:
   - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
     types:
     - uid: string
 - name: SslState

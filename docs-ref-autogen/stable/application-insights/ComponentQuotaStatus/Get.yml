@@ -1,0 +1,84 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.application-insights.componentquotastatus.get
+name: Get
+service: Application Insights
+groupName: Component Quota Status
+apiVersion: 2015-05-01
+summary: Returns daily data volume cap (quota) status for an Application Insights component.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/quotastatus?api-version=2015-05-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: resourceName
+  in: path
+  isRequired: true
+  description: The name of the Application Insights component resource.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: An Application Insights component daily data volume cap status definition.
+  types:
+  - uid: ApplicationInsightsComponentQuotaStatus
+requestHeader: []
+definitions:
+- name: ApplicationInsightsComponentQuotaStatus
+  description: An Application Insights component daily data volume cap status
+  kind: object
+  properties:
+  - name: AppId
+    isReadyOnly: true
+    description: The Application ID for the Application Insights component.
+    types:
+    - uid: string
+  - name: ShouldBeThrottled
+    isReadyOnly: true
+    description: The daily data volume cap is met, and data ingestion will be stopped.
+    types:
+    - uid: boolean
+  - name: ExpirationTime
+    isReadyOnly: true
+    description: Date and time when the daily data volume cap will be reset, and data ingestion will resume.
+    types:
+    - uid: string
+examples:
+- name: ComponentCurrentBillingFeaturesGet
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/my-resource-group/providers/Microsoft.Insights/components/my-component/quotastatus?api-version=2015-05-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "AppId": "887f4bfd-b5fd-40d7-9fc3-123456789abc",
+        "ShouldBeThrottled": true,
+        "ExpirationTime": "2017-08-10T05:00:00"
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

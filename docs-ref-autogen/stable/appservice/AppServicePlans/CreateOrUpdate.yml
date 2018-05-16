@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.appserviceplans.createorupdate
 name: Create Or Update
 service: App Service
 groupName: App Service Plans
-apiVersion: 2016-09-01
+apiVersion: 2018-02-01
 summary: Creates or updates an App Service Plan.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}?api-version=2016-09-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}?api-version=2018-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -46,6 +46,10 @@ responses:
   description: Operation is in progress.
   types:
   - uid: AppServicePlan
+- name: Other Status Codes
+  description: App Service error response.
+  types:
+  - uid: DefaultErrorResponse
 requestBody:
 - parameters:
   - name: sku
@@ -53,12 +57,6 @@ requestBody:
     description: Description of a SKU for a scalable resource.
     types:
     - uid: SkuDescription
-  - name: properties.name
-    in: body
-    isRequired: true
-    description: Name for the App Service plan.
-    types:
-    - uid: string
   - name: properties.workerTierName
     in: body
     description: Target worker tier assigned to the App Service plan.
@@ -95,6 +93,11 @@ requestBody:
   - name: properties.reserved
     in: body
     description: If Linux app service plan <code>true</code>, <code>false</code> otherwise.
+    types:
+    - uid: boolean
+  - name: properties.isXenon
+    in: body
+    description: If Hyper-V container app service plan <code>true</code>, <code>false</code> otherwise.
     types:
     - uid: boolean
   - name: properties.targetWorkerCount
@@ -193,10 +196,6 @@ definitions:
     description: Description of a SKU for a scalable resource.
     types:
     - uid: SkuDescription
-  - name: properties.name
-    description: Name for the App Service plan.
-    types:
-    - uid: string
   - name: properties.workerTierName
     description: Target worker tier assigned to the App Service plan.
     types:
@@ -258,6 +257,10 @@ definitions:
     description: If Linux app service plan <code>true</code>, <code>false</code> otherwise.
     types:
     - uid: boolean
+  - name: properties.isXenon
+    description: If Hyper-V container app service plan <code>true</code>, <code>false</code> otherwise.
+    types:
+    - uid: boolean
   - name: properties.targetWorkerCount
     description: Scaling worker count.
     types:
@@ -302,6 +305,15 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
 - name: SkuCapacity
   description: Description of the App Service plan scale options.
   kind: object
@@ -370,10 +382,57 @@ definitions:
   - name: Deleting
     types:
     - uid: string
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Detailed errors.
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
+    types:
+    - uid: string
+- name: Details
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
 examples:
-- name: Create or Update App Service plan
+- name: Create Or Update App Service plan
   request:
-    uri: PUT https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/serverfarms/testsf6141?api-version=2016-09-01
+    uri: PUT https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/serverfarms/testsf6141?api-version=2018-02-01
     body: >-
       {
         "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/serverfarms/testsf6141",

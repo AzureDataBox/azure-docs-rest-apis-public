@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.domains.getcontrolcenterssorequest
 name: Get Control Center Sso Request
 service: App Service
 groupName: Domains
-apiVersion: 2015-04-01
+apiVersion: 2018-02-01
 summary: Generate a single sign-on request for the domain management portal.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DomainRegistration/generateSsoRequest?api-version=2015-04-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DomainRegistration/generateSsoRequest?api-version=2018-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -29,6 +29,10 @@ responses:
   description: OK
   types:
   - uid: DomainControlCenterSsoRequest
+- name: Other Status Codes
+  description: App Service error response.
+  types:
+  - uid: DefaultErrorResponse
 requestHeader: []
 definitions:
 - name: DomainControlCenterSsoRequest
@@ -48,6 +52,62 @@ definitions:
   - name: postParameterValue
     isReadyOnly: true
     description: Post parameter value. Client should use 'application/x-www-form-urlencoded' encoding for this value.
+    types:
+    - uid: string
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Detailed errors.
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
+    types:
+    - uid: string
+- name: Details
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
     types:
     - uid: string
 examples: []

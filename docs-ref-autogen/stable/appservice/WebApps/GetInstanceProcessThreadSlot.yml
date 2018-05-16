@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.webapps.getinstanceprocessthreadslot
 name: Get Instance Process Thread Slot
 service: App Service
 groupName: Web Apps
-apiVersion: 2016-08-01
+apiVersion: 2018-02-01
 summary: Get thread information by Thread ID for a specific process, in a specific scaled-out instance in a web site.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/instances/{instanceId}/processes/{processId}/threads/{threadId}?api-version=2016-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/instances/{instanceId}/processes/{processId}/threads/{threadId}?api-version=2018-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -74,8 +74,9 @@ definitions:
   description: Process Thread Information.
   kind: object
   properties:
-  - name: properties.id
-    description: ARM Identifier for deployment.
+  - name: properties.identifier
+    isReadyOnly: true
+    description: Site extension ID.
     types:
     - uid: integer
   - name: properties.href
@@ -86,35 +87,35 @@ definitions:
     description: Process URI.
     types:
     - uid: string
-  - name: properties.startAddress
+  - name: properties.start_address
     description: Start address.
     types:
     - uid: string
-  - name: properties.currentPriority
+  - name: properties.current_priority
     description: Current thread priority.
     types:
     - uid: integer
-  - name: properties.priorityLevel
+  - name: properties.priority_level
     description: Thread priority level.
     types:
     - uid: string
-  - name: properties.basePriority
+  - name: properties.base_priority
     description: Base priority.
     types:
     - uid: integer
-  - name: properties.startTime
+  - name: properties.start_time
     description: Start time.
     types:
     - uid: string
-  - name: properties.totalProcessorTime
+  - name: properties.total_processor_time
     description: Total processor time.
     types:
     - uid: string
-  - name: properties.userProcessorTime
+  - name: properties.user_processor_time
     description: User processor time.
     types:
     - uid: string
-  - name: properties.priviledgedProcessorTime
+  - name: properties.priviledged_processor_time
     description: Priviledged processor time.
     types:
     - uid: string
@@ -122,7 +123,7 @@ definitions:
     description: Thread state.
     types:
     - uid: string
-  - name: properties.waitReason
+  - name: properties.wait_reason
     description: Wait reason.
     types:
     - uid: string

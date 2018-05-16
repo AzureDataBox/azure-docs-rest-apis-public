@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.webapps.createinstancefunctionslot
 name: Create Instance Function Slot
 service: App Service
 groupName: Web Apps
-apiVersion: 2016-08-01
+apiVersion: 2018-02-01
 summary: Create function for web site, or a deployment slot.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/functions/{functionName}?api-version=2016-08-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/functions/{functionName}?api-version=2018-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -54,24 +54,33 @@ responses:
   description: Function created.
   types:
   - uid: FunctionEnvelope
+- name: Other Status Codes
+  description: App Service error response.
+  types:
+  - uid: DefaultErrorResponse
 requestBody:
 - parameters:
-  - name: properties.scriptRootPathHref
+  - name: properties.function_app_id
+    in: body
+    description: Function App ID.
+    types:
+    - uid: string
+  - name: properties.script_root_path_href
     in: body
     description: Script root path URI.
     types:
     - uid: string
-  - name: properties.scriptHref
+  - name: properties.script_href
     in: body
     description: Script URI.
     types:
     - uid: string
-  - name: properties.configHref
+  - name: properties.config_href
     in: body
     description: Config URI.
     types:
     - uid: string
-  - name: properties.secretsFileHref
+  - name: properties.secrets_file_href
     in: body
     description: Secrets file URI.
     types:
@@ -95,7 +104,7 @@ requestBody:
       additionalTypes:
       - uid: string
       - uid: string
-  - name: properties.testData
+  - name: properties.test_data
     in: body
     description: Test data used when testing via the Azure Portal.
     types:
@@ -111,29 +120,23 @@ definitions:
   description: Web Job Information.
   kind: object
   properties:
-  - name: properties.name
-    isReadyOnly: true
-    description: Function name.
-    types:
-    - uid: string
-  - name: properties.functionAppId
-    isReadyOnly: true
+  - name: properties.function_app_id
     description: Function App ID.
     types:
     - uid: string
-  - name: properties.scriptRootPathHref
+  - name: properties.script_root_path_href
     description: Script root path URI.
     types:
     - uid: string
-  - name: properties.scriptHref
+  - name: properties.script_href
     description: Script URI.
     types:
     - uid: string
-  - name: properties.configHref
+  - name: properties.config_href
     description: Config URI.
     types:
     - uid: string
-  - name: properties.secretsFileHref
+  - name: properties.secrets_file_href
     description: Secrets file URI.
     types:
     - uid: string
@@ -153,7 +156,7 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
-  - name: properties.testData
+  - name: properties.test_data
     description: Test data used when testing via the Azure Portal.
     types:
     - uid: string
@@ -174,6 +177,62 @@ definitions:
   - name: type
     isReadyOnly: true
     description: Resource type.
+    types:
+    - uid: string
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Detailed errors.
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
+    types:
+    - uid: string
+- name: Details
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
     types:
     - uid: string
 examples: []

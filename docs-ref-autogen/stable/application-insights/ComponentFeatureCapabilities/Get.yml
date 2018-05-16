@@ -1,0 +1,162 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.application-insights.componentfeaturecapabilities.get
+name: Get
+service: Application Insights
+groupName: Component Feature Capabilities
+apiVersion: 2015-05-01
+summary: Returns feature capabilites of the application insights component.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/featurecapabilities?api-version=2015-05-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: resourceName
+  in: path
+  isRequired: true
+  description: The name of the Application Insights component resource.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: An Application Insights component feature capabilities definition.
+  types:
+  - uid: ApplicationInsightsComponentFeatureCapabilities
+requestHeader: []
+definitions:
+- name: ApplicationInsightsComponentFeatureCapabilities
+  description: An Application Insights component feature capabilities
+  kind: object
+  properties:
+  - name: SupportExportData
+    isReadyOnly: true
+    description: Whether allow to use continuous export feature.
+    types:
+    - uid: boolean
+  - name: BurstThrottlePolicy
+    isReadyOnly: true
+    description: Reserved, not used now.
+    types:
+    - uid: string
+  - name: MetadataClass
+    isReadyOnly: true
+    description: Reserved, not used now.
+    types:
+    - uid: string
+  - name: LiveStreamMetrics
+    isReadyOnly: true
+    description: Reserved, not used now.
+    types:
+    - uid: boolean
+  - name: ApplicationMap
+    isReadyOnly: true
+    description: Reserved, not used now.
+    types:
+    - uid: boolean
+  - name: WorkItemIntegration
+    isReadyOnly: true
+    description: Whether allow to use work item integration feature.
+    types:
+    - uid: boolean
+  - name: PowerBIIntegration
+    isReadyOnly: true
+    description: Reserved, not used now.
+    types:
+    - uid: boolean
+  - name: OpenSchema
+    isReadyOnly: true
+    description: Reserved, not used now.
+    types:
+    - uid: boolean
+  - name: ProactiveDetection
+    isReadyOnly: true
+    description: Reserved, not used now.
+    types:
+    - uid: boolean
+  - name: AnalyticsIntegration
+    isReadyOnly: true
+    description: Reserved, not used now.
+    types:
+    - uid: boolean
+  - name: MultipleStepWebTest
+    isReadyOnly: true
+    description: Whether allow to use multiple steps web test feature.
+    types:
+    - uid: boolean
+  - name: ApiAccessLevel
+    isReadyOnly: true
+    description: Reserved, not used now.
+    types:
+    - uid: string
+  - name: TrackingType
+    isReadyOnly: true
+    description: The applciation insights component used tracking type.
+    types:
+    - uid: string
+  - name: DailyCap
+    isReadyOnly: true
+    description: Daily data volume cap in GB.
+    types:
+    - uid: number
+  - name: DailyCapResetTime
+    isReadyOnly: true
+    description: Daily data volume cap UTC reset hour.
+    types:
+    - uid: number
+  - name: ThrottleRate
+    isReadyOnly: true
+    description: Reserved, not used now.
+    types:
+    - uid: number
+examples:
+- name: ComponentCurrentBillingFeaturesGet
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/my-resource-group/providers/Microsoft.Insights/components/my-component/featurecapabilities?api-version=2015-05-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "SupportExportData": true,
+        "BurstThrottlePolicy": "B2",
+        "MetadataClass": null,
+        "LiveStreamMetrics": true,
+        "ApplicationMap": true,
+        "WorkItemIntegration": true,
+        "PowerBIIntegration": true,
+        "OpenSchema": true,
+        "ProactiveDetection": false,
+        "AnalyticsIntegration": true,
+        "MultipleStepWebTest": true,
+        "ApiAccessLevel": "Premium",
+        "TrackingType": "Basic",
+        "DailyCap": 0.0323,
+        "DailyCapResetTime": 4,
+        "ThrottleRate": 0
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

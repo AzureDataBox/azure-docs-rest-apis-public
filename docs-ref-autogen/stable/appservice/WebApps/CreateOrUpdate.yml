@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.webapps.createorupdate
 name: Create Or Update
 service: App Service
 groupName: Web Apps
-apiVersion: 2016-08-01
+apiVersion: 2018-02-01
 summary: Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}?api-version=2016-08-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}?api-version=2018-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -46,6 +46,10 @@ responses:
   description: Asynchronous operation in progress.
   types:
   - uid: Site
+- name: Other Status Codes
+  description: App Service error response.
+  types:
+  - uid: DefaultErrorResponse
 requestBody:
 - parameters:
   - name: identity
@@ -72,6 +76,11 @@ requestBody:
   - name: properties.reserved
     in: body
     description: <code>true</code> if reserved; otherwise, <code>false</code>.
+    types:
+    - uid: boolean
+  - name: properties.isXenon
+    in: body
+    description: Hyper-V sandbox.
     types:
     - uid: boolean
   - name: properties.siteConfig
@@ -174,6 +183,11 @@ definitions:
     description: Principal Id of managed service identity.
     types:
     - uid: string
+  - name: identityIds
+    description: Array of UserAssigned managed service identities.
+    types:
+    - uid: string
+      isArray: true
 - name: HostNameSslState
   description: SSL-enabled hostname.
   kind: object
@@ -233,6 +247,10 @@ definitions:
     - uid: string
   - name: linuxFxVersion
     description: Linux App Framework and version
+    types:
+    - uid: string
+  - name: xenonFxVersion
+    description: Xenon App Framework and version
     types:
     - uid: string
   - name: requestTracingEnabled
@@ -380,6 +398,14 @@ definitions:
     description: <code>true</code> to enable local MySQL; otherwise, <code>false</code>.
     types:
     - uid: boolean
+  - name: managedServiceIdentityId
+    description: Managed Service Identity Id
+    types:
+    - uid: integer
+  - name: xManagedServiceIdentityId
+    description: Explicit Managed Service Identity Id
+    types:
+    - uid: integer
   - name: ipSecurityRestrictions
     description: IP security restrictions.
     types:
@@ -462,10 +488,6 @@ definitions:
     description: Name of Traffic Manager profile to create. This is only needed if Traffic Manager profile does not already exist.
     types:
     - uid: string
-  - name: ignoreQuotas
-    description: <code>true</code> if quotas should be ignored; otherwise, <code>false</code>.
-    types:
-    - uid: boolean
 - name: SnapshotRecoveryRequest
   description: Details about app recovery operation.
   kind: object
@@ -589,6 +611,10 @@ definitions:
     - uid: string
   - name: properties.reserved
     description: <code>true</code> if reserved; otherwise, <code>false</code>.
+    types:
+    - uid: boolean
+  - name: properties.isXenon
+    description: Hyper-V sandbox.
     types:
     - uid: boolean
   - name: properties.lastModifiedTimeUtc
@@ -730,11 +756,23 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
 - name: ManagedServiceIdentityType
   description: Type of managed service identity.
   kind: enum
   properties:
   - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
     types:
     - uid: string
 - name: SslState
@@ -1073,6 +1111,35 @@ definitions:
   - name: DisasterRecoveryMode
     types:
     - uid: string
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Detailed errors.
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
+    types:
+    - uid: string
 - name: ConnectionStringType
   description: Type of database.
   kind: enum
@@ -1199,6 +1266,24 @@ definitions:
       Minimum time the process must execute
 
       before taking the action
+    types:
+    - uid: string
+- name: Details
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
     types:
     - uid: string
 - name: RequestsBasedTrigger

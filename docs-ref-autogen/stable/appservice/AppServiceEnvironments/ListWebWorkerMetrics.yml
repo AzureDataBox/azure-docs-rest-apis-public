@@ -3,15 +3,15 @@ uid: management.azure.com.appservice.appserviceenvironments.listwebworkermetrics
 name: List Web Worker Metrics
 service: App Service
 groupName: App Service Environments
-apiVersion: 2016-09-01
+apiVersion: 2018-02-01
 summary: Get metrics for a worker pool of a AppServiceEnvironment (App Service Environment).
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/workerPools/{workerPoolName}/metrics?api-version=2016-09-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/workerPools/{workerPoolName}/metrics?details={details}&$filter={$filter}&api-version=2016-09-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/workerPools/{workerPoolName}/metrics?api-version=2018-02-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/workerPools/{workerPoolName}/metrics?details={details}&$filter={$filter}&api-version=2018-02-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -60,6 +60,10 @@ responses:
   description: OK
   types:
   - uid: ResourceMetricCollection
+- name: Other Status Codes
+  description: App Service error response.
+  types:
+  - uid: DefaultErrorResponse
 requestHeader: []
 definitions:
 - name: ResourceMetricCollection
@@ -76,6 +80,15 @@ definitions:
     description: Link to next page of resources.
     types:
     - uid: string
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
 - name: ResourceMetric
   description: Object representing a metric for any resource .
   kind: object
@@ -127,6 +140,35 @@ definitions:
     types:
     - uid: ResourceMetricProperty
       isArray: true
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Detailed errors.
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
+    types:
+    - uid: string
 - name: ResourceMetricName
   description: Name of a metric for any resource .
   kind: object
@@ -191,6 +233,24 @@ definitions:
     - uid: string
   - name: value
     description: Value of pair.
+    types:
+    - uid: string
+- name: Details
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
     types:
     - uid: string
 examples: []

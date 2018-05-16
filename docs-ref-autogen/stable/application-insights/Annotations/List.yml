@@ -1,0 +1,151 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.application-insights.annotations.list
+name: List
+service: Application Insights
+groupName: Annotations
+apiVersion: 2015-05-01
+summary: Gets the list of annotations for a component for given time range
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/Annotations?api-version=2015-05-01&start={start}&end={end}
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: resourceName
+  in: path
+  isRequired: true
+  description: The name of the Application Insights component resource.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+- name: start
+  in: query
+  isRequired: true
+  description: The start time to query from for annotations, cannot be older than 90 days from current date.
+  types:
+  - uid: string
+- name: end
+  in: query
+  isRequired: true
+  description: The end time to query for annotations.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: successful operation
+  types:
+  - uid: Annotation
+    isArray: true
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: AnnotationError
+requestHeader: []
+definitions:
+- name: Annotation
+  description: Annotation associated with an application insights resource.
+  kind: object
+  properties:
+  - name: AnnotationName
+    description: Name of annotation
+    types:
+    - uid: string
+  - name: Category
+    description: Category of annotation, free form
+    types:
+    - uid: string
+  - name: EventTime
+    description: Time when event occurred
+    types:
+    - uid: string
+  - name: Id
+    description: Unique Id for annotation
+    types:
+    - uid: string
+  - name: Properties
+    description: Serialized JSON object for detailed properties
+    types:
+    - uid: string
+  - name: RelatedAnnotation
+    description: Related parent annotation if any
+    types:
+    - uid: string
+- name: AnnotationError
+  description: Error associated with trying to create annotation with Id that already exist
+  kind: object
+  properties:
+  - name: code
+    description: Error detail code and explanation
+    types:
+    - uid: string
+  - name: message
+    description: Error message
+    types:
+    - uid: string
+  - name: innererror
+    description: Inner error
+    types:
+    - uid: InnerError
+- name: InnerError
+  description: Inner error
+  kind: object
+  properties:
+  - name: diagnosticcontext
+    description: Provides correlation for request
+    types:
+    - uid: string
+  - name: time
+    description: Request time
+    types:
+    - uid: string
+examples:
+- name: AnnotationsList
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/my-resource-group/providers/Microsoft.Insights/components/my-component/Annotations?api-version=2015-05-01&start=2018-02-05T00%253A30%253A00.000Z&end=2018-02-06T00%253A33A00.000Z
+  responses:
+  - statusCode: "200"
+    body: >-
+      [
+        {
+          "AnnotationName": "InsightsPortal-20180126-1",
+          "Id": "4de4524f-fca5-44a8-b7e6-a67d5107796e",
+          "Category": "Deployment",
+          "Properties": "{\"ReleaseDefinitionName\":\"InsightsPortal-PPEProd-KeyVault\",\"ReleaseRequestedFor\":\"6a970e9b-6220-47f3-a78c-b8be97506698\",\"TeamFoundationCollectionUri\":\"https://mseng.visualstudio.com/\",\"BuildNumber\":\"20180126.1\",\"ReleaseDescription\":\"Triggered by InsightsPortal_master_PROD1_vNext 20180126.1.\",\"ReleaseId\":\"31075\",\"ReleaseWebUrl\":\"https://mseng.visualstudio.com/96a62c4a-58c2-4dbb-94b6-5979ebc7f2af/_release?releaseId=31075\\u0026_a=release-summary\",\"SourceBranch\":\"refs/heads/master\",\"BuildRepositoryProvider\":\"TfsGit\",\"ReleaseEnvironmentName\":\"AIMON VIP SWAP\",\"BuildRepositoryName\":\"InsightsPortal\",\"ReleaseName\":\"InsightsPortal-20180126-1\"}",
+          "EventTime": "2018-01-29T20:30:31+00:00",
+          "RelatedAnnotation": null
+        },
+        {
+          "AnnotationName": "InsightsPortal-20180125-1",
+          "Id": "9a82214f-8f98-4699-b5bc-cad6101ed223",
+          "Category": "Deployment",
+          "Properties": "{\"ReleaseDefinitionName\":\"InsightsPortal-PPEProd-KeyVault\",\"ReleaseRequestedFor\":\"6a970e9b-6220-47f3-a78c-b8be97506698\",\"TeamFoundationCollectionUri\":\"https://mseng.visualstudio.com/\",\"BuildNumber\":\"20180125.1\",\"ReleaseDescription\":\"Triggered by InsightsPortal_master_PROD1_vNext 20180125.1.\",\"ReleaseId\":\"31035\",\"ReleaseWebUrl\":\"https://mseng.visualstudio.com/96a62c4a-58c2-4dbb-94b6-5979ebc7f2af/_release?releaseId=31035\\u0026_a=release-summary\",\"SourceBranch\":\"refs/heads/master\",\"BuildRepositoryProvider\":\"TfsGit\",\"ReleaseEnvironmentName\":\"Prod VIP Swap \",\"BuildRepositoryName\":\"InsightsPortal\",\"ReleaseName\":\"InsightsPortal-20180125-1\"}",
+          "EventTime": "2018-01-29T20:38:35+00:00",
+          "RelatedAnnotation": null
+        }
+      ]
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

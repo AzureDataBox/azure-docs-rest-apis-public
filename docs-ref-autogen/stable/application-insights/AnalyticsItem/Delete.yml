@@ -1,0 +1,85 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.application-insights.analyticsitem.delete
+name: Delete
+service: Application Insights
+groupName: Analytics Item
+apiVersion: 2015-05-01
+summary: Deletes a specific Analytics Items defined within an Application Insights component.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/components/{resourceName}/{scopePath}/item?api-version=2015-05-01
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/components/{resourceName}/{scopePath}/item?api-version=2015-05-01&id={id}&name={name}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: resourceName
+  in: path
+  isRequired: true
+  description: The name of the Application Insights component resource.
+  types:
+  - uid: string
+- name: scopePath
+  in: path
+  isRequired: true
+  description: Enum indicating if this item definition is owned by a specific user or is shared between all users with access to the Application Insights component.
+  types:
+  - uid: ItemScopePath
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+- name: id
+  in: query
+  description: The Id of a specific item defined in the Application Insights component
+  types:
+  - uid: string
+- name: name
+  in: query
+  description: The name of a specific item defined in the Application Insights component
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The item has been successfully removed from the Application Insights component
+requestHeader: []
+definitions:
+- name: ItemScopePath
+  description: Enum indicating if this item definition is owned by a specific user or is shared between all users with access to the Application Insights component.
+  kind: enum
+  properties:
+  - name: analyticsItems
+    types:
+    - uid: string
+  - name: myanalyticsItems
+    types:
+    - uid: string
+examples:
+- name: AnalyticsItemDelete
+  request:
+    uri: DELETE https://management.azure.com/subscriptions/subid/resourceGroups/my-resource-group/providers/microsoft.insights/components/my-component/analyticsItems/item?api-version=2015-05-01&id=3466c160-4a10-4df8-afdf-0007f3f6dee5
+  responses:
+  - statusCode: "200"
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

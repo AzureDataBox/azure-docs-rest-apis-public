@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.appserviceenvironments.createorupdate
 name: Create Or Update
 service: App Service
 groupName: App Service Environments
-apiVersion: 2016-09-01
+apiVersion: 2018-02-01
 summary: Create or update an App Service Environment.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}?api-version=2016-09-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}?api-version=2018-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -162,6 +162,11 @@ requestBody:
     types:
     - uid: string
       isArray: true
+  - name: properties.hasLinuxWorkers
+    in: body
+    description: Flag that displays whether an ASE has linux workers or not
+    types:
+    - uid: boolean
   - name: kind
     in: body
     description: Kind of resource.
@@ -299,6 +304,10 @@ definitions:
     description: Shared or Dedicated.
     types:
     - uid: string
+  - name: isLinux
+    description: Is this a linux stamp capacity
+    types:
+    - uid: boolean
 - name: NetworkAccessControlEntry
   description: Network access control entry.
   kind: object
@@ -507,6 +516,10 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: properties.hasLinuxWorkers
+    description: Flag that displays whether an ASE has linux workers or not
+    types:
+    - uid: boolean
   - name: id
     isReadyOnly: true
     description: Resource Id.
@@ -555,9 +568,6 @@ definitions:
   description: Size of the machines.
   kind: enum
   properties:
-  - name: Default
-    types:
-    - uid: string
   - name: Small
     types:
     - uid: string
@@ -574,6 +584,9 @@ definitions:
     types:
     - uid: string
   - name: D3
+    types:
+    - uid: string
+  - name: Default
     types:
     - uid: string
 - name: AccessControlEntryAction

@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.appservicecertificateorders.listbyresourceg
 name: List By Resource Group
 service: App Service
 groupName: App Service Certificate Orders
-apiVersion: 2015-08-01
+apiVersion: 2018-02-01
 summary: Get certificate orders in a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders?api-version=2015-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders?api-version=2018-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -36,6 +36,10 @@ responses:
   description: OK
   types:
   - uid: AppServiceCertificateOrderCollection
+- name: Other Status Codes
+  description: App Service error response.
+  types:
+  - uid: DefaultErrorResponse
 requestHeader: []
 definitions:
 - name: AppServiceCertificateOrderCollection
@@ -52,6 +56,15 @@ definitions:
     description: Link to next page of resources.
     types:
     - uid: string
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
 - name: AppServiceCertificateOrder
   description: SSL certificate purchase order.
   kind: object
@@ -180,6 +193,35 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Detailed errors.
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
+    types:
+    - uid: string
 - name: Certificates
   description: State of the Key Vault secret.
   kind: object
@@ -298,6 +340,24 @@ definitions:
   - name: rawData
     isReadyOnly: true
     description: Raw certificate data.
+    types:
+    - uid: string
+- name: Details
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
     types:
     - uid: string
 - name: AppServiceCertificate

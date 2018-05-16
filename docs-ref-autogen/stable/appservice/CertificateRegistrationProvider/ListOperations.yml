@@ -1,0 +1,445 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.appservice.certificateregistrationprovider.listoperations
+name: List Operations
+service: App Service
+groupName: Certificate Registration Provider
+apiVersion: 2018-02-01
+summary: Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.CertificateRegistration/operations?api-version=2018-02-01
+uriParameters:
+- name: api-version
+  in: query
+  isRequired: true
+  description: API Version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: CsmOperationCollection
+- name: Other Status Codes
+  description: App Service error response.
+  types:
+  - uid: DefaultErrorResponse
+requestHeader: []
+definitions:
+- name: CsmOperationCollection
+  description: Collection of Azure resource manager operation metadata.
+  kind: object
+  properties:
+  - name: value
+    description: Collection of resources.
+    types:
+    - uid: CsmOperationDescription
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to next page of resources.
+    types:
+    - uid: string
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
+- name: CsmOperationDescription
+  description: Description of an operation available for Microsoft.Web resource provider.
+  kind: object
+  properties:
+  - name: name
+    description: ''
+    types:
+    - uid: string
+  - name: display
+    description: Meta data about operation used for display in portal.
+    types:
+    - uid: CsmOperationDisplay
+  - name: origin
+    description: ''
+    types:
+    - uid: string
+  - name: properties
+    description: Properties available for a Microsoft.Web resource provider operation.
+    types:
+    - uid: CsmOperationDescriptionProperties
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Detailed errors.
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
+    types:
+    - uid: string
+- name: CsmOperationDisplay
+  description: Meta data about operation used for display in portal.
+  kind: object
+  properties:
+  - name: provider
+    description: ''
+    types:
+    - uid: string
+  - name: resource
+    description: ''
+    types:
+    - uid: string
+  - name: operation
+    description: ''
+    types:
+    - uid: string
+  - name: description
+    description: ''
+    types:
+    - uid: string
+- name: CsmOperationDescriptionProperties
+  description: Properties available for a Microsoft.Web resource provider operation.
+  kind: object
+  properties:
+  - name: serviceSpecification
+    description: Resource metrics service provided by Microsoft.Insights resource provider.
+    types:
+    - uid: ServiceSpecification
+- name: Details
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+- name: ServiceSpecification
+  description: Resource metrics service provided by Microsoft.Insights resource provider.
+  kind: object
+  properties:
+  - name: metricSpecifications
+    description: Definition of a single resource metric.
+    types:
+    - uid: MetricSpecification
+      isArray: true
+- name: MetricSpecification
+  description: Definition of a single resource metric.
+  kind: object
+  properties:
+  - name: name
+    description: ''
+    types:
+    - uid: string
+  - name: displayName
+    description: ''
+    types:
+    - uid: string
+  - name: displayDescription
+    description: ''
+    types:
+    - uid: string
+  - name: unit
+    description: ''
+    types:
+    - uid: string
+  - name: aggregationType
+    description: ''
+    types:
+    - uid: string
+  - name: supportsInstanceLevelAggregation
+    description: ''
+    types:
+    - uid: boolean
+  - name: enableRegionalMdmAccount
+    description: ''
+    types:
+    - uid: boolean
+  - name: sourceMdmAccount
+    description: ''
+    types:
+    - uid: string
+  - name: sourceMdmNamespace
+    description: ''
+    types:
+    - uid: string
+  - name: metricFilterPattern
+    description: ''
+    types:
+    - uid: string
+  - name: fillGapWithZero
+    description: ''
+    types:
+    - uid: boolean
+  - name: isInternal
+    description: ''
+    types:
+    - uid: boolean
+  - name: dimensions
+    description: "Dimension of a resource metric. For e.g. instance specific HTTP requests for a web app, \nwhere instance name is dimension of the metric HTTP request"
+    types:
+    - uid: Dimension
+      isArray: true
+  - name: category
+    description: ''
+    types:
+    - uid: string
+  - name: availabilities
+    description: Retention policy of a resource metric.
+    types:
+    - uid: MetricAvailability
+      isArray: true
+- name: Dimension
+  description: "Dimension of a resource metric. For e.g. instance specific HTTP requests for a web app, \nwhere instance name is dimension of the metric HTTP request"
+  kind: object
+  properties:
+  - name: name
+    description: ''
+    types:
+    - uid: string
+  - name: displayName
+    description: ''
+    types:
+    - uid: string
+  - name: internalName
+    description: ''
+    types:
+    - uid: string
+  - name: toBeExportedForShoebox
+    description: ''
+    types:
+    - uid: boolean
+- name: MetricAvailability
+  description: Retention policy of a resource metric.
+  kind: object
+  properties:
+  - name: timeGrain
+    description: ''
+    types:
+    - uid: string
+  - name: blobDuration
+    description: ''
+    types:
+    - uid: string
+examples:
+- name: List operations
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.CertificateRegistration/operations?api-version=2018-02-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "Microsoft.CertificateRegistration/certificateOrders/certificates/Write",
+            "display": {
+              "provider": "Microsoft Certificates",
+              "resource": "Certificate",
+              "operation": "Add or Update Certificate",
+              "description": "Add a new certificate or update an existing one"
+            },
+            "origin": "user,system"
+          },
+          {
+            "name": "Microsoft.CertificateRegistration/certificateOrders/Write",
+            "display": {
+              "provider": "Microsoft Certificates",
+              "resource": "AppServiceCertificate",
+              "operation": "Add or Update AppServiceCertificate",
+              "description": "Add a new certificateOrder or update an existing one"
+            },
+            "origin": "user,system"
+          },
+          {
+            "name": "Microsoft.CertificateRegistration/certificateOrders/certificates/Delete",
+            "display": {
+              "provider": "Microsoft Certificates",
+              "resource": "Certificate",
+              "operation": "Delete Certificate",
+              "description": "Delete an existing certificate"
+            },
+            "origin": "user,system"
+          },
+          {
+            "name": "Microsoft.CertificateRegistration/certificateOrders/Delete",
+            "display": {
+              "provider": "Microsoft Certificates",
+              "resource": "AppServiceCertificate",
+              "operation": "Delete AppServiceCertificate",
+              "description": "Delete an existing AppServiceCertificate"
+            },
+            "origin": "user,system"
+          },
+          {
+            "name": "Microsoft.CertificateRegistration/certificateOrders/Read",
+            "display": {
+              "provider": "Microsoft Certificates",
+              "resource": "AppServiceCertificate",
+              "operation": "Get CertificateOrders",
+              "description": "Get the list of CertificateOrders"
+            },
+            "origin": "user,system"
+          },
+          {
+            "name": "Microsoft.CertificateRegistration/certificateOrders/certificates/Read",
+            "display": {
+              "provider": "Microsoft Certificates",
+              "resource": "Certificate",
+              "operation": "Get Certificates",
+              "description": "Get the list of certificates"
+            },
+            "origin": "user,system"
+          },
+          {
+            "name": "Microsoft.CertificateRegistration/certificateOrders/reissue/Action",
+            "display": {
+              "provider": "Microsoft Certificates",
+              "resource": "AppServiceCertificate",
+              "operation": "Reissue certificateorder",
+              "description": "Reissue an existing certificateorder"
+            },
+            "origin": "user,system"
+          },
+          {
+            "name": "Microsoft.CertificateRegistration/certificateOrders/renew/Action",
+            "display": {
+              "provider": "Microsoft Certificates",
+              "resource": "AppServiceCertificate",
+              "operation": "Renew certificateorder",
+              "description": "Renew an existing certificateorder"
+            },
+            "origin": "user,system"
+          },
+          {
+            "name": "Microsoft.CertificateRegistration/certificateOrders/retrieveCertificateActions/Action",
+            "display": {
+              "provider": "Microsoft Certificates",
+              "resource": "AppServiceCertificate",
+              "operation": "Certificateorder actions",
+              "description": "Retrieve the list of certificate actions"
+            },
+            "origin": "user,system"
+          },
+          {
+            "name": "Microsoft.CertificateRegistration/certificateOrders/retrieveEmailHistory/Action",
+            "display": {
+              "provider": "Microsoft Certificates",
+              "resource": "AppServiceCertificate",
+              "operation": "Certificateorder email history",
+              "description": "Retrieve certificate email history"
+            },
+            "origin": "user,system"
+          },
+          {
+            "name": "Microsoft.CertificateRegistration/certificateOrders/resendEmail/Action",
+            "display": {
+              "provider": "Microsoft Certificates",
+              "resource": "AppServiceCertificate",
+              "operation": "Resend Certificateorder email",
+              "description": "Resend certificate email"
+            },
+            "origin": "user,system"
+          },
+          {
+            "name": "Microsoft.CertificateRegistration/certificateOrders/verifyDomainOwnership/Action",
+            "display": {
+              "provider": "Microsoft Certificates",
+              "resource": "AppServiceCertificate",
+              "operation": "Verify domain ownership",
+              "description": "Verify domain ownership"
+            },
+            "origin": "user,system"
+          },
+          {
+            "name": "Microsoft.CertificateRegistration/certificateOrders/resendRequestEmails/Action",
+            "display": {
+              "provider": "Microsoft Certificates",
+              "resource": "AppServiceCertificate",
+              "operation": "Resend request emails to another email address",
+              "description": "Resend request emails to another email address"
+            },
+            "origin": "user,system"
+          },
+          {
+            "name": "Microsoft.CertificateRegistration/certificateOrders/resendRequestEmails/Action",
+            "display": {
+              "provider": "Microsoft Certificates",
+              "resource": "AppServiceCertificate",
+              "operation": "Retrieve site seal for an issued App Service Certificate",
+              "description": "Retrieve site seal for an issued App Service Certificate"
+            },
+            "origin": "user,system"
+          },
+          {
+            "name": "Microsoft.CertificateRegistration/provisionGlobalAppServicePrincipalInUserTenant/Action",
+            "display": {
+              "provider": "Microsoft Certificates",
+              "resource": "AppServiceCertificate",
+              "operation": "Provision service principal",
+              "description": "Provision service principal for service app principal"
+            },
+            "origin": "user,system"
+          },
+          {
+            "name": "Microsoft.CertificateRegistration/validateCertificateRegistrationInformation/Action",
+            "display": {
+              "provider": "Microsoft Certificates",
+              "resource": "AppServiceCertificate",
+              "operation": "Certificate Purchase Info Validation",
+              "description": "Validate certificate purchase object without submitting it"
+            },
+            "origin": "user,system"
+          },
+          {
+            "name": "Microsoft.CertificateRegistration/register/action",
+            "display": {
+              "provider": "Microsoft Certificates",
+              "resource": "Microsoft Certificates resource provider",
+              "operation": "Register Microsoft Certificates resource provider",
+              "description": "Register the Microsoft Certificates resource provider for the subscription"
+            },
+            "origin": "user,system"
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

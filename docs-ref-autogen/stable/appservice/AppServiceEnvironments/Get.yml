@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.appserviceenvironments.get
 name: Get
 service: App Service
 groupName: App Service Environments
-apiVersion: 2016-09-01
+apiVersion: 2018-02-01
 summary: Get the properties of an App Service Environment.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}?api-version=2016-09-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}?api-version=2018-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -42,6 +42,10 @@ responses:
   description: OK
   types:
   - uid: AppServiceEnvironmentResource
+- name: Other Status Codes
+  description: App Service error response.
+  types:
+  - uid: DefaultErrorResponse
 requestHeader: []
 definitions:
 - name: AppServiceEnvironmentResource
@@ -220,6 +224,10 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: properties.hasLinuxWorkers
+    description: Flag that displays whether an ASE has linux workers or not
+    types:
+    - uid: boolean
   - name: id
     isReadyOnly: true
     description: Resource Id.
@@ -251,6 +259,15 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
 - name: ProvisioningState
   description: Provisioning state of the App Service Environment.
   kind: enum
@@ -414,6 +431,10 @@ definitions:
     description: Shared or Dedicated.
     types:
     - uid: string
+  - name: isLinux
+    description: Is this a linux stamp capacity
+    types:
+    - uid: boolean
 - name: NetworkAccessControlEntry
   description: Network access control entry.
   kind: object
@@ -446,6 +467,35 @@ definitions:
     description: Pair value.
     types:
     - uid: string
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Detailed errors.
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
+    types:
+    - uid: string
 - name: ComputeModeOptions
   description: Shared or dedicated app hosting.
   kind: enum
@@ -463,9 +513,6 @@ definitions:
   description: Size of the machines.
   kind: enum
   properties:
-  - name: Default
-    types:
-    - uid: string
   - name: Small
     types:
     - uid: string
@@ -484,6 +531,9 @@ definitions:
   - name: D3
     types:
     - uid: string
+  - name: Default
+    types:
+    - uid: string
 - name: AccessControlEntryAction
   description: Action object.
   kind: enum
@@ -492,6 +542,24 @@ definitions:
     types:
     - uid: string
   - name: Deny
+    types:
+    - uid: string
+- name: Details
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
     types:
     - uid: string
 examples: []

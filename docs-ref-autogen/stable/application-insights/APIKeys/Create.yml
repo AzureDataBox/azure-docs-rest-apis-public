@@ -1,0 +1,153 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.application-insights.apikeys.create
+name: Create
+service: Application Insights
+groupName: API Keys
+apiVersion: 2015-05-01
+summary: Create an API Key of an Application Insights component.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/ApiKeys?api-version=2015-05-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: resourceName
+  in: path
+  isRequired: true
+  description: The name of the Application Insights component resource.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: An object containing the API Key definition created by this POST call.
+  types:
+  - uid: ApplicationInsightsComponentAPIKey
+requestBody:
+- parameters:
+  - name: name
+    in: body
+    description: The name of the API Key.
+    types:
+    - uid: string
+  - name: linkedReadProperties
+    in: body
+    description: The read access rights of this API Key.
+    types:
+    - uid: string
+      isArray: true
+  - name: linkedWriteProperties
+    in: body
+    description: The write access rights of this API Key.
+    types:
+    - uid: string
+      isArray: true
+requestHeader: []
+definitions:
+- name: ApplicationInsightsComponentAPIKey
+  description: Properties that define an API key of an Application Insights Component.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The unique ID of the API key inside an Applciation Insights component. It is auto generated when the API key is created.
+    types:
+    - uid: string
+  - name: apiKey
+    isReadyOnly: true
+    description: The API key value. It will be only return once when the API Key was created.
+    types:
+    - uid: string
+  - name: createdDate
+    description: The create date of this API key.
+    types:
+    - uid: string
+  - name: name
+    description: The name of the API key.
+    types:
+    - uid: string
+  - name: linkedReadProperties
+    description: The read access rights of this API Key.
+    types:
+    - uid: string
+      isArray: true
+  - name: linkedWriteProperties
+    description: The write access rights of this API Key.
+    types:
+    - uid: string
+      isArray: true
+- name: APIKeyRequest
+  description: An Application Insights component API Key createion request definition.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the API Key.
+    types:
+    - uid: string
+  - name: linkedReadProperties
+    description: The read access rights of this API Key.
+    types:
+    - uid: string
+      isArray: true
+  - name: linkedWriteProperties
+    description: The write access rights of this API Key.
+    types:
+    - uid: string
+      isArray: true
+examples:
+- name: APIKeyCreate
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/my-resource-group/providers/Microsoft.Insights/components/my-component/ApiKeys?api-version=2015-05-01
+    body: >-
+      {
+        "name": "test2",
+        "linkedReadProperties": [
+          "/subscriptions/subid/resourceGroups/my-resource-group/providers/Microsoft.Insights/components/my-component/api",
+          "/subscriptions/subid/resourceGroups/my-resource-group/providers/Microsoft.Insights/components/my-component/agentconfig"
+        ],
+        "linkedWriteProperties": [
+          "/subscriptions/subid/resourceGroups/my-resource-group/providers/Microsoft.Insights/components/my-component/annotations"
+        ]
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourcegroups/my-resource-group/providers/Microsoft.Insights/components/my-component/apikeys/fe2e0138-47c1-46c5-8726-872f54c1ca08",
+        "name": "test",
+        "linkedReadProperties": [
+          "/subscriptions/subid/resourceGroups/my-resource-group/providers/Microsoft.Insights/components/my-component/api",
+          "/subscriptions/subid/resourceGroups/my-resource-group/providers/Microsoft.Insights/components/my-component/agentconfig"
+        ],
+        "linkedWriteProperties": [
+          "/subscriptions/subid/resourceGroups/my-resource-group/providers/Microsoft.Insights/components/my-component/annotations"
+        ],
+        "apiKey": "eip8wlzuzlf4wzczhnzao54zcswew25azs4kadhb",
+        "createdDate": "Thu, 28 Sep 2017 16:58:52 GMT"
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

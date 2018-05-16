@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.webapps.discoverrestoreslot
 name: Discover Restore Slot
 service: App Service
 groupName: Web Apps
-apiVersion: 2016-08-01
+apiVersion: 2018-02-01
 summary: Discovers an existing app backup that can be restored from a blob in Azure storage.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/backups/discover?api-version=2016-08-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/backups/discover?api-version=2018-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -48,6 +48,10 @@ responses:
   description: OK
   types:
   - uid: RestoreRequest
+- name: Other Status Codes
+  description: App Service error response.
+  types:
+  - uid: DefaultErrorResponse
 requestBody:
 - parameters:
   - name: properties.storageAccountUrl
@@ -206,6 +210,15 @@ definitions:
     description: Resource type.
     types:
     - uid: string
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
 - name: DatabaseType
   description: Database type (e.g. SqlAzure / MySql).
   kind: enum
@@ -223,7 +236,7 @@ definitions:
     types:
     - uid: string
 - name: BackupRestoreOperationType
-  description: Type of the backup.
+  description: Operation type.
   kind: enum
   properties:
   - name: Default
@@ -236,6 +249,56 @@ definitions:
     types:
     - uid: string
   - name: Snapshot
+    types:
+    - uid: string
+  - name: CloudFS
+    types:
+    - uid: string
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Detailed errors.
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
+    types:
+    - uid: string
+- name: Details
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
     types:
     - uid: string
 examples: []

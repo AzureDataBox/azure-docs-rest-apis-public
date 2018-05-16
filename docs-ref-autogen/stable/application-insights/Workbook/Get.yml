@@ -1,0 +1,204 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.application-insights.workbook.get
+name: Get
+service: Application Insights
+groupName: Workbook
+apiVersion: 2015-05-01
+summary: Get a single workbook by its resourceName.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroup/{resourceGroupName}/providers/microsoft.insights/workbooks/{resourceName}?api-version=2015-05-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: resourceName
+  in: path
+  isRequired: true
+  description: The name of the Application Insights component resource.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: A workbook definition.
+  types:
+  - uid: Workbook
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: WorkbookError
+requestHeader: []
+definitions:
+- name: Workbook
+  description: An Application Insights workbook definition.
+  kind: object
+  properties:
+  - name: kind
+    description: The kind of workbook. Choices are user and shared.
+    types:
+    - uid: SharedTypeKind
+  - name: properties.name
+    description: The user-defined name of the workbook.
+    types:
+    - uid: string
+  - name: properties.serializedData
+    description: Configuration of this particular workbook. Configuration data is a string containing valid JSON
+    types:
+    - uid: string
+  - name: properties.version
+    description: This instance's version of the data model. This can change as new features are added that can be marked workbook.
+    types:
+    - uid: string
+  - name: properties.workbookId
+    description: Internally assigned unique id of the workbook definition.
+    types:
+    - uid: string
+  - name: properties.kind
+    description: Enum indicating if this workbook definition is owned by a specific user or is shared between all users with access to the Application Insights component.
+    types:
+    - uid: SharedTypeKind
+  - name: properties.timeModified
+    isReadyOnly: true
+    description: Date and time in UTC of the last modification that was made to this workbook definition.
+    types:
+    - uid: string
+  - name: properties.category
+    description: Workbook category, as defined by the user at creation time.
+    types:
+    - uid: string
+  - name: properties.tags
+    description: A list of 0 or more tags that are associated with this workbook definition
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.userId
+    description: Unique user id of the specific user that owns this workbook.
+    types:
+    - uid: string
+  - name: properties.sourceResourceId
+    description: Optional resourceId for a source resource.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Azure resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Azure resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Azure resource type
+    types:
+    - uid: string
+  - name: location
+    description: Resource location
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: WorkbookError
+  description: Error message body that will indicate why the operation failed.
+  kind: object
+  properties:
+  - name: code
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: details
+    description: The list of invalid fields send in request, in case of validation error.
+    types:
+    - uid: ErrorFieldContract
+      isArray: true
+- name: SharedTypeKind
+  description: The kind of workbook. Choices are user and shared.
+  kind: enum
+  properties:
+  - name: user
+    types:
+    - uid: string
+  - name: shared
+    types:
+    - uid: string
+- name: ErrorFieldContract
+  description: Error Field contract.
+  kind: object
+  properties:
+  - name: code
+    description: Property level error code.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of property-level error.
+    types:
+    - uid: string
+  - name: target
+    description: Property name.
+    types:
+    - uid: string
+examples:
+- name: WorkbookGet
+  request:
+    uri: GET https://management.azure.com/subscriptions/6b643656-33eb-422f-aee8-3ac145d124af/resourceGroup/my-resource-group/providers/microsoft.insights/workbooks/deadb33f-5e0d-4064-8ebb-1a4ed0313eb2?api-version=2015-05-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "c0deea5e-3344-40f2-96f8-6f8e1c3b5722",
+        "name": "deadb33f-8bee-4d3b-a059-9be8dac93960",
+        "type": "",
+        "location": "westus",
+        "properties": {
+          "name": "My New Workbook",
+          "userId": "userId",
+          "serializedData": "{\"version\":\"Notebook/1.0\",\"items\":[{\"type\":1,\"content\":\"{\"json\":\"## New workbook\\r\\n---\\r\\n\\r\\nWelcome to your new workbook.  This area will display text formatted as markdown.\\r\\n\\r\\n\\r\\nWe've included a basic analytics query to get you started. Use the `Edit` button below each section to configure it or add more sections.\"}\",\"halfWidth\":null,\"conditionalVisibility\":null},{\"type\":3,\"content\":\"{\"version\":\"KqlItem/1.0\",\"query\":\"union withsource=TableName *\\n| summarize Count=count() by TableName\\n| render barchart\",\"showQuery\":false,\"size\":1,\"aggregation\":0,\"showAnnotations\":false}\",\"halfWidth\":null,\"conditionalVisibility\":null}],\"isLocked\":false}",
+          "version": "ME",
+          "workbookId": "deadb33f-8bee-4d3b-a059-9be8dac93960",
+          "kind": "shared",
+          "category": "workbook",
+          "timeModified": null
+        },
+        "tags": [
+          "TagSample01",
+          "TagSample02"
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.appserviceplans.listbyresourcegroup
 name: List By Resource Group
 service: App Service
 groupName: App Service Plans
-apiVersion: 2016-09-01
+apiVersion: 2018-02-01
 summary: Get all App Service plans in a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms?api-version=2016-09-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms?api-version=2018-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -36,6 +36,10 @@ responses:
   description: OK
   types:
   - uid: AppServicePlanCollection
+- name: Other Status Codes
+  description: App Service error response.
+  types:
+  - uid: DefaultErrorResponse
 requestHeader: []
 definitions:
 - name: AppServicePlanCollection
@@ -48,9 +52,19 @@ definitions:
     - uid: AppServicePlan
       isArray: true
   - name: nextLink
+    isReadyOnly: true
     description: Link to next page of resources.
     types:
     - uid: string
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
 - name: AppServicePlan
   description: App Service plan.
   kind: object
@@ -59,10 +73,6 @@ definitions:
     description: Description of a SKU for a scalable resource.
     types:
     - uid: SkuDescription
-  - name: properties.name
-    description: Name for the App Service plan.
-    types:
-    - uid: string
   - name: properties.workerTierName
     description: Target worker tier assigned to the App Service plan.
     types:
@@ -124,6 +134,10 @@ definitions:
     description: If Linux app service plan <code>true</code>, <code>false</code> otherwise.
     types:
     - uid: boolean
+  - name: properties.isXenon
+    description: If Hyper-V container app service plan <code>true</code>, <code>false</code> otherwise.
+    types:
+    - uid: boolean
   - name: properties.targetWorkerCount
     description: Scaling worker count.
     types:
@@ -168,6 +182,35 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Detailed errors.
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
+    types:
+    - uid: string
 - name: SkuDescription
   description: Description of a SKU for a scalable resource.
   kind: object
@@ -256,6 +299,24 @@ definitions:
   - name: Deleting
     types:
     - uid: string
+- name: Details
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
 - name: SkuCapacity
   description: Description of the App Service plan scale options.
   kind: object
@@ -295,7 +356,7 @@ definitions:
 examples:
 - name: List App Service plans by resource group
   request:
-    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/serverfarms?api-version=2016-09-01
+    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/serverfarms?api-version=2018-02-01
   responses:
   - statusCode: "200"
     body: >-

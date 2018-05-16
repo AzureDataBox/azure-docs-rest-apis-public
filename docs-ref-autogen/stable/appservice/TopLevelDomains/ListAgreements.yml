@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.topleveldomains.listagreements
 name: List Agreements
 service: App Service
 groupName: Top Level Domains
-apiVersion: 2015-04-01
+apiVersion: 2018-02-01
 summary: Gets all legal agreements that user needs to accept before purchasing a domain.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DomainRegistration/topLevelDomains/{name}/listAgreements?api-version=2015-04-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DomainRegistration/topLevelDomains/{name}/listAgreements?api-version=2018-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -35,6 +35,10 @@ responses:
   description: OK
   types:
   - uid: TldLegalAgreementCollection
+- name: Other Status Codes
+  description: App Service error response.
+  types:
+  - uid: DefaultErrorResponse
 requestBody:
 - parameters:
   - name: includePrivacy
@@ -63,6 +67,15 @@ definitions:
     description: Link to next page of resources.
     types:
     - uid: string
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
 - name: TopLevelDomainAgreementOption
   description: Options for retrieving the list of top level domain legal agreements.
   kind: object
@@ -95,10 +108,62 @@ definitions:
     description: URL where a copy of the agreement details is hosted.
     types:
     - uid: string
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Detailed errors.
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
+    types:
+    - uid: string
+- name: Details
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
 examples:
 - name: List Top Level Domain Agreements
   request:
-    uri: POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.DomainRegistration/topLevelDomains/in/listAgreements?api-version=2015-04-01
+    uri: POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.DomainRegistration/topLevelDomains/in/listAgreements?api-version=2018-02-01
+    body: >-
+      {
+        "IncludePrivacy": true,
+        "ForTransfer": false
+      }
   responses:
   - statusCode: "200"
     body: >-

@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.topleveldomains.get
 name: Get
 service: App Service
 groupName: Top Level Domains
-apiVersion: 2015-04-01
+apiVersion: 2018-02-01
 summary: Get details of a top-level domain.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DomainRegistration/topLevelDomains/{name}?api-version=2015-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DomainRegistration/topLevelDomains/{name}?api-version=2018-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -35,17 +35,16 @@ responses:
   description: OK
   types:
   - uid: TopLevelDomain
+- name: Other Status Codes
+  description: App Service error response.
+  types:
+  - uid: DefaultErrorResponse
 requestHeader: []
 definitions:
 - name: TopLevelDomain
   description: A top level domain object.
   kind: object
   properties:
-  - name: properties.name
-    isReadyOnly: true
-    description: Name of the top level domain.
-    types:
-    - uid: string
   - name: properties.privacy
     description: If <code>true</code>, then the top level domain supports domain privacy; otherwise, <code>false</code>.
     types:
@@ -69,10 +68,66 @@ definitions:
     description: Resource type.
     types:
     - uid: string
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Detailed errors.
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
+    types:
+    - uid: string
+- name: Details
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
 examples:
 - name: Get Top Level Domain
   request:
-    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.DomainRegistration/topLevelDomains/com?api-version=2015-04-01
+    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.DomainRegistration/topLevelDomains/com?api-version=2018-02-01
   responses:
   - statusCode: "200"
     body: >-
@@ -80,7 +135,6 @@ examples:
         "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.DomainRegistration/topLevelDomains/com",
         "name": "com",
         "type": "Microsoft.DomainRegistration/topLevelDomains",
-        "location": "global",
         "properties": {
           "name": "com",
           "privacy": true

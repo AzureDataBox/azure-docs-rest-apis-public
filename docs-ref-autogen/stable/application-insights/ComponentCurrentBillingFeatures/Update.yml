@@ -1,0 +1,141 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.application-insights.componentcurrentbillingfeatures.update
+name: Update
+service: Application Insights
+groupName: Component Current Billing Features
+apiVersion: 2015-05-01
+summary: Update current billing features for an Application Insights component.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/currentbillingfeatures?api-version=2015-05-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: resourceName
+  in: path
+  isRequired: true
+  description: The name of the Application Insights component resource.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successful request when updating billing features for an Application Insights component. The updated current billing features are returned.
+  types:
+  - uid: ApplicationInsightsComponentBillingFeatures
+requestBody:
+- parameters:
+  - name: DataVolumeCap
+    in: body
+    description: An Application Insights component daily data volumne cap
+    types:
+    - uid: ApplicationInsightsComponentDataVolumeCap
+  - name: CurrentBillingFeatures
+    in: body
+    description: Current enabled pricing plan. When the component is in the Enterprise plan, this will list both 'Basic' and 'Application Insights Enterprise'.
+    types:
+    - uid: string
+      isArray: true
+requestHeader: []
+definitions:
+- name: ApplicationInsightsComponentDataVolumeCap
+  description: An Application Insights component daily data volumne cap
+  kind: object
+  properties:
+  - name: Cap
+    description: Daily data volume cap in GB.
+    types:
+    - uid: number
+  - name: ResetTime
+    isReadyOnly: true
+    description: Daily data volume cap UTC reset hour.
+    types:
+    - uid: integer
+  - name: WarningThreshold
+    description: Reserved, not used for now.
+    types:
+    - uid: integer
+  - name: StopSendNotificationWhenHitThreshold
+    description: Reserved, not used for now.
+    types:
+    - uid: boolean
+  - name: StopSendNotificationWhenHitCap
+    description: Do not send a notification email when the daily data volume cap is met.
+    types:
+    - uid: boolean
+  - name: MaxHistoryCap
+    isReadyOnly: true
+    description: Maximum daily data volume cap that the user can set for this component.
+    types:
+    - uid: number
+- name: ApplicationInsightsComponentBillingFeatures
+  description: An Application Insights component billing features
+  kind: object
+  properties:
+  - name: DataVolumeCap
+    description: An Application Insights component daily data volumne cap
+    types:
+    - uid: ApplicationInsightsComponentDataVolumeCap
+  - name: CurrentBillingFeatures
+    description: Current enabled pricing plan. When the component is in the Enterprise plan, this will list both 'Basic' and 'Application Insights Enterprise'.
+    types:
+    - uid: string
+      isArray: true
+examples:
+- name: ComponentCurrentBillingFeaturesUpdate
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/my-resource-group/providers/Microsoft.Insights/components/my-component/currentbillingfeatures?api-version=2015-05-01
+    body: >-
+      {
+        "CurrentBillingFeatures": [
+          "Basic",
+          "Application Insights Enterprise"
+        ],
+        "DataVolumeCap": {
+          "Cap": 100,
+          "StopSendNotificationWhenHitCap": true
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "CurrentBillingFeatures": [
+          "Basic",
+          "Application Insights Enterprise"
+        ],
+        "DataVolumeCap": {
+          "Cap": 100,
+          "MaxHistoryCap": 500,
+          "ResetTime": 16,
+          "WarningThreshold": 90,
+          "StopSendNotificationWhenHitThreshold": false,
+          "StopSendNotificationWhenHitCap": true
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
