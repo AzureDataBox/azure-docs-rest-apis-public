@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.aks.managedclusters.delete
+uid: management.azure.com.aks.containerservices.delete
 name: Delete
 service: AKS
-groupName: Managed Clusters
-apiVersion: 2017-08-31
-summary: "Deletes a managed cluster.  \nDeletes the managed cluster with a specified resource group and name."
+groupName: Container Services
+apiVersion: 2017-07-01
+summary: "Deletes the specified container service.  \nDeletes the specified container service in the specified subscription and resource group. The operation does not delete other resources created as part of creating a container service, including storage accounts, VMs, and availability sets. All the other resources created with the container service are part of the same resource group and can be deleted individually."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}?api-version=2017-08-31
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/containerServices/{containerServiceName}?api-version=2017-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -24,10 +24,10 @@ uriParameters:
   description: The name of the resource group.
   types:
   - uid: string
-- name: resourceName
+- name: containerServiceName
   in: path
   isRequired: true
-  description: The name of the managed cluster resource.
+  description: The name of the container service in the specified subscription and resource group.
   types:
   - uid: string
 - name: api-version
@@ -40,13 +40,13 @@ responses:
 - name: 202 Accepted
   description: Accepted
 - name: 204 No Content
-  description: NoContent
+  description: Not found
 requestHeader: []
 definitions: []
 examples:
-- name: Delete Managed Cluster
+- name: Delete Container Service
   request:
-    uri: DELETE https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2017-08-31
+    uri: DELETE https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/containerServices/acs1?api-version=2017-07-01
   responses:
   - statusCode: "202"
   - statusCode: "204"
