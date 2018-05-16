@@ -1,0 +1,225 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.compute.virtualmachinescalesetvms.getinstanceview
+name: Get Instance View
+service: Compute
+groupName: Virtual Machine Scale Set VM s
+apiVersion: 2016-04-30-preview
+summary: Gets the status of a virtual machine from a VM scale set.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/instanceView?api-version=2016-04-30-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: vmScaleSetName
+  in: path
+  isRequired: true
+  description: The name of the VM scale set.
+  types:
+  - uid: string
+- name: instanceId
+  in: path
+  isRequired: true
+  description: The instance ID of the virtual machine.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: VirtualMachineScaleSetVMInstanceView
+requestHeader: []
+definitions:
+- name: VirtualMachineScaleSetVMInstanceView
+  description: The instance view of a virtual machine scale set VM.
+  kind: object
+  properties:
+  - name: platformUpdateDomain
+    description: The Update Domain count.
+    types:
+    - uid: integer
+  - name: platformFaultDomain
+    description: The Fault Domain count.
+    types:
+    - uid: integer
+  - name: rdpThumbPrint
+    description: The Remote desktop certificate thumbprint.
+    types:
+    - uid: string
+  - name: vmAgent
+    description: The VM Agent running on the virtual machine.
+    types:
+    - uid: VirtualMachineAgentInstanceView
+  - name: disks
+    description: The disks information.
+    types:
+    - uid: DiskInstanceView
+      isArray: true
+  - name: extensions
+    description: The extensions information.
+    types:
+    - uid: VirtualMachineExtensionInstanceView
+      isArray: true
+  - name: bootDiagnostics
+    description: Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to diagnose VM status. <br><br> For Linux Virtual Machines, you can easily view the output of your console log. <br><br> For both Windows and Linux virtual machines, Azure also enables you to see a screenshot of the VM from the hypervisor.
+    types:
+    - uid: BootDiagnosticsInstanceView
+  - name: statuses
+    description: The resource status information.
+    types:
+    - uid: InstanceViewStatus
+      isArray: true
+  - name: placementGroupId
+    description: The placement group in which the VM is running. If the VM is deallocated it will not have a placementGroupId.
+    types:
+    - uid: string
+- name: VirtualMachineAgentInstanceView
+  description: The instance view of the VM Agent running on the virtual machine.
+  kind: object
+  properties:
+  - name: vmAgentVersion
+    description: The VM Agent full version.
+    types:
+    - uid: string
+  - name: extensionHandlers
+    description: The virtual machine extension handler instance view.
+    types:
+    - uid: VirtualMachineExtensionHandlerInstanceView
+      isArray: true
+  - name: statuses
+    description: The resource status information.
+    types:
+    - uid: InstanceViewStatus
+      isArray: true
+- name: DiskInstanceView
+  description: The instance view of the disk.
+  kind: object
+  properties:
+  - name: name
+    description: The disk name.
+    types:
+    - uid: string
+  - name: statuses
+    description: The resource status information.
+    types:
+    - uid: InstanceViewStatus
+      isArray: true
+- name: VirtualMachineExtensionInstanceView
+  description: The instance view of a virtual machine extension.
+  kind: object
+  properties:
+  - name: name
+    description: The virtual machine extension name.
+    types:
+    - uid: string
+  - name: type
+    description: Specifies the type of the extension; an example is "CustomScriptExtension".
+    types:
+    - uid: string
+  - name: typeHandlerVersion
+    description: Specifies the version of the script handler.
+    types:
+    - uid: string
+  - name: substatuses
+    description: The resource status information.
+    types:
+    - uid: InstanceViewStatus
+      isArray: true
+  - name: statuses
+    description: The resource status information.
+    types:
+    - uid: InstanceViewStatus
+      isArray: true
+- name: BootDiagnosticsInstanceView
+  description: The instance view of a virtual machine boot diagnostics.
+  kind: object
+  properties:
+  - name: consoleScreenshotBlobUri
+    description: The console screenshot blob URI.
+    types:
+    - uid: string
+  - name: serialConsoleLogBlobUri
+    description: The Linux serial console log blob Uri.
+    types:
+    - uid: string
+- name: InstanceViewStatus
+  description: Instance view status.
+  kind: object
+  properties:
+  - name: code
+    description: The status code.
+    types:
+    - uid: string
+  - name: level
+    description: The level code.
+    types:
+    - uid: StatusLevelTypes
+  - name: displayStatus
+    description: The short localizable label for the status.
+    types:
+    - uid: string
+  - name: message
+    description: The detailed status message, including for alerts and error messages.
+    types:
+    - uid: string
+  - name: time
+    description: The time of the status.
+    types:
+    - uid: string
+- name: VirtualMachineExtensionHandlerInstanceView
+  description: The instance view of a virtual machine extension handler.
+  kind: object
+  properties:
+  - name: type
+    description: Specifies the type of the extension; an example is "CustomScriptExtension".
+    types:
+    - uid: string
+  - name: typeHandlerVersion
+    description: Specifies the version of the script handler.
+    types:
+    - uid: string
+  - name: status
+    description: The extension handler status.
+    types:
+    - uid: InstanceViewStatus
+- name: StatusLevelTypes
+  description: The level code.
+  kind: enum
+  properties:
+  - name: Info
+    types:
+    - uid: string
+  - name: Warning
+    types:
+    - uid: string
+  - name: Error
+    types:
+    - uid: string
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

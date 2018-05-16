@@ -1,0 +1,93 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.compute.snapshots.grantaccess
+name: Grant Access
+service: Compute
+groupName: Snapshots
+apiVersion: 2016-04-30-preview
+summary: Grants access to a snapshot.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}/beginGetAccess?api-version=2016-04-30-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: snapshotName
+  in: path
+  isRequired: true
+  description: The name of the snapshot within the given subscription and resource group.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: AccessUri
+- name: 202 Accepted
+  description: Accepted
+requestBody:
+- parameters:
+  - name: access
+    in: body
+    isRequired: true
+    description: ''
+    types:
+    - uid: AccessLevel
+  - name: durationInSeconds
+    in: body
+    isRequired: true
+    description: Time duration in seconds until the SAS access expires.
+    types:
+    - uid: integer
+requestHeader: []
+definitions:
+- name: AccessUri
+  description: A disk access SAS uri.
+  kind: object
+  properties:
+  - name: properties.output.accessSAS
+    isReadyOnly: true
+    description: A SAS uri for accessing a disk.
+    types:
+    - uid: string
+- name: GrantAccessData
+  description: Data used for requesting a SAS.
+  kind: object
+  properties:
+  - name: access
+    description: ''
+    types:
+    - uid: AccessLevel
+  - name: durationInSeconds
+    description: Time duration in seconds until the SAS access expires.
+    types:
+    - uid: integer
+- name: AccessLevel
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Read
+    types:
+    - uid: string
+examples: []
+security: []
