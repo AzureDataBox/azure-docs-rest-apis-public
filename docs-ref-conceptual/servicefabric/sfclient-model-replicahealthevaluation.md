@@ -32,6 +32,7 @@ translation.priority.mt:
 Represents health evaluation for a replica, containing information about the data and the algorithm used by health store to evaluate health. The evaluation is returned only when the aggregated health state is either Error or Warning.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Kind`](#kind) | string | Yes |

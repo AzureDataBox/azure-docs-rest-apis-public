@@ -31,12 +31,14 @@ Gets the list of application resources created in the specified Service Fabric c
 Gets all application resources created or in the process of being created in the Service Fabric cluster resource.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/applications?api-version=2017-07-01-preview` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [subscriptionId](#subscriptionid) | string | Yes | Path |

@@ -33,12 +33,14 @@ Gets the name of the Service Fabric application for a service.
 Gets the name of the application for the specified service. A 404 FABRIC_E_SERVICE_DOES_NOT_EXIST error is returned if a service with the provided service ID does not exist.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/Services/{serviceId}/$/GetApplicationName?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`serviceId`](#serviceid) | string | Yes | Path |
@@ -47,8 +49,8 @@ Gets the name of the application for the specified service. A 404 FABRIC_E_SERVI
 
 ____
 ### `serviceId`
-__Type__: string <br/>
-__Required__: Yes<br/>
+**Type**: string <br/>
+**Required**: Yes<br/>
 <br/>
 The identity of the service. This is typically the full name of the service without the 'fabric:' URI scheme.
 Starting from version 6.0, hierarchical names are delimited with the "~" character.

@@ -33,6 +33,7 @@ Defines an item in ApplicationTypeHealthPolicyMap.
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Key`](#key) | string | Yes |

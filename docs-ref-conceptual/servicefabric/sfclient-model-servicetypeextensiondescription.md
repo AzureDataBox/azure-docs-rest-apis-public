@@ -32,6 +32,7 @@ translation.priority.mt:
 Describes extension of a service type defined in the service manifest.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Key`](#key) | string | No |

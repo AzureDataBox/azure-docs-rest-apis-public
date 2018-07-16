@@ -100,14 +100,14 @@ This grant can be used by both web and native clients, and requires credentials 
 
 1. First your client will need to request an authorization code from Azure AD. See [Request an authorization code][AAD-Oauth-Code-Authz] for details on the format of the HTTPS GET request to the `/authorize` endpoint, and example request/response messages. The URI will contain query string parameters, including the following that are specific to your client application:
 
-    - `client_id` - also known as an application ID, this is the GUID assigned to your client application when you registered in the section above
-    - `redirect_uri` - a URL-encoded version of [one of] the reply/redirect URIs specified during registration of your client application. Note that the value you pass must match exactly to your registration!
-    - `resource` - a URL-encoded identifier URI specified by the REST API you are calling. Web/REST APIs (also known as resource applications) can expose one or more application ID URIs in their configuration. For example:  
+   - `client_id` - also known as an application ID, this is the GUID assigned to your client application when you registered in the section above
+   - `redirect_uri` - a URL-encoded version of [one of] the reply/redirect URIs specified during registration of your client application. Note that the value you pass must match exactly to your registration!
+   - `resource` - a URL-encoded identifier URI specified by the REST API you are calling. Web/REST APIs (also known as resource applications) can expose one or more application ID URIs in their configuration. For example:  
 
-        - Azure Resource Manager provider (and classic Service Management) APIs use `https://management.core.windows.net/`  
-        - For any other resources, see the API documentation or the resource application's configuration in the Azure portal. See also the [`identifierUris` property][AAD-Graph-Application] of the Azure AD application object for more details.  
+       - Azure Resource Manager provider (and classic Service Management) APIs use `https://management.core.windows.net/`  
+       - For any other resources, see the API documentation or the resource application's configuration in the Azure portal. See also the [`identifierUris` property][AAD-Graph-Application] of the Azure AD application object for more details.  
 
-    The request to the `/authorize` endpoint will first trigger a sign-in prompt to authenticate the end-user. The response you get back will be delivered as a redirect (302) to the URI you specified in `redirect_uri`. The response header message will contain a `location` field, which contains the redirect URI followed by a `code` query parameter, containing the authorization code you will need for step #2. 
+     The request to the `/authorize` endpoint will first trigger a sign-in prompt to authenticate the end-user. The response you get back will be delivered as a redirect (302) to the URI you specified in `redirect_uri`. The response header message will contain a `location` field, which contains the redirect URI followed by a `code` query parameter, containing the authorization code you will need for step #2. 
 
 2. Next, your client will need to redeem the authorization code for an access token. See [Use the authorization code to request an access token][AAD-Oauth-Code-Token] for details on the format of the HTTPS POST request to the `/token` endpoint, and example request/response messages. Because this is a POST request, this time you will package your application-specific parameters in the request body. In addition to some of the ones mentioned above (along with other new ones), you will pass :
 

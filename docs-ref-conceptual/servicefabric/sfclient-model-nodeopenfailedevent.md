@@ -32,6 +32,7 @@ translation.priority.mt:
 Node Open Failed event.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Kind`](#kind) | string | Yes |

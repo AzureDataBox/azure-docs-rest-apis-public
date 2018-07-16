@@ -242,27 +242,27 @@ GET /myaccount/Customers()?$filter=(Rating%20ge%203)%20and%20(Rating%20le%206)&$
   
  A query expression may not contain `null` values. The following characters must be encoded if they are to be used in a query string:  
   
--   Forward slash (/)  
+- Forward slash (/)  
   
--   Question mark (?)  
+- Question mark (?)  
   
--   Colon (:)  
+- Colon (:)  
   
--   'At' symbol (@)  
+- 'At' symbol (@)  
   
--   Ampersand (&)  
+- Ampersand (&)  
   
--   Equals sign (=)  
+- Equals sign (=)  
   
--   Plus sign (+)  
+- Plus sign (+)  
   
--   Comma (,)  
+- Comma (,)  
   
--   Dollar sign ($)  
+- Dollar sign ($)  
   
- Any application that can authenticate and send an HTTP `GET` request can query entities in a table.  
+  Any application that can authenticate and send an HTTP `GET` request can query entities in a table.  
   
- For more information about supported query operations against the Table service through LINQ, see [Query Operators Supported for the Table Service](Query-Operators-Supported-for-the-Table-Service.md) and [Writing LINQ Queries Against the Table Service](Writing-LINQ-Queries-Against-the-Table-Service.md).  
+  For more information about supported query operations against the Table service through LINQ, see [Query Operators Supported for the Table Service](Query-Operators-Supported-for-the-Table-Service.md) and [Writing LINQ Queries Against the Table Service](Writing-LINQ-Queries-Against-the-Table-Service.md).  
   
 ## See Also  
  [Table Service Error Codes](Table-Service-Error-Codes.md)   

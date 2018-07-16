@@ -30,6 +30,7 @@ translation.priority.mt:
 Cluster list results
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [value](#value) | array of [Cluster](sfrp-model-cluster.md) | No |

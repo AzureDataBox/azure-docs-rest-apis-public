@@ -33,6 +33,7 @@ Represents the health state of an application, which contains the application id
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [AggregatedHealthState](#aggregatedhealthstate) | string (enum) | No |

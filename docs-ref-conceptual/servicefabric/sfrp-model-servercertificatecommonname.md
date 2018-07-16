@@ -30,6 +30,7 @@ translation.priority.mt:
 Describes the server certificate details using common name.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [certificateCommonName](#certificatecommonname) | string | Yes |

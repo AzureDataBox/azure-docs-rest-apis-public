@@ -32,6 +32,7 @@ translation.priority.mt:
 Describes the progress of a partition's backup.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`BackupState`](#backupstate) | string (enum) | No |

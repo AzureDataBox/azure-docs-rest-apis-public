@@ -59,13 +59,13 @@ Sunday, 06-Nov-94 08:49:37 GMT
 ### Specifying Date/Time values in URI Parameters and Request/Response Body  
  Date/time values in query parameters and request/response body are expressed as UTC times and must adhere to a valid ISO 8601 format. Supported ISO 8601 formats include the following:  
   
--   `YYYY-MM-DD`  
+- `YYYY-MM-DD`  
   
--   `YYYY-MM-DDThh:mmTZD`  
+- `YYYY-MM-DDThh:mmTZD`  
   
--   `YYYY-MM-DDThh:mm:ssTZD`  
+- `YYYY-MM-DDThh:mm:ssTZD`  
   
- For the date portion of these formats, `YYYY` is a four-digit year representation, `MM` is a two-digit month representation, and `DD` is a two-digit day representation. For the time portion, `hh` is the hour representation in 24-hour notation, `mm` is the two-digit minute representation, and `ss` is the two-digit second representation. A time designator `T` separates the date and time portions of the string, while a time zone designator `TZD` specifies a time zone.  
+  For the date portion of these formats, `YYYY` is a four-digit year representation, `MM` is a two-digit month representation, and `DD` is a two-digit day representation. For the time portion, `hh` is the hour representation in 24-hour notation, `mm` is the two-digit minute representation, and `ss` is the two-digit second representation. A time designator `T` separates the date and time portions of the string, while a time zone designator `TZD` specifies a time zone.  
 
   
   

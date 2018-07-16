@@ -30,6 +30,7 @@ translation.priority.mt:
 Describes a node type in the cluster, each node type represents sub set of nodes in the cluster.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [name](#name) | string | Yes |

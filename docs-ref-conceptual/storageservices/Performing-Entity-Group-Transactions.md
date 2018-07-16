@@ -41,13 +41,13 @@ The Table service supports batch transactions on entities that are in the same t
 ## Table Service Support for OData Batch Requests  
  The semantics for entity group transactions are defined by the [OData Protocol Specification](http://www.odata.org/). The OData specification defines the following concepts for batch requests:  
   
--   A *change set* is a group of one or more insert, update, or delete operations.  
+- A *change set* is a group of one or more insert, update, or delete operations.  
   
--   A *batch* is a container of operations, including one or more change sets and query operations.  
+- A *batch* is a container of operations, including one or more change sets and query operations.  
   
- The Table service supports a subset of the functionality defined by the OData specification:  
+  The Table service supports a subset of the functionality defined by the OData specification:  
   
--   The Table service supports only a single change set within a batch. The change set can include multiple insert, update, and delete operations. If a batch includes more than one change set, the first change set will be processed by the service, and additional change sets will be rejected with status code 400 (Bad Request).  
+- The Table service supports only a single change set within a batch. The change set can include multiple insert, update, and delete operations. If a batch includes more than one change set, the first change set will be processed by the service, and additional change sets will be rejected with status code 400 (Bad Request).  
   
 > [!IMPORTANT]
 >  Multiple operations against a single entity are not permitted within a change set.  
@@ -76,17 +76,17 @@ https://myaccount.table.core.windows.net/$batch
   
  The XML payload is a multi-part MIME message containing the batch and the change set. The payload includes two MIME boundaries:  
   
--   A batch boundary encompasses the change set.  
+- A batch boundary encompasses the change set.  
   
--   A change set boundary separates individual insert, update, and delete operations in the batch.  
+- A change set boundary separates individual insert, update, and delete operations in the batch.  
   
- An individual request within the change set is identical to a request made when that operation is being called by itself. For example:  
+  An individual request within the change set is identical to a request made when that operation is being called by itself. For example:  
   
--   To specify the `If-Match` header on an update, merge, or delete operation, include the header in the set of request headers for the appropriate operation in the change set.  
+- To specify the `If-Match` header on an update, merge, or delete operation, include the header in the set of request headers for the appropriate operation in the change set.  
   
--   To specify the payload format (JSON or ATOM) for each operation in the change set, include the appropriate `Content-Type`, `Accept`, `Version` and `DataServiceVersion` headers, as explained in details in [Payload Format for Table Service Operations](Payload-Format-for-Table-Service-Operations.md).  
+- To specify the payload format (JSON or ATOM) for each operation in the change set, include the appropriate `Content-Type`, `Accept`, `Version` and `DataServiceVersion` headers, as explained in details in [Payload Format for Table Service Operations](Payload-Format-for-Table-Service-Operations.md).  
   
--   To suppress the response content echo for the [Insert Entity](Insert-Entity.md), specify the `Prefer` header with the `return-no-content` value for each insert operation in the change set. For more information about the `Prefer` header, see [Summary of Table Service Functionality](Summary-of-Table-Service-Functionality.md).  
+- To suppress the response content echo for the [Insert Entity](Insert-Entity.md), specify the `Prefer` header with the `return-no-content` value for each insert operation in the change set. For more information about the `Prefer` header, see [Summary of Table Service Functionality](Summary-of-Table-Service-Functionality.md).  
   
 #### Sample Request for Insert, Update, and Delete Operations  
  The following examples show batch requests containing two [Insert Entity](Insert-Entity.md) operations and a [Merge Entity](Merge-Entity.md) operation. In these examples, since we are not interested in the echo payload in the response for the insert operations, we include the `Prefer:``return-no-content` header.  

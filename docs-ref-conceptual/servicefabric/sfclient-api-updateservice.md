@@ -33,12 +33,14 @@ Updates a Service Fabric service using the specified update description.
 This API allows updating properties of a running Service Fabric service. The set of properties that can be updated are a subset of the properties that were specified at the time of creating the service. The current set of properties can be obtained using `GetServiceDescription` API. Please note that updating the properties of a running service is different than upgrading your application using `StartApplicationUpgrade` API. The upgrade is a long running background operation that involves moving the application from one version to another, one upgrade domain at a time, whereas update applies the new properties immediately to the service.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/Services/{serviceId}/$/Update?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`serviceId`](#serviceid) | string | Yes | Path |
@@ -48,8 +50,8 @@ This API allows updating properties of a running Service Fabric service. The set
 
 ____
 ### `serviceId`
-__Type__: string <br/>
-__Required__: Yes<br/>
+**Type**: string <br/>
+**Required**: Yes<br/>
 <br/>
 The identity of the service. This is typically the full name of the service without the 'fabric:' URI scheme.
 Starting from version 6.0, hierarchical names are delimited with the "~" character.

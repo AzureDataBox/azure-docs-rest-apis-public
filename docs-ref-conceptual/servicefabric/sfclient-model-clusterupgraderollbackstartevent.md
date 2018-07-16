@@ -32,6 +32,7 @@ translation.priority.mt:
 Cluster Upgrade Rollback Start event.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Kind`](#kind) | string | Yes |

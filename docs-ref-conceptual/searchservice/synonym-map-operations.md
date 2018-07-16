@@ -28,37 +28,37 @@ translation.priority.mt:
 
   Setting up synonyms in your search application is a two-step process:
 
-  1.	Add a synonym map to your search service. You can use the search service REST API to create and manage **synonym maps**. Please see the section below titled "Operations on synonym maps" for the supported operations and [Create Synonym Map](create-synonym-map.md) for the request body.
+1. Add a synonym map to your search service. You can use the search service REST API to create and manage **synonym maps**. Please see the section below titled "Operations on synonym maps" for the supported operations and [Create Synonym Map](create-synonym-map.md) for the request body.
 
-  2.	Configure a searchable field to use the synonym map in the index definition. A new field property **synonymMaps** specifies a synonym map to use for the field.
+2. Configure a searchable field to use the synonym map in the index definition. A new field property **synonymMaps** specifies a synonym map to use for the field.
 
-  For example, the index definition below configures the 'name' field to use the synonym map 'mysynonymmap'.
-  ```
-	POST https://[service name].search.windows.net/indexes?api-version=2017-11-11
-	api-key: [admin key]
+   For example, the index definition below configures the 'name' field to use the synonym map 'mysynonymmap'.
+   ```
+   POST https://[service name].search.windows.net/indexes?api-version=2017-11-11
+   api-key: [admin key]
 
-	{
-	   "name":"myindex",
-	   "fields":[
-	      {
-	         "name":"id",
-	         "type":"Edm.String",
-	         "key":true
-	      },
-	      {
-	         "name":"name",
-	         "type":"Edm.String",
-	         "searchable":true,
-	         "analyzer":"en.lucene",
-	         "synonymMaps":[
-	            "mysynonymmap"
-	         ]
-	      }
-	   ]
-	}
-  ```
+   {
+   "name":"myindex",
+   "fields":[
+     {
+        "name":"id",
+        "type":"Edm.String",
+        "key":true
+     },
+     {
+        "name":"name",
+        "type":"Edm.String",
+        "searchable":true,
+        "analyzer":"en.lucene",
+        "synonymMaps":[
+           "mysynonymmap"
+        ]
+     }
+   ]
+   }
+   ```
 
-  You can update the **synonymMaps** properties of existing fields at any time.
+   You can update the **synonymMaps** properties of existing fields at any time.
 
 ## Operations on synonym maps  
  The REST API for **synonym maps** includes the operations shown in the following table.  

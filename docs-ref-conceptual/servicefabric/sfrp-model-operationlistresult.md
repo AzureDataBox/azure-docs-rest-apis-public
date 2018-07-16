@@ -30,6 +30,7 @@ translation.priority.mt:
 Describes the result of the request to list Service Fabric resource provider operations.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [value](#value) | array of [OperationResult](sfrp-model-operationresult.md) | No |

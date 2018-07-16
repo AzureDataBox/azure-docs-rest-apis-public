@@ -33,12 +33,14 @@ Gets the image store content information.
 Returns the information about the image store content at the specified contentPath relative to the root of the image store.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/ImageStore/{contentPath}?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [contentPath](#contentpath) | string | Yes | Path |

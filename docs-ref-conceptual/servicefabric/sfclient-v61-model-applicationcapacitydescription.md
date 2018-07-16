@@ -36,6 +36,7 @@ Describes capacity information for services of this application. This descriptio
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [MinimumNodes](#minimumnodes) | integer (int64) | No |

@@ -33,12 +33,14 @@ Start upgrading the configuration of a Service Fabric standalone cluster.
 Validate the supplied configuration upgrade parameters and start upgrading the cluster configuration if the parameters are valid.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/$/StartClusterConfigurationUpgrade?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [api-version](#api-version) | string | Yes | Query |

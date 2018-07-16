@@ -32,6 +32,7 @@ translation.priority.mt:
 Service Deleted event.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Kind`](#kind) | string | Yes |

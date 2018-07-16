@@ -27,17 +27,17 @@ translation.priority.mt:
 # Query Timeout and Pagination
 The Table service supports the following two types of query operations:  
   
--   The [Query Tables](Query-Tables.md) operation returns the list of tables within the specified storage account. The list of tables may be filtered according to criteria specified on the request.  
+- The [Query Tables](Query-Tables.md) operation returns the list of tables within the specified storage account. The list of tables may be filtered according to criteria specified on the request.  
   
--   The [Query Entities](Query-Entities.md) operation returns a set of entities from the specified table. Query results may be filtered according to criteria specified on the request.  
+- The [Query Entities](Query-Entities.md) operation returns a set of entities from the specified table. Query results may be filtered according to criteria specified on the request.  
   
- A query against the Table service may return a maximum of 1,000 items at one time and may execute for a maximum of five seconds. If the result set contains more than 1,000 items, if the query did not complete within five seconds, or if the query crosses the partition boundary, the response includes headers which provide the developer with continuation tokens to use in order to resume the query at the next item in the result set. Continuation token headers may be returned for a [Query Tables](Query-Tables.md) operation or a [Query Entities](Query-Entities.md) operation.  
+  A query against the Table service may return a maximum of 1,000 items at one time and may execute for a maximum of five seconds. If the result set contains more than 1,000 items, if the query did not complete within five seconds, or if the query crosses the partition boundary, the response includes headers which provide the developer with continuation tokens to use in order to resume the query at the next item in the result set. Continuation token headers may be returned for a [Query Tables](Query-Tables.md) operation or a [Query Entities](Query-Entities.md) operation.  
   
- Note that the total time allotted to the request for scheduling and processing the query is 30 seconds, including the five seconds for query execution.  
+  Note that the total time allotted to the request for scheduling and processing the query is 30 seconds, including the five seconds for query execution.  
   
- It is possible for a query to return no results but to still return a continuation header.  
+  It is possible for a query to return no results but to still return a continuation header.  
   
- The continuation token headers are shown in the following table.  
+  The continuation token headers are shown in the following table.  
   
 |Continuation token header|Description|  
 |-------------------------------|-----------------|  

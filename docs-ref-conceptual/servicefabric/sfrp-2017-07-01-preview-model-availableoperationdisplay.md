@@ -30,6 +30,7 @@ translation.priority.mt:
 Operation supported by the Service Fabric resource provider
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [provider](#provider) | string | No |

@@ -35,12 +35,14 @@ Once a schedule is stopped it will stay in the stopped state and not be used to 
 
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/Tools/Chaos/$/Stop?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`api-version`](#api-version) | string | Yes | Query |

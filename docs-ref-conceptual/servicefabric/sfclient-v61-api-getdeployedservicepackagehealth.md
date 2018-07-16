@@ -33,12 +33,14 @@ Gets the information about health of an service package for a specific applicati
 Gets the information about health of service package for a specific application deployed on a Service Fabric node. Use EventsHealthStateFilter to optionally filter for the collection of HealthEvent objects reported on the deployed service package based on health state.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/Nodes/{nodeName}/$/GetApplications/{applicationId}/$/GetServicePackages/{servicePackageName}/$/GetHealth?api-version=6.0&EventsHealthStateFilter={EventsHealthStateFilter}&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [nodeName](#nodename) | string | Yes | Path |
@@ -57,8 +59,8 @@ The name of the node.
 
 ____
 ### applicationId
-__Type__: string <br/>
-__Required__: Yes<br/>
+**Type**: string <br/>
+**Required**: Yes<br/>
 <br/>
 The identity of the application. This is typically the full name of the application without the 'fabric:' URI scheme.
 Starting from version 6.0, hierarchical names are delimited with the "~" character.

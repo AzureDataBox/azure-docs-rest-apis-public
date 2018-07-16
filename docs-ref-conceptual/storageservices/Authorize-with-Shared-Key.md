@@ -34,15 +34,15 @@ translation.priority.mt:
  
  The Blob, Queue, Table, and File services support the following Shared Key authorization schemes for version 2009-09-19 and later (for Blob, Queue, and Table service) and version 2014-02-14 and later (for File service):  
   
--   **Shared Key for Blob, Queue, and File Services.** Use the Shared Key authorization scheme to make requests against the Blob, Queue, and File services. Shared Key authorization in version 2009-09-19 and later supports an augmented signature string for enhanced security and requires that you update your service to authorize using this augmented signature.  
+- **Shared Key for Blob, Queue, and File Services.** Use the Shared Key authorization scheme to make requests against the Blob, Queue, and File services. Shared Key authorization in version 2009-09-19 and later supports an augmented signature string for enhanced security and requires that you update your service to authorize using this augmented signature.  
   
--   **Shared Key for Table Service.** Use the Shared Key authorization scheme to make requests against the Table service using the REST API. Shared Key authorization for the Table service in version 2009-09-19 and later uses the same signature string as in previous versions of the Table service.  
+- **Shared Key for Table Service.** Use the Shared Key authorization scheme to make requests against the Table service using the REST API. Shared Key authorization for the Table service in version 2009-09-19 and later uses the same signature string as in previous versions of the Table service.  
   
--   **Shared Key Lite.** Use the Shared Key Lite authorization scheme to make requests against the Blob, Queue, Table, and File services.  
+- **Shared Key Lite.** Use the Shared Key Lite authorization scheme to make requests against the Blob, Queue, Table, and File services.  
   
-     For version 2009-09-19 and later of the Blob and Queue services, Shared Key Lite authorization supports using a signature string identical to what was supported against Shared Key in previous versions of the Blob and Queue services. You can therefore use Shared Key Lite to make requests against the Blob and Queue services without updating your signature string.  
+   For version 2009-09-19 and later of the Blob and Queue services, Shared Key Lite authorization supports using a signature string identical to what was supported against Shared Key in previous versions of the Blob and Queue services. You can therefore use Shared Key Lite to make requests against the Blob and Queue services without updating your signature string.  
   
- An authorized request requires two headers: the `Date` or `x-ms-date` header and the `Authorization` header. The following sections describe how to construct these headers.
+  An authorized request requires two headers: the `Date` or `x-ms-date` header and the `Authorization` header. The following sections describe how to construct these headers.
 
 > [!IMPORTANT]
 >  The Microsoft Azure storage services support both HTTP and HTTPS; however, using HTTPS is highly recommended.  
@@ -256,26 +256,26 @@ Authorization: SharedKeyLite testaccount1:uay+rilMVayH/SVI8X+a3fL8k/NxCnIePdyZSk
 ###  <a name="Constructing_Element"></a> Constructing the Canonicalized Headers String  
  To construct the `CanonicalizedHeaders` portion of the signature string, follow these steps:  
   
-1.  Retrieve all headers for the resource that begin with `x-ms-`, including the `x-ms-date` header.  
+1. Retrieve all headers for the resource that begin with `x-ms-`, including the `x-ms-date` header.  
   
-2.  Convert each HTTP header name to lowercase.  
+2. Convert each HTTP header name to lowercase.  
   
-3.  Sort the headers lexicographically by header name, in ascending order. Each header may appear only once in the string.  
+3. Sort the headers lexicographically by header name, in ascending order. Each header may appear only once in the string.  
   
-    > [!NOTE]
-    >  [Lexicographical ordering](http://en.wikipedia.org/wiki/Lexicographical_order) may not always coincide with conventional alphabetical ordering.  
+   > [!NOTE]
+   >  [Lexicographical ordering](http://en.wikipedia.org/wiki/Lexicographical_order) may not always coincide with conventional alphabetical ordering.  
   
-4.  Replace any linear whitespace in the header value with a single space.  
+4. Replace any linear whitespace in the header value with a single space.  
   
- Linear whitespace includes carriage return/line feed (CRLF), spaces, and tabs. See [RFC 2616, section 4.2](https://tools.ietf.org/html/rfc2616#section-4.2) for details. Do not replace any whitespace inside a quoted string.  
+   Linear whitespace includes carriage return/line feed (CRLF), spaces, and tabs. See [RFC 2616, section 4.2](https://tools.ietf.org/html/rfc2616#section-4.2) for details. Do not replace any whitespace inside a quoted string.  
   
-5.  Trim any whitespace around the colon in the header.  
+5. Trim any whitespace around the colon in the header.  
   
-6.  Finally, append a new-line character to each canonicalized header in the resulting list. Construct the `CanonicalizedHeaders` string by concatenating all headers in this list into a single string.  
+6. Finally, append a new-line character to each canonicalized header in the resulting list. Construct the `CanonicalizedHeaders` string by concatenating all headers in this list into a single string.  
   
- The following shows an example of a canonicalized headers string:  
+   The following shows an example of a canonicalized headers string:  
   
- `x-ms-date:Sat, 21 Feb 2015 00:48:38 GMT\nx-ms-version:2014-02-14\n`  
+   `x-ms-date:Sat, 21 Feb 2015 00:48:38 GMT\nx-ms-version:2014-02-14\n`  
 
 > [!NOTE] 
 > Prior to service version 2016-05-31, headers with empty values were omitted from the signature string. These are now represented in CanonicalizedHeaders by immediately following the colon character with the terminating new-line. 
@@ -285,19 +285,19 @@ Authorization: SharedKeyLite testaccount1:uay+rilMVayH/SVI8X+a3fL8k/NxCnIePdyZSk
   
  There are two supported formats for the `CanonicalizedResource` string:  
   
--   A format that supports Shared Key authorization for version 2009-09-19 and later of the Blob and Queue services, and for version 2014-02-14 and later of the File service.  
+- A format that supports Shared Key authorization for version 2009-09-19 and later of the Blob and Queue services, and for version 2014-02-14 and later of the File service.  
   
--   A format that supports Shared Key and Shared Key Lite for all versions of the Table service, and Shared Key Lite for version 2009-09-19 and later of the Blob and Queue services. This format is identical to that used with previous versions of the storage services.  
+- A format that supports Shared Key and Shared Key Lite for all versions of the Table service, and Shared Key Lite for version 2009-09-19 and later of the Blob and Queue services. This format is identical to that used with previous versions of the storage services.  
   
- For help constructing the URI for the resource you are accessing, see one of the following topics:  
+  For help constructing the URI for the resource you are accessing, see one of the following topics:  
   
--   Blob service: [Naming and Referencing Containers, Blobs, and Metadata](Naming-and-Referencing-Containers--Blobs--and-Metadata.md)  
+- Blob service: [Naming and Referencing Containers, Blobs, and Metadata](Naming-and-Referencing-Containers--Blobs--and-Metadata.md)  
   
--   Queue service: [Addressing Queue Service Resources](Addressing-Queue-Service-Resources.md)  
+- Queue service: [Addressing Queue Service Resources](Addressing-Queue-Service-Resources.md)  
   
--   Table service: [Addressing Table Service Resources](Addressing-Table-Service-Resources.md)  
+- Table service: [Addressing Table Service Resources](Addressing-Table-Service-Resources.md)  
   
--   File service: [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md)  
+- File service: [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md)  
   
 > [!IMPORTANT]
 >  If your storage account is replicated with read-access geo-replication (RA-GRS), and you are accessing a resource in the secondary location, do not include the `–secondary` designation in the `CanonicalizedResource` string. The resource URI used in the `CanonicalizedResource` string URI should be the URI of the resource at the primary location.  
@@ -333,11 +333,11 @@ Authorization: SharedKeyLite testaccount1:uay+rilMVayH/SVI8X+a3fL8k/NxCnIePdyZSk
  
 Keep in mind the following rules for constructing the canonicalized resource string:  
   
--   Avoid using the new-line character (\n) in values for query parameters. If it must be used, ensure that it does not affect the format of the canonicalized resource string.  
+- Avoid using the new-line character (\n) in values for query parameters. If it must be used, ensure that it does not affect the format of the canonicalized resource string.  
   
--   Avoid using commas in query parameter values.  
+- Avoid using commas in query parameter values.  
   
- Here are some examples that show the `CanonicalizedResource` portion of the signature string, as it may be constructed from a given request URI:  
+  Here are some examples that show the `CanonicalizedResource` portion of the signature string, as it may be constructed from a given request URI:  
   
 ```  
   

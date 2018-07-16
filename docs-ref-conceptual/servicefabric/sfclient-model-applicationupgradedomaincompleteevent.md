@@ -32,6 +32,7 @@ translation.priority.mt:
 Application Upgrade Domain Complete event.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Kind`](#kind) | string | Yes |

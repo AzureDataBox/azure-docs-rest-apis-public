@@ -60,29 +60,29 @@ translation.priority.mt:
 
     This third parameter is a string where each character of the string, or subset of this string is treated as a separator when parsing the list of values in the second parameter.
 
-> [!NOTE]  	
+> [!NOTE]
 >  Some scenarios require comparing a field against a large number of constant values. For example, implementing security trimming with filters might require comparing the document ID field against a list of IDs to which the requesting user is granted read access. In scenarios like this we highly recommend using the `search.in` function instead of a more complicated disjunction of equality expressions. For example, use `search.in(Id, '123, 456, ...')` instead of `Id eq 123 or Id eq 456 or ....`. 
-
+> 
 >  If you use `search.in`, you can expect sub-second response time when the second parameter contains a list of hundreds or thousands of values. Note that there is no explicit limit on the number of items you can pass to `search.in`, although you are still limited by the maximum request size. However, the latency will grow as the number of values grows.
 
--   The `search.ismatch` function evaluates search query as a part of a filter expression. The documents that match the search query will be returned in the result set. The following overloads of this function are available:
-    - `search.ismatch(search)`
-    - `search.ismatch(search, searchFields)`
-    - `search.ismatch(search, searchFields, queryType, searchMode)`
+- The `search.ismatch` function evaluates search query as a part of a filter expression. The documents that match the search query will be returned in the result set. The following overloads of this function are available:
+  - `search.ismatch(search)`
+  - `search.ismatch(search, searchFields)`
+  - `search.ismatch(search, searchFields, queryType, searchMode)`
 
-    where: 
+  where: 
   
-    - `search`: the search query (in either [simple](https://docs.microsoft.com/rest/api/searchservice/simple-query-syntax-in-azure-search) or [full](https://docs.microsoft.com/rest/api/searchservice/lucene-query-syntax-in-azure-search) query syntax). 
-    - `queryType`: "simple" or "full", defaults to "simple". Specifies what query language was used in the `search` parameter.
-    - `searchFields`: comma-separated list of searchable fields to search in, defaults to all searchable fields in the index.    
-    - `searchMode`: "any" or "all", defaults to "any". Indicates whether any or all of the search terms must be matched in order to count the document as a match.
+  - `search`: the search query (in either [simple](https://docs.microsoft.com/rest/api/searchservice/simple-query-syntax-in-azure-search) or [full](https://docs.microsoft.com/rest/api/searchservice/lucene-query-syntax-in-azure-search) query syntax). 
+  - `queryType`: "simple" or "full", defaults to "simple". Specifies what query language was used in the `search` parameter.
+  - `searchFields`: comma-separated list of searchable fields to search in, defaults to all searchable fields in the index.    
+  - `searchMode`: "any" or "all", defaults to "any". Indicates whether any or all of the search terms must be matched in order to count the document as a match.
 
-    All the above parameters are equivalent to the corresponding [search request parameters](https://docs.microsoft.com/rest/api/searchservice/search-documents).
+  All the above parameters are equivalent to the corresponding [search request parameters](https://docs.microsoft.com/rest/api/searchservice/search-documents).
 
--   The `search.ismatchscoring` function, like the `search.ismatch` function, returns true for documents that matched the search query passed as a parameter. The difference between them is that the relevance score of documents matching the `search.ismatchscoring` query will contribute to the overall document score, while in the case of `search.ismatch`, the document score won't be changed. The following overloads of this function are available with parameters identical to those of `search.ismatch`:
-    - `search.ismatchscoring(search)`
-    - `search.ismatchscoring(search, searchFields)`
-    - `search.ismatchscoring(search, searchFields, queryType, searchMode)`
+- The `search.ismatchscoring` function, like the `search.ismatch` function, returns true for documents that matched the search query passed as a parameter. The difference between them is that the relevance score of documents matching the `search.ismatchscoring` query will contribute to the overall document score, while in the case of `search.ismatch`, the document score won't be changed. The following overloads of this function are available with parameters identical to those of `search.ismatch`:
+  - `search.ismatchscoring(search)`
+  - `search.ismatchscoring(search, searchFields)`
+  - `search.ismatchscoring(search, searchFields, queryType, searchMode)`
 
   The `search.ismatch` and `search.ismatchscoring` functions are fully orthogonal with each other and the rest of the filter algebra. This means both functions can be used in the same filter expression. 
 

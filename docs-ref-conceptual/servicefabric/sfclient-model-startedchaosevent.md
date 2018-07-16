@@ -32,6 +32,7 @@ translation.priority.mt:
 Describes a Chaos event that gets generated when Chaos is started.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Kind`](#kind) | string | Yes |

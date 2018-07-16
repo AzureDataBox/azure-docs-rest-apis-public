@@ -33,12 +33,14 @@ Gets the list of application types in the Service Fabric cluster.
 Returns the information about the application types that are provisioned or in the process of being provisioned in the Service Fabric cluster. Each version of an application type is returned as one application type. The response includes the name, version, status and other details about the application type. This is a paged query, meaning that if not all of the application types fit in a page, one page of results is returned as well as a continuation token which can be used to get the next page. For example, if there are 10 application types but a page only fits the first 3 application types, or if max results is set to 3, then 3 is returned. To access the rest of the results, retrieve subsequent pages by using the returned continuation token in the next query. An empty continuation token is returned if there are no subsequent pages.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/ApplicationTypes?api-version=6.0&ApplicationTypeDefinitionKindFilter={ApplicationTypeDefinitionKindFilter}&ExcludeApplicationParameters={ExcludeApplicationParameters}&ContinuationToken={ContinuationToken}&MaxResults={MaxResults}&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`api-version`](#api-version) | string | Yes | Query |

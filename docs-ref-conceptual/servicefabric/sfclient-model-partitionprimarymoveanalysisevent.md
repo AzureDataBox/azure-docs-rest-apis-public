@@ -32,6 +32,7 @@ translation.priority.mt:
 Partition Primary Move Analysis event.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Kind`](#kind) | string | Yes |

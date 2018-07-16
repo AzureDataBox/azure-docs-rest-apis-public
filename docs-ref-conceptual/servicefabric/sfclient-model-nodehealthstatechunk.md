@@ -33,6 +33,7 @@ Represents the health state chunk of a node, which contains the node name and it
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`HealthState`](#healthstate) | string (enum) | No |

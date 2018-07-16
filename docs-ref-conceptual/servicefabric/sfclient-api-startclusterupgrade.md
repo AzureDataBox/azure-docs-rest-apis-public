@@ -33,12 +33,14 @@ Start upgrading the code or configuration version of a Service Fabric cluster.
 Validate the supplied upgrade parameters and start upgrading the code or configuration version of a Service Fabric cluster if the parameters are valid.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/$/Upgrade?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`api-version`](#api-version) | string | Yes | Query |

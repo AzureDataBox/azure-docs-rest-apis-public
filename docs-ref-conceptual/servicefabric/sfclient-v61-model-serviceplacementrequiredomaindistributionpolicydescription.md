@@ -35,6 +35,7 @@ While this is not common it can expose the service to an increased risk of concu
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [Type](#type) | string | Yes |

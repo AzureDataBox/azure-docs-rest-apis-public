@@ -33,6 +33,7 @@ The list of application health state chunks in the cluster that respect the inpu
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`TotalCount`](#totalcount) | integer (int64) | No |

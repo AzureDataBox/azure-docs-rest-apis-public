@@ -33,12 +33,14 @@ Gets the list of compose deployments created in the Service Fabric cluster.
 Gets the status about the compose deployments that were created or in the process of being created in the Service Fabric cluster. The response includes the name, status and other details about the compose deployments. If the list of deployments do not fit in a page, one page of results is returned as well as a continuation token which can be used to get the next page.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/ComposeDeployments?api-version=6.0-preview&ContinuationToken={ContinuationToken}&MaxResults={MaxResults}&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [api-version](#api-version) | string | Yes | Query |

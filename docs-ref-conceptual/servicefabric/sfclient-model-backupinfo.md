@@ -32,6 +32,7 @@ translation.priority.mt:
 Represents a backup point which can be used to trigger a restore.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`BackupId`](#backupid) | string (uuid) | No |

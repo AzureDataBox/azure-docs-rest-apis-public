@@ -81,13 +81,13 @@ The `Put Block List` operation writes a blob by specifying the list of block IDs
   
  To update a blob, you can specify that the service should look for a block ID in the committed block list, in the uncommitted block list, or in the uncommitted block list first and then in the committed block list. To indicate which approach to use, specify the block ID within the appropriate XML element within the request body, as follows:  
   
--   Specify the block ID within the `Committed` element to indicate that the Blob service should search only the committed block list for the named block. If the block is not found in the committed block list, it will not be written as part of the blob, and the Blob service will return status code 400 (Bad Request).  
+- Specify the block ID within the `Committed` element to indicate that the Blob service should search only the committed block list for the named block. If the block is not found in the committed block list, it will not be written as part of the blob, and the Blob service will return status code 400 (Bad Request).  
   
--   Specify the block ID within the `Uncommitted` element to indicate that the Blob service should search only the uncommitted block list for the named block. If the block is not found in the uncommitted block list, it will not be written as part of the blob, and the Blob service will return status code 400 (Bad Request).  
+- Specify the block ID within the `Uncommitted` element to indicate that the Blob service should search only the uncommitted block list for the named block. If the block is not found in the uncommitted block list, it will not be written as part of the blob, and the Blob service will return status code 400 (Bad Request).  
   
--   Specify the block ID within the `Latest` element to indicate that the Blob service should first search the uncommitted block list. If the block is found in the uncommitted list, that version of the block is the latest and should be written to the blob. If the block is not found in the uncommitted list, then the service should search the committed block list for the named block and write that block to the blob if it is found.  
+- Specify the block ID within the `Latest` element to indicate that the Blob service should first search the uncommitted block list. If the block is found in the uncommitted list, that version of the block is the latest and should be written to the blob. If the block is not found in the uncommitted list, then the service should search the committed block list for the named block and write that block to the blob if it is found.  
   
- The request body for this version of `Put Block List` uses following XML format:  
+  The request body for this version of `Put Block List` uses following XML format:  
   
 ```  
 <?xml version="1.0" encoding="utf-8"?>  
@@ -127,13 +127,13 @@ Request Body:
   
  Next, assume that you wish to update the blob. The new blob will have the following changes:  
   
--   A new block with ID `ANAAAA==`. This block must first be uploaded with a call to [Put Block](Put-Block.md) and will appear in the uncommitted block list until the call to `Put Block List`.  
+- A new block with ID `ANAAAA==`. This block must first be uploaded with a call to [Put Block](Put-Block.md) and will appear in the uncommitted block list until the call to `Put Block List`.  
   
--   An updated version of the block with ID `AZAAAA==`. This block must first be uploaded with a call to [Put Block](Put-Block.md) and will appear in the uncommitted block list until the call to `Put Block List`.  
+- An updated version of the block with ID `AZAAAA==`. This block must first be uploaded with a call to [Put Block](Put-Block.md) and will appear in the uncommitted block list until the call to `Put Block List`.  
   
--   Removal of the block with the ID `AAAAAA==`. Given that this block is not included in the next call to `Put Block List`, the block will effectively be removed from the blob.  
+- Removal of the block with the ID `AAAAAA==`. Given that this block is not included in the next call to `Put Block List`, the block will effectively be removed from the blob.  
   
- The following example shows the call to `Put Block List` that updates the blob:  
+  The following example shows the call to `Put Block List` that updates the blob:  
   
 ```  
   

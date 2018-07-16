@@ -32,6 +32,7 @@ translation.priority.mt:
 Describes the parameters to restart a Service Fabric node.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`NodeInstanceId`](#nodeinstanceid) | string | Yes |

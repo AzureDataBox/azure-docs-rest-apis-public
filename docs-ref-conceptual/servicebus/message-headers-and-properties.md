@@ -81,21 +81,21 @@ prop_name: value
   
  The type of value is inferred. If it is surrounded with double quotes, then:  
   
--   If the content has the form of an RFC2616 date time, then the broker treats it as a `System.DateTime`.  
+- If the content has the form of an RFC2616 date time, then the broker treats it as a `System.DateTime`.  
   
--   Otherwise, the broker removes the quotes and treats the content as a `System.String`.  
+- Otherwise, the broker removes the quotes and treats the content as a `System.String`.  
   
- If it is not surrounded with double quotes, then:  
+  If it is not surrounded with double quotes, then:  
   
-1.  If the content is true or false (case-sensitive!), then the broker treats it as a `System.Boolean` with the corresponding value.  
+1. If the content is true or false (case-sensitive!), then the broker treats it as a `System.Boolean` with the corresponding value.  
   
-2.  If the content can be parsed as an integer, then the broker treats it as a System.Int64.  
+2. If the content can be parsed as an integer, then the broker treats it as a System.Int64.  
   
-3.  If the content can be parsed as a floating-point number, then the broker treats it as a `System.Double`.  
+3. If the content can be parsed as a floating-point number, then the broker treats it as a `System.Double`.  
   
-4.  Otherwise, the broker rejects the message.  
+4. Otherwise, the broker rejects the message.  
   
- For example:  
+   For example:  
   
 ```  
 product: Windows 7 Ultimate  

@@ -32,6 +32,7 @@ translation.priority.mt:
 Specifies the parameters needed to enable periodic backup.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`BackupPolicyName`](#backuppolicyname) | string | Yes |

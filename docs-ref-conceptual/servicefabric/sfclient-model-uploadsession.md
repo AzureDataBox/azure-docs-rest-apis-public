@@ -32,6 +32,7 @@ translation.priority.mt:
 Information about a image store upload session
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`UploadSessions`](#uploadsessions) | array of [UploadSessionInfo](sfclient-model-uploadsessioninfo.md) | No |

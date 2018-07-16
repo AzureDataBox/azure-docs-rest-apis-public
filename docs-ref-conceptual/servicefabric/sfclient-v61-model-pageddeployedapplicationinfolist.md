@@ -35,6 +35,7 @@ The next set of results can be obtained by executing the same query with the con
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [ContinuationToken](#continuationtoken) | string | No |

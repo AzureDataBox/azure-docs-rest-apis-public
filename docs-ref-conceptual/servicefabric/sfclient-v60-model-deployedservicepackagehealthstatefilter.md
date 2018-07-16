@@ -35,6 +35,7 @@ One filter can match zero, one or multiple deployed service packages, depending 
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [ServiceManifestNameFilter](#servicemanifestnamefilter) | string | No |

@@ -127,25 +127,25 @@ MaxDataServiceVersion: 2.0;NetFx
 Request Body:  
 <?xml version="1.0" encoding="utf-8"?>  
 <entry xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://www.w3.org/2005/Atom">  
-  <title />  
-  <updated>2008-09-18T23:46:37.168836Z</updated>  
-  <author>  
-    <name />  
-  </author>  
+  <title />  
+  <updated>2008-09-18T23:46:37.168836Z</updated>  
+  <author>  
+    <name />  
+  </author>  
 <id>https://myaccount.table.core.windows.net/mytable(PartitionKey='mypartitionkey',RowKey='myrowkey')</id>  
-  <content type="application/xml">  
-    <m:properties>  
-      <d:Address>Santa Clara</d:Address>  
-      <d:Age m:type="Edm.Int32">23</d:Age>  
-      <d:AmountDue m:type="Edm.Double">200.23</d:AmountDue>  
-      <d:CustomerCode m:type="Edm.Guid">c9da6455-213d-42c9-9a79-3e9149a57833</d:CustomerCode>  
-      <d:CustomerSince m:type="Edm.DateTime">2008-07-10T00:00:00Z</d:CustomerSince>  
-      <d:IsActive m:type="Edm.Boolean">false</d:IsActive>  
-      <d:NumOfOrders m:type="Edm.Int64">255</d:NumOfOrders>  
-      <d:PartitionKey>mypartitionkey</d:PartitionKey>  
-      <d:RowKey>myrowkey</d:RowKey>  
-    </m:properties>  
-  </content>  
+  <content type="application/xml">  
+    <m:properties>  
+      <d:Address>Santa Clara</d:Address>  
+      <d:Age m:type="Edm.Int32">23</d:Age>  
+      <d:AmountDue m:type="Edm.Double">200.23</d:AmountDue>  
+      <d:CustomerCode m:type="Edm.Guid">c9da6455-213d-42c9-9a79-3e9149a57833</d:CustomerCode>  
+      <d:CustomerSince m:type="Edm.DateTime">2008-07-10T00:00:00Z</d:CustomerSince>  
+      <d:IsActive m:type="Edm.Boolean">false</d:IsActive>  
+      <d:NumOfOrders m:type="Edm.Int64">255</d:NumOfOrders>  
+      <d:PartitionKey>mypartitionkey</d:PartitionKey>  
+      <d:RowKey>myrowkey</d:RowKey>  
+    </m:properties>  
+  </content>  
 </entry>  
 ```  
   

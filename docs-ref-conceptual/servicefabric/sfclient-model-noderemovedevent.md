@@ -32,6 +32,7 @@ translation.priority.mt:
 Node Removed event.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Kind`](#kind) | string | Yes |

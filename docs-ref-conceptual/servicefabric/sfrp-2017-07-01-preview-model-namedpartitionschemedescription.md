@@ -30,6 +30,7 @@ translation.priority.mt:
 Describes the named partition scheme of the service.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [PartitionScheme](#partitionscheme) | string | Yes |

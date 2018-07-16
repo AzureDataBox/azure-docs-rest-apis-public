@@ -32,6 +32,7 @@ translation.priority.mt:
 Information about the current in-progress upgrade domain.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`DomainName`](#domainname) | string | No |

@@ -81,10 +81,10 @@ The `Walk Upgrade Domain` asynchronous operation specifies an update domain in w
   
  To perform a manual update of a deployment, proceed in this order:  
   
-1.  Call [Upgrade Deployment](rest-upgrade-deployment.md) with the `Mode` element set to `manual`.  
+1. Call [Upgrade Deployment](rest-upgrade-deployment.md) with the `Mode` element set to `manual`.  
   
-2.  Call `Walk Upgrade Domain` to update each domain within the deployment. Update domains must be updated in order. For example, begin with domain 0, proceed to domain 1, and so on.  
+2. Call `Walk Upgrade Domain` to update each domain within the deployment. Update domains must be updated in order. For example, begin with domain 0, proceed to domain 1, and so on.  
   
- An update that adds or removes role instances will result in a configuration update to all roles that are deployed in the cloud service. Existing role instances need to be notified of new role instances so that all role instances can communicate together in the cloud service.  
+   An update that adds or removes role instances will result in a configuration update to all roles that are deployed in the cloud service. Existing role instances need to be notified of new role instances so that all role instances can communicate together in the cloud service.  
   
- While an update is in progress, call [Get Deployment](rest-get-deployment.md) to determine its status. If the update is in progress, `Get Deployment` returns an `UpgradeStatus` element that contains information about the update. If the update is complete, or if no update is in progress, then the `UpgradeStatus` element is null.
+   While an update is in progress, call [Get Deployment](rest-get-deployment.md) to determine its status. If the update is in progress, `Get Deployment` returns an `UpgradeStatus` element that contains information about the update. If the update is complete, or if no update is in progress, then the `UpgradeStatus` element is null.

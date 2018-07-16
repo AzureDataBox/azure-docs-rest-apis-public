@@ -33,6 +33,7 @@ The list of node health state chunks in the cluster that respect the input filte
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [TotalCount](#totalcount) | integer (int64) | No |

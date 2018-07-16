@@ -31,6 +31,7 @@ Defines a health policy used to evaluate the health of an application or one of 
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [defaultServiceTypeHealthPolicy](#defaultservicetypehealthpolicy) | [ServiceTypeHealthPolicy](sfrp-model-servicetypehealthpolicy.md) | No |

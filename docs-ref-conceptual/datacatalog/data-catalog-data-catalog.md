@@ -2,37 +2,38 @@
 
 ## Create or Update
 Creates or updates a catalog.  
-  
- 
-  
+
+
+
 ### Request  
     PUT https://management.azure.com/subscriptions/<subscriptionId>/resourceGroups/<resouceGroup>/providers/Microsoft.DataCatalog/catalogs/<catalogName>  
-  
+
 #### Uri parameters  
+
 |Name|Description|Data Type  
 |---|---|---  
 | subscriptionId | Subscription to provision the catalog into.|String  
 | resouceGroup | All resources need to be put into a group. See [Resource groups].(https://azure.microsoft.com/documentation/articles/resource-group-overview)|String  
 |catalogName|Name of the catalog.|String  
-  
-  
+
+
 #### Header  
-  
+
 |Name|Value  
 |---|---  
 |Content-Type|application/json  
-  
-  
-  
+
+
+
 ### Body Example  
-  
+
     {  
         "location" : "North US",  
         "tags": {  
            "mykey": "myvalue",  
            "mykey2": "myvalue2",  
         }  
-      
+
         "properties" : {  
             "sku" : "Standard",  
             "units" : 1,  
@@ -41,19 +42,19 @@ Creates or updates a catalog.
             "users" :  [{"upn" : "myupn@microsoft.com", "objectId" : "99999999-…-999999999999"}]  
         }  
     }  
-  
+
 ### Response  
-  
+
 #### Status codes  
-  
+
 |**Code**|**Description**  
 |---|---  
 |200|OK. An existing annotation was updated. If the **ProvisioningState** is not "Succeeded", "Failed", or "Canceled", then the call is **asynchronous**, and is not complete. The caller needs to either poll by doing a GET on the same URL until ProvisioningState turns into one of those values or check the value returned in Azure-AsyncOperation header, and poll that location.  
 |400 | Bad request.  
-  
-  
+
+
 #### Example Response Header  
-  
+
 |Name|Value  
 |---|---  
 |Access-Control-Allow-Origin|*,*  
@@ -63,9 +64,9 @@ Creates or updates a catalog.
 |Date|Wed,02 Mar 2016 01:42:46 GMT  
 |ETag|W/"AAAAAAABQIE="  
 |Expires|-1  
-  
+
 #### Response body properties  
-  
+
 |Name| Description  
 |---|---  
 Sku | Either "Free" or "Standard" (case matters). Link to our pricing page that describes what this means.  
@@ -73,10 +74,10 @@ Units|  Billing granularity for Standard SKU. One unit represents 100 allowed us
 enableAutomaticUnitAdjustment| Noolean setting which determines if units should be automatically calculated. This setting must be set to true in order to use security groups in the admin or allow list.  
 Admins| List of catalog administrators: <br/> - upn: Universal Principal Name of the account <br/> - objectId: Azure Active Directory Object ID of the account <br/>  
 Users| list of catalog users: <br/> - upn/objectId same as above  
-  
-  
+
+
 #### Example Response Body  
-  
+
     {  
       "id": "/subscriptions/99999999-9999-…-999999999999/resourceGroups/myRG/providers/Microsoft.DataCatalog/catalogs/ExtractorStore1",  
       "name": "...",  
@@ -109,18 +110,19 @@ Users| list of catalog users: <br/> - upn/objectId same as above
 
 ## Delete
 Deletes a catalog.  
-  
 
-  
+
+
 ### Request  
-  
+
 #### Headers  
 None  
-  
+
 #### Body Example  
 None  
-  
+
 #### Example Response Headers  
+
 |Name|Value  
 |---|---  
 |Access-Control-Allow-Origin|*,*  
@@ -129,10 +131,11 @@ None
 |Content-Type|application/json; charset=utf-8  
 |Date|Wed,02 Mar 2016 01:42:46 GMT  
 |Expires|-1  
-  
+
 ### Response  
-  
+
 #### Status codes  
+
 |**Code**|**Description**  
 |---|---  
 |200|OK. An existing annotation was updated.  
@@ -143,32 +146,33 @@ None
 
 ## Get
 Gets a catalog.  
-  
 
-  
+
+
     GET https://management.azure.com/subscriptions/<subscriptionId>/resourceGroups/<resouceGroup>/providers/Microsoft.DataCatalog/catalogs/<catalogName>  
-  
+
 #### Uri parameters  
+
 |Name|Description|Data Type  
 |---|---|---  
 | subscriptionId | Subscription to provision the catalog into.|String  
 | resouceGroup | All resources need to be put into a group. See [Resource groups].(https://azure.microsoft.com/documentation/articles/resource-group-overview)|String  
 |catalogName|Name of the catalog.|String  
-  
+
 ### Request  
-  
+
 #### Header  
-  
+
 |Name|Value  
 |---|---  
 |Content-Type|application/json  
-  
+
 #### Body Example  
 None  
-  
-  
+
+
 #### Example Response Headers  
-  
+
 |Name|Value  
 |---|---  
 |Access-Control-Allow-Origin|*,*  
@@ -178,9 +182,9 @@ None
 |Date|Wed,02 Mar 2016 01:42:46 GMT  
 |ETag|W/"AAAAAAABQIE="  
 |Expires|-1  
-  
+
 #### Response body properties  
-  
+
 |Name| Description  
 |---|---  
 Sku | Either "Free" or "Standard" (case matters). Link to our pricing page that describes what this means.  
@@ -188,9 +192,9 @@ Units|  Billing granularity for Standard SKU. One unit represents 100 allowed us
 enableAutomaticUnitAdjustment| Noolean setting which determines if units should be automatically calculated. This setting must be set to true in order to use security groups in the admin or allow list.  
 Admins| List of catalog administrators: <br/> - upn: Universal Principal Name of the account <br/> - objectId: Azure Active Directory Object ID of the account <br/>  
 Users| list of catalog users: <br/> - upn/objectId same as above  
-  
+
 #### Example Response Body  
-  
+
     {  
       "id": "/subscriptions/99999999-…-999999999999/resourceGroups/myRG/providers/Microsoft.DataCatalog/catalogs/ExtractorStore1",  
       "name": "ExtractorStore1",  
@@ -219,29 +223,30 @@ Users| list of catalog users: <br/> - upn/objectId same as above
 
 ## List
 lists all catalogs.  
-  
 
-  
+
+
     GET https://management.azure.com/subscriptions/<subscriptionId>/resourceGroups/<resouceGroup>/providers/Microsoft.DataCatalog/catalogs  
-  
+
 #### Uri parameters  
+
 |Name|Description|Data Type  
 |---|---|---  
 | subscriptionId | Subscription to provision the catalog into.|String  
 | resouceGroup | All resources need to be put into a group. See [Resource groups].(https://azure.microsoft.com/documentation/articles/resource-group-overview)|String  
-  
+
 ### Request  
 #### Header  
-  
+
 |Name|Value  
 |---|---  
 |Content-Type|application/json  
-  
+
 #### Body Example  
 None  
-  
+
 #### Example Response Headers  
-  
+
 |Name|Value  
 |---|---  
 |Access-Control-Allow-Origin|*,*  
@@ -250,9 +255,9 @@ None
 |Content-Type|application/json; charset=utf-8  
 |Date|Wed,02 Mar 2016 01:42:46 GMT  
 |Expires|-1  
-  
+
 #### Response body properties  
-  
+
 |Name| Description  
 |---|---  
 Sku | Either "Free" or "Standard" (case matters). Link to our pricing page that describes what this means.  
@@ -260,9 +265,9 @@ Units|  Billing granularity for Standard SKU. One unit represents 100 allowed us
 enableAutomaticUnitAdjustment| Noolean setting which determines if units should be automatically calculated. This setting must be set to true in order to use security groups in the admin or allow list.  
 Admins| List of catalog administrators: <br/> - upn: Universal Principal Name of the account <br/> - objectId: Azure Active Directory Object ID of the account <br/>  
 Users| list of catalog users: <br/> - upn/objectId same as above  
-  
+
 #### Example Response Body  
-  
+
     {  
       "value": [  
         {  
@@ -296,42 +301,43 @@ Users| list of catalog users: <br/> - upn/objectId same as above
 
 ## Update
 Updates a Catalog.  
- 
-  
+
+
     PATCH https://management.azure.com/subscriptions/<subscriptionId>/resourceGroups/<resouceGroup>/providers/Microsoft.DataCatalog/catalogs/<catalogName>  
-  
+
 #### Uri parameters  
+
 |Name|Description|Data Type  
 |---|---|---  
 | subscriptionId | Subscription to provision the catalog into.|String  
 | resouceGroup | All resources need to be put into a group. See [Resource groups].(https://azure.microsoft.com/documentation/articles/resource-group-overview)|String  
 |catalogName|Name of the catalog.|String  
-  
-  
+
+
 ### Request  
-  
+
 |Name|Value  
 |---|---  
 |Content-Type|application/json  
-  
-  
+
+
 ### Body Example  
     {  
         "properties" : {  
            "admins" : [{"upn" : "myupn@google.com", "objectId" : "99999999-…-999999999999"}],  
         }  
     }  
-  
+
 ### Response  
-  
+
 |**Code**|**Description**  
 |---|---  
 |200|OK. An existing annotation was updated. If the **ProvisioningState** is not "Succeeded", "Failed", or "Canceled", then the call is **asynchronous**, and is not complete. The caller needs to either poll by doing a GET on the same URL until ProvisioningState turns into one of those values or check the value returned in Azure-AsyncOperation header, and poll that location.  
 |400 | Bad request.  
-  
-  
+
+
 #### Example Response Header  
-  
+
 |Name|Value  
 |---|---  
 |Access-Control-Allow-Origin|*,*  
@@ -341,10 +347,10 @@ Updates a Catalog.
 |Date|Wed,02 Mar 2016 01:42:46 GMT  
 |ETag|W/"AAAAAAABQIE="  
 |Expires|-1  
-  
-  
+
+
 #### Response body properties  
-  
+
 |Name| Description  
 |---|---  
 Sku | Either "Free" or "Standard" (case matters). Link to our pricing page that describes what this means.  
@@ -352,9 +358,9 @@ Units|  Billing granularity for Standard SKU. One unit represents 100 allowed us
 enableAutomaticUnitAdjustment| Noolean setting which determines if units should be automatically calculated. This setting must be set to true in order to use security groups in the admin or allow list.  
 Admins| List of catalog administrators: <br/> - upn: Universal Principal Name of the account <br/> - objectId: Azure Active Directory Object ID of the account <br/>  
 Users| list of catalog users: <br/> - upn/objectId same as above  
-  
+
 #### Example Response Body  
-  
+
     {  
       "id": "/subscriptions/99999999-…-999999999999/resourceGroups/myRG/providers/Microsoft.DataCatalog/catalogs/ExtractorStore1",  
       "name": "ExtractorStore1",  

@@ -32,6 +32,7 @@ translation.priority.mt:
 Node Added event.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Kind`](#kind) | string | Yes |

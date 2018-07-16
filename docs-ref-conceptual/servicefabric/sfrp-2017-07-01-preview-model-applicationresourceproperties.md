@@ -30,6 +30,7 @@ translation.priority.mt:
 The application resource properties.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [typeVersion](#typeversion) | string | No |

@@ -33,12 +33,14 @@ Gets the list of applications created in the Service Fabric cluster that match f
 Gets the information about the applications that were created or in the process of being created in the Service Fabric cluster and match filters specified as the parameter. The response includes the name, type, status, parameters and other details about the application. If the applications do not fit in a page, one page of results is returned as well as a continuation token which can be used to get the next page. Filters ApplicationTypeName and ApplicationDefinitionKindFilter cannot be specified at the same time.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/Applications?api-version=6.1&ApplicationDefinitionKindFilter={ApplicationDefinitionKindFilter}&ApplicationTypeName={ApplicationTypeName}&ExcludeApplicationParameters={ExcludeApplicationParameters}&ContinuationToken={ContinuationToken}&MaxResults={MaxResults}&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [api-version](#api-version) | string | Yes | Query |

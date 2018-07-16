@@ -32,6 +32,7 @@ translation.priority.mt:
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [Kind](#kind) | string | Yes |

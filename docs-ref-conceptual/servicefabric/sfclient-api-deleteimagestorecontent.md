@@ -33,12 +33,14 @@ Deletes existing image store content.
 Deletes existing image store content being found within the given image store relative path. This can be used to delete uploaded application packages once they are provisioned.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | DELETE | `/ImageStore/{contentPath}?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`contentPath`](#contentpath) | string | Yes | Path |

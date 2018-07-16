@@ -32,6 +32,7 @@ translation.priority.mt:
 The task representing the deactivation operation on the node.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [NodeDeactivationTaskId](#nodedeactivationtaskid) | [NodeDeactivationTaskId](sfclient-v61-model-nodedeactivationtaskid.md) | No |

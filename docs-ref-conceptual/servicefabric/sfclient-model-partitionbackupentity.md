@@ -32,6 +32,7 @@ translation.priority.mt:
 Identifies the Service Fabric stateful partition which is being backed up.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`EntityKind`](#entitykind) | string | Yes |

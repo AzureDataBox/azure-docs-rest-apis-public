@@ -33,12 +33,14 @@ Update the upgrade parameters of a Service Fabric cluster upgrade.
 Update the upgrade parameters used during a Service Fabric cluster upgrade.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/$/UpdateUpgrade?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [api-version](#api-version) | string | Yes | Query |

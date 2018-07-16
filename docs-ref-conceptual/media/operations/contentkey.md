@@ -30,18 +30,18 @@ A ContentKey provides secure access to an Asset. In addition to creating a Conte
   
  This topic gives an overview of the `ContentKey` entity and also demonstrates how to execute various operations with the Media Services REST API.  
   
--   [ContentKey Entity Properties](../operations/contentkey.md#contentkey_properties)  
+- [ContentKey Entity Properties](../operations/contentkey.md#contentkey_properties)  
   
--   [Create a ContentKey](../operations/contentkey.md#create_a_contentkey)  
+- [Create a ContentKey](../operations/contentkey.md#create_a_contentkey)  
   
--   [Get Key Delivery URL](#get_delivery_service_url)  
+- [Get Key Delivery URL](#get_delivery_service_url)  
   
--   [List ContentKeys](../operations/contentkey.md#list_a_contentkey)  
+- [List ContentKeys](../operations/contentkey.md#list_a_contentkey)  
   
--   [Delete a ContentKey](../operations/contentkey.md#delete_a_contentkey)  
+- [Delete a ContentKey](../operations/contentkey.md#delete_a_contentkey)  
   
   > [!IMPORTANT]
-> When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. <br/>For more information, see [Setup for Media Services REST API Development](https://docs.microsoft.com/azure/media-services/media-services-rest-how-to-use) and [Connecting to Media Services with the Media Services REST API](https://docs.microsoft.com/azure/media-services/media-services-use-aad-auth-to-access-ams-api).  
+  > When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. <br/>For more information, see [Setup for Media Services REST API Development](https://docs.microsoft.com/azure/media-services/media-services-rest-how-to-use) and [Connecting to Media Services with the Media Services REST API](https://docs.microsoft.com/azure/media-services/media-services-use-aad-auth-to-access-ams-api).  
 
 ##  <a name="contentkey_properties"></a> ContentKey Entity Properties  
   

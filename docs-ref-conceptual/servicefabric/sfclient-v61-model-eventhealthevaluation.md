@@ -34,6 +34,7 @@ The health evaluation is returned when evaluating health of an entity results in
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [Kind](#kind) | string | Yes |

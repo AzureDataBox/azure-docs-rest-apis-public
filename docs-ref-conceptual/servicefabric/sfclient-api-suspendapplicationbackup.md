@@ -33,12 +33,14 @@ Suspends periodic backup for the specified Service Fabric application.
 The application which is configured to take periodic backups, is suspended for taking further backups till it is resumed again. This operation applies to the entire application's hierarchy. It means all the services and partitions under this application are now suspended for backup.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/Applications/{applicationId}/$/SuspendBackup?api-version=6.2-preview&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`applicationId`](#applicationid) | string | Yes | Path |
@@ -47,8 +49,8 @@ The application which is configured to take periodic backups, is suspended for t
 
 ____
 ### `applicationId`
-__Type__: string <br/>
-__Required__: Yes<br/>
+**Type**: string <br/>
+**Required**: Yes<br/>
 <br/>
 The identity of the application. This is typically the full name of the application without the 'fabric:' URI scheme.
 Starting from version 6.0, hierarchical names are delimited with the "~" character.

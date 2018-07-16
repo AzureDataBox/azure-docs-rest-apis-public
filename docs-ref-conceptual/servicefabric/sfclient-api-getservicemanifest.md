@@ -33,12 +33,14 @@ Gets the manifest describing a service type.
 Gets the manifest describing a service type. The response contains the service manifest XML as a string.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/ApplicationTypes/{applicationTypeName}/$/GetServiceManifest?api-version=6.0&ApplicationTypeVersion={ApplicationTypeVersion}&ServiceManifestName={ServiceManifestName}&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`applicationTypeName`](#applicationtypename) | string | Yes | Path |

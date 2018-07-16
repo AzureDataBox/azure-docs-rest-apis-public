@@ -34,12 +34,14 @@ Updates the backup policy identified by {backupPolicyName}
 
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/BackupRestore/BackupPolicies/{backupPolicyName}/$/Update?api-version=6.2-preview&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`backupPolicyName`](#backuppolicyname) | string | Yes | Path |

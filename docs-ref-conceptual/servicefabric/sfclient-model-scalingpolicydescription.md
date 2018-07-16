@@ -32,6 +32,7 @@ translation.priority.mt:
 Describes how the scaling should be performed
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`ScalingTrigger`](#scalingtrigger) | [ScalingTriggerDescription](sfclient-model-scalingtriggerdescription.md) | Yes |

@@ -21,34 +21,35 @@ ms.author: scottwhi
 The Video Search API lets you send a search query to Bing and get back a list of videos that are relevant to the search query. This section provides technical details about the query parameters and headers that you use to request videos and the JSON response objects that contain them. For examples that show how to make requests, see [Searching the Web for Videos](https://docs.microsoft.com/azure/cognitive-services/bing-video-search/search-the-web).  
 
 For information about the headers that requests should include, see [Request Headers](#headers).  
-  
+
 For information about the query parameters that requests should include, see [Query Parameters](#query-parameters).  
-  
+
 For information about the JSON objects that the response may include, see [Response Objects](#response-objects).  
 
 For information about permitted use and display of results, see [Bing Search API Use and Display requirements](https://docs.microsoft.com/azure/cognitive-services/bing-video-search/useanddisplayrequirements).
 
- 
-  
+
+
 ## Endpoints  
 
 To request videos, send a GET request to one of the following URLs:  
-  
-|Endpoint|Description|  
-|--------------|-----------------|  
-|https://api.cognitive.microsoft.com/bing/v5.0/videos/search|Returns videos that are relevant to the users search query.|  
-|https://api.cognitive.microsoft.com/bing/v5.0/videos/details|Returns insights about a video, such as related videos.|  
-|https://api.cognitive.microsoft.com/bing/v5.0/videos/trending|Returns videos that are trending based on search requests made by others. The videos are broken out into different categories. For example, Top Music Videos.<br /><br /> For a list of markets that support trending videos, see [Trending Videos](https://docs.microsoft.com/azure/cognitive-services/bing-video-search/trending-videos).|  
+
+
+|                           Endpoint                            |                                                                                                                                                                 Description                                                                                                                                                                 |
+|---------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|  https://api.cognitive.microsoft.com/bing/v5.0/videos/search  |                                                                                                                                         Returns videos that are relevant to the users search query.                                                                                                                                         |
+| https://api.cognitive.microsoft.com/bing/v5.0/videos/details  |                                                                                                                                           Returns insights about a video, such as related videos.                                                                                                                                           |
+| https://api.cognitive.microsoft.com/bing/v5.0/videos/trending | Returns videos that are trending based on search requests made by others. The videos are broken out into different categories. For example, Top Music Videos.<br /><br /> For a list of markets that support trending videos, see [Trending Videos](https://docs.microsoft.com/azure/cognitive-services/bing-video-search/trending-videos). |
 
  The request must use the HTTPS protocol.
 
 > [!NOTE]
 > The maximum URL length is 2,048 characters. To ensure that your URL length does not exceed the limit, the maximum length of your query parameters should be less than 1,500 characters. If the URL exceeds 2,048 characters, the server returns 404 Not found.  
-  
-  
+
+
 ## Headers  
 The following are the headers that a request and response may include.  
-  
+
 |Header|Description|  
 |------------|-----------------|  
 |Accept|Optional request header.<br /><br /> The default media type is application/json. To specify that the response use [JSON-LD](http://json-ld.org/), set the Accept header to application/ld+json.|  
@@ -65,11 +66,11 @@ The following are the headers that a request and response may include.
 
 > [!NOTE] 
 > Remember that the Terms of Use require compliance with all applicable laws, including regarding use of these headers. For example, in certain jurisdictions, such as Europe, there are requirements to obtain user consent before placing certain tracking devices on user devices.
-  
+
 
 ## Query parameters  
 The following is the list of query parameters that a request may specify. See the Required column for required parameters. The query parameter values must be URL encoded.  For information about query parameters used to filter the videos that Bing returns, see [Filter Query Parameters](#filter).  
-  
+
 |Name|Value|Type|Required|  
 |----------|-----------|----------|--------------|  
 |<a name="cc" />cc|A 2-character country code of the country where the results come from. For a list of possible values, see [Market Codes](#market-codes).<br /><br /> If you set this parameter, you must also specify the [Accept-Language](#acceptlanguage) header. Bing uses the first supported language it finds in the specified languages and combines it with the country code to determine the market to return results for. If the languages list does not include a supported language, Bing finds the closest language and market that supports the request. Or, Bing may use an aggregated or default market for the results.<br /><br /> Use this query parameter and the `Accept-Language` header only if you specify multiple languages. Otherwise, you should use the `mkt` and `setLang` query parameters.<br /><br /> This parameter and the [mkt](#mkt) query parameter are mutually exclusive&mdash;do not specify both.|String|No|  
@@ -86,18 +87,18 @@ The following is the list of query parameters that a request may specify. See th
 
 ## Filter query parameters  
 The following are the optional filter query parameters that you can use to filter the videos that Bing returns. The query parameter values must be URL encoded.  
-  
+
 These query parameters are supported only by the Video Search API; do not specify these parameters when calling the Trending Videos API and the Web Search API.  
-  
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |<a name="pricing" />pricing|Filter videos by price. The following are the possible filter values.<br /><br /><ul><li>Free&mdash;Return videos that are free to view<br /></li><li>Paid&mdash;Return videos that require a subscription or payment to view<br /></li><li>All&mdash;Do not filter by pricing. Specifying this value is the same as not specifying the `pricing` parameter.</li></ul>|String|  
 |<a name="resolution" />resolution|Filter videos by resolution. The following are the possible filter values.<br /><br /><ul><li>480p&mdash;Return videos with a 480p or higher resolution<br /></li><li>720p&mdash;Return videos with a 720p or higher resolution<br /></li><li>1080p&mdash;Return videos with a 1080p or higher resolution<br /></li><li>All&mdash;Do not filter by resolution. Specifying this value is the same as not specifying the `resolution` parameter.</li></ul>|String|  
 |<a name="videolength" />videoLength|Filter videos by length. The following are the possible filter values.<br /><br /></li><li>Short&mdash;Return videos that are less than 5 minutes<br /></li><li>Medium&mdash;Return videos that are between 5 and 20 minutes, inclusive<br /></li><li>Long&mdash;Return videos that are longer than 20 minutes<br /></li><li>All&mdash;Do not filter by length. Specifying this value is the same as not specifying the `videoLength` parameter.</li></ul>|String|  
-  
+
 ## Response objects  
 The following are the JSON response objects that the response may include. If the request succeeds, the top-level object in the response is the [Videos](#videos) object if the endpoint is /videos/search, [VideoDetails](#videodetails) if the endpoint is /videos/details, and [TrendingVideos](#trendingvideos) if the endpoint is /videos/trending. If the request fails, the top-level object is the [ErrorResponse](#errorresponse) object.  
-  
+
 |Object|Description|  
 |------------|-----------------|  
 |[Category](#category)|Defines the category of trending videos.|  
@@ -116,77 +117,77 @@ The following are the JSON response objects that the response may include. If th
 |[Video](#video)|Defines a video that is relevant to the query.|  
 |[VideoDetails](#videodetails)|The top-level object that the response includes when a video insights request succeeds.|  
 |[Videos](#videos)|The top-level object that the response includes when the video request succeeds.|  
-  
+
 <a name="category"></a>   
 ### Category  
 Defines the category of trending videos.  
-  
+
 |Element|Description|Type|  
 |-------------|-----------------|----------|  
 |<a name="category-subcategories" />subcategories|An array of subcategories. For example, Top Music Videos.|[Subcategory](#subcategory)[]|  
 |<a name="category-title" />title|The name of the video category. For example, Music Videos.|String|  
-  
+
 <a name="error"></a>   
 ### Error  
 Defines the reason why the request failed.  
-  
+
 |Element|Description|Type|  
 |-------------|-----------------|----------|  
 |<a name="error-code" />code|The error code that identifies the error. For a list of possible codes, see [Error Codes](#error-codes).|String|  
 |<a name="error-message" />message|A description of the error.|String|  
 |<a name="error-parameter" />parameter|The query parameter in the request that caused the error.|String|  
 |<a name="error-value" />value|The query parameter's value that was not valid.|String|  
-  
+
 <a name="errorresponse"></a>   
 ### ErrorResponse  
 The top-level object that the response includes when the request fails.  
-  
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |_type|Type hint.|String|  
 |<a name="errors" />errors|A list of errors that describe the reasons why the request failed.|[Error](#error)[]|  
-  
+
 <a name="image"></a>   
 ### Image  
 Defines a thumbnail image.  
-  
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |<a name="image-contenturl" />contentUrl|The URL to the image on the source website.|String|  
 |<a name="image-description" />description|An attribution.|String|  
 |<a name="image-headline" />headline|A description of the video.|String|  
 |<a name="image-thumbnailurl" />thumbnailUrl|The URL to a thumbnail of the image. For information about resizing the image, see [Resizing Thumbnails](https://docs.microsoft.com/azure/cognitive-services/bing-video-search/resize-and-crop-thumbnails).|String|  
-  
+
 <a name="mediasize"></a>   
 ### MediaSize  
 Defines the size of the media content.  
-  
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |height|The height of the media content, in pixels.|Integer|  
 |width|The width of the media content, in pixels.|Integer|  
-  
+
 <a name="pivot"></a>   
 ### Pivot  
 Defines the pivot segment.  
-  
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |<a name="pivot-pivot" />pivot|The segment from the original query to pivot on.|String|  
 |<a name="pivot-suggestions" />suggestions|A list of suggested query strings for the pivot.|[Query](#query)|  
-  
+
 <a name="publisher"></a>   
 ### Publisher  
 Defines a publisher or creator.  
-  
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |name|The publisher's or creator's name.|String|  
-  
+
 <a name="query_obj"></a>   
 ### Query  
 Defines a search query string.  
-  
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |<a name="query-displaytext" />displayText|The display version of the query string.|String|  
@@ -194,56 +195,56 @@ Defines a search query string.
 |<a name="query-text" />text|The query string.|String|  
 |<a name="query-thumbnail" />thumbnail|The URL to a thumbnail of a related image.<br /><br /> The object includes this field only for pivot suggestions and related searches.|[Thumbnail](#thumbnail)|  
 |<a name="query-websearchurl" />webSearchUrl|The URL that takes the user to the Bing search results page for the query.|String|  
-  
+
 <a name="subcategory"></a>   
 ### Subcategory  
 Defines a subcategory of videos.  
-  
+
 |Element|Description|Type|  
 |-------------|-----------------|----------|  
 |<a name="subcategory-tiles" />tiles|A list of videos that are trending in the subcategory. Each tile contains a thumbnail image of the video and a Bing query that returns the video and other related videos.|[Tile](#tile)[]|  
 |<a name="subcategory-title" />title|The name of the subcategory. For example, This Week's Viral Videos.|String|  
-  
+
 <a name="thing"></a>   
 Defines the main entity shown in the video.  
-  
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |name|The name of the main entity shown in the video.|String|  
-  
+
 <a name="thumbnail"></a>   
 ### Thumbnail  
 Defines the URL to a thumbnail of an image.  
-  
+
 |Element|Description|Type|  
 |-------------|-----------------|----------|  
 |url|The URL to a thumbnail of an image.|String|  
-  
+
 <a name="tile"></a>   
 ### Tile  
 Defines a video tile.  
-  
+
 |Element|Description|Type|  
 |-------------|-----------------|----------|  
 |<a name="tile-image" />image|The URL to the thumbnail image of the video.|[Image](#image)|  
 |<a name="tile-query" />query|A query that returns a Bing search results page with videos of the subject. For example, if the category is Top Music Videos, the query returns top music videos.|[Query](#query_obj)|  
-  
+
 <a name="trendingvideos"></a>   
 ### TrendingVideos  
 The top-level object that the response includes when a trending videos request succeeds.  
-  
+
 |Element|Description|Type|  
 |-------------|-----------------|----------|  
 |<a name="trending-bannertiles" />bannerTiles|A list of the most popular trending videos.|[Tile](#tile)[]|  
 |<a name="trending-categories" />categories|A list of categorized videos. For example, music videos and viral videos.|[Category](#category)[]|  
-  
+
 <a name="video"></a>   
 ### Video  
 Defines a video that is relevant to the query.  
-  
+
 > [!NOTE]
 > Because the URL format and parameters are subject to change without notice, all URLs should be used as-is. You should not take dependencies on the URL format or parameters.  
-  
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |<a name="video-allowhttpsembed" />allowHttpsEmbed|A Boolean value that determines whether you may embed the video (see the `embedHtml` field) on pages that use the HTTPS protocol.|Boolean|  
@@ -271,25 +272,25 @@ Defines a video that is relevant to the query.
 |<a name="video-viewcount" />viewCount|The number of times that the video has been watched at the source site.|Integer|  
 |<a name="video-websearchurl" />webSearchUrl|The URL that takes the user to the Bing video search results and plays the video.|String|  
 |width|The width of the video, in pixels.|Integer|  
-  
+
 <a name="videodetails"></a>   
 ### VideoDetails  
 The top-level object that the response includes when a video insights request succeeds.  
-  
+
 The [modulesRequested](#modulesrequested) query parameter affects the fields that Bing includes in the response. If you set `modulesRequested` to RelatedVideos, this object includes only the `relatedVideos` field.  
-  
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |_type|Type hint.|String|  
 |relatedVideos|A list of videos that are similar to the specified video.|[Video](#query)[]|  
 |videoResult|The original video that you request insights of (this video is the video that you set the `id` query parameter to in your insights request).|[Video](#query)|  
-  
+
 <a name="videos"></a>   
 ### Videos  
 The top-level object that the response includes when the video request succeeds.  
-  
+
 If the service suspects a denial of service attack, the request succeeds (HTTP status code is 200 OK); however, the body of the response is empty.  
-  
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |_type|Type hint.|String|  
@@ -302,7 +303,7 @@ If the service suspects a denial of service attack, the request succeeds (HTTP s
 |<a name="videos-totalestimatedmatches" />totalEstimatedMatches|The estimated number of videos that match the query. Use this number along with the [count](#count) and [offset](#offset) query parameters to page the results.<br /><br /> The response includes this field only when calling the Video Search API. The Web Search API does not include this field in the response.|Long|  
 |<a name="videos-value" />value|A list of videos that are relevant to the query.|[Video](#video)[]|  
 |<a name="videos-websearchurl" />webSearchUrl|The URL to the Bing search results for the requested videos.|String|  
-  
+
 ## Error codes 
 
 [!INCLUDE [bing-error-codes](./includes/bing-error-codes.md)]

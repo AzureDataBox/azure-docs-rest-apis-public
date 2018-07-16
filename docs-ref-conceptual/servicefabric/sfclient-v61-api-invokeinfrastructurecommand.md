@@ -41,12 +41,14 @@ This API supports the Service Fabric platform; it is not meant to be used direct
 
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/$/InvokeInfrastructureCommand?api-version=6.0&Command={Command}&ServiceId={ServiceId}&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [api-version](#api-version) | string | Yes | Query |

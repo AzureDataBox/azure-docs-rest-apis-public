@@ -33,12 +33,14 @@ Gets the health of a Service Fabric node, by using the specified health policy.
 Gets the health of a Service Fabric node. Use EventsHealthStateFilter to filter the collection of health events reported on the node based on the health state. Use ClusterHealthPolicy in the POST body to override the health policies used to evaluate the health. If the node that you specify by name does not exist in the health store, this returns an error.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/Nodes/{nodeName}/$/GetHealth?api-version=6.0&EventsHealthStateFilter={EventsHealthStateFilter}&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [nodeName](#nodename) | string | Yes | Path |

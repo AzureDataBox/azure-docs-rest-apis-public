@@ -32,6 +32,7 @@ translation.priority.mt:
 Information about the health of an application deployed on a Service Fabric node.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [AggregatedHealthState](#aggregatedhealthstate) | string (enum) | No |

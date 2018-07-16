@@ -50,7 +50,7 @@ A REST API request/response pair can be separated into the following components:
   - Optional additional header fields, as required to support the request's response, such as a Content-type response header.
 
 - HTTP **response message body**: JSON encoded response data.
- 
+
 Depending on your application, you may also need to register your client application with Azure Active Directory. For more information, see [Authentication and authorization for Azure Time Series Insights API](https://docs.microsoft.com/en-us/azure/time-series-insights/time-series-insights-authentication-and-authorization).
 
 
@@ -92,12 +92,11 @@ Response Body:
             "displayName":"Sensors",
             "environmentFqdn": "00000000-0000-0000-0000-000000000000.env.timeseries.azure.com",
             "environmentId":"00000000-0000-0000-0000-000000000000",
-	     "resourceId":
+         "resourceId":
 "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/RdxProdAssetsEastUs/providers/Microsoft.TimeSeriesInsights/environments/Sensors"
         }
     ]
 }
-
 ```
 
 Here, `environmentFqdn` is unique fully qualified domain name for environment used in per-environment query API requests.

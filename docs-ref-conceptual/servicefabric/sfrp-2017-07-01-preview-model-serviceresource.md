@@ -30,6 +30,7 @@ translation.priority.mt:
 The service resource.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [id](#id) | string | No |

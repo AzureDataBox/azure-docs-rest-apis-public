@@ -32,6 +32,7 @@ translation.priority.mt:
 Information about setup or main entry point of a code package deployed on a Service Fabric node.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`EntryPointLocation`](#entrypointlocation) | string | No |

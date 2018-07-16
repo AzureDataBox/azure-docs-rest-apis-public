@@ -34,12 +34,14 @@ Deletes an existing backup policy. A backup policy must be created before it can
 
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/BackupRestore/BackupPolicies/{backupPolicyName}/$/Delete?api-version=6.2-preview&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`backupPolicyName`](#backuppolicyname) | string | Yes | Path |

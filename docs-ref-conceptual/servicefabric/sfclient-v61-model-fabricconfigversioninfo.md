@@ -32,6 +32,7 @@ translation.priority.mt:
 Information about a Service Fabric config version.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [ConfigVersion](#configversion) | string | No |

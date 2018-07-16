@@ -32,6 +32,7 @@ translation.priority.mt:
 Represents the load metric report which contains the time metric was reported, its name and value.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [LastReportedUtc](#lastreportedutc) | string (date-time) | No |

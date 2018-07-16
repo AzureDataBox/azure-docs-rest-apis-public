@@ -20,33 +20,33 @@ The Entity Search API lets you send a search query to Bing and get back search r
 > Entity responses support multiple markets, but the Places response supports only US Business locations. 
 
 This section provides technical details about the response objects, and the query parameters and headers that affect the search results. For examples that show how to make requests, see [Search the web for entities and places](https://docs.microsoft.com/azure/cognitive-services/bing-entities-search/search-the-web). 
-  
+
 For information about headers that requests should include, see [Headers](#headers).  
-  
+
 For information about query parameters that requests should include, see [Query parameters](#query-parameters).  
-  
+
 For information about the JSON objects that the response includes, see [Response objects](#response-objects).
 
 For information about permitted use and display of results, see [Use and display requirements](https://docs.microsoft.com/azure/cognitive-services/bing-entities-search/use-display-requirements).
 
 
-  
+
 ## Endpoint  
 To request entity search results, send a GET request to: 
 
 ``` 
 https://api.cognitive.microsoft.com/bing/v7.0/entities
 ```
-  
+
 The request must use the HTTPS protocol.  
-  
+
 > [!NOTE]
 > The maximum URL length is 2,048 characters. To ensure that your URL length does not exceed the limit, the maximum length of your query parameters should be less than 1,500 characters. If the URL exceeds 2,048 characters, the server returns 404 Not found.  
-  
-  
+
+
 ## Headers  
 The following are the headers that a request and response may include.  
-  
+
 |Header|Description|  
 |------------|-----------------|  
 |Accept|Optional request header.<br /><br /> The default media type is application/json. To specify that the response use [JSON-LD](http://json-ld.org/), set the Accept header to application/ld+json.|  
@@ -62,12 +62,12 @@ The following are the headers that a request and response may include.
 
 > [!NOTE] 
 > Remember that the Terms of Use require compliance with all applicable laws, including regarding use of these headers. For example, in certain jurisdictions, such as Europe, there are requirements to obtain user consent before placing certain tracking devices on user devices.
-  
+
 
 ## Query parameters  
 The request may include the following query parameters. See the Required column for required parameters. You must URL encode the query parameters.  
-  
-  
+
+
 |Name|Value|Type|Required|  
 |----------|-----------|----------|--------------|  
 |<a name="mkt" />mkt|The market where the results come from. <br /><br />For a list of possible market values, see [Market Codes](#market-codes).<br /><br /> **NOTE:** The market code is required. Specifying the market helps Bing route the request and return an appropriate and optimal response.<br /><br />|String|Yes|  
@@ -104,11 +104,11 @@ The following are the JSON response objects that the response may include. If th
 |[RankingResponse](#rankingresponse)|Defines where on the search results page content should be placed and in what order.|
 |[SearchResponse](#searchresponse)|The top-level object that the response includes when the request succeeds.|  
 |[TextAttribution](#textattribution)|Defines a contractual rule for plain text attribution.|  
- 
+
 
 ### Entity  
 Defines an entity such as a person, place, or thing.  
-  
+
 |Name|Value|Type|  
 |----------|-----------|----------|
 |bingId|An ID that uniquely identifies this entity.|String  
@@ -118,21 +118,21 @@ Defines an entity such as a person, place, or thing.
 |image|An image of the entity.|[Image](#image)|  
 |name|The entity's name.|String|  
 |webSearchUrl|The URL that takes the user to the Bing search results page for this entity.|String|  
-  
+
 
 ### EntityPresentationInfo  
 Defines additional information about an entity such as type hints. 
-  
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |entityScenario|The supported scenario. |String|  
 |entityTypeDisplayHint|A display version of the entity hint. For example, if  `entityTypeHints` is Artist, this field may be set to *American Singer*.|String|  
 |entityTypeHint|A list of hints that indicate the entity's type. The list could contain a single hint such as Movie or a list of hints such as Place, LocalBusiness, Restaurant. Each successive hint in the array narrows the entity's type.<br /><br /> For a list of possible types, see [Entity Types](#entity-types). If the object does not include this field, Generic is assumed.|String[]|  
-  
-  
+
+
 ### Error  
 Defines the error that occurred.  
-  
+
 |Element|Description|Type|  
 |-------------|-----------------|----------|  
 |<a name="error-code" />code|The error code that identifies the category of error. For a list of possible codes, see [Error Codes](#error-codes).|String|  
@@ -141,24 +141,24 @@ Defines the error that occurred.
 |<a name="error-parameter" />parameter|The query parameter in the request that caused the error.|String|  
 |<a name="error-subcode" />subCode|The error code that identifies the error. For example, if `code` is InvalidRequest, `subCode` may be ParameterInvalid or ParameterInvalidValue. |String|  
 |<a name="error-value" />value|The query parameter's value that was not valid.|String|  
-  
+
 
 ### ErrorResponse  
 The top-level object that the response includes when the request fails.  
-  
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |_type|Type hint.|String|  
 |<a name="errors" />errors|A list of errors that describe the reasons why the request failed.|[Error](#error)[]|  
-  
-  
+
+
 
 ### Image  
 Defines an image.  
-  
+
 > [!NOTE]
 > Because the URL format and parameters are subject to change without notice, all image URLs should be used as-is; you should not take dependencies on the URL format or parameters. The exception is those parameters and values discussed by [Resizing and Cropping Thumbnails](https://docs.microsoft.com/azure/cognitive-services/bing-entities-search/resize-and-crop-thumbnails).  
-  
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |height|The height of the source image, in pixels.|Unsigned Short|  
@@ -167,20 +167,20 @@ Defines an image.
 |provider|The source of the image. The array will contain a single item.<br /><br /> You must attribute the image to the provider. For example, you may display the provider's name as the cursor hovers over the image or make the image a click-through link to the provider's website where the image is found.|[Organization](#organization)[]|  
 |thumbnailUrl|The URL to a thumbnail of the image. For information about resizing the image, see [Resizing Thumbnails](https://docs.microsoft.com/azure/cognitive-services/bing-entities-search/resize-and-crop-thumbnails).|String|  
 |width|The width of the source image, in pixels.|Unsigned Short|  
-  
-  
+
+
 ### License  
 Defines the license under which the text or photo may be used.  
-  
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |name|The name of the license.|String|  
 |url|The URL to a website where the user can get more information about the license.<br /><br /> Use the name and URL to create a hyperlink.|String|  
-  
+
 
 ### LicenseAttribution  
 Defines a contractual rule for license attribution.  
-  
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |_type|A type hint, which is set to LicenseAttribution.|String|  
@@ -188,21 +188,21 @@ Defines a contractual rule for license attribution.
 |licenseNotice|The license to display next to the targeted field. For example, "Text under CC-BY-SA license".<br /><br /> Use the license's name and URL in the `license` field to create a hyperlink to the website that describes the details of the license. Then, replace the license name in the `licenseNotice` string (for example, CC-BY-SA) with the hyperlink you just created.|String|  
 |mustBeCloseToContent|A Boolean value that determines whether the contents of the rule must be placed in close proximity to the field that the rule applies to. If **true**, the contents must be placed in close proximity. If **false**, or this field does not exist, the contents may be placed at the caller's discretion.|Boolean|  
 |targetPropertyName|The name of the field that the rule applies to.|String|  
-  
+
 
 ### Link  
 Defines the components of a hyperlink.  
-  
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |_type|Type hint.|String|  
 |text|The display text.|String|  
 |url|A URL. Use the URL and display text to create a hyperlink.|String|  
-  
+
 
 ### LinkAttribution  
 Defines a contractual rule for link attribution.  
-  
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |_type|A type hint, which is set to LinkAttribution.|String|  
@@ -210,51 +210,50 @@ Defines a contractual rule for link attribution.
 |targetPropertyName|The name of the field that the rule applies to.<br /><br /> If a target is not specified, the attribution applies to the entity as a whole and should be displayed immediately following the entity presentation. If there are multiple text and link attribution rules that do not specify a target, you should concatenate them and display them using a "Data from: " label. For example, “Data from <provider name1\> &#124; <provider name2\>".|String|  
 |text|The attribution text.|String|  
 |url|The URL to the provider's website. Use `text` and URL to create of hyperlink.|String|  
-  
-  
+
+
 ### MediaAttribution  
 Defines a contractual rule for media attribution.  
-  
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |_type|A type hint, which is set to MediaAttribution.|String|  
 |mustBeCloseToContent|A Boolean value that determines whether the contents of the rule must be placed in close proximity to the field that the rule applies to. If **true**, the contents must be placed in close proximity. If **false**, or this field does not exist, the contents may be placed at the caller's discretion.|Boolean|  
 |targetPropertyName|The name of the field that the rule applies to.|String|  
 |url|The URL that you use to create of hyperlink of the media content. For example, if the target is an image, you would use the URL to make the image clickable.|String|  
-  
-  
-  
+
+
+
 ### Organization  
 Defines a publisher.  
-  
+
 Note that a publisher may provide their name or their website or both.  
-  
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |name|The publisher's name.|String|  
 |url|The URL to the publisher's website.<br /><br /> Note that the publisher may not provide a website.|String|  
-  
-  
+
+
 
 ### Place  
 Defines information about a local entity, such as a restaurant or hotel.
 > [!NOTE]
 > Entity responses support multiple markets, but the Places response supports only US Business locations. 
-  
-|Name|Value|Type|  
-|----------|-----------|----------|  
-|_type|Type hint, which may be set to one of the following:<br /><br /><ul><li>Hotel</li><li>LocalBusiness<br /></li><li>Restaurant</ul><li>|String|  
-|address|The postal address of where the entity is located.|[PostalAddress](#postaladdress)|  
-|entityPresentationInfo|Additional information about the entity such as hints that you can use to determine the entity's type. For example, whether it's a restaurant or hotel. The `entityScenario` field is set to ListItem.|[EntityPresentationInfo](#entitypresentationinfo)|  
-|name|The entity's name.|String|  
-|telephone|The entity's telephone number.|String|  
-|url|The URL to the entity's website.<br /><br /> Use this URL along with the entity's name to create a hyperlink that when clicked takes the user to the entity's website.|String|  
-|webSearchUrl|The URL to Bing's search result for this place.|String|  
-  
+
+|          Name          |                                                                                                 Value                                                                                                  |                       Type                        |
+|------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------|
+|         _type          |                                 Type hint, which may be set to one of the following:<br /><br /><ul><li>Hotel</li><li>LocalBusiness<br /></li><li>Restaurant</ul><li>                                  |                      String                       |
+|        address         |                                                                           The postal address of where the entity is located.                                                                           |          [PostalAddress](#postaladdress)          |
+| entityPresentationInfo | Additional information about the entity such as hints that you can use to determine the entity's type. For example, whether it's a restaurant or hotel. The `entityScenario` field is set to ListItem. | [EntityPresentationInfo](#entitypresentationinfo) |
+|          name          |                                                                                           The entity's name.                                                                                           |                      String                       |
+|       telephone        |                                                                                     The entity's telephone number.                                                                                     |                      String                       |
+|          url           |                 The URL to the entity's website.<br /><br /> Use this URL along with the entity's name to create a hyperlink that when clicked takes the user to the entity's website.                 |                      String                       |
+|      webSearchUrl      |                                                                            The URL to Bing's search result for this place.                                                                             |                      String                       |
 
 ### PostalAddress  
 Defines a postal address.  
-  
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |addressCountry|The country/region where the street address is located. This could be the two-letter ISO code (for example, US) or the full name (for example, United States).|String|  
@@ -262,11 +261,11 @@ Defines a postal address.
 |addressRegion|The state or province code where the street address is located. This could be the two-letter code (for example, WA) or the full name (for example, Washington).|String|  
 |neighborhood|The neighborhood where the street address is located. For example, Westlake.|String|  
 |postalCode|The zip code or postal code where the street address is located. For example, 98052.|String|  
-  
-  
+
+
 ### QueryContext  
 Defines the query context that Bing used for the request.  
-  
+
 |Element|Description|Type|  
 |-------------|-----------------|----------|  
 |adultIntent|A Boolean value that indicates whether the specified query has adult intent. The value is **true** if the query has adult intent; otherwise, **false**.|Boolean|  
@@ -277,13 +276,15 @@ Defines the query context that Bing used for the request.
 
 <a name="identifiable"></a>  
 ### Identifiable
+
 |Name|Value|Type|  
 |-------------|-----------------|----------|
 |id|A resource identifier|String|
- 
+
 <a name="rankinggroup"></a>  
 ### RankingGroup
 Defines a search results group, such as mainline.
+
 |Name|Value|Type|  
 |-------------|-----------------|----------|
 |items|A list of search results to display in the group.|RankingItem|
@@ -291,6 +292,7 @@ Defines a search results group, such as mainline.
 <a name="rankingitem"></a>  
 ### RankingItem
 Defines a search result item to display.
+
 |Name|Value|Type|  
 |-------------|-----------------|----------|
 |resultIndex|A zero-based index of the item in the answer to display. If the item does not include this field, display all items in the answer. For example, display all news articles in the News answer.|Integer|
@@ -301,7 +303,7 @@ Defines a search result item to display.
 <a name="rankingresponse"></a>   
 ### RankingResponse  
 Defines where on the search results page content should be placed and in what order.  
-  
+
 |Name|Value|  
 |----------|-----------|  
 |<a name="ranking-mainline" />mainline|The search results to display in the mainline.|  
@@ -311,40 +313,40 @@ Defines where on the search results page content should be placed and in what or
 
 ### SearchResponse  
 Defines the top-level object that the response includes when the request succeeds.  
-  
+
 Note that if the service suspects a denial of service attack, the request will succeed (HTTP status code is 200 OK); however, the body of the response will be empty.  
-  
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |_type|Type hint, which is set to SearchResponse.|String|  
 |entities|A list of entities that are relevant to the search query.|Entity|  
 |queryContext|An object that contains the query string that Bing used for the request.<br /><br /> This object contains the query string as entered by the user. It may also contain an altered query string that Bing used for the query if the query string contained a spelling mistake.|[QueryContext](#querycontext)|  
-  
-  
+
+
 ### TextAttribution  
 Defines a contractual rule for plain text attribution.  
-  
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |_type|A type hint, which is set to TextAttribution.|String|  
 |text|The attribution text.<br /><br /> Text attribution applies to the entity as a whole and should be displayed immediately following the entity presentation. If there are multiple text or link attribution rules that do not specify a target, you should concatenate them and display them using a "Data from: " label.|String|  
 
-  
 
-  
+
+
 ## Entity Types  
 This section contains the possible entity hints. The hints are grouped by category of entities.  
-  
+
 The following are the base entity types.  
-  
+
 -   Generic  
 -   Person  
 -   Place  
 -   Media  
 -   Organization  
-  
+
 The following are the entity hints that fall under the Place base type.  
-  
+
 -   Attraction  
 -   City  
 -   Continent  
@@ -366,41 +368,41 @@ The following are the entity hints that fall under the Place base type.
 -   SubRegion  
 -   TouristAttraction  
 -   Travel  
-  
+
 The following are the entity hints that fall under the Media base type.  
-  
+
 -   Book  
 -   Movie  
 -   TelevisionSeason  
 -   TelevisionShow  
 -   VideoGame  
-  
-  
+
+
 The following are the event-related entity hints.  
-  
+
 -   Event  
-  
+
 The following are the profession-related entity hints.  
-  
+
 -   Actor  
 -   Artist  
 -   Attorney  
-  
+
 The following are the education-related entity hints.  
-  
+
 -   CollegeOrUniversity  
 -   School  
 -   Speciality  
-  
+
 The following are unrelated entity hints.  
-  
+
 -   Animal  
 -   Car  
 -   Drug  
 -   Food  
 -   Product  
 -   SportsTeam  
-  
+
 
 ## Error codes 
 
@@ -410,7 +412,7 @@ The following are unrelated entity hints.
 The following table lists the market code values that you may use to specify the `mkt` query parameter. Bing returns content for only these markets. The list is subject to change. 
 > [!NOTE]
 > Entity responses support multiple markets, but the Places response supports only US Business locations. 
-  
+
 |Country/Region|Language|Market code|  
 |---------------------|--------------|-----------------|   
 |Australia|English|en-AU|

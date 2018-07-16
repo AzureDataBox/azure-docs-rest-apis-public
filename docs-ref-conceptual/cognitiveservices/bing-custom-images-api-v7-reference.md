@@ -19,31 +19,32 @@ The Custom Image Search API lets you send a search query to Bing and get back a 
 For informaiton about configuring a Custom Search instance, see [Configure your custom search experience](https://docs.microsoft.com/azure/cognitive-services/bing-custom-search/define-your-custom-view
 
 For information about the headers that requests should include, see [Request Headers](#headers).  
-  
+
 For information about the query parameters that requests should include, see [Query Parameters](#query-parameters).  
-  
+
 For information about the JSON response objects that responses may include, see [Response Objects](#response-objects).  
 
 For information about permitted use and display of results, see [Bing Search API Use and Display requirements](https://docs.microsoft.com/azure/cognitive-services/bing-image-search/useanddisplayrequirements).
 
-  
+
 ## Endpoints  
 
 To request images from your Custom Search instance, send a GET request to the following URL:
-  
-|Endpoint|Description|  
-|--------------|-----------------|  
-|https://api.cognitive.microsoft.com/bingcustomsearch/v7.0/images/search|Returns images that are relevant to the users search query.|  
+
+
+|                                Endpoint                                 |                         Description                         |
+|-------------------------------------------------------------------------|-------------------------------------------------------------|
+| https://api.cognitive.microsoft.com/bingcustomsearch/v7.0/images/search | Returns images that are relevant to the users search query. |
 
 The request must use the HTTPS protocol.  
 
 > [!NOTE]
 > The maximum URL length is 2,048 characters. To ensure that your URL length does not exceed the limit, the maximum length of your query parameters should be less than 1,500 characters. If the URL exceeds 2,048 characters, the server returns 404 Not found.  
-  
-  
+
+
 ## Headers  
 The following are the headers that a request and response may include.  
-  
+
 |Header|Description|  
 |------------|-----------------|  
 |Accept|Optional request header.<br /><br /> The default media type is application/json. To specify that the response use [JSON-LD](http://json-ld.org/), set the Accept header to application/ld+json.|  
@@ -59,12 +60,12 @@ The following are the headers that a request and response may include.
 
 > [!NOTE] 
 > Remember that the Terms of Use require compliance with all applicable laws, including regarding use of these headers. For example, in certain jurisdictions, such as Europe, there are requirements to obtain user consent before placing certain tracking devices on user devices.
-  
-   
+
+
 ## Query parameters 
 
 The following are the query parameters that a request may include. See the Required column for required parameters. You must URL encode the query parameter values. For information about query parameters that you use to filter the images that Bing returns, see [Filter Query Parameters](#filter).  
-  
+
 |Name|Value|Type|Required|  
 |----------|-----------|----------|--------------|  
 |<a name="cc" />cc|A 2-character country code of the country where the results come from. For a list of possible values, see [Market Codes](#market-codes).<br /><br /> If you set this parameter, you must also specify the [Accept-Language](#acceptlanguage) header. Bing uses the first supported language it finds in the specified languages and combines it with the country code to determine the market to return results for. If the languages list does not include a supported language, Bing finds the closest language and market that supports the request. Or, Bing may use an aggregated or default market for the results.<br /><br /> Use this query parameter and the `Accept-Language` header only if you specify multiple languages. Otherwise, you should use the `mkt` and `setLang` query parameters.<br /><br /> This parameter and the [mkt](#mkt) query parameter are mutually exclusive&mdash;do not specify both.|String|No|  
@@ -79,9 +80,9 @@ The following are the query parameters that a request may include. See the Requi
 
 ## Filter query parameters  
 The following are the optional filter query parameters that you can use to filter the images that Bing returns. You must URL encode the query parameters.  
-  
+
 Use these parameters only with the Image Search API. Do not specify these parameters when calling the Trending Images API or Web Search API.  
-  
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |<a name="aspect" />aspect|Filter images by the following aspect ratios: <br /><ul><li>Square&mdash;Return images with standard aspect ratio</li><li>Wide&mdash;Return images with wide screen aspect ratio</li><li>Tall&mdash;Return images with tall aspect ratio<br /></li><li>All&mdash;Do not filter by aspect. Specifying this value is the same as not specifying the `aspect` parameter.</li></ul>|String|  
@@ -98,10 +99,10 @@ Use these parameters only with the Image Search API. Do not specify these parame
 |<a name="minwidth" />minWidth|Filter images that have a width that is greater than or equal to the specified width. Specify the width in pixels.<br /><br /> You may specify this filter and `maxWidth` to filter images within a range of widths.<br /><br /> This filter and the `width` filter are mutually exclusive.|Integer|  
 |<a name="size" />size|Filter images by the following sizes:<br /><ul><li>Small&mdash;Return images that are less than 200x200 pixels<br /><br/></li><li>Medium&mdash;Return images that are greater than or equal to 200x200 pixels but less than 500x500 pixels<br /><br/></li><li>Large&mdash;Return images that are 500x500 pixels or larger<br /><br/></li><li>Wallpaper&mdash;Return wallpaper images.<br /><br/></li><li>All&mdash;Do not filter by size. Specifying this value is the same as not specifying the `size` parameter.</li></ul><br /> You may use this parameter along with the `height` or `width` parameters. For example, you may use `height` and `size` to request small images that are 150 pixels tall.|String|  
 |<a name="width" />width|Filter images that have the specified width, in pixels.<br /><br /> You may use this filter with the `size` filter to return small images that have a width of 150 pixels.|UnsignedShort|  
-  
+
 ## Response objects  
 The following are the JSON objects that the response may include. If the request succeeds, the top-level object in the response is the [Images](#images) object if the endpoint is /images/search, [ImageInsightsResponse](#imageinsightsresponse) if endpoint is /images/details, and [TrendingImages](#trendingimages) if the endpoint is /images/trending. If the request fails, the top-level object is the [ErrorResponse](#errorresponse) object. 
-  
+
 |Object|Description|  
 |------------|-----------------|  
 |[AggregateOffer](#aggregateoffer)|Defines a list of offers from merchants that are related to the image.|  
@@ -137,11 +138,11 @@ The following are the JSON objects that the response may include. If the request
 |[Thumbnail](#thumbnail)|Defines a thumbnail image.|  
 |[Tile](#thumbnail)|Defines an image tile.|  
 |[TrendingImages](#trendingimages)|The top-level object that the response includes when a trending images request succeeds.|  
-  
+
 <a name="error"></a>   
 ### Error  
 Defines the error that occurred.  
-  
+
 |Element|Description|Type|  
 |-------------|-----------------|----------|  
 |<a name="error-code" />code|The error code that identifies the category of error. For a list of possible codes, see [Error Codes](#errorcodes).|String|  
@@ -150,16 +151,16 @@ Defines the error that occurred.
 |<a name="error-parameter" />parameter|The query parameter in the request that caused the error.|String|  
 |<a name="error-subcode" />subCode|The error code that identifies the error. For example, if `code` is InvalidRequest, `subCode` may be ParameterInvalid or ParameterInvalidValue. |String|  
 |<a name="error-value" />value|The query parameter's value that was not valid.|String|  
-  
+
 <a name="errorresponse"></a>   
 ### ErrorResponse  
 The top-level object that the response includes when the request fails.  
-  
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |_type|Type hint.|String|  
 |<a name="errors" />errors|A list of errors that describe the reasons why the request failed.|[Error](#error)[]|  
-  
+
 ## Error codes 
 
 [!INCLUDE [bing-error-codes](./includes/bing-error-codes-v7.md)]
@@ -167,9 +168,9 @@ The top-level object that the response includes when the request fails.
 ## Market codes 
 
 The following table lists the market code values that you may use to specify the `mkt` query parameter. Bing returns content for only these markets. The list is subject to change.  
-  
+
 For a list of country codes that you may specify in the `cc` query parameter, see [Country codes](#countrycodes).  
-  
+
 |Country/Region|Language|Market code|  
 |---------------------|--------------|-----------------|  
 |Argentina|Spanish|es-AR|  
@@ -211,12 +212,12 @@ For a list of country codes that you may specify in the `cc` query parameter, se
 |United Kingdom|English|en-GB|  
 |United States|English|en-US|  
 |United States|Spanish|es-US|  
-  
+
 <a name="countrycodes"></a>   
 ### Country codes  
 
 The following are the country codes that you may specify in the `cc` query parameter. The list is subject to change.  
-  
+
 |Country/Region|Country code|  
 |---------------------|------------------|  
 |Argentina|AR|  

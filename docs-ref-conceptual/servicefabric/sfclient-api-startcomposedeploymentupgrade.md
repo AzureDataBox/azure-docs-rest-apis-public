@@ -33,12 +33,14 @@ Starts upgrading a compose deployment in the Service Fabric cluster.
 Validates the supplied upgrade parameters and starts upgrading the deployment if the parameters are valid.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/ComposeDeployments/{deploymentName}/$/Upgrade?api-version=6.0-preview&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`deploymentName`](#deploymentname) | string | Yes | Path |

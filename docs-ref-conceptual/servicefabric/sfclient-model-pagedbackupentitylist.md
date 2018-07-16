@@ -32,6 +32,7 @@ translation.priority.mt:
 The list of backup entities that are being periodically backed. The list is paged when all of the results cannot fit in a single message. The next set of results can be obtained by executing the same query with the continuation token provided in this list.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`ContinuationToken`](#continuationtoken) | string | No |

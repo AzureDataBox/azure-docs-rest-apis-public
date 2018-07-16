@@ -32,6 +32,7 @@ translation.priority.mt:
 Provides details about the remote replicators from the primary replicator's point of view.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [ReplicationStreamAcknowledgementDetail](#replicationstreamacknowledgementdetail) | [RemoteReplicatorAcknowledgementDetail](sfclient-v60-model-remotereplicatoracknowledgementdetail.md) | No |

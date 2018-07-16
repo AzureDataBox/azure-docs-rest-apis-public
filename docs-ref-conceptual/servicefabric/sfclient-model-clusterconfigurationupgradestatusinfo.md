@@ -32,6 +32,7 @@ translation.priority.mt:
 Information about a standalone cluster configuration upgrade status.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`UpgradeState`](#upgradestate) | string (enum) | No |

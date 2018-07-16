@@ -65,7 +65,6 @@ http://localhost:19080/Applications?api-version=6.0
     }
   ]
 }
-
 ```
 
 
@@ -74,7 +73,6 @@ Get second page of applications by passing the ContinuationToken from the first 
 
 ```
 http://localhost:19080/Applications?api-version=6.0&ContinuationToken=fabric:/samples/PQueueApp1
-
 ```
 
 **Response**<BR/>
@@ -94,5 +92,4 @@ http://localhost:19080/Applications?api-version=6.0&ContinuationToken=fabric:/sa
     }
   ]
 }
-
 ```

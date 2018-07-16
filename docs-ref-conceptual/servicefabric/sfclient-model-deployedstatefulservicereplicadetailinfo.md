@@ -32,6 +32,7 @@ translation.priority.mt:
 Information about a stateful replica running in a code package. Please note DeployedServiceReplicaQueryResult will contain duplicate data like ServiceKind, ServiceName, PartitionId and replicaId.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`ServiceKind`](#servicekind) | string | Yes |

@@ -34,12 +34,14 @@ Gets the Service Fabric backup configuration information for the application and
 
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/Applications/{applicationId}/$/GetBackupConfigurationInfo?api-version=6.2-preview&ContinuationToken={ContinuationToken}&MaxResults={MaxResults}&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`applicationId`](#applicationid) | string | Yes | Path |
@@ -50,8 +52,8 @@ Gets the Service Fabric backup configuration information for the application and
 
 ____
 ### `applicationId`
-__Type__: string <br/>
-__Required__: Yes<br/>
+**Type**: string <br/>
+**Required**: Yes<br/>
 <br/>
 The identity of the application. This is typically the full name of the application without the 'fabric:' URI scheme.
 Starting from version 6.0, hierarchical names are delimited with the "~" character.

@@ -33,6 +33,7 @@ The list of deployed service package health state chunks that respect the input 
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Items`](#items) | array of [DeployedServicePackageHealthStateChunk](sfclient-model-deployedservicepackagehealthstatechunk.md) | No |

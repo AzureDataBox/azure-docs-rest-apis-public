@@ -35,6 +35,7 @@ For default loads, LoadMetricReport's LastReportedUtc is set to 0.
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`PartitionId`](#partitionid) | string (uuid) | No |

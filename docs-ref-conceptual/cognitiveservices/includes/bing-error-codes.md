@@ -1,4 +1,4 @@
-﻿The following are the possible HTTP status codes that a request may return.  
+The following are the possible HTTP status codes that a request may return.  
   
 |Status Code|Description|  
 |-----------------|-----------------|  

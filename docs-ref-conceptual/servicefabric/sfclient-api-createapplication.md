@@ -33,12 +33,14 @@ Creates a Service Fabric application.
 Creates a Service Fabric application using the specified description.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/Applications/$/Create?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`api-version`](#api-version) | string | Yes | Query |

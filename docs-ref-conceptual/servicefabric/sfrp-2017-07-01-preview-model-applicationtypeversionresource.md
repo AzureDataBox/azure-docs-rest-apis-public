@@ -30,6 +30,7 @@ translation.priority.mt:
 An application type version resource for the specified application type name resource.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [id](#id) | string | No |

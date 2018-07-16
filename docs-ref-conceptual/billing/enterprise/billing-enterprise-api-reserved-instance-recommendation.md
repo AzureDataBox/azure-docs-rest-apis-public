@@ -26,23 +26,24 @@ The Reserved Instance recommendations API looks at Customer's 7, 30 or 60 days v
 ## Request for shared reserved instance recommendations
 Common header properties that need to be added are specified [here](https://docs.microsoft.com/azure/billing/billing-enterprise-api). 
 
-|Method | Request URI|
-|-|-|
-|GET| https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/SharedReservationRecommendations?lookBackPeriod=7
+
+| Method |                                                    Request URI                                                    |
+|--------|-------------------------------------------------------------------------------------------------------------------|
+|  GET   | https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/SharedReservationRecommendations?lookBackPeriod=7 |
 
 ## Response
 ```json
 [{
-	"lookBackPeriod": "Last7Days",
-	"meterId": "2e3c2132-1398-43d2-ad45-1d77f6574933",
-	"skuName": "Standard_DS1_v2",
-	"term": "P1Y",
-	"region": "westus",
-	"costWithNoRI": 186.27634908960002,
-	"recommendedQuantity": 9,
-	"totalCostWithRI": 143.12931642978083,
-	"netSavings": 43.147032659819189,
-	"firstUsageDate": "2018-02-19T00:00:00"
+    "lookBackPeriod": "Last7Days",
+    "meterId": "2e3c2132-1398-43d2-ad45-1d77f6574933",
+    "skuName": "Standard_DS1_v2",
+    "term": "P1Y",
+    "region": "westus",
+    "costWithNoRI": 186.27634908960002,
+    "recommendedQuantity": 9,
+    "totalCostWithRI": 143.12931642978083,
+    "netSavings": 43.147032659819189,
+    "firstUsageDate": "2018-02-19T00:00:00"
 }
 ]
 ```
@@ -66,25 +67,26 @@ Common header properties that need to be added are specified [here](https://docs
 ## Request for single reserved instance recommendations
 Common header properties that need to be added are specified [here](https://docs.microsoft.com/azure/billing/billing-enterprise-api). 
 
-|Method | Request URI|
-|-|-|
-|GET| https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/SingleReservationRecommendations?lookBackPeriod=7
+
+| Method |                                                    Request URI                                                    |
+|--------|-------------------------------------------------------------------------------------------------------------------|
+|  GET   | https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/SingleReservationRecommendations?lookBackPeriod=7 |
 
 ## Response
 
 ```json
 [{
-	"subscriptionId": "d143f4db-5a12-46b9-ba15-9bff298b8f45",
-	"lookBackPeriod": "Last7Days",
-	"meterId": "2e3c2132-1398-43d2-ad45-1d77f6574933",
-	"skuName": "Standard_DS1_v2",
-	"term": "P1Y",
-	"region": "westus",
-	"costWithNoRI": 186.27634908960002,
-	"recommendedQuantity": 9,
-	"totalCostWithRI": 143.12931642978083,
-	"netSavings": 43.147032659819189,
-	"firstUsageDate": "2018-02-19T00:00:00"
+    "subscriptionId": "d143f4db-5a12-46b9-ba15-9bff298b8f45",
+    "lookBackPeriod": "Last7Days",
+    "meterId": "2e3c2132-1398-43d2-ad45-1d77f6574933",
+    "skuName": "Standard_DS1_v2",
+    "term": "P1Y",
+    "region": "westus",
+    "costWithNoRI": 186.27634908960002,
+    "recommendedQuantity": 9,
+    "totalCostWithRI": 143.12931642978083,
+    "netSavings": 43.147032659819189,
+    "firstUsageDate": "2018-02-19T00:00:00"
 }
 ]
 ```

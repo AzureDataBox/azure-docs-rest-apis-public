@@ -32,6 +32,7 @@ translation.priority.mt:
 Represents health evaluation for an application, containing information about the data and the algorithm used by the health store to evaluate health.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [Kind](#kind) | string | Yes |

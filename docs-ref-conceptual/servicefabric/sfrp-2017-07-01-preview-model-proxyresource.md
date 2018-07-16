@@ -30,6 +30,7 @@ translation.priority.mt:
 The resource model definition for proxy-only resource.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [id](#id) | string | No |

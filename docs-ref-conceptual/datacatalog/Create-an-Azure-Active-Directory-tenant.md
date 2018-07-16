@@ -61,28 +61,28 @@ Here's how to set up **Azure Active Directory**:
 ### Add a user to your Azure Active Directory tenant  
 You need a user from your Azure AD to register an Azure AD app. Here's how to add a user to your Azure Active Directory tenant:  
   
- 1. In your **Azure Active Directory**, click **USERS**.  
+1. In your **Azure Active Directory**, click **USERS**.  
   
-    ![Add user](media/AddADUser.png)  
+   ![Add user](media/AddADUser.png)  
   
- 2. At the bottom of the page, click **ADD USER**. A user account is used to register a Data Catalog app.   
+2. At the bottom of the page, click **ADD USER**. A user account is used to register a Data Catalog app.   
    
- 3. In the **Tell us about this user page**:  
+3. In the **Tell us about this user page**:  
     
-    1. For **TYPE OF USER**, choose **New user in your organization**.  
-    2. Enter your **USER NAME**.  
-    3. Click **Next**.  
+   1. For **TYPE OF USER**, choose **New user in your organization**.  
+   2. Enter your **USER NAME**.  
+   3. Click **Next**.  
       
-     ![add user](media/AddUser2.png)  
+      ![add user](media/AddUser2.png)  
   
- 4. In the **user profile** page, enter your **DISPLAY NAME**. Display name is a required field.  
+4. In the **user profile** page, enter your **DISPLAY NAME**. Display name is a required field.  
   
-    ![User Profile](media/UserProfile.png)  
+   ![User Profile](media/UserProfile.png)  
   
- 5. Click **Next**. For **ROLE**, you can use **User**.   
- 6. Click **Create** to create a temporary password. The new user is assigned a temporary password that must be changed on first sign-in.  
- 7. In the **Get temporary password** page, copy the temporary password, and click **Complete** icon. You use the temporary password when you log in to your AAD for the first time.  
- 8. After you click the **Complete** icon, a new Azure AD user is created.  
+5. Click **Next**. For **ROLE**, you can use **User**.   
+6. Click **Create** to create a temporary password. The new user is assigned a temporary password that must be changed on first sign-in.  
+7. In the **Get temporary password** page, copy the temporary password, and click **Complete** icon. You use the temporary password when you log in to your AAD for the first time.  
+8. After you click the **Complete** icon, a new Azure AD user is created.  
       
 To complete the next step, the new AAD user will need access to an Azure Subscription.  You can either make the new user a co-admin on the existing subscription or you can create a new subscription for the new AAD user.  
   

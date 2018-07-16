@@ -30,6 +30,7 @@ translation.priority.mt:
 The list of application type names.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [value](#value) | array of [ApplicationTypeResource](sfrp-2017-07-01-preview-model-applicationtyperesource.md) | No |

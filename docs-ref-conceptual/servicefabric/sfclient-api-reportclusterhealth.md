@@ -38,12 +38,14 @@ To see whether the report was applied in the health store, run GetClusterHealth 
 
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/$/ReportClusterHealth?api-version=6.0&Immediate={Immediate}&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`api-version`](#api-version) | string | Yes | Query |

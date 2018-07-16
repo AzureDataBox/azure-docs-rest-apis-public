@@ -32,6 +32,7 @@ translation.priority.mt:
 Information about a image store file.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`FileSize`](#filesize) | string | No |

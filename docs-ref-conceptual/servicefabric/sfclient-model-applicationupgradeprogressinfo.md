@@ -32,6 +32,7 @@ translation.priority.mt:
 Describes the parameters for an application upgrade.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Name`](#name) | string | No |

@@ -34,6 +34,7 @@ The replica health state contains the replica ID and its aggregated health state
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [HealthState](#healthstate) | string (enum) | No |

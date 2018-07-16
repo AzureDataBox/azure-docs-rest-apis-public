@@ -33,12 +33,14 @@ Get the service state of Service Fabric Upgrade Orchestration Service.
 Get the service state of Service Fabric Upgrade Orchestration Service. This API is internally used for support purposes.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/$/GetUpgradeOrchestrationServiceState?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [api-version](#api-version) | string | Yes | Query |

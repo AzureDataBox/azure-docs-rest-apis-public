@@ -30,6 +30,7 @@ translation.priority.mt:
 The properties of a stateful service resource.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [serviceKind](#servicekind) | string | Yes |

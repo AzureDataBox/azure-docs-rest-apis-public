@@ -1,4 +1,4 @@
-﻿# Staging an overwrite
+# Staging an overwrite
 
 Staging an overwrite--that is, viewing it on [review.docs.microsoft.com](https://review.docs.microsoft.com) before publishing it publicly--is done using the same procedure as performed in the [azure-docs-pr](https://github.com/Microsoft/azure-docs-pr) repository. At a high level, that process is:
 
@@ -39,7 +39,6 @@ description: *content
 - bullet 1  
 - bullet 2  
 - bullet 3  
-
 ```
 
 But when the Markdown renders, it ends up looking something like this, where your bullets are misaligned with the text above them:
@@ -106,10 +105,10 @@ Instead, you need to use one the following formats:
 uid: Microsoft.ServiceBus.Messaging.TopicDescription.EnableFilteringMessagesBeforePublishing
 exceptions: 
 - type: Microsoft.ServiceBus.Messaging.NoMatchingSubscriptionException 
-  description: Thrown if no subscriptions are found.
+  description: Thrown if no subscriptions are found.
 ---
 ```
- 
+
 Or:
 
 ```
@@ -118,8 +117,7 @@ Or:
 uid: Microsoft.ServiceBus.Messaging.TopicDescription.EnableFilteringMessagesBeforePublishing
 exceptions: 
 - type: Microsoft.ServiceBus.Messaging.NoMatchingSubscriptionException
-  description: *content
+  description: *content
 ---
 Thrown if no subscriptions are found.
-
 ```

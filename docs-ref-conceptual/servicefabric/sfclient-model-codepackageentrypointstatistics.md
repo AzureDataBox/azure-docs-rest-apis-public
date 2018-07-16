@@ -32,6 +32,7 @@ translation.priority.mt:
 Statistics about setup or main entry point  of a code package deployed on a Service Fabric node.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`LastExitCode`](#lastexitcode) | string | No |

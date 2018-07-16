@@ -32,6 +32,7 @@ translation.priority.mt:
 Chaos Remove Replica Fault Completed event.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Kind`](#kind) | string | Yes |

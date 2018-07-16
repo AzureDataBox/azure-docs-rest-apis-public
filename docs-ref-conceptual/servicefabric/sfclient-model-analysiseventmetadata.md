@@ -32,6 +32,7 @@ translation.priority.mt:
 Metadata about an Analysis Event.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Delay`](#delay) | string (duration) | No |

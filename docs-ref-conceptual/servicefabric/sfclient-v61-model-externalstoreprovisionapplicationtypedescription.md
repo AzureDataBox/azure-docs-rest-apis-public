@@ -32,6 +32,7 @@ translation.priority.mt:
 Describes the operation to register or provision an application type using an application package from an external store instead of a package uploaded to the Service Fabric image store.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [Kind](#kind) | string | Yes |

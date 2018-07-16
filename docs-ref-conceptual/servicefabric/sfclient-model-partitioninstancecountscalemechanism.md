@@ -32,6 +32,7 @@ translation.priority.mt:
 Represents a scaling mechanism for adding or removing instances of stateless service partition.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Kind`](#kind) | string | Yes |

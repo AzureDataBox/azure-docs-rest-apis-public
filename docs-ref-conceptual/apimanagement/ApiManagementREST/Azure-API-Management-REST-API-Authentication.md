@@ -65,32 +65,32 @@ This topic describes how to create the access token required to make calls into 
   
 ##  <a name="ProgrammaticallyCreateToken"></a> To programmatically create an access token  
   
-1.  Construct a string-to-sign in the following format, where `identifier` is the value from the **Identifier** text box in the **Credentials** section of the **Service Management API** tab of **System Settings**, and `expiry` is the value of the **Expiry** text box in the **Access Token** section.  
+1. Construct a string-to-sign in the following format, where `identifier` is the value from the **Identifier** text box in the **Credentials** section of the **Service Management API** tab of **System Settings**, and `expiry` is the value of the **Expiry** text box in the **Access Token** section.  
   
-     `{identifier} + "\n" + {expiry}`  
+    `{identifier} + "\n" + {expiry}`  
   
-    > [!NOTE]
-    >  To access the settings described in this step, sign into the API Management publisher portal as described in the previous [To manually create an access token](#ManuallyCreateToken) section.  
+   > [!NOTE]
+   >  To access the settings described in this step, sign into the API Management publisher portal as described in the previous [To manually create an access token](#ManuallyCreateToken) section.  
   
-2.  Generate a signature by applying an HMAC-SHA512 hash function to the string-to-sign using either the primary or secondary key.  
+2. Generate a signature by applying an HMAC-SHA512 hash function to the string-to-sign using either the primary or secondary key.  
   
-3.  Base64 encode the returned signature key.  
+3. Base64 encode the returned signature key.  
   
-4.  Create an access token using the following format.  
+4. Create an access token using the following format.  
   
-     `uid={identifier}&ex={expiry}&sn={Base64 encoded signature}`  
+    `uid={identifier}&ex={expiry}&sn={Base64 encoded signature}`  
   
-    ```  
-    uid=53dd860e1b72ff0467030003&ex=2014-08-04T22:03:00.0000000Z&sn=ItH6scUyCazNKHULKA0Yv6T+Skk4bdVmLqcPPPdWoxl2n1+rVbhKlplFrqjkoUFRr0og4wjeDz4yfThC82OjfQ==  
-    ```  
+   ```  
+   uid=53dd860e1b72ff0467030003&ex=2014-08-04T22:03:00.0000000Z&sn=ItH6scUyCazNKHULKA0Yv6T+Skk4bdVmLqcPPPdWoxl2n1+rVbhKlplFrqjkoUFRr0og4wjeDz4yfThC82OjfQ==  
+   ```  
   
-5.  Use these values to create an `Authorization` header in every request to the API Management REST API, as shown in the following example.  
+5. Use these values to create an `Authorization` header in every request to the API Management REST API, as shown in the following example.  
   
-    ```  
-    Authorizaton: SharedAccessSignature uid=53dd860e1b72ff0467030003&ex=2014-08-04T22:03:00.0000000Z&sn=ItH6scUyCazNKHULKA0Yv6T+Skk4bdVmLqcPPPdWoxl2n1+rVbhKlplFrqjkoUFRr0og4wjeDz4yfThC82OjfQ==  
-    ```  
+   ```  
+   Authorizaton: SharedAccessSignature uid=53dd860e1b72ff0467030003&ex=2014-08-04T22:03:00.0000000Z&sn=ItH6scUyCazNKHULKA0Yv6T+Skk4bdVmLqcPPPdWoxl2n1+rVbhKlplFrqjkoUFRr0og4wjeDz4yfThC82OjfQ==  
+   ```  
   
- The following example demonstrates the preceding steps for generating the access token.  
+   The following example demonstrates the preceding steps for generating the access token.  
   
 ```c#  
 using System;   

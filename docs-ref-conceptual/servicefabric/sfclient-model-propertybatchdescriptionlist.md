@@ -32,6 +32,7 @@ translation.priority.mt:
 Describes a list of property batch operations to be executed. Either all or none of the operations will be committed.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Operations`](#operations) | array of [PropertyBatchOperation](sfclient-model-propertybatchoperation.md) | No |

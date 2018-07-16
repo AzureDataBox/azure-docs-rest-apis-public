@@ -34,12 +34,14 @@ Returns a list of backups available for the specified partition. The server enum
 
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/Partitions/{partitionId}/$/GetBackups?api-version=6.2-preview&timeout={timeout}&Latest={Latest}&StartDateTimeFilter={StartDateTimeFilter}&EndDateTimeFilter={EndDateTimeFilter}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`partitionId`](#partitionid) | string (uuid) | Yes | Path |

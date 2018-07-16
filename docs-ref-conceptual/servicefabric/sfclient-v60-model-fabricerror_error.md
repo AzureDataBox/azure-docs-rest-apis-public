@@ -32,6 +32,7 @@ translation.priority.mt:
 Error object containing error code and error message.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [Code](#code) | string (enum) | Yes |

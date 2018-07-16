@@ -33,6 +33,7 @@ Describes the policy to be used for placement of a Service Fabric service where 
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [Type](#type) | string | Yes |

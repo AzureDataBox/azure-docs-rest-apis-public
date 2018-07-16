@@ -32,6 +32,7 @@ translation.priority.mt:
 The metadata associated with a property, including the property's name.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`TypeId`](#typeid) | string (enum) | No |

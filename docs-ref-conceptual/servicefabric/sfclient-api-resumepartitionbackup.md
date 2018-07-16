@@ -33,12 +33,14 @@ Resumes periodic backup of partition which was previously suspended.
 The previously suspended partition resumes taking periodic backup as per the backup policy currently configured for the same.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/Partitions/{partitionId}/$/ResumeBackup?api-version=6.2-preview&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`partitionId`](#partitionid) | string (uuid) | Yes | Path |

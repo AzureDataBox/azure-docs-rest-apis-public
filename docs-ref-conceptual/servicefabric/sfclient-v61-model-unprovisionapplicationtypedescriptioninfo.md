@@ -32,6 +32,7 @@ translation.priority.mt:
 Describes the operation to unregister or unprovision an application type and its version that was registered with the Service Fabric.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [ApplicationTypeVersion](#applicationtypeversion) | string | Yes |

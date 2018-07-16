@@ -68,21 +68,21 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
 
  The main parts of an index include the following:  
 
--   **name**  
+- **name**  
 
--   **fields** that will be fed into this index, including name, data type, and properties that define allowable actions on that field.  
+- **fields** that will be fed into this index, including name, data type, and properties that define allowable actions on that field.  
 
--   **suggesters** used for type-ahead queries.  
+- **suggesters** used for type-ahead queries.  
 
--   **scoringProfiles** used for custom search score ranking. See [Add scoring profiles to a search index &#40;Azure Search Service REST API&#41;](add-scoring-profiles-to-a-search-index.md).  
+- **scoringProfiles** used for custom search score ranking. See [Add scoring profiles to a search index &#40;Azure Search Service REST API&#41;](add-scoring-profiles-to-a-search-index.md).  
 
--   **analyzers**, **charFilters**, **tokenizers**, **tokenFilters** used to define how your documents/queries are broken into indexable/searchable tokens. See [Analysis in Azure Search](https://aka.ms//azsanalysis) for details.
+- **analyzers**, **charFilters**, **tokenizers**, **tokenFilters** used to define how your documents/queries are broken into indexable/searchable tokens. See [Analysis in Azure Search](https://aka.ms//azsanalysis) for details.
 
--   **defaultScoringProfile** used to overwrite the default scoring behaviors.  
+- **defaultScoringProfile** used to overwrite the default scoring behaviors.  
 
--   **corsOptions** to allow cross-origin queries against your index.  
+- **corsOptions** to allow cross-origin queries against your index.  
 
- The syntax for structuring the request payload is as follows. A sample request is provided further on in this topic.  
+  The syntax for structuring the request payload is as follows. A sample request is provided further on in this topic.  
 
 ```  
 {  

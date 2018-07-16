@@ -33,12 +33,14 @@ Gets the manifest describing an application type.
 Gets the manifest describing an application type. The response contains the application manifest XML as a string.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/ApplicationTypes/{applicationTypeName}/$/GetApplicationManifest?api-version=6.0&ApplicationTypeVersion={ApplicationTypeVersion}&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [applicationTypeName](#applicationtypename) | string | Yes | Path |

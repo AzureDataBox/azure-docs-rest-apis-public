@@ -34,6 +34,7 @@ Returned by get cluster health state chunks query as part of the parent applicat
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [Items](#items) | array of [PartitionHealthStateChunk](sfclient-v60-model-partitionhealthstatechunk.md) | No |

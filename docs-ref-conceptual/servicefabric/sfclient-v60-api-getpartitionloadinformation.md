@@ -36,12 +36,14 @@ Each information includes load metric name, value and last reported time in UTC.
 
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/Partitions/{partitionId}/$/GetLoadInformation?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [partitionId](#partitionid) | string (uuid) | Yes | Path |

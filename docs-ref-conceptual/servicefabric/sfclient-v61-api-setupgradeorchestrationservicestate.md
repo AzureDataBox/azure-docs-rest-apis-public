@@ -33,12 +33,14 @@ Update the service state of Service Fabric Upgrade Orchestration Service.
 Update the service state of Service Fabric Upgrade Orchestration Service. This API is internally used for support purposes.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/$/SetUpgradeOrchestrationServiceState?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [api-version](#api-version) | string | Yes | Query |

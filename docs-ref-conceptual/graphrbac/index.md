@@ -15,13 +15,13 @@ The Azure Active Directory Graph API provides programmatic access to Azure AD th
 
 ## REST operation groups
 
-| Operation group                                                  | Description                                          |
-|------------------------------------------------------------------|------------------------------------------------------|
-| [Applications](xref:graph.windows.net.graphrbac.applications)            | Provides operations for managing applications.       |
-| [Groups](xref:graph.windows.net.graphrbac.groups)                        | Provides operations for managing groups.             |
-| [Objects](xref:graph.windows.net.graphrbac.objects)                      | Provides operations for managing objects.            |
+|                             Operation group                              |                     Description                      |
+|--------------------------------------------------------------------------|------------------------------------------------------|
+|      [Applications](xref:graph.windows.net.graphrbac.applications)       |    Provides operations for managing applications.    |
+|            [Groups](xref:graph.windows.net.graphrbac.groups)             |       Provides operations for managing groups.       |
+|           [Objects](xref:graph.windows.net.graphrbac.objects)            |      Provides operations for managing objects.       |
 | [Service Principals](xref:graph.windows.net.graphrbac.serviceprincipals) | Provides operations for managing service principals. |
-| [Users](xref:graph.windows.net.graphrbac.users)                          | Provides operations for managing users.              |            |
+|             [Users](xref:graph.windows.net.graphrbac.users)              |       Provides operations for managing users.        |
 
 ## See also
 

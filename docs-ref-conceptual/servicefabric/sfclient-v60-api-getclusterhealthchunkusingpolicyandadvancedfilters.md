@@ -38,12 +38,14 @@ only services that are in Error or Warning, and all partitions and replicas for 
 
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/$/GetClusterHealthChunk?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [api-version](#api-version) | string | Yes | Query |

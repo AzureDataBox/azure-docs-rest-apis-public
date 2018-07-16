@@ -32,6 +32,7 @@ translation.priority.mt:
 Defines the Chaos Schedule used by Chaos and the version of the Chaos Schedule. The version value wraps back to 0 after surpassing 2,147,483,647.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Version`](#version) | integer (int32) | No |

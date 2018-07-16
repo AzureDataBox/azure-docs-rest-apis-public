@@ -95,17 +95,17 @@ PUT https://[service name].search.windows.net/datasources/[datasource name]?api-
 
  Use this policy when your data source contains a column or property that meets the following criteria:  
 
--   All inserts specify a value for the column.  
+- All inserts specify a value for the column.  
 
--   All updates to an item also change the value of the column.  
+- All updates to an item also change the value of the column.  
 
--   The value of this column increases with each change.  
+- The value of this column increases with each change.  
 
--   Queries that use a filter clause similar to the following `WHERE [High Water Mark Column] > [Current High Water Mark Value]` can be executed efficiently.  
+- Queries that use a filter clause similar to the following `WHERE [High Water Mark Column] > [Current High Water Mark Value]` can be executed efficiently.  
 
- For example, when using Azure SQL data sources, an indexed `rowversion` column is the ideal candidate for use with the high water mark policy.  
+  For example, when using Azure SQL data sources, an indexed `rowversion` column is the ideal candidate for use with the high water mark policy.  
 
- This policy can be specified as follows:  
+  This policy can be specified as follows:  
 
 ```  
 {   
@@ -124,15 +124,15 @@ When using Azure Blob data sources, Azure Search automatically uses a high water
 
  Integrated change tracking is supported starting with the following SQL Server database versions:  
 
--   SQL Server 2008 R2, if you're using SQL Server on Azure VMs.  
+- SQL Server 2008 R2, if you're using SQL Server on Azure VMs.  
 
--   Azure SQL Database V12, if you're using Azure SQL Database.  
+- Azure SQL Database V12, if you're using Azure SQL Database.  
 
- When using SQL Integrated Change Tracking policy, do not specify a separate data deletion detection policy - this policy has built-in support for identifying deleted rows.  
+  When using SQL Integrated Change Tracking policy, do not specify a separate data deletion detection policy - this policy has built-in support for identifying deleted rows.  
 
- This policy can only be used with tables; it cannot be used with views. You need to enable change tracking for the table you're using before you can use this policy. See [Enable and disable change tracking](https://docs.microsoft.com/ql/relational-databases/track-changes/enable-and-disable-change-tracking-sql-server) for instructions.  
+  This policy can only be used with tables; it cannot be used with views. You need to enable change tracking for the table you're using before you can use this policy. See [Enable and disable change tracking](https://docs.microsoft.com/ql/relational-databases/track-changes/enable-and-disable-change-tracking-sql-server) for instructions.  
 
- When structuring the **Create Data Source** request, SQL integrated change tracking policy can be specified as follows:  
+  When structuring the **Create Data Source** request, SQL integrated change tracking policy can be specified as follows:  
 
 ```  
 {   

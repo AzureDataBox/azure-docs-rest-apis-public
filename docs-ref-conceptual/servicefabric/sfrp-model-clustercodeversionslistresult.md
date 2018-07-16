@@ -30,6 +30,7 @@ translation.priority.mt:
 The list results of the Service Fabric runtime versions.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [value](#value) | array of [ClusterCodeVersionsResult](sfrp-model-clustercodeversionsresult.md) | No |

@@ -31,12 +31,14 @@ Gets the list of application type version resources created in the specified Ser
 Gets all application type version resources created or in the process of being created in the Service Fabric application type name resource.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/applicationTypes/{applicationTypeName}/versions?api-version=2017-07-01-preview` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [subscriptionId](#subscriptionid) | string | Yes | Path |

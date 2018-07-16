@@ -33,6 +33,7 @@ Health information common to all entities in the cluster. It contains the aggreg
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [AggregatedHealthState](#aggregatedhealthstate) | string (enum) | No |

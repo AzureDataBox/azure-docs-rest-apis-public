@@ -33,12 +33,14 @@ Gets a Service-related events.
 The response is list of ServiceEvent objects.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/EventsStore/Services/{serviceId}/$/Events?api-version=6.2-preview&timeout={timeout}&StartTimeUtc={StartTimeUtc}&EndTimeUtc={EndTimeUtc}&EventsTypesFilter={EventsTypesFilter}&ExcludeAnalysisEvents={ExcludeAnalysisEvents}&SkipCorrelationLookup={SkipCorrelationLookup}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`serviceId`](#serviceid) | string | Yes | Path |
@@ -52,8 +54,8 @@ The response is list of ServiceEvent objects.
 
 ____
 ### `serviceId`
-__Type__: string <br/>
-__Required__: Yes<br/>
+**Type**: string <br/>
+**Required**: Yes<br/>
 <br/>
 The identity of the service. This is typically the full name of the service without the 'fabric:' URI scheme.
 Starting from version 6.0, hierarchical names are delimited with the "~" character.

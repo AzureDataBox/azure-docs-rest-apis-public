@@ -32,6 +32,7 @@ translation.priority.mt:
 Derived from PropertyBatchInfo. Represents the property batch failing. Contains information about the specific batch failure.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [Kind](#kind) | string | Yes |

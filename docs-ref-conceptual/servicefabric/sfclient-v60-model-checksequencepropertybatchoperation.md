@@ -33,6 +33,7 @@ Compares the Sequence Number of a property with the SequenceNumber argument.  A 
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [Kind](#kind) | string | Yes |

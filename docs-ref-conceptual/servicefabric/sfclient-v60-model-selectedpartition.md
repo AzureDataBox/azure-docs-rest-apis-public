@@ -32,6 +32,7 @@ translation.priority.mt:
 This class returns information about the partition that the user-induced operation acted upon.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [ServiceName](#servicename) | string | No |

@@ -32,6 +32,7 @@ translation.priority.mt:
 Provides statistics about the Service Fabric Replicator, when it is functioning in a Primary role.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Kind`](#kind) | string | Yes |

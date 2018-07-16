@@ -33,12 +33,14 @@ Resolve a Service Fabric partition.
 Resolve a Service Fabric service partition, to get the endpoints of the service replicas.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/Services/{serviceId}/$/ResolvePartition?api-version=6.0&PartitionKeyType={PartitionKeyType}&PartitionKeyValue={PartitionKeyValue}&PreviousRspVersion={PreviousRspVersion}&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [serviceId](#serviceid) | string | Yes | Path |
@@ -50,8 +52,8 @@ Resolve a Service Fabric service partition, to get the endpoints of the service 
 
 ____
 ### serviceId
-__Type__: string <br/>
-__Required__: Yes<br/>
+**Type**: string <br/>
+**Required**: Yes<br/>
 <br/>
 The identity of the service. This is typically the full name of the service without the 'fabric:' URI scheme.
 Starting from version 6.0, hierarchical names are delimited with the "~" character.

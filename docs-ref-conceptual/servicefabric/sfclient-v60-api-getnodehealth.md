@@ -33,12 +33,14 @@ Gets the health of a Service Fabric node.
 Gets the health of a Service Fabric node. Use EventsHealthStateFilter to filter the collection of health events reported on the node based on the health state. If the node that you specify by name does not exist in the health store, this returns an error.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/Nodes/{nodeName}/$/GetHealth?api-version=6.0&EventsHealthStateFilter={EventsHealthStateFilter}&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [nodeName](#nodename) | string | Yes | Path |

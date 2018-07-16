@@ -32,6 +32,7 @@ translation.priority.mt:
 A wrapper for the safety check object. Safety checks are performed by service fabric before continuing with the operations. These checks ensure the availability of the service and the reliability of the state.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [SafetyCheck](#safetycheck) | [SafetyCheck](sfclient-v61-model-safetycheck.md) | No |

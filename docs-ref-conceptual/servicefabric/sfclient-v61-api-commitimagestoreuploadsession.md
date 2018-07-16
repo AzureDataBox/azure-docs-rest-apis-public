@@ -34,12 +34,14 @@ When all file chunks have been uploaded, the upload session needs to be committe
 
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/ImageStore/$/CommitUploadSession?api-version=6.0&session-id={session-id}&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [api-version](#api-version) | string | Yes | Query |

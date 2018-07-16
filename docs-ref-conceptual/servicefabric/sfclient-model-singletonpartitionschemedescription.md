@@ -32,6 +32,7 @@ translation.priority.mt:
 Describes the partition scheme of a singleton-partitioned, or non-partitioned service.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`PartitionScheme`](#partitionscheme) | string | Yes |

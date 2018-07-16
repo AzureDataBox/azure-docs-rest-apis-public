@@ -35,12 +35,14 @@ security configurations, fault and upgrade domain topologies, etc.
 
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/$/GetClusterConfiguration?api-version=6.0&ConfigurationApiVersion={ConfigurationApiVersion}&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`api-version`](#api-version) | string | Yes | Query |

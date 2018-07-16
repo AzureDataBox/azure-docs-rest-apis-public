@@ -32,6 +32,7 @@ translation.priority.mt:
 Represents a scaling trigger related to an average load of a metric/resource of a partition.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Kind`](#kind) | string | Yes |

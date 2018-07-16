@@ -33,12 +33,14 @@ Gets the information about the specific service belonging to a Service Fabric ap
 Returns the information about specified service belonging to the specified Service Fabric application.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/Applications/{applicationId}/$/GetServices/{serviceId}?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [applicationId](#applicationid) | string | Yes | Path |
@@ -48,15 +50,15 @@ Returns the information about specified service belonging to the specified Servi
 
 ____
 ### applicationId
-__Type__: string <br/>
-__Required__: Yes<br/>
+**Type**: string <br/>
+**Required**: Yes<br/>
 <br/>
 The identity of the application. This is typically the full name of the application without the 'fabric:' URI scheme. Starting from version 6.0, hierarchical names are delimited with the "~" character. For example, if the application name is "fabric://myapp/app1", the application identity would be "myapp~app1" in 6.0+ and "myapp/app1" in previous versions.
 
 ____
 ### serviceId
-__Type__: string <br/>
-__Required__: Yes<br/>
+**Type**: string <br/>
+**Required**: Yes<br/>
 <br/>
 The identity of the service. This is typically the full name of the service without the 'fabric:' URI scheme. Starting from version 6.0, hierarchical names are delimited with the "~" character. For example, if the service name is "fabric://myapp/app1/svc1", the service identity would be "myapp~app1~svc1" in 6.0+ and "myapp/app1/svc1" in previous versions.
 

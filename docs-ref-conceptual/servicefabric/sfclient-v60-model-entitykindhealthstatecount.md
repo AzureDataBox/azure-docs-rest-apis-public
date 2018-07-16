@@ -32,6 +32,7 @@ translation.priority.mt:
 Represents health state count for entities of the specified entity kind.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [EntityKind](#entitykind) | string (enum) | No |

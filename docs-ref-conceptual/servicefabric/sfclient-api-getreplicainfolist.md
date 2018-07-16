@@ -33,12 +33,14 @@ Gets the information about replicas of a Service Fabric service partition.
 The GetReplicas endpoint returns information about the replicas of the specified partition. The response includes the id, role, status, health, node name, uptime, and other details about the replica.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/Partitions/{partitionId}/$/GetReplicas?api-version=6.0&ContinuationToken={ContinuationToken}&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`partitionId`](#partitionid) | string (uuid) | Yes | Path |

@@ -30,6 +30,7 @@ translation.priority.mt:
 Available operation list result
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [name](#name) | string | No |

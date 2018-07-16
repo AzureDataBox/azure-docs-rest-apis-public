@@ -27,53 +27,53 @@ translation.priority.mt:
 # Azure API Management REST API contract reference
 This topic describes the entity and type representations for common items in Azure API Management.  
   
--   [API](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md#API)  
+- [API](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md#API)  
   
--   [Authorization Server](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md#AuthorizationServer)  
+- [Authorization Server](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md#AuthorizationServer)  
   
--   [Authorization Server authentication settings](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md#AuthenticationSettings)  
+- [Authorization Server authentication settings](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md#AuthenticationSettings)  
   
--   [Backend](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md#Backend)  
+- [Backend](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md#Backend)  
   
--   [Certificate](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md#Certificate)  
+- [Certificate](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md#Certificate)  
   
--   [Group](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md#Group)  
+- [Group](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md#Group)  
   
--   [Logger](#Logger)  
+- [Logger](#Logger)  
   
--   [Operation](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md#Operation)  
+- [Operation](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md#Operation)  
   
--   [Operation-summary](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md#OperationSummaryProperties)  
+- [Operation-summary](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md#OperationSummaryProperties)  
   
--   [Product](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md#Product)  
+- [Product](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md#Product)  
   
--   [Property](#Property)  
+- [Property](#Property)  
   
--   [Report](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md#Report)  
+- [Report](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md#Report)  
   
--   [Subscription](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md#Subscription)  
+- [Subscription](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md#Subscription)  
   
--   [User](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md#User)  
+- [User](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md#User)  
   
--   [HTTP Request](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md#HTTPRequest)  
+- [HTTP Request](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md#HTTPRequest)  
   
--   [HTTP Response](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md#HTTPResponse)  
+- [HTTP Response](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md#HTTPResponse)  
   
--   [Parameter](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md#Parameter)  
+- [Parameter](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md#Parameter)  
   
--   [Representation](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md#Representation)  
+- [Representation](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md#Representation)  
   
--   [Error](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md#error)  
+- [Error](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md#error)  
   
--   [Error body](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md#error-body)  
+- [Error body](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md#error-body)  
   
--   [Error detail](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md#ErrorDetail)  
+- [Error detail](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md#ErrorDetail)  
   
--   [Collection](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md#collection)  
+- [Collection](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md#collection)  
   
--   [Policy](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md#Policy)  
+- [Policy](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md#Policy)  
   
- For more information about working with the REST API, see the [API Management .NET REST API Sample](https://github.com/Azure/api-management-samples/tree/master/restApiDemo) and the [Getting Started with Azure API Management REST API](https://azure.microsoft.com/documentation/videos/getting-started-with-azure-api-management-rest-api/) video.  
+  For more information about working with the REST API, see the [API Management .NET REST API Sample](https://github.com/Azure/api-management-samples/tree/master/restApiDemo) and the [Getting Started with Azure API Management REST API](https://azure.microsoft.com/documentation/videos/getting-started-with-azure-api-management-rest-api/) video.  
   
 ##  <a name="API"></a> API  
  The `API` entity has the following properties.  

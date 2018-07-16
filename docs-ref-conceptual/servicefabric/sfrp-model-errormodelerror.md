@@ -30,6 +30,7 @@ translation.priority.mt:
 The error details.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [code](#code) | string | No |

@@ -32,6 +32,7 @@ translation.priority.mt:
 Describes the parameters for a compose deployment upgrade.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`DeploymentName`](#deploymentname) | string | Yes |

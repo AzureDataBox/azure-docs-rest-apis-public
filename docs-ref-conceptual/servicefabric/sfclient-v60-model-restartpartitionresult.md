@@ -32,6 +32,7 @@ translation.priority.mt:
 Represents information about an operation in a terminal state (Completed or Faulted).
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [ErrorCode](#errorcode) | integer (int32) | No |

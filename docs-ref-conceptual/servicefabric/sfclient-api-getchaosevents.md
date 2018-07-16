@@ -36,12 +36,14 @@ When there are more than 100 Chaos events, the Chaos events are returned in mult
 
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/Tools/Chaos/Events?api-version=6.2&ContinuationToken={ContinuationToken}&StartTimeUtc={StartTimeUtc}&EndTimeUtc={EndTimeUtc}&MaxResults={MaxResults}&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`api-version`](#api-version) | string | Yes | Query |

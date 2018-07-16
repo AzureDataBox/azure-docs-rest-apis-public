@@ -32,6 +32,7 @@ translation.priority.mt:
 Defines a time range in a 24 hour day specified by a start and end time.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`StartTime`](#starttime) | [TimeOfDay](sfclient-model-timeofday.md) | No |

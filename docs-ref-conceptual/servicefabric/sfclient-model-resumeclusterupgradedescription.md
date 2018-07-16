@@ -32,6 +32,7 @@ translation.priority.mt:
 Describes the parameters for resuming a cluster upgrade.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`UpgradeDomain`](#upgradedomain) | string | Yes |

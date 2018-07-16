@@ -30,6 +30,7 @@ translation.priority.mt:
 Describes the client certificate details using common name.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [isAdmin](#isadmin) | boolean | Yes |

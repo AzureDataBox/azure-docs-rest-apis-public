@@ -184,45 +184,45 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
   
  The Blob service handles concurrent writes to overlapping pages sequentially: the last page processed by the service determines the blob's content. Therefore, to ensure the integrity of the blob's content, the client should handle writes to overlapping pages using one or more of the following approaches:  
   
--   You can check the value of the `Last-Modified` response header for each successful call to `Put Page`. The order of responses returned from the Blob service does not necessarily correspond to the order in which they were executed by the service. But the value of `Last-Modified` always indicates the order in which the service processed the requests.  
+- You can check the value of the `Last-Modified` response header for each successful call to `Put Page`. The order of responses returned from the Blob service does not necessarily correspond to the order in which they were executed by the service. But the value of `Last-Modified` always indicates the order in which the service processed the requests.  
   
--   You can perform updates conditionally based on the blob's ETag or last modified time using optimistic concurrency. This approach works well if the number of concurrent writes is relatively low. Use the conditional request headers `If-Match`, `If-None-Match`, `If-Modified-Since`, and `If-Unmodified-Since` for this purpose.  
+- You can perform updates conditionally based on the blob's ETag or last modified time using optimistic concurrency. This approach works well if the number of concurrent writes is relatively low. Use the conditional request headers `If-Match`, `If-None-Match`, `If-Modified-Since`, and `If-Unmodified-Since` for this purpose.  
   
--   You can call [Lease Blob](Lease-Blob.md) to lock the blob against other writes for a one-minute period, or longer if the lease is renewed.  
+- You can call [Lease Blob](Lease-Blob.md) to lock the blob against other writes for a one-minute period, or longer if the lease is renewed.  
   
--   You can use the blob's sequence number to ensure that retrying a request for which there was no response does not result in concurrent updates. This approach may be best for clients requiring high throughput for page writes. It is described in detail in the following section.  
+- You can use the blob's sequence number to ensure that retrying a request for which there was no response does not result in concurrent updates. This approach may be best for clients requiring high throughput for page writes. It is described in detail in the following section.  
   
- **Using the Page Blob Sequence Number to Retry Requests**  
+  **Using the Page Blob Sequence Number to Retry Requests**  
   
- When a call to `Put Page` times out or does not return a response, there is no way to know for certain whether the request succeeded. You therefore need to retry the request, but due to the distributed nature of the Azure storage services, it is possible that the original request may be processed after the retried request has succeeded. The delayed original request can overwrite other updates and yield an unexpected result. The following sequence illustrates how this may happen:  
+  When a call to `Put Page` times out or does not return a response, there is no way to know for certain whether the request succeeded. You therefore need to retry the request, but due to the distributed nature of the Azure storage services, it is possible that the original request may be processed after the retried request has succeeded. The delayed original request can overwrite other updates and yield an unexpected result. The following sequence illustrates how this may happen:  
   
-1.  A `Put Page` request to write value "X" to page 0 times out or does not return a response.  
+1. A `Put Page` request to write value "X" to page 0 times out or does not return a response.  
   
-2.  A retried request to write value "X" to page 0 succeeds.  
+2. A retried request to write value "X" to page 0 succeeds.  
   
-3.  A request to write value "Y" to page 0 succeeds.  
+3. A request to write value "Y" to page 0 succeeds.  
   
-4.  The original request succeeds, writing value "X" to page 0.  
+4. The original request succeeds, writing value "X" to page 0.  
   
-5.  Reading page 0 returns value "X", when the client was at this point expecting value "Y".  
+5. Reading page 0 returns value "X", when the client was at this point expecting value "Y".  
   
- This kind of conflict can occur when the original request does not return a status code between 100-499, or 503 (Server Busy). If one of these status codes is returned, you can be certain as to whether the request has succeeded or failed. But if the service returns a status code outside this range, there's no way to know the status of the original request.  
+   This kind of conflict can occur when the original request does not return a status code between 100-499, or 503 (Server Busy). If one of these status codes is returned, you can be certain as to whether the request has succeeded or failed. But if the service returns a status code outside this range, there's no way to know the status of the original request.  
   
- To prevent this sort of conflict, you can use the page blob's sequence number to ensure that when you retry a request, the original request will not subsequently succeed. To do so, you should increment the sequence number before retrying the original request. You can then use the conditional sequence number headers to ensure that the request fails if its sequence number does not match the expected sequence number. The following sequence illustrates this approach:  
+   To prevent this sort of conflict, you can use the page blob's sequence number to ensure that when you retry a request, the original request will not subsequently succeed. To do so, you should increment the sequence number before retrying the original request. You can then use the conditional sequence number headers to ensure that the request fails if its sequence number does not match the expected sequence number. The following sequence illustrates this approach:  
   
-1.  The client creates a page blob with [Put Blob](Put-Blob.md) and sets its sequence number to 0.  
+6. The client creates a page blob with [Put Blob](Put-Blob.md) and sets its sequence number to 0.  
   
-2.  A `Put Page` request to write value "X" to page 0 with the `if-sequence-number-lt` header set to `1` times out or does not return a response.  
+7. A `Put Page` request to write value "X" to page 0 with the `if-sequence-number-lt` header set to `1` times out or does not return a response.  
   
-3.  The client calls Set Blob Properties to update the sequence number to 1.  
+8. The client calls Set Blob Properties to update the sequence number to 1.  
   
-4.  A retried request to write value "X" to page 0 with `if-sequence-number-lt` set to `2` succeeds.  
+9. A retried request to write value "X" to page 0 with `if-sequence-number-lt` set to `2` succeeds.  
   
-5.  A request to write value "Y" to page 0 with `if-sequence-number-lt` set to `2` succeeds.  
+10. A request to write value "Y" to page 0 with `if-sequence-number-lt` set to `2` succeeds.  
   
-6.  The original request is finally processed, but it fails because it specifies the condition that the sequence number must be less than 1 (that is, the `if-sequence-num-lt` header is set to `1`). The error is SequenceNumberConditionNotMet (HTTP status code 412 – Precondition Failed).  
+11. The original request is finally processed, but it fails because it specifies the condition that the sequence number must be less than 1 (that is, the `if-sequence-num-lt` header is set to `1`). The error is SequenceNumberConditionNotMet (HTTP status code 412 – Precondition Failed).  
   
-7.  Reading page 0 returns the expected value of "Y".  
+12. Reading page 0 returns the expected value of "Y".  
   
 ## See Also  
  [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md)   

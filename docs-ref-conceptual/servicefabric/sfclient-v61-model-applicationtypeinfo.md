@@ -32,6 +32,7 @@ translation.priority.mt:
 Information about an application type.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [Name](#name) | string | No |

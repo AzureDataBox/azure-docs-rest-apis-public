@@ -33,12 +33,14 @@ Suspends periodic backup for the specified Service Fabric service.
 The service which is configured to take periodic backups, is suspended for taking further backups till it is resumed again. This operation applies to the entire service's hierarchy. It means all the partitions under this service are now suspended for backup.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/Services/{serviceId}/$/SuspendBackup?api-version=6.2-preview&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`serviceId`](#serviceid) | string | Yes | Path |
@@ -47,8 +49,8 @@ The service which is configured to take periodic backups, is suspended for takin
 
 ____
 ### `serviceId`
-__Type__: string <br/>
-__Required__: Yes<br/>
+**Type**: string <br/>
+**Required**: Yes<br/>
 <br/>
 The identity of the service. This is typically the full name of the service without the 'fabric:' URI scheme.
 Starting from version 6.0, hierarchical names are delimited with the "~" character.

@@ -33,12 +33,14 @@ Provision the code or configuration packages of a Service Fabric cluster.
 Validate and provision the code or configuration packages of a Service Fabric cluster.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/$/Provision?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`api-version`](#api-version) | string | Yes | Query |

@@ -33,12 +33,14 @@ Deletes an existing Service Fabric compose deployment from cluster.
 Deletes an existing Service Fabric compose deployment.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/ComposeDeployments/{deploymentName}/$/Delete?api-version=6.0-preview&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`deploymentName`](#deploymentname) | string | Yes | Path |

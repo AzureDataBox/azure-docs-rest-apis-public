@@ -32,6 +32,7 @@ translation.priority.mt:
 Information about the health of a Service Fabric partition.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`AggregatedHealthState`](#aggregatedhealthstate) | string (enum) | No |

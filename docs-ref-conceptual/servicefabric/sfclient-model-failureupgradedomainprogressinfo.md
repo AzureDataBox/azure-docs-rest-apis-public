@@ -32,6 +32,7 @@ translation.priority.mt:
 Information about the upgrade domain progress at the time of upgrade failure.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`DomainName`](#domainname) | string | No |

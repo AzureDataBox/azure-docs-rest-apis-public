@@ -33,6 +33,7 @@ Defines description for creating a Service Fabric compose deployment.
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`DeploymentName`](#deploymentname) | string | Yes |

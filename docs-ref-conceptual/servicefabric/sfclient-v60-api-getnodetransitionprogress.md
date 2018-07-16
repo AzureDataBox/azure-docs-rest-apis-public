@@ -34,12 +34,14 @@ Gets the progress of an operation started with StartNodeTransition using the pro
 
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/Faults/Nodes/{nodeName}/$/GetTransitionProgress?api-version=6.0&OperationId={OperationId}&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [nodeName](#nodename) | string | Yes | Path |

@@ -33,12 +33,14 @@ Copies image store content internally
 Copies the image store content from the source image store relative path to the destination image store relative path.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/ImageStore/$/Copy?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [api-version](#api-version) | string | Yes | Query |

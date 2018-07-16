@@ -27,13 +27,13 @@ translation.priority.mt:
 # Storage Analytics Log Format
 Each log entry conforms to a standard log format that is determined by the version of Storage Analytics Logging. The first field in a log entry always specifies the version number. Consumers of logging data can take a dependency on this field as well as the following aspects of a log entry:  
   
--   All fields, populated or empty, will be separated by a semicolon “;”  
+- All fields, populated or empty, will be separated by a semicolon “;”  
   
--   Each log entry is separated by a newline character “\n”  
+- Each log entry is separated by a newline character “\n”  
   
--   The last field in the entry will not end with a semicolon “;”  
+- The last field in the entry will not end with a semicolon “;”  
   
- Always check the version before processing a log entry.  
+  Always check the version before processing a log entry.  
   
 > [!NOTE]
 >  Any field that may contain a quote (“), a semicolon (;), or a newline (\n) is HTML encoded and quoted.  

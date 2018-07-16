@@ -32,6 +32,7 @@ translation.priority.mt:
 Describes the frequency based backup schedule.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`ScheduleKind`](#schedulekind) | string | Yes |

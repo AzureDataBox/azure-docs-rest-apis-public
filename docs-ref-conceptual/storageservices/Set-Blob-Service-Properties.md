@@ -33,33 +33,33 @@ See [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS-
 
 ## Request  
  The `Set Blob Service Properties` request may be specified as follows. HTTPS is recommended. Replace `<account-name>` with the name of your storage account:  
-  
+
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
 |PUT|`https://<account-name>.blob.core.windows.net/?restype=service&comp=properties`|HTTP/1.1|  
-  
+
  Note that the URI must always include the forward slash (/) to separate the host name from the path and query portions of the URI. In the case of this operation, the path portion of the URI is empty.  
-  
+
 ### URI Parameters  
-  
+
 |URI Parameter|Description|  
 |-------------------|-----------------|  
 |`restype=service&comp=properties`|Required. The combination of both query strings is required to set the storage service properties.|  
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md).|  
-  
+
 ### Request Headers  
  The following table describes required and optional request headers.  
-  
+
 |Request Header|Description|  
 |--------------------|-----------------|  
 |`Authorization`|Required. Specifies the authentication scheme, storage account name, and signature. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
 |`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
-  
+
 ### Request Body  
  For version 2012-02-12 and earlier, the format of the request body is as follows:  
-  
+
 ```  
 <?xml version="1.0" encoding="utf-8"?>  
 <StorageServiceProperties>  
@@ -86,9 +86,9 @@ See [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS-
     <DefaultServiceVersion>default-service-version-string</DefaultServiceVersion>  
 </StorageServiceProperties>  
 ```  
-  
+
  For version 2013-08-15 and later, the format of the request body is as follows:  
-  
+
 ```  
 <?xml version="1.0" encoding="utf-8"?>  
 <StorageServiceProperties>  
@@ -183,7 +183,7 @@ See [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS-
     </DeleteRetentionPolicy>   
 </StorageServiceProperties>  
 ```  
-  
+
  For version 2018-03-28 or later, the format of the request body is as follows:  
 
 ```  
@@ -238,28 +238,28 @@ See [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS-
     </StaticWebsite>
 </StorageServiceProperties>  
 ```  
-  
+
  Beginning with version 2013-08-15, you can call `Set Blob Service Properties` with one or more root elements specified in the request body. The root elements include:  
-  
+
 -   **Logging**  
-  
+
 -   **HourMetrics**  
-  
+
 -   **MinuteMetrics**  
-  
+
 -   **Cors**  
-  
+
 -   **DefaultServiceVersion**
-  
+
 -   **DeleteRetentionPolicy** – For version 2017-07-29 or newer.
-  
+
 -   **StaticWebsite** - For version 2018-03-28 or later.
 
-  
+
  It is no longer necessary to specify every root element on the request. If you omit a root element, the existing settings for the service for that functionality are preserved. However, if you do specify a given root element, you must specify every child element for that element.  
-  
+
  The following table describes the elements of the request body:  
-  
+
 |Element Name|Description|  
 |------------------|-----------------|  
 |**Logging**|Optional beginning with version 2013-08-15. Required for earlier versions. Groups the Azure Analytics **Logging** settings.|  
@@ -289,74 +289,74 @@ See [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS-
 |**StaticWebsite/Enabled**|Required. Indicates whether static website support is enabled for the given account.| 
 |**StaticWebsite/IndexDocument**|Optional. The webpage that Azure Storage serves for requests to the root of a website or any subfolder. For example, `index.html`. The value is case-sensitive. |
 |**StaticWebsite/ErrorDocument404Path**|Optional. The absolute path to a webpage that Azure Storage serves for requests that do not correspond to an existing file. For example, `error/404.html`. Only a single custom 404 page is supported in each static website. The value is case-sensitive. |
-  
+
 ## Response  
  The response includes an HTTP status code and a set of response headers.  
-  
+
 ### Status Code  
  A successful operation returns status code 202 (Accepted).  
-  
+
  For information about status codes, see [Service Management Status and Error Codes](https://msdn.microsoft.com/library/azure/ee460801.aspx).  
-  
+
 ### Response Headers  
  The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
-  
+
 |Response Header|Description|  
 |---------------------|-----------------|  
 |`x-ms-request-id`|A value that uniquely identifies a request made against the service.|  
 |`x-ms-version`|Specifies the version of the operation used for the response. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
-  
+
 ### Response Body  
  None.  
-  
+
 ## Authorization  
  Only the account owner may call this operation.  
-  
+
 ## Remarks  
  The following restrictions and limitations apply to CORS rules in Azure Storage:  
-  
--   A maximum of five rules can be stored.  
-  
--   The maximum size of all CORS rules settings on the request, excluding XML tags, should not exceed 2 KB.  
-  
--   The length of an allowed header, exposed header, or allowed origin should not exceed 256 characters.  
-  
--   Allowed headers and exposed headers may be either:  
-  
-    -   Literal headers, where the exact header name is provided, such as **x-ms-meta-processed**. A maximum of 64 literal headers may be specified on the request.  
-  
-    -   Prefixed headers, where a prefix of the header is provided, such as **x-ms-meta-data\***. Specifying a prefix in this manner allows or exposes any header that begins with the given prefix. A maximum of two prefixed headers may be specified on the request.  
-  
--   The methods (or HTTP verbs) specified in the **AllowedMethods** element must conform to the methods supported by Azure storage service APIs. Supported methods are DELETE, GET, HEAD, MERGE, POST, OPTIONS and PUT.  
-  
- Specifying CORS rules on the request is optional. If you call `Set Blob Service Properties` without specifying the **Cors** element in the request body, any existing CORS rules are maintained.  
-  
- To disable CORS, call `Set Blob Service Properties` with an empty CORS rules settings (*i.e.,*`</Cors>`) and no inner CORS rules. This call deletes any existing rules, disabling CORS for the Blob service.  
-  
- All CORS rule elements are required if the **CorsRule** element is specified. The request will fail with error code 400 (`Bad Request`) if any element is missing.  
-  
- Beginning with version 2013-08-15, XML settings elements will be optional so updating a specific element can be done by sending an XML that only contains the updated element and other settings will not be affected.  
-  
- For detailed information about CORS rules and evaluation logic, see [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md).  
-  
+
+- A maximum of five rules can be stored.  
+
+- The maximum size of all CORS rules settings on the request, excluding XML tags, should not exceed 2 KB.  
+
+- The length of an allowed header, exposed header, or allowed origin should not exceed 256 characters.  
+
+- Allowed headers and exposed headers may be either:  
+
+  - Literal headers, where the exact header name is provided, such as **x-ms-meta-processed**. A maximum of 64 literal headers may be specified on the request.  
+
+  - Prefixed headers, where a prefix of the header is provided, such as **x-ms-meta-data\\***. Specifying a prefix in this manner allows or exposes any header that begins with the given prefix. A maximum of two prefixed headers may be specified on the request.  
+
+- The methods (or HTTP verbs) specified in the **AllowedMethods** element must conform to the methods supported by Azure storage service APIs. Supported methods are DELETE, GET, HEAD, MERGE, POST, OPTIONS and PUT.  
+
+  Specifying CORS rules on the request is optional. If you call `Set Blob Service Properties` without specifying the **Cors** element in the request body, any existing CORS rules are maintained.  
+
+  To disable CORS, call `Set Blob Service Properties` with an empty CORS rules settings (*i.e.,*`</Cors>`) and no inner CORS rules. This call deletes any existing rules, disabling CORS for the Blob service.  
+
+  All CORS rule elements are required if the **CorsRule** element is specified. The request will fail with error code 400 (`Bad Request`) if any element is missing.  
+
+  Beginning with version 2013-08-15, XML settings elements will be optional so updating a specific element can be done by sending an XML that only contains the updated element and other settings will not be affected.  
+
+  For detailed information about CORS rules and evaluation logic, see [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md).  
+
 ## Sample Request and Response  
  The following sample URI makes a request to change the Blob service properties for the fictional storage account named *myaccount*:  
-  
+
 ```  
 PUT https://myaccount.blob.core.windows.net/?restype=service&comp=properties HTTP/1.1  
 ```  
-  
+
  The request is sent with the following headers:  
-  
+
 ```  
 x-ms-version: 2018-03-28
 x-ms-date: Tue, 12 Sep 2018 23:38:35 GMT 
 Authorization: SharedKey myaccount:Z1lTLDwtq5o1UYQluucdsXk6/iB7YxEu0m6VofAEkUE=  
 Host: myaccount.blob.core.windows.net  
 ```  
-  
+
  The request is sent with the following XML body:  
-  
+
 ```  
 <?xml version="1.0" encoding="utf-8"?>  
 <StorageServiceProperties>  
@@ -409,9 +409,9 @@ Host: myaccount.blob.core.windows.net
     <DefaultServiceVersion>2018-03-28</DefaultServiceVersion>  
 </StorageServiceProperties>  
 ```  
-  
+
  After the request has been sent, the following response is returned:  
-  
+
 ```
 HTTP/1.1 202 Accepted
 Transfer-Encoding: chunked
@@ -419,9 +419,8 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
 x-ms-request-id: cb939a31-0cc6-49bb-9fe5-3327691f2a30 
 x-ms-version: 2018-03-28
 Date: Tue, 12 Sep 2018 23:38:35 GMT
-  
 ```  
-  
+
 ## See Also  
  [Improved HTTP Headers for Resume on Download and a Change in If-Match Conditions](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/09/15/windows-azure-blobs-improved-http-headers-for-resume-on-download-and-a-change-in-if-match-conditions.aspx)   
  [Storage Analytics](Storage-Analytics.md)   

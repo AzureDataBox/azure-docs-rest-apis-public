@@ -27,15 +27,15 @@ translation.priority.mt:
 # Azure API Management REST API Backend entity
 The Backend entity in API Management represents a backend service that is configured to skip certification chain validation when using a self-signed certificate to test mutual certificate authentication. A typical usage scenario is as follows.  
   
--   An API is configured in API Management.  
+- An API is configured in API Management.  
   
--   The API is secured using [How to secure back-end services using client certificate authentication in Azure API Management](https://azure.microsoft.com/documentation/articles/api-management-howto-mutual-certificates/).  
+- The API is secured using [How to secure back-end services using client certificate authentication in Azure API Management](https://azure.microsoft.com/documentation/articles/api-management-howto-mutual-certificates/).  
   
--   During testing, you may want to use a self-signed certificate. To do so, use the [Create a backend](#PUT) operation to explicitly create a backend entity, configure the entity to reference your backend service, and set the `skipCertificateChainValidation` property to `true`.  
+- During testing, you may want to use a self-signed certificate. To do so, use the [Create a backend](#PUT) operation to explicitly create a backend entity, configure the entity to reference your backend service, and set the `skipCertificateChainValidation` property to `true`.  
   
--   When testing is complete, you can either call the [Delete a backend](#DELETE) operation to delete the test configuration or you can call [Update a backend](#PATCH) and set `skipCertificateChainValidation` to `false`.  
+- When testing is complete, you can either call the [Delete a backend](#DELETE) operation to delete the test configuration or you can call [Update a backend](#PATCH) and set `skipCertificateChainValidation` to `false`.  
   
- This topic describes how to manage backend services by using the API Management REST API.  
+  This topic describes how to manage backend services by using the API Management REST API.  
   
 > [!NOTE]
 >  For more information about working with the REST API, see the [API Management .NET REST API Sample](https://github.com/Azure/api-management-samples/tree/master/restApiDemo) and the [Getting Started with Azure API Management REST API](https://azure.microsoft.com/documentation/videos/getting-started-with-azure-api-management-rest-api/) video.  

@@ -34,12 +34,14 @@ Gets the list of backups available for the specified backed up entity (Applicati
 
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/BackupRestore/$/GetBackups?api-version=6.2-preview&timeout={timeout}&ContinuationToken={ContinuationToken}&MaxResults={MaxResults}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`api-version`](#api-version) | string | Yes | Query |

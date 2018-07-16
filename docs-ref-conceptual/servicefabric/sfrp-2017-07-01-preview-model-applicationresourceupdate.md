@@ -30,6 +30,7 @@ translation.priority.mt:
 The application resource for patch operations.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [id](#id) | string | No |

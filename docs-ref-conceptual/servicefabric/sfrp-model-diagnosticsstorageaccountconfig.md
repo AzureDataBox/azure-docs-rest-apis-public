@@ -30,6 +30,7 @@ translation.priority.mt:
 The storage account information for storing Service Fabric diagnostic logs.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [storageAccountName](#storageaccountname) | string | Yes |

@@ -131,15 +131,15 @@ The following example illustrates the JSON definition of a collection:
   
  The indexing policy for a collection can specify the following options:  
   
--   Automatic: You can choose if you want the collection to automatically index all documents or not. By default, all documents are automatically indexed, but you can choose to turn it off. When indexing is turned off, documents can be accessed only through their self-links or by queries using ID.  
+- Automatic: You can choose if you want the collection to automatically index all documents or not. By default, all documents are automatically indexed, but you can choose to turn it off. When indexing is turned off, documents can be accessed only through their self-links or by queries using ID.  
   
--   Indexing Mode: You can choose between synchronous (Consistent), asynchronous (Lazy) index updates, and no indexing (None). By default, the index is updated synchronously on each insertion, replacement, or deletion action taken on a document in the collection. This update enables the queries to honor the same consistency level as that of the document reads without any delay for the index to catch up.  
+- Indexing Mode: You can choose between synchronous (Consistent), asynchronous (Lazy) index updates, and no indexing (None). By default, the index is updated synchronously on each insertion, replacement, or deletion action taken on a document in the collection. This update enables the queries to honor the same consistency level as that of the document reads without any delay for the index to catch up.  
   
--   Index types and precision: The type or scheme used for index entries has a direct impact on index storage and performance. For a scheme using higher precision, queries are typically faster. However, there is also a higher storage overhead for the index. Choosing a lower precision means that more documents might have to be processed during query execution, but the storage overhead will be lower.  
+- Index types and precision: The type or scheme used for index entries has a direct impact on index storage and performance. For a scheme using higher precision, queries are typically faster. However, there is also a higher storage overhead for the index. Choosing a lower precision means that more documents might have to be processed during query execution, but the storage overhead will be lower.  
   
--   Index paths: Within documents, you can choose which paths must be included or excluded from indexing, which can offer improved write performance and lower index storage for scenarios when the query patterns are known beforehand.  
+- Index paths: Within documents, you can choose which paths must be included or excluded from indexing, which can offer improved write performance and lower index storage for scenarios when the query patterns are known beforehand.  
   
- The following tables shows some sample indexing paths and how they are used within queries.  
+  The following tables shows some sample indexing paths and how they are used within queries.  
   
 |Property|Description|  
 |--------------|-----------------|  

@@ -32,6 +32,7 @@ translation.priority.mt:
 Information about the cluster manifest.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [Manifest](#manifest) | string | No |

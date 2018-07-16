@@ -32,6 +32,7 @@ translation.priority.mt:
 Describes the progress of a restore operation on a partition.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`RestoreState`](#restorestate) | string (enum) | No |

@@ -30,6 +30,7 @@ translation.priority.mt:
 The properties of a stateless service resource for patch operations.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [serviceKind](#servicekind) | string | Yes |

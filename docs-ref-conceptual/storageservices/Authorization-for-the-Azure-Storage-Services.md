@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Authorization for the Azure Storage Services"
 ms.custom: na
 ms.date: 05/21/2018

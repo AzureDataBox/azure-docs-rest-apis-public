@@ -32,6 +32,7 @@ translation.priority.mt:
 Information about a image store folder. It includes how many files this folder contains and its image store relative path.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [StoreRelativePath](#storerelativepath) | string | No |

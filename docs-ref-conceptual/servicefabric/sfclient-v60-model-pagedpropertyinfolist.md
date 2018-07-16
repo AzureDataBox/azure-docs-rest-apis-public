@@ -32,6 +32,7 @@ translation.priority.mt:
 The paged list of Service Fabric properties under a given name. The list is paged when all of the results cannot fit in a single message. The next set of results can be obtained by executing the same query with the continuation token provided in this list.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [ContinuationToken](#continuationtoken) | string | No |

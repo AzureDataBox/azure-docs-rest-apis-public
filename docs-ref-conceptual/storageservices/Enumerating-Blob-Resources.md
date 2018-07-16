@@ -234,7 +234,7 @@ GET https://myaccount.blob.core.windows.net/mycontainer?restype=container&comp=l
       <Name>blob3.txt</Name>  
       <Url>https://myaccount.blob.core.windows.net/mycontainer/blob3.txt</Url>  
       <Properties>  
-        <Last-Modified>Wed, 09 Sep 2009 09:20:03 GMT</Last-Modified>  
+        <Last-Modified>Wed, 09 Sep 2009 09:20:03 GMT</Last-Modified>  
         <Etag>0x8CBFF45D911FADF</Etag>  
         <Content-Length>16384</Content-Length>  
         <Content-Type>image/jpeg</Content-Type>  
@@ -268,19 +268,19 @@ GET https://myaccount.blob.core.windows.net/mycontainer?restype=container&comp=l
   
  The sample blobs beneath the container are as follows. The first four are returned in the first enumeration operation, because `MaxResults` is set to 4. Note that *myfolder/blobA.txt* and *myfolder/blobB.txt* are grouped together in the response body in the `BlobPrefix` tag and count as a single blob in terms of the number of entities returned. To return the blobs beginning with this prefix, make a subsequent request in which the prefix parameter is set to *myfolder/*.  
   
--   blob1.txt  
+- blob1.txt  
   
--   blob2.txt  
+- blob2.txt  
   
--   myfolder/blobA.txt  
+- myfolder/blobA.txt  
   
--   myfolder/blobB.txt  
+- myfolder/blobB.txt  
   
--   newblob1.txt  
+- newblob1.txt  
   
--   newblob2.txt  
+- newblob2.txt  
   
- The next blob to be returned is newblob2.txt, returned in the `NextMarker` tag.  
+  The next blob to be returned is newblob2.txt, returned in the `NextMarker` tag.  
   
 ```xml  
 <?xml version="1.0" encoding="utf-8"?>  

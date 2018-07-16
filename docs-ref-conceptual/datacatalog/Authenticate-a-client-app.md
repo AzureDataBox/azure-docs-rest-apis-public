@@ -63,26 +63,26 @@ To make a data request to the Data Catalog REST service, you need to supply an a
   
 ## Steps to get an access token  
 1. **Create an instance of AuthenticationContext** - AuthenticationContext is the main class representing the token issuing authority for Azure AD resources. The constructor takes:  
-    - An OAuth2 authorityUri   
+   - An OAuth2 authorityUri   
   
-    ```  
-    string authorityUri = "https://login.windows.net/common/oauth2/authorize";  
-      AuthenticationContext authContext = new AuthenticationContext(authorityUri);  
-    ```  
+     ```  
+     string authorityUri = "https://login.windows.net/common/oauth2/authorize";  
+     AuthenticationContext authContext = new AuthenticationContext(authorityUri);  
+     ```  
 2. **Call AuthenticationContext.AcquireToken() to get a token** -  The method takes:  
-    - Data Catalog API resourceUri  
-    - Your Data Catalog app clientID  
-    - Your Data Catalog app redirectUri   
+   - Data Catalog API resourceUri  
+   - Your Data Catalog app clientID  
+   - Your Data Catalog app redirectUri   
   
-    ```  
-      AuthenticationResult token = authContext.AcquireToken(resourceUri, clientId, new Uri(redirectUri), PromptBehavior.RefreshSession);  
-    ```  
+     ```  
+     AuthenticationResult token = authContext.AcquireToken(resourceUri, clientId, new Uri(redirectUri), PromptBehavior.RefreshSession);  
+     ```  
   
-      You can get the token with **authResult.AccessToken** or **authResult.CreateAuthorizationHeader()**. CreateAuthorizationHeader returns a fully qualified **Bearer** header such as the following token:  
+     You can get the token with **authResult.AccessToken** or **authResult.CreateAuthorizationHeader()**. CreateAuthorizationHeader returns a fully qualified **Bearer** header such as the following token:  
   
-      ```  
-      Bearer eyJ0eXAiOiJKV1QiLCJhbGciO...  
-      ```  
+     ```  
+     Bearer eyJ0eXAiOiJKV1QiLCJhbGciO...  
+     ```  
       
 For more information about what **AuthenticationContext** does to get a token, see [Azure Authentication Context Flow](#Flow).  
   

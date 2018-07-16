@@ -31,6 +31,7 @@ Defines a delta health policy used to evaluate the health of an application or o
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [defaultServiceTypeDeltaHealthPolicy](#defaultservicetypedeltahealthpolicy) | [ServiceTypeDeltaHealthPolicy](sfrp-model-servicetypedeltahealthpolicy.md) | No |

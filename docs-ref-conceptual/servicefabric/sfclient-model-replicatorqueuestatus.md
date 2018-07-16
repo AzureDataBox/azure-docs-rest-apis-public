@@ -35,6 +35,7 @@ Depending on the role of the replicator, the properties in this type imply diffe
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`QueueUtilizationPercentage`](#queueutilizationpercentage) | integer (int32) | No |

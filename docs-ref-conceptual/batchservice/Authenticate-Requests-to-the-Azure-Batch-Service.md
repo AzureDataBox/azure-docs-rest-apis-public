@@ -43,21 +43,21 @@ Authorization="SharedKey <AccountName>:<Signature>"
 #### Construct the signature string  
  When you construct the signature string, keep in mind the following:  
   
--   The VERB portion of the string is the HTTP verb, such as GET or POST, and must be uppercase.  
+- The VERB portion of the string is the HTTP verb, such as GET or POST, and must be uppercase.  
   
--   Each header included in the signature string may appear only once.  
+- Each header included in the signature string may appear only once.  
   
--   The values of all standard HTTP headers must be included in the string in the order shown in the signature format, without the header names. These headers may be empty if they are not being specified as part of the request; in that case, only the new line character is required.  
+- The values of all standard HTTP headers must be included in the string in the order shown in the signature format, without the header names. These headers may be empty if they are not being specified as part of the request; in that case, only the new line character is required.  
   
--   When the verb is POST, the Content-Type and Content-Length values are required as request headers and as values in the signature string. Content-Type must be set to **application/json;odata=minimalmetadata**.  
+- When the verb is POST, the Content-Type and Content-Length values are required as request headers and as values in the signature string. Content-Type must be set to **application/json;odata=minimalmetadata**.  
   
--   If the *ocp-date* header is specified, the *Date* header is not required, simply specify an empty line for the *Date* portion of the signature string. In this case, follow the instructions in the [Construct the canonicalized headers string](../batchservice/authenticate-requests-to-the-azure-batch-service.md#bk_canonicalizedhead) section for adding the *ocp-date* header.  
+- If the *ocp-date* header is specified, the *Date* header is not required, simply specify an empty line for the *Date* portion of the signature string. In this case, follow the instructions in the [Construct the canonicalized headers string](../batchservice/authenticate-requests-to-the-azure-batch-service.md#bk_canonicalizedhead) section for adding the *ocp-date* header.  
   
--   All new line characters (\n) shown are required within the signature string.  
+- All new line characters (\n) shown are required within the signature string.  
   
--   For detailed information about how to construct the `CanonicalizedHeaders` and `CanonicalizedResource` strings that make up part of the signature string, see the appropriate sections later in this topic.  
+- For detailed information about how to construct the `CanonicalizedHeaders` and `CanonicalizedResource` strings that make up part of the signature string, see the appropriate sections later in this topic.  
   
- To encode the signature string for a request against the Batch service, use the following format:  
+  To encode the signature string for a request against the Batch service, use the following format:  
   
 ```  
   
@@ -129,11 +129,11 @@ Authorization: SharedKey myaccount:ctzMq410TV3wS7upTBcunJTDLEJwMAZuFPfr0mrrA08=
   
  Keep in mind the following rules for constructing the canonicalized resource string:  
   
--   Avoid using the new line character (\n) in values for query parameters. If it must be used, ensure that it does not affect the format of the canonicalized resource string.  
+- Avoid using the new line character (\n) in values for query parameters. If it must be used, ensure that it does not affect the format of the canonicalized resource string.  
   
--   Avoid using commas in query parameter values.  
+- Avoid using commas in query parameter values.  
   
- You can construct the `CanonicalizedResource` string as follows:  
+  You can construct the `CanonicalizedResource` string as follows:  
   
 1.  Beginning with a slash ("/"), followed by the name of the account that owns the resource being accessed.  
   

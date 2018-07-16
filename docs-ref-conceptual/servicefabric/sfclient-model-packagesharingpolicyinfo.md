@@ -32,6 +32,7 @@ translation.priority.mt:
 Represents a policy for the package sharing.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`SharedPackageName`](#sharedpackagename) | string | No |

@@ -32,6 +32,7 @@ translation.priority.mt:
 Information about a stateless service instance deployed on a node.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`ServiceKind`](#servicekind) | string | Yes |

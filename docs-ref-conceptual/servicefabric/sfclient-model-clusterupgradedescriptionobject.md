@@ -32,6 +32,7 @@ translation.priority.mt:
 Represents a ServiceFabric cluster upgrade
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`ConfigVersion`](#configversion) | string | No |

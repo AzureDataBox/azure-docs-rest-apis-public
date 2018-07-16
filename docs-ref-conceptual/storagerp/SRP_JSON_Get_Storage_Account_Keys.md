@@ -25,7 +25,7 @@ For HTTP 200, if using API version 2016-01-01 or later, the response body will c
 }
 ```
 
-##Response Body (2015-06-15 and earlier)
+## Response Body (2015-06-15 and earlier)
 
 ```json
 Response Body (version 2015-06-15 and earlier)

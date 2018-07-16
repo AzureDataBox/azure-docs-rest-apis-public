@@ -54,7 +54,6 @@ The Request Body is empty.
     }
     "kind": "Storage|BlobStorage"
 }
-
 ```
 
 ## Response Body (version 2015-06-15 and later)

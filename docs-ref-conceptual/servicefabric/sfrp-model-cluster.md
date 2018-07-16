@@ -31,6 +31,7 @@ The cluster resource
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [id](#id) | string | No |

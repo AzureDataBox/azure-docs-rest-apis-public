@@ -33,12 +33,14 @@ Gets all Containers-related events.
 The response is list of ContainerInstanceEvent objects.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/EventsStore/Containers/Events?api-version=6.2-preview&timeout={timeout}&StartTimeUtc={StartTimeUtc}&EndTimeUtc={EndTimeUtc}&EventsTypesFilter={EventsTypesFilter}&ExcludeAnalysisEvents={ExcludeAnalysisEvents}&SkipCorrelationLookup={SkipCorrelationLookup}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`api-version`](#api-version) | string | Yes | Query |

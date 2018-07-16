@@ -32,6 +32,7 @@ translation.priority.mt:
 Information about current reconfiguration like phase, type, previous configuration role of replica and reconfiguration start date time.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [PreviousConfigurationRole](#previousconfigurationrole) | string (enum) | No |

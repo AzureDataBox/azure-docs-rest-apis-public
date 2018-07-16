@@ -27,15 +27,15 @@ translation.priority.mt:
 # Constructing a Service SAS
 Beginning with version 2015-04-05, Azure Storage supports two types of shared access signatures (SAS):  
   
--   A service-level SAS, described in this topic. The service SAS delegates access to a resource in just one of the storage services: the Blob, Queue, Table, or File service.  
+- A service-level SAS, described in this topic. The service SAS delegates access to a resource in just one of the storage services: the Blob, Queue, Table, or File service.  
   
--   An account-level SAS, introduced with version 2015-04-05. The account SAS delegates access to resources in one or more of the storage services. All of the operations available via a service SAS are also available via an account SAS. Additionally, with the account SAS, you can delegate access to operations that apply to a given service, such as `Get/Set Service Properties` and `Get Service Stats`. You can also delegate access to read, write, and delete operations on blob containers, tables, queues, and file shares that are not permitted with a service SAS. See [Constructing an Account SAS](Constructing-an-Account-SAS.md) for more information about account SAS.  
+- An account-level SAS, introduced with version 2015-04-05. The account SAS delegates access to resources in one or more of the storage services. All of the operations available via a service SAS are also available via an account SAS. Additionally, with the account SAS, you can delegate access to operations that apply to a given service, such as `Get/Set Service Properties` and `Get Service Stats`. You can also delegate access to read, write, and delete operations on blob containers, tables, queues, and file shares that are not permitted with a service SAS. See [Constructing an Account SAS](Constructing-an-Account-SAS.md) for more information about account SAS.  
   
- The URI for a service-level shared access signature (SAS)  consists of the URI to the resource for which the SAS will delegate access, followed by the SAS token. The SAS token is the query string that includes all of the information required to authenticate the SAS, as well as specifying the resource, the permissions available for access, the time interval over which the signature is valid, the supported IP address or address range from which requests can originate, the supported protocol with which a request can be made, an optional access policy identifier associated with the request, and the signature itself.  
+  The URI for a service-level shared access signature (SAS)  consists of the URI to the resource for which the SAS will delegate access, followed by the SAS token. The SAS token is the query string that includes all of the information required to authenticate the SAS, as well as specifying the resource, the permissions available for access, the time interval over which the signature is valid, the supported IP address or address range from which requests can originate, the supported protocol with which a request can be made, an optional access policy identifier associated with the request, and the signature itself.  
   
- The following figure represents the parts of the shared access signature URI. Required parts appear in orange. The parts of the URI are described in the subsequent sections.  
+  The following figure represents the parts of the shared access signature URI. Required parts appear in orange. The parts of the URI are described in the subsequent sections.  
   
- ![Parameter elements of a SAS URL](media/ElementsofaSharedAccessSignatureURL.png "ElementsofaSharedAccessSignatureURL")  
+  ![Parameter elements of a SAS URL](media/ElementsofaSharedAccessSignatureURL.png "ElementsofaSharedAccessSignatureURL")  
   
 ## Specifying the Signed Version Field  
  The `signedversion` field contains the service version of the shared access signature. This value specifies the version of shared access authentication used by this shared access signature (in the `signature` field), and also specifies the service version of requests made with this shared access signature. See [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md) and [Previous Azure Storage service versions](Azure-Storage-Services-Versions-2015-07-08-and-Earlier.md) for information on which version is used when to execute requests via a shared access signature. See [Delegating Access with a Shared Access Signature](Delegating-Access-with-a-Shared-Access-Signature.md) for details about how this parameter affects authentication of requests made with a shared access signature.
@@ -374,10 +374,10 @@ StringToSign = signedpermissions + "\n" +
 ```  
   
 StringToSign = signedpermissions + "\n" +  
-               signedstart + "\n" +  
-               signedexpiry + "\n" +  
-               canonicalizedresource + "\n" +  
-               signedidentifier  
+               signedstart + "\n" +  
+               signedexpiry + "\n" +  
+               canonicalizedresource + "\n" +  
+               signedidentifier  
   
 ```  
   

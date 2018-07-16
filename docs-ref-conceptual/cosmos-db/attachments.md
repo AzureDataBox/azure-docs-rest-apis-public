@@ -73,17 +73,17 @@ The following example illustrates the JSON construct of a document attachment.
 ## Tasks  
  You can do these tasks with attachments:  
   
--   [Create an Attachment](create-an-attachment.md)  
+- [Create an Attachment](create-an-attachment.md)  
   
--   [Replace an Attachment](replace-an-attachment.md)  
+- [Replace an Attachment](replace-an-attachment.md)  
   
--   [List Attachments](list-attachments.md)  
+- [List Attachments](list-attachments.md)  
   
--   [Delete Attachments](delete-attachments.md)  
+- [Delete Attachments](delete-attachments.md)  
   
- The attachment content is not indexed or searchable; the attachment resource properties are indexed and searchable.  
+  The attachment content is not indexed or searchable; the attachment resource properties are indexed and searchable.  
   
- These operations are similar to the ones for [Documents](documents.md). Instead of performing the operations against the docs, they are performed against the attachments resource path under a particular document. Hence, we will skip elaborating each of the operations. Instead, in the next section, we will discuss how to create an attachment with raw media posting and with metadata-only posting.  
+  These operations are similar to the ones for [Documents](documents.md). Instead of performing the operations against the docs, they are performed against the attachments resource path under a particular document. Hence, we will skip elaborating each of the operations. Instead, in the next section, we will discuss how to create an attachment with raw media posting and with metadata-only posting.  
   
 ## See Also  
 * [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 

@@ -130,17 +130,17 @@ GET https://myaccount.blob.core.windows.net/pictures/profile.jpg?sv=2013-08-15&s
   
  For a client making a request with this signatures, the [Get Blob](Get-Blob.md) operation will be executed if the following criteria are met:  
   
--   The signature in the request successfully authenticates against the storage account.  
+- The signature in the request successfully authenticates against the storage account.  
   
--   The request is made within the time frame specified by the shared access signature.  
+- The request is made within the time frame specified by the shared access signature.  
   
--   The request does not violate any term of an associated stored access policy.  
+- The request does not violate any term of an associated stored access policy.  
   
--   The blob specified by the request (**/myaccount/pictures/profile.jpg**) resides within the container specified as the signed resource (**/myaccount/pictures**).  
+- The blob specified by the request (**/myaccount/pictures/profile.jpg**) resides within the container specified as the signed resource (**/myaccount/pictures**).  
   
- Note that specifying `rsct=binary` and `rscd=file; attachment` on the shared access signature overrides the content-type and content-disposition headers in the response, respectively.  
+  Note that specifying `rsct=binary` and `rscd=file; attachment` on the shared access signature overrides the content-type and content-disposition headers in the response, respectively.  
   
- A successful response for a request made using this shared access signature will be similar to the following:  
+  A successful response for a request made using this shared access signature will be similar to the following:  
   
 ```  
 Status Response:  
@@ -324,17 +324,17 @@ GET https://myaccount.file.core.windows.net/pictures/profile.jpg?sv=2015-02-21&s
   
  For a client making a request with this signature, the [Get File](Get-File.md) operation will be executed if the following criteria are met:  
   
--   The signature in the request successfully authenticates against the storage account.  
+- The signature in the request successfully authenticates against the storage account.  
   
--   The request is made within the time frame specified by the shared access signature.  
+- The request is made within the time frame specified by the shared access signature.  
   
--   The request does not violate any term of an associated stored access policy.  
+- The request does not violate any term of an associated stored access policy.  
   
--   The file specified by the request **(/myaccount/pictures/profile.jpg**) resides within the share specified as the signed resource **(/myaccount/pictures**).  
+- The file specified by the request **(/myaccount/pictures/profile.jpg**) resides within the share specified as the signed resource **(/myaccount/pictures**).  
   
- Note that specifying `rsct=binary` and `rscd=file; attachment` on the shared access signature overrides the `content-type` and `content-disposition` headers in the response, respectively.  
+  Note that specifying `rsct=binary` and `rscd=file; attachment` on the shared access signature overrides the `content-type` and `content-disposition` headers in the response, respectively.  
   
- A successful response for a request made using this shared access signature will be similar to the following:  
+  A successful response for a request made using this shared access signature will be similar to the following:  
   
 ```  
 Status Response:  

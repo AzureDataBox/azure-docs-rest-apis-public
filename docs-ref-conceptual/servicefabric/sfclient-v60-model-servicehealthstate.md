@@ -32,6 +32,7 @@ translation.priority.mt:
 Represents the health state of a service, which contains the service identifier and its aggregated health state.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [AggregatedHealthState](#aggregatedhealthstate) | string (enum) | No |

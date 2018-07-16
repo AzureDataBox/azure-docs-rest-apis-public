@@ -34,6 +34,7 @@ Contains the cluster aggregated health state, the cluster application and node h
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`AggregatedHealthState`](#aggregatedhealthstate) | string (enum) | No |

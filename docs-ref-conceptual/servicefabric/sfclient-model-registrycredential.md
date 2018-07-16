@@ -32,6 +32,7 @@ translation.priority.mt:
 Credential information to connect to container registry.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`RegistryUserName`](#registryusername) | string | No |

@@ -32,6 +32,7 @@ translation.priority.mt:
 Represents the health state of a deployed application, which contains the entity identifier and the aggregated health state.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`AggregatedHealthState`](#aggregatedhealthstate) | string (enum) | No |

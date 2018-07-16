@@ -31,12 +31,14 @@ Deletes a Service Fabric cluster resource.
 Delete a Service Fabric cluster resource with the specified name.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | DELETE | `/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}?api-version=2018-02-01` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [resourceGroupName](#resourcegroupname) | string | Yes | Path |

@@ -34,6 +34,7 @@ The application health state chunk contains the application name, its aggregated
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`HealthState`](#healthstate) | string (enum) | No |

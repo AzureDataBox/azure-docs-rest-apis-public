@@ -35,12 +35,14 @@ In case the backup is enabled for the Service Fabric application, which this ser
 
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/Services/{serviceId}/$/DisableBackup?api-version=6.2-preview&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`serviceId`](#serviceid) | string | Yes | Path |
@@ -49,8 +51,8 @@ In case the backup is enabled for the Service Fabric application, which this ser
 
 ____
 ### `serviceId`
-__Type__: string <br/>
-__Required__: Yes<br/>
+**Type**: string <br/>
+**Required**: Yes<br/>
 <br/>
 The identity of the service. This is typically the full name of the service without the 'fabric:' URI scheme.
 Starting from version 6.0, hierarchical names are delimited with the "~" character.

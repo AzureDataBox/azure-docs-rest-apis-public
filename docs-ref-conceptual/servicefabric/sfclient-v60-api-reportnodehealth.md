@@ -38,12 +38,14 @@ To see whether the report was applied in the health store, run GetNodeHealth and
 
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/Nodes/{nodeName}/$/ReportHealth?api-version=6.0&Immediate={Immediate}&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [nodeName](#nodename) | string | Yes | Path |

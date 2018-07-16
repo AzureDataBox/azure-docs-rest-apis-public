@@ -17,58 +17,58 @@ manager: "timlt"
 ---
 # Get Cloud Service Properties
 The `Get Cloud Service Properties` operation retrieves properties for the specified cloud service. These properties include the following values:  
-  
+
 -   The name and the description of the cloud service.  
-  
+
 -   The name of the affinity group to which the cloud service belongs, or its location if it is not part of an affinity group.  
-  
+
 -   The label that can be used to track the cloud service.  
-  
+
 -   The date and time that the cloud service was created or modified.  
-  
+
 -   If details are requested, information about deployments in the cloud service is returned.  
-  
+
 ## Request  
  The `Get Cloud Service Properties` request may be specified as follows. Replace `<subscription-id>` with your subscription ID, and `<cloudservice-name>` with the name of the cloud service.  
-  
+
 |Method|Request URI|  
 |------------|-----------------|  
 |GET|`https://management.core.windows.net/<subscription-id>/services/hostedservices/<cloudservice-name>`|  
-  
+
 ### URI Parameters  
-  
+
 |URI Parameter|Description|  
 |-------------------|-----------------|  
 |`embed-detail=true`|Optional. Specifies that properties should be returned for all deployments in the cloud service. The default value is `false`.|  
-  
+
 ### Request Headers  
  The following table describes the request headers.  
-  
+
 |Request Header|Description|  
 |--------------------|-----------------|  
 |`x-ms-version`|Required. Specifies the version of the operation to use for this request. This header must be set to `2009-10-01` or higher.|  
-  
+
 ### Request Body  
  None.  
-  
+
 ## Response  
  The response includes an HTTP status code, a set of response headers, and a response body.  
-  
+
 ### Status Code  
  A successful operation returns status code 200 (OK).  
-  
+
 ### Response Headers  
  The response for this operation includes the following headers. The response may also include additional standard HTTP headers.  
-  
+
 |Response Header|Description|  
 |---------------------|-----------------|  
 |`x-ms-request-id`|A value that uniquely identifies a request made against the management service.|  
-  
+
 ### Response Body  
  The basic format for the response body when the request does not include `embed-detail` is shown below:  
-  
+
 ```  
-  
+
 <?xml version="1.0" encoding="utf-8"?>  
 <HostedService xmlns="http://schemas.microsoft.com/windowsazure">  
   <Url>hosted-service-url</Url>  
@@ -91,11 +91,11 @@ The `Get Cloud Service Properties` operation retrieves properties for the specif
   </HostedServiceProperties>  
   <DefaultWinRmCertificateThumbprint>thumbprint-of-winrm-certificate</DefaultWinRmCertificateThumbprint>  
 </HostedService>  
-  
+
 ```  
-  
+
  The following elements are returned when `embed-detail` is set to `true`:  
-  
+
 ```  
 <?xml version="1.0" encoding="utf-8"?>  
 <HostedService xmlns="http://schemas.microsoft.com/windowsazure">  
@@ -255,22 +255,23 @@ The `Get Cloud Service Properties` operation retrieves properties for the specif
   </Deployments>  
   <DefaultWinRmCertificateThumbprint>thumbprint-of-winrm-certificate</DefaultWinRmCertificateThumbprint>  
 </HostedService>  
-  
+
 ```  
-  
+
  The following table describes the elements in the response body.  
-  
-|Element name|Description|  
-|------------------|-----------------|  
-|Url|Specifies the URL that is assigned to the cloud service.|  
-|ServiceName|Specifies the name of the cloud service. This name is the DNS prefix name and can be used to access the cloud service.<br /><br /> For example, if the cloud service name is **MyService** you could access the access the cloud service by calling: http://**MyService**.cloudapp.net|  
-|[HostedServiceProperties](rest-get-cloud-service-properties.md#bk_hostedserviceproperties)|Specifies the properties that are assigned to the cloud service.|  
-|DefaultWinRmCertificateThumbprint|Specifies the SSL certificate thumbprint that was generated when WinRM was defined with an HTTPS listener and a certificate was not included in the definition. The value of this property is read only and does not change if a running role instance is updated to use a new SSL certificate.|  
-|[Deployments](rest-get-cloud-service-properties.md#bk_deployments)|Specifies the deployments in the cloud service.|  
-  
+
+
+|                                        Element name                                        |                                                                                                                                             Description                                                                                                                                             |
+|--------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|                                            Url                                             |                                                                                                                      Specifies the URL that is assigned to the cloud service.                                                                                                                       |
+|                                        ServiceName                                         | Specifies the name of the cloud service. This name is the DNS prefix name and can be used to access the cloud service.<br /><br /> For example, if the cloud service name is **MyService** you could access the access the cloud service by calling: http://<strong>MyService</strong>.cloudapp.net |
+| [HostedServiceProperties](rest-get-cloud-service-properties.md#bk_hostedserviceproperties) |                                                                                                                  Specifies the properties that are assigned to the cloud service.                                                                                                                   |
+|                             DefaultWinRmCertificateThumbprint                              |   Specifies the SSL certificate thumbprint that was generated when WinRM was defined with an HTTPS listener and a certificate was not included in the definition. The value of this property is read only and does not change if a running role instance is updated to use a new SSL certificate.   |
+|             [Deployments](rest-get-cloud-service-properties.md#bk_deployments)             |                                                                                                                           Specifies the deployments in the cloud service.                                                                                                                           |
+
 ###  <a name="bk_hostedserviceproperties"></a> HostedServiceProperties  
  Specifies the properties that are assigned to the cloud service.  
-  
+
 |Element name|Description|  
 |------------------|-----------------|  
 |Description|Specifies the description of the cloud service.|  
@@ -283,37 +284,38 @@ The `Get Cloud Service Properties` operation retrieves properties for the specif
 |Name|Specifies the name of an extended cloud service property.<br /><br /> The `Name` element is only available using version 2012-03-01 or higher.|  
 |Value|Specifies the value of an extended cloud service property.<br /><br /> The `Value` element is only available using version 2012-03-01 or higher.|  
 |ReverseDnsFqdn|Optional. Specifies the DNS address to which the IP address of the cloud service resolves when queried using a reverse DNS query.<br /><br /> The `ReverseDnsFqdn` element is only available using version 2014-06-01 or higher.|  
-  
+
 ###  <a name="bk_deployments"></a> Deployments  
  Specifies the deployments in the cloud service.  
-  
-|Element name|Description|  
-|------------------|-----------------|  
-|Name|Specifies the name of the deployment.|  
-|DeploymentSlot|Specifies the environment in which this deployment is running, either `staging` or `production`.|  
-|PrivateID|Specifies the unique identifier for the deployment.|  
-|Status|Specifies the status of the deployment.<br /><br /> Possible values are:<br /><br /> -                          `Running`<br /><br /> - `Suspended`<br /><br /> -                          `RunningTransitioning`<br /><br /> -                          `SuspendedTransitioning`<br /><br /> - `Starting`<br /><br /> -                          `Suspending`<br /><br /> - `Deploying`<br /><br /> - `Deleting`|  
-|Label|Specifies the base-64-encoded identifier of the deployment. The label can be used for your tracking purposes.|  
-|Url|Specifies the URL that can be used to access the cloud service.<br /><br /> For example, if the service name is **MyService** you could access the access the service by calling: http://**MyService**.cloudapp.net|  
-|Configuration|Specifies the base-64-encoded configuration file of the deployment.|  
-|[RoleInstanceList](rest-get-cloud-service-properties.md#bk_roleinstancelist)|Contains the list of role instances in the deployment.|  
-|[UpgradeStatus](rest-get-cloud-service-properties.md#bk_upgradestatus)|Specifies information about an upgrade occurring on the deployment.|  
-|UpgradeDomainCount|Specifies the number of upgrade domains available to the cloud service.<br /><br /> The `UpgradeDomainCount` element is only available using version 2011-06-01 or higher.|  
-|[RoleList](rest-get-cloud-service-properties.md#bk_rolelist)|Contains the list of roles in the deployment.|  
-|SdkVersion|Specifies the version of the SDK that was used to generate the package for the deployment.<br /><br /> The first two numerical components of the returned version represent the version of the SDK that was used to create the package.<br /><br /> The `SdkVersion` element is only available using version 2011-06-01 or higher.|  
-|Locked|Indicates whether the deployment is locked for new write operations. `True` if the deployment is locked because an existing operation is updating the deployment; otherwise `false`.<br /><br /> The `Locked` element is only available using version 2011-06-01 or higher.|  
-|RollbackAllowed|Indicates whether the [Rollback Update Or Upgrade](rest-rollback-update-or-upgrade.md) operation is allowed at this time. `True` if the operation is allowed; otherwise `false`.<br /><br /> The `RollbackAllowed` element is only available using version 2011-06-01 or higher.|  
-|CreatedTime|Specifies the time that the deployment was created.|  
-|LastModifiedTime|Specifies the last time that the deployment was modified.|  
-|VirtualNetworkName|Specifies the name of the Virtual Network that the virtual machine connects to.<br /><br /> The `VirtualNetworkName` element is only available using version 2012-03-01 or higher.|  
-|[Dns](rest-get-cloud-service-properties.md#bk_dns)|Specifies the custom DNS settings that are specified for deployment.<br /><br /> The `Dns` element is only available using version 2012-03-01 or higher.|  
-|[ExtendedProperties](rest-get-cloud-service-properties.md#bk_extendedproperties)|Specifies the properties that are used to provide more information about a deployment.|  
-|[PersistentVMDowntime](rest-get-cloud-service-properties.md#bk_persistentvmdowntime)|Specifies information about when the Virtual Machine has been started and stopped.<br /><br /> The `PersistentVMDowntime` element is only available using version 2012-03-01 or higher.|  
-|[VirtualIPs](rest-get-cloud-service-properties.md#bk_virtualips)|Contains the virtual IP addresses that are specified for the deployment.<br /><br /> The `VirtualIPs` element is only available using version 2012-03-01 or higher.|  
-  
+
+
+|                                     Element name                                     |                                                                                                                                                                                                    Description                                                                                                                                                                                                    |
+|--------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|                                         Name                                         |                                                                                                                                                                                       Specifies the name of the deployment.                                                                                                                                                                                       |
+|                                    DeploymentSlot                                    |                                                                                                                                                         Specifies the environment in which this deployment is running, either `staging` or `production`.                                                                                                                                                          |
+|                                      PrivateID                                       |                                                                                                                                                                                Specifies the unique identifier for the deployment.                                                                                                                                                                                |
+|                                        Status                                        | Specifies the status of the deployment.<br /><br /> Possible values are:<br /><br /> -                          `Running`<br /><br /> - `Suspended`<br /><br /> -                          `RunningTransitioning`<br /><br /> -                          `SuspendedTransitioning`<br /><br /> - `Starting`<br /><br /> -                          `Suspending`<br /><br /> - `Deploying`<br /><br /> - `Deleting` |
+|                                        Label                                         |                                                                                                                                                   Specifies the base-64-encoded identifier of the deployment. The label can be used for your tracking purposes.                                                                                                                                                   |
+|                                         Url                                          |                                                                                         Specifies the URL that can be used to access the cloud service.<br /><br /> For example, if the service name is **MyService** you could access the access the service by calling: http://<strong>MyService</strong>.cloudapp.net                                                                                          |
+|                                    Configuration                                     |                                                                                                                                                                        Specifies the base-64-encoded configuration file of the deployment.                                                                                                                                                                        |
+|     [RoleInstanceList](rest-get-cloud-service-properties.md#bk_roleinstancelist)     |                                                                                                                                                                              Contains the list of role instances in the deployment.                                                                                                                                                                               |
+|        [UpgradeStatus](rest-get-cloud-service-properties.md#bk_upgradestatus)        |                                                                                                                                                                        Specifies information about an upgrade occurring on the deployment.                                                                                                                                                                        |
+|                                  UpgradeDomainCount                                  |                                                                                                                    Specifies the number of upgrade domains available to the cloud service.<br /><br /> The `UpgradeDomainCount` element is only available using version 2011-06-01 or higher.                                                                                                                     |
+|             [RoleList](rest-get-cloud-service-properties.md#bk_rolelist)             |                                                                                                                                                                                   Contains the list of roles in the deployment.                                                                                                                                                                                   |
+|                                      SdkVersion                                      |                                        Specifies the version of the SDK that was used to generate the package for the deployment.<br /><br /> The first two numerical components of the returned version represent the version of the SDK that was used to create the package.<br /><br /> The `SdkVersion` element is only available using version 2011-06-01 or higher.                                         |
+|                                        Locked                                        |                                                                    Indicates whether the deployment is locked for new write operations. `True` if the deployment is locked because an existing operation is updating the deployment; otherwise `false`.<br /><br /> The `Locked` element is only available using version 2011-06-01 or higher.                                                                    |
+|                                   RollbackAllowed                                    |                                                                 Indicates whether the [Rollback Update Or Upgrade](rest-rollback-update-or-upgrade.md) operation is allowed at this time. `True` if the operation is allowed; otherwise `false`.<br /><br /> The `RollbackAllowed` element is only available using version 2011-06-01 or higher.                                                                  |
+|                                     CreatedTime                                      |                                                                                                                                                                                Specifies the time that the deployment was created.                                                                                                                                                                                |
+|                                   LastModifiedTime                                   |                                                                                                                                                                             Specifies the last time that the deployment was modified.                                                                                                                                                                             |
+|                                  VirtualNetworkName                                  |                                                                                                                Specifies the name of the Virtual Network that the virtual machine connects to.<br /><br /> The `VirtualNetworkName` element is only available using version 2012-03-01 or higher.                                                                                                                 |
+|                  [Dns](rest-get-cloud-service-properties.md#bk_dns)                  |                                                                                                                             Specifies the custom DNS settings that are specified for deployment.<br /><br /> The `Dns` element is only available using version 2012-03-01 or higher.                                                                                                                              |
+|   [ExtendedProperties](rest-get-cloud-service-properties.md#bk_extendedproperties)   |                                                                                                                                                              Specifies the properties that are used to provide more information about a deployment.                                                                                                                                                               |
+| [PersistentVMDowntime](rest-get-cloud-service-properties.md#bk_persistentvmdowntime) |                                                                                                              Specifies information about when the Virtual Machine has been started and stopped.<br /><br /> The `PersistentVMDowntime` element is only available using version 2012-03-01 or higher.                                                                                                              |
+|           [VirtualIPs](rest-get-cloud-service-properties.md#bk_virtualips)           |                                                                                                                        Contains the virtual IP addresses that are specified for the deployment.<br /><br /> The `VirtualIPs` element is only available using version 2012-03-01 or higher.                                                                                                                        |
+
 ###  <a name="bk_roleinstancelist"></a> RoleInstanceList  
  Contains the list of role instances in the deployment.  
-  
+
 |Element name|Description|  
 |------------------|-----------------|  
 |RoleName|Specifies the name of the role.|  
@@ -329,10 +331,10 @@ The `Get Cloud Service Properties` operation retrieves properties for the specif
 |PowerState|Indicates the running state of the role instance.<br /><br /> The following are possible values:<br /><br /> - `Starting`<br /><br /> - `Started`<br /><br /> - `Stopping`<br /><br /> - `Stopped`<br /><br /> - `Unknown`|  
 |HostName|Specifies the DNS host name of the cloud service in which the role instance is running. This element is only listed for Virtual Machine deployments.|  
 |RemoteAccessCertificateThumbprint|Specifies the thumbprint of the RDP server certificate (in Windows) or SSH server certificate (in Linux).  The thumbprint is only used for Virtual Machines that have been created from an image.<br /><br /> The `RemoteAccessCertificateThumbprint` element is only available using version 2012-08-01 or higher.|  
-  
+
 ###  <a name="bk_instanceendpoints"></a> InstanceEndpoints  
  Contains the list of instance endpoints for the role.  
-  
+
 |Element name|Description|  
 |------------------|-----------------|  
 |Name|Specifies the name of the endpoint.|  
@@ -340,19 +342,19 @@ The `Get Cloud Service Properties` operation retrieves properties for the specif
 |PublicPort|Specifies the external port that is used by the endpoint.|  
 |LocalPort|Specifies the internal port that is used by the endpoint.|  
 |Protocol|Specifies the protocol of traffic on the endpoint.|  
-  
+
 ###  <a name="bk_upgradestatus"></a> UpgradeStatus  
  Specifies information about an upgrade occurring on the deployment.  
-  
+
 |Element name|Description|  
 |------------------|-----------------|  
 |UpgradeType|Specifies the type of the upgrade.<br /><br /> Possible values are:<br /><br /> -                          `Auto`<br /><br /> -                          `Manual`<br /><br /> -                          `Simultaneous`|  
 |CurrentUpgradeDomainState|Specifies the current state of the upgrade. Possible values are `Before` and `During`|  
 |CurrentUpgradeDomain|Contains an integer value that identifies the current upgrade domain. Upgrade domains are identified with a zero-based index: the first upgrade domain has an ID of 0, the second has an ID of 1, and so on.|  
-  
+
 ###  <a name="bk_rolelist"></a> RoleList  
  Contains the list of roles in the deployment.  
-  
+
 |Element name|Description|  
 |------------------|-----------------|  
 |RoleName|Specifies the name of the role.|  
@@ -363,19 +365,19 @@ The `Get Cloud Service Properties` operation retrieves properties for the specif
 |[DataVirtualHardDisks](rest-get-cloud-service-properties.md#bk_datavirtualharddisks)|Contains the parameters that are used to add a data disk to a Virtual Machine.|  
 |[OSVirtualHardDisk](rest-get-cloud-service-properties.md#bk_osvirtualharddisk)|Contains the parameters that are used to create the operating system disk for a Virtual Machine.|  
 |RoleSize|Specifies the size of the role instance.|  
-  
+
 ###  <a name="bk_configurationsets"></a> ConfigurationSets  
  Contains a collection of values that represents system or application configuration settings.  
-  
+
 |Element name|Description|  
 |------------------|-----------------|  
 |ConfigurationSetType|Specifies the configuration type for the configuration set. This is currently always set to NetworkConfiguration.|  
 |[InputEndpoints](rest-get-cloud-service-properties.md#bk_inputendpoints)|Contains a collection of external endpoints for a Virtual Machine.|  
 |SubnetNames|Contains a list of Virtual Network subnet names to which the deployment belongs.|  
-  
+
 ###  <a name="bk_inputendpoints"></a> InputEndpoints  
  Contains a collection of external endpoints for a Virtual Machine.  
-  
+
 |Element name|Description|  
 |------------------|-----------------|  
 |LoadBalancedEndpointSetName|Specifies a name of a set of load-balanced endpoints. This element is only listed for Virtual Machine deployments.|  
@@ -385,62 +387,63 @@ The `Get Cloud Service Properties` operation retrieves properties for the specif
 |[LoadBalancerProbe](rest-get-cloud-service-properties.md#bk_loadbalancerprobe)|Contains the endpoint settings which the Azure load balancer uses to monitor the availability of a Virtual Machine before forwarding traffic to the endpoint.|  
 |Protocol|Specifies the transport protocol for the endpoint.<br /><br /> Possible Values are:<br /><br /> -                          `TCP`<br /><br /> - `UDP`|  
 |Vip|Specifies the virtual IP address for the endpoint.|  
-  
+
 ###  <a name="bk_loadbalancerprobe"></a> LoadBalancerProbe  
  Contains the endpoint settings which the Azure load balancer uses to monitor the availability of a Virtual Machine before forwarding traffic to the endpoint.  
-  
+
 |Element name|Description|  
 |------------------|-----------------|  
 |Path|Specifies the relative path name to inspect to determine the availability status. If Protocol is set to TCP, this value must be NULL.<br /><br /> Example:<br /><br /> path<br /><br /> The probe will use https://example.com/path to perform the probe.|  
 |Port|Specifies the port to use to inspect the availability status.|  
 |Protocol|Specifies the protocol to use to inspect the availability status.<br /><br /> Possible values are:<br /><br /> - `HTTP`<br /><br /> - `TCP`|  
-  
+
 ###  <a name="bk_dns"></a> Dns  
  Specifies the custom DNS settings that are specified for deployment.  
-  
+
 |Element name|Description|  
 |------------------|-----------------|  
 |Name|Specifies the name of the DNS server.|  
 |Address|Specifies the IP address of the DNS server.|  
-  
+
 ###  <a name="bk_extendedproperties"></a> ExtendedProperties  
  Specifies the properties that are used to provide more information about a deployment.  
-  
+
 |Element name|Description|  
 |------------------|-----------------|  
 |Name|Specifies the name of a property that is associated with the deployment.|  
 |Value|Specifies the value of a property that is associated with the deployment.|  
-  
+
 ###  <a name="bk_persistentvmdowntime"></a> PersistentVMDowntime  
  Specifies information about when the Virtual Machine has been started and stopped.  
-  
+
 |Element name|Description|  
 |------------------|-----------------|  
 |StartTime|Specifies the time that the Virtual Machine was started.|  
 |EndTime|Specifies the time that the Virtual Machine was stopped.|  
 |Status|Specifies the status of the Virtual Machine.|  
-  
+
 ###  <a name="bk_virtualips"></a> VirtualIPs  
  Contains the virtual IP addresses that are specified for the deployment.  
-  
+
 |Element name|Description|  
 |------------------|-----------------|  
 |Address|Specifies the virtual IP address of the deployment.|  
-  
+
 ###  <a name="bk_datavirtualharddisks"></a> DataVirtualHardDisks  
  Contains the parameters that are used to add a data disk to a Virtual Machine.  
-  
-|Element name|Description|  
-|------------------|-----------------|  
-|HostCaching|Specifies the platform caching behavior of the data disk blob for read/write efficiency.<br /><br /> Possible values are:<br /><br /> - `None`<br /><br /> -                          `ReadOnly`<br /><br /> - `ReadWrite`<br /><br /> The default vault is `ReadOnly`.|  
-|DiskName|Specifies the name of the VHD to use to create the data disk for the Virtual Machine.|  
-|Lun|Specifies the Logical Unit Number (LUN) for the data disk. The LUN specifies the slot in which the data drive appears when mounted for usage by the Virtual Machine. This element is only listed when more than one data disk is attached to a Virtual Machine.|  
-|LogicalDiskSizeInGB|Specifies the size, in GB, of the disk to be attached to the Virtual Machine.|  
-|MediaLink|Specifies the location in Azure storage of the VHD that is associated with the disk.<br /><br /> Example:<br /><br /> http://example.blob.core.windows.net/disks/mydatadisk.vhd|  
-  
+
+
+|    Element name     |                                                                                                                               Description                                                                                                                               |
+|---------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|     HostCaching     | Specifies the platform caching behavior of the data disk blob for read/write efficiency.<br /><br /> Possible values are:<br /><br /> - `None`<br /><br /> -                          `ReadOnly`<br /><br /> - `ReadWrite`<br /><br /> The default vault is `ReadOnly`. |
+|      DiskName       |                                                                                          Specifies the name of the VHD to use to create the data disk for the Virtual Machine.                                                                                          |
+|         Lun         |     Specifies the Logical Unit Number (LUN) for the data disk. The LUN specifies the slot in which the data drive appears when mounted for usage by the Virtual Machine. This element is only listed when more than one data disk is attached to a Virtual Machine.     |
+| LogicalDiskSizeInGB |                                                                                              Specifies the size, in GB, of the disk to be attached to the Virtual Machine.                                                                                              |
+|      MediaLink      |                                             Specifies the location in Azure storage of the VHD that is associated with the disk.<br /><br /> Example:<br /><br /> http://example.blob.core.windows.net/disks/mydatadisk.vhd                                             |
+
 ###  <a name="bk_osvirtualharddisk"></a> OSVirtualHardDisk  
  Contains the parameters that are used to create the operating system disk for a Virtual Machine.  
-  
+
 |Element name|Description|  
 |------------------|-----------------|  
 |HostCaching|Specifies the platform caching behavior of the operating system disk blob for read/write efficiency.<br /><br /> Possible values are:<br /><br /> - `ReadOnly`<br /><br /> -                          `ReadWrite`|  
@@ -448,6 +451,6 @@ The `Get Cloud Service Properties` operation retrieves properties for the specif
 |MediaLink|Specifies the location in Azure storage of the VHD that is associated with the operating system disk.|  
 |SourceImageName|Specifies the name of the source image that was used to create the operating system disk.|  
 |OS|Specifies the operating system that is running on the Virtual Machine.|  
-  
+
 ## Remarks  
  To obtain the names of cloud services in your subscription, you can use [List Cloud Services](rest-list-cloud-services.md).

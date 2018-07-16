@@ -32,6 +32,7 @@ translation.priority.mt:
 Describes an application parameter override to be applied when creating or upgrading an application.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [Key](#key) | string | Yes |

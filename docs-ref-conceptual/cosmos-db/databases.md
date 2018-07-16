@@ -27,11 +27,11 @@ translation.priority.mt:
 ---
 # Databases
 [Azure Cosmos DB](/azure/cosmos-db/introduction) is a globally distributed multi-model database that supports the document, graph, and key-value data models. The content in this section is for creating, querying, and managing database [resources](/azure/cosmos-db/sql-api-resources) using the [SQL API](/azure/cosmos-db/sql-api-introduction) via REST.  
-  
+
 Each Azure Cosmos DB account supports multiple independently named databases. A database is a logical namespace for collections, users, and permissions. The database resource is represented by **dbs** in the [Azure Cosmos DB resource model](/azure/cosmos-db/sql-api-resources/). Here’s an example of the URI: https://mydbaccount.documents.azure.com/dbs.
-  
+
 Here is a sample representation of a database in Azure Cosmos DB:  
-  
+
 ```json
 {  
   "id":"ContosoDB",  
@@ -42,9 +42,8 @@ Here is a sample representation of a database in Azure Cosmos DB:
   "_colls":"colls\/",  
   "_users":"users\/"
 }  
-  
 ```  
-  
+
 |Property|Description|  
 |--------------|-----------------|  
 |id|Required. It is the only [user settable property](/azure/cosmos-db/sql-api-resources#system-vs-user-defined-resources). It is a unique name that identifies the database, that is, no two databases share the same name in an account. The name must not exceed 255 characters.|  
@@ -54,21 +53,21 @@ Here is a sample representation of a database in Azure Cosmos DB:
 |_etag|It is a system generated property that specifies the resource etag required for optimistic concurrency control.|  
 |_colls|It is a system generated property that specifies the addressable path of the **collections** resource.|  
 |_users|It is a system generated property that specifies the addressable path of the **users** resource.|  
-  
+
 ## Tasks  
  You can do the following tasks with databases:  
-  
+
 * [Create a Database](create-a-database.md)  
 * [List Databases](list-databases.md)  
 * [Get a Database](get-a-database.md)  
 * [Delete a Database](delete-a-database.md)
 * Query Databases  
-  
+
 ## See Also  
 * [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
 * [Azure Cosmos DB SQL API](https://docs.microsoft.com/azure/cosmos-db/sql-api-introduction)   
 * [Azure Cosmos DB SQL API SDKs](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-sdk-dotnet)    
 * [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
-  
-  
+
+
 

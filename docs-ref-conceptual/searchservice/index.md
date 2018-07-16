@@ -47,13 +47,13 @@ For the full list of preview features, see [Preview APIs](https://docs.microsoft
 
  There are three types of operations that can be executed against the service:  
 
--   [Index management operations](index-operations.md). Create, delete, update, or configure a search index.  
+- [Index management operations](index-operations.md). Create, delete, update, or configure a search index.  
 
--   [Document operations](document-operations.md). Add, update, or delete documents in the index, query the index, or look up specific documents by ID.  
+- [Document operations](document-operations.md). Add, update, or delete documents in the index, query the index, or look up specific documents by ID.  
 
--   [Indexer operations](indexer-operations.md). Automate aspects of an indexing operation by configuring a **data source** and an **indexer** that you can schedule or run on demand. This feature is supported for a limited number of data source types.  
+- [Indexer operations](indexer-operations.md). Automate aspects of an indexing operation by configuring a **data source** and an **indexer** that you can schedule or run on demand. This feature is supported for a limited number of data source types.  
 
- A separate REST API is provided for service administration, including provisioning the service or altering capacity. For more information, see [Azure Search Management REST](~/docs-ref-conceptual/searchmanagement/index.md).  
+  A separate REST API is provided for service administration, including provisioning the service or altering capacity. For more information, see [Azure Search Management REST](~/docs-ref-conceptual/searchmanagement/index.md).  
 
 ## Calling the APIs
 

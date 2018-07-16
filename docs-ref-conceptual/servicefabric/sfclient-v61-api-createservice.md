@@ -33,12 +33,14 @@ Creates the specified Service Fabric service.
 This api allows creating a new Service Fabric stateless or stateful service under a specified Service Fabric application. The description for creating the service includes partitioning information and optional properties for placement and load balancing. Some of the properties can later be modified using `UpdateService` API.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/Applications/{applicationId}/$/GetServices/$/Create?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [applicationId](#applicationid) | string | Yes | Path |
@@ -48,8 +50,8 @@ This api allows creating a new Service Fabric stateless or stateful service unde
 
 ____
 ### applicationId
-__Type__: string <br/>
-__Required__: Yes<br/>
+**Type**: string <br/>
+**Required**: Yes<br/>
 <br/>
 The identity of the application. This is typically the full name of the application without the 'fabric:' URI scheme.
 Starting from version 6.0, hierarchical names are delimited with the "~" character.

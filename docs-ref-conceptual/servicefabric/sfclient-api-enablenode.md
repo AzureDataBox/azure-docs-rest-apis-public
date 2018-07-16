@@ -33,12 +33,14 @@ Activate a Service Fabric cluster node which is currently deactivated.
 Activates a Service Fabric cluster node which is currently deactivated. Once activated, the node will again become a viable target for placing new replicas, and any deactivated replicas remaining on the node will be reactivated.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/Nodes/{nodeName}/$/Activate?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`nodeName`](#nodename) | string | Yes | Path |

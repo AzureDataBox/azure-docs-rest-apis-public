@@ -32,6 +32,7 @@ translation.priority.mt:
 Information about a service partition and its associated endpoints.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [Name](#name) | string | Yes |

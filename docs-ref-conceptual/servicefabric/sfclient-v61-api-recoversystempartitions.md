@@ -33,12 +33,14 @@ Indicates to the Service Fabric cluster that it should attempt to recover the sy
 Indicates to the Service Fabric cluster that it should attempt to recover the system services which are currently stuck in quorum loss. This operation should only be performed if it is known that the replicas that are down cannot be recovered. Incorrect use of this API can cause potential data loss.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/$/RecoverSystemPartitions?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [api-version](#api-version) | string | Yes | Query |

@@ -32,6 +32,7 @@ translation.priority.mt:
 Information about a stateful service replica deployed on a node.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`ServiceKind`](#servicekind) | string | Yes |

@@ -114,33 +114,33 @@ The `Set Blob Properties` operation sets system properties on the blob.
 ## Remarks  
  The semantics for updating a blob's properties are as follows:  
   
--   A page blob's sequence number is updated only if the request meets either of the following conditions:  
+- A page blob's sequence number is updated only if the request meets either of the following conditions:  
   
-    -   The request sets the `x-ms-sequence-number-action` to `max` or `update`, and also specifies a value for the `x-ms-blob-sequence-number` header.  
+  -   The request sets the `x-ms-sequence-number-action` to `max` or `update`, and also specifies a value for the `x-ms-blob-sequence-number` header.  
   
-    -   The request sets the `x-ms-sequence-number-action` to `increment`, indicating that the service should increment the sequence number by one.  
+  -   The request sets the `x-ms-sequence-number-action` to `increment`, indicating that the service should increment the sequence number by one.  
   
--   A page blob's size is modified only if the request specifies a value for the `x-ms-content-length` header.  
+- A page blob's size is modified only if the request specifies a value for the `x-ms-content-length` header.  
 
--   To change a page blob's size in a premium storage account, the new size must not exeed the content length allowed by the existing tier. Call [Set Blob Tier](set-blob-tier.md) before resizing the blob. For a list of tiers and allowed content length, see [High-performance Premium Storage and managed disks for VMs](/azure/storage/storage-premium-storage#features).  
+- To change a page blob's size in a premium storage account, the new size must not exeed the content length allowed by the existing tier. Call [Set Blob Tier](set-blob-tier.md) before resizing the blob. For a list of tiers and allowed content length, see [High-performance Premium Storage and managed disks for VMs](/azure/storage/storage-premium-storage#features).  
   
--   If a request sets only `x-ms-blob-sequence-number` and/or `x-ms-content-length`, and no other properties, then none of the blob's other properties are modified.  
+- If a request sets only `x-ms-blob-sequence-number` and/or `x-ms-content-length`, and no other properties, then none of the blob's other properties are modified.  
   
--   If any one or more of the following properties is set in the request, then all of these properties are set together. If a value is not provided for a given property when at least one of the properties listed below is set, then that property will be cleared for the blob.  
+- If any one or more of the following properties is set in the request, then all of these properties are set together. If a value is not provided for a given property when at least one of the properties listed below is set, then that property will be cleared for the blob.  
   
-    -   `x-ms-blob-cache-control`  
+  -   `x-ms-blob-cache-control`  
   
-    -   `x-ms-blob-content-type`  
+  -   `x-ms-blob-content-type`  
   
-    -   `x-ms-blob-content-md5`  
+  -   `x-ms-blob-content-md5`  
   
-    -   `x-ms-blob-content-encoding`  
+  -   `x-ms-blob-content-encoding`  
   
-    -   `x-ms-blob-content-language`  
+  -   `x-ms-blob-content-language`  
   
-    -   `x-ms-blob-content-disposition`  
+  -   `x-ms-blob-content-disposition`  
   
- Note that for a shared access signature, you can override certain properties stored for the blob by specifying query parameters as part of the shared access signature. These properties include the `cache-control`, `content-type`, `content-encoding`, `content-language`, and `content-disposition` properties. For more information, see [Constructing a Service SAS](Constructing-a-Service-SAS.md).  
+  Note that for a shared access signature, you can override certain properties stored for the blob by specifying query parameters as part of the shared access signature. These properties include the `cache-control`, `content-type`, `content-encoding`, `content-language`, and `content-disposition` properties. For more information, see [Constructing a Service SAS](Constructing-a-Service-SAS.md).  
   
 ## See Also  
  [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md)   

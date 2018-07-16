@@ -30,6 +30,7 @@ translation.priority.mt:
 Specifies a metric to load balance a service during runtime.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [Name](#name) | string | Yes |

@@ -33,12 +33,14 @@ Gets the health of the service fabric application.
 Returns the heath state of the service fabric application. The response reports either Ok, Error or Warning health state. If the entity is not found in the health store, it will return Error.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/Applications/{applicationId}/$/GetHealth?api-version=6.0&EventsHealthStateFilter={EventsHealthStateFilter}&DeployedApplicationsHealthStateFilter={DeployedApplicationsHealthStateFilter}&ServicesHealthStateFilter={ServicesHealthStateFilter}&ExcludeHealthStatistics={ExcludeHealthStatistics}&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`applicationId`](#applicationid) | string | Yes | Path |
@@ -51,8 +53,8 @@ Returns the heath state of the service fabric application. The response reports 
 
 ____
 ### `applicationId`
-__Type__: string <br/>
-__Required__: Yes<br/>
+**Type**: string <br/>
+**Required**: Yes<br/>
 <br/>
 The identity of the application. This is typically the full name of the application without the 'fabric:' URI scheme.
 Starting from version 6.0, hierarchical names are delimited with the "~" character.

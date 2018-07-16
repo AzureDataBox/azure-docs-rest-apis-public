@@ -34,12 +34,14 @@ Returns information about the state of the latest restore operation along with d
 
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/Partitions/{partitionId}/$/GetRestoreProgress?api-version=6.2-preview&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`partitionId`](#partitionid) | string (uuid) | Yes | Path |

@@ -71,18 +71,18 @@ To insert or update an entity, you include with the request an an OData ATOM or 
   
 ```  
 {  
-   "Address":"Mountain View",  
-   "Age":23,  
-   "AmountDue":200.23,  
-   "CustomerCode@odata.type":"Edm.Guid",  
-   "CustomerCode":"c9da6455-213d-42c9-9a79-3e9149a57833",  
-   "CustomerSince@odata.type":"Edm.DateTime",  
-   "CustomerSince":"2008-07-10T00:00:00",  
+   "Address":"Mountain View",  
+   "Age":23,  
+   "AmountDue":200.23,  
+   "CustomerCode@odata.type":"Edm.Guid",  
+   "CustomerCode":"c9da6455-213d-42c9-9a79-3e9149a57833",  
+   "CustomerSince@odata.type":"Edm.DateTime",  
+   "CustomerSince":"2008-07-10T00:00:00",  
    "IsActive":true,  
-   "NumOfOrders@odata.type":"Edm.Int64",  
-   "NumOfOrders":"255",  
-   "PartitionKey":"mypartitionkey",  
-   "RowKey":"myrowkey"  
+   "NumOfOrders@odata.type":"Edm.Int64",  
+   "NumOfOrders":"255",  
+   "PartitionKey":"mypartitionkey",  
+   "RowKey":"myrowkey"  
 }  
   
 ```  

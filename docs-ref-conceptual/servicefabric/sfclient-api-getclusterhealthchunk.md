@@ -35,12 +35,14 @@ To expand the cluster health and get the health state of all or some of the enti
 
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/$/GetClusterHealthChunk?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`api-version`](#api-version) | string | Yes | Query |

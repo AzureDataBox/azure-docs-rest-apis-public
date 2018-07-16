@@ -32,6 +32,7 @@ translation.priority.mt:
 Represents a stateless service instance. This includes information about the identity, status, health, node name, uptime, and other details about the instance.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`ServiceKind`](#servicekind) | string | Yes |

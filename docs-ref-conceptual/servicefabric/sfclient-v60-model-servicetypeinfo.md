@@ -32,6 +32,7 @@ translation.priority.mt:
 Information about a service type that is defined in a service manifest of a provisioned application type.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [ServiceTypeDescription](#servicetypedescription) | [ServiceTypeDescription](sfclient-v60-model-servicetypedescription.md) | No |

@@ -36,12 +36,14 @@ Similarly, use NodesHealthStateFilter and ApplicationsHealthStateFilter to filte
 
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/$/GetClusterHealth?api-version=6.0&NodesHealthStateFilter={NodesHealthStateFilter}&ApplicationsHealthStateFilter={ApplicationsHealthStateFilter}&EventsHealthStateFilter={EventsHealthStateFilter}&ExcludeHealthStatistics={ExcludeHealthStatistics}&IncludeSystemApplicationHealthStatistics={IncludeSystemApplicationHealthStatistics}&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`api-version`](#api-version) | string | Yes | Query |

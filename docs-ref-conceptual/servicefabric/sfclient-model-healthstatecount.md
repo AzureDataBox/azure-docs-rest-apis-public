@@ -33,6 +33,7 @@ Represents information about how many health entities are in Ok, Warning and Err
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`OkCount`](#okcount) | integer (int64) | No |

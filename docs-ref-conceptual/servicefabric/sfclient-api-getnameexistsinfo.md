@@ -33,12 +33,14 @@ Returns whether the Service Fabric name exists.
 Returns whether the specified Service Fabric name exists.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/Names/{nameId}?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`nameId`](#nameid) | string | Yes | Path |

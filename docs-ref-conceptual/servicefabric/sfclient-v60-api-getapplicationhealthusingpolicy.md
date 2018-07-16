@@ -33,12 +33,14 @@ Gets the health of a Service Fabric application using the specified policy.
 Gets the health of a Service Fabric application. Use EventsHealthStateFilter to filter the collection of health events reported on the node based on the health state. Use ClusterHealthPolicies to override the health policies used to evaluate the health.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/Applications/{applicationId}/$/GetHealth?api-version=6.0&EventsHealthStateFilter={EventsHealthStateFilter}&DeployedApplicationsHealthStateFilter={DeployedApplicationsHealthStateFilter}&ServicesHealthStateFilter={ServicesHealthStateFilter}&ExcludeHealthStatistics={ExcludeHealthStatistics}&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [applicationId](#applicationid) | string | Yes | Path |
@@ -52,8 +54,8 @@ Gets the health of a Service Fabric application. Use EventsHealthStateFilter to 
 
 ____
 ### applicationId
-__Type__: string <br/>
-__Required__: Yes<br/>
+**Type**: string <br/>
+**Required**: Yes<br/>
 <br/>
 The identity of the application. This is typically the full name of the application without the 'fabric:' URI scheme. Starting from version 6.0, hierarchical names are delimited with the "~" character. For example, if the application name is "fabric://myapp/app1", the application identity would be "myapp~app1" in 6.0+ and "myapp/app1" in previous versions.
 
@@ -86,9 +88,9 @@ If not specified, all entries are returned. The state values are flag based enum
 
 ____
 ### DeployedApplicationsHealthStateFilter
-__Type__: integer <br/>
-__Required__: No<br/>
-__Default__: 0 <br/>
+**Type**: integer <br/>
+**Required**: No<br/>
+**Default**: 0 <br/>
 <br/>
 Allows filtering of the deployed applications health state objects returned in the result of application health query based on their health state.
 The possible values for this parameter include integer value of one of the following health states. Only deployed applications that match the filter will be returned.\

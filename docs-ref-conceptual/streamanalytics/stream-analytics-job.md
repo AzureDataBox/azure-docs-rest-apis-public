@@ -473,9 +473,9 @@ Lists all of the Stream Analytics jobs that are defined in a resource group.
   
  Replace the values of the following parameters as you need them:  
   
--   The request will support the $expand query option. The endpoint will by default exclude the Inputs, Transformation, Outputs, and  Functions properties if the request does not have the $expand query parameter. Specifying the query parameter ($expand=Inputs,Transformation,Outputs,Functions) will return those properties.  
+- The request will support the $expand query option. The endpoint will by default exclude the Inputs, Transformation, Outputs, and  Functions properties if the request does not have the $expand query parameter. Specifying the query parameter ($expand=Inputs,Transformation,Outputs,Functions) will return those properties.  
   
- Replace {api-version} with 2015-10-01 in the URI.  
+  Replace {api-version} with 2015-10-01 in the URI.  
   
 ### Response  
  Status code: 200  
@@ -538,9 +538,9 @@ Lists all of the Stream Analytics jobs that are defined in a subscription.
   
  Replace the values of the following parameters as you need them:  
   
--   The request will support the $expand query option. The endpoint will by default exclude the Inputs, Transformation, Outputs, and  Functions properties if the request does not have the $expand query parameter. Specifying the query parameter ($expand=Inputs,Transformation,Outputs,Functions) will return those properties.  
+- The request will support the $expand query option. The endpoint will by default exclude the Inputs, Transformation, Outputs, and  Functions properties if the request does not have the $expand query parameter. Specifying the query parameter ($expand=Inputs,Transformation,Outputs,Functions) will return those properties.  
   
- Replace {api-version} with 2015-10-01 in the URI.  
+  Replace {api-version} with 2015-10-01 in the URI.  
   
 ### Response  
  Status code: 200  

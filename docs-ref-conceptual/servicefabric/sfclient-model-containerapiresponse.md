@@ -32,6 +32,7 @@ translation.priority.mt:
 Response body that wraps container API result.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`ContainerApiResult`](#containerapiresult) | [ContainerApiResult](sfclient-model-containerapiresult.md) | Yes |

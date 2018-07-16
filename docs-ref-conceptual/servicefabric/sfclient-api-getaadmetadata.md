@@ -35,12 +35,14 @@ This API is not supposed to be called separately. It provides information needed
 
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/$/GetAadMetadata?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`api-version`](#api-version) | string | Yes | Query |

@@ -30,23 +30,23 @@ translation.priority.mt:
   
 The following information is common to all tasks that you might do related to Service Bus namespaces:  
   
--   Replace {subscriptionId} with your subscription identifier in the URI.  
+- Replace {subscriptionId} with your subscription identifier in the URI.  
   
--   Replace {api-version} with “2015-08-01” in the URI.  
+- Replace {api-version} with “2015-08-01” in the URI.  
   
--   Set the Content-Type header to **application/json**.  
+- Set the Content-Type header to **application/json**.  
   
--   Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/dn790557.aspx).  
+- Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/dn790557.aspx).  
   
--   Replace {subscriptionId} with the Azure subscription ID.  
+- Replace {subscriptionId} with the Azure subscription ID.  
   
--   Replace {resourceGroupName} with the resource group name within the subscriptionId. For more information, see [Using the Azure Portal to deploy and manage your Azure resources](https://azure.microsoft.com/documentation/articles/resource-group-portal/).  
+- Replace {resourceGroupName} with the resource group name within the subscriptionId. For more information, see [Using the Azure Portal to deploy and manage your Azure resources](https://azure.microsoft.com/documentation/articles/resource-group-portal/).  
   
--   Replace {namespaceName} with the name of the namespace you created on the portal.  
+- Replace {namespaceName} with the name of the namespace you created on the portal.  
   
--   Replace {authRuleName} with the name of an authorization rule.  
+- Replace {authRuleName} with the name of an authorization rule.  
   
- The following properties are common to namespace management operations:  
+  The following properties are common to namespace management operations:  
   
 |Property|Description|  
 |--------------|-----------------|  

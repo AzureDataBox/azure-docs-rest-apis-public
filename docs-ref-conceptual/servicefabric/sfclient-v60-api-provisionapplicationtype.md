@@ -33,12 +33,14 @@ Provisions or registers a Service Fabric application type with the cluster.
 Provisions or registers a Service Fabric application type with the cluster. This is required before any new applications can be instantiated.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/ApplicationTypes/$/Provision?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [api-version](#api-version) | string | Yes | Query |

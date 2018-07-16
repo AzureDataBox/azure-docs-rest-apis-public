@@ -150,13 +150,13 @@ The User entity in API Management represents the developers that call the APIs o
   
 ```json  
 {  
-  "id": "/users/53e11e52ad662f0c74ab4e95",  
-  "firstName": "Clayton",  
-  "lastName": "Gragg",  
-  "email": "Clayton.Gragg@contoso.com",  
-  "state": "active",  
-  "registrationDate": "2014-08-05T18:11:31.42”,  
-  “note": “He's a jolly good fellow."  
+  "id": "/users/53e11e52ad662f0c74ab4e95",  
+  "firstName": "Clayton",  
+  "lastName": "Gragg",  
+  "email": "Clayton.Gragg@contoso.com",  
+  "state": "active",  
+  "registrationDate": "2014-08-05T18:11:31.42”,  
+  “note": “He's a jolly good fellow."  
 }  
   
 ```  

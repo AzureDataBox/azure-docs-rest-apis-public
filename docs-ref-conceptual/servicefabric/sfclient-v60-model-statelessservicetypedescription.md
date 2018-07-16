@@ -32,6 +32,7 @@ translation.priority.mt:
 Describes a stateless service type defined in the service manifest of a provisioned application type.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [Kind](#kind) | string | Yes |

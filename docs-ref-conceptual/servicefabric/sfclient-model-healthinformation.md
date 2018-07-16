@@ -33,6 +33,7 @@ Represents common health report information. It is included in all health report
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`SourceId`](#sourceid) | string | Yes |

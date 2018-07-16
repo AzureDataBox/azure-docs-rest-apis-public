@@ -32,6 +32,7 @@ translation.priority.mt:
 Stateful Replica Health Report Created event.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Kind`](#kind) | string | Yes |

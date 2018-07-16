@@ -32,6 +32,7 @@ translation.priority.mt:
 Information about application deployed on the node.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Id`](#id) | string | No |

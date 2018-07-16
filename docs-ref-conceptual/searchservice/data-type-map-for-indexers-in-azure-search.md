@@ -25,11 +25,11 @@ translation.priority.mt:
 
  This article provides data type comparisons between SQL Data Types, JSON data types, and Azure Search. It contains the following:  
 
--   [SQL Server Data Types to Azure Search Data Types](#bkmk_sql_search)  
+- [SQL Server Data Types to Azure Search Data Types](#bkmk_sql_search)  
 
--   [JSON Data Types to Azure Search Data Types](#bkmk_json_search)  
+- [JSON Data Types to Azure Search Data Types](#bkmk_json_search)  
 
- See [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md) for links to topics about **indexers** and **data sources**.  
+  See [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md) for links to topics about **indexers** and **data sources**.  
 
 ##  <a name="bkmk_sql_search"></a> SQL Server Data Types to Azure Search Data Types  
 

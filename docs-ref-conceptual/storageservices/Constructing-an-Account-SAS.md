@@ -26,17 +26,17 @@ translation.priority.mt:
 # Constructing an Account SAS
 Beginning with version 2015-04-05, Azure Storage supports creating a new type of shared access signature (SAS) at the level of the storage account. Creating an account SAS enables you to:  
   
--   Delegate access to service-level operations that are not currently available with a service-specific SAS, such as the `Get/Set Service Properties` and `Get Service Stats` operations.  
+- Delegate access to service-level operations that are not currently available with a service-specific SAS, such as the `Get/Set Service Properties` and `Get Service Stats` operations.  
   
--   Delegate access to more than one service in a storage account at a time. For example, you can delegate access to resources in both the Blob and File services with an account SAS.  
+- Delegate access to more than one service in a storage account at a time. For example, you can delegate access to resources in both the Blob and File services with an account SAS.  
   
--   Delegate access to write and delete operations for containers, queues, tables, and file shares, which are not available with an object-specific SAS.  
+- Delegate access to write and delete operations for containers, queues, tables, and file shares, which are not available with an object-specific SAS.  
   
--   Specify an IP address or range of IP addresses from which to accept requests.  
+- Specify an IP address or range of IP addresses from which to accept requests.  
   
--   Specify the HTTP protocol from which to accept requests (either HTTPS or HTTP/HTTPS).  
+- Specify the HTTP protocol from which to accept requests (either HTTPS or HTTP/HTTPS).  
   
- A service-level SAS, by contrast, delegates access to a resource in just one of the storage services: the Blob, Queue, Table, or File service. For more information on service SAS, see [Constructing a Service SAS](Constructing-a-Service-SAS.md).  
+  A service-level SAS, by contrast, delegates access to a resource in just one of the storage services: the Blob, Queue, Table, or File service. For more information on service SAS, see [Constructing a Service SAS](Constructing-a-Service-SAS.md).  
   
 > [!NOTE]
 >  Stored access policies are currently not supported for account SAS.  
@@ -63,13 +63,13 @@ Beginning with version 2015-04-05, Azure Storage supports creating a new type of
 ### Specifying the Signature Validity Interval  
  The `SignedStart` and `SignedExpiry` fields must be expressed as UTC times and must adhere to a valid ISO 8601 format. Supported ISO 8601 formats include the following:  
   
--   YYYY-MM-DD  
+- YYYY-MM-DD  
   
--   YYYY-MM-DDThh:mmTZD  
+- YYYY-MM-DDThh:mmTZD  
   
--   YYYY-MM-DDThh:mm:ssTZD  
+- YYYY-MM-DDThh:mm:ssTZD  
   
- For the date portion of these formats, YYYY is a four-digit year representation, MM is a two-digit month representation, and DD is a two-digit day representation. For the time portion, hh is the hour representation in 24-hour notation, mm is the two-digit minute representation, and ss is the two-digit second representation. A time designator T separates the date and time portions of the string, while a time zone designator TZD specifies the UTC time zone.  
+  For the date portion of these formats, YYYY is a four-digit year representation, MM is a two-digit month representation, and DD is a two-digit day representation. For the time portion, hh is the hour representation in 24-hour notation, mm is the two-digit minute representation, and ss is the two-digit second representation. A time designator T separates the date and time portions of the string, while a time zone designator TZD specifies the UTC time zone.  
   
 ### Constructing the Signature String  
  To construct the signature string for an account SAS, first construct the string-to-sign from the fields comprising the request, then encode the string as UTF-8 and compute the signature using the HMAC-SHA256 algorithm. Note that fields included in the string-to-sign must be URL-decoded.  
@@ -154,7 +154,7 @@ https://storagesample.blob.core.windows.net/sample-container?restype=container&c
 |Append Block|Blob (b)|Object (o)|Add (a) or Write (w)|  
 |Clear Page|Blob (b)|Object (o)|Write (w)|  
   
->  [!NOTE]
+> [!NOTE]
 >  1. The `Delete` permission allows breaking a lease on a blob or container with version 2017-07-29 and later.  
   
 ### Queue Service  

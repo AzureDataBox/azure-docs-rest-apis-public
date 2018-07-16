@@ -35,6 +35,7 @@ the entire batch fails and cannot be committed in a transactional manner.
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Kind`](#kind) | string | Yes |

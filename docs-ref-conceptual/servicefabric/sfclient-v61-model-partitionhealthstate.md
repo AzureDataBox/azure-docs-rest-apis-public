@@ -32,6 +32,7 @@ translation.priority.mt:
 Represents the health state of a partition, which contains the partition identifier and its aggregated health state.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [AggregatedHealthState](#aggregatedhealthstate) | string (enum) | No |

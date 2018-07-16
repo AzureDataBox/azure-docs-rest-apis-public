@@ -33,12 +33,14 @@ Gets a Partition-related events.
 The response is list of PartitionEvent objects.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/EventsStore/Partitions/{partitionId}/$/Events?api-version=6.2-preview&timeout={timeout}&StartTimeUtc={StartTimeUtc}&EndTimeUtc={EndTimeUtc}&EventsTypesFilter={EventsTypesFilter}&ExcludeAnalysisEvents={ExcludeAnalysisEvents}&SkipCorrelationLookup={SkipCorrelationLookup}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`partitionId`](#partitionid) | string (uuid) | Yes | Path |

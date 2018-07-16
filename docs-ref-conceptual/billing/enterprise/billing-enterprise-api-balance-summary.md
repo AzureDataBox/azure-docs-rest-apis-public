@@ -23,13 +23,14 @@ ms.author: aedwin
 The Balance and Summary API offers a monthly summary of information on balances, new purchases, Azure Marketplace service charges, adjustments, and overage charges.
 
 
-##Request 
+## Request 
 Common header properties that need to be added are specified [here](https://docs.microsoft.com/azure/billing/billing-enterprise-api). If a billing period is not specified, then data for the current billing period is returned.
 
-|Method | Request URI|
-|-|-|
-|GET| https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/balancesummary|
-|GET| https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/billingPeriods/{billingPeriod}/balancesummary|
+
+| Method |                                                  Request URI                                                  |
+|--------|---------------------------------------------------------------------------------------------------------------|
+|  GET   |                https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/balancesummary                 |
+|  GET   | https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/billingPeriods/{billingPeriod}/balancesummary |
 
 > [!Note]
 > To use the preview version of API, replace v2 with v1 in the above URL.
@@ -37,37 +38,37 @@ Common header properties that need to be added are specified [here](https://docs
 
 ## Response
 
-		{
-		    "id": "enrollments/100/billingperiods/201507/balancesummaries",
-      		"billingPeriodId": 201507,
-      		"currencyCode": "USD",
-      		"beginningBalance": 0,
-      		"endingBalance": 1.1,
-      		"newPurchases": 1,
-      		"adjustments": 1.1,
-      		"utilized": 1.1,
-      		"serviceOverage": 1,
-      		"chargesBilledSeparately": 1,
-      		"totalOverage": 1,
-      		"totalUsage": 1.1,
-      		"azureMarketplaceServiceCharges": 1,
-      		"newPurchasesDetails": [
-        		{
-          		"name": "",
-          		"value": 1
-        		}
-      		],
-      		"adjustmentDetails": [
-        		{
-          		"name": "Promo Credit",
-          		"value": 1.1
-        		},
-        		{
-          		"name": "SIE Credit",
-          		"value": 1.0
-        		}
-      		]
-		}
+        {
+            "id": "enrollments/100/billingperiods/201507/balancesummaries",
+            "billingPeriodId": 201507,
+            "currencyCode": "USD",
+            "beginningBalance": 0,
+            "endingBalance": 1.1,
+            "newPurchases": 1,
+            "adjustments": 1.1,
+            "utilized": 1.1,
+            "serviceOverage": 1,
+            "chargesBilledSeparately": 1,
+            "totalOverage": 1,
+            "totalUsage": 1.1,
+            "azureMarketplaceServiceCharges": 1,
+            "newPurchasesDetails": [
+                {
+                "name": "",
+                "value": 1
+                }
+            ],
+            "adjustmentDetails": [
+                {
+                "name": "Promo Credit",
+                "value": 1.1
+                },
+                {
+                "name": "SIE Credit",
+                "value": 1.0
+                }
+            ]
+        }
 
 
 **Response property definitions**

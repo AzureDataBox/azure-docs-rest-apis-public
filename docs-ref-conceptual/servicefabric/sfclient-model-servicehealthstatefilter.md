@@ -35,6 +35,7 @@ One filter can match zero, one or multiple services, depending on its properties
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`ServiceNameFilter`](#servicenamefilter) | string | No |

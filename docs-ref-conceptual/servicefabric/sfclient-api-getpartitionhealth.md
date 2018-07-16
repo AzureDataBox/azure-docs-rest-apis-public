@@ -37,12 +37,14 @@ If you specify a partition that does not exist in the health store, this request
 
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/Partitions/{partitionId}/$/GetHealth?api-version=6.0&EventsHealthStateFilter={EventsHealthStateFilter}&ReplicasHealthStateFilter={ReplicasHealthStateFilter}&ExcludeHealthStatistics={ExcludeHealthStatistics}&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`partitionId`](#partitionid) | string (uuid) | Yes | Path |

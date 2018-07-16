@@ -33,6 +33,7 @@ An Epoch is a configuration number for the partition as a whole. When the config
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [ConfigurationVersion](#configurationversion) | string | No |

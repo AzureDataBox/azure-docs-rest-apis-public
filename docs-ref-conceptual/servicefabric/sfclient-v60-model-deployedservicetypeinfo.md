@@ -32,6 +32,7 @@ translation.priority.mt:
 Information about service type deployed on a node, information such as the status of the service type registration on a node.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [ServiceTypeName](#servicetypename) | string | No |

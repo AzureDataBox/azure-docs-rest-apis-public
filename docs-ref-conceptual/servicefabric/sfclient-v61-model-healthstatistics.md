@@ -36,6 +36,7 @@ For partition, the health statistics include health counts for replicas.
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [HealthStateCountList](#healthstatecountlist) | array of [EntityKindHealthStateCount](sfclient-v61-model-entitykindhealthstatecount.md) | No |

@@ -32,6 +32,7 @@ translation.priority.mt:
 Represents the health state of the stateful service replica, which contains the replica id and the aggregated health state.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [ServiceKind](#servicekind) | string | Yes |

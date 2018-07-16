@@ -31,12 +31,14 @@ Lists all of the available Service Fabric resource provider API operations.
 Get the list of available Service Fabric resource provider API operations.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/providers/Microsoft.ServiceFabric/operations?api-version={api-version}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [api-version](#api-version) | string | Yes | Query |

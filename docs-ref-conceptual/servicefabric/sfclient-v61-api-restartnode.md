@@ -33,12 +33,14 @@ Restarts a Service Fabric cluster node.
 Restarts a Service Fabric cluster node that is already started.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/Nodes/{nodeName}/$/Restart?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [nodeName](#nodename) | string | Yes | Path |

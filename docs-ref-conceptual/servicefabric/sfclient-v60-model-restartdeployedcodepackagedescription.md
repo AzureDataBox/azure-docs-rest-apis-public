@@ -33,6 +33,7 @@ Defines description for restarting a deloyed code package on Service Fabric node
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [ServiceManifestName](#servicemanifestname) | string | Yes |

@@ -67,12 +67,12 @@ ms.manager: kfile
   
  **Status Code:**  
   
--   200 if default udf definition is created successfully.  
+- 200 if default udf definition is created successfully.  
   
--   400 (Bad Reqeust) if binding retrieval properties are invalid or if the endpoint provided did not respond.  
+- 400 (Bad Reqeust) if binding retrieval properties are invalid or if the endpoint provided did not respond.  
   
- **Response Headers**  
+  **Response Headers**  
   
- Common response headers  
+  Common response headers  
   
   

@@ -32,6 +32,7 @@ translation.priority.mt:
 Defines an hour and minute of the day specified in 24 hour time.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Hour`](#hour) | integer (int32) | No |

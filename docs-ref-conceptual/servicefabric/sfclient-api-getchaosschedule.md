@@ -34,12 +34,14 @@ Gets the version of the Chaos Schedule in use and the Chaos Schedule that define
 
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/Tools/Chaos/Schedule?api-version=6.2` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`api-version`](#api-version) | string | Yes | Query |

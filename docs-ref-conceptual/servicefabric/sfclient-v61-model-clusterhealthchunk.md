@@ -34,6 +34,7 @@ Contains the cluster aggregated health state, and the cluster entities that resp
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [HealthState](#healthstate) | string (enum) | No |

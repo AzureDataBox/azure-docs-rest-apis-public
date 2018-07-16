@@ -33,12 +33,14 @@ Deletes the specified Service Fabric property.
 Deletes the specified Service Fabric property under a given name. A property must be created before it can be deleted.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | DELETE | `/Names/{nameId}/$/GetProperty?api-version=6.0&PropertyName={PropertyName}&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`nameId`](#nameid) | string | Yes | Path |

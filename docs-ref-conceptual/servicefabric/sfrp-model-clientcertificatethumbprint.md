@@ -30,6 +30,7 @@ translation.priority.mt:
 Describes the client certificate details using thumbprint.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [isAdmin](#isadmin) | boolean | Yes |

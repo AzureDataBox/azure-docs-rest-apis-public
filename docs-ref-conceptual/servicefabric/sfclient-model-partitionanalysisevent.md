@@ -32,6 +32,7 @@ translation.priority.mt:
 Represents the base for all Partition Analysis Events.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Kind`](#kind) | string | Yes |

@@ -38,12 +38,14 @@ To see whether the report was applied in the health store, run GetReplicaHealth 
 
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/Partitions/{partitionId}/$/GetReplicas/{replicaId}/$/ReportHealth?api-version=6.0&ServiceKind={ServiceKind}&Immediate={Immediate}&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [partitionId](#partitionid) | string (uuid) | Yes | Path |

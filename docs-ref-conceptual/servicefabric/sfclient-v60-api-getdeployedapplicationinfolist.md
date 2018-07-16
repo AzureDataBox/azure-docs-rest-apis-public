@@ -33,12 +33,14 @@ Gets the list of applications deployed on a Service Fabric node.
 Gets the list of applications deployed on a Service Fabric node.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/Nodes/{nodeName}/$/GetApplications?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [nodeName](#nodename) | string | Yes | Path |

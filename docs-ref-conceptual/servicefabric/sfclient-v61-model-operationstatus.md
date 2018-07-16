@@ -32,6 +32,7 @@ translation.priority.mt:
 Contains the OperationId, OperationState, and OperationType for user-induced operations.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [OperationId](#operationid) | string (uuid) | No |

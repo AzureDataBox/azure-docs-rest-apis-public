@@ -34,12 +34,14 @@ Uploads contents of the file to the image store. Use this API if the file is sma
 
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | PUT | `/ImageStore/{contentPath}?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`contentPath`](#contentpath) | string | Yes | Path |

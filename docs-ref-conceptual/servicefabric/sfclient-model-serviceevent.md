@@ -32,6 +32,7 @@ translation.priority.mt:
 Represents the base for all Service Events.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Kind`](#kind) | string | Yes |

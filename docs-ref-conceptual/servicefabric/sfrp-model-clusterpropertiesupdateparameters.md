@@ -30,6 +30,7 @@ translation.priority.mt:
 Describes the cluster resource properties that can be updated during PATCH operation.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [addOnFeatures](#addonfeatures) | array of [AddOnFeatures](sfrp-model-addonfeatures.md) | No |

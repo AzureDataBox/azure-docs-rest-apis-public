@@ -32,6 +32,7 @@ translation.priority.mt:
 Contains information about a node that was targeted by a user-induced operation.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [NodeName](#nodename) | string | No |

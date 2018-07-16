@@ -32,6 +32,7 @@ translation.priority.mt:
 Information about which portion of the file to upload.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [StartPosition](#startposition) | string (int64) | No |

@@ -33,12 +33,14 @@ Gets the name of the Service Fabric service for a partition.
 Gets name of the service for the specified partition. A 404 error is returned if the partition ID does not exist in the cluster.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/Partitions/{partitionId}/$/GetServiceName?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`partitionId`](#partitionid) | string (uuid) | Yes | Path |

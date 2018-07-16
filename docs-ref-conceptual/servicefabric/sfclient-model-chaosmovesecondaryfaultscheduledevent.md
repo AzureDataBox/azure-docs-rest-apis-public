@@ -32,6 +32,7 @@ translation.priority.mt:
 Chaos Move Secondary Fault Scheduled event.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Kind`](#kind) | string | Yes |

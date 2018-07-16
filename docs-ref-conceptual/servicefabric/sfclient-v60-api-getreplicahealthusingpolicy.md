@@ -36,12 +36,14 @@ Use ApplicationHealthPolicy to optionally override the health policies used to e
 
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/Partitions/{partitionId}/$/GetReplicas/{replicaId}/$/GetHealth?api-version=6.0&EventsHealthStateFilter={EventsHealthStateFilter}&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [partitionId](#partitionid) | string (uuid) | Yes | Path |

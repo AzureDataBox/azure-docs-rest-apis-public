@@ -37,12 +37,14 @@ Use ClusterHealthPolicies to override the health policies used to evaluate the h
 
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/$/GetClusterHealth?api-version=6.0&NodesHealthStateFilter={NodesHealthStateFilter}&ApplicationsHealthStateFilter={ApplicationsHealthStateFilter}&EventsHealthStateFilter={EventsHealthStateFilter}&ExcludeHealthStatistics={ExcludeHealthStatistics}&IncludeSystemApplicationHealthStatistics={IncludeSystemApplicationHealthStatistics}&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [api-version](#api-version) | string | Yes | Query |

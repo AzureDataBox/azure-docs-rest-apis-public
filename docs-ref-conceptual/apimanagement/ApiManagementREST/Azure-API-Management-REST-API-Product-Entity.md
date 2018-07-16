@@ -150,70 +150,70 @@ The Product entity represents a product in API Management. Products include one 
   
 ```json  
 {  
-  "value": [  
-    {  
-      "id": "/products/544d9a6d0fe876031c060001",  
-      "name": "Starter",  
-      "description": "Subscribers will be able to run 5 calls/minute up to a maximum of 100 calls/week.",  
-      "terms": "",  
-      "subscriptionRequired": true,  
-      "approvalRequired": false,  
-      "subscriptionsLimit": null,  
+  "value": [  
+    {  
+      "id": "/products/544d9a6d0fe876031c060001",  
+      "name": "Starter",  
+      "description": "Subscribers will be able to run 5 calls/minute up to a maximum of 100 calls/week.",  
+      "terms": "",  
+      "subscriptionRequired": true,  
+      "approvalRequired": false,  
+      "subscriptionsLimit": null,  
       "state": "published",  
-      "groups": [  
-        {  
-          "id": "/groups/544d9a6d0fe876031c020001",  
-          "name": "Administrators",  
-          "description": "Administrators is a built-in group. Its membership is managed by the system. Microsoft Azure subscription administrators fall into this group.",  
-          "builtIn": true  
-        },  
-        {  
-          "id": "/groups/544d9a6d0fe876031c020002",  
-          "name": "Developers",  
-          "description": "Developers is a built-in group. Its membership is managed by the system. Signed-in users fall into this group.",  
-          "builtIn": true  
-        },  
-        {  
-          "id": "/groups/544d9a6d0fe876031c020003",  
-          "name": "Guests",  
-          "description": "Guests is a built-in group. Its membership is managed by the system. Unauthenticated users visiting the developer portal fall into this group.",  
-          "builtIn": true  
-        }  
-      ]  
-    },  
-    {  
-      "id": "/products/544d9a6d0fe876031c060002",  
-      "name": "Unlimited",  
-      "description": "Subscribers have completely unlimited access to the API. Administrator approval is required.",  
-      "terms": null,  
-      "subscriptionRequired": true,  
-      "approvalRequired": true,  
-      "subscriptionsLimit": null,  
-      "state": "published",  
-      "groups": [  
-        {  
-          "id": "/groups/544d9a6d0fe876031c020001",  
-          "name": "Administrators",  
-          "description": "Administrators is a built-in group. Its membership is managed by the system. Microsoft Azure subscription administrators fall into this group.",  
-          "builtIn": true  
-        },  
-        {  
-          "id": "/groups/544d9a6d0fe876031c020002",  
-          "name": "Developers",  
-          "description": "Developers is a built-in group. Its membership is managed by the system. Signed-in users fall into this group.",  
-          "builtIn": true  
-        },  
-        {  
-          "id": "/groups/544d9a6d0fe876031c020003",  
-          "name": "Guests",  
-          "description": "Guests is a built-in group. Its membership is managed by the system. Unauthenticated users visiting the developer portal fall into this group.",  
-          "builtIn": true  
-        }  
-      ]  
-    }  
-  ],  
-  "count": 2,  
-  "nextLink": null  
+      "groups": [  
+        {  
+          "id": "/groups/544d9a6d0fe876031c020001",  
+          "name": "Administrators",  
+          "description": "Administrators is a built-in group. Its membership is managed by the system. Microsoft Azure subscription administrators fall into this group.",  
+          "builtIn": true  
+        },  
+        {  
+          "id": "/groups/544d9a6d0fe876031c020002",  
+          "name": "Developers",  
+          "description": "Developers is a built-in group. Its membership is managed by the system. Signed-in users fall into this group.",  
+          "builtIn": true  
+        },  
+        {  
+          "id": "/groups/544d9a6d0fe876031c020003",  
+          "name": "Guests",  
+          "description": "Guests is a built-in group. Its membership is managed by the system. Unauthenticated users visiting the developer portal fall into this group.",  
+          "builtIn": true  
+        }  
+      ]  
+    },  
+    {  
+      "id": "/products/544d9a6d0fe876031c060002",  
+      "name": "Unlimited",  
+      "description": "Subscribers have completely unlimited access to the API. Administrator approval is required.",  
+      "terms": null,  
+      "subscriptionRequired": true,  
+      "approvalRequired": true,  
+      "subscriptionsLimit": null,  
+      "state": "published",  
+      "groups": [  
+        {  
+          "id": "/groups/544d9a6d0fe876031c020001",  
+          "name": "Administrators",  
+          "description": "Administrators is a built-in group. Its membership is managed by the system. Microsoft Azure subscription administrators fall into this group.",  
+          "builtIn": true  
+        },  
+        {  
+          "id": "/groups/544d9a6d0fe876031c020002",  
+          "name": "Developers",  
+          "description": "Developers is a built-in group. Its membership is managed by the system. Signed-in users fall into this group.",  
+          "builtIn": true  
+        },  
+        {  
+          "id": "/groups/544d9a6d0fe876031c020003",  
+          "name": "Guests",  
+          "description": "Guests is a built-in group. Its membership is managed by the system. Unauthenticated users visiting the developer portal fall into this group.",  
+          "builtIn": true  
+        }  
+      ]  
+    }  
+  ],  
+  "count": 2,  
+  "nextLink": null  
 }  
   
 ```  
@@ -898,50 +898,50 @@ The Product entity represents a product in API Management. Products include one 
   
 ```json  
 {  
-  "value": [  
-    {  
-      "id": "/groups/53c765632095310385020001",  
-      "name": "Administrators",  
-      "description": "Administrators is a built-in group. Its membership is managed by the system. Microsoft Azure subscription administrators fall into this group.",  
-      "builtIn": true,  
-      "type": "system",  
-      "externalId": null  
-    },  
-    {  
-      "id": "/groups/5500579df0be6b01208725f7",  
-      "name": "Contoso 5 Developers (contoso5api.onmicrosoft.com)",  
-      "description": "Contoso 5 Developers group",  
-      "builtIn": false,  
-      "type": "external",  
-      "externalId": "aad://contoso5api.onmicrosoft.com/groups/12ad42b1-592f-4664-a77b4250-2f2e82579f4c"  
-    },  
-    {  
-      "id": "/groups/53c765632095310385020002",  
-      "name": "Developers",  
-      "description": "Developers is a built-in group. Its membership is managed by the system. Signed-in usersfall into this group.",  
-      "builtIn": true,  
-      "type": "system",  
-      "externalId": null  
-    },  
-    {  
-      "id": "/groups/53c765632095310385020003",  
-      "name": "Guests",  
-      "description": "Guests is a built-in group. Its membership is managed by the system. Unauthenticated users visiting the developer portal fall into this group.",  
-      "builtIn": true,  
-      "type": "system",  
-      "externalId": null  
-    },  
-    {  
-      "id": "/groups/54dced8af0be6b0ab4491415",  
-      "name": "Partners",  
-      "description": "This is a custom group for developers that are part of a few trusted partner organizations.",  
-      "builtIn": false,  
-      "type": "custom",  
-      "externalId": null  
-    }  
-  ],  
-  "count": 5,  
-  "nextLink": null  
+  "value": [  
+    {  
+      "id": "/groups/53c765632095310385020001",  
+      "name": "Administrators",  
+      "description": "Administrators is a built-in group. Its membership is managed by the system. Microsoft Azure subscription administrators fall into this group.",  
+      "builtIn": true,  
+      "type": "system",  
+      "externalId": null  
+    },  
+    {  
+      "id": "/groups/5500579df0be6b01208725f7",  
+      "name": "Contoso 5 Developers (contoso5api.onmicrosoft.com)",  
+      "description": "Contoso 5 Developers group",  
+      "builtIn": false,  
+      "type": "external",  
+      "externalId": "aad://contoso5api.onmicrosoft.com/groups/12ad42b1-592f-4664-a77b4250-2f2e82579f4c"  
+    },  
+    {  
+      "id": "/groups/53c765632095310385020002",  
+      "name": "Developers",  
+      "description": "Developers is a built-in group. Its membership is managed by the system. Signed-in usersfall into this group.",  
+      "builtIn": true,  
+      "type": "system",  
+      "externalId": null  
+    },  
+    {  
+      "id": "/groups/53c765632095310385020003",  
+      "name": "Guests",  
+      "description": "Guests is a built-in group. Its membership is managed by the system. Unauthenticated users visiting the developer portal fall into this group.",  
+      "builtIn": true,  
+      "type": "system",  
+      "externalId": null  
+    },  
+    {  
+      "id": "/groups/54dced8af0be6b0ab4491415",  
+      "name": "Partners",  
+      "description": "This is a custom group for developers that are part of a few trusted partner organizations.",  
+      "builtIn": false,  
+      "type": "custom",  
+      "externalId": null  
+    }  
+  ],  
+  "count": 5,  
+  "nextLink": null  
 }  
 ```  
   

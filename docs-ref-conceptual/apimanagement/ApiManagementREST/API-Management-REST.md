@@ -96,9 +96,9 @@ Authorization: SharedAccessSignature uid=53dd860e1b72ff0467030003&ex=2014-08-04T
   
  This template contains the following parameter.  
   
--   `{serviceName}` is the service name as it was specified during service creation, for example `https://contosoapi.management.azure-api.net`.  
+- `{serviceName}` is the service name as it was specified during service creation, for example `https://contosoapi.management.azure-api.net`.  
   
- All URLs returned by the API Management REST API are relative to this base URL, and all requests to the REST API must use this base URL template.  
+  All URLs returned by the API Management REST API are relative to this base URL, and all requests to the REST API must use this base URL template.  
   
 ###  <a name="VersionQueryParameter"></a> Version Query Parameter  
  All operations expect an `api-version` query parameter with a value in the format of `YYYY-MM-DD`, for example `2014-02-14`.  

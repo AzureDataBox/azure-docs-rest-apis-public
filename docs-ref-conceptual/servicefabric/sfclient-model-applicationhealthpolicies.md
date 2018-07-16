@@ -33,6 +33,7 @@ Defines the application health policy map used to evaluate the health of an appl
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`ApplicationHealthPolicyMap`](#applicationhealthpolicymap) | array of [ApplicationHealthPolicyMapItem](sfclient-model-applicationhealthpolicymapitem.md) | No |

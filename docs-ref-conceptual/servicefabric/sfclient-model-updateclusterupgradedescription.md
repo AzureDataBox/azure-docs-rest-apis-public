@@ -32,6 +32,7 @@ translation.priority.mt:
 Parameters for updating a cluster upgrade.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`UpgradeKind`](#upgradekind) | string (enum) | No |

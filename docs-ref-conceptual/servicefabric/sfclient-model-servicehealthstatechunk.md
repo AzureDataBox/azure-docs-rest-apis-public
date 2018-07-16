@@ -33,6 +33,7 @@ Represents the health state chunk of a service, which contains the service name,
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`HealthState`](#healthstate) | string (enum) | No |

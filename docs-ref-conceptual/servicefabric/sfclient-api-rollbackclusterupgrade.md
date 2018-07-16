@@ -33,12 +33,14 @@ Rollback the upgrade of a Service Fabric cluster.
 Rollback the code or configuration upgrade of a Service Fabric cluster.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/$/RollbackUpgrade?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`api-version`](#api-version) | string | Yes | Query |

@@ -34,6 +34,7 @@ One filter can match zero, one or multiple applications, depending on its proper
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [ApplicationNameFilter](#applicationnamefilter) | string | No |

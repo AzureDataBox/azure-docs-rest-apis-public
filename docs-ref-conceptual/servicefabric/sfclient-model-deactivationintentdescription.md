@@ -32,6 +32,7 @@ translation.priority.mt:
 Describes the intent or reason for deactivating the node.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`DeactivationIntent`](#deactivationintent) | string (enum) | No |

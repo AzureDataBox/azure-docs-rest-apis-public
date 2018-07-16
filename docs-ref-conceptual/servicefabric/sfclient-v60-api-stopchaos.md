@@ -33,12 +33,14 @@ Stops Chaos in the cluster if it is already running, otherwise it does nothing.
 Stops Chaos from scheduling further faults; but, the in-flight faults are not affected.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/Tools/Chaos/$/Stop?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [api-version](#api-version) | string | Yes | Query |

@@ -34,6 +34,7 @@ Contains the instance aggregated health state, the health events and the unhealt
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`ServiceKind`](#servicekind) | string | Yes |

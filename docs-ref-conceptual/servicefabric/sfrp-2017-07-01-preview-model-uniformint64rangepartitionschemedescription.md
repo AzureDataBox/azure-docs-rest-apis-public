@@ -30,6 +30,7 @@ translation.priority.mt:
 Describes a partitioning scheme where an integer range is allocated evenly across a number of partitions.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [PartitionScheme](#partitionscheme) | string | Yes |

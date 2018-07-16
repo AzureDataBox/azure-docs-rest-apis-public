@@ -35,6 +35,7 @@ This type supports the Service Fabric platform; it is not meant to be used direc
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [TaskId](#taskid) | string | Yes |

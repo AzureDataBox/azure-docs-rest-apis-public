@@ -33,12 +33,14 @@ Enumerates all the Service Fabric names under a given name.
 Enumerates all the Service Fabric names under a given name. If the subnames do not fit in a page, one page of results is returned as well as a continuation token which can be used to get the next page. Querying a name that doesn't exist will fail.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/Names/{nameId}/$/GetSubNames?api-version=6.0&Recursive={Recursive}&ContinuationToken={ContinuationToken}&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`nameId`](#nameid) | string | Yes | Path |

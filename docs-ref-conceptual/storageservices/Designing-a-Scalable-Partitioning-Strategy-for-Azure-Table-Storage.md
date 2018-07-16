@@ -147,11 +147,11 @@ http://<account>.windows.core.net/registrations(PartitionKey=”2011 New York Ci
   
  If there is more than one equally dominant query, you can insert the information multiple times with different RowKey values that you need. The secondary (or tertiary, etc) rows will be managed by your application. This pattern will allow you to satisfy the performance requirements of your queries. The following example uses the data from the footrace registration example. It has two dominant queries. They are:  
   
--   Query by bib number  
+- Query by bib number  
   
--   Query by age  
+- Query by age  
   
- To serve both dominant queries, insert two rows as an entity group transaction. The following table shows the Partitionkey and RowKey properties for this scenario. The RowKey values provide a prefix for the bib and age to enable the application to distinguish from the two values.  
+  To serve both dominant queries, insert two rows as an entity group transaction. The following table shows the Partitionkey and RowKey properties for this scenario. The RowKey values provide a prefix for the bib and age to enable the application to distinguish from the two values.  
   
 |||  
 |-|-|  
@@ -169,15 +169,15 @@ http://<account>.windows.core.net/registrations(PartitionKey=”2011 New York Ci
   
  **To perform a stress test**  
   
-1.  Create a test table.  
+1. Create a test table.  
   
-2.  Load the test table with data so that it contains entities with the PartitionKey that you will be targeting.  
+2. Load the test table with data so that it contains entities with the PartitionKey that you will be targeting.  
   
-3.  Use the application to simulate peak load to the table, and target a single partition by using the PartitionKey from step 2. This step is different for every application, but the simulation should include all the necessary queries and storage operations. The application may need to be tweaked so that it targets a single partition.  
+3. Use the application to simulate peak load to the table, and target a single partition by using the PartitionKey from step 2. This step is different for every application, but the simulation should include all the necessary queries and storage operations. The application may need to be tweaked so that it targets a single partition.  
   
-4.  Examine the throughput of the GET or PUT operations on the table.  
+4. Examine the throughput of the GET or PUT operations on the table.  
   
- To examine the throughput, compare the actual values to the specified limit of a single partition on a single server. Partitions are limited to 500 entities per second. If the throughput exceeds 500 entities per second for a partition, the server may run too hot in a production setting. In this case, the PartitionKey values may be too coarse, so that there are not enough partitions or the partitions are too large. You may need to modify the PartitionKey value so that the partitions can be distributed among more servers.  
+   To examine the throughput, compare the actual values to the specified limit of a single partition on a single server. Partitions are limited to 500 entities per second. If the throughput exceeds 500 entities per second for a partition, the server may run too hot in a production setting. In this case, the PartitionKey values may be too coarse, so that there are not enough partitions or the partitions are too large. You may need to modify the PartitionKey value so that the partitions can be distributed among more servers.  
   
 ##  <a name="aserrd"></a> Load Balancing  
  Load balancing at the partition layer occurs when a partition gets too hot, which means the partition, specifically the partition server, is operating beyond its target scalability. For Azure storage, each partition has a scalability target of 500 entities per second. Load balancing also occurs at the Distributed File System layer, or DFS layer. The load balancing at the DFS layer deals with I/O load, and is outside the scope of this article. Load balancing at the partition layer does not immediately occur after exceeding the scalability target. Instead, the system waits a few minutes before beginning the load balancing process. This ensures that a partition has truly become hot. It is not necessary to prime partitions with generated load that triggers load balancing because the system will automatically perform the task. It may be possible that if a table was primed with a certain load, the system will balance the partitions based on actual load, which results in a very different distribution of the partitions. Instead of priming partitions, you should consider writing code that handles the Timeout and Server Busy errors. Such errors are returned when the system is performing load balancing. By handling those errors using a retry strategy, your application can better handle peak load. Retry strategies are discussed in more detail in the following section. When load balancing occurs, the partition will become offline for a few seconds. During the offline period, the system is reassigning the partition to a different partition server. It is important to note that your data is not stored by the partition servers. Instead, the partition servers serve entities from the DFS layer. Because your data is not stored at the partition layer, moving partitions to different servers is a fast process. This greatly limits the period of downtime, if any, that your application may encounter.  
@@ -187,31 +187,31 @@ http://<account>.windows.core.net/registrations(PartitionKey=”2011 New York Ci
   
  There are three common retry strategies that you can use for your application. The following is a list of those retry strategies and their descriptions:  
   
--   No Retry – No retry attempt is made  
+- No Retry – No retry attempt is made  
   
--   Fixed Backoff – The operation is retried N times with a constant backoff value  
+- Fixed Backoff – The operation is retried N times with a constant backoff value  
   
--   Exponential Backoff – The operation is retried N times with an exponential backoff value  
+- Exponential Backoff – The operation is retried N times with an exponential backoff value  
   
- The No Retry strategy is a simple (and evasive) way to handle operation failures. However it is not very useful. Not imposing any retry attempts poses obvious risks with data not being stored correctly after failed operations. Therefore, a better strategy is to use the Fixed Backoff strategy that provides the ability to retry operations with the same backoff duration. However, this strategy is not optimized for handling highly scalable tables because if many threads or processes are waiting for the same duration, collisions can occur. The recommended retry strategy is one that uses an exponential backoff where each retry attempt is longer than the last attempt. It is similar to the collision avoidance (CA) algorithm used in computer networks, such as Ethernet. The exponential backoff uses a random factor to provide an additional variance to the resulting interval. The backoff value is then constrained to minimum and maximum limits. The following formula can be used for calculating the next backoff value using an exponential algorithm:  
+  The No Retry strategy is a simple (and evasive) way to handle operation failures. However it is not very useful. Not imposing any retry attempts poses obvious risks with data not being stored correctly after failed operations. Therefore, a better strategy is to use the Fixed Backoff strategy that provides the ability to retry operations with the same backoff duration. However, this strategy is not optimized for handling highly scalable tables because if many threads or processes are waiting for the same duration, collisions can occur. The recommended retry strategy is one that uses an exponential backoff where each retry attempt is longer than the last attempt. It is similar to the collision avoidance (CA) algorithm used in computer networks, such as Ethernet. The exponential backoff uses a random factor to provide an additional variance to the resulting interval. The backoff value is then constrained to minimum and maximum limits. The following formula can be used for calculating the next backoff value using an exponential algorithm:  
   
- y = Rand(0.8z, 1.2z)(2<sup>x</sup>-1  
+  y = Rand(0.8z, 1.2z)(2<sup>x</sup>-1  
   
- y = Min(zmin + y, zmax  
+  y = Min(zmin + y, zmax  
   
- Where:  
+  Where:  
   
- z = default backoff in milliseconds  
+  z = default backoff in milliseconds  
   
- zmin = default minimum backoff in milliseconds  
+  zmin = default minimum backoff in milliseconds  
   
- zmax = default maximum backoff in milliseconds  
+  zmax = default maximum backoff in milliseconds  
   
- x = the number of retries  
+  x = the number of retries  
   
- y = the backoff value in milliseconds  
+  y = the backoff value in milliseconds  
   
- The 0.8 and 1.2 multipliers used in the Rand (random) function produces a random variance of the default backoff within ±20% of the original value. The ±20% range is acceptable for most retry strategies and prevents further collisions. The formula can be implemented using the following code:  
+  The 0.8 and 1.2 multipliers used in the Rand (random) function produces a random variance of the default backoff within ±20% of the original value. The ±20% range is acceptable for most retry strategies and prevents further collisions. The formula can be implemented using the following code:  
   
 ```  
 int retries = 1;  
@@ -224,12 +224,12 @@ var backoffMax = TimeSpan.FromSeconds(90);
 var random = new Random();  
   
 double backoff = random.Next(  
-    (int)(0.8D * defaultBackoff.TotalMilliseconds),   
-    (int)(1.2D * defaultBackoff.TotalMilliseconds));  
+    (int)(0.8D * defaultBackoff.TotalMilliseconds),   
+    (int)(1.2D * defaultBackoff.TotalMilliseconds));  
 backoff *= (Math.Pow(2, retries) - 1);  
 backoff = Math.Min(  
-    backoffMin.TotalMilliseconds + backoff,   
-    backoffMax.TotalMilliseconds);  
+    backoffMin.TotalMilliseconds + backoff,   
+    backoffMax.TotalMilliseconds);  
   
 ```  
   

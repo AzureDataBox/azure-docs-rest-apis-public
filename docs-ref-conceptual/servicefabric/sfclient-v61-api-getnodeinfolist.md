@@ -33,12 +33,14 @@ Gets the list of nodes in the Service Fabric cluster.
 Gets the list of nodes in the Service Fabric cluster. The response include the name, status, id, health, uptime and other details about the node.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/Nodes?api-version=6.0&ContinuationToken={ContinuationToken}&NodeStatusFilter={NodeStatusFilter}&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [api-version](#api-version) | string | Yes | Query |

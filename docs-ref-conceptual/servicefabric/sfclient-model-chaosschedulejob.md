@@ -32,6 +32,7 @@ translation.priority.mt:
 Defines a repetition rule and parameters of Chaos to be used with the Chaos Schedule.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`ChaosParameters`](#chaosparameters) | string | No |

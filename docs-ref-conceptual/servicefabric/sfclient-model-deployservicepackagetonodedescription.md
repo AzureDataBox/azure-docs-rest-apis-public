@@ -33,6 +33,7 @@ Defines description for downloading packages associated with a service manifest 
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`ServiceManifestName`](#servicemanifestname) | string | Yes |

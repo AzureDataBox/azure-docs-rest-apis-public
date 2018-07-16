@@ -32,6 +32,7 @@ translation.priority.mt:
 A base type for the health state of various entities in the cluster. It contains the aggregated health state.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`AggregatedHealthState`](#aggregatedhealthstate) | string (enum) | No |

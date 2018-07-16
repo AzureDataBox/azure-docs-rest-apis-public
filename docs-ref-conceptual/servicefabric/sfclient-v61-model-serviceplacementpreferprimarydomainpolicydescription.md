@@ -35,6 +35,7 @@ This placement policy is usually used with fault domains in scenarios where the 
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [Type](#type) | string | Yes |

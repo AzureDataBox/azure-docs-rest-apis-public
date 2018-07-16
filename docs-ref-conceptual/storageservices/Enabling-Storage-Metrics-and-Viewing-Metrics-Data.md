@@ -54,7 +54,7 @@ Follow the steps in [How to enable metrics using the Azure portal](/azure/storag
   * **Service**: Collects metrics such as ingress/egress, availability, latency, and success percentages, which are aggregated for the blob, queue, table, and file services.
   * **ServiceAndApi**: In addition to the Service metrics, collects the same set of metrics for each storage operation in the Azure Storage service API.
   
- For example, the following command switches on minute metrics for the blob service in your default storage account with the retention period set to five days:  
+  For example, the following command switches on minute metrics for the blob service in your default storage account with the retention period set to five days:  
   
 ```  
 Set-AzureStorageServiceMetricsProperty -MetricsType Minute   
@@ -122,11 +122,11 @@ In the **Monitoring** section of your Storage account's menu blade in the Azure 
   
  In this example minute metrics data, the partition key uses the time at minute resolution. The row key identifies the type of information that is stored in the row and this is composed of two pieces of information, the access type, and the request type:  
   
--   The access type is either **user** or **system**, where **user** refers to all user requests to the storage service, and **system** refers to requests made by Storage Analytics.  
+- The access type is either **user** or **system**, where **user** refers to all user requests to the storage service, and **system** refers to requests made by Storage Analytics.  
   
--   The request type is either **all** in which case it is a summary line, or it identifies the specific API such as **QueryEntity** or **UpdateEntity**.  
+- The request type is either **all** in which case it is a summary line, or it identifies the specific API such as **QueryEntity** or **UpdateEntity**.  
   
- The sample data above shows all the records for a single minute (starting at 11:00AM), so the number of **QueryEntities** requests plus the number of **QueryEntity** requests plus the number of **UpdateEntity** requests add up to seven, which is the total shown on the **user:All** row. Similarly, you can derive the average end-to-end latency 104.4286 on the **user:All** row by calculating ((143.8 * 5) + 3 + 9)/7.  
+  The sample data above shows all the records for a single minute (starting at 11:00AM), so the number of **QueryEntities** requests plus the number of **QueryEntity** requests plus the number of **UpdateEntity** requests add up to seven, which is the total shown on the **user:All** row. Similarly, you can derive the average end-to-end latency 104.4286 on the **user:All** row by calculating ((143.8 * 5) + 3 + 9)/7.  
 
 ## Metrics alerts
 You should consider setting up alerts in the [Azure portal](https://portal.azure.com) so Storage Metrics can automatically notify you of important changes in the behavior of your storage services. If you use a storage explorer tool to download this metrics data in a delimited format, you can use Microsoft Excel to analyze the data. See [Azure Storage Client Tools](/azure/storage/storage-explorers) for a list of available storage explorer tools. You can configure alerts in the **Alert rules** blade, accessible under **Monitoring** in the Storage account menu blade.

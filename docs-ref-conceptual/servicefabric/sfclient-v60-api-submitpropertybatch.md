@@ -33,12 +33,14 @@ Submits a property batch.
 Submits a batch of property operations. Either all or none of the operations will be committed.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/Names/{nameId}/$/GetProperties/$/SubmitBatch?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [nameId](#nameid) | string | Yes | Path |

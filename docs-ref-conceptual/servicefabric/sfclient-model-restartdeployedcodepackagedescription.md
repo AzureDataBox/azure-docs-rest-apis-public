@@ -33,6 +33,7 @@ Defines description for restarting a deployed code package on Service Fabric nod
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`ServiceManifestName`](#servicemanifestname) | string | Yes |

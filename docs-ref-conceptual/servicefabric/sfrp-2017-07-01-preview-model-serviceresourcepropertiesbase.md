@@ -30,6 +30,7 @@ translation.priority.mt:
 The common service resource properties.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [placementConstraints](#placementconstraints) | string | No |

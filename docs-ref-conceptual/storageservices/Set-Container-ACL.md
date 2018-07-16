@@ -29,15 +29,15 @@ The `Set Container ACL` operation sets the permissions for the specified contain
   
  Beginning with the 2009-09-19 version, the container permissions provide the following options for managing container access:  
   
--   **Full public read access:** Container and blob data can be read via anonymous request. Clients can enumerate blobs within the container via anonymous request, but cannot enumerate containers within the storage account.  
+- **Full public read access:** Container and blob data can be read via anonymous request. Clients can enumerate blobs within the container via anonymous request, but cannot enumerate containers within the storage account.  
   
--   **Public read access for blobs only:** Blob data within this container can be read via anonymous request, but container data is not available. Clients cannot enumerate blobs within the container via anonymous request.  
+- **Public read access for blobs only:** Blob data within this container can be read via anonymous request, but container data is not available. Clients cannot enumerate blobs within the container via anonymous request.  
   
--   **No public read access:** Container and blob data can be read by the account owner only.  
+- **No public read access:** Container and blob data can be read by the account owner only.  
   
- `Set Container ACL` also sets a stored access policy for use with shared access signatures. For more information, see [Establishing a Stored Access Policy](Establishing-a-Stored-Access-Policy.md).  
+  `Set Container ACL` also sets a stored access policy for use with shared access signatures. For more information, see [Establishing a Stored Access Policy](Establishing-a-Stored-Access-Policy.md).  
   
- All public access to the container is anonymous, as is access via a shared access signature.  
+  All public access to the container is anonymous, as is access via a shared access signature.  
   
 ## Request  
  The `Set Container ACL` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
@@ -83,15 +83,15 @@ The `Set Container ACL` operation sets the permissions for the specified contain
   
  The `Start` and `Expiry` fields must be expressed as UTC times and must adhere to a valid ISO 8061 format. Supported ISO 8061 formats include the following:  
   
--   `YYYY-MM-DD`  
+- `YYYY-MM-DD`  
   
--   `YYYY-MM-DDThh:mmTZD`  
+- `YYYY-MM-DDThh:mmTZD`  
   
--   `YYYY-MM-DDThh:mm:ssTZD`  
+- `YYYY-MM-DDThh:mm:ssTZD`  
   
--   `YYYY-MM-DDThh:mm:ss.fffffffTZD`  
+- `YYYY-MM-DDThh:mm:ss.fffffffTZD`  
   
- For the date portion of these formats, `YYYY` is a four-digit year representation, `MM` is a two-digit month representation, and `DD` is a two-digit day representation. For the time portion, `hh` is the hour representation in 24-hour notation, `mm` is the two-digit minute representation, `ss` is the two-digit second representation, and `fffffff` is the seven-digit millisecond representation. A time designator `T` separates the date and time portions of the string, while a time zone designator `TZD` specifies a time zone.  
+  For the date portion of these formats, `YYYY` is a four-digit year representation, `MM` is a two-digit month representation, and `DD` is a two-digit day representation. For the time portion, `hh` is the hour representation in 24-hour notation, `mm` is the two-digit minute representation, `ss` is the two-digit second representation, and `fffffff` is the seven-digit millisecond representation. A time designator `T` separates the date and time portions of the string, while a time zone designator `TZD` specifies a time zone.  
   
 ```xml  
 <?xml version="1.0" encoding="utf-8"?>  
@@ -183,35 +183,35 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
   
  If you set `x-ms-blob-public-access` to `blob`, clients can call the following operations anonymously:  
   
--   [Get Blob](Get-Blob.md)  
+- [Get Blob](Get-Blob.md)  
   
--   [Get Blob Properties](Get-Blob-Properties.md)  
+- [Get Blob Properties](Get-Blob-Properties.md)  
   
--   [Get Blob Metadata](Get-Blob-Metadata.md)  
+- [Get Blob Metadata](Get-Blob-Metadata.md)  
   
--   [Get Block List](Get-Block-List.md) (for the committed block list only)  
+- [Get Block List](Get-Block-List.md) (for the committed block list only)  
   
--   [Get Page Ranges](Get-Page-Ranges.md)  
+- [Get Page Ranges](Get-Page-Ranges.md)  
   
- If you set `x-ms-blob-public-access` to `container`, clients can call the following operations anonymously:  
+  If you set `x-ms-blob-public-access` to `container`, clients can call the following operations anonymously:  
   
--   The blob access operations listed above.  
+- The blob access operations listed above.  
   
--   [Get Container Properties](Get-Container-Properties.md)  
+- [Get Container Properties](Get-Container-Properties.md)  
   
--   [Get Container Metadata](Get-Container-Metadata.md)  
+- [Get Container Metadata](Get-Container-Metadata.md)  
   
--   [List Blobs](List-Blobs.md)  
+- [List Blobs](List-Blobs.md)  
   
- **Establishing Container-Level Access Policies**  
+  **Establishing Container-Level Access Policies**  
   
- A stored access policy can specify the start time, expiry time, and permissions for the shared access signatures with which it's associated. Depending on how you want to control access to your container or blob resource, you can specify all of these parameters within the stored access policy, and omit them from the URL for the shared access signature. Doing so permits you to modify the associated signature's behavior at any time, as well as to revoke it. Or you can specify one or more of the access policy parameters within the stored access policy, and the others on the URL. Finally, you can specify all of the parameters on the URL. In this case, you can use the stored access policy to revoke the signature, but not to modify its behavior. See specifying a [Establishing a Stored Access Policy](Establishing-a-Stored-Access-Policy.md) for more information about establishing access policies.  
+  A stored access policy can specify the start time, expiry time, and permissions for the shared access signatures with which it's associated. Depending on how you want to control access to your container or blob resource, you can specify all of these parameters within the stored access policy, and omit them from the URL for the shared access signature. Doing so permits you to modify the associated signature's behavior at any time, as well as to revoke it. Or you can specify one or more of the access policy parameters within the stored access policy, and the others on the URL. Finally, you can specify all of the parameters on the URL. In this case, you can use the stored access policy to revoke the signature, but not to modify its behavior. See specifying a [Establishing a Stored Access Policy](Establishing-a-Stored-Access-Policy.md) for more information about establishing access policies.  
   
- Together the shared access signature and the stored access policy must include all fields required to authenticate the signature. If any required fields are missing, the request will fail. Likewise, if a field is specified both in the shared access signature URL and in the stored access policy, the request will fail with status code 400 (Bad Request).  
+  Together the shared access signature and the stored access policy must include all fields required to authenticate the signature. If any required fields are missing, the request will fail. Likewise, if a field is specified both in the shared access signature URL and in the stored access policy, the request will fail with status code 400 (Bad Request).  
   
- At most five separate access policies can be set for a given container at any time. If more than five access policies are passed in the request body, then the service returns status code 400 (Bad Request).  
+  At most five separate access policies can be set for a given container at any time. If more than five access policies are passed in the request body, then the service returns status code 400 (Bad Request).  
   
- A shared access signature can be issued on a container or a blob regardless of whether container data is available for anonymous read access. A shared access signature provides a greater measure of control over how, when, and to whom a resource is made accessible.  
+  A shared access signature can be issued on a container or a blob regardless of whether container data is available for anonymous read access. A shared access signature provides a greater measure of control over how, when, and to whom a resource is made accessible.  
   
 > [!NOTE]
 >  When you establish a stored access policy on a container, it may take up to 30 seconds to take effect. During this interval, a shared access signature that is associated with the stored access policy will fail with status code 403 (Forbidden), until the access policy becomes active.  

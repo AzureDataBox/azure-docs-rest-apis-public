@@ -32,6 +32,7 @@ translation.priority.mt:
 Node Aborted event.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Kind`](#kind) | string | Yes |

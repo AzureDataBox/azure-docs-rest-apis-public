@@ -31,12 +31,14 @@ Creates or updates a Service Fabric cluster resource.
 Create or update a Service Fabric cluster resource with the specified name.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | PUT | `/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}?api-version=2018-02-01` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [resourceGroupName](#resourcegroupname) | string | Yes | Path |

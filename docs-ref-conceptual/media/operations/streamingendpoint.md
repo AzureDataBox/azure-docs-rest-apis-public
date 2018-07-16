@@ -34,7 +34,7 @@ translation.priority.mt:
   
 The `StreamingEndpoint` entity represents a streaming service that can deliver content directly to a client player application, or to a Content Delivery Network (CDN) for further distribution. Starting with version 2.9, Microsoft Azure Media Services provides the Azure CDN integration (for more information, see the `CdnEnabled` property documented below). The outbound stream from a StreamingEndpoint service can be a live stream, or a video on-demand Asset in your Media Services account.
  
-Each Azure Media Services (AMS) account includes a default StreamingEndpoint; additional StreamingEndpoints can be created under the account. Starting with Media Services 2.15 (released on January 10th 2017) there are two StreamingEndpoint versions: **1.0** and **2.0**. Also, there are three types of StreamingEndpoints: **Classic**, **Standard, or **Premium**. 
+Each Azure Media Services (AMS) account includes a default StreamingEndpoint; additional StreamingEndpoints can be created under the account. Starting with Media Services 2.15 (released on January 10th 2017) there are two StreamingEndpoint versions: **1.0** and **2.0**. Also, there are three types of StreamingEndpoints: **Classic**, <strong>Standard, or **Premium</strong>. 
 
 Media Services accounts created before AMS REST 2.15 update, by default include **Classic** streaming endpoints, version **1.0**. You can upgrade to version **2.0**, you cannot downgrade to **1.0**. AMS accounts created after the 2.15 update, by default include **Standard** streaming endpoints, version **2.0**. Version **2.0** streaming endpoints have billing and feature changes. For more detailed information, see the `StreamingEndpointVersion` property documented below.
 
@@ -193,44 +193,44 @@ Authorization: Bearer <token value>
   
 ```  
 {    
-   "Id":null,  
-   "Name":"teststreamingendpoint001",  
-   "Description":"",  
-   "Created":"0001-01-01T00:00:00",  
-   "LastModified":"0001-01-01T00:00:00",  
-   "State":null,  
-   "HostName":null,  
-   "ScaleUnits":0,  
-   "CustomHostNames":[    
+   "Id":null,  
+   "Name":"teststreamingendpoint001",  
+   "Description":"",  
+   "Created":"0001-01-01T00:00:00",  
+   "LastModified":"0001-01-01T00:00:00",  
+   "State":null,  
+   "HostName":null,  
+   "ScaleUnits":0,  
+   "CustomHostNames":[    
   
-   ],  
-   "AccessControl":{    
-      "Akamai":{    
-         "AkamaiSignatureHeaderAuthenticationKeyList":[    
-            {    
-               "Identifier":"My key",  
-               "Expiration":"2015-08-08T21:45:34.463Z",  
-               "Base64Key":"/31iWKdqNC7YUnj8zQ3XHA=="  
-            }  
-         ]  
-      },  
-      "IP":{    
-         "Allow":[    
-            {    
-               "Name":"Allow all",  
-               "Address":"0.0.0.0",  
-               "SubnetPrefixLength":0  
-            }  
-         ]  
-      }  
-   },  
-   "CacheControl":{    
-      "MaxAge":"1800"  
-   },  
-   "CrossSiteAccessPolicies":{    
-      "ClientAccessPolicy":"<access-policy><cross-domain-access><policy><allow-from http-request-headers='*'><domain uri='http://*' /></allow-from><grant-to><resource path='/' include-subpaths='false' /></grant-to></policy></cross-domain-access></access-policy>",  
-      "CrossDomainPolicy":"<?xml version='1.0'?><!DOCTYPE cross-domain-policy SYSTEM 'http://www.macromedia.com/xml/dtds/cross-domain-policy.dtd'><cross-domain-policy><allow-access-from domain='*' /></cross-domain-policy>"  
-   }  
+   ],  
+   "AccessControl":{    
+      "Akamai":{    
+         "AkamaiSignatureHeaderAuthenticationKeyList":[    
+            {    
+               "Identifier":"My key",  
+               "Expiration":"2015-08-08T21:45:34.463Z",  
+               "Base64Key":"/31iWKdqNC7YUnj8zQ3XHA=="  
+            }  
+         ]  
+      },  
+      "IP":{    
+         "Allow":[    
+            {    
+               "Name":"Allow all",  
+               "Address":"0.0.0.0",  
+               "SubnetPrefixLength":0  
+            }  
+         ]  
+      }  
+   },  
+   "CacheControl":{    
+      "MaxAge":"1800"  
+   },  
+   "CrossSiteAccessPolicies":{    
+      "ClientAccessPolicy":"<access-policy><cross-domain-access><policy><allow-from http-request-headers='*'><domain uri='http://*' /></allow-from><grant-to><resource path='/' include-subpaths='false' /></grant-to></policy></cross-domain-access></access-policy>",  
+      "CrossDomainPolicy":"<?xml version='1.0'?><!DOCTYPE cross-domain-policy SYSTEM 'http://www.macromedia.com/xml/dtds/cross-domain-policy.dtd'><cross-domain-policy><allow-access-from domain='*' /></cross-domain-policy>"  
+   }  
 }  
   
 ```  
@@ -253,45 +253,45 @@ X-Powered-By: ASP.NET
 Date: Sun, 10 Aug 2014 00:31:28 GMT  
   
 {    
-   "odata.metadata":"https://testrest.cloudapp.net/api/$metadata#StreamingEndpoints/@Element",  
-   "Id":"nb:oid:UUID:d2742eb8-ce32-44b8-aae8-83f21364c291",  
-   "Name":"teststreamingendpoint001",  
-   "Description":"",  
-   "Created":"2014-08-10T00:31:28.6760592Z",  
-   "LastModified":"2014-08-10T00:31:28.6760592Z",  
-   "State":"Stopped",  
-   "HostName":null,  
-   "ScaleUnits":0,  
-   "CustomHostNames":[    
+   "odata.metadata":"https://testrest.cloudapp.net/api/$metadata#StreamingEndpoints/@Element",  
+   "Id":"nb:oid:UUID:d2742eb8-ce32-44b8-aae8-83f21364c291",  
+   "Name":"teststreamingendpoint001",  
+   "Description":"",  
+   "Created":"2014-08-10T00:31:28.6760592Z",  
+   "LastModified":"2014-08-10T00:31:28.6760592Z",  
+   "State":"Stopped",  
+   "HostName":null,  
+   "ScaleUnits":0,  
+   "CustomHostNames":[    
   
-   ],  
-   "AccessControl":{    
-      "Akamai":{    
-         "AkamaiSignatureHeaderAuthenticationKeyList":[    
-            {    
-               "Identifier":"My key",  
-               "Expiration":"2015-08-08T21:45:34.463Z",  
-               "Base64Key":"/31iWKdqNC7YUnj8zQ3XHA=="  
-            }  
-         ]  
-      },  
-      "IP":{    
-         "Allow":[    
-            {    
-               "Name":"Allow all",  
-               "Address":"0.0.0.0",  
-               "SubnetPrefixLength":0  
-            }  
-         ]  
-      }  
-   },  
-   "CacheControl":{    
-      "MaxAge":"1800"  
-   },  
-   "CrossSiteAccessPolicies":{    
-      "ClientAccessPolicy":"<access-policy><cross-domain-access><policy><allow-from http-request-headers='*'><domain uri='http://*' /></allow-from><grant-to><resource path='/' include-subpaths='false' /></grant-to></policy></cross-domain-access></access-policy>",  
-      "CrossDomainPolicy":"<?xml version='1.0'?><!DOCTYPE cross-domain-policy SYSTEM 'http://www.macromedia.com/xml/dtds/cross-domain-policy.dtd'><cross-domain-policy><allow-access-from domain='*' /></cross-domain-policy>"  
-   }  
+   ],  
+   "AccessControl":{    
+      "Akamai":{    
+         "AkamaiSignatureHeaderAuthenticationKeyList":[    
+            {    
+               "Identifier":"My key",  
+               "Expiration":"2015-08-08T21:45:34.463Z",  
+               "Base64Key":"/31iWKdqNC7YUnj8zQ3XHA=="  
+            }  
+         ]  
+      },  
+      "IP":{    
+         "Allow":[    
+            {    
+               "Name":"Allow all",  
+               "Address":"0.0.0.0",  
+               "SubnetPrefixLength":0  
+            }  
+         ]  
+      }  
+   },  
+   "CacheControl":{    
+      "MaxAge":"1800"  
+   },  
+   "CrossSiteAccessPolicies":{    
+      "ClientAccessPolicy":"<access-policy><cross-domain-access><policy><allow-from http-request-headers='*'><domain uri='http://*' /></allow-from><grant-to><resource path='/' include-subpaths='false' /></grant-to></policy></cross-domain-access></access-policy>",  
+      "CrossDomainPolicy":"<?xml version='1.0'?><!DOCTYPE cross-domain-policy SYSTEM 'http://www.macromedia.com/xml/dtds/cross-domain-policy.dtd'><cross-domain-policy><allow-access-from domain='*' /></cross-domain-policy>"  
+   }  
 }  
   
 ```  

@@ -32,6 +32,7 @@ translation.priority.mt:
 Information about the image store content.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [StoreFiles](#storefiles) | array of [FileInfo](sfclient-v60-model-fileinfo.md) | No |

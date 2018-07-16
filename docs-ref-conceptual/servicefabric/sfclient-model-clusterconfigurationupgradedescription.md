@@ -32,6 +32,7 @@ translation.priority.mt:
 Describes the parameters for a standalone cluster configuration upgrade.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`ClusterConfig`](#clusterconfig) | string | Yes |

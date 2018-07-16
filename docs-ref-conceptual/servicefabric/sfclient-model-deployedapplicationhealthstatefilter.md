@@ -35,6 +35,7 @@ One filter can match zero, one or multiple deployed applications, depending on i
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`NodeNameFilter`](#nodenamefilter) | string | No |

@@ -32,6 +32,7 @@ translation.priority.mt:
 Information about code package deployed on a Service Fabric node.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [Name](#name) | string | No |

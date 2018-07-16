@@ -30,6 +30,7 @@ translation.priority.mt:
 Describes the delta health policies for the cluster upgrade.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [maxPercentDeltaUnhealthyNodes](#maxpercentdeltaunhealthynodes) | integer | Yes |

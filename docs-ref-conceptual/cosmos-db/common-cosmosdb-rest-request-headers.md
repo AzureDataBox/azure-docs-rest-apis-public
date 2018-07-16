@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Common request headers - Azure Cosmos DB REST API"
 ms.custom: ""
 ms.date: "10/09/2017"

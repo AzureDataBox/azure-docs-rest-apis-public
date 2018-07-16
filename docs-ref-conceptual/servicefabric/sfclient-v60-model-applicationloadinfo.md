@@ -32,6 +32,7 @@ translation.priority.mt:
 Load Information about a Service Fabric application.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [Id](#id) | string | No |

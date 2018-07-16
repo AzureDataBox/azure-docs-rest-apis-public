@@ -30,6 +30,7 @@ translation.priority.mt:
 Describes the certificate details.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [thumbprint](#thumbprint) | string | Yes |

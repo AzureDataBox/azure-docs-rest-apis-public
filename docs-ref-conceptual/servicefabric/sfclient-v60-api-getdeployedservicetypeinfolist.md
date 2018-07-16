@@ -33,12 +33,14 @@ Gets the list containing the information about service types from the applicatio
 Gets the list containing the information about service types from the applications deployed on a node in a Service Fabric cluster. The response includes the name of the service type, its registration status, the code package that registered it and activation id of the service package.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/Nodes/{nodeName}/$/GetApplications/{applicationId}/$/GetServiceTypes?api-version=6.0&ServiceManifestName={ServiceManifestName}&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [nodeName](#nodename) | string | Yes | Path |
@@ -56,8 +58,8 @@ The name of the node.
 
 ____
 ### applicationId
-__Type__: string <br/>
-__Required__: Yes<br/>
+**Type**: string <br/>
+**Required**: Yes<br/>
 <br/>
 The identity of the application. This is typically the full name of the application without the 'fabric:' URI scheme. Starting from version 6.0, hierarchical names are delimited with the "~" character. For example, if the application name is "fabric://myapp/app1", the application identity would be "myapp~app1" in 6.0+ and "myapp/app1" in previous versions.
 

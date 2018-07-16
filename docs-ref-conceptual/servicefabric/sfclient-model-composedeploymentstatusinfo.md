@@ -32,6 +32,7 @@ translation.priority.mt:
 Information about a Service Fabric compose deployment.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Name`](#name) | string | No |

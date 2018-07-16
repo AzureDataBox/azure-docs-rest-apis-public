@@ -81,13 +81,13 @@ The Table service REST API is compliant with the [OData Protocol Specification](
 ### LINQ Query Operators  
  The Table service supports using language-integrated queries (LINQ). Only these LINQ query operators are supported for use with the Table service:  
   
--   `From`  
+- `From`  
   
--   `Where`  
+- `Where`  
   
--   `Take`  
+- `Take`  
   
- For more information, see [Query Operators Supported for the Table Service](Query-Operators-Supported-for-the-Table-Service.md).  
+  For more information, see [Query Operators Supported for the Table Service](Query-Operators-Supported-for-the-Table-Service.md).  
   
 ### LINQ Comparison Operators  
  The Table service supports using a subset of the comparison operators provided by LINQ. For more information, see [Querying Tables and Entities](Querying-Tables-and-Entities.md) and [Writing LINQ Queries Against the Table Service](Writing-LINQ-Queries-Against-the-Table-Service.md).  

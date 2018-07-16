@@ -33,12 +33,14 @@ Gets the specified Service Fabric property.
 Gets the specified Service Fabric property under a given name. This will always return both value and metadata.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/Names/{nameId}/$/GetProperty?api-version=6.0&PropertyName={PropertyName}&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`nameId`](#nameid) | string | Yes | Path |

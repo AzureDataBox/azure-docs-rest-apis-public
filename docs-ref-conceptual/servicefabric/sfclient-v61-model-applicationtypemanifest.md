@@ -32,6 +32,7 @@ translation.priority.mt:
 Contains the manifest describing an application type registered in a Service Fabric cluster.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [Manifest](#manifest) | string | No |

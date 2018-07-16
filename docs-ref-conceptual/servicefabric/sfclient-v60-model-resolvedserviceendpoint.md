@@ -32,6 +32,7 @@ translation.priority.mt:
 Endpoint of a resolved service partition.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [Kind](#kind) | string (enum) | No |

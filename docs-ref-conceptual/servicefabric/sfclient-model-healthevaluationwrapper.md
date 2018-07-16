@@ -32,6 +32,7 @@ translation.priority.mt:
 Wrapper object for health evaluation.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`HealthEvaluation`](#healthevaluation) | [HealthEvaluation](sfclient-model-healthevaluation.md) | No |

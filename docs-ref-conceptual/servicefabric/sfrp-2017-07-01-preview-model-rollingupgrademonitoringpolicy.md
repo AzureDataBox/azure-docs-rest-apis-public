@@ -30,6 +30,7 @@ translation.priority.mt:
 The policy used for monitoring the application upgrade
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [healthCheckWaitDuration](#healthcheckwaitduration) | string | No |

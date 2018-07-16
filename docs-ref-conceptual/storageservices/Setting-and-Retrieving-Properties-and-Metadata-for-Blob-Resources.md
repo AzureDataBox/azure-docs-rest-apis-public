@@ -90,31 +90,31 @@ PUT https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=metadata
   
  The standard HTTP headers supported on containers include:  
   
--   `ETag`  
+- `ETag`  
   
--   `Last-Modified`  
+- `Last-Modified`  
   
- The standard HTTP headers supported on blobs include:  
+  The standard HTTP headers supported on blobs include:  
   
--   `ETag`  
+- `ETag`  
   
--   `Last-Modified`  
+- `Last-Modified`  
   
--   `Content-Length`  
+- `Content-Length`  
   
--   `Content-Type`  
+- `Content-Type`  
   
--   `Content-MD5`  
+- `Content-MD5`  
   
--   `Content-Encoding`  
+- `Content-Encoding`  
   
--   `Content-Language`  
+- `Content-Language`  
   
--   `Cache-Control`  
+- `Cache-Control`  
   
--   `Origin`  
+- `Origin`  
   
--   `Range`  
+- `Range`  
   
 ## See Also  
  [Create Container](Create-Container.md)   

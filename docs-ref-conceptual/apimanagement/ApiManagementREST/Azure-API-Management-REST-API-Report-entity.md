@@ -169,24 +169,24 @@ This topic describes how to retrieve reports using the API Management REST API.
   
 > [!NOTE]
 >  For this report, the following fields are returned.  
->   
->  -   timestamp  
-> -   interval  
-> -   callCountSuccess  
-> -   callCountBlocked  
-> -   callCountFailed  
-> -   callCountOther  
-> -   bandwidth  
-> -   cacheHitsCount  
-> -   cacheMissCount  
-> -   apiTimeAvg  
-> -   apiTimeMin  
-> -   apiTimeMax  
-> -   serviceTimeAvg  
-> -   serviceTimeMin  
-> -   serviceTimeMax  
->   
->  All other fields in the response contain default values.  
+> 
+> - timestamp  
+>   -   interval  
+>   -   callCountSuccess  
+>   -   callCountBlocked  
+>   -   callCountFailed  
+>   -   callCountOther  
+>   -   bandwidth  
+>   -   cacheHitsCount  
+>   -   cacheMissCount  
+>   -   apiTimeAvg  
+>   -   apiTimeMin  
+>   -   apiTimeMax  
+>   -   serviceTimeAvg  
+>   -   serviceTimeMin  
+>   -   serviceTimeMax  
+> 
+>   All other fields in the response contain default values.  
   
 #### 400 Bad Request  
  Request validation failed.  
@@ -243,25 +243,25 @@ This topic describes how to retrieve reports using the API Management REST API.
   
 > [!NOTE]
 >  For this report, the following fields are returned.  
->   
->  -   country  
-> -   region  
-> -   zip  
-> -   callCountSuccess  
-> -   callCountBlocked  
-> -   callCountFailed  
-> -   callCountOther  
-> -   bandwidth  
-> -   cacheHitsCount  
-> -   cacheMissCount  
-> -   apiTimeAvg  
-> -   apiTimeMin  
-> -   apiTimeMax  
-> -   serviceTimeAvg  
-> -   serviceTimeMin  
-> -   serviceTimeMax  
->   
->  All other fields in the response contain default values.  
+> 
+> - country  
+>   -   region  
+>   -   zip  
+>   -   callCountSuccess  
+>   -   callCountBlocked  
+>   -   callCountFailed  
+>   -   callCountOther  
+>   -   bandwidth  
+>   -   cacheHitsCount  
+>   -   cacheMissCount  
+>   -   apiTimeAvg  
+>   -   apiTimeMin  
+>   -   apiTimeMax  
+>   -   serviceTimeAvg  
+>   -   serviceTimeMin  
+>   -   serviceTimeMax  
+> 
+>   All other fields in the response contain default values.  
   
 #### 400 Bad Request  
  Request validation failed.  
@@ -315,24 +315,24 @@ This topic describes how to retrieve reports using the API Management REST API.
   
 > [!NOTE]
 >  For this report, the following fields are returned.  
->   
->  -   name  
-> -   userId  
-> -   callCountSuccess  
-> -   callCountBlocked  
-> -   callCountFailed  
-> -   callCountOther  
-> -   bandwidth  
-> -   cacheHitsCount  
-> -   cacheMissCount  
-> -   apiTimeAvg  
-> -   apiTimeMin  
-> -   apiTimeMax  
-> -   serviceTimeAvg  
-> -   serviceTimeMin  
-> -   serviceTimeMax  
->   
->  All other fields in the response contain default values.  
+> 
+> - name  
+>   -   userId  
+>   -   callCountSuccess  
+>   -   callCountBlocked  
+>   -   callCountFailed  
+>   -   callCountOther  
+>   -   bandwidth  
+>   -   cacheHitsCount  
+>   -   cacheMissCount  
+>   -   apiTimeAvg  
+>   -   apiTimeMin  
+>   -   apiTimeMax  
+>   -   serviceTimeAvg  
+>   -   serviceTimeMin  
+>   -   serviceTimeMax  
+> 
+>   All other fields in the response contain default values.  
   
 #### 400 Bad Request  
  Request validation failed.  
@@ -382,24 +382,24 @@ This topic describes how to retrieve reports using the API Management REST API.
   
 > [!NOTE]
 >  For this report, the following fields are returned.  
->   
->  -   name  
-> -   productId  
-> -   callCountSuccess  
-> -   callCountBlocked  
-> -   callCountFailed  
-> -   callCountOther  
-> -   bandwidth  
-> -   cacheHitsCount  
-> -   cacheMissCount  
-> -   apiTimeAvg  
-> -   apiTimeMin  
-> -   apiTimeMax  
-> -   serviceTimeAvg  
-> -   serviceTimeMin  
-> -   serviceTimeMax  
->   
->  All other fields in the response contain default values.  
+> 
+> - name  
+>   -   productId  
+>   -   callCountSuccess  
+>   -   callCountBlocked  
+>   -   callCountFailed  
+>   -   callCountOther  
+>   -   bandwidth  
+>   -   cacheHitsCount  
+>   -   cacheMissCount  
+>   -   apiTimeAvg  
+>   -   apiTimeMin  
+>   -   apiTimeMax  
+>   -   serviceTimeAvg  
+>   -   serviceTimeMin  
+>   -   serviceTimeMax  
+> 
+>   All other fields in the response contain default values.  
   
 #### 400 Bad Request  
  Request validation failed.  
@@ -453,24 +453,24 @@ This topic describes how to retrieve reports using the API Management REST API.
   
 > [!NOTE]
 >  For this report, the following fields are returned.  
->   
->  -   name  
-> -   apiId  
-> -   callCountSuccess  
-> -   callCountBlocked  
-> -   callCountFailed  
-> -   callCountOther  
-> -   bandwidth  
-> -   cacheHitsCount  
-> -   cacheMissCount  
-> -   apiTimeAvg  
-> -   apiTimeMin  
-> -   apiTimeMax  
-> -   serviceTimeAvg  
-> -   serviceTimeMin  
-> -   serviceTimeMax  
->   
->  All other fields in the response contain default values.  
+> 
+> - name  
+>   -   apiId  
+>   -   callCountSuccess  
+>   -   callCountBlocked  
+>   -   callCountFailed  
+>   -   callCountOther  
+>   -   bandwidth  
+>   -   cacheHitsCount  
+>   -   cacheMissCount  
+>   -   apiTimeAvg  
+>   -   apiTimeMin  
+>   -   apiTimeMax  
+>   -   serviceTimeAvg  
+>   -   serviceTimeMin  
+>   -   serviceTimeMax  
+> 
+>   All other fields in the response contain default values.  
   
 #### 400 Bad Request  
  Request validation failed.  
@@ -530,24 +530,24 @@ This topic describes how to retrieve reports using the API Management REST API.
   
 > [!NOTE]
 >  For this report, the following fields are returned.  
->   
->  -   name  
-> -   operationId  
-> -   callCountSuccess  
-> -   callCountBlocked  
-> -   callCountFailed  
-> -   callCountOther  
-> -   bandwidth  
-> -   cacheHitsCount  
-> -   cacheMissCount  
-> -   apiTimeAvg  
-> -   apiTimeMin  
-> -   apiTimeMax  
-> -   serviceTimeAvg  
-> -   serviceTimeMin  
-> -   serviceTimeMax  
->   
->  All other fields in the response contain default values.  
+> 
+> - name  
+>   -   operationId  
+>   -   callCountSuccess  
+>   -   callCountBlocked  
+>   -   callCountFailed  
+>   -   callCountOther  
+>   -   bandwidth  
+>   -   cacheHitsCount  
+>   -   cacheMissCount  
+>   -   apiTimeAvg  
+>   -   apiTimeMin  
+>   -   apiTimeMax  
+>   -   serviceTimeAvg  
+>   -   serviceTimeMin  
+>   -   serviceTimeMax  
+> 
+>   All other fields in the response contain default values.  
   
 #### 400 Bad Request  
  Request validation failed.  
@@ -601,27 +601,27 @@ This topic describes how to retrieve reports using the API Management REST API.
   
 > [!NOTE]
 >  For this report, the following fields are returned.  
->   
->  -   name  
-> -   userId  
-> -   productId  
-> -   subscriptionId  
-> -   callCountSuccess  
-> -   callCountBlocked  
-> -   callCountFailed  
-> -   callCountOther  
-> -   callCountTotal  
-> -   bandwidth  
-> -   cacheHitsCount  
-> -   cacheMissCount  
-> -   apiTimeAvg  
-> -   apiTimeMin  
-> -   apiTimeMax  
-> -   serviceTimeAvg  
-> -   serviceTimeMin  
-> -   serviceTimeMax  
->   
->  All other fields in the response contain default values.  
+> 
+> - name  
+>   -   userId  
+>   -   productId  
+>   -   subscriptionId  
+>   -   callCountSuccess  
+>   -   callCountBlocked  
+>   -   callCountFailed  
+>   -   callCountOther  
+>   -   callCountTotal  
+>   -   bandwidth  
+>   -   cacheHitsCount  
+>   -   cacheMissCount  
+>   -   apiTimeAvg  
+>   -   apiTimeMin  
+>   -   apiTimeMax  
+>   -   serviceTimeAvg  
+>   -   serviceTimeMin  
+>   -   serviceTimeMax  
+> 
+>   All other fields in the response contain default values.  
   
 #### 400 Bad Request  
  Request validation failed.  

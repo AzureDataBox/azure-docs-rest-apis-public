@@ -31,12 +31,14 @@ Gets a Service Fabric service resource.
 Get a Service Fabric service resource created or in the process of being created in the Service Fabric application resource.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/applications/{applicationName}/services/{serviceName}?api-version=2017-07-01-preview` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [subscriptionId](#subscriptionid) | string | Yes | Path |

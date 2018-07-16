@@ -29,11 +29,11 @@ The `Get Block List` operation retrieves the list of blocks that have been uploa
   
  There are two block lists maintained for a blob:  
   
--   **Committed Block List:** The list of blocks that have been successfully committed to a given blob with [Put Block List](Put-Block-List.md).  
+- **Committed Block List:** The list of blocks that have been successfully committed to a given blob with [Put Block List](Put-Block-List.md).  
   
--   **Uncommitted Block List:** The list of blocks that have been uploaded for a blob using [Put Block](Put-Block.md), but that have not yet been committed. These blocks are stored in Azure in association with a blob, but do not yet form part of the blob.  
+- **Uncommitted Block List:** The list of blocks that have been uploaded for a blob using [Put Block](Put-Block.md), but that have not yet been committed. These blocks are stored in Azure in association with a blob, but do not yet form part of the blob.  
   
- You can call `Get Block List` to return the committed block list, the uncommitted block list, or both lists. You can also call this operation to retrieve the committed block list for a snapshot.  
+  You can call `Get Block List` to return the committed block list, the uncommitted block list, or both lists. You can also call this operation to retrieve the committed block list for a snapshot.  
   
 ## Request  
  The `Get Block List` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  

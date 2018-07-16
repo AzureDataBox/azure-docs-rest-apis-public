@@ -32,6 +32,7 @@ translation.priority.mt:
 Represents health evaluation for applications, containing health evaluations for each unhealthy application that impacted current aggregated health state.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Kind`](#kind) | string | Yes |

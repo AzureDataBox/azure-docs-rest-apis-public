@@ -34,12 +34,14 @@ The DELETE request will cause the existing upload session to expire and remove a
 
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | DELETE | `/ImageStore/$/DeleteUploadSession?api-version=6.0&session-id={session-id}&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`api-version`](#api-version) | string | Yes | Query |

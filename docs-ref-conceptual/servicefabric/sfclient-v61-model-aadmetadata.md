@@ -32,6 +32,7 @@ translation.priority.mt:
 Azure Active Directory metadata used for secured connection to cluster.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [authority](#authority) | string | No |

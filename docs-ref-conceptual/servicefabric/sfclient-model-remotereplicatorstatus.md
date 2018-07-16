@@ -33,6 +33,7 @@ Represents the state of the secondary replicator from the primary replicator’s
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`ReplicaId`](#replicaid) | string | No |

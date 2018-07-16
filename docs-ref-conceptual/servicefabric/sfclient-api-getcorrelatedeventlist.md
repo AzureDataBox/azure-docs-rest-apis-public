@@ -33,12 +33,14 @@ Gets all correlated events for a given event.
 The response is list of FabricEvents.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/EventsStore/CorrelatedEvents/{eventInstanceId}/$/Events?api-version=6.2-preview&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`eventInstanceId`](#eventinstanceid) | string | Yes | Path |

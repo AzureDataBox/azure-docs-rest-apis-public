@@ -36,12 +36,14 @@ Call GetNodeTransitionProgress with the same OperationId to get the progress of 
 
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/Faults/Nodes/{nodeName}/$/StartTransition/?api-version=6.0&OperationId={OperationId}&NodeTransitionType={NodeTransitionType}&NodeInstanceId={NodeInstanceId}&StopDurationInSeconds={StopDurationInSeconds}&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [nodeName](#nodename) | string | Yes | Path |

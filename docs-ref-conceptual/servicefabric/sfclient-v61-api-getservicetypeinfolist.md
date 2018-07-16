@@ -33,12 +33,14 @@ Gets the list containing the information about service types that are supported 
 Gets the list containing the information about service types that are supported by a provisioned application type in a Service Fabric cluster. The response includes the name of the service type, the name and version of the service manifest the type is defined in, kind (stateless or stateless) of the service type and other information about it.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/ApplicationTypes/{applicationTypeName}/$/GetServiceTypes?api-version=6.0&ApplicationTypeVersion={ApplicationTypeVersion}&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [applicationTypeName](#applicationtypename) | string | Yes | Path |

@@ -32,6 +32,7 @@ translation.priority.mt:
 Information about a Service Fabric code version.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`CodeVersion`](#codeversion) | string | No |

@@ -30,6 +30,7 @@ translation.priority.mt:
 Creates a particular correlation between services.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [Scheme](#scheme) | string (enum) | Yes |

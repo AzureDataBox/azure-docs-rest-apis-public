@@ -35,6 +35,7 @@ Can be specified in the cluster health chunk query description.
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [NodeNameFilter](#nodenamefilter) | string | No |

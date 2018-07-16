@@ -33,12 +33,14 @@ Suspends periodic backup for the specified partition.
 The partition which is configured to take periodic backups, is suspended for taking further backups till it is resumed again.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/Partitions/{partitionId}/$/SuspendBackup?api-version=6.2-preview&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`partitionId`](#partitionid) | string (uuid) | Yes | Path |

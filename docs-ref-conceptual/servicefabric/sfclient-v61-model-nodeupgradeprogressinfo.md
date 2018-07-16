@@ -32,6 +32,7 @@ translation.priority.mt:
 Information about the upgrading node and its status
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [NodeName](#nodename) | string | No |

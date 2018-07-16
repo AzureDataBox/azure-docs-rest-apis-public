@@ -38,7 +38,7 @@ translation.priority.mt:
 - How does Azure Cosmos DB support concurrency control?  
 - What are the connectivity options for HTTPS and TCP?  
   
- If you are looking for information on how to perform CRUD operations on specific resources using REST, see [Common tasks using the Azure Cosmos DB REST API](common-tasks-using-the-cosmosdb-rest-api.md). If you are looking for samples on how to perform CRUD operations using C# and REST, see the [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net) on GitHub.  
+  If you are looking for information on how to perform CRUD operations on specific resources using REST, see [Common tasks using the Azure Cosmos DB REST API](common-tasks-using-the-cosmosdb-rest-api.md). If you are looking for samples on how to perform CRUD operations using C# and REST, see the [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net) on GitHub.  
   
 > [!NOTE]  
 >  You can also perform CRUD operations on Cosmos DB resources using the Cosmos DB SDKs. For samples, see [Azure Cosmos DB examples](/azure/cosmos-db/sql-api-dotnet-samples). For links to the SDK downloads and documentation, see [Cosmos DB SDKs](/azure/cosmos-db/sql-api-sdk-dotnet).  

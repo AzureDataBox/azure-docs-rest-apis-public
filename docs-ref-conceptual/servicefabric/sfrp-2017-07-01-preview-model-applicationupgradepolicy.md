@@ -30,6 +30,7 @@ translation.priority.mt:
 Describes the policy for a monitored application upgrade.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [upgradeReplicaSetCheckTimeout](#upgradereplicasetchecktimeout) | integer (int64) | No |

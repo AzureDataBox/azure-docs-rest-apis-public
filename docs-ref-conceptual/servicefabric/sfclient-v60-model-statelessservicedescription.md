@@ -32,6 +32,7 @@ translation.priority.mt:
 Describes a stateless service.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [ServiceKind](#servicekind) | string | Yes |

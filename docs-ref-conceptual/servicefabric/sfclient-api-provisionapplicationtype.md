@@ -35,12 +35,14 @@ The provision operation can be performed either on the application package speci
 
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/ApplicationTypes/$/Provision?api-version=6.2&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`api-version`](#api-version) | string | Yes | Query |

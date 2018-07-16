@@ -33,6 +33,7 @@ Represents the health state chunk of a deployed application, which contains the 
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [HealthState](#healthstate) | string (enum) | No |

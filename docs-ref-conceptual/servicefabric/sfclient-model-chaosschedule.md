@@ -32,6 +32,7 @@ translation.priority.mt:
 Defines the schedule used by Chaos.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`StartDate`](#startdate) | string (date-time) | No |

@@ -32,6 +32,7 @@ translation.priority.mt:
 The detailed upgrade progress for nodes in the current upgrade domain at the point of failure.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [DomainName](#domainname) | string | No |

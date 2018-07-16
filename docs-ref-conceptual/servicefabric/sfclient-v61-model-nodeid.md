@@ -32,6 +32,7 @@ translation.priority.mt:
 An internal ID used by Service Fabric to uniquely identify a node. Node Id is deterministically generated from node name.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [Id](#id) | string | No |

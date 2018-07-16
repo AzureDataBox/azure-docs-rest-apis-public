@@ -198,11 +198,11 @@ Content-Length: 0
   
 > [!NOTE]
 >  The `Publish` action has been deprecated. Starting with the latest Media Services release, `Publish` should not be used.  
->   
+> 
 >  If your code uses `Publish`, be aware of the following considerations:  
->   
->  1.  The `Publish` action does not delete locators associated with the asset. You must explicitly delete the locators in code after calling `Publish`.  
-> 2.  The `Publish` action does not set the asset state to `Published`. Remove the code that checks whether an asset is in the `Published` state. Currently, an asset can only have the `Initialized` or `Deleted` state.  
+> 
+> 1. The `Publish` action does not delete locators associated with the asset. You must explicitly delete the locators in code after calling `Publish`.  
+>    2.  The `Publish` action does not set the asset state to `Published`. Remove the code that checks whether an asset is in the `Published` state. Currently, an asset can only have the `Initialized` or `Deleted` state.  
   
 ##  <a name="linking_content_keys_to_assets"></a> Linking Content Keys to Assets  
  You can link a [ContentKey](../operations/contentkey.md) to an asset by referencing the asset Id with an HTTP POST request. The Uri of the ContentKey must be included in the body of the request. You can only link a ContentKey type that matches the type specified in the asset’s **CreationOptions**. For example, if the Asset has options set to StorageEncrypted(1), the ContentKey must be of the StorageEncryption(1) type.  

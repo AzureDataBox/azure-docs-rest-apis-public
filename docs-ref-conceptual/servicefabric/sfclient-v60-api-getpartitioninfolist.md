@@ -33,12 +33,14 @@ Gets the list of partitions of a Service Fabric service.
 Gets the list of partitions of a Service Fabric service. The response include the partition id, partitioning scheme information, keys supported by the partition, status, health and other details about the partition.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/Services/{serviceId}/$/GetPartitions?api-version=6.0&ContinuationToken={ContinuationToken}&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [serviceId](#serviceid) | string | Yes | Path |
@@ -48,8 +50,8 @@ Gets the list of partitions of a Service Fabric service. The response include th
 
 ____
 ### serviceId
-__Type__: string <br/>
-__Required__: Yes<br/>
+**Type**: string <br/>
+**Required**: Yes<br/>
 <br/>
 The identity of the service. This is typically the full name of the service without the 'fabric:' URI scheme. Starting from version 6.0, hierarchical names are delimited with the "~" character. For example, if the service name is "fabric://myapp/app1/svc1", the service identity would be "myapp~app1~svc1" in 6.0+ and "myapp/app1/svc1" in previous versions.
 

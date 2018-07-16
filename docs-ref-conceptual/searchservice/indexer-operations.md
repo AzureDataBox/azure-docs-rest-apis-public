@@ -24,13 +24,13 @@ translation.priority.mt:
 
  An **indexer** is a resource that crawls a data source and loads documents into a target search index. Key scenarios for indexers can be described as follows:  
 
--   Perform a one-time copy of the data to populate an index.  
+- Perform a one-time copy of the data to populate an index.  
 
--   Sync an index with incremental changes from the data source on a recurring schedule. The schedule is part of the indexer definition.  
+- Sync an index with incremental changes from the data source on a recurring schedule. The schedule is part of the indexer definition.  
 
--   Invoke an indexer on-demand to update an index as needed.  
+- Invoke an indexer on-demand to update an index as needed.  
 
- All of the above scenarios are achieved through the [Run Indexer &#40;Azure Search Service REST API&#41;](run-indexer.md), which you can run as a standalone operation or scheduled using the built-in scheduler, to load data from supported data sources.  
+  All of the above scenarios are achieved through the [Run Indexer &#40;Azure Search Service REST API&#41;](run-indexer.md), which you can run as a standalone operation or scheduled using the built-in scheduler, to load data from supported data sources.  
 
 ## Supportability
 
@@ -43,14 +43,14 @@ translation.priority.mt:
 
  The following data sources are currently supported:  
 
- - **Azure SQL Database** and **SQL Server on Azure VMs**. For a targeted walk-through, see [this article](https://azure.microsoft.com/documentation/articles/search-howto-connecting-azure-sql-database-to-azure-search-using-indexers/).
- - **Azure Cosmos DB SQL API**. For a targeted walk-through, see [this article](https://docs.microsoft.com/azure/search/search-howto-index-documentdb).
- - **Azure Blob Storage**, including the following document formats: PDF, Microsoft Office (DOCX/DOC, XSLX/XLS, PPTX/PPT, MSG), HTML, XML, ZIP, and plain text files (including JSON). For  a targeted walk-through, see [this article](https://azure.microsoft.com/documentation/articles/search-howto-indexing-azure-blob-storage).
- - **Azure Table Storage**. For a targeted walk-through, see [this article](https://azure.microsoft.com/documentation/articles/search-howto-indexing-azure-tables).
+- **Azure SQL Database** and **SQL Server on Azure VMs**. For a targeted walk-through, see [this article](https://azure.microsoft.com/documentation/articles/search-howto-connecting-azure-sql-database-to-azure-search-using-indexers/).
+- **Azure Cosmos DB SQL API**. For a targeted walk-through, see [this article](https://docs.microsoft.com/azure/search/search-howto-index-documentdb).
+- **Azure Blob Storage**, including the following document formats: PDF, Microsoft Office (DOCX/DOC, XSLX/XLS, PPTX/PPT, MSG), HTML, XML, ZIP, and plain text files (including JSON). For  a targeted walk-through, see [this article](https://azure.microsoft.com/documentation/articles/search-howto-indexing-azure-blob-storage).
+- **Azure Table Storage**. For a targeted walk-through, see [this article](https://azure.microsoft.com/documentation/articles/search-howto-indexing-azure-tables).
 
- We're considering adding support for additional data sources in the future. To help us prioritize these decisions, please provide your feedback on the [Azure Search feedback forum](http://feedback.azure.com/forums/263029-azure-search).  
+  We're considering adding support for additional data sources in the future. To help us prioritize these decisions, please provide your feedback on the [Azure Search feedback forum](http://feedback.azure.com/forums/263029-azure-search).  
 
- See [Service Limits](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/) for maximum limits related to **indexer** and **data source** resources.  
+  See [Service Limits](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/) for maximum limits related to **indexer** and **data source** resources.  
 
 ## Typical workflow  
 
@@ -58,23 +58,23 @@ Using an indexer is efficient, [removing the need to write code to index your da
 
  Setting up automatic indexing is typically a four step process:  
 
-1.  Identify the data source that contains the data that needs to be indexed. Keep in mind that Azure Search may not support all of the data types present in your data source. See [Supported data types &#40;Azure Search&#41;](supported-data-types.md) for the list.  
+1. Identify the data source that contains the data that needs to be indexed. Keep in mind that Azure Search may not support all of the data types present in your data source. See [Supported data types &#40;Azure Search&#41;](supported-data-types.md) for the list.  
 
-2.  Create an Azure Search index whose schema is compatible with your data source.  
+2. Create an Azure Search index whose schema is compatible with your data source.  
 
-3.  Create an Azure Search **data source** as described in [Create Data Source &#40;Azure Search Service REST API&#41;](create-data-source.md).  
+3. Create an Azure Search **data source** as described in [Create Data Source &#40;Azure Search Service REST API&#41;](create-data-source.md).  
 
-4.  Create an Azure Search **indexer** as described in [Create Indexer &#40;Azure Search Service REST API&#41;](create-indexer.md).  
+4. Create an Azure Search **indexer** as described in [Create Indexer &#40;Azure Search Service REST API&#41;](create-indexer.md).  
 
- You should plan on creating one indexer for every target index and data source combination. You can have multiple indexers writing into the same index, and you can reuse the same data source for multiple indexers. However, an indexer can only consume one data source at a time, and can only write to a single index. As the following graphic illustrates, one data source provides input to one indexer, which then populates a single index:  
+   You should plan on creating one indexer for every target index and data source combination. You can have multiple indexers writing into the same index, and you can reuse the same data source for multiple indexers. However, an indexer can only consume one data source at a time, and can only write to a single index. As the following graphic illustrates, one data source provides input to one indexer, which then populates a single index:  
 
- ![Data Source, Indexer, Index chain in Azure Search](media/azsrch-ds-indxr-index.png "Azsrch-ds-indxr-index")  
+   ![Data Source, Indexer, Index chain in Azure Search](media/azsrch-ds-indxr-index.png "Azsrch-ds-indxr-index")  
 
- Although you can only use one at a time, resources can be used in different combinations. The main takeaway of the next illustration is to notice is that a data source can be paired with more than one indexer, and multiple indexers can write to same index.  
+   Although you can only use one at a time, resources can be used in different combinations. The main takeaway of the next illustration is to notice is that a data source can be paired with more than one indexer, and multiple indexers can write to same index.  
 
- ![Resource combinations used in indexers](media/azsrch-ds2-indexer3-index2.png "AzSrch-DS2-Indexer3-Index2")  
+   ![Resource combinations used in indexers](media/azsrch-ds2-indexer3-index2.png "AzSrch-DS2-Indexer3-Index2")  
 
- After creating an indexer, you can retrieve its execution status using the [Get Indexer Status &#40;Azure Search Service REST API&#41;](get-indexer-status.md) operation. You can also run an indexer at any time (instead of or in addition to running it periodically on a schedule) using the [Run Indexer &#40;Azure Search Service REST API&#41;](run-indexer.md) operation.  
+   After creating an indexer, you can retrieve its execution status using the [Get Indexer Status &#40;Azure Search Service REST API&#41;](get-indexer-status.md) operation. You can also run an indexer at any time (instead of or in addition to running it periodically on a schedule) using the [Run Indexer &#40;Azure Search Service REST API&#41;](run-indexer.md) operation.  
 
 ## Operations on indexers  
  The REST API for **indexers** and **data sources** includes the operations shown in the following table.  

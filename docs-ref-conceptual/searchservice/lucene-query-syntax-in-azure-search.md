@@ -30,29 +30,29 @@ translation.priority.mt:
 ## Key scenarios enabled by Lucene query syntax  
  The Lucene query syntax is more powerful than the alternative [Simple Query Syntax](simple-query-syntax-in-azure-search.md) supported by Azure Search. You should plan on using Lucene query syntax if you want to implement any of these query operations:  
 
--   [Field-scoped queries](#bkmk_fields)  
+- [Field-scoped queries](#bkmk_fields)  
 
--   [Fuzzy search](#bkmk_fuzzy)  
+- [Fuzzy search](#bkmk_fuzzy)  
 
--   [Proximity search](#bkmk_proximity)  
+- [Proximity search](#bkmk_proximity)  
 
--   [Term boosting](#bkmk_termboost)  
+- [Term boosting](#bkmk_termboost)  
 
--   [Regular expression search](#bkmk_regex)  
+- [Regular expression search](#bkmk_regex)  
 
--   [Wildcard search](#bkmk_wildcard)  
+- [Wildcard search](#bkmk_wildcard)  
 
--   [Syntax fundamentals](#bkmk_syntax)  
+- [Syntax fundamentals](#bkmk_syntax)  
 
--   [Boolean operators](#bkmk_boolean)  
+- [Boolean operators](#bkmk_boolean)  
 
--   [Query size limitations](#bkmk_querysizelimits)  
+- [Query size limitations](#bkmk_querysizelimits)  
 
--   [Search score for wildcard and regex queries](#bkmk_searchscoreforwildcardandregexqueries)  
+- [Search score for wildcard and regex queries](#bkmk_searchscoreforwildcardandregexqueries)  
 
--   [Example](#bkmk_example)  
+- [Example](#bkmk_example)  
 
- Both Lucene and simple query syntax are functionally similar for [Wildcard search](#bkmk_wildcard) and [Boolean operators](#bkmk_boolean). The sections on wildcard search and boolean operators are mostly the same for both syntax.  
+  Both Lucene and simple query syntax are functionally similar for [Wildcard search](#bkmk_wildcard) and [Boolean operators](#bkmk_boolean). The sections on wildcard search and boolean operators are mostly the same for both syntax.  
 
 ## Designate the Lucene query parser for query execution  
  Use the `queryType` search parameter to specify which parser to use. Valid values include `simple|full`, with `simple` as the default.
@@ -62,13 +62,13 @@ For details about specifying query parameter, see [Search Documents &#40;Azure S
 ##  <a name="bkmk_fields"></a> Field-scoped queries  
  You can specify a `fieldname:searchterm` construction to define a fielded query operation, where the field is a single word, and the search term is also a single word or a phrase, optionally with boolean operators. Some examples include the following:  
 
--   genre:jazz NOT history  
+- genre:jazz NOT history  
 
--   artists:("Miles Davis" "John Coltrane")
+- artists:("Miles Davis" "John Coltrane")
 
- Be sure to put multiple strings within quotation marks if you want both strings to be evaluated as a single entity, in this case searching for two distinct artists in the `artists` field.  
+  Be sure to put multiple strings within quotation marks if you want both strings to be evaluated as a single entity, in this case searching for two distinct artists in the `artists` field.  
 
- The field specified in `fieldname:searchterm` must be a `searchable` field.  See [Create Index](create-index.md) for details on how index attributes are used in field definitions.  
+  The field specified in `fieldname:searchterm` must be a `searchable` field.  See [Create Index](create-index.md) for details on how index attributes are used in field definitions.  
 
 ##  <a name="bkmk_fuzzy"></a> Fuzzy search  
  A fuzzy search finds matches in terms that have a similar construction. Per [Lucene documentation](https://lucene.apache.org/core/4_10_2/queryparser/org/apache/lucene/queryparser/classic/package-summary.html), fuzzy searches are based on [Damerau-Levenshtein Distance](https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance).  

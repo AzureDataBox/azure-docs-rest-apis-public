@@ -34,6 +34,7 @@ Can be returned during cluster upgrade when cluster aggregated health state is W
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Kind`](#kind) | string | Yes |

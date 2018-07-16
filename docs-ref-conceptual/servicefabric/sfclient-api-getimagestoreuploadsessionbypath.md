@@ -34,12 +34,14 @@ Gets the image store upload session associated with the given image store relati
 
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/ImageStore/{contentPath}/$/GetUploadSession?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`contentPath`](#contentpath) | string | Yes | Path |

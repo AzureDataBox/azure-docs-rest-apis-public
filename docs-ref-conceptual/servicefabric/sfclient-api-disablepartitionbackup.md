@@ -35,12 +35,14 @@ In case the backup is enabled for the Service Fabric application or service, whi
 
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/Partitions/{partitionId}/$/DisableBackup?api-version=6.2-preview&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`partitionId`](#partitionid) | string (uuid) | Yes | Path |

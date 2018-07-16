@@ -32,6 +32,7 @@ translation.priority.mt:
 Node Opened Success event.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Kind`](#kind) | string | Yes |

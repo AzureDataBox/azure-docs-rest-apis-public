@@ -32,6 +32,7 @@ translation.priority.mt:
 Describes the parameters for file share storage used for storing or enumerating backups.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`StorageKind`](#storagekind) | string | Yes |

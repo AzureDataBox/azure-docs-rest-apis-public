@@ -32,6 +32,7 @@ translation.priority.mt:
 Wrapper object for Chaos event.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`ChaosEvent`](#chaosevent) | [ChaosEvent](sfclient-model-chaosevent.md) | No |

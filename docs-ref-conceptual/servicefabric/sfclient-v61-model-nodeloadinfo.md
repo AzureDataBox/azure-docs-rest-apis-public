@@ -32,6 +32,7 @@ translation.priority.mt:
 Information about load on a Service Fabric node. It holds a summary of all metrics and their load on a node.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [NodeName](#nodename) | string | No |

@@ -32,6 +32,7 @@ translation.priority.mt:
 Partition Reconfiguration Completed event.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Kind`](#kind) | string | Yes |

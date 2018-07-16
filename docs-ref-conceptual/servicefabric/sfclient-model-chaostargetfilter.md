@@ -39,6 +39,7 @@ in NodeTypeInclusionList. If both NodeTypeInclusionList and ApplicationInclusion
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`NodeTypeInclusionList`](#nodetypeinclusionlist) | array of String | No |

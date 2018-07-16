@@ -32,6 +32,7 @@ translation.priority.mt:
 Specifies the parameters needed to trigger a restore of a specific partition.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`BackupId`](#backupid) | string (uuid) | Yes |

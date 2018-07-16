@@ -33,12 +33,14 @@ Make the cluster upgrade move on to the next upgrade domain.
 Make the cluster code or configuration upgrade move on to the next upgrade domain if appropriate.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/$/MoveToNextUpgradeDomain?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`api-version`](#api-version) | string | Yes | Query |

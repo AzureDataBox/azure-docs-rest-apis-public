@@ -30,6 +30,7 @@ translation.priority.mt:
 Port range details
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [startPort](#startport) | integer | Yes |

@@ -27,18 +27,18 @@ translation.priority.mt:
 ---
 # Replace a Collection
   Replace Collection supports changing the indexing policy of a collection after creation. Changing other properties of a collection like the ID or the partition key are not supported.  
-  
+
 ## Request  
-  
+
 |Method|Request URI|Description|  
 |------------|-----------------|-----------------|  
 |PUT|https://{databaseaccount}.documents.azure.com/dbs/{db-id}/colls/{coll-id}| The {databaseaccount} is the name of the Azure Cosmos DB account created under your subscription. The {db-id} value is the user generated name/id of the database, not the system generated id (rid). The {coll-id} value is the name of the collection to be replaced.|  
-  
+
 ### Headers  
  See [Common Azure Cosmos DB REST request headers](common-cosmosdb-rest-request-headers.md) for headers that are used by all Cosmos DB requests.  
-  
+
 ### Body  
-  
+
 |Property|Required|Type|Description|  
 |--------------|--------------|----------|-----------------|  
 |**id**|Required|String|The user generated unique name for the collection. No two collections can have the same ids. It is a string that must not be more than 255 characters.|  
@@ -48,7 +48,7 @@ translation.priority.mt:
 > When you set custom index paths, you are required to specify the default indexing rule for the entire document tree, which is denoted by the special path "/*". 
 > 
 > 
-  
+
 ```  
 {  
   "id": "testcoll",  
@@ -84,26 +84,26 @@ translation.priority.mt:
   "_udfs": "udfs/",  
   "_conflicts": "conflicts/"  
 }  
-  
+
 ```  
-  
+
 ## Response  
  Replace Collection returns the updated collection as a response body.  
-  
+
 ### Headers  
  See [Common Azure Cosmos DB REST response headers](common-cosmosdb-rest-response-headers.md) for headers that are returned by all Cosmos DB responses.  
-  
+
 ### Status codes  
  The following table lists common status codes returned by this operation. For a full list of status codes, see [HTTP Status Codes](https://msdn.microsoft.com/library/azure/dn783364.aspx).  
-  
+
 |Code|Description|  
 |----------|-----------------|  
 |201 Created|The operation was successful.|  
 |400 Bad Request|The JSON body is invalid. Check for missing curly brackets or quotes.|  
 |409 Conflict|The id provided for the new collection has been taken by an existing collection.|  
-  
+
 ### Body  
-  
+
 |Property|Description|  
 |--------------|-----------------|  
 |id|It is the unique name that identifies the new collection.|  
@@ -118,22 +118,23 @@ translation.priority.mt:
 |_conflicts|It is a system generated property that specifies the addressable path of the conflicts resource. During an operation on a resource within a collection, if a conflict occurs, users can inspect the conflicting resources by performing a GET on the conflicts URI path.|  
 |indexingPolicy|It is the indexing policy settings for collection.|  
 |partitionKey|It is the partitioning configuration settings for collection.|  
-  
+
  **Properties under Included Paths**  
-  
-|Property|Description|  
-|--------------|-----------------|  
-|path|Path for which the indexing behavior applies to. Index paths start with the root (/) and typically end with the ? wildcard operator, denoting that there are multiple possible values for the prefix. For example, to serve SELECT * FROM Families F WHERE F.familyName = "Andersen", you must include an index path for /familyName/? in the collection’s index policy.<br /><br /> Index paths can also use the \* wildcard operator to specify the behavior for paths recursively under the prefix. For example, /payload/\* can be used to exclude everything under the payload property from indexing.|  
-|dataType|It is the datatype for which the indexing behavior is applied to. Can be **String**, **Number**, *Point**, **Polygon**, or **LineString**. Booleans and nulls are automatically indexed|  
-|kind|The type of index. **Hash** indexes are useful for equality comparisons while **Range** indexes are useful for equality, range comparisons and sorting. **Spatial** indexes are useful for spatial queries.|  
-|precision|The precision of the index. Can be either set to -1 for maximum precision or between 1-8 for **Number**, and 1-100 for **String**. Not applicable for **Point**, **Polygon**, and **LineString** data types.| 
-  
+
+
+| Property  |                                                                                                                                                                                                                                                                                                 Description                                                                                                                                                                                                                                                                                                  |
+|-----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|   path    | Path for which the indexing behavior applies to. Index paths start with the root (/) and typically end with the ? wildcard operator, denoting that there are multiple possible values for the prefix. For example, to serve SELECT \* FROM Families F WHERE F.familyName = "Andersen", you must include an index path for /familyName/? in the collection’s index policy.<br /><br /> Index paths can also use the \* wildcard operator to specify the behavior for paths recursively under the prefix. For example, /payload/\* can be used to exclude everything under the payload property from indexing. |
+| dataType  |                                                                                                                                                                                                     It is the datatype for which the indexing behavior is applied to. Can be **String**, **Number**, *Point*<em>, \*\*Polygon</em>*, or \*\*LineString*\*. Booleans and nulls are automatically indexed                                                                                                                                                                                                      |
+|   kind    |                                                                                                                                                                                                 The type of index. **Hash** indexes are useful for equality comparisons while **Range** indexes are useful for equality, range comparisons and sorting. **Spatial** indexes are useful for spatial queries.                                                                                                                                                                                                  |
+| precision |                                                                                                                                                                                                 The precision of the index. Can be either set to -1 for maximum precision or between 1-8 for **Number**, and 1-100 for **String**. Not applicable for **Point**, **Polygon**, and **LineString** data types.                                                                                                                                                                                                 |
+
  **Properties under Excluded Paths**  
-  
+
 |Property|Description|  
 |--------------|-----------------|  
 |path|Path that is excluded from indexing. Index paths start with the root (/) and typically end with the * wildcard operator. For example, /payload/\* can be used to exclude everything under the payload property from indexing.|  
-  
+
 ```  
 {  
   "id": "testcoll",  
@@ -169,11 +170,11 @@ translation.priority.mt:
   "_udfs": "udfs/",  
   "_conflicts": "conflicts/"  
 }  
-  
+
 ```  
-  
+
 ## Example  
-  
+
 ```  
 PUT https://querydemo.documents.azure.com/dbs/XrdaAA==/colls/XrdaAKx3Hgw= HTTP/1.1  
 x-ms-date: Mon, 28 Mar 2016 22:12:16 GMT  
@@ -185,7 +186,7 @@ Accept: application/json
 Host: querydemo.documents.azure.com  
 Content-Length: 475  
 Expect: 100-continue  
-  
+
 {  
   "id": "testcoll",  
   "indexingPolicy": {  
@@ -220,9 +221,9 @@ Expect: 100-continue
   "_udfs": "udfs/",  
   "_conflicts": "conflicts/"  
 }  
-  
+
 ```  
-  
+
 ```  
 HTTP/1.1 200 Ok  
 Cache-Control: no-store, no-cache  
@@ -251,7 +252,7 @@ Set-Cookie: x-ms-session-token#M=7903; Domain=querydemo.documents.azure.com; Pat
 Set-Cookie: x-ms-session-token=7903; Domain=querydemo.documents.azure.com; Path=/dbs/XrdaAA==/colls/XrdaAKx3Hgw=  
 x-ms-gatewayversion: version=1.6.52.5  
 Date: Mon, 28 Mar 2016 22:12:15 GMT  
-  
+
 {  
   "id": "testcoll",  
   "indexingPolicy": {  
@@ -286,14 +287,14 @@ Date: Mon, 28 Mar 2016 22:12:15 GMT
   "_udfs": "udfs/",  
   "_conflicts": "conflicts/"  
 }  
-  
+
 ```  
-  
+
 ## See Also  
 * [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
 * [Azure Cosmos DB SQL API](https://docs.microsoft.com/azure/cosmos-db/sql-api-introduction)   
 * [Azure Cosmos DB SQL API SDKs](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-sdk-dotnet)    
 * [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
-  
-  
+
+
 

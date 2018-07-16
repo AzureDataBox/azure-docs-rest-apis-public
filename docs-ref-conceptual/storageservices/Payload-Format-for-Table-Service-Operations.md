@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Payload Format for Table Service Operations"
 ms.custom: na
 ms.date: 2016-06-29
@@ -36,13 +36,13 @@ The Table service REST API supports ATOM and JSON as OData payload formats.  Whi
   
  To specify the JSON or ATOM format, specify the appropriate values for the `Content-Type` and `Accept` headers (described below). Note the following constraints:  
   
--   The `Content-Type` header is required for all requests containing an OData payload.  
+- The `Content-Type` header is required for all requests containing an OData payload.  
   
--   If the `Accept` header is not provided, then the content type of the response defaults to `application/atom+xml`.  
+- If the `Accept` header is not provided, then the content type of the response defaults to `application/atom+xml`.  
   
--   Specifying the `$format` URI parameter overrides the value specified in the `Accept` request header, when the OData data service version is set to 3.0. See [Setting the OData Data Service Version Headers](Setting-the-OData-Data-Service-Version-Headers.md) for details about the OData service version.  
+- Specifying the `$format` URI parameter overrides the value specified in the `Accept` request header, when the OData data service version is set to 3.0. See [Setting the OData Data Service Version Headers](Setting-the-OData-Data-Service-Version-Headers.md) for details about the OData service version.  
   
- To specify the payload format, set the `Content-Type` and `Accept` request headers according to the table below:  
+  To specify the payload format, set the `Content-Type` and `Accept` request headers according to the table below:  
   
 |Payload Format|Content-Type Header|Accept Header|Data Service Version (REST API Version)|Supported APIs|  
 |--------------------|--------------------------|-------------------|-----------------------------------------------|--------------------|  
@@ -55,29 +55,29 @@ The Table service REST API supports ATOM and JSON as OData payload formats.  Whi
   
  The key advantage of using OData's JSON format is that the predictable parts of the payload can be omitted to reduce the payload size. To reconstitute this data on the receiving end, expressions are used to compute missing links, type information, and control data. To control what is omitted from the payload, there are three levels that you can specify as part of the `Accept` header:  
   
--   `application/json;odata=nometadata`  
+- `application/json;odata=nometadata`  
   
--   `application/json;odata=minimalmetadata`  
+- `application/json;odata=minimalmetadata`  
   
--   `application/json;odata=fullmetadata`  
+- `application/json;odata=fullmetadata`  
   
- The following ODATA annotations are supported by the Azure Table service:  
+  The following ODATA annotations are supported by the Azure Table service:  
   
--   `odata.metadata`: The metadata URL for a collection, entity, primitive value, or service document.  
+- `odata.metadata`: The metadata URL for a collection, entity, primitive value, or service document.  
   
--   `odata.id`: The entity id which is generally the URL to the resource.  
+- `odata.id`: The entity id which is generally the URL to the resource.  
   
--   `odata.editlink`: The link used to edit/update the entry, if the entity is updatable and the odata.id does not represent a URL that can be used to edit the entity.  
+- `odata.editlink`: The link used to edit/update the entry, if the entity is updatable and the odata.id does not represent a URL that can be used to edit the entity.  
   
--   `odata.type`: The type name of the containing object.  
+- `odata.type`: The type name of the containing object.  
   
--   `odata.etag`: The ETag of the entity.  
+- `odata.etag`: The ETag of the entity.  
   
--   `PropertyName@odata.type`, for custom properties: The type name of the targeted property.  
+- `PropertyName@odata.type`, for custom properties: The type name of the targeted property.  
   
--   `PropertyName@odata.type`, for system properties (*i.e.*, the `PrimaryKey`, `RowKey`, and `Timestamp` properties): The type name of the targeted property.  
+- `PropertyName@odata.type`, for system properties (*i.e.*, the `PrimaryKey`, `RowKey`, and `Timestamp` properties): The type name of the targeted property.  
   
- The information included in each level is summarized in the following table:  
+  The information included in each level is summarized in the following table:  
   
 |||||  
 |-|-|-|-|  

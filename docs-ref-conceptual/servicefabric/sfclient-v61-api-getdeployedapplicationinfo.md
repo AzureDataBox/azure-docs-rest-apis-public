@@ -34,12 +34,14 @@ Gets the information about an application deployed on a Service Fabric node.  Th
 
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/Nodes/{nodeName}/$/GetApplications/{applicationId}?api-version=6.1&timeout={timeout}&IncludeHealthState={IncludeHealthState}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [nodeName](#nodename) | string | Yes | Path |
@@ -57,8 +59,8 @@ The name of the node.
 
 ____
 ### applicationId
-__Type__: string <br/>
-__Required__: Yes<br/>
+**Type**: string <br/>
+**Required**: Yes<br/>
 <br/>
 The identity of the application. This is typically the full name of the application without the 'fabric:' URI scheme.
 Starting from version 6.0, hierarchical names are delimited with the "~" character.

@@ -32,6 +32,7 @@ translation.priority.mt:
 Information about a stateful Service Fabric service.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [ServiceKind](#servicekind) | string | Yes |

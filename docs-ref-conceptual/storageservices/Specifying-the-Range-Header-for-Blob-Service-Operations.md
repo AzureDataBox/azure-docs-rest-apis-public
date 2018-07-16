@@ -44,24 +44,24 @@ Several Blob service GET operations support the use of the standard HTTP `Range`
 ### Format 1: bytes=startByte-  
  The first format, `bytes=startByte-`, is available only for requests using version 2011-08-18 or newer, or the storage emulator service in SDK 1.6 or newer. This range will return bytes from the offset `startByte` through the end of the blob. For example, to specify a range encompassing all bytes after the first 256 bytes of a blob, you can pass in either of the following headers:  
   
--   `Range: bytes=255-`  
+- `Range: bytes=255-`  
   
--   `x-ms-range: bytes=255-`  
+- `x-ms-range: bytes=255-`  
   
- The `Content-Length` header in the response is equal to the number of bytes from the offset until the end of the blob. Using the example range above for a blob of 1,024 bytes in length, `Content-Length` would be 756.  
+  The `Content-Length` header in the response is equal to the number of bytes from the offset until the end of the blob. Using the example range above for a blob of 1,024 bytes in length, `Content-Length` would be 756.  
   
- If the offset is valid and does not exceed the blob’s total length, the request will return an status code 206 (Partial Content). If the offset is invalid and exceeds the blob’s total length, the request will return status code 416 (Requested Range Not Satisfiable).  
+  If the offset is valid and does not exceed the blob’s total length, the request will return an status code 206 (Partial Content). If the offset is invalid and exceeds the blob’s total length, the request will return status code 416 (Requested Range Not Satisfiable).  
   
 ### Format 2: bytes=startByte-endByte  
  The second format, `bytes=startByte-endByte`, is available for requests using all versions (2009-04-14 through the newest version), and for all versions of the storage emulator service. This range will return bytes from the offset `startByte` through `endByte`. For example, to specify a range encompassing the first 512 bytes of a blob, you would pass in either of the following headers:  
   
--   `Range: bytes=0-511`  
+- `Range: bytes=0-511`  
   
--   `x-ms-range: bytes=0-511`  
+- `x-ms-range: bytes=0-511`  
   
- The `Content-Length` header in the response is equal to the number of bytes between each offset. Using the example range above for a blob of 1,024 bytes in length, `Content-Length` would be 512.  
+  The `Content-Length` header in the response is equal to the number of bytes between each offset. Using the example range above for a blob of 1,024 bytes in length, `Content-Length` would be 512.  
   
- If the offset is valid and does not exceed the blob’s total length, the request will return an status code 206 (Partial Content). If the offset is invalid and exceeds the blob’s total length, the request will return status code 416 (Requested Range Not Satisfiable).  
+  If the offset is valid and does not exceed the blob’s total length, the request will return an status code 206 (Partial Content). If the offset is invalid and exceeds the blob’s total length, the request will return status code 416 (Requested Range Not Satisfiable).  
   
 ## See Also  
  [Blob Service Concepts](Blob-Service-Concepts.md)   

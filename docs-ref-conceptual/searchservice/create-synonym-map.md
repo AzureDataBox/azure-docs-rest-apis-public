@@ -78,7 +78,6 @@ api-key: [admin key]
     "format" : "Required. Only Apache Solr format ('solr') is currently supported.",
     "synonyms" : "Required. Synonym rules separated by the new line ('\n') character."
 }  
-
 ```  
 
  Request contains the following properties:  
@@ -93,17 +92,17 @@ api-key: [admin key]
 
   The Apache Solr format supports equivalent and explicit synonym mappings.
 
-  1. An equivalent mapping rule lists equivalent terms or phrases separated with commas.
-  ```
-  USA, United States, United States of America
-  ```
-  The rule expands the search to all equivalent terms. For example, the search query "USA" will be expanded to "USA" OR "United States" OR "United States of America".
+1. An equivalent mapping rule lists equivalent terms or phrases separated with commas.
+   ```
+   USA, United States, United States of America
+   ```
+   The rule expands the search to all equivalent terms. For example, the search query "USA" will be expanded to "USA" OR "United States" OR "United States of America".
 
-  2. Explicit mapping is denoted by an arrow "=>". When specified, a term sequence of a search query that matches the left-hand side of "=>" will be replaced with the alternatives on the right-hand side.
-  ```
-  Washington, Wash., WA => WA
-  ```
-  Given the rule, the search queries "Washington", "Wash." or "WA" will all be rewritten to "WA". Explicit mapping only applies in the direction specified and does not rewrite the query "WA" to "Washington" in this case.
+2. Explicit mapping is denoted by an arrow "=>". When specified, a term sequence of a search query that matches the left-hand side of "=>" will be replaced with the alternatives on the right-hand side.
+   ```
+   Washington, Wash., WA => WA
+   ```
+   Given the rule, the search queries "Washington", "Wash." or "WA" will all be rewritten to "WA". Explicit mapping only applies in the direction specified and does not rewrite the query "WA" to "Washington" in this case.
 
 <a name="example-request"></a>
 
@@ -116,7 +115,6 @@ api-key: [admin key]
     "synonyms" : "United States, United States of America, USA\n
     Washington, Wash. => WA"
 }  
-
 ```  
 
 ## Response  

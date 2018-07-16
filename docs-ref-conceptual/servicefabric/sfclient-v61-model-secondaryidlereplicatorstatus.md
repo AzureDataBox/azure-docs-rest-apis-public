@@ -32,6 +32,7 @@ translation.priority.mt:
 Status of the secondary replicator when it is in idle mode and is being built by the primary.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [Kind](#kind) | string | Yes |

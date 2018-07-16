@@ -64,17 +64,17 @@ x-ms-version: 2017-07-29
 ### Requests Authenticated With a Shared Access Signature  
  A shared access signature (SAS) generated using version 2014-02-14 or later supports two versioning options:  
   
--   The `api-version` query parameter defines the REST protocol version to use for processing a request made using the SAS.  
+- The `api-version` query parameter defines the REST protocol version to use for processing a request made using the SAS.  
   
--   The `SignedVersion (sv)` query parameter defines the SAS version to use for authentication and authorization.  
+- The `SignedVersion (sv)` query parameter defines the SAS version to use for authentication and authorization.  
   
- The `SignedVersion` query parameter is used for authentication and authorization when a client makes a request using the SAS. Authentication and authorization parameters such as `si`, `sr`, `sp`, `sig`, `st`, `se`, `tn`, `spk`, `srk`, `epk`, and `erk` are all interpreted using the specified version.  
+  The `SignedVersion` query parameter is used for authentication and authorization when a client makes a request using the SAS. Authentication and authorization parameters such as `si`, `sr`, `sp`, `sig`, `st`, `se`, `tn`, `spk`, `srk`, `epk`, and `erk` are all interpreted using the specified version.  
   
- REST protocol parameters such as  `rscc`, `rscd`, `rsce`, `rscl`, and `rsct` are enforced using the version provided in the `api-version` parameter header. If the `api-version` header is not specified, then the service version provided for `SignedVersion` is used.  
+  REST protocol parameters such as  `rscc`, `rscd`, `rsce`, `rscl`, and `rsct` are enforced using the version provided in the `api-version` parameter header. If the `api-version` header is not specified, then the service version provided for `SignedVersion` is used.  
   
- Note that the `api-version` parameter is not part of the string-to-sign in the authentication as described in [Constructing a Service SAS](Constructing-a-Service-SAS.md).  
+  Note that the `api-version` parameter is not part of the string-to-sign in the authentication as described in [Constructing a Service SAS](Constructing-a-Service-SAS.md).  
   
- The following table explains the versioning scheme used by the service for authentication and authorization and for calling the REST protocol when the `SignedVersion` parameter is set to version 2014-02-14 or later.  
+  The following table explains the versioning scheme used by the service for authentication and authorization and for calling the REST protocol when the `SignedVersion` parameter is set to version 2014-02-14 or later.  
   
 |Value of *api-version* parameter|Version used for authentication and authorization|Version used for protocol behavior|  
 |---------------------------------------|-------------------------------------------------------|----------------------------------------|  

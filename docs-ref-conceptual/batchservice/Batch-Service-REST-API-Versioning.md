@@ -31,7 +31,7 @@ New features in version 2018-03-01.6.1 include:
 
 
 ## Previous Versions
- 
+
  Previous versions include:
 
 - [2017-09-01.6.0](#version-2017090160)
@@ -131,36 +131,34 @@ You can now request that application licenses be provisioned to your pool, via t
 
     You can now run a task or task collection under one of the following user identities, specified via the new **userIdentity** property on the task resource:
 
-    - A user account with a name that you define.
-    - A user account that is created automatically (an auto-user). An auto-user can run as an administrative user or as a non-administrative user. By default, an auto-user runs as a non-administrative user.
-    
+  - A user account with a name that you define.
+  - A user account that is created automatically (an auto-user). An auto-user can run as an administrative user or as a non-administrative user. By default, an auto-user runs as a non-administrative user.
+
     > [!IMPORTANT]
     > The **userIdentity** property, with its **elevationLevel** property, replaces the **runElevated** property in requests that add a task or a task collection, and in responses that get information about a task or that list tasks.
-    >
-    If you make a request that includes the **runElevated** property to version 2017-01-01.4.0 of the Batch service, the request will fail. 
-    >
-    To run as an administrative user, update your application to use the **userIdentity** property, setting the **elevationLevel** property to *admin*.
     > 
-    To run as a non-administrative user, update your application to use the **userIdentity** property, setting the **elevationLevel** property to *nonAdmin*. Since this is the default, you can also omit the setting.  
-    >
-    >
+    > If you make a request that includes the **runElevated** property to version 2017-01-01.4.0 of the Batch service, the request will fail. 
+    > 
+    > To run as an administrative user, update your application to use the **userIdentity** property, setting the **elevationLevel** property to *admin*.
+    > 
+    > To run as a non-administrative user, update your application to use the **userIdentity** property, setting the **elevationLevel** property to *nonAdmin*. Since this is the default, you can also omit the setting.  
 
 - **Define user accounts across all nodes in a pool.** 
 
     You can now run a task or task collection under a user account that you define on the pool resource. Define a user account via the new **userAccounts** property in requests to [Add Pool](../batchservice/add-a-pool-to-an-account.md). When you define the account, you can specify the account name, password, elevation level (admin or non-admin), and SSH private key (for Linux pools).
-    
+
     Once you define the user account, you can specify that user account for the **userIdentity** property in requests that add a task or a task collection.
 
 - **Provide a task with a token to authenticate to the Batch service when the task runs.** 
 
     The Batch service can now provide an authentication token to a task when it runs. The authentication token enables a task to issue requests related to the job to the Batch service, without the Batch account keys. The token is provided via the AZ_BATCH_AUTHENTICATION_TOKEN environment variable.
-    
+
     Currently authentication tokens are supported for calling operations on the job resource only. The authentication token grants access to all operations on the job that contains the task. 
 
     To have the Batch service provide the authentication token, specify the new **authenticationTokenSettings** property, together with its **access** property, in requests to [Add Task](../batchservice/add-a-task-to-a-job.md) or [Add Task Collection](../batchservice/add-a-collection-of-tasks-to-a-job.md).
 
 - **Specify an action to take on a task's dependencies if the task fails.** 
-    
+
     You can now specify that dependent tasks proceed even if the task that they depend on fails. Set the new **dependencyAction** property of a task resource to *satisfy* to run dependent tasks even if the parent task fails. Alternately, set **dependencyAction** to *block* to prevent running of dependent tasks if the parent task fails.
 
     Specify the **dependencyAction** property in requests to [Add Task](../batchservice/add-a-task-to-a-job.md) or [Add Task Collection](../batchservice/add-a-collection-of-tasks-to-a-job.md).
@@ -170,7 +168,7 @@ You can now request that application licenses be provisioned to your pool, via t
 - **Use custom OS disk images when creating a pool.** 
 
     You can now use custom OS disk images to create a pool.  
-    
+
     To do so, you must specify when you create your Batch account that pools are to be provisioned in the user subscription, rather than in a subscription managed by the Batch service. In a call to [Create Account](xref:management.azure.com.batchmanagement.batchaccount), set the **poolAllocationMode** property to _UserSubscription_. Then   use the **osDisk** property to specify a reference to a disk image in a request to [Add Pool](../batchservice/add-a-pool-to-an-account.md).
 
     > [!IMPORTANT] 
@@ -277,17 +275,17 @@ You can now request that application licenses be provisioned to your pool, via t
 ### Version 2015-12-01.2.2
  This version release extends all support from previous version, 2015-11-01.2.1. Additionally, it supports the following capabilities:
 
--   Applications can now be deployed to compute nodes using application packages instead of as resource files.
+- Applications can now be deployed to compute nodes using application packages instead of as resource files.
 
-    -   New APIs are provided for clients to browse the list of available applications and versions, for example to display a selector in a user interface.
+  -   New APIs are provided for clients to browse the list of available applications and versions, for example to display a selector in a user interface.
 
-    -   Pool-related APIs are changed to allow a pool to specify application packages to be downloaded to all nodes in that pool.
+  -   Pool-related APIs are changed to allow a pool to specify application packages to be downloaded to all nodes in that pool.
 
--   Tasks can now be made dependent on other tasks.  A dependent task will not start until all the tasks it depends on have completed successfully.
+- Tasks can now be made dependent on other tasks.  A dependent task will not start until all the tasks it depends on have completed successfully.
 
- This version release includes the following other changes:
+  This version release includes the following other changes:
 
--   The default pool resize timeout has changed to 15 minutes.
+- The default pool resize timeout has changed to 15 minutes.
 
 ### Version 2015-11-01.2.1
  This version release extends all support from previous version 2015-06-01.2.0. Additionally, it supports the following capabilities:

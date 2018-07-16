@@ -33,12 +33,14 @@ Gets load information about a Service Fabric application.
 Returns the load information about the application that was created or in the process of being created in the Service Fabric cluster and whose name matches the one specified as the parameter. The response includes the name, minimum nodes, maximum nodes, the number of nodes the app is occupying currently, and application load metric information about the application.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/Applications/{applicationId}/$/GetLoadInformation?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [applicationId](#applicationid) | string | Yes | Path |
@@ -47,8 +49,8 @@ Returns the load information about the application that was created or in the pr
 
 ____
 ### applicationId
-__Type__: string <br/>
-__Required__: Yes<br/>
+**Type**: string <br/>
+**Required**: Yes<br/>
 <br/>
 The identity of the application. This is typically the full name of the application without the 'fabric:' URI scheme.
 Starting from version 6.0, hierarchical names are delimited with the "~" character.

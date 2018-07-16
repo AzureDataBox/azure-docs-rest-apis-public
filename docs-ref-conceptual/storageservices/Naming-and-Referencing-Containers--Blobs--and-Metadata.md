@@ -34,9 +34,9 @@ This topic describes naming and referring to containers, blobs, metadata, and sn
   
 > [!IMPORTANT]
 >  Blob and container names are passed to the Blob service within a URL. Certain characters must be percent-encoded to appear in a URL, using UTF-8 (preferred) or MBCS. This encoding occurs automatically when you use the Azure Storage client libraries. However, there are certain characters that are not valid in URL paths even when encoded. These characters cannot appear in blob or container names.  Code points like \uE000, while valid in NTFS filenames, are not valid Unicode characters, so they cannot be used.  In addition, some ASCII or Unicode characters, like control characters (0x00 to 0x1F, \u0081, etc.), are also not allowed. For rules governing Unicode strings in HTTP/1.1 see:  
->   
->  -   [RFC 2616, Section 2.2: Basic Rules](http://www.ietf.org/rfc/rfc2616.txt)  
-> -   [RFC 3987](http://www.ietf.org/rfc/rfc3987.txt)  
+> 
+> - [RFC 2616, Section 2.2: Basic Rules](http://www.ietf.org/rfc/rfc2616.txt)  
+>   -   [RFC 3987](http://www.ietf.org/rfc/rfc3987.txt)  
   
 ### Container Names  
  A container name must be a valid DNS name, conforming to the following naming rules:  
@@ -67,15 +67,15 @@ This topic describes naming and referring to containers, blobs, metadata, and sn
   
  The Blob service is based on a flat storage scheme, not a hierarchical scheme. However, you may specify a character or string delimiter within a blob name to create a virtual hierarchy. For example, the following list shows valid and unique blob names. Notice that a string can be valid as both a blob name and as a virtual directory name in the same container:  
   
--   /a  
+- /a  
   
--   /a.txt  
+- /a.txt  
   
--   /a/b  
+- /a/b  
   
--   /a/b.txt  
+- /a/b.txt  
   
- You can take advantage of the delimiter character when enumerating blobs.  
+  You can take advantage of the delimiter character when enumerating blobs.  
   
 ### Metadata Names  
 

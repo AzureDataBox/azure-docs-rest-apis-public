@@ -32,6 +32,7 @@ translation.priority.mt:
 Describes the parameters for updating a rolling upgrade of application or cluster.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`RollingUpgradeMode`](#rollingupgrademode) | string (enum) | Yes |

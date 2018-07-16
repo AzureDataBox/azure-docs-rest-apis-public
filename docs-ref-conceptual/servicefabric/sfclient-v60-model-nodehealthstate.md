@@ -32,6 +32,7 @@ translation.priority.mt:
 Represents the health state of a node, which contains the node identifier and its aggregated health state.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [AggregatedHealthState](#aggregatedhealthstate) | string (enum) | No |

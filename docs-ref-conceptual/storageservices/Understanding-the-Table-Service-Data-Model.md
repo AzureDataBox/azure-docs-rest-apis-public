@@ -44,34 +44,34 @@ https://myaccount.table.core.windows.net
 ### Table Names  
  Table names must conform to these rules:  
   
--   Table names must be unique within an account.  
+- Table names must be unique within an account.  
   
--   Table names may contain only alphanumeric characters.  
+- Table names may contain only alphanumeric characters.  
   
--   Table names cannot begin with a numeric character.  
+- Table names cannot begin with a numeric character.  
   
--   Table names are case-insensitive.  
+- Table names are case-insensitive.  
   
--   Table names must be from 3 to 63 characters long.  
+- Table names must be from 3 to 63 characters long.  
   
--   Some table names are reserved, including "tables". Attempting to create a table with a reserved table name returns error code 404 (Bad Request).  
+- Some table names are reserved, including "tables". Attempting to create a table with a reserved table name returns error code 404 (Bad Request).  
   
- These rules are also described by the regular expression "^[A-Za-z][A-Za-z0-9]{2,62}$".  
+  These rules are also described by the regular expression "^[A-Za-z][A-Za-z0-9]{2,62}$".  
   
- Table names preserve the case with which they were created, but are case-insensitive when used.  
+  Table names preserve the case with which they were created, but are case-insensitive when used.  
   
 ### Property Names  
  Property names are case-sensitive strings up to 255 characters in size. Property names should follow naming rules for [C# identifiers](http://go.microsoft.com/fwlink/?LinkId=155321).  
   
 > [!NOTE]
 >  Some C# identifiers are not valid according to the [XML specification](http://go.microsoft.com/fwlink/?LinkId=155322). These identifiers may not be used in property names, because property names are sent via an XML payload in a request against the Table service.  
-  
+> 
 > [!IMPORTANT]
 >  Property names are passed to the Table service within a URL. Certain characters must be percent-encoded to appear in a URL, using UTF-8 (preferred) or MBCS. This encoding occurs automatically when you use the Azure Storage client libraries. However, there are certain characters that are not valid in URL paths even when encoded. These characters cannot appear in property names.  Code points like \uE000, while valid in NTFS filenames, are not valid Unicode characters, so they cannot be used.  In addition, some ASCII or Unicode characters, like control characters (0x00 to 0x1F, \u0081, etc.), are also not allowed. For rules governing Unicode strings in HTTP/1.1 see:  
->   
->  -   [RFC 2616, Section 2.2: Basic Rules](http://www.ietf.org/rfc/rfc2616.txt)  
-> -   [RFC 3987](http://www.ietf.org/rfc/rfc3987.txt)  
-  
+> 
+> - [RFC 2616, Section 2.2: Basic Rules](http://www.ietf.org/rfc/rfc2616.txt)  
+>   -   [RFC 3987](http://www.ietf.org/rfc/rfc3987.txt)  
+> 
 > [!NOTE]
 >  Beginning with version 2009-04-14, the Table service no longer supports including the dash (-) character in property names.  
   
@@ -81,13 +81,13 @@ https://myaccount.table.core.windows.net
 ### System Properties  
  An entity always has the following system properties:  
   
--   `PartitionKey` property  
+- `PartitionKey` property  
   
--   `RowKey` property  
+- `RowKey` property  
   
--   `Timestamp` property  
+- `Timestamp` property  
   
- These system properties are automatically included for every entity in a table. The names of these properties are reserved and cannot be changed. The developer is responsible for inserting and updating the values of `PartitionKey` and `RowKey`. The server manages the value of `Timestamp`, which cannot be modified.  
+  These system properties are automatically included for every entity in a table. The names of these properties are reserved and cannot be changed. The developer is responsible for inserting and updating the values of `PartitionKey` and `RowKey`. The server manages the value of `Timestamp`, which cannot be modified.  
   
 #### Characters Disallowed in Key Fields  
  The following characters are not allowed in values for the `PartitionKey` and `RowKey` properties:  

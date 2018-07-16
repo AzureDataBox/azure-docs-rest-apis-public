@@ -35,38 +35,38 @@ You can create a snapshot of a blob. A snapshot is a read-only version of a blob
   
  When you create a snapshot of a blob, system properties are copied to the snapshot with the same values, including:
  
- - ContentType
- - ContentEncoding
- - ContentLanguage
- - Length
- - CacheControl
- - ContentMd5
+- ContentType
+- ContentEncoding
+- ContentLanguage
+- Length
+- CacheControl
+- ContentMd5
  
   A lease associated with the base blob is not copied to the snapshot. Snapshots cannot be leased.  
   
- **Copying Snapshots**  
+  **Copying Snapshots**  
   
- Copy operations involving blobs and snapshots follow these rules:  
+  Copy operations involving blobs and snapshots follow these rules:  
   
--   You can copy a snapshot over its base blob. By promoting a snapshot to the position of the base blob, you can restore an earlier version of a blob. The snapshot remains, but its source is overwritten with a copy that can be both read and written.  
+- You can copy a snapshot over its base blob. By promoting a snapshot to the position of the base blob, you can restore an earlier version of a blob. The snapshot remains, but its source is overwritten with a copy that can be both read and written.  
   
--   You can copy a snapshot to a destination blob with a different name. The resulting destination blob is a writeable blob and not a snapshot.  
+- You can copy a snapshot to a destination blob with a different name. The resulting destination blob is a writeable blob and not a snapshot.  
   
--   When a source blob is copied, any snapshots of the source blob are not copied to the destination. When a destination blob is overwritten with a copy, any snapshots associated with the destination blob stay intact under its name.  
+- When a source blob is copied, any snapshots of the source blob are not copied to the destination. When a destination blob is overwritten with a copy, any snapshots associated with the destination blob stay intact under its name.  
   
--   When you create a snapshot of a block blob, the blob's committed block list is also copied to the snapshot. Any uncommitted blocks are not copied.  
+- When you create a snapshot of a block blob, the blob's committed block list is also copied to the snapshot. Any uncommitted blocks are not copied.  
   
- **Specifying an Access Condition**  
+  **Specifying an Access Condition**  
   
- You can specify an access condition so that the snapshot is created only if a condition is met. To specify an access condition. If the specified condition is not met, the snapshot is not created, and the Blob service returns status code [HTTPStatusCode.PreconditionFailed](http://msdn.microsoft.com/library/system.net.httpstatuscode.aspx). See [Snapshot Blob](Snapshot-Blob.md) for more information.
+  You can specify an access condition so that the snapshot is created only if a condition is met. To specify an access condition. If the specified condition is not met, the snapshot is not created, and the Blob service returns status code [HTTPStatusCode.PreconditionFailed](http://msdn.microsoft.com/library/system.net.httpstatuscode.aspx). See [Snapshot Blob](Snapshot-Blob.md) for more information.
   
- **Deleting Snapshots**  
+  **Deleting Snapshots**  
   
- A blob that has snapshots cannot be deleted unless the snapshots are also deleted. You can delete a snapshot individually, or tell the storage service to delete all snapshots when deleting the source blob. If you attempt to delete a blob that still has snapshots, your call will return an error.  
+  A blob that has snapshots cannot be deleted unless the snapshots are also deleted. You can delete a snapshot individually, or tell the storage service to delete all snapshots when deleting the source blob. If you attempt to delete a blob that still has snapshots, your call will return an error.  
   
- **Constructing the Absolute URI to a Snapshot**  
+  **Constructing the Absolute URI to a Snapshot**  
   
- This code example constructs the absolute URI of a snapshot from its base blob object.  
+  This code example constructs the absolute URI of a snapshot from its base blob object.  
   
 ```c#  
 var snapshot = blob.CreateSnapshot();  

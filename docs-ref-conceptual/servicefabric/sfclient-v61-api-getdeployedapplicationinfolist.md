@@ -34,12 +34,14 @@ Gets the list of applications deployed on a Service Fabric node. The results do 
 
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/Nodes/{nodeName}/$/GetApplications?api-version=6.1&timeout={timeout}&IncludeHealthState={IncludeHealthState}&ContinuationToken={ContinuationToken}&MaxResults={MaxResults}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [nodeName](#nodename) | string | Yes | Path |

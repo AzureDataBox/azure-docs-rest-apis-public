@@ -32,6 +32,7 @@ translation.priority.mt:
 Information about an upgrade domain.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Name`](#name) | string | No |

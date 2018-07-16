@@ -35,6 +35,7 @@ One filter can match zero, one or multiple partitions, depending on its properti
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [PartitionIdFilter](#partitionidfilter) | string (uuid) | No |

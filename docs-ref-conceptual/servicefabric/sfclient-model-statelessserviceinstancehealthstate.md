@@ -32,6 +32,7 @@ translation.priority.mt:
 Represents the health state of the stateless service instance, which contains the instance ID and the aggregated health state.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`ServiceKind`](#servicekind) | string | Yes |

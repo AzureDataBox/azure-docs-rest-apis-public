@@ -31,6 +31,7 @@ Represents the delta health policy used to evaluate the health of services belon
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [maxPercentDeltaUnhealthyServices](#maxpercentdeltaunhealthyservices) | integer | No |

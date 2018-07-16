@@ -30,6 +30,7 @@ translation.priority.mt:
 The application type name properties
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [provisioningState](#provisioningstate) | string | No |

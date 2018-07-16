@@ -33,12 +33,14 @@ Updates an ongoing application upgrade in the Service Fabric cluster.
 Updates the parameters of an ongoing application upgrade from the ones specified at the time of starting the application upgrade. This may be required to mitigate stuck application upgrades due to incorrect parameters or issues in the application to make progress.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/Applications/{applicationId}/$/UpdateUpgrade?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`applicationId`](#applicationid) | string | Yes | Path |
@@ -48,8 +50,8 @@ Updates the parameters of an ongoing application upgrade from the ones specified
 
 ____
 ### `applicationId`
-__Type__: string <br/>
-__Required__: Yes<br/>
+**Type**: string <br/>
+**Required**: Yes<br/>
 <br/>
 The identity of the application. This is typically the full name of the application without the 'fabric:' URI scheme.
 Starting from version 6.0, hierarchical names are delimited with the "~" character.

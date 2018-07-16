@@ -32,6 +32,7 @@ translation.priority.mt:
 Container logs.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [Content](#content) | string | No |

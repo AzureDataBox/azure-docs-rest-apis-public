@@ -36,12 +36,14 @@ When there are more than 100 Chaos events, the Chaos report is returned in segme
 
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/Tools/Chaos/$/Report?api-version=6.0&ContinuationToken={ContinuationToken}&StartTimeUtc={StartTimeUtc}&EndTimeUtc={EndTimeUtc}&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [api-version](#api-version) | string | Yes | Query |

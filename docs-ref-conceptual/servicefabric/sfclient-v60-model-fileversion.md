@@ -32,6 +32,7 @@ translation.priority.mt:
 Information about the version of image store file.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [VersionNumber](#versionnumber) | string | No |

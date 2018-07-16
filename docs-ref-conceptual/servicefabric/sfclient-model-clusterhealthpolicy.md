@@ -33,6 +33,7 @@ Defines a health policy used to evaluate the health of the cluster or of a clust
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`ConsiderWarningAsError`](#considerwarningaserror) | boolean | No |

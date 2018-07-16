@@ -34,12 +34,14 @@ Gets a particular backup policy identified by {backupPolicyName}
 
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/BackupRestore/BackupPolicies/{backupPolicyName}?api-version=6.2-preview&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`backupPolicyName`](#backuppolicyname) | string | Yes | Path |

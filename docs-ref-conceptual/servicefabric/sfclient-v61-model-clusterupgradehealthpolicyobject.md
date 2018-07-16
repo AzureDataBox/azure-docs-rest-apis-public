@@ -32,6 +32,7 @@ translation.priority.mt:
 Defines a health policy used to evaluate the health of the cluster during a cluster upgrade.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [MaxPercentDeltaUnhealthyNodes](#maxpercentdeltaunhealthynodes) | integer | No |

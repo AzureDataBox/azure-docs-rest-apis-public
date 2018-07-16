@@ -33,6 +33,7 @@ Describes capacity information for a custom resource balancing metric. This can 
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Name`](#name) | string | No |

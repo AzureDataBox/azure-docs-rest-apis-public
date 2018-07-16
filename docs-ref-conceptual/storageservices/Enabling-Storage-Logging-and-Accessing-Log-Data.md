@@ -32,47 +32,47 @@ Storage Logging happens server-side and enables you to record details for both s
   
  Storage Logging log entries contain the following information about individual requests:  
   
--   Timing information such as start time, end-to-end latency, and server latency.  
+- Timing information such as start time, end-to-end latency, and server latency.  
   
--   Details of the storage operation such as the operation type, the key of the storage object the client is accessing, success or failure, and the HTTP status code returned to the client.  
+- Details of the storage operation such as the operation type, the key of the storage object the client is accessing, success or failure, and the HTTP status code returned to the client.  
   
--   Authentication details such as the type of authentication the client used.  
+- Authentication details such as the type of authentication the client used.  
   
--   Concurrency information such as the ETag value and last modified timestamp.  
+- Concurrency information such as the ETag value and last modified timestamp.  
   
--   The sizes of the request and response messages.  
+- The sizes of the request and response messages.  
   
- For detailed information about the format of log entries that Storage Logging writes, see [Storage Analytics Log Format](http://msdn.microsoft.com/library/hh343259.aspx).  
+  For detailed information about the format of log entries that Storage Logging writes, see [Storage Analytics Log Format](http://msdn.microsoft.com/library/hh343259.aspx).  
   
- In this section:  
+  In this section:  
   
- [How to enable Storage Logging using the Azure portal](#HowtoenableStorageLoggingusingtheWindowsAzureManagementPortal)  
+  [How to enable Storage Logging using the Azure portal](#HowtoenableStorageLoggingusingtheWindowsAzureManagementPortal)  
   
- [How to enable Storage Logging using PowerShell](#HowtoenableStorageLoggingusingPowerShell)  
+  [How to enable Storage Logging using PowerShell](#HowtoenableStorageLoggingusingPowerShell)  
   
- [How to enable Storage Logging programmatically](#HowtoenableStorageLoggingprogrammatically)  
+  [How to enable Storage Logging programmatically](#HowtoenableStorageLoggingprogrammatically)  
   
- [Finding your Storage Logging log data](#FindingyourStorageLogginglogdata)  
+  [Finding your Storage Logging log data](#FindingyourStorageLogginglogdata)  
   
- [Downloading Storage Logging log data](#DownloadingStorageLogginglogdata)  
+  [Downloading Storage Logging log data](#DownloadingStorageLogginglogdata)  
   
- Storage Logging logs request data in a set of blobs in a blob container named **$logs** in your storage account. This container does not show up if you list all the blob containers in your account but you can see its contents if you access it directly. For example the Azure portal does not show the **$logs** container and neither does the PowerShell cmdlet **Get-AzureStorageContainer** if you execute it without any parameters.  
+  Storage Logging logs request data in a set of blobs in a blob container named **$logs** in your storage account. This container does not show up if you list all the blob containers in your account but you can see its contents if you access it directly. For example the Azure portal does not show the **$logs** container and neither does the PowerShell cmdlet **Get-AzureStorageContainer** if you execute it without any parameters.  
   
- You should collect logging information from your storage account to enable you to diagnose and troubleshoot issues that users report or that monitoring metrics reveals. You can use the log data to determine information such as when a client updated an object or who deleted a specific object. You should set the retention period long enough to allow you time to identify a potential issue through monitoring or from user reports, and then to download the relevant log data for analysis. You should include some extra time in the retention period as a buffer to ensure you do not lose log data before you have had a chance to download it.  
+  You should collect logging information from your storage account to enable you to diagnose and troubleshoot issues that users report or that monitoring metrics reveals. You can use the log data to determine information such as when a client updated an object or who deleted a specific object. You should set the retention period long enough to allow you time to identify a potential issue through monitoring or from user reports, and then to download the relevant log data for analysis. You should include some extra time in the retention period as a buffer to ensure you do not lose log data before you have had a chance to download it.  
   
- There are some additional considerations to bear in mind when working with Storage Logging log data:  
+  There are some additional considerations to bear in mind when working with Storage Logging log data:  
   
--   There may be some clock skew between information recorded by Storage Metrics and StorageLogging: if you are searching for log entries that relate to metrics data, you may need to search up to 15 minutes either side of the time recorded for the metrics data.  
+- There may be some clock skew between information recorded by Storage Metrics and StorageLogging: if you are searching for log entries that relate to metrics data, you may need to search up to 15 minutes either side of the time recorded for the metrics data.  
   
--   You can correlate the server-side log data with other log sources: for more information, see the guide [Monitoring, Diagnosing, and Troubleshooting Microsoft Azure Storage](http://go.microsoft.com/fwlink/?LinkID=510535).  
+- You can correlate the server-side log data with other log sources: for more information, see the guide [Monitoring, Diagnosing, and Troubleshooting Microsoft Azure Storage](http://go.microsoft.com/fwlink/?LinkID=510535).  
   
--   You can automate downloading log data. For example, you can use PowerShell and the **AzCopy** tool to download the blobs containing your log data. For more information, see [Downloading Storage Logging log data](#DownloadingStorageLogginglogdata).  
+- You can automate downloading log data. For example, you can use PowerShell and the **AzCopy** tool to download the blobs containing your log data. For more information, see [Downloading Storage Logging log data](#DownloadingStorageLogginglogdata).  
   
--   Because Storage Logging stores log data in your Azure Storage account, you must be aware of the potential cost implications of enabling logging. You will be charged for the storage you use for this log data and for transferring this data out of your storage account. By setting a retention period, you can ensure that the storage service deletes old log data from your account automatically.  
+- Because Storage Logging stores log data in your Azure Storage account, you must be aware of the potential cost implications of enabling logging. You will be charged for the storage you use for this log data and for transferring this data out of your storage account. By setting a retention period, you can ensure that the storage service deletes old log data from your account automatically.  
   
- For more information, see [About Storage Analytics Logging](http://msdn.microsoft.com/library/azure/hh343262.aspx).  
+  For more information, see [About Storage Analytics Logging](http://msdn.microsoft.com/library/azure/hh343262.aspx).  
   
- Storage Logging is not enabled by default for your storage services. You can enable logging using either the Azure portal, Windows PowerShell, or programmatically through a storage API.  
+  Storage Logging is not enabled by default for your storage services. You can enable logging using either the Azure portal, Windows PowerShell, or programmatically through a storage API.  
   
 ##  <a name="HowtoenableStorageLoggingusingtheWindowsAzureManagementPortal"></a> How to enable Storage Logging using the Azure portal  
 In the Azure portal, use the **Diagnostics** blade to control Storage Logging, accessible from the **MONITORING** section of a storage account's **Menu blade**.
@@ -134,13 +134,13 @@ queueClient.SetServiceProperties(serviceProperties);
   
  If you have a high volume of log data with multiple files for each hour, then you can use the blob metadata to determine what data the log contains by examining the blob metadata fields. This is also useful because there can sometimes be a delay while data is written to the log files: the blob metadata gives a more accurate indication of the blob content than the blob name. Blobs containing log data have the following metadata fields:  
   
--   **StartTime** is a UST timestamp that records the time of the earliest log entry in the blob.  
+- **StartTime** is a UST timestamp that records the time of the earliest log entry in the blob.  
   
--   **EndTime** is a UST timestamp that records the time of the latest log entry in the blob.  
+- **EndTime** is a UST timestamp that records the time of the latest log entry in the blob.  
   
--   **LogType** records the type of log entries contained in the blob as one or more of: read, write, delete.  
+- **LogType** records the type of log entries contained in the blob as one or more of: read, write, delete.  
   
- Most storage browsing tools enable you to view the metadata of blobs; you can also read this information using PowerShell or programmatically. The following PowerShell snippet is an example of filtering the list of log blobs by name to specify a time, and by metadata to identify just those logs that contain **write** operations.  
+  Most storage browsing tools enable you to view the metadata of blobs; you can also read this information using PowerShell or programmatically. The following PowerShell snippet is an example of filtering the list of log blobs by name to specify a time, and by metadata to identify just those logs that contain **write** operations.  
   
 ```  
 Get-AzureStorageBlob -Container '$logs' |  

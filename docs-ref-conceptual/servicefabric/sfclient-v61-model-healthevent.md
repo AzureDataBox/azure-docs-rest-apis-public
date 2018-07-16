@@ -33,6 +33,7 @@ Represents health information reported on a health entity, such as cluster, appl
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [SourceId](#sourceid) | string | Yes |

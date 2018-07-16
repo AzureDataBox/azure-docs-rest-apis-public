@@ -33,12 +33,14 @@ Creates a Service Fabric compose deployment.
 Compose is a file format that describes multi-container applications. This API allows deploying container based applications defined in compose format in a Service Fabric cluster. Once the deployment is created it's status can be tracked via `GetComposeDeploymentStatus` API.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | PUT | `/ComposeDeployments/$/Create?api-version=6.0-preview&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [api-version](#api-version) | string | Yes | Query |

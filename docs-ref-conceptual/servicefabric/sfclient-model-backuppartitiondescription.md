@@ -32,6 +32,7 @@ translation.priority.mt:
 Describes the parameters for triggering partition's backup.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`BackupStorage`](#backupstorage) | [BackupStorageDescription](sfclient-model-backupstoragedescription.md) | No |

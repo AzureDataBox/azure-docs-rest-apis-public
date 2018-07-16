@@ -33,12 +33,14 @@ Gets information about a Service Fabric application.
 Returns the information about the application that was created or in the process of being created in the Service Fabric cluster and whose name matches the one specified as the parameter. The response includes the name, type, status, parameters and other details about the application.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/Applications/{applicationId}?api-version=6.0&ExcludeApplicationParameters={ExcludeApplicationParameters}&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [applicationId](#applicationid) | string | Yes | Path |
@@ -48,8 +50,8 @@ Returns the information about the application that was created or in the process
 
 ____
 ### applicationId
-__Type__: string <br/>
-__Required__: Yes<br/>
+**Type**: string <br/>
+**Required**: Yes<br/>
 <br/>
 The identity of the application. This is typically the full name of the application without the 'fabric:' URI scheme.
 Starting from version 6.0, hierarchical names are delimited with the "~" character.

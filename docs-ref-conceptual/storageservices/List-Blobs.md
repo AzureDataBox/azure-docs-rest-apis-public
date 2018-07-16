@@ -237,27 +237,27 @@ For version 2017-07-29 and above, `Deleted`, `DeletedTime` and `RemainingRetenti
   
  Uncommitted blobs are listed in the response only if the `include=uncommittedblobs` parameter was specified on the URI. Uncommitted blobs listed in the response do not include any of the following elements:  
   
--   `Last-Modified`  
+- `Last-Modified`  
   
--   `Etag`  
+- `Etag`  
   
--   `Content-Type`  
+- `Content-Type`  
   
--   `Content-Encoding`  
+- `Content-Encoding`  
   
--   `Content-Language`  
+- `Content-Language`  
   
--   `Content-MD5`  
+- `Content-MD5`  
   
--   `Cache-Control`  
+- `Cache-Control`  
   
--   `Metadata`  
+- `Metadata`  
 
- **Deleted Blobs in the Response**  
+  **Deleted Blobs in the Response**  
   
- Deleted blobs are listed in the response only if the `include=deleted` parameter was specified on the the URI. Deleted blobs listed in the response do not include the **Lease** elements as deleted blobs cannot have active leases.
+  Deleted blobs are listed in the response only if the `include=deleted` parameter was specified on the the URI. Deleted blobs listed in the response do not include the **Lease** elements as deleted blobs cannot have active leases.
 
- Deleted snapshots are included in list response if `include=deleted,snapshot` was specified on the URI.
+  Deleted snapshots are included in list response if `include=deleted,snapshot` was specified on the URI.
 
   
  **Returning Result Sets Using a Marker Value**  
@@ -280,11 +280,11 @@ For version 2017-07-29 and above, `Deleted`, `DeletedTime` and `RemainingRetenti
   
  `CopyStatusDescription` contains more information about the `Copy Blob` failure.  
   
--   When a copy attempt fails and the Blob service is still retrying the operation, `CopyStatus` is set to `pending`, and the `CopyStatusDescription` text describes the failure that may have occurred during the last copy attempt.  
+- When a copy attempt fails and the Blob service is still retrying the operation, `CopyStatus` is set to `pending`, and the `CopyStatusDescription` text describes the failure that may have occurred during the last copy attempt.  
   
--   When `CopyStatus` is set to `failed`, the `CopyStatusDescription` text describes the error that caused the copy operation to fail.  
+- When `CopyStatus` is set to `failed`, the `CopyStatusDescription` text describes the error that caused the copy operation to fail.  
   
- The following table describes the three fields of every `CopyStatusDescription` value.  
+  The following table describes the three fields of every `CopyStatusDescription` value.  
   
 |Component|Description|  
 |---------------|-----------------|  

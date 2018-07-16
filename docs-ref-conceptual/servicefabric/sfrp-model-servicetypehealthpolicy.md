@@ -31,6 +31,7 @@ Represents the health policy used to evaluate the health of services belonging t
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [maxPercentUnhealthyServices](#maxpercentunhealthyservices) | integer | No |

@@ -34,6 +34,7 @@ Can be returned when evaluating application health and the aggregated health sta
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Kind`](#kind) | string | Yes |

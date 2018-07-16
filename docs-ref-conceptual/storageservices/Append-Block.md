@@ -139,17 +139,17 @@ x-ms-blob-committed–block-count: 1000
   
  The following optional conditional headers can be specified on the request:  
   
-1.  `x-ms-blob-condition-appendpos`: You can set this header to a byte offset at which the client expects to append the block. The request succeeds only if the current offset matches that specified by the client. Otherwise, the request fails with the AppendPositionConditionNotMet error (HTTP status code 412 – Precondition Failed).  
+1. `x-ms-blob-condition-appendpos`: You can set this header to a byte offset at which the client expects to append the block. The request succeeds only if the current offset matches that specified by the client. Otherwise, the request fails with the AppendPositionConditionNotMet error (HTTP status code 412 – Precondition Failed).  
   
-     Clients using a single writer may use this header to determine whether when an **Append Block** operation succeeded despite network failure.  
+    Clients using a single writer may use this header to determine whether when an **Append Block** operation succeeded despite network failure.  
   
-2.  `x-ms-blob-condition-maxsize`: Clients can use this header to ensure that append operations do not increase the blob size beyond an expected maximum size in bytes.  If the condition fails, the request will fail with MaxBlobSizeConditionNotMet error (HTTP status code 412 – Precondition Failed).  
+2. `x-ms-blob-condition-maxsize`: Clients can use this header to ensure that append operations do not increase the blob size beyond an expected maximum size in bytes.  If the condition fails, the request will fail with MaxBlobSizeConditionNotMet error (HTTP status code 412 – Precondition Failed).  
   
- Each block can be a different size, up to a maximum of 4 MB. A maximum of 50,000 appends are permitted for each append blob. The maximum size of an append blob is therefore slightly more than 195 GB (4 MB X 50,000 blocks). If you attempt to upload a block that is larger than 4 MB, the service returns HTTP status code 413 (Request Entity Too Large). The service also returns additional information about the error in the response, including the maximum block size permitted in bytes. If you attempt to upload more than 50,000 blocks, the service returns the BlockCountExceedsLimit error (HTTP status code 409 – Conflict).  
+   Each block can be a different size, up to a maximum of 4 MB. A maximum of 50,000 appends are permitted for each append blob. The maximum size of an append blob is therefore slightly more than 195 GB (4 MB X 50,000 blocks). If you attempt to upload a block that is larger than 4 MB, the service returns HTTP status code 413 (Request Entity Too Large). The service also returns additional information about the error in the response, including the maximum block size permitted in bytes. If you attempt to upload more than 50,000 blocks, the service returns the BlockCountExceedsLimit error (HTTP status code 409 – Conflict).  
   
- If the blob has an active lease, the client must specify a valid lease ID on the request in order to write a block to the blob. If the client does not specify a lease ID, or specifies an invalid lease ID, the Blob service returns status code 412 (Precondition Failed). If the client specifies a lease ID but the blob does not have an active lease, the Blob service also returns status code 412 (Precondition Failed).  
+   If the blob has an active lease, the client must specify a valid lease ID on the request in order to write a block to the blob. If the client does not specify a lease ID, or specifies an invalid lease ID, the Blob service returns status code 412 (Precondition Failed). If the client specifies a lease ID but the blob does not have an active lease, the Blob service also returns status code 412 (Precondition Failed).  
   
- Calling **Append Block** on an existing block blob or page blob will return an InvalidBlobType error (HTTP status code 409 - Conflict). Calling **Append Block** on a non-existent blob will return a BlobNotFound error (HTTP status code 404 – Not Found).  
+   Calling **Append Block** on an existing block blob or page blob will return an InvalidBlobType error (HTTP status code 409 - Conflict). Calling **Append Block** on a non-existent blob will return a BlobNotFound error (HTTP status code 404 – Not Found).  
   
 #### Avoiding duplicate or delayed appends  
  In a single writer scenario, the client can avoid duplicate appends or delayed writes either by using the ***x-ms-blob-condition-appendpos*** conditional header to check the current offset, or by checking the ETag conditionally using `If-Match`.  

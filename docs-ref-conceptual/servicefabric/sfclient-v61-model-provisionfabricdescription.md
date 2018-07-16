@@ -32,6 +32,7 @@ translation.priority.mt:
 Describes the parameters for provisioning a cluster.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [CodeFilePath](#codefilepath) | string | No |

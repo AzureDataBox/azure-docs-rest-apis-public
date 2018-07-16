@@ -34,12 +34,14 @@ Gets the image store upload session identified by the given ID. User can query t
 
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/ImageStore/$/GetUploadSession?api-version=6.0&session-id={session-id}&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`api-version`](#api-version) | string | Yes | Query |

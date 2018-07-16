@@ -33,12 +33,14 @@ Gets the content information at the root of the image store.
 Returns the information about the image store content at the root of the image store.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/ImageStore?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [api-version](#api-version) | string | Yes | Query |

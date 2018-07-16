@@ -32,6 +32,7 @@ translation.priority.mt:
 Service state of Service Fabric Upgrade Orchestration Service.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [ServiceState](#servicestate) | string | No |

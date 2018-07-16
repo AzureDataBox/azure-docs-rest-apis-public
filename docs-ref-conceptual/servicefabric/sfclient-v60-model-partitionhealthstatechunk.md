@@ -33,6 +33,7 @@ Represents the health state chunk of a partition, which contains the partition i
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [HealthState](#healthstate) | string (enum) | No |

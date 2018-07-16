@@ -33,12 +33,14 @@ Gets the load information of a Service Fabric node.
 Retrieves the load information of a Service Fabric node for all the metrics that have load or capacity defined.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/Nodes/{nodeName}/$/GetLoadInformation?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [nodeName](#nodename) | string | Yes | Path |

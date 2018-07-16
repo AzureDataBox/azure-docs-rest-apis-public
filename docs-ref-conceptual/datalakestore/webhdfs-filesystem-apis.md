@@ -37,13 +37,13 @@ http://<HOST>:<PORT>/webhdfs/v1/<PATH>?op=<OP>...
   
  To map this URL for a REST call to Data Lake Store, make the following changes:  
   
--   Use `https` instead of `http`  
+- Use `https` instead of `http`  
   
--   For `<HOST>`, use the fully-qualified account name, like `<data_lake_store_name>.azuredatalakestore.net`  
+- For `<HOST>`, use the fully-qualified account name, like `<data_lake_store_name>.azuredatalakestore.net`  
   
--   The `:<PORT>` is optional
+- The `:<PORT>` is optional
   
- So, a REST endpoint URL for Data Lake Store using the WebHDFS APIs should look like the following:  
+  So, a REST endpoint URL for Data Lake Store using the WebHDFS APIs should look like the following:  
   
 ```  
 https://<data_lake_store_name>.azuredatalakestore.net/webhdfs/v1/<PATH>?op=<OP>... 

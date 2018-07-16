@@ -26,56 +26,58 @@ translation.priority.mt:
 ---
 # Get File Properties
 The `Get File Properties` operation returns all user-defined metadata, standard HTTP properties, and system properties for the file. It does not return the content of the file.  
-  
+
 ## Request  
  The `Get File Properties` request may be constructed as follows. HTTPS is recommended.  
-  
-|Method|Request URI|HTTP Version|  
-|------------|-----------------|------------------|  
-|`HEAD`|`https://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile`|HTTP/1.1|  
-|`HEAD`|`https://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile?sharesnapshot=<DateTime>`|HTTP/1.1|  
+
+
+| Method |                                            Request URI                                            | HTTP Version |
+|--------|---------------------------------------------------------------------------------------------------|--------------|
+| `HEAD` |             `https://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile`              |   HTTP/1.1   |
+| `HEAD` | `https://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile?sharesnapshot=<DateTime>` |   HTTP/1.1   |
+
  Replace the path components shown in the request URI with your own, as follows:  
-  
+
 |Path Component|Description|  
 |--------------------|-----------------|  
 |*myaccount*|The name of your storage account.|  
 |*myshare*|The name of your file share.|  
 |*mydirectorypath*|Optional. The path to the parent directory.|  
 |*myfile*|The name of the file.|  
-  
+
  For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
-  
+
 ### URI Parameters  
  The following additional parameters may be specified on the request URI.  
-  
+
 |Parameter|Description|  
 |---------------|-----------------|  
 |`sharesnapshot`|Optional. Version 2017-04-17 and newer. The sharesnapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query for the file properties.|  
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md)|  
-  
+
 ### Request Headers  
  The following table describes required and optional request headers.  
-  
+
 |Request Header|Description|  
 |--------------------|-----------------|  
 |Authorization|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
 |`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
-  
+
 ### Request Body  
  None.  
-  
+
 ## Response  
  The response includes an HTTP status code and a set of response headers.  
-  
+
 ### Status Code  
  A successful operation returns status code 200 (OK).  
-  
+
  For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
-  
+
 ### Response Headers  
  The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
-  
+
 |Response Header|Description|  
 |---------------------|-----------------|  
 |`Last-Modified`|Returns the date and time the file was last modified. The date format follows RFC 1123. For more information, see [Representation of Date-Time Values in Headers](Representation-of-Date-Time-Values-in-Headers.md). Any operation that modifies the file or its properties updates the last modified time.|  
@@ -99,16 +101,16 @@ The `Get File Properties` operation returns all user-defined metadata, standard 
 |`x-ms-copy-source: url`|Version 2015-02-21 and newer. URL up to 2KB in length that specifies the source file used in the last attempted **Copy File** operation where this file was the destination file. This header does not appear if this file has never been the destination in a **Copy File** operation or if this file has been modified after a concluded **Copy File** operation using **Set File Properties** or **Create File**.|  
 |`x-ms-copy-status: <pending &#124; success &#124; aborted &#124; failed>`|Version 2015-02-21 and newer. State of the copy operation identified by `x-ms-copy-id`, with these values:<br /><br /> -   *success:* Copy completed successfully.<br />-   *pending:* Copy is in progress. Check `x-ms-copy-status-description` if intermittent, non-fatal errors impede copy progress but don't cause failure.<br />-   *aborted:* Copy was ended by **Abort Copy File**.<br />-   *failed:* Copy failed. See `x-ms-copy-status-description` for failure details.<br /><br /> This header does not appear if this file has never been the destination in a **Copy File** operation, or if this file has been modified after a completed **Copy File** operation using **Set File Properties** or **Create File**.|  
 |`x-ms-server-encrypted: true/false`|Version 2017-04-17 or newer. The value of this header is set to `true` if the file data and application metadata are completely encrypted using the specified algorithm. Otherwise, the value is set to `false` (when the file is unencrypted, or if only parts of the file/application metadata are encrypted).|  
-  
+
 ### Response Body  
  None.  
-  
+
 ### Sample Response  
-  
+
 ```  
 Response Status:  
 HTTP/1.1 200 OK  
-  
+
 Response Headers:  
 x-ms-type: File  
 x-ms-meta-m1: v1  
@@ -125,13 +127,13 @@ x-ms-copy-source: <url>
 x-ms-copy-status: success  
 x-ms-copy-progress: 11/11  
 x-ms-copy-completion-time: <date>  
-  
+
 ```  
-  
+
 ## Authorization  
  Only the account owner may call this operation.  
-  
+
 ## Remarks  
-  
+
 ## See Also  
  [Operations on Files](Operations-on-Files.md)

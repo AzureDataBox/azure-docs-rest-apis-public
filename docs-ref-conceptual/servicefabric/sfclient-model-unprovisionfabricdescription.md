@@ -32,6 +32,7 @@ translation.priority.mt:
 Describes the parameters for unprovisioning a cluster.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`CodeVersion`](#codeversion) | string | No |

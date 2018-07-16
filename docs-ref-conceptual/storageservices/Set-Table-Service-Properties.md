@@ -128,17 +128,17 @@ The `Set Table Service Properties` operation sets properties for a storage accou
   
  Beginning with version 2013-08-15, you can call `Set Table Service Properties` with one or more root elements specified in the request body. The root elements include:  
   
--   **Logging**  
+- **Logging**  
   
--   **HourMetrics**  
+- **HourMetrics**  
   
--   **MinuteMetrics**  
+- **MinuteMetrics**  
   
--   **Cors**  
+- **Cors**  
   
- It is no longer necessary to specify every root element on the request. If you omit a root element, the existing settings for the service for that functionality are preserved. However, if you do specify a given root element, you must specify every child element for that element.  
+  It is no longer necessary to specify every root element on the request. If you omit a root element, the existing settings for the service for that functionality are preserved. However, if you do specify a given root element, you must specify every child element for that element.  
   
- The following table describes the elements of the request body:  
+  The following table describes the elements of the request body:  
   
 |Element Name|Description|  
 |------------------|-----------------|  
@@ -187,29 +187,29 @@ The `Set Table Service Properties` operation sets properties for a storage accou
 ## Remarks  
  The following restrictions and limitations apply to CORS rules in Azure Storage:  
   
--   A maximum of five rules can be stored.  
+- A maximum of five rules can be stored.  
   
--   The maximum size of all CORS rules settings on the request, excluding XML tags, should not exceed 2 KB.  
+- The maximum size of all CORS rules settings on the request, excluding XML tags, should not exceed 2 KB.  
   
--   The length of an allowed header, exposed header, or allowed origin should not exceed 256 characters.  
+- The length of an allowed header, exposed header, or allowed origin should not exceed 256 characters.  
   
--   Allowed headers and exposed headers may be either:  
+- Allowed headers and exposed headers may be either:  
   
-    -   Literal headers, where the exact header name is provided, such as **x-ms-meta-processed**. A maximum of 64 literal headers may be specified on the request.  
+  - Literal headers, where the exact header name is provided, such as **x-ms-meta-processed**. A maximum of 64 literal headers may be specified on the request.  
   
-    -   Prefixed headers, where a prefix of the header is provided, such as **x-ms-meta-data\***. Specifying a prefix in this manner allows or exposes any header that begins with the given prefix. A maximum of two prefixed headers may be specified on the request.  
+  - Prefixed headers, where a prefix of the header is provided, such as **x-ms-meta-data\\***. Specifying a prefix in this manner allows or exposes any header that begins with the given prefix. A maximum of two prefixed headers may be specified on the request.  
   
--   The methods (or HTTP verbs) specified in the **AllowedMethods** element must conform to the methods supported by Azure storage service APIs. Supported methods are DELETE, GET, HEAD, MERGE, POST, OPTIONS and PUT.  
+- The methods (or HTTP verbs) specified in the **AllowedMethods** element must conform to the methods supported by Azure storage service APIs. Supported methods are DELETE, GET, HEAD, MERGE, POST, OPTIONS and PUT.  
   
- Specifying CORS rules on the request is optional. If you call `Set Table Service Properties` without specifying the **Cors** element in the request body, any existing CORS rules are maintained.  
+  Specifying CORS rules on the request is optional. If you call `Set Table Service Properties` without specifying the **Cors** element in the request body, any existing CORS rules are maintained.  
   
- To disable CORS, call `Set Table Service Properties` with an empty CORS rules settings (*i.e.,*`</Cors>`) and no inner CORS rules. This call deletes any existing rules, disabling CORS for the Table service.  
+  To disable CORS, call `Set Table Service Properties` with an empty CORS rules settings (*i.e.,*`</Cors>`) and no inner CORS rules. This call deletes any existing rules, disabling CORS for the Table service.  
   
- All CORS rule elements are required if the **CorsRule** element is specified. The request will fail with error code 400 (`Bad Request`) if any element is missing.  
+  All CORS rule elements are required if the **CorsRule** element is specified. The request will fail with error code 400 (`Bad Request`) if any element is missing.  
   
- Beginning with version 2013-08-15, XML settings elements will be optional so updating a specific element can be done by sending an XML that only contains the updated element and other settings will not be affected.  
+  Beginning with version 2013-08-15, XML settings elements will be optional so updating a specific element can be done by sending an XML that only contains the updated element and other settings will not be affected.  
   
- For detailed information about CORS rules and evaluation logic, see [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md).  
+  For detailed information about CORS rules and evaluation logic, see [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md).  
   
 ## Sample Request and Response  
  The following sample URI makes a request to change the Table service properties for the fictional storage account named *myaccount*:  

@@ -32,6 +32,7 @@ translation.priority.mt:
 Describes the parameters for starting a cluster upgrade.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`CodeVersion`](#codeversion) | string | No |

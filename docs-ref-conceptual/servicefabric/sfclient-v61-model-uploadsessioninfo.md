@@ -32,6 +32,7 @@ translation.priority.mt:
 Information about an image store upload session. A session is associated with a relative path in the image store.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [StoreRelativePath](#storerelativepath) | string | No |

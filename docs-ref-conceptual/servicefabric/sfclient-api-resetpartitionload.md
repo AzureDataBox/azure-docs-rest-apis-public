@@ -33,12 +33,14 @@ Resets the current load of a Service Fabric partition.
 Resets the current load of a Service Fabric partition to the default load for the service.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/Partitions/{partitionId}/$/ResetLoad?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`partitionId`](#partitionid) | string (uuid) | Yes | Path |

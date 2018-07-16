@@ -31,12 +31,14 @@ Gets the list of Service Fabric cluster resources created in the specified resou
 Gets all Service Fabric cluster resources created or in the process of being created in the resource group.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters?api-version=2018-02-01` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [resourceGroupName](#resourcegroupname) | string | Yes | Path |

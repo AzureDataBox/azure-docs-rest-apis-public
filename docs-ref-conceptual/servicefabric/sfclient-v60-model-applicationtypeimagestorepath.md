@@ -32,6 +32,7 @@ translation.priority.mt:
 Path description for the application package in the image store specified during the prior copy operation.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [ApplicationTypeBuildPath](#applicationtypebuildpath) | string | Yes |

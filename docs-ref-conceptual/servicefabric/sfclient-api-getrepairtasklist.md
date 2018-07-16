@@ -34,12 +34,14 @@ This API supports the Service Fabric platform; it is not meant to be used direct
 
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/$/GetRepairTaskList?api-version=6.0&TaskIdFilter={TaskIdFilter}&StateFilter={StateFilter}&ExecutorFilter={ExecutorFilter}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`api-version`](#api-version) | string | Yes | Query |

@@ -33,12 +33,14 @@ Removes or unregisters a Service Fabric application type from the cluster.
 Removes or unregisters a Service Fabric application type from the cluster. This operation can only be performed if all application instances of the application type has been deleted. Once the application type is unregistered, no new application instances can be created for this particular application type.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/ApplicationTypes/{applicationTypeName}/$/Unprovision?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`applicationTypeName`](#applicationtypename) | string | Yes | Path |

@@ -33,6 +33,7 @@ Represents a PropertyBatchOperation that compares the value of the property with
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [Kind](#kind) | string | Yes |

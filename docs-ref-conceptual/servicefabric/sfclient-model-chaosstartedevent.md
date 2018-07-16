@@ -32,6 +32,7 @@ translation.priority.mt:
 Chaos Started event.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Kind`](#kind) | string | Yes |

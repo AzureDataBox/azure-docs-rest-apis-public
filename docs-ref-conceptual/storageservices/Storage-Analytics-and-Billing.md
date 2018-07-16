@@ -32,11 +32,11 @@ All metrics data is written by the services of a storage account. As a result, e
   
  The following actions performed by Storage Analytics are billable:  
   
--   Requests to create blobs for logging  
+- Requests to create blobs for logging  
   
--   Requests to create table entities for metrics  
+- Requests to create table entities for metrics  
   
- If you have configured a data retention policy, you are not charged for delete transactions when Storage Analytics deletes old logging and metrics data. However, delete transactions from a client are billable. For more information about retention policies, see [Setting a Storage Analytics Data Retention Policy](Setting-a-Storage-Analytics-Data-Retention-Policy.md).  
+  If you have configured a data retention policy, you are not charged for delete transactions when Storage Analytics deletes old logging and metrics data. However, delete transactions from a client are billable. For more information about retention policies, see [Setting a Storage Analytics Data Retention Policy](Setting-a-Storage-Analytics-Data-Retention-Policy.md).  
   
 ## Understanding Billable Requests  
  Every request made to an account’s storage service is either billable or non-billable. Storage Analytics logs each individual request made to a service, including a status message that indicates how the request was handled. Similarly, Storage Analytics stores metrics for both a service and the API operations of that service, including the percentages and count of certain status messages. Together, these features can help you analyze your billable requests, make improvements on your application, and diagnose issues with requests to your services. For more information about billing, see [Understanding Azure Storage Billing - Bandwidth, Transactions, and Capacity](http://blogs.msdn.com/b/windowsazurestorage/archive/2010/07/09/understanding-windows-azure-storage-billing-bandwidth-transactions-and-capacity.aspx).  

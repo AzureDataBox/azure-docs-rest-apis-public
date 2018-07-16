@@ -33,12 +33,14 @@ Creates a Service Fabric name.
 Creates the specified Service Fabric name.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/Names/$/Create?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [api-version](#api-version) | string | Yes | Query |

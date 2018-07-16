@@ -36,9 +36,9 @@ The following information is common to all tasks that you might do related to Da
 * Replace `{api-version}` with **2016-11-01**.
 * Replace `{subscription-id}` in the URI with your Azure subscription identifier.
 * Replace `{resource-group-name}` with the resource group. For more information, see [Using Resource groups to manage your Azure resources](https://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).
-Replace `{account-name}` in the URI with your Data Lake Analytics account name.
+  Replace `{account-name}` in the URI with your Data Lake Analytics account name.
 * Set the **Content-Type** header to **application/json**.
-* Set the **Authorization** header to a JSON Web Token that you obtain from Azure Active Directory. For job, pipeline, recurrence, and catalog operations, be sure to obtain a token for the resource URI / audience claim “https://datalake.azure.net/”, NOT “https://management.core.windows.net/” nor “https://management.azure.com/”. For more information, see [Acquire an access token](/rest/api/azure/#acquire-an-access-token).
+* Set the **Authorization** header to a JSON Web Token that you obtain from Azure Active Directory. For job, pipeline, recurrence, and catalog operations, be sure to obtain a token for the resource URI / audience claim “<https://datalake.azure.net/”>, NOT “<https://management.core.windows.net/”> nor “<https://management.azure.com/”>. For more information, see [Acquire an access token](/rest/api/azure/#acquire-an-access-token).
 
 ## See also
 

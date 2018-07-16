@@ -33,12 +33,14 @@ Gets information on all Service Fabric properties under a given name.
 A Service Fabric name can have one or more named properties that stores custom information. This operation gets the information about these properties in a paged list. The information include name, value and metadata about each of the properties.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/Names/{nameId}/$/GetProperties?api-version=6.0&IncludeValues={IncludeValues}&ContinuationToken={ContinuationToken}&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`nameId`](#nameid) | string | Yes | Path |

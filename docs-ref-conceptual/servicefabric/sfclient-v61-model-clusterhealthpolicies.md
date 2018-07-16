@@ -32,6 +32,7 @@ translation.priority.mt:
 Health policies to evaluate cluster health.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [ApplicationHealthPolicyMap](#applicationhealthpolicymap) | array of [ApplicationHealthPolicyMapItem](sfclient-v61-model-applicationhealthpolicymapitem.md) | No |

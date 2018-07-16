@@ -31,12 +31,14 @@ Gets information about a Service Fabric cluster code version available in the sp
 Gets information about an available Service Fabric cluster code version.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabric/locations/{location}/clusterVersions/{clusterVersion}?api-version=2018-02-01` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [location](#location) | string | Yes | Path |

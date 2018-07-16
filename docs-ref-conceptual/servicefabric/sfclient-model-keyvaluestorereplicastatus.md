@@ -32,6 +32,7 @@ translation.priority.mt:
 Key value store related information for the replica.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Kind`](#kind) | string | Yes |

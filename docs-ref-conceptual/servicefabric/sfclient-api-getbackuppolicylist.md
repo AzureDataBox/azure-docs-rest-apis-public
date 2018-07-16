@@ -34,12 +34,14 @@ Get a list of all the backup policies configured.
 
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/BackupRestore/BackupPolicies?api-version=6.2-preview&ContinuationToken={ContinuationToken}&MaxResults={MaxResults}&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`api-version`](#api-version) | string | Yes | Query |

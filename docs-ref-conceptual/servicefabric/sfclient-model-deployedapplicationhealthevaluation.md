@@ -33,6 +33,7 @@ Represents health evaluation for a deployed application, containing information 
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Kind`](#kind) | string | Yes |

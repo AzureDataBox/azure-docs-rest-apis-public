@@ -32,6 +32,7 @@ translation.priority.mt:
 The cluster health chunk query description, which can specify the health policies to evaluate cluster health and very expressive filters to select which cluster entities to include in response.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`NodeFilters`](#nodefilters) | array of [NodeHealthStateFilter](sfclient-model-nodehealthstatefilter.md) | No |

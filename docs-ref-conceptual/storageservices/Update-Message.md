@@ -139,15 +139,15 @@ Date: Mon, 29 Aug 2011 17:17:21 GMT
   
  A pop receipt is returned by the `Get Messages` operation or the `Update Message` operation. Pop receipts remain valid until one of the following events occurs:  
   
-1.  The message has expired.  
+1. The message has expired.  
   
-2.  The message has been deleted using the last pop receipt received either from `Get Messages` or `Update Message`.  
+2. The message has been deleted using the last pop receipt received either from `Get Messages` or `Update Message`.  
   
-3.  The invisibility time has elapsed and the message has been dequeued by a `Get Messages` request. When the invisibility time elapses, the message becomes visible again. If it is retrieved by another `Get Messages` request, the returned pop receipt can be used to delete or update the message.  
+3. The invisibility time has elapsed and the message has been dequeued by a `Get Messages` request. When the invisibility time elapses, the message becomes visible again. If it is retrieved by another `Get Messages` request, the returned pop receipt can be used to delete or update the message.  
   
-4.  The message has been updated with a new visibility timeout. When the message is updated, a new pop receipt will be returned.  
+4. The message has been updated with a new visibility timeout. When the message is updated, a new pop receipt will be returned.  
   
- The `Update Message` operation can be used to continually extend the invisibility of a queue message. This functionality can be useful if you want a worker role to “lease” a queue message. For example, if a worker role calls [Get Messages](Get-Messages.md) and recognizes that it needs more time to process a message, it can continually extend the message’s invisibility until it is processed. If the worker role were to fail during processing, eventually the message would become visible again and another worker role could process it.  
+   The `Update Message` operation can be used to continually extend the invisibility of a queue message. This functionality can be useful if you want a worker role to “lease” a queue message. For example, if a worker role calls [Get Messages](Get-Messages.md) and recognizes that it needs more time to process a message, it can continually extend the message’s invisibility until it is processed. If the worker role were to fail during processing, eventually the message would become visible again and another worker role could process it.  
   
 ## See Also  
  [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md)   

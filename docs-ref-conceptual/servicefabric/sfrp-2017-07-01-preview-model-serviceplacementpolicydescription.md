@@ -36,5 +36,6 @@ The following table lists the value of the `Kind` property and corresponding der
 ## Derived Types
 
 | Type | Derived Type |
-| --- | --- | 
+|------|--------------|
+|      |              |
 

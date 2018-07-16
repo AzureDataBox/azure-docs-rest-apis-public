@@ -44,15 +44,15 @@ Azure Premium Storage offers a world-class cloud storage solution for Azure Virt
 ## REST API Restrictions on Premium Storage  
  There are certain restrictions to bear in mind when using the Blob service REST API against a Premium Storage account:  
   
--   Only REST operations using version 2014-02-14 and later are supported for Premium Storage. See [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md) for details.  
+- Only REST operations using version 2014-02-14 and later are supported for Premium Storage. See [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md) for details.  
   
--   The number of snapshots per page blob in a Premium Storage account is limited to 100. If that limit is exceeded, the [Snapshot Blob](Snapshot-Blob.md) operation returns error code 409 (SnapshotCountExceeded).  
+- The number of snapshots per page blob in a Premium Storage account is limited to 100. If that limit is exceeded, the [Snapshot Blob](Snapshot-Blob.md) operation returns error code 409 (SnapshotCountExceeded).  
   
--   A snapshot of a page blob in a Premium Storage account may be taken once every ten minutes. If that rate is exceeded, the `Snapshot Blob` operation returns error code 409 (SnaphotOperationRateExceeded).  
+- A snapshot of a page blob in a Premium Storage account may be taken once every ten minutes. If that rate is exceeded, the `Snapshot Blob` operation returns error code 409 (SnaphotOperationRateExceeded).  
   
--   Public access to a container containing page blobs in Premium Storage is not permitted. Calling [Set Container ACL](Set-Container-ACL.md) with the `x-ms-blob-public-access` header returns error code 400 (UnsupportedHeader). You can, however, obtain public access for Premium Storage by creating a [SAS URI](/azure/storage/storage-dotnet-shared-access-signature-part-1) with the right permissions and an infinite expiration time.
+- Public access to a container containing page blobs in Premium Storage is not permitted. Calling [Set Container ACL](Set-Container-ACL.md) with the `x-ms-blob-public-access` header returns error code 400 (UnsupportedHeader). You can, however, obtain public access for Premium Storage by creating a [SAS URI](/azure/storage/storage-dotnet-shared-access-signature-part-1) with the right permissions and an infinite expiration time.
   
- For additional error information, see [Blob Service Error Codes](Blob-Service-Error-Codes.md).  
+  For additional error information, see [Blob Service Error Codes](Blob-Service-Error-Codes.md).  
   
 ## Restrictions on REST API Operations Against Disks Attached to a Virtual Machine  
  When a disk backed by a page blob in Premium Storage is attached to an Azure Virtual Machine, certain REST API operations are not permitted. These operations are permitted against the disk only if it is detached from the Virtual Machine. If a restricted operation is called against an attached disk, the service returns error code 409 (SystemInUse).  

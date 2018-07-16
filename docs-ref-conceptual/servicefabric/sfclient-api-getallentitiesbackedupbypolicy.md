@@ -34,12 +34,14 @@ Returns a list of Service Fabric application, service or partition which are ass
 
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/BackupRestore/BackupPolicies/{backupPolicyName}/$/GetBackupEnabledEntities?api-version=6.2-preview&ContinuationToken={ContinuationToken}&MaxResults={MaxResults}&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`backupPolicyName`](#backuppolicyname) | string | Yes | Path |

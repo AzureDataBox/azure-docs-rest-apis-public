@@ -32,6 +32,7 @@ translation.priority.mt:
 Information about the node deactivation. This information is valid for a node that is undergoing deactivation or has already been deactivated.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [NodeDeactivationIntent](#nodedeactivationintent) | string (enum) | No |

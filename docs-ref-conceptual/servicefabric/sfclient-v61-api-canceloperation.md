@@ -47,12 +47,14 @@ Important note:  if this API is invoked with force==true, internal state may be 
 
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/Faults/$/Cancel?api-version=6.0&OperationId={OperationId}&Force={Force}&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [api-version](#api-version) | string | Yes | Query |

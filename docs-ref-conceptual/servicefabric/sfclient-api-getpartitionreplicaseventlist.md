@@ -33,12 +33,14 @@ Gets all Replicas-related events for a Partition.
 The response is list of ReplicaEvent objects.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/EventsStore/Partitions/{partitionId}/$/Replicas/Events?api-version=6.2-preview&timeout={timeout}&StartTimeUtc={StartTimeUtc}&EndTimeUtc={EndTimeUtc}&EventsTypesFilter={EventsTypesFilter}&ExcludeAnalysisEvents={ExcludeAnalysisEvents}&SkipCorrelationLookup={SkipCorrelationLookup}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`partitionId`](#partitionid) | string (uuid) | Yes | Path |

@@ -32,6 +32,7 @@ translation.priority.mt:
 Describes a Service Fabric property value of type Binary.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [Kind](#kind) | string | Yes |

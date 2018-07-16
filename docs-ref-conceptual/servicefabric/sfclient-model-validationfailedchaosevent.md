@@ -32,6 +32,7 @@ translation.priority.mt:
 Chaos event corresponding to a failure during validation.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Kind`](#kind) | string | Yes |

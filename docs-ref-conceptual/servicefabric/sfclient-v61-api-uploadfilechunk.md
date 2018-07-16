@@ -36,12 +36,14 @@ To perform a resumable file upload, user need to break the file into multiple ch
 
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | PUT | `/ImageStore/{contentPath}/$/UploadChunk?api-version=6.0&session-id={session-id}&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [contentPath](#contentpath) | string | Yes | Path |

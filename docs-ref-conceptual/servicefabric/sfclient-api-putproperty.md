@@ -33,12 +33,14 @@ Creates or updates a Service Fabric property.
 Creates or updates the specified Service Fabric property under a given name.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | PUT | `/Names/{nameId}/$/GetProperty?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`nameId`](#nameid) | string | Yes | Path |

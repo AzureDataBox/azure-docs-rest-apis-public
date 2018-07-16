@@ -33,12 +33,14 @@ Gets the name of the Service Fabric service for a partition.
 The GetServiceName endpoint returns the name of the service for the specified partition.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/Partitions/{partitionId}/$/GetServiceName?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [partitionId](#partitionid) | string (uuid) | Yes | Path |

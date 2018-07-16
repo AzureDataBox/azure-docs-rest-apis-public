@@ -32,6 +32,7 @@ translation.priority.mt:
 Safety check that ensures that a quorum of replicas are not lost for a partition.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [Kind](#kind) | string | Yes |

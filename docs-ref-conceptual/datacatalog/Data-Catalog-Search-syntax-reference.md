@@ -112,7 +112,7 @@ You can also use the following property names along with "has:" filter to check 
   
 ## Search Examples  
 The following sections show a few Search examples.  
-###Return all assets with "sales" in the name  
+### Return all assets with "sales" in the name  
 `name:sales`  
   
   

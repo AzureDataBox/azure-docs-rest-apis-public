@@ -44,7 +44,7 @@ A job is an entity that contains metadata about a set of tasks. Each task perfor
   
 > [!IMPORTANT]
 > - When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. <br/>For more information, see [Setup for Media Services REST API Development](https://docs.microsoft.com/azure/media-services/media-services-rest-how-to-use) and [Connecting to Media Services with the Media Services REST API](https://docs.microsoft.com/azure/media-services/media-services-use-aad-auth-to-access-ams-api).  
- 
+> 
 > - When using JSON and specifying to use the __metadata keyword in the request (for example, to reference a linked object) you MUST set the Accept header to JSON Verbose format (Accept: application/json;odata=verbose). Odata does not understand the \__metadata property in the request, unless you set it to verbose.  
   
 ##  <a name="job_entity_properties"></a> Job Entity Properties  

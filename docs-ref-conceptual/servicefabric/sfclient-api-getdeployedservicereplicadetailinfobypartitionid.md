@@ -33,12 +33,14 @@ Gets the details of replica deployed on a Service Fabric node.
 Gets the details of the replica deployed on a Service Fabric node. The information include service kind, service name, current service operation, current service operation start date time, partition ID, replica/instance ID, reported load, and other information.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/Nodes/{nodeName}/$/GetPartitions/{partitionId}/$/GetReplicas?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`nodeName`](#nodename) | string | Yes | Path |

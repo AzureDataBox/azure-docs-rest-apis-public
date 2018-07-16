@@ -32,6 +32,7 @@ translation.priority.mt:
 Information about how to copy image store content from one image store relative path to another image store relative path.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [RemoteSource](#remotesource) | string | Yes |

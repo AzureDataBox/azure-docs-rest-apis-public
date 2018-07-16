@@ -32,6 +32,7 @@ translation.priority.mt:
 Service Health Report Expired event.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Kind`](#kind) | string | Yes |

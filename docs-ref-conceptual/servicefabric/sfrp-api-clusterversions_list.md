@@ -31,12 +31,14 @@ Gets the list of Service Fabric cluster code versions available for the specifie
 Gets all available code versions for Service Fabric cluster resources by location.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabric/locations/{location}/clusterVersions?api-version=2018-02-01` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [location](#location) | string | Yes | Path |

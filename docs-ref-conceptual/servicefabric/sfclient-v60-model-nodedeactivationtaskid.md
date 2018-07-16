@@ -32,6 +32,7 @@ translation.priority.mt:
 Identity of the task related to deactivation operation on the node.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [Id](#id) | string | No |

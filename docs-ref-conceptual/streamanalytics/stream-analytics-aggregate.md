@@ -57,7 +57,6 @@ Common request headers only.
     }  
   }  
 }  
-
 ```
 
 | Property | Required | Description |
@@ -118,7 +117,6 @@ Properties for Aggregate function type:
     }
   }
 }
-
 ```
 
 Binding properties for Microsoft.StreamAnalytics/JavascriptUdf.
@@ -154,7 +152,6 @@ Common response headers only
     }  
   }  
 }  
-
 ```
 
 ## Delete
@@ -250,7 +247,6 @@ Status code: 200
     }  
   }  
 }  
-
 ```
 
 ## List
@@ -264,9 +260,9 @@ The  **List Functions**  request is specified as follows.
 For headers and parameters that are used by all requests related to Stream Analytics jobs, see  [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). Make sure that the request that is made to the management service is secure. For more information, see  [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).
 
 
-| Method | Request URI |
-| --- | --- |
-| **GET** | https://managment.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.StreamAnalytics/streamingjobs/{job-name}/functions&amp;api-version={api-version}|
+| Method  |                                                                                              Request URI                                                                                              |
+|---------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **GET** | https://managment.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.StreamAnalytics/streamingjobs/{job-name}/functions&amp;api-version={api-version} |
 
 * Replace {subscription-id} with your subscription ID.
 
@@ -298,8 +294,6 @@ The following example shows a response from a List Functions request for a Strea
     }  
   }  
 }   
-
-
 ```
 
 ## Test
@@ -408,8 +402,6 @@ One or more properties used in the Create Function may be specified in the reque
     }  
   }  
 }  
-
-
 ```
 
 | Property | Required | Description |
@@ -452,8 +444,6 @@ Common response headers only
     }  
   }  
 }  
-
-
 ```
 
 > [!NOTE]  

@@ -36,12 +36,14 @@ Please refer to the article [Induce controlled Chaos in Service Fabric clusters]
 
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/Tools/Chaos/$/Start?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`api-version`](#api-version) | string | Yes | Query |

@@ -33,6 +33,7 @@ The list of service health state chunks that respect the input filters in the ch
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [Items](#items) | array of [ServiceHealthStateChunk](sfclient-v61-model-servicehealthstatechunk.md) | No |

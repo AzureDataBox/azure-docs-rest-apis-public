@@ -29,15 +29,15 @@ The Blob service stores text and binary data as blobs in the cloud. The Blob ser
   
  You can store text and binary data in one of the following types of blobs:  
   
--   Block blobs, which are optimized for streaming.  
+- Block blobs, which are optimized for streaming.  
   
--   Append blobs, which are optimized for append operations.  
+- Append blobs, which are optimized for append operations.  
   
--   Page blobs, which are optimized for random read/write operations and which provide the ability to write to a range of bytes in a blob.  
+- Page blobs, which are optimized for random read/write operations and which provide the ability to write to a range of bytes in a blob.  
   
- For more information about block blobs and page blobs, see [Understanding Block Blobs, Append Blobs, and Page Blobs](Understanding-Block-Blobs--Append-Blobs--and-Page-Blobs.md).  
+  For more information about block blobs and page blobs, see [Understanding Block Blobs, Append Blobs, and Page Blobs](Understanding-Block-Blobs--Append-Blobs--and-Page-Blobs.md).  
   
- The REST API for the Blob service defines HTTP operations against container and blob resources. The API includes the operations listed in the following table.  
+  The REST API for the Blob service defines HTTP operations against container and blob resources. The API includes the operations listed in the following table.  
   
 |Operation|Resource Type|Description|  
 |---------------|-------------------|-----------------|  

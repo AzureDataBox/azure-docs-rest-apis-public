@@ -33,12 +33,14 @@ Gets a list of fabric config versions that are provisioned in a Service Fabric c
 Gets a list of information about fabric config versions that are provisioned in the cluster. The parameter ConfigVersion can be used to optionally filter the output to only that particular version.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/$/GetProvisionedConfigVersions?api-version=6.0&ConfigVersion={ConfigVersion}&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [api-version](#api-version) | string | Yes | Query |

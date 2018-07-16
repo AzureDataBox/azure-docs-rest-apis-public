@@ -110,17 +110,17 @@ Authorization: SharedKey testaccount1:esSKMOYdK4o+nGTuTyeOLBI+xqnqi6aBmiW4XI699+
 ### Status Code  
  The success status codes returned for lease operations are the following:  
   
--   `Acquire`: A successful operation returns status code 201 (Created).  
+- `Acquire`: A successful operation returns status code 201 (Created).  
   
--   `Renew`: A successful operation returns status code 200 (OK).  
+- `Renew`: A successful operation returns status code 200 (OK).  
   
--   `Change`: A successful operation returns status code 200 (OK).  
+- `Change`: A successful operation returns status code 200 (OK).  
   
--   `Release`: A successful operation returns status code 200 (OK).  
+- `Release`: A successful operation returns status code 200 (OK).  
   
--   `Break`: A successful operation returns status code 202 (Accepted).  
+- `Break`: A successful operation returns status code 202 (Accepted).  
   
- For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
+  For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
 ### Response Headers  
  The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
@@ -167,82 +167,82 @@ Date: <date>
   
  When a lease is active, the lease ID must be included in the request for any of the following operations:  
   
--   [Put Blob](Put-Blob.md)  
+- [Put Blob](Put-Blob.md)  
   
--   [Set Blob Metadata](Set-Blob-Metadata.md)  
+- [Set Blob Metadata](Set-Blob-Metadata.md)  
   
--   [Set Blob Properties](Set-Blob-Properties.md)  
+- [Set Blob Properties](Set-Blob-Properties.md)  
   
--   [Delete Blob](Delete-Blob.md)  
+- [Delete Blob](Delete-Blob.md)  
   
--   [Put Block](Put-Block.md)  
+- [Put Block](Put-Block.md)  
   
--   [Put Block List](Put-Block-List.md)  
+- [Put Block List](Put-Block-List.md)  
   
--   [Put Page](Put-Page.md)  
+- [Put Page](Put-Page.md)  
   
--   [Append Block](Append-Block.md)  
+- [Append Block](Append-Block.md)  
   
--   [Copy Blob](Copy-Blob.md) (lease ID needed for destination blob)  
+- [Copy Blob](Copy-Blob.md) (lease ID needed for destination blob)  
   
- If the lease ID is not included, these operations will fail on a leased blob with `412 – Precondition failed`.  
+  If the lease ID is not included, these operations will fail on a leased blob with `412 – Precondition failed`.  
   
- The following operations succeed on a leased blob without including the lease ID:  
+  The following operations succeed on a leased blob without including the lease ID:  
   
--   [Get Blob](Get-Blob.md)  
+- [Get Blob](Get-Blob.md)  
   
--   [Get Blob Metadata](Get-Blob-Metadata.md)  
+- [Get Blob Metadata](Get-Blob-Metadata.md)  
   
--   [Get Blob Properties](Get-Blob-Properties.md)  
+- [Get Blob Properties](Get-Blob-Properties.md)  
   
--   [Get Block List](Get-Block-List.md)  
+- [Get Block List](Get-Block-List.md)  
   
--   [Get Page Ranges](Get-Page-Ranges.md)  
+- [Get Page Ranges](Get-Page-Ranges.md)  
   
--   [List Blobs](List-Blobs.md)  
+- [List Blobs](List-Blobs.md)  
   
--   [Copy Blob](Copy-Blob.md) (No lease ID needed for source blob.)  
+- [Copy Blob](Copy-Blob.md) (No lease ID needed for source blob.)  
   
--   [Lease Blob (REST API)](Lease-Blob.md) (No lease ID needed for `x-ms-lease-action: break`.)  
+- [Lease Blob (REST API)](Lease-Blob.md) (No lease ID needed for `x-ms-lease-action: break`.)  
   
- It's not necessary to include the lease ID for GET operations on a blob that has an active lease. However, all GET operations support a conditional lease parameter, where the operation only proceeds if the lease ID included with the request is valid.  
+  It's not necessary to include the lease ID for GET operations on a blob that has an active lease. However, all GET operations support a conditional lease parameter, where the operation only proceeds if the lease ID included with the request is valid.  
   
- All container operations are permitted on a container that includes blobs with an active lease, including [Delete Container](Delete-Container.md). Therefore a container may be deleted even if blobs within it have active leases. Use the [Lease Container](Lease-Container.md) operation to control rights to delete a container.  
+  All container operations are permitted on a container that includes blobs with an active lease, including [Delete Container](Delete-Container.md). Therefore a container may be deleted even if blobs within it have active leases. Use the [Lease Container](Lease-Container.md) operation to control rights to delete a container.  
   
- The following diagram shows the five states of a lease, and the commands or events that cause lease state changes.  
+  The following diagram shows the five states of a lease, and the commands or events that cause lease state changes.  
   
- ![Blob lease states and state change triggers](media/BlobLeaseStates.png "BlobLeaseStates")  
+  ![Blob lease states and state change triggers](media/BlobLeaseStates.png "BlobLeaseStates")  
   
- **Lease States**  
+  **Lease States**  
   
- A lease can be in 5 states, based on whether the lease is locked or unlocked, and whether the lease is renewable in that state. The lease actions above cause state transitions.  
+  A lease can be in 5 states, based on whether the lease is locked or unlocked, and whether the lease is renewable in that state. The lease actions above cause state transitions.  
   
 ||Locked Lease|Unlocked Lease|  
 |-|------------------|--------------------|  
 |**Renewable Lease**|Leased|Expired|  
 |**Non-renewable Lease**|Breaking|Broken, Available|  
   
--   `Available`, the lease is unlocked and can be acquired. Allowed action: `acquire`.  
+- `Available`, the lease is unlocked and can be acquired. Allowed action: `acquire`.  
   
--   `Leased`, the lease is locked. Allowed actions: `acquire` (same lease ID only), `renew`, `change`, `release`, and `break`.  
+- `Leased`, the lease is locked. Allowed actions: `acquire` (same lease ID only), `renew`, `change`, `release`, and `break`.  
   
--   `Expired`, the lease duration has expired. Allowed actions: `acquire`, `renew`, `release`, and `break`.  
+- `Expired`, the lease duration has expired. Allowed actions: `acquire`, `renew`, `release`, and `break`.  
   
--   `Breaking`, lease has been broken, but the lease will continue to be locked until the break period has expired. Allowed actions: `release` and `break`.  
+- `Breaking`, lease has been broken, but the lease will continue to be locked until the break period has expired. Allowed actions: `release` and `break`.  
   
--   `Broken`, lease has been broken, and the break period has expired. Allowed actions: `acquire`, `release`, and `break`.  
+- `Broken`, lease has been broken, and the break period has expired. Allowed actions: `acquire`, `release`, and `break`.  
   
- Once a lease has expired, the lease ID is maintained by the Blob service until the blob is modified or leased again. A client may attempt to renew or release their lease using their expired lease ID and know that if the operation is successful, the blob has not been changed since the lease ID was last valid.  
+  Once a lease has expired, the lease ID is maintained by the Blob service until the blob is modified or leased again. A client may attempt to renew or release their lease using their expired lease ID and know that if the operation is successful, the blob has not been changed since the lease ID was last valid.  
   
- If the client attempts to renew or release a lease with their previous lease ID and the request fails, the client then knows that the blob was modified or leased again since their lease was last active. The client must then acquire a new lease on the blob.  
+  If the client attempts to renew or release a lease with their previous lease ID and the request fails, the client then knows that the blob was modified or leased again since their lease was last active. The client must then acquire a new lease on the blob.  
   
- If a lease expires rather than being explicitly released, a client may need to wait up to one minute before a new lease can be acquired for the blob. However, the client can renew the lease with their lease ID immediately if the blob has not been modified.  
+  If a lease expires rather than being explicitly released, a client may need to wait up to one minute before a new lease can be acquired for the blob. However, the client can renew the lease with their lease ID immediately if the blob has not been modified.  
   
- Note that a lease cannot be granted for a blob snapshot, since snapshots are read-only. Requesting a lease against a snapshot results in status code 400 (Bad Request).  
+  Note that a lease cannot be granted for a blob snapshot, since snapshots are read-only. Requesting a lease against a snapshot results in status code 400 (Bad Request).  
   
- The blob's `Last-Modified-Time` property is not updated by calls to `Lease Blob`.  
+  The blob's `Last-Modified-Time` property is not updated by calls to `Lease Blob`.  
   
- The following tables show outcomes of actions on blobs with leases in various lease states. Letters (A), (B), and (C) represent lease IDs, and (X) represents a lease ID generated by the Blob service.  
+  The following tables show outcomes of actions on blobs with leases in various lease states. Letters (A), (B), and (C) represent lease IDs, and (X) represents a lease ID generated by the Blob service.  
   
 ### Outcomes of use attempts on blobs by lease state  
   

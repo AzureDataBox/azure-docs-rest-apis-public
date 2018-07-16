@@ -41,7 +41,6 @@ API operations may also return additional error information that is defined by S
         "Message": "string-message"
     }
 }
-
 ```  
 
 
@@ -51,7 +50,6 @@ For example, trying to get services of an unknown Service Fabric application wou
 
 ```
 http:/localhost:19080/Applications/UnknownApp/$/GetServices?api-version=6.0
-
 ```
 
 **Response**
@@ -64,5 +62,4 @@ http:/localhost:19080/Applications/UnknownApp/$/GetServices?api-version=6.0
         "Message": "Application not found"
     }
 }
-
 ```

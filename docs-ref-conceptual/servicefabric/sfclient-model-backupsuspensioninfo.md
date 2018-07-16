@@ -33,6 +33,7 @@ Describes the backup suspension details.
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`IsSuspended`](#issuspended) | boolean | No |

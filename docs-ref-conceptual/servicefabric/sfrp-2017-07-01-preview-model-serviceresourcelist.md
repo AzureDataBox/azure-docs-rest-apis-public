@@ -30,6 +30,7 @@ translation.priority.mt:
 The list of service resources.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [value](#value) | array of [ServiceResource](sfrp-2017-07-01-preview-model-serviceresource.md) | No |

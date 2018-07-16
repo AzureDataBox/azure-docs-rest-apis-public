@@ -33,6 +33,7 @@ Represents a PropertyBatchOperation that compares the Boolean existence of a pro
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [Kind](#kind) | string | Yes |

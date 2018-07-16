@@ -30,6 +30,7 @@ translation.priority.mt:
 Describes the policy used when upgrading the cluster.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [forceRestart](#forcerestart) | boolean | No |

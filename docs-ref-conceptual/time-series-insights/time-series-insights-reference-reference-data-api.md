@@ -264,7 +264,6 @@ Assume a reference data set that defines a single key with name *deviceId* and t
         "deviceId": "Fan2"
     }]
 }
-
 ```
 
 ### *Get* operation response message example
@@ -284,7 +283,6 @@ Assume a reference data set that defines a single key with name *deviceId* and t
         "floor": 18
     }]
 }
-
 ```
 
 ### *Get* operation validations

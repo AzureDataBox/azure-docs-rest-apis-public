@@ -162,6 +162,7 @@ JSON example:
 ```
 
 Time Series Insights supports the following **boolean comparison expressions**:
+
 | Property Name in JSON | Description |
 |-|-|
 | `"eq"` | equal |
@@ -189,6 +190,7 @@ JSON example:
 ```
 
 The following table shows supported types of arguments for each of the comparison expressions:
+
 | Argument Type | Supported comparison operation |
 |-|-|
 | Bool | `eq`, `in` |
@@ -264,6 +266,7 @@ JSON example:
 ```
 
 The following table shows supported types of arguments for each of the comparison expressions:
+
 | Operation | Left type | Right type | Result type |
 |-|-|-|-|
 | `add` | Double | Double | Double |
@@ -339,6 +342,7 @@ The same set of Time Series Insights types is supported for predicate string.
 Unlike the JSON property reference expressions, a type for property can be omitted in which case a type is auto-resolved as it is explained below.
 
 Supported literals:
+
 | Primitive Type | Literals |
 |--|--|
 | Bool  | TRUE, FALSE |
@@ -349,6 +353,7 @@ Supported literals:
 |  | NULL |
 
 Supported operand types:
+
 | Operation | Supported Types | Notes |
 |--|--|--|--|
 | <, >, <=, >= | Double, DateTime, TimeSpan | |
@@ -358,6 +363,7 @@ Supported operand types:
 | HAS | String | Only constant string literals are allowed at right-hand side. Empty string and NULL are not allowed. |
 
 Supported scalar functions:
+
 | Function name | Return value | Arguments | Example | Notes |
 |--|--|--|--|--|
 | utcNow | DateTime | None | utcNow() | Returns current time in UTC format. Function name is case-sensitive. |
@@ -374,57 +380,63 @@ Errors occur when types of left and right sides do not agree, or operation is no
    * Any property type is accepted against NULL literal
    * Otherwise, types of left-hand side and right-hand side should match
 
-    Here are examples given properties "p1" and "p2" of type String, and property "p3" of type Double:
+     Here are examples given properties "p1" and "p2" of type String, and property "p3" of type Double:
 
-    | Predicate string | Is valid? | Notes |
-    | - | - | - |
-    | p1.String = 'abc' | Yes | |
-    | p1.String = p2.String | Yes | |
-    | p1.String = NULL | Yes | NULL matches any left-hand side type. |
-    | p3.Double = 'abc' | No | Type mismatch. |
-    | p3.Double = p1.String | No | Type mismatch. |
-    | p1.String HAS 'abc' | Yes | |
-    | p3.Double HAS '1.0' | Yes | String literal was successfully parsed to a Double value. |
+
+     |   Predicate string    | Is valid? |                           Notes                           |
+     |-----------------------|-----------|-----------------------------------------------------------|
+     |   p1.String = 'abc'   |    Yes    |                                                           |
+     | p1.String = p2.String |    Yes    |                                                           |
+     |   p1.String = NULL    |    Yes    |           NULL matches any left-hand side type.           |
+     |   p3.Double = 'abc'   |    No     |                      Type mismatch.                       |
+     | p3.Double = p1.String |    No     |                      Type mismatch.                       |
+     |  p1.String HAS 'abc'  |    Yes    |                                                           |
+     |  p3.Double HAS '1.0'  |    Yes    | String literal was successfully parsed to a Double value. |
+
 
 2. If type is omitted for property but name is specified, then the following steps are performed:
 
-    1. All properties with given name and types are taken.
-    2. Left-hand side and right-hand side operands are grouped in pairs by type.
-    3. Pairs are concatenated via `AND` operation.
+   1. All properties with given name and types are taken.
+   2. Left-hand side and right-hand side operands are grouped in pairs by type.
+   3. Pairs are concatenated via `AND` operation.
 
-    Here are examples given properties "p1" and "p2" of type String and Double:
+      Here are examples given properties "p1" and "p2" of type String and Double:
 
-    | Predicate string | Equivalent strong-typed predicate string | Notes |
-    |--|--|--|--|
-    | p1 = 'abc' | p1.String = 'abc' |  |
-    | p1 = true | - | No p1 property of type Bool, so missing property error is emitted. |
-    | p1 = NULL | p1.String = NULL AND p1.Double = NULL | For NULL right-hand side it is assumed that all matching properties should be NULL. |
-    | p1 != NULL | p1.String != NULL OR p1.Double != NULL | Inversion of the preceding expression |
-    | p1 = '1.0' | p1.String = '1.0' |  |
-    | p1 IN (1.0, NULL) | p1.Double = 1.0 OR p1.Double = NULL |  |
-    | p1 IN (NULL) | p1.String = NULL AND p1.Double = NULL | Equivalent to p1 = NULL. |
-    | p1 HAS '1.0' | p1.String HAS '1.0' OR p1.Double = 1.0 | String literal was successfully parsed to a valid Double value. |
-    | p1 HAS 'true' | p1.String HAS 'true' | String literal was successfully parsed to Bool but no p1.Bool property exists. |
-    | p1 = p2 | p1.String = p2.String AND p1.Double = p2.Double |  |
-    | p1 != p2 | p1.String != p2.String OR p1.Double != p2.Double | Inversion of the preceding expression |
+
+      | Predicate string  |     Equivalent strong-typed predicate string     |                                        Notes                                        |
+      |-------------------|--------------------------------------------------|-------------------------------------------------------------------------------------|
+      |    p1 = 'abc'     |                p1.String = 'abc'                 |                                                                                     |
+      |     p1 = true     |                        -                         |         No p1 property of type Bool, so missing property error is emitted.          |
+      |     p1 = NULL     |      p1.String = NULL AND p1.Double = NULL       | For NULL right-hand side it is assumed that all matching properties should be NULL. |
+      |    p1 != NULL     |      p1.String != NULL OR p1.Double != NULL      |                        Inversion of the preceding expression                        |
+      |    p1 = '1.0'     |                p1.String = '1.0'                 |                                                                                     |
+      | p1 IN (1.0, NULL) |       p1.Double = 1.0 OR p1.Double = NULL        |                                                                                     |
+      |   p1 IN (NULL)    |      p1.String = NULL AND p1.Double = NULL       |                              Equivalent to p1 = NULL.                               |
+      |   p1 HAS '1.0'    |      p1.String HAS '1.0' OR p1.Double = 1.0      |           String literal was successfully parsed to a valid Double value.           |
+      |   p1 HAS 'true'   |               p1.String HAS 'true'               |   String literal was successfully parsed to Bool but no p1.Bool property exists.    |
+      |      p1 = p2      | p1.String = p2.String AND p1.Double = p2.Double  |                                                                                     |
+      |     p1 != p2      | p1.String != p2.String OR p1.Double != p2.Double |                        Inversion of the preceding expression                        |
+
 
 3. Both property name and type can be omitted for left-hand side property if type of right-hand side is well-defined: right-hand side has const literal(s) and NULL literal is not the only right-hand side literal.
-This case is a generalization of full-text search `HAS` operand.
-All properties matching the right-hand side type are taken, and resulting expressions concatenated via `OR` operation.
-Here are examples given properties "p1" of type String and Double and properties "p2" of type String and DateTime:
+   This case is a generalization of full-text search `HAS` operand.
+   All properties matching the right-hand side type are taken, and resulting expressions concatenated via `OR` operation.
+   Here are examples given properties "p1" of type String and Double and properties "p2" of type String and DateTime:
 
-    | Predicate string | Equivalent strong-typed predicate string | Notes |
-    |--|--|--|--|
-    | = 'abc' | p1.String = 'abc' OR p2.String = 'abc' |  |
-    | != 'abc' | p1.String != 'abc' AND p2.String != 'abc' | Inversion of the preceding expression |
-    | = 1.0 | p1.Double = 1.0 | |
-    | = dt'2000-01-02T03:04:05' | p2.DateTime = dt'2000-01-02T03:04:05' | |
-    | = true | - | Error. No Bool property exists, so missing property error is emitted. |
-    | = NULL | - | Error. Omitting property name for NULL right-hand side is not allowed. |
-    | IN (NULL) | - | Same as above. |
-    | IN (1.0, NULL) | p1.Double = 1.0 OR p1.Double = NULL |  |
-    | HAS '1.0' | p1.String HAS '1.0' OR p1.Double = 1.0 OR p2.String HAS '1.0' |  |
-    | HAS 'true' | p1.String HAS 'true' OR p2.String HAS 'true' | No property with type Bool. |
+
+   |     Predicate string      |           Equivalent strong-typed predicate string            |                                 Notes                                  |
+   |---------------------------|---------------------------------------------------------------|------------------------------------------------------------------------|
+   |          = 'abc'          |            p1.String = 'abc' OR p2.String = 'abc'             |                                                                        |
+   |         != 'abc'          |           p1.String != 'abc' AND p2.String != 'abc'           |                 Inversion of the preceding expression                  |
+   |           = 1.0           |                        p1.Double = 1.0                        |                                                                        |
+   | = dt'2000-01-02T03:04:05' |             p2.DateTime = dt'2000-01-02T03:04:05'             |                                                                        |
+   |          = true           |                               -                               | Error. No Bool property exists, so missing property error is emitted.  |
+   |          = NULL           |                               -                               | Error. Omitting property name for NULL right-hand side is not allowed. |
+   |         IN (NULL)         |                               -                               |                             Same as above.                             |
+   |      IN (1.0, NULL)       |              p1.Double = 1.0 OR p1.Double = NULL              |                                                                        |
+   |         HAS '1.0'         | p1.String HAS '1.0' OR p1.Double = 1.0 OR p2.String HAS '1.0' |                                                                        |
+   |        HAS 'true'         |         p1.String HAS 'true' OR p2.String HAS 'true'          |                      No property with type Bool.                       |
+
 
 4. If operator is omitted together with property name, the `HAS` operation is assumed.
 
@@ -444,6 +456,7 @@ JSON example:
 **Dimension expressions** are used inside *aggregates clause* to partition a set of events and assign a scalar key to each partition.
 
 Dimension expression types:
+
 | Property name in JSON | Description | Example |
 |-|-|-|
 | `"uniqueValues"` | Dimension values in the result are exact values of a given property. |  |
@@ -583,7 +596,7 @@ One can use **First** and **Last** expressions to understand the earliest or lat
 ```
 
 Another example is to use **Last** to find the last reported location of a particular object, like a ship, vehicle, or other moving object.    
- 
+
 To illustrate a query that produces the last known location of the ships in a fleet, a user could author a query similar to the following: 
 
 ```json
@@ -666,6 +679,7 @@ One more example is to use **First** to find a device reporting the lowest press
 
 
 Supported dimension and measure expressions depending on property type:
+
 | Property Type | Supported Dimension Expressions | Supported Measure Expressions |
 |-|-|-|-|
 | Bool | `"uniqueValues"` | `"first"` (input), `"last"` (input) |

@@ -30,6 +30,7 @@ translation.priority.mt:
 The list of application resources.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [value](#value) | array of [ApplicationResource](sfrp-2017-07-01-preview-model-applicationresource.md) | No |

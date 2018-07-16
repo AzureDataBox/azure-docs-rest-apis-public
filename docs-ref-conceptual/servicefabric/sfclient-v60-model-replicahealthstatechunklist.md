@@ -33,6 +33,7 @@ The list of replica health state chunks that respect the input filters in the ch
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [Items](#items) | array of [ReplicaHealthStateChunk](sfclient-v60-model-replicahealthstatechunk.md) | No |

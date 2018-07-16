@@ -30,6 +30,7 @@ translation.priority.mt:
 Cluster update request
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [properties](#properties) | [ClusterPropertiesUpdateParameters](sfrp-model-clusterpropertiesupdateparameters.md) | No |

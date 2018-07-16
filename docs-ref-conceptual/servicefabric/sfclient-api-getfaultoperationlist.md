@@ -33,12 +33,14 @@ Gets a list of user-induced fault operations filtered by provided input.
 Gets the a list of user-induced fault operations filtered by provided input.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/Faults/?api-version=6.0&TypeFilter={TypeFilter}&StateFilter={StateFilter}&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`api-version`](#api-version) | string | Yes | Query |

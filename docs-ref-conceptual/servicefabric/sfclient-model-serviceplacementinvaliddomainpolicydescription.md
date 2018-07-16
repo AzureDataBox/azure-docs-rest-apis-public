@@ -32,6 +32,7 @@ translation.priority.mt:
 Describes the policy to be used for placement of a Service Fabric service where a particular fault or upgrade domain should not be used for placement of the instances or replicas of that service.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Type`](#type) | string | Yes |

@@ -32,6 +32,7 @@ translation.priority.mt:
 Container Deactivated event.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Kind`](#kind) | string | Yes |

@@ -34,12 +34,14 @@ Creates a backup policy which can be associated later with a Service Fabric appl
 
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | POST | `/BackupRestore/BackupPolicies/$/Create?api-version=6.2-preview&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`api-version`](#api-version) | string | Yes | Query |

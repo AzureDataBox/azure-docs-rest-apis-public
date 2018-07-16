@@ -34,6 +34,7 @@ Can be returned during cluster upgrade when the aggregated health state of the c
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Kind`](#kind) | string | Yes |

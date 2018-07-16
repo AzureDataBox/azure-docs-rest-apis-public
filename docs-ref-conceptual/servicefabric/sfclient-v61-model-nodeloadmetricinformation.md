@@ -32,6 +32,7 @@ translation.priority.mt:
 Represents data structure that contains load information for a certain metric on a node.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [Name](#name) | string | No |

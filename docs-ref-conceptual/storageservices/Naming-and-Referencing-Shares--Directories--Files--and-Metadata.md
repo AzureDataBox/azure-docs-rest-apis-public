@@ -35,17 +35,17 @@ A storage account can contain zero or more Azure File shares. A share contains p
 ## Share Names  
  The rules for File service share names are more restrictive than what is prescribed by the SMB protocol for SMB share names, so that the Blob and File services can share similar naming conventions for containers and shares. The naming restrictions for shares are as follows:  
   
--   A share name must be a valid DNS name.  
+- A share name must be a valid DNS name.  
   
--   Share names must start with a letter or number, and can contain only letters, numbers, and the dash (-) character.  
+- Share names must start with a letter or number, and can contain only letters, numbers, and the dash (-) character.  
   
--   Every dash (-) character must be immediately preceded and followed by a letter or number; consecutive dashes are not permitted in share names.  
+- Every dash (-) character must be immediately preceded and followed by a letter or number; consecutive dashes are not permitted in share names.  
   
--   All letters in a share name must be lowercase.  
+- All letters in a share name must be lowercase.  
   
--   Share names must be from 3 through 63 characters long.  
+- Share names must be from 3 through 63 characters long.  
   
- For those interested, the below table shows a comparison of the naming restrictions for the SMB protocol as well as for the Blob service today:  
+  For those interested, the below table shows a comparison of the naming restrictions for the SMB protocol as well as for the Blob service today:  
   
 |[Naming and Referencing Containers, Blobs, and Metadata](Naming-and-Referencing-Containers--Blobs--and-Metadata.md)|[SMB Share Name Restrictions](http://msdn.microsoft.com/library/cc422525\(v=prot.13\))|  
 |-------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------|  
@@ -54,23 +54,23 @@ A storage account can contain zero or more Azure File shares. A share contains p
 ## Directory and File Names  
  The Azure File service naming rules for directory and file names are as follows:  
   
--   Directory and file names are case-preserving and case-insensitive.  
+- Directory and file names are case-preserving and case-insensitive.  
   
--   Directory and file component names must be no more than 255 characters in length.  
+- Directory and file component names must be no more than 255 characters in length.  
   
--   Directory names cannot end with the forward slash character (/). If provided, it will be automatically removed.  
+- Directory names cannot end with the forward slash character (/). If provided, it will be automatically removed.  
   
--   File names must not end with the forward slash character (/).  
+- File names must not end with the forward slash character (/).  
   
--   Reserved URL characters must be properly escaped.  
+- Reserved URL characters must be properly escaped.  
   
--   The following characters are not allowed: `" \ / : | < > * ?`  
+- The following characters are not allowed: `" \ / : | < > * ?`  
   
--   Illegal URL path characters not allowed. Code points like `\uE000`, while valid in NTFS filenames, are not valid Unicode characters. In addition, some ASCII or Unicode characters, like control characters (`0x00` to `0x1F`, `\u0081`, etc.), are also not allowed. For rules governing Unicode strings in HTTP/1.1 see [RFC 2616, Section 2.2: Basic Rules](http://www.ietf.org/rfc/rfc2616.txt) and [RFC 3987](http://www.ietf.org/rfc/rfc3987.txt).  
+- Illegal URL path characters not allowed. Code points like `\uE000`, while valid in NTFS filenames, are not valid Unicode characters. In addition, some ASCII or Unicode characters, like control characters (`0x00` to `0x1F`, `\u0081`, etc.), are also not allowed. For rules governing Unicode strings in HTTP/1.1 see [RFC 2616, Section 2.2: Basic Rules](http://www.ietf.org/rfc/rfc2616.txt) and [RFC 3987](http://www.ietf.org/rfc/rfc3987.txt).  
   
--   The following file names are not allowed: LPT1, LPT2, LPT3, LPT4, LPT5, LPT6, LPT7, LPT8, LPT9, COM1, COM2, COM3, COM4, COM5, COM6, COM7, COM8, COM9, PRN, AUX, NUL, CON, CLOCK$, dot character (.), and two dot characters (..).  
+- The following file names are not allowed: LPT1, LPT2, LPT3, LPT4, LPT5, LPT6, LPT7, LPT8, LPT9, COM1, COM2, COM3, COM4, COM5, COM6, COM7, COM8, COM9, PRN, AUX, NUL, CON, CLOCK$, dot character (.), and two dot characters (..).  
   
- For those interested, the below table shows a comparison of the naming restrictions for the SMB protocol as well as the Blob service today:  
+  For those interested, the below table shows a comparison of the naming restrictions for the SMB protocol as well as the Blob service today:  
   
 |[Naming and Referencing Containers, Blobs, and Metadata](Naming-and-Referencing-Containers--Blobs--and-Metadata.md)|[SMB Protocol Name Restrictions](http://msdn.microsoft.com/library/cc422524\(v=prot.13\))|  
 |-------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|  

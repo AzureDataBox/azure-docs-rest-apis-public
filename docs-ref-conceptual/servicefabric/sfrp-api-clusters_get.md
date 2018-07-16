@@ -31,12 +31,14 @@ Gets a Service Fabric cluster resource.
 Get a Service Fabric cluster resource created or in the process of being created in the specified resource group.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}?api-version=2018-02-01` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [resourceGroupName](#resourcegroupname) | string | Yes | Path |

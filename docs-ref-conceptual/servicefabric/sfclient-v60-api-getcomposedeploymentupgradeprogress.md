@@ -33,12 +33,14 @@ Gets details for the latest upgrade performed on this Service Fabric compose dep
 Returns the information about the state of the compose deployment upgrade along with details to aid debugging application health issues.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/ComposeDeployments/{deploymentName}/$/GetUpgradeProgress?api-version=6.0-preview&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [deploymentName](#deploymentname) | string | Yes | Path |

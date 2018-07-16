@@ -32,6 +32,7 @@ translation.priority.mt:
 Represents a scaling policy related to an average load of a metric/resource of a service.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Kind`](#kind) | string | Yes |

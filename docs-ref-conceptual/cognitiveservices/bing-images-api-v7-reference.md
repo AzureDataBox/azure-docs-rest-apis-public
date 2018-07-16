@@ -18,33 +18,34 @@ ms.author: scottwhi
 The Image Search API lets you send a search query to Bing and get back a list of relevant images. This section provides technical details about the query parameters and headers that you use to request images and the JSON response objects that contain them. For examples that show how to make requests, see [Searching the Web for Images](https://docs.microsoft.com/azure/cognitive-services/bing-image-search/search-the-web).  
 
 For information about the headers that requests should include, see [Request Headers](#headers).  
-  
+
 For information about the query parameters that requests should include, see [Query Parameters](#query-parameters).  
-  
+
 For information about the JSON response objects that responses may include, see [Response Objects](#response-objects).  
 
 For information about permitted use and display of results, see [Bing Search API Use and Display requirements](https://docs.microsoft.com/azure/cognitive-services/bing-image-search/useanddisplayrequirements).
 
-  
+
 ## Endpoints  
 
 To request images, send a GET request to one of the following URLs:
-  
-|Endpoint|Description|  
-|--------------|-----------------|  
-|https://api.cognitive.microsoft.com/bing/v7.0/images/search|Returns images that are relevant to the users search query.|  
-|https://api.cognitive.microsoft.com/bing/v7.0/images/details|Returns insights about an image, such as webpages that include the image.|  
-|https://api.cognitive.microsoft.com/bing/v7.0/images/trending|Returns images that are trending based on search requests made by others. The images are broken out into different categories. For example, Popular People Searches.<br /><br /> For a list of markets that support trending images, see [Trending Images](https://docs.microsoft.com/azure/cognitive-services/bing-image-search/trending-images).|  
+
+
+|                           Endpoint                            |                                                                                                                                                                    Description                                                                                                                                                                     |
+|---------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|  https://api.cognitive.microsoft.com/bing/v7.0/images/search  |                                                                                                                                            Returns images that are relevant to the users search query.                                                                                                                                             |
+| https://api.cognitive.microsoft.com/bing/v7.0/images/details  |                                                                                                                                     Returns insights about an image, such as webpages that include the image.                                                                                                                                      |
+| https://api.cognitive.microsoft.com/bing/v7.0/images/trending | Returns images that are trending based on search requests made by others. The images are broken out into different categories. For example, Popular People Searches.<br /><br /> For a list of markets that support trending images, see [Trending Images](https://docs.microsoft.com/azure/cognitive-services/bing-image-search/trending-images). |
 
 The request must use the HTTPS protocol.  
 
 > [!NOTE]
 > The maximum URL length is 2,048 characters. To ensure that your URL length does not exceed the limit, the maximum length of your query parameters should be less than 1,500 characters. If the URL exceeds 2,048 characters, the server returns 404 Not found.  
-  
-  
+
+
 ## Headers  
 The following are the headers that a request and response may include.  
-  
+
 |Header|Description|  
 |------------|-----------------|  
 |Accept|Optional request header.<br /><br /> The default media type is application/json. To specify that the response use [JSON-LD](http://json-ld.org/), set the Accept header to application/ld+json.|  
@@ -62,12 +63,12 @@ The following are the headers that a request and response may include.
 
 > [!NOTE] 
 > Remember that the Terms of Use require compliance with all applicable laws, including regarding use of these headers. For example, in certain jurisdictions, such as Europe, there are requirements to obtain user consent before placing certain tracking devices on user devices.
-  
-   
+
+
 ## Query parameters 
 
 The following are the query parameters that a request may include. See the Required column for required parameters. You must URL encode the query parameter values. For information about query parameters that you use to filter the images that Bing returns, see [Filter Query Parameters](#filter).  
-  
+
 |Name|Value|Type|Required|  
 |----------|-----------|----------|--------------|  
 |<a name="cab" />cab|The bottom coordinate of the region to crop.<br /><br /> The coordinate is a fractional value of the original image's height and is measured from the top, left corner of the image. Specify the coordinate as a value from 0.0 through 1.0.<br /><br /> Use this parameter only with the Insights API. Do not specify this parameter when calling the Images, Trending Images, or Web Search APIs.|Float|No|  
@@ -90,9 +91,9 @@ The following are the query parameters that a request may include. See the Requi
 
 ## Filter query parameters  
 The following are the optional filter query parameters that you can use to filter the images that Bing returns. You must URL encode the query parameters.  
-  
+
 Use these parameters only with the Image Search API. Do not specify these parameters when calling the Trending Images API or Web Search API.  
-  
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |<a name="aspect" />aspect|Filter images by the following aspect ratios: <br /><ul><li>Square&mdash;Return images with standard aspect ratio</li><li>Wide&mdash;Return images with wide screen aspect ratio</li><li>Tall&mdash;Return images with tall aspect ratio<br /></li><li>All&mdash;Do not filter by aspect. Specifying this value is the same as not specifying the `aspect` parameter.</li></ul>|String|  
@@ -110,10 +111,10 @@ Use these parameters only with the Image Search API. Do not specify these parame
 |<a name="minwidth" />minWidth|Filter images that have a width that is greater than or equal to the specified width. Specify the width in pixels.<br /><br /> You may specify this filter and `maxWidth` to filter images within a range of widths.<br /><br /> This filter and the `width` filter are mutually exclusive.|Integer|  
 |<a name="size" />size|Filter images by the following sizes:<br /><ul><li>Small&mdash;Return images that are less than 200x200 pixels<br /><br/></li><li>Medium&mdash;Return images that are greater than or equal to 200x200 pixels but less than 500x500 pixels<br /><br/></li><li>Large&mdash;Return images that are 500x500 pixels or larger<br /><br/></li><li>Wallpaper&mdash;Return wallpaper images.<br /><br/></li><li>All&mdash;Do not filter by size. Specifying this value is the same as not specifying the `size` parameter.</li></ul><br /> You may use this parameter along with the `height` or `width` parameters. For example, you may use `height` and `size` to request small images that are 150 pixels tall.|String|  
 |<a name="width" />width|Filter images that have the specified width, in pixels.<br /><br /> You may use this filter with the `size` filter to return small images that have a width of 150 pixels.|UnsignedShort|  
-  
+
 ## Response objects  
 The following are the JSON objects that the response may include. If the request succeeds, the top-level object in the response is the [Images](#images) object if the endpoint is /images/search, [ImageInsightsResponse](#imageinsightsresponse) if endpoint is /images/details, and [TrendingImages](#trendingimages) if the endpoint is /images/trending. If the request fails, the top-level object is the [ErrorResponse](#errorresponse) object. 
-  
+
 |Object|Description|  
 |------------|-----------------|  
 |[AggregateOffer](#aggregateoffer)|Defines a list of offers from merchants that are related to the image.|  
@@ -149,39 +150,39 @@ The following are the JSON objects that the response may include. If the request
 |[Thumbnail](#thumbnail)|Defines a thumbnail image.|  
 |[Tile](#thumbnail)|Defines an image tile.|  
 |[TrendingImages](#trendingimages)|The top-level object that the response includes when a trending images request succeeds.|  
-  
+
 <a name="aggregateoffer"></a>   
 ### AggregateOffer  
 Defines a list of offers from merchants that are related to the image.  
-  
+
 |Element|Description|Type|  
 |-------------|-----------------|----------|  
 |<a name="offers" />offers|A list of offers from merchants that have offerings related to the image.|[Offer](#offer)[]|  
-  
+
 <a name="aggregaterating"></a>   
 ### AggregateRating  
 Defines the metrics that indicate how well an item was rated by others.  
-  
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |<a name="bestrating" />bestRating|The highest rated review. The possible values are 1.0 through 5.0.|float|  
 |<a name="ratingvalue" />ratingValue|The mean (average) rating. The possible values are 1.0 through 5.0.|float|  
 |<a name="reviewcount" />reviewCount|The number of times the recipe has been rated or reviewed.|Unsigned Integer|  
 |<a name="rating-text" />text|The mean (average) rating, in string form.|String|  
-  
+
 <a name="category"></a>   
 ### Category  
 Defines the category of trending images.  
-  
+
 |Element|Description|Type|  
 |-------------|-----------------|----------|  
 |<a name="tiles" />tiles|A list of images that are trending in the category. Each tile contains an image and a URL that returns more images of the subject. For example, if the category is Popular People Searches, the image is of a popular person and the URL would return more images of that person.|[Tile](#tile)[]|  
 |<a name="category-title" />title|The name of the image category. For example, Popular People Searches.|String|  
-  
+
 <a name="error"></a>   
 ### Error  
 Defines the error that occurred.  
-  
+
 |Element|Description|Type|  
 |-------------|-----------------|----------|  
 |<a name="error-code" />code|The error code that identifies the category of error. For a list of possible codes, see [Error Codes](#error-codes).|String|  
@@ -190,23 +191,23 @@ Defines the error that occurred.
 |<a name="error-parameter" />parameter|The query parameter in the request that caused the error.|String|  
 |<a name="error-subcode" />subCode|The error code that identifies the error. For example, if `code` is InvalidRequest, `subCode` may be ParameterInvalid or ParameterInvalidValue. |String|  
 |<a name="error-value" />value|The query parameter's value that was not valid.|String|  
-  
+
 <a name="errorresponse"></a>   
 ### ErrorResponse  
 The top-level object that the response includes when the request fails.  
-  
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |_type|Type hint.|String|  
 |<a name="errors" />errors|A list of errors that describe the reasons why the request failed.|[Error](#error)[]|  
-  
+
 <a name="image"></a>   
 ### Image  
 Defines an image that is relevant to the query.  
-  
+
 > [!NOTE]
 > Because the URL format and parameters are subject to change without notice, use all URLs as-is. You should not take dependencies on the URL format or parameters. The exception is those parameters and values discussed by [Resizing and Cropping Thumbnails](https://docs.microsoft.com/azure/cognitive-services/bing-image-search/resize-and-crop-thumbnails).  
-  
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |<a name="image-accentcolor" />accentColor|A three-byte hexadecimal number that represents the color that dominates the image. Use the color as the temporary background in your client until the image is loaded.|String|  
@@ -226,21 +227,21 @@ Defines an image that is relevant to the query.
 |<a name="image-thumbnailurl" />thumbnailUrl|The URL to a thumbnail of the image. For information about resizing the image, see [Resizing Thumbnails](https://docs.microsoft.com/azure/cognitive-services/bing-video-search/resize-and-crop-thumbnails).|String|  
 |webSearchUrl|The URL to the Bing search results for this image.|String|  
 |<a name="image-width" />width|The width of the source image, in pixels.|Unsigned Short|  
-  
+
 <a name="imagecaption"></a>   
 ### ImageCaption  
 Defines an image's caption.  
-  
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |<a name="caption" />caption|A caption about the image.|String|  
 |<a name="caption-datasourceurl" />dataSourceUrl|The URL to the website where the caption was found. You must attribute the caption to the source. For example, by displaying the domain name from the URL next to the caption and using the URL to link to the source website.|String|  
 |<a name="caption-relatedsearches" />relatedSearches|A list of entities found in the caption. Use the contents of the `Query` object to find the entity in the caption and create a link. The link takes the user to images of the entity.|[Query](#query)|  
-  
+
 <a name="imagegallery"></a>   
 ### ImageGallery  
 Defines a link to a webpage that contains a collection of related images.  
-  
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |<a name="gallery-creator" />creator|The person that owns the collection. You must attribute the collection to the creator.|[Person](#person)|  
@@ -251,15 +252,15 @@ Defines a link to a webpage that contains a collection of related images.
 |<a name="gallery-source" />source|The publisher or social network where the images were found. You must attribute the publisher as the source where the collection was found.|String|  
 |<a name="gallery-thumbnailurl" />thumbnailUrl|The URL to a thumbnail of one of the images found in the collection.|String|  
 |<a name="gallery-url" />url|The URL to the webpage that contains the collection of related images.|String|  
-  
+
 <a name="imageinsightsresponse"></a>   
 ### ImageInsights  
 The top-level object that the response includes when an image insights request succeeds.  
-  
+
 For information about requesting image insights, see the [insightsToken](#insightstoken) query parameter.  
-  
+
 The [modules](#modulesrequested) query parameter affects the fields that Bing includes in the response. If you set `modules` to only Caption, then this object includes only the `imageCaption` field.  
-  
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |_type|A type hint, which is set to ImageInsights.|String|  
@@ -275,11 +276,11 @@ The [modules](#modulesrequested) query parameter affects the fields that Bing in
 |<a name="insights-shoppingsources" />shoppingSources|A list of merchants that offer items related to the image. For example, if the image is of an apple pie, the list contains merchants that are selling apple pies.|[AggregateOffer](#aggregateoffer)|  
 |<a name="insights-visuallysimilarimages" />visuallySimilarImages|A list of images that are visually similar to the original image. For example, if the specified image is of a sunset over a body of water, the list of similar images are of a sunset over a body of water.<br /><br /> If the specified image is of a person, similar images might be of the same person or they might be of persons dressed similarly or in a similar setting.<br /><br /> The criteria for similarity continues to evolve.|[ImagesModule](#imagesmodule)|  
 |<a name="insights-visuallysimilarproducts" />visuallySimilarProducts|A list of images that contain products that are visually similar to products found in the original image. For example, if the specified image contains a dress, the list of similar images contain a dress.<br /><br /> The image provides summary information about offers that Bing found online for the product.|[ImagesModule](#imagesmodule)|  
-  
+
 <a name="images"></a>   
 ### Images  
 The top-level object that the response includes when an image request succeeds.  
-  
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |_type|A type hint, which is set to Images.|String|  
@@ -293,59 +294,59 @@ The top-level object that the response includes when an image request succeeds.
 |<a name="totalestimatedmatches" />totalEstimatedMatches|The estimated number of images that are relevant to the query. Use this number along with the [count](#count) and [offset](#offset) query parameters to page the results.<br /><br /> Only the Image Search API includes this field.|Long|  
 |<a name="images-value" />value|A list of images that are relevant to the query.<br /><br /> If there are no results, the array is empty.|[Image](#image)[]|  
 |webSearchUrl|The URL to the Bing search results for the requested images.|String|  
-  
+
 <a name="imagesmodule"></a>   
 ### ImagesModule  
 Defines a list of images.  
-  
+
 |Element|Description|Type|  
 |-------------|-----------------|----------|  
 |value|A list of images.|[Image](#image)[]|  
-  
+
 <a name="imagetagsmodule"></a>   
 ### ImageTagsModule  
 Defines the characteristics of content found in an image.  
-  
+
 |Element|Description|Type|  
 |-------------|-----------------|----------|  
 |value|A list of tags that describe the characteristics of the content found in the image. For example, if the image is of a musical artist, the list might include Female, Dress, and Music to indicate the person is female music artist that's wearing a dress.|[Tag](#tag)[]|  
-  
+
 <a name="insightsmetadata"></a>   
 ### InsightsMetadata  
 Defines a count of the number of websites where you can shop or perform other actions related to the image.  
-  
+
 |Element|Description|Type|  
 |-------------|-----------------|----------|  
 |<a name="insightsmetadata-aggregateoffer" />aggregateOffer|A summary of the online offers of products found in the image. For example, if the image is of a dress, the offer might identify the lowest price and the number of offers found.<br /><br /> Only visually similar products insights include this field.<br /><br /> The offer includes the following fields: `Name`, `AggregateRating`, `OfferCount`, and `LowPrice`.|[Offer](#offer)|  
 |<a name="recipesourcecount" />recipeSourcesCount|The number of websites that offer recipes of the food seen in the image.|Unsigned Integer|  
 |<a name="shoppingsourcecount" />shoppingSourcesCount|The number of websites that offer goods of the products seen in the image.|Unsigned Integer|  
-  
+
 <a name="mediasize"></a>   
 ### MediaSize  
 Defines the size of the media content.  
-  
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |height|The height of the media content, in pixels.|Integer|  
 |width|The width of the media content, in pixels.|Integer|  
-  
+
 <a name="normalizedrectangle"></a>   
 ### NormalizedRectangle  
 Defines a region of an image. The region is defined by the coordinates of the top, left corner and bottom, right corner of the region. The coordinates are fractional values of the original image's width and height in the range 0.0 through 1.0.  
-  
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |bottom|The bottom coordinate.|Float|  
 |left|The left coordinate.|Float|  
 |right|The right coordinate|Float|  
 |top|The top coordinate|Float|  
-  
+
 <a name="offer"></a>   
 ### Offer  
 Defines a merchant's offer.  
-  
+
 The ShoppingSources insights and SimilarProducts insights both use this object. To determine the insight that the field applies to, see the field's description.  
-  
+
 |Element|Description|Type|  
 |-------------|-----------------|----------|  
 |aggregateRating|An aggregated rating that indicates how well the product has been rated by others.<br /><br /> Used by SimilarProducts.|[AggregateRating](#aggregaterating)|  
@@ -359,20 +360,20 @@ The ShoppingSources insights and SimilarProducts insights both use this object. 
 |priceCurrency|The monetary currency. For example, USD.|String|  
 |seller|The merchant's name.<br /><br /> Used by ShoppingSources.|[Organization](#organization)|  
 |url|The URL to the offer on the merchant's website.<br /><br /> Used by ShoppingSources.|String|  
-  
+
 <a name="organization"></a>   
 ### Organization  
 Defines information about a merchant.  
-  
+
 |Element|Description|Type|  
 |-------------|-----------------|----------|  
 |image|The merchant's logo. The `Image` object includes only the `url` field.|[Image](#image)|  
 |name|The merchant's name.|String|  
-  
+
 <a name="person"></a>   
 ### Person  
 Defines a person.  
-  
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |_type|Type hint.|String|  
@@ -383,20 +384,20 @@ Defines a person.
 |twitterProfile|The URL of the person's twitter profile.|String|  
 |url|The URL to the person's social network home page, if applicable.|String|  
 |webSearchUrl|The URL to the Bing search results page that contains information about this person.|String|  
-  
+
 <a name="pivot"></a>   
 ### Pivot  
 Defines the pivot segment.  
-  
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |<a name="pivot-pivot" />pivot|The segment from the original query to pivot on.|String|  
 |<a name="pivot-suggestions" />suggestions|A list of suggested queries for the pivot.|[Query](#query)|  
-  
+
 <a name="query_obj"></a>   
 ### Query  
 Defines a search query string.  
-  
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |displayText|The display version of the query term.<br /><br /> For expanded queries (see [queryExpansions](#queryexpansions)) and pivot suggestions (see [pivotSuggestions](#pivotsuggestions)), this field identifies the term that expanded the original query. For example, if the query was *Microsoft Surface* and the expanded query is *Microsoft Surface RT*, `displayText` would contain *RT*.|String|  
@@ -404,11 +405,11 @@ Defines a search query string.
 |text|The query term.|String|  
 |thumbnail|The URL to a thumbnail of a related image.<br /><br /> The object includes this field only for pivot suggestions and related searches.|[Thumbnail](#thumbnail)|  
 |webSearchUrl|The URL that takes the user to the Bing search results page for the query.<br /><br /> Use this URL if you're not displaying the results in your own user interface. Otherwise, use the `searchUrl` URL.<br /><br /> Included only for related searches.|String|  
-  
+
 <a name="recipe"></a>   
 ### Recipe  
 Defines a cooking recipe.  
-  
+
 |Element|Description|Type|  
 |-------------|-----------------|----------|  
 |aggregateRating|Aggregated ratings that indicate how well the recipe has been rated by others.|[AggregateRating](#aggregaterating)|  
@@ -419,95 +420,95 @@ Defines a cooking recipe.
 |thumbnailUrl|The URL to a thumbnail image of the prepared food.|String|  
 |totalTime|The total amount of time it takes to prepare and cook the recipe. For example, PT45M. For information about the time format, see [http://en.wikipedia.org/wiki/ISO_8601#Durations](http://en.wikipedia.org/wiki/ISO_8601#Durations).|String|  
 |url|The URL that takes the user to the webpage that contains the recipe.|String|  
-  
+
 <a name="recipesmodule"></a>   
 ### RecipesModule  
 Defines a list of recipes.  
-  
+
 |Element|Description|Type|  
 |-------------|-----------------|----------|  
 |value|A list of recipes.|[Recipe](#recipe)[]|  
-  
+
 <a name="recognizedentitiesmodule"></a>   
 ### RecognizedEntitiesModule  
 Defines a list of previously recognized entities.  
-  
+
 |Element|Description|Type|  
 |-------------|-----------------|----------|  
 |value|A list of recognized entities.|[RecognizedEnityGroup](#recognizedentitygroup)[]|  
-  
+
 <a name="recognizedentity"></a>   
 ### RecognizedEntity  
 Defines a recognized entity.  
-  
+
 |Element|Description|Type|  
 |-------------|-----------------|----------|  
 |entity|The entity that was recognized.<br /><br /> The following are the possible entity objects.<br /><ul><li>[Person](#person)</li>|Object|  
 |matchConfidence|The confidence that Bing has that the entity in the image matches this entity. The confidence ranges from 0.0 through 1.0 with 1.0 being very confident.|Float|  
-  
+
 <a name="recognizedentitygroup"></a>   
 ### RecognizedEntityGroup  
 Defines a group of previously recognized entities.  
-  
+
 |Element|Description|Type|  
 |-------------|-----------------|----------|  
 |name|The name of the group where images of the entity were also found.<br /><br /> The following are possible groups.<br /><ul><li>CelebRecognitionAnnotations&mdash;Similar to CelebrityAnnotations but provides a higher probability of an accurate match.<br /><br/></li><li>CelebrityAnnotations&mdash;Contains celebrities such as actors, politicians, athletes, and historical figures.</li></ul>|String|  
 |recognizedEntityRegions|The regions of the image that contain entities.|[RecognizedEntityRegion](#recognizedentityregion)[]|  
-  
+
 <a name="recognizedentityregion"></a>   
 ### RecognizedEntityRegion  
 Defines a region of the image where an entity was found and a list of entities that might match it.  
-  
+
 |Element|Description|Type|  
 |-------------|-----------------|----------|  
 |matchingEntities|A list of entities that Bing believes match the entity found in the region. The entities are in descending order of confidence (see the `matchConfidence` field of RecognizedEntity).|[RecognizedEntity](#recognizedentity)[]|  
 |region|A region of the image that contains an entity.<br /><br /> The values of the rectangle are relative to the width and height of the original image and are in the range 0.0 through 1.0.<br /><br /> For example, if the image is 300x200 and the region's top, left corner is at point (10, 20) and the bottom, right corner is at point (290, 150), then the normalized rectangle is:<br /><br /> Left = 0.0333333333333333<br /><br /> Top = 0.1<br /><br /> Right = 0.9666666666666667<br /><br /> Bottom = 0.75<br /><br /> For people, the region represents the person's face.|[NormalizedRectangle](#normalizedrectangle)|  
-  
+
 <a name="relatedcollectionsmodule"></a>   
 ### RelatedCollectionsModule  
 Defines a list of webpages that contain related images.  
-  
+
 |Element|Description|Type|  
 |-------------|-----------------|----------|  
 |value|A list of webpages that contain related images.|[ImageGallery](#imagegallery)[]|  
-  
+
 <a name="relatedsearchesmodule"></a>   
 ### RelatedSearchesModule  
 Defines a list of related searches made by others.  
-  
+
 |Element|Description|Type|  
 |-------------|-----------------|----------|  
 |value|A list of related searches made by others.|[Query](#query)[]|  
-  
+
 <a name="tag"></a>   
 ### Tag  
 Defines a characteristic of the content found in the image.  
-  
+
 |Element|Description|Type|  
 |-------------|-----------------|----------|  
 |name|The name of the characteristic. For example, cat, kitty, calico cat.|String|  
-  
+
 <a name="thumbnail"></a>   
 ### Thumbnail  
 Defines a thumbnail of an image.  
-  
+
 |Element|Description|Type|  
 |-------------|-----------------|----------|  
 |url|The URL to a thumbnail of an image.|String|  
-  
+
 <a name="tile"></a>   
 ### Tile  
 Defines an image tile.  
-  
+
 |Element|Description|Type|  
 |-------------|-----------------|----------|  
 |image|The URL to the image's thumbnail.|[Image](#image)|  
 |query|A query that returns a Bing search results page with more images of the subject. For example, if the category is Popular People Searches, then the thumbnail is of a popular person. The query would return a Bing search results page with more images of that person.|[Query](#query_obj)|  
-  
+
 <a name="trendingimages"></a>   
 ### TrendingImages  
 The top-level object that the response includes when a trending images request succeeds.  
-  
+
 |Element|Description|Type|  
 |-------------|-----------------|----------|  
 |categories|A list that identifies categories of images and a list of trending images in that category.|[Category](#category)[]|  
@@ -520,9 +521,9 @@ The top-level object that the response includes when a trending images request s
 ## Market codes 
 
 The following table lists the market code values that you may use to specify the `mkt` query parameter. Bing returns content for only these markets. The list is subject to change.  
-  
+
 For a list of country codes that you may specify in the `cc` query parameter, see [Country codes](#countrycodes).  
-  
+
 |Country/Region|Language|Market code|  
 |---------------------|--------------|-----------------|  
 |Argentina|Spanish|es-AR|  
@@ -564,12 +565,12 @@ For a list of country codes that you may specify in the `cc` query parameter, se
 |United Kingdom|English|en-GB|  
 |United States|English|en-US|  
 |United States|Spanish|es-US|  
-  
+
 <a name="countrycodes"></a>   
 ### Country codes  
 
 The following are the country codes that you may specify in the `cc` query parameter. The list is subject to change.  
-  
+
 |Country/Region|Country code|  
 |---------------------|------------------|  
 |Argentina|AR|  

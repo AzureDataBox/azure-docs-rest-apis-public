@@ -32,6 +32,7 @@ translation.priority.mt:
 Describes the parameters for monitoring an upgrade in Monitored mode.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`FailureAction`](#failureaction) | string (enum) | No |

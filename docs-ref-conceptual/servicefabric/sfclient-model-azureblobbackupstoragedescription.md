@@ -32,6 +32,7 @@ translation.priority.mt:
 Describes the parameters for Azure blob store used for storing and enumerating backups.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`StorageKind`](#storagekind) | string | Yes |

@@ -27,17 +27,17 @@ translation.priority.mt:
 # Azure API Management REST API Group entity
 Groups are used to manage the visibility of products to developers. Each API Management service instance comes with the following immutable system groups whose membership is automatically managed by API Management.  
   
--   **Administrators** - Azure subscription administrators are members of this group.  
+- **Administrators** - Azure subscription administrators are members of this group.  
   
--   **Developers** - Authenticated developer portal users fall into this group.  
+- **Developers** - Authenticated developer portal users fall into this group.  
   
--   **Guests** - Unauthenticated developer portal users are placed into this group.  
+- **Guests** - Unauthenticated developer portal users are placed into this group.  
   
- In addition to these system groups, administrators can create custom groups or [leverage external groups in associated Azure Active Directory tenants](https://azure.microsoft.com/documentation/articles/api-management-howto-aad/#how-to-add-an-external-azure-active-directory-group). Custom and external groups can be used alongside system groups in giving developers visibility and access to API products. For example, you could create one custom group for developers affiliated with a specific partner organization and allow them access to the APIs from a product containing relevant APIs only. A user can be a member of more than one group.  
+  In addition to these system groups, administrators can create custom groups or [leverage external groups in associated Azure Active Directory tenants](https://azure.microsoft.com/documentation/articles/api-management-howto-aad/#how-to-add-an-external-azure-active-directory-group). Custom and external groups can be used alongside system groups in giving developers visibility and access to API products. For example, you could create one custom group for developers affiliated with a specific partner organization and allow them access to the APIs from a product containing relevant APIs only. A user can be a member of more than one group.  
   
- This topic describes how to manage groups using the API Management REST API. For more information about working with groups in the publisher portal, see [How to create and use groups to manage developer accounts in Azure API Management](http://go.microsoft.com/fwlink/?LinkId=404000). For more information about adding external Azure Active Directory groups, see [How to add an external Azure Active Directory Group](https://azure.microsoft.com/documentation/articles/api-management-howto-aad/#how-to-add-an-external-azure-active-directory-group).  
+  This topic describes how to manage groups using the API Management REST API. For more information about working with groups in the publisher portal, see [How to create and use groups to manage developer accounts in Azure API Management](http://go.microsoft.com/fwlink/?LinkId=404000). For more information about adding external Azure Active Directory groups, see [How to add an external Azure Active Directory Group](https://azure.microsoft.com/documentation/articles/api-management-howto-aad/#how-to-add-an-external-azure-active-directory-group).  
   
- For more information about working with the REST API, see the [API Management .NET REST API Sample](https://github.com/Azure/api-management-samples/tree/master/restApiDemo) and the [Getting Started with Azure API Management REST API](https://azure.microsoft.com/documentation/videos/getting-started-with-azure-api-management-rest-api/) video.  
+  For more information about working with the REST API, see the [API Management .NET REST API Sample](https://github.com/Azure/api-management-samples/tree/master/restApiDemo) and the [Getting Started with Azure API Management REST API](https://azure.microsoft.com/documentation/videos/getting-started-with-azure-api-management-rest-api/) video.  
   
 ## In this topic  
   
@@ -103,50 +103,50 @@ Groups are used to manage the visibility of products to developers. Each API Man
   
 ```json  
 {  
-  "value": [  
-    {  
-      "id": "/groups/53c765632095310385020001",  
-      "name": "Administrators",  
-      "description": "Administrators is a built-in group. Its membership is managed by the system. Microsoft Azure subscription administrators fall into this group.",  
-      "builtIn": true,  
-      "type": "system",  
-      "externalId": null  
-    },  
-    {  
-      "id": "/groups/5500579df0be6b01208725f7",  
-      "name": "Contoso 5 Developers (contoso5api.onmicrosoft.com)",  
-      "description": "Contoso 5 Developers group",  
-      "builtIn": false,  
-      "type": "external",  
-      "externalId": "aad://contoso5api.onmicrosoft.com/groups/1bab325a-1423-4643-d413-2f2ebbad3f4c"  
-    },  
-    {  
-      "id": "/groups/54dced8af0be6b0ab4491415",  
-      "name": "Partners",  
-      "description": "This is a custom group for developers that are part of a few trusted partner organizations. ",  
-      "builtIn": false,  
-      "type": "custom",  
-      "externalId": null  
-    },  
-    {  
-      "id": "/groups/53c765632095310385020002",  
-      "name": "Developers",  
-      "description": "Developers is a built-in group. Its membership is managed by the system. Signed-in users fall into this group.",  
-      "builtIn": true,  
-      "type": "system",  
-      "externalId": null  
-    },  
-    {  
-      "id": "/groups/53c765632095310385020003",  
-      "name": "Guests",  
-      "description": "Guests is a built-in group. Its membership is managed by the system. Unauthenticated users visiting the developer portal fall into this group.",  
-      "builtIn": true,  
-      "type": "system",  
-      "externalId": null  
-    }  
-  ],  
-  "count": 5,  
-  "nextLink": null  
+  "value": [  
+    {  
+      "id": "/groups/53c765632095310385020001",  
+      "name": "Administrators",  
+      "description": "Administrators is a built-in group. Its membership is managed by the system. Microsoft Azure subscription administrators fall into this group.",  
+      "builtIn": true,  
+      "type": "system",  
+      "externalId": null  
+    },  
+    {  
+      "id": "/groups/5500579df0be6b01208725f7",  
+      "name": "Contoso 5 Developers (contoso5api.onmicrosoft.com)",  
+      "description": "Contoso 5 Developers group",  
+      "builtIn": false,  
+      "type": "external",  
+      "externalId": "aad://contoso5api.onmicrosoft.com/groups/1bab325a-1423-4643-d413-2f2ebbad3f4c"  
+    },  
+    {  
+      "id": "/groups/54dced8af0be6b0ab4491415",  
+      "name": "Partners",  
+      "description": "This is a custom group for developers that are part of a few trusted partner organizations. ",  
+      "builtIn": false,  
+      "type": "custom",  
+      "externalId": null  
+    },  
+    {  
+      "id": "/groups/53c765632095310385020002",  
+      "name": "Developers",  
+      "description": "Developers is a built-in group. Its membership is managed by the system. Signed-in users fall into this group.",  
+      "builtIn": true,  
+      "type": "system",  
+      "externalId": null  
+    },  
+    {  
+      "id": "/groups/53c765632095310385020003",  
+      "name": "Guests",  
+      "description": "Guests is a built-in group. Its membership is managed by the system. Unauthenticated users visiting the developer portal fall into this group.",  
+      "builtIn": true,  
+      "type": "system",  
+      "externalId": null  
+    }  
+  ],  
+  "count": 5,  
+  "nextLink": null  
 }  
 ```  
   
@@ -188,8 +188,8 @@ Groups are used to manage the visibility of products to developers. Each API Man
   "name": "Partners",  
   "description": "This is a custom group for developers that are part of a few trusted partner organizations.",  
   "builtIn": false,  
-   "type": "custom",  
-   "externalId": null  
+   "type": "custom",  
+   "externalId": null  
 }  
 ```  
   

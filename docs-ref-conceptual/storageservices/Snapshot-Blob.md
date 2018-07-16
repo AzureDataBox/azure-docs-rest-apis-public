@@ -106,99 +106,99 @@ The `Snapshot Blob` operation creates a read-only snapshot of a blob.
   
  The DateTime value identifies the snapshot on the URI. For example, a base blob and its snapshots have URIs similar to the following:  
   
--   **Base blob:** `http://myaccount.blob.core.windows.net/mycontainer/myblob`  
+- **Base blob:** `http://myaccount.blob.core.windows.net/mycontainer/myblob`  
   
--   **Snapshot:** `http://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>`  
+- **Snapshot:** `http://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>`  
   
- Note that each time you call the `Snapshot Blob` operation, a new snapshot is created, with a unique DateTime value. A blob can support any number of snapshots. Existing snapshots are never overwritten, but must be deleted explicitly by calling [Delete Blob](Delete-Blob.md) and setting the `x-ms-include-snapshots` header to the appropriate value.  
+  Note that each time you call the `Snapshot Blob` operation, a new snapshot is created, with a unique DateTime value. A blob can support any number of snapshots. Existing snapshots are never overwritten, but must be deleted explicitly by calling [Delete Blob](Delete-Blob.md) and setting the `x-ms-include-snapshots` header to the appropriate value.  
   
- **Reading, Copying, and Deleting Snapshots**  
+  **Reading, Copying, and Deleting Snapshots**  
   
- A successful call to `Snapshot Blob` returns a DateTime value in the `x-ms-snapshot` response header. You can then use this DateTime value to perform read, delete, or copy operations on a particular snapshot version. Any Blob service operation that is valid for a snapshot can be called by specifying `?snapshot=<DateTime>` after the blob name.  
+  A successful call to `Snapshot Blob` returns a DateTime value in the `x-ms-snapshot` response header. You can then use this DateTime value to perform read, delete, or copy operations on a particular snapshot version. Any Blob service operation that is valid for a snapshot can be called by specifying `?snapshot=<DateTime>` after the blob name.  
   
- **Copying Blob Properties and Metadata**  
+  **Copying Blob Properties and Metadata**  
   
- When you create a snapshot of a blob, the following system properties are copied to the snapshot with the same values:  
+  When you create a snapshot of a blob, the following system properties are copied to the snapshot with the same values:  
   
--   `Content-Type`  
+- `Content-Type`  
   
--   `Content-Encoding`  
+- `Content-Encoding`  
   
--   `Content-Language`  
+- `Content-Language`  
   
--   `Content-Length`  
+- `Content-Length`  
   
--   `Cache-Control`  
+- `Cache-Control`  
   
--   `Content-MD5`  
+- `Content-MD5`  
   
--   `x-ms-blob-sequence-number (for page blobs only)`  
+- `x-ms-blob-sequence-number (for page blobs only)`  
   
--   `x-ms-blob-committed-block-count (for append blobs only)`  
+- `x-ms-blob-committed-block-count (for append blobs only)`  
   
--   `x-ms-copy-id` (version 2012-02-12 and newer)  
+- `x-ms-copy-id` (version 2012-02-12 and newer)  
   
--   `x-ms-copy-status` (version 2012-02-12 and newer)  
+- `x-ms-copy-status` (version 2012-02-12 and newer)  
   
--   `x-ms-copy-source` (version 2012-02-12 and newer)  
+- `x-ms-copy-source` (version 2012-02-12 and newer)  
   
--   `x-ms-copy-progress` (version 2012-02-12 and newer)  
+- `x-ms-copy-progress` (version 2012-02-12 and newer)  
   
--   `x-ms-copy-completion-time` (version 2012-02-12 and newer)  
+- `x-ms-copy-completion-time` (version 2012-02-12 and newer)  
   
--   `x-ms-copy-status-description` (version 2012-02-12 and newer)  
+- `x-ms-copy-status-description` (version 2012-02-12 and newer)  
   
- The base blob's committed block list is also copied to the snapshot, if the blob is a block blob. Any uncommitted blocks are not copied.  
+  The base blob's committed block list is also copied to the snapshot, if the blob is a block blob. Any uncommitted blocks are not copied.  
   
- The snapshot blob is always the same size as the base blob at the time the snapshot is taken, so the value of the `Content-Length` header for the snapshot blob will be the same as that for the base blob.  
+  The snapshot blob is always the same size as the base blob at the time the snapshot is taken, so the value of the `Content-Length` header for the snapshot blob will be the same as that for the base blob.  
   
- You can specify one or more new metadata values for the snapshot by specifying the `x-ms-meta-name:value` header on the request. If this header is not specified, the metadata associated with the base blob is copied to the snapshot.  
+  You can specify one or more new metadata values for the snapshot by specifying the `x-ms-meta-name:value` header on the request. If this header is not specified, the metadata associated with the base blob is copied to the snapshot.  
   
- **Specifying Conditional Headers**  
+  **Specifying Conditional Headers**  
   
- You can specify conditional headers on the request to snapshot the blob only if a condition is met. If the specified condition is not met, the snapshot is not created, and the Blob service returns status code 412 (Precondition Failed), along with additional error information about the unmet condition.  
+  You can specify conditional headers on the request to snapshot the blob only if a condition is met. If the specified condition is not met, the snapshot is not created, and the Blob service returns status code 412 (Precondition Failed), along with additional error information about the unmet condition.  
   
- **Creating a Snapshot of a Leased Blob**  
+  **Creating a Snapshot of a Leased Blob**  
   
- If the base blob has an active lease, you can snapshot the blob as long as either of the following conditions are true of the request:  
+  If the base blob has an active lease, you can snapshot the blob as long as either of the following conditions are true of the request:  
   
--   The conditional `x-ms-lease-id` header is specified, and the active lease ID for the base blob is included in the request. This condition specifies that the snapshot be created only if the lease is active and the specified lease ID matches that associated with the blob.  
+- The conditional `x-ms-lease-id` header is specified, and the active lease ID for the base blob is included in the request. This condition specifies that the snapshot be created only if the lease is active and the specified lease ID matches that associated with the blob.  
   
--   The `x-ms-lease-id` header is not specified at all, in which case the exclusive-write lease is ignored.  
+- The `x-ms-lease-id` header is not specified at all, in which case the exclusive-write lease is ignored.  
   
- Note that a lease associated with the base blob is not copied to the snapshot. Snapshots cannot be leased.  
+  Note that a lease associated with the base blob is not copied to the snapshot. Snapshots cannot be leased.  
   
- **Copying Snapshots**  
+  **Copying Snapshots**  
   
- When a base blob is copied using the [Copy Blob](Copy-Blob.md) operation, any snapshots of the base blob are not copied to the destination blob. When a destination blob is overwritten with a copy, any snapshots associated with the destination blob stay intact under its name.  
+  When a base blob is copied using the [Copy Blob](Copy-Blob.md) operation, any snapshots of the base blob are not copied to the destination blob. When a destination blob is overwritten with a copy, any snapshots associated with the destination blob stay intact under its name.  
   
- You can copy a snapshot blob over its base blob to restore an earlier version of a blob. The snapshot remains, but the base blob is overwritten with a copy that can be both read and written.  
+  You can copy a snapshot blob over its base blob to restore an earlier version of a blob. The snapshot remains, but the base blob is overwritten with a copy that can be both read and written.  
 
 > [!NOTE]
-
+> 
 >  - Promoting a snapshot in this way does not incur an additional charge for storage resources, since blocks or pages are shared between the snapshot and the base blob.  
-
+> 
 >  - Setting a blob tier is not allowed on a snapshot or on block blob that has snapshots.
-
+> 
 >  - If a tier is set on the root blob then all snapshots will inherit tier from base blob.
-
+> 
 >  - Snapshot on an archived blob will fail.
-
+> 
 >  - For detailed information about block blob level tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/en-us/azure/storage/storage-blob-storage-tiers).
   
  **Snapshots in Premium Storage Accounts**  
   
  There are a few differences between Azure Premium Storage accounts and standard storage accounts in terms of snapshots:  
   
--   The number of snapshots per page blob in a Premium Storage account is limited to 100. If that limit is exceeded, the `Snapshot Blob` operation returns error code 409 (SnapshotCountExceeded).  
+- The number of snapshots per page blob in a Premium Storage account is limited to 100. If that limit is exceeded, the `Snapshot Blob` operation returns error code 409 (SnapshotCountExceeded).  
   
--   A snapshot of a page blob in a Premium Storage account may be taken once every ten minutes. If that rate is exceeded, the `Snapshot Blob` operation returns error code 409 (SnaphotOperationRateExceeded).  
+- A snapshot of a page blob in a Premium Storage account may be taken once every ten minutes. If that rate is exceeded, the `Snapshot Blob` operation returns error code 409 (SnaphotOperationRateExceeded).  
   
--   Reading a snapshot of a page blob in a Premium Storage account via [Get Blob](Get-Blob.md) is not supported. Calling `Get Blob` on a snapshot in a Premium Storage account returns error code 400 (Invalid Operation). However, calling [Get Blob Properties](Get-Blob-Properties.md) and [Get Blob Metadata](Get-Blob-Metadata.md) against a snapshot is supported.  
+- Reading a snapshot of a page blob in a Premium Storage account via [Get Blob](Get-Blob.md) is not supported. Calling `Get Blob` on a snapshot in a Premium Storage account returns error code 400 (Invalid Operation). However, calling [Get Blob Properties](Get-Blob-Properties.md) and [Get Blob Metadata](Get-Blob-Metadata.md) against a snapshot is supported.  
   
-     To read a snapshot, you can use the [Copy Blob](Copy-Blob.md) operation to copy a snapshot to another page blob in the account. The destination blob for the copy operation must not have any existing snapshots. If the destination blob does have snapshots, then `Copy Blob` returns error code 409 (SnapshotsPresent).  
+   To read a snapshot, you can use the [Copy Blob](Copy-Blob.md) operation to copy a snapshot to another page blob in the account. The destination blob for the copy operation must not have any existing snapshots. If the destination blob does have snapshots, then `Copy Blob` returns error code 409 (SnapshotsPresent).  
   
- For more information on calling REST operations on Azure Premium Storage resources, see [Using Blob Service Operations with Azure Premium Storage](Using-Blob-Service-Operations-with-Azure-Premium-Storage.md).  
+  For more information on calling REST operations on Azure Premium Storage resources, see [Using Blob Service Operations with Azure Premium Storage](Using-Blob-Service-Operations-with-Azure-Premium-Storage.md).  
   
 ## See Also  
  [Creating a Snapshot of a Blob](Creating-a-Snapshot-of-a-Blob.md)   

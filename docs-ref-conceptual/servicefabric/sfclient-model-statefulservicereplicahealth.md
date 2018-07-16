@@ -34,6 +34,7 @@ Contains the replica aggregated health state, the health events and the unhealth
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`ServiceKind`](#servicekind) | string | Yes |

@@ -33,12 +33,14 @@ Creates a Service Fabric compose deployment.
 Creates a Service Fabric compose deployment.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | PUT | `/ComposeDeployments/$/Create?api-version=6.0-preview&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [api-version](#api-version) | string | Yes | Query |

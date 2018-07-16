@@ -32,6 +32,7 @@ translation.priority.mt:
 Defines the days of the week that a Chaos Schedule Job will run for.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Sunday`](#sunday) | boolean | No |

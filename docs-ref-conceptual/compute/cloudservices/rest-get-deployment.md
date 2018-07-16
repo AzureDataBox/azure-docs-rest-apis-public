@@ -17,48 +17,48 @@ manager: "timlt"
 ---
 # Get Deployment
 The `Get Deployment` operation returns configuration information, status, and system properties for a deployment.  
-  
+
 ## Request  
  The `Get Deployment` request can be used to retrieve deployment events for a single deployment slot (staging or production) or for a specific deployment name. If you want to retrieve information by deployment name, you must first get the unique name for the deployment. This unique name is part of the response when you make a request to get the deployment in a deployment slot.  
-  
+
  For example, if you have a cloud service deployed to the production environment, you can get the unique name by making a request to `…/deploymentslots/production`. The response includes a `Name` element for the cloud service. That `Name` element value can be used to make a request to `…/deployments/<Name>` if you want to retrieve information about that specific deployment.  
-  
+
  To generate the request URI, replace `<subscription-id>` with your subscription ID, `<cloudservice-name>` with the name of the cloud service, `<deployment-slot>` with `staging` or `production`, or `<deployment-name>` with the name of the deployment.  
-  
+
 |Method|Request URI|  
 |------------|-----------------|  
 |GET|`https://management.core.windows.net/<subscription-id>/services/hostedservices/<cloudservice-name>/deploymentslots/<deployment-slot>`|  
 |GET|`https://management.core.windows.net/<subscription-id>/services/hostedservices/<cloudservice-name>/deployments/<deployment-name>`|  
-  
+
 ### URI Parameters  
  None.  
-  
+
 ### Request Headers  
  The following table describes the request headers.  
-  
+
 |Request Header|Description|  
 |--------------------|-----------------|  
 |`x-ms-version`|Required. Specifies the version of the operation to use for this request. This header should be set to `2009-10-01` or higher.|  
-  
+
 ### Request Body  
  None.  
-  
+
 ## Response  
  The response includes an HTTP status code, a set of response headers, and a response body.  
-  
+
 ### Status Code  
  A successful operation returns status code 200 (OK).  
-  
+
 ### Response Headers  
  The response for this operation includes the following headers. The response may also include additional standard HTTP headers.  
-  
+
 |Response Header|Description|  
 |---------------------|-----------------|  
 |`x-ms-request-id`|A value that uniquely identifies a request made against the management service.|  
-  
+
 ### Response Body  
  The following example shows the format of the response body:  
-  
+
 ```  
 <?xml version="1.0" encoding="utf-8"?>  
 <Deployment xmlns="http://schemas.microsoft.com/windowsazure">  
@@ -340,9 +340,9 @@ The `Get Deployment` operation returns configuration information, status, and sy
   <InternalDnsSuffix>dns-suffix</InternalDnsSuffix>  
 </Deployment>  
 ```  
-  
+
  The following table describes the elements in the response body.  
-  
+
 |Element name|Description|  
 |------------------|-----------------|  
 |Name|Specifies the name of the deployment.|  
@@ -370,10 +370,10 @@ The `Get Deployment` operation returns configuration information, status, and sy
 |[ExtensionConfiguration](rest-get-deployment.md#bk_extensionconfig)|Specifies an extension that is added to the cloud service. In Azure, a process can run as an extension of a cloud service. You can add an extension to a cloud service by using [Add Extension](rest-add-extension.md) and you can add the extension to the deployment by using [Upgrade Deployment](rest-upgrade-deployment.md) or [Change Deployment Configuration](rest-change-deployment-configuration.md).<br /><br /> The `ExtensionConfiguration` element is only available using version 2013-03-01 or higher.|  
 |ReservedIPName|Specifies the name of a reserved IP address that is to be assigned to the deployment.<br /><br /> The `ReservedIPName` element is only available using version 2014-05-01 or higher.|  
 |InternalDnsSuffix|Specifies the domain name suffix for internal name resolution that is automatically assigned by Azure. All instances of Virtual Machines in a deployment are automatically assigned the domain name suffix. All instances of web roles or worker roles in a deployment are automatically assigned the domain name suffix when at least one role is assigned a computer name by using the `vmName` attribute. A deployment that is in a VNET with a DNS server configured is not assigned an internal domain name suffix.<br /><br /> The `InternalDnsSuffix` element is only available using version 2013-11-01 or higher.|  
-  
+
 ###  <a name="RoleInstanceList"></a> RoleInstanceList  
  Contains the list of role instances in the deployment.  
-  
+
 |Element name|Description|  
 |------------------|-----------------|  
 |RoleName|Specifies the name of the role.|  
@@ -394,10 +394,10 @@ The `Get Deployment` operation returns configuration information, status, and sy
 |[ResourceExtensionStatusList](rest-get-deployment.md#bk_extensionlist)|Specifies information about the extensions that are installed on an instance.<br /><br /> The `ResourceExtensionStatusList` element is only available using version 2014-04-01 or higher.|  
 |[PublicIPs](rest-get-deployment.md#bk_publicips)|Optional. Contains a public IP address that can be used in addition to default virtual IP address for the Virtual Machine.<br /><br /> The `PublicIPs` element is only available using version 2014-05-01 or higher.|  
 |[NetworkInterfaces](rest-get-deployment.md#NetworkInterfaces)|Optional, A set of secondary network interfaces. The number of secondary network interfaces allowed depends on the size of the virtual machine.<br /><br /> The NetworkInterfaces element is only available using version 2014-08-01 or higher.|  
-  
+
 ###  <a name="InstanceEndpoints"></a> InstanceEndpoints  
  Contains the list of instance endpoints for the role.  
-  
+
 |Element name|Description|  
 |------------------|-----------------|  
 |Name|Specifies the name of the endpoint.|  
@@ -405,19 +405,19 @@ The `Get Deployment` operation returns configuration information, status, and sy
 |PublicPort|Specifies the external port that is used by the endpoint.|  
 |LocalPort|Specifies the internal port that is used by the endpoint.|  
 |Protocol|Specifies the protocol of traffic on the endpoint.|  
-  
+
 ###  <a name="UpgradeStatus"></a> UpgradeStatus  
  Specifies information about an upgrade occurring on the deployment.  
-  
+
 |Element name|Description|  
 |------------------|-----------------|  
 |UpgradeType|Specifies the type of the upgrade.<br /><br /> Possible values are:<br /><br /> -                          `Auto`<br /><br /> - `Manual`<br /><br /> -                          `Simultaneous`|  
 |CurrentUpgradeDomainState|Specifies the current state of the upgrade. Possible values are `Before` and `During`.|  
 |CurrentUpgradeDomain|Contains an integer value that identifies the current upgrade domain. Upgrade domains are identified with a zero-based index: the first upgrade domain has an ID of 0, the second has an ID of 1, and so on.|  
-  
+
 ##  <a name="RoleList2"></a> RoleList  
  Contains the list of roles in the deployment.  
-  
+
 |Element name|Description|  
 |------------------|-----------------|  
 |RoleName|Specifies the name of the role.|  
@@ -431,10 +431,10 @@ The `Get Deployment` operation returns configuration information, status, and sy
 |RoleSize|Specifies the size of the role instance.|  
 |ProvisionGuestAgent|Optional. Indicates whether the VM Agent is installed on the Virtual Machine. To run a resource extension in a Virtual Machine, this service must be installed.<br /><br /> Possible values are:<br /><br /> -                      `true`<br /><br /> - `false`|  
 |[ResourceExtensionReferences](rest-get-deployment.md#bk_resourceextensionreferences)|Optional. Contains a collection of resource extensions that are to be installed on the Virtual Machine. This element is used if ProvisionGuestAgent is set to `true`.|  
-  
+
 ##  <a name="ConfigurationSets"></a> ConfigurationSets  
  Contains a collection of objects that provide system or application data.  
-  
+
 |Element name|Description|  
 |------------------|-----------------|  
 |ConfigurationSetType|Specifies the configuration type for the configuration set. This is currently always set to NetworkConfiguration.|  
@@ -443,10 +443,10 @@ The `Get Deployment` operation returns configuration information, status, and sy
 |[PublicIPs](rest-get-deployment.md#bk_publicips)|Optional. Contains a public IP address that can be used in addition to default virtual IP address for the Virtual Machine.<br /><br /> The `PublicIPs` element is only available using version 2014-05-01 or higher.|  
 |[NetworkInterfaces](rest-get-deployment.md#NetworkInterfaces)|Optional, A set of secondary network interfaces. The number of secondary network interfaces allowed depends on the size of the virtual machine.<br /><br /> The NetworkInterfaces element is only available using version 2014-08-01 or higher.|  
 |StaticVirtualNetworkIPAddress|Specifies the internal IP address for the Virtual Machine in a Virtual Network. If this element is specified, the [SubnetNames](rest-get-deployment.md#bk_subnetnames) element will contain only one subnet. The IP address specified in this element belongs to the subnet that is defined in [SubnetNames](rest-get-deployment.md#bk_subnetnames).<br /><br /> The `StaticVirtualNetworkIPAddress` element is only available using version 2013-11-01 or higher.|  
-  
+
 ##  <a name="InputEndpoints"></a> InputEndpoints  
  Contains a collection of external endpoints for a Virtual Machine.  
-  
+
 |Element name|Description|  
 |------------------|-----------------|  
 |LoadBalancedEndpointSetName|Specifies a name of a set of load-balanced endpoints. This element is only listed for Virtual Machine deployments.|  
@@ -458,73 +458,74 @@ The `Get Deployment` operation returns configuration information, status, and sy
 |IdleTimeoutInMinutes|Optional. Specifies the timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The default value is 4 minutes. This element is only used when the protocol is set to TCP.<br /><br /> The `IdleTimeoutInMinutes` element is only available using version 2014-06-01 or higher.|  
 |Protocol|Specifies the transport protocol for the endpoint.<br /><br /> Possible Values are:<br /><br /> -                      `TCP`<br /><br /> - `UDP`|  
 |Vip|Specifies the virtual IP address for the endpoint.|  
-  
+
 ##  <a name="LoadBalancerProbe"></a> LoadBalancerProbe  
  Contains the endpoint settings which the Azure load balancer uses to monitor the availability of a Virtual Machine before forwarding traffic to the endpoint.  
-  
+
 |Element name|Description|  
 |------------------|-----------------|  
 |Path|Specifies the relative path name to inspect to determine the availability status. If Protocol is set to TCP, this value must be NULL.<br /><br /> Example:<br /><br /> path<br /><br /> The probe will use https://example.com/path to perform the probe.|  
 |Port|Specifies the port to use to inspect the availability status.|  
 |Protocol|Specifies the protocol to use to inspect the availability status.<br /><br /> Possible values are:<br /><br /> - `HTTP`<br /><br /> -                      `TCP`|  
-  
+
 ##  <a name="Dns"></a> Dns  
  Specifies the custom DNS settings that are specified for deployment.  
-  
+
 |Element name|Description|  
 |------------------|-----------------|  
 |Name|Specifies the name of the DNS server.|  
 |Address|Specifies the IP address of the DNS server.|  
-  
+
 ##  <a name="ExtendedProperties"></a> ExtendedProperties  
  Specifies the properties that are used to provide more information about a deployment.  
-  
+
 |Element name|Description|  
 |------------------|-----------------|  
 |Name|Specifies the name of a property that is associated with the deployment.|  
 |Value|Specifies the value of a property that is associated with the deployment.|  
-  
+
 ##  <a name="PersistentVMDownTimeInfo"></a> PersistentVMDowntime  
  Specifies information about when the Virtual Machine has been started and stopped.  
-  
+
 |Element name|Description|  
 |------------------|-----------------|  
 |StartTime|Specifies the time that the Virtual Machine was started.|  
 |EndTime|Specifies the time that the Virtual Machine was stopped.|  
 |Status|Specifies the status of the Virtual Machine.|  
-  
+
 ##  <a name="VirtualIPs"></a> VirtualIPs  
  Contains the virtual IP addresses that are specified for the deployment.  
-  
+
 |Element name|Description|  
 |------------------|-----------------|  
 |Address|Specifies the virtual IP address of the deployment.|  
 |IsReserved|Indicates whether the virtual IP address is reserved.<br /><br /> Possible values are:<br /><br /> -                      `true`<br /><br /> -                      `false`|  
 |ReservedIPName|Specifies the name of a reserved IP address that was assigned to the deployment.|  
 |Type|Specifies a value of `Private` if the virtual IP address is associated with an internal load balancer.|  
-  
+
 ##  <a name="bk_subnetnames"></a> SubnetNames  
  Contains a list of subnets to which the Virtual Machine will belong.  
-  
+
 |Element name|Description|  
 |------------------|-----------------|  
 |SubnetName|Required. Specifies the name of a subnet to which the Virtual Machine belongs.|  
-  
+
 ##  <a name="DataVirtualHardDisks"></a> DataVirtualHardDisks  
  Contains the parameters that are used to add a data disk to a Virtual Machine.  
-  
-|Element name|Description|  
-|------------------|-----------------|  
-|HostCaching|Specifies the platform caching behavior of the data disk blob for read/write efficiency.<br /><br /> Possible values are:<br /><br /> -                      `None`<br /><br /> -                      `ReadOnly`<br /><br /> -                      `ReadWrite`<br /><br /> The default vault is `ReadOnly`.|  
-|DiskName|Specifies the name of the VHD to use to create the data disk for the Virtual Machine.|  
-|Lun|Specifies the Logical Unit Number (LUN) for the data disk. The LUN specifies the slot in which the data drive appears when mounted for usage by the Virtual Machine. This element is only listed when more than one data disk is attached to a Virtual Machine.<br /><br /> Valid values are 0 – 31.|  
-|LogicalDiskSizeInGB|Specifies the size, in GB, of the disk to be attached to the Virtual Machine.|  
-|MediaLink|Specifies the location in Azure storage of the VHD that is associated with the disk.<br /><br /> Example:<br /><br /> http://example.blob.core.windows.net/disks/mydatadisk.vhd|  
-|IOType|This property identifies the type of the storage account for the backing VHD.<br /><br /> If the backing VHD is in an Provisioned Storage account, “Provisioned” is returned otherwise “Standard” is returned.Note: This value is populated by Azure platform when the disk is created, not by the user.<br /><br /> This property is only returned with a version header of 2014-10-01 or newer.|  
-  
+
+
+|    Element name     |                                                                                                                                                                                            Description                                                                                                                                                                                            |
+|---------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|     HostCaching     |                                           Specifies the platform caching behavior of the data disk blob for read/write efficiency.<br /><br /> Possible values are:<br /><br /> -                      `None`<br /><br /> -                      `ReadOnly`<br /><br /> -                      `ReadWrite`<br /><br /> The default vault is `ReadOnly`.                                           |
+|      DiskName       |                                                                                                                                                       Specifies the name of the VHD to use to create the data disk for the Virtual Machine.                                                                                                                                                       |
+|         Lun         |                                               Specifies the Logical Unit Number (LUN) for the data disk. The LUN specifies the slot in which the data drive appears when mounted for usage by the Virtual Machine. This element is only listed when more than one data disk is attached to a Virtual Machine.<br /><br /> Valid values are 0 – 31.                                                |
+| LogicalDiskSizeInGB |                                                                                                                                                           Specifies the size, in GB, of the disk to be attached to the Virtual Machine.                                                                                                                                                           |
+|      MediaLink      |                                                                                                          Specifies the location in Azure storage of the VHD that is associated with the disk.<br /><br /> Example:<br /><br /> http://example.blob.core.windows.net/disks/mydatadisk.vhd                                                                                                          |
+|       IOType        | This property identifies the type of the storage account for the backing VHD.<br /><br /> If the backing VHD is in an Provisioned Storage account, “Provisioned” is returned otherwise “Standard” is returned.Note: This value is populated by Azure platform when the disk is created, not by the user.<br /><br /> This property is only returned with a version header of 2014-10-01 or newer. |
+
 ##  <a name="OSVirtualHardDisk"></a> OSVirtualHardDisk  
  Contains the parameters that are used to create the operating system disk for a Virtual Machine.  
-  
+
 |Element name|Description|  
 |------------------|-----------------|  
 |HostCaching|Specifies the platform caching behavior of the operating system disk blob for read/write efficiency.<br /><br /> Possible values are:<br /><br /> -                      `ReadOnly`<br /><br /> - `ReadWrite`|  
@@ -534,10 +535,10 @@ The `Get Deployment` operation returns configuration information, status, and sy
 |OS|Specifies the operating system that is running on the Virtual Machine.<br /><br /> Possible values are:<br /><br /> - `Windows`<br /><br /> - `Linux`|  
 |RemoteSourceImageLink|Specifies a URI to the location where an OS image is stored that was used to create the Virtual Machine. This location can be a different location than the user or platform repositories in Azure. An image is always associated with a VHD, which is a .vhd file stored as a page blob in a storage account. If you specify the path to an image with this element, an associated VHD is created and you must use the MediaLink element to specify the location in storage where the VHD will be located. If this element is used, SourceImageName is not used.<br /><br /> The `RemoteSourceImageLink` element is only available using version 2014-05-01 or higher.|  
 |IOType|This property identifies the type of the storage account for the backing VHD.<br /><br /> If the backing VHD is in an Provisioned Storage account, “Provisioned” is returned otherwise “Standard” is returned.<br /><br /> Note: This value is populated by Azure platform when the disk is created, not by the user.<br /><br /> This property is only returned with a version header of 2014-10-01 or newer|  
-  
+
 ##  <a name="bk_resourceextensionreferences"></a> ResourceExtensionReferences  
  Contains a collection of resource extensions that are to be installed on the Virtual Machine. A resource extension is a software component that is installed on the Virtual Machine. The VM Agent must be installed on the Virtual Machine to install resource extensions.  
-  
+
 |Element name|Description|  
 |------------------|-----------------|  
 |ResourceExtensionReference|Required. Specifies the properties of a resource extension that should be installed on the Virtual Machine.|  
@@ -547,47 +548,47 @@ The `Get Deployment` operation returns configuration information, status, and sy
 |Version|Required. Specifies the version of the resource extension. You can use [List Resource Extension Versions](http://msdn.microsoft.com/library/azure/4f1e9218-b44e-407e-802d-a1549ac16e1c) to find the version of the resource extension.|  
 |[ResourceExtensionParameterValues](rest-get-deployment.md#bk_parametervalues)|Optional. Contains a collection of parameters that are passed to the resource extension when it is installed.|  
 |State|Optional. Specifies the state of the resource extension.<br /><br /> Possible values are:<br /><br /> -                      `Enable`<br /><br /> -                      `Disable`<br /><br /> The default value is `Enable`.|  
-  
+
 ##  <a name="bk_parametervalues"></a> ResourceExtensionParameterValues  
  Contains a collection of parameters that are passed to the resource extension when it is installed.  
-  
+
 |Element name|Description|  
 |------------------|-----------------|  
 |ResourceExtensionParameterValue|Required. Specifies the key, value, and type of the parameter.|  
 |Key|Required. Specifies the key of the parameter.|  
 |Value|Required. Specifies the base-64 encoded value of the parameter.|  
 |Type|Required. Specifies the type for the resource extension.<br /><br /> Possible values are:<br /><br /> - `Public`<br /><br /> -                      `Private`<br /><br /> If this value is set to `Private`, the parameter will not be returned by [Get Deployment](rest-get-deployment.md). You can only specify one public parameter and one private parameter for a maximum of two parameters.|  
-  
+
 ##  <a name="bk_extensionconfig"></a> ExtensionConfiguration  
  Contains extensions that are added to the cloud service.  
-  
+
 |Element name|Description|  
 |------------------|-----------------|  
 |AllRoles|Specifies a list of extensions that are applied to all roles in a deployment.|  
 |[Extension](rest-get-deployment.md#bk_extension)|Specifies an extension that is to be deployed to a role in a cloud service.|  
 |[NamedRoles](rest-get-deployment.md#bk_namedroles)|Specifies a list of extensions that are applied to specific roles in a deployment.|  
-  
+
 ##  <a name="bk_extension"></a> Extension  
  Specifies an extension that is to be deployed to a role in a cloud service.  
-  
+
 |Element name|Description|  
 |------------------|-----------------|  
 |Id|Specifies the identifier of the extension. The identifier is created when the extension is added to the cloud service. You can find the Id of an extension that was added to a cloud service by using [List Extensions](rest-list-extensions.md).|  
 |SequenceNumber|Specifies the number of the last applied configuration for the extension. This number is assigned by Azure and is incremented with every configuration change.<br /><br /> The `SequenceNumber` element is only available using version 2014-06-01 or higher.|  
 |State|Optional. Specifies the state of the extension. This element only applies to JSON configured extensions.<br /><br /> Possible values are:<br /><br /> -                      `Enable`<br /><br /> -                      `Disable`<br /><br /> -                      `Uninstall`<br /><br /> The default value is `Enable`.<br /><br /> The `State` element is only available using version 2014-06-01 or higher.|  
-  
+
 ##  <a name="bk_namedroles"></a> NamedRoles  
  Specifies a list of extensions that are applied to specific roles in a deployment.  
-  
+
 |Element name|Description|  
 |------------------|-----------------|  
 |Role|Specifies a specific role to which the extension is added.|  
 |RoleName|Specifies the name of the role.|  
 |[Extension](rest-get-deployment.md#bk_extension)|Specifies an extension that is to be deployed to a role in a cloud service.|  
-  
+
 ##  <a name="bk_guestagent"></a> GuestAgentStatus  
  Specifies information about the agent that is installed on an instance.  
-  
+
 |Element name|Description|  
 |------------------|-----------------|  
 |ProtocolVersion|Specifies the version of the protocol that is used by the agent for status reporting.|  
@@ -595,25 +596,25 @@ The `Get Deployment` operation returns configuration information, status, and sy
 |GuestAgentVersion|Specifies the version of the agent that is installed on the instance.|  
 |Status|Specifies the status of the agent.<br /><br /> Possible values are:<br /><br /> - `Ready`<br /><br /> -                      `NotReady`|  
 |[FormattedMessage](rest-get-deployment.md#bk_message)|Specifies a localized status message.|  
-  
+
 ##  <a name="bk_message"></a> FormattedMessage  
  Specifies a localized status message.  
-  
+
 |Element name|Description|  
 |------------------|-----------------|  
 |Language|Specifies the language of the message.|  
 |Message|Specifies the message.|  
-  
+
 ##  <a name="bk_extensionlist"></a> ResourceExtensionStatusList  
  Specifies information about the extensions that are installed on an instance.  
-  
+
 |Element name|Description|  
 |------------------|-----------------|  
 |[ResourceExtensionStatus](rest-get-deployment.md#bk_extensionstatus)|Specifies information about a specific extension.|  
-  
+
 ##  <a name="bk_extensionstatus"></a> ResourceExtensionStatus  
  Specifies information about a specific extension.  
-  
+
 |Element name|Description|  
 |------------------|-----------------|  
 |HandlerName|Specifies the name of the extension.|  
@@ -622,10 +623,10 @@ The `Get Deployment` operation returns configuration information, status, and sy
 |Code|Specifies the status code that is returned by the extension.|  
 |[FormattedMessage](rest-get-deployment.md#bk_message)|Specifies a localized status message.|  
 |[ExtensionSettingStatus](rest-get-deployment.md#bk_extstatus)|Specifies status information about the settings that were passes to the extension.|  
-  
+
 ##  <a name="bk_publicips"></a> PublicIPs  
  Contains a public IP address that can be used in addition to default virtual IP address for the Virtual Machine.  
-  
+
 |Element name|Description|  
 |------------------|-----------------|  
 |PublicIP|Required. Specifies an additional IP public address that can be used to communicate with the Virtual Machine.|  
@@ -634,28 +635,28 @@ The `Get Deployment` operation returns configuration information, status, and sy
 |IdleTimeoutInMinutes|Optional. Specifies the timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The default value is 4 minutes. This element is only used when the protocol is set to TCP.<br /><br /> The `IdleTimeoutInMinutes` element is only available using version 2014-06-01 or higher.|  
 |DomainNameLabel|Optional. Specifies the domain name label for the public IP.<br /><br /> The `DomainNameLabel` element is only available using version 2015-03-01 or higher.|  
 |Fqdn|Optional. Specifies a FQDN registered for this public IP.|  
-  
+
 ##  <a name="NetworkInterfaces"></a> NetworkInterfaces  
  Contains a set of secondary network interfaces.  
-  
+
 |Element name|Description|  
 |------------------|-----------------|  
 |NetworkInterface|Required. Specifies a secondary network interface.|  
 |Name|Required, Specifies the name of the secondary network interface.|  
 |[IPConfigurations](rest-get-deployment.md#IPConfigurations)|Required. Specifies a set of IP address configurations for a secondary network interface.|  
-  
+
 ##  <a name="IPConfigurations"></a> IPConfigurations  
  Specifies a set of IP address configurations for a secondary network interface.  
-  
+
 |Element name|Description|  
 |------------------|-----------------|  
 |IPConfiguration|Required. Specifies an IP address configuration for a secondary network interface.<br /><br /> Currently only one IP address configuration is supported for a secondary network interface.|  
 |SubnetName|Required. Specifies the name of the virtual network subnet that this IP address configuration belongs.|  
 |Address|Required, Specifies the internal IP address configured for a secondary network interface.|  
-  
+
 ##  <a name="bk_loadbalancers"></a> LoadBalancers  
  Contains a list of internal load balancers that can be assigned to input endpoints.  
-  
+
 |Element name|Description|  
 |------------------|-----------------|  
 |LoadBalancer|Required. Specifies the attributes of an internal load balancer.|  
@@ -664,10 +665,10 @@ The `Get Deployment` operation returns configuration information, status, and sy
 |Type|Required. Specifies the type of virtual IP address that is provided by the load balancer. The only allowable value is `Private`.|  
 |SubnetName|Required if the deployment exists in a virtual network and a StaticVirtualNetworkIPAddress is assigned. Specifies the subnet of the virtual network that the load balancer uses. The virtual IP address that is managed by the load balancer is contained in this subnet.|  
 |StaticVirtualNetworkIPAddress|Optional. Specifies a specific virtual IP address that the load balancer uses from the subnet in the virtual network.|  
-  
+
 ##  <a name="bk_extstatus"></a> ExtensionSettingStatus  
  Specifies status information about the settings that were passes to the extension.  
-  
+
 |Element name|Description|  
 |------------------|-----------------|  
 |Timestamp|Specifies the UTC time when the status was reported.|  
@@ -677,16 +678,16 @@ The `Get Deployment` operation returns configuration information, status, and sy
 |Code|Specifies the status code for the operation.|  
 |[FormattedMessage](rest-get-deployment.md#bk_message)|Specifies a localized status message.|  
 |[SubStatusList](rest-get-deployment.md#bk_substat)|Contains a list of additional status information if it exists.|  
-  
+
 ##  <a name="bk_substat"></a> SubStatusList  
  Contains a list of additional status information if it exists.  
-  
+
 |Element name|Description|  
 |------------------|-----------------|  
 |SubStatus|Contains information about additional status messages returned by the extension.|  
 |Name|Specifies the status identifier.|  
 |Status|Specifies the status of the operation.<br /><br /> Possible values are:<br /><br /> - `transitioning`<br /><br /> - `error`<br /><br /> -                      `success`<br /><br /> - `warning`|  
 |[FormattedMessage](rest-get-deployment.md#bk_message)|Specifies a localized status message.|  
-  
+
 ## Remarks  
  To obtain the names of cloud services in your subscription, you can use [List Cloud Services](rest-list-cloud-services.md).

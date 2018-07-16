@@ -33,6 +33,7 @@ Defines description for creating a Service Fabric service from a template define
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [ApplicationName](#applicationname) | string | Yes |

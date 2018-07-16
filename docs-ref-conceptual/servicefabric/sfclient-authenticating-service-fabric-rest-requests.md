@@ -51,29 +51,29 @@ A Service Fabric cluster can be secured using X.509 certificates, Kerberos, or a
   
  To configure a cluster to support authentication and authorization of clients (User and Admin) and authentication of Service Fabric nodes, the following parameters must be set in the cluster manifest:  
   
--   Thumbprint of server and client certificates for each node type  
+- Thumbprint of server and client certificates for each node type  
   
-    -   \<ClientCertificate X509FindValue="…" />  
+  -   \<ClientCertificate X509FindValue="…" />  
   
-    -   \<ServerCertificate X509FindValue="…" />  
+  -   \<ServerCertificate X509FindValue="…" />  
   
--   Security section  
+- Security section  
   
-    -   \<Parameter Name="ClientRoleEnabled" Value="true" />  
+  -   \<Parameter Name="ClientRoleEnabled" Value="true" />  
   
-    -   \<Parameter Name="ServerAuthCredentialType" Value="X509" />  
+  -   \<Parameter Name="ServerAuthCredentialType" Value="X509" />  
   
-    -   ClientAuthAllowedCommonNames parameter  
+  -   ClientAuthAllowedCommonNames parameter  
   
-    -   AdminAllowedCommonNames parameter  
+  -   AdminAllowedCommonNames parameter  
   
-    -   ServerAuthAllowedCommonNames parameter  
+  -   ServerAuthAllowedCommonNames parameter  
   
- To enable HttpGateway on a cluster manifest which is already secured with X.509 (i.e. cluster and client/server security are already enabled), only these changes are required:  
+  To enable HttpGateway on a cluster manifest which is already secured with X.509 (i.e. cluster and client/server security are already enabled), only these changes are required:  
   
--   Set Protocol of all HttpGatewayEndpoint elements to "https". For example, \<HttpGatewayEndpoint Port="19017" Protocol="https"/>  
+- Set Protocol of all HttpGatewayEndpoint elements to "https". For example, \<HttpGatewayEndpoint Port="19017" Protocol="https"/>  
   
--   Enable HttpGateway in the HttpGateway section. For example, \<Parameter Name="IsEnabled" Value="true"/>  
+- Enable HttpGateway in the HttpGateway section. For example, \<Parameter Name="IsEnabled" Value="true"/>  
   
 ### How to Use REST APIs with X.509  
  For an X.509 secured HTTPS Request, create the relevant client certificate (whose common name is specified in the ClientAuthAllowedCommonNames or AdminAllowedCommonNames) and the server certificate thumbprint.  

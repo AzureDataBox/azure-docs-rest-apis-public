@@ -32,6 +32,7 @@ translation.priority.mt:
 Information about a partition restart user-induced operation.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [State](#state) | string (enum) | No |

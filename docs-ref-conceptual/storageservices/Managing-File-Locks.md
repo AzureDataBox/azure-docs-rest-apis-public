@@ -27,42 +27,42 @@ translation.priority.mt:
 # Managing File Locks
 The Microsoft Azure File service can be accessed through two different protocol endpoints:  
   
--   Server Message Block (SMB) Protocol  
+- Server Message Block (SMB) Protocol  
   
--   Representational State Transfer (REST) over Hypertext Transfer Protocol (HTTP).  
+- Representational State Transfer (REST) over Hypertext Transfer Protocol (HTTP).  
   
- This topic describes the locking interactions between each protocol.  
+  This topic describes the locking interactions between each protocol.  
   
 ## SMB File Locking  
  SMB clients that mount file shares can leverage file system locking mechanisms to manage access to shared files. These include:  
   
--   Whole file access sharing for read, write, and delete.  
+- Whole file access sharing for read, write, and delete.  
   
--   Byte range locks to manage read and write access to regions within a single file.  
+- Byte range locks to manage read and write access to regions within a single file.  
   
- When an SMB client opens a file, it specifies both the file access and share mode. The following file access options are typically used by SMB clients, though all combinations are legal:  
+  When an SMB client opens a file, it specifies both the file access and share mode. The following file access options are typically used by SMB clients, though all combinations are legal:  
   
--   **None:** Opens a file for query attribute access only.  
+- **None:** Opens a file for query attribute access only.  
   
--   **Read:** Opens a file for read access only.  
+- **Read:** Opens a file for read access only.  
   
--   **Write:** Opens a file for write access only.  
+- **Write:** Opens a file for write access only.  
   
--   **Read/Write:** Opens a file with read/write permissions.  
+- **Read/Write:** Opens a file with read/write permissions.  
   
--   **Delete:** Opens a file for delete access only.  
+- **Delete:** Opens a file for delete access only.  
   
- The following file share modes are typically used by SMB clients:  
+  The following file share modes are typically used by SMB clients:  
   
--   **None:** Declines sharing of the current file. Any request to open the file with read, write, or delete access will fail until the file is closed.  
+- **None:** Declines sharing of the current file. Any request to open the file with read, write, or delete access will fail until the file is closed.  
   
--   **Shared Read:** Allows subsequent opening of the file for reading. If this flag is not specified, any request to open the file for reading will fail until the file is closed.  
+- **Shared Read:** Allows subsequent opening of the file for reading. If this flag is not specified, any request to open the file for reading will fail until the file is closed.  
   
--   **Shared Write:** Allows subsequent opening of the file for writing. If this flag is not specified, any request to open the file for writing will fail until the file is closed.  
+- **Shared Write:** Allows subsequent opening of the file for writing. If this flag is not specified, any request to open the file for writing will fail until the file is closed.  
   
--   **Shared Read/Write:** Allows subsequent opening of the file for reading or writing. If this flag is not specified, any request to open the file for reading or writing will fail until the file is closed.  
+- **Shared Read/Write:** Allows subsequent opening of the file for reading or writing. If this flag is not specified, any request to open the file for reading or writing will fail until the file is closed.  
   
--   **Shared Delete:** Allows subsequent deleting of a file. If this flag is not specified, any request to delete the file will fail until the file is closed.  
+- **Shared Delete:** Allows subsequent deleting of a file. If this flag is not specified, any request to delete the file will fail until the file is closed.  
   
 ## SMB Client Open File Examples  
  Consider the following open file examples:  
@@ -111,23 +111,23 @@ The Microsoft Azure File service can be accessed through two different protocol 
   
  The following are examples of REST requests interacting with the SMB share modes:  
   
--   **REST Get File Sharing Violation**  
+- **REST Get File Sharing Violation**  
   
-    -   The SMB Client opens the file with FileAccess.Read  and FileShare.Write (denies subsequent Read/Delete while open).  
+  -   The SMB Client opens the file with FileAccess.Read  and FileShare.Write (denies subsequent Read/Delete while open).  
   
-    -   The REST Client then performs a [Get File](Get-File.md) operation on the file (thereby using FileAccess.Read as specified in the table above).  
+  -   The REST Client then performs a [Get File](Get-File.md) operation on the file (thereby using FileAccess.Read as specified in the table above).  
   
-    -   **Result:** The REST Client’s request fails with status code 409 (Conflict) and error code SharingViolation since the SMB client still has the file open while denying Read/Delete access.  
+  -   **Result:** The REST Client’s request fails with status code 409 (Conflict) and error code SharingViolation since the SMB client still has the file open while denying Read/Delete access.  
   
--   **REST Put Range Sharing Violation**  
+- **REST Put Range Sharing Violation**  
   
-    -   The SMB Client opens the file with FileAccess.Write and FileShare.Read (denies subsequent Write/Delete while open).  
+  -   The SMB Client opens the file with FileAccess.Write and FileShare.Read (denies subsequent Write/Delete while open).  
   
-    -   The REST Client then performs a [Put Range](Put-Range.md) operation on the file (thereby using FileAccess.Write as specified in the table above).  
+  -   The REST Client then performs a [Put Range](Put-Range.md) operation on the file (thereby using FileAccess.Write as specified in the table above).  
   
-    -   Result: The REST Client’s request fails with status code 409 (Conflict) and error code SharingViolation since SMB Client still has the file open while denying Write/Delete access.  
+  -   Result: The REST Client’s request fails with status code 409 (Conflict) and error code SharingViolation since SMB Client still has the file open while denying Write/Delete access.  
   
- The next section includes a comprehensive table of REST API sharing violation scenarios.  
+  The next section includes a comprehensive table of REST API sharing violation scenarios.  
   
 ## SMB Client Sharing Mode Implications on REST Operations  
  Depending on the share mode specified when an SMB client opens a file, it is possible for the REST service to return status code 409 (Conflict) with error code `SharingViolation` as described in the following table:  
@@ -155,80 +155,80 @@ The Microsoft Azure File service can be accessed through two different protocol 
 ## File Attribute Implications on REST  
  It is possible for SMB clients to read and set file attributes, including:  
   
--   Archive  
+- Archive  
   
--   Read-only  
+- Read-only  
   
--   Hidden  
+- Hidden  
   
--   System  
+- System  
   
- If a file or directory is marked read-only then any REST operation that attempts to write to the file will fail with status code 412 (Precondition Failed) and error code ReadOnlyAttribute. These operations include:  
+  If a file or directory is marked read-only then any REST operation that attempts to write to the file will fail with status code 412 (Precondition Failed) and error code ReadOnlyAttribute. These operations include:  
   
--   `Create File`  
+- `Create File`  
   
--   `Set File Properties`  
+- `Set File Properties`  
   
--   `Set File Metadata`  
+- `Set File Metadata`  
   
--   `Put Range`  
+- `Put Range`  
   
- Note that these file attributes cannot be set or read from REST clients. Once a file is made read-only, REST clients will be unable to write to the file until the SMB client removes the read-only attribute.  
+  Note that these file attributes cannot be set or read from REST clients. Once a file is made read-only, REST clients will be unable to write to the file until the SMB client removes the read-only attribute.  
   
 ## Interaction between the File Service and SMB Opportunistic Locks  
  SMB opportunistic lock (*oplock*) is a caching mechanism that SMB clients request in order to improve performance and reduce network transfers. This means that the latest state of a particular file or directory may be cached on an SMB client. There are multiple opportunistic lock types, referred to as *SMB lease types*:  
   
--   **Read (R):** When acquired, the SMB client can read from local cache.  
+- **Read (R):** When acquired, the SMB client can read from local cache.  
   
--   **Write (W):** When acquired, the SMB client can write locally without the need to flush the data back to the File service.  
+- **Write (W):** When acquired, the SMB client can write locally without the need to flush the data back to the File service.  
   
--   **Handle (H):** When acquired, the SMB client is not required to immediately notify the File service when a handle is closed. This is useful when an application continues opening and closing files with the same access and sharing mode.  
+- **Handle (H):** When acquired, the SMB client is not required to immediately notify the File service when a handle is closed. This is useful when an application continues opening and closing files with the same access and sharing mode.  
   
- Note that the above SMB lease types are independent of the access and sharing mode specified. Typically an SMB client attempts to acquire all lease types whenever it opens a new handle against a file, regardless of access and sharing mode.  
+  Note that the above SMB lease types are independent of the access and sharing mode specified. Typically an SMB client attempts to acquire all lease types whenever it opens a new handle against a file, regardless of access and sharing mode.  
   
- Depending on the REST operation called, it may be necessary for a request to break an existing opportunistic lock. In the case of a write oplock, the SMB client must flush cached changes to the File service. Here are some cases where each type of oplock needs to be broken:  
+  Depending on the REST operation called, it may be necessary for a request to break an existing opportunistic lock. In the case of a write oplock, the SMB client must flush cached changes to the File service. Here are some cases where each type of oplock needs to be broken:  
   
--   A **Read (R)** oplock needs to be broken whenever a write operation is issued, such as `Put Range`.  
+- A **Read (R)** oplock needs to be broken whenever a write operation is issued, such as `Put Range`.  
   
--   A **Write (W)** oplock needs to be broken whenever a read operation is issued, such as `Get File`.  
+- A **Write (W)** oplock needs to be broken whenever a read operation is issued, such as `Get File`.  
   
--   A **Handle (H)** oplock needs to be broken whenever a client issues a delete operation, since the File service requires that no handles can be open if a delete operation is to succeed.  
+- A **Handle (H)** oplock needs to be broken whenever a client issues a delete operation, since the File service requires that no handles can be open if a delete operation is to succeed.  
   
-     Handle oplocks are also broken when a REST operation faces a sharing violation with an existing SMB handle (see the table on sharing violations above), in order to verify that the handle(s) are still opened by an application running on the client(s).  
+   Handle oplocks are also broken when a REST operation faces a sharing violation with an existing SMB handle (see the table on sharing violations above), in order to verify that the handle(s) are still opened by an application running on the client(s).  
   
- Breaking the oplock may require flushing cached SMB client changes, which may cause delays in operation response time, or may cause the operation to fail with status code 408 (Request Timeout) and error code `ClientCacheFlushDelay`.  
+  Breaking the oplock may require flushing cached SMB client changes, which may cause delays in operation response time, or may cause the operation to fail with status code 408 (Request Timeout) and error code `ClientCacheFlushDelay`.  
   
- Following are some scenarios where oplocks are broken:  
+  Following are some scenarios where oplocks are broken:  
   
- **An opblock break and SMB client flush are required, and the REST client experiences a delay:**  
+  **An opblock break and SMB client flush are required, and the REST client experiences a delay:**  
   
-1.  The SMB client opens a file, acquires an RWH oplock, and writes data locally.  
+1. The SMB client opens a file, acquires an RWH oplock, and writes data locally.  
   
-2.  The REST Client sends a `Get File` request.  
+2. The REST Client sends a `Get File` request.  
   
-    -   The File service breaks the write (W) oplock, leaving the client with an RH oplock.  
+   -   The File service breaks the write (W) oplock, leaving the client with an RH oplock.  
   
-    -   The SMB client flushes its cached data against the File service and acknowledges the oplock break.  
+   -   The SMB client flushes its cached data against the File service and acknowledges the oplock break.  
   
-    -   The File service processes the `Get File` request and responds back with the requested data.  
+   -   The File service processes the `Get File` request and responds back with the requested data.  
   
- In the above example, the REST client will experience delays caused by the oplock break and the time taken by the SMB client to flush its data against the File service.  
+   In the above example, the REST client will experience delays caused by the oplock break and the time taken by the SMB client to flush its data against the File service.  
   
- Note that subsequent calls to `Get File` will not experience any additional delays since the write (W) oplock has already been broken.  
+   Note that subsequent calls to `Get File` will not experience any additional delays since the write (W) oplock has already been broken.  
   
- **An oplock break is required, but the REST client won't experience a delay**  
+   **An oplock break is required, but the REST client won't experience a delay**  
   
-1.  The SMB client has acquired an RH oplock.  
+3. The SMB client has acquired an RH oplock.  
   
-2.  The REST Client sends a `Put Range` request.  
+4. The REST Client sends a `Put Range` request.  
   
-    -   The File service sends an oplock break request to the SMB client and does not wait for a response.  
+   -   The File service sends an oplock break request to the SMB client and does not wait for a response.  
   
-    -   The File service processes the `Put Range` request.  
+   -   The File service processes the `Put Range` request.  
   
- In the above example, the oplock break is required, but the `Put Range` request will not experience any additional delays since a response is not needed when breaking the read oplock.  
+   In the above example, the oplock break is required, but the `Put Range` request will not experience any additional delays since a response is not needed when breaking the read oplock.  
   
- The following table summarizes the behavior of the File service for each REST operation, based on the oplock state of the SMB client that has already acquired a handle on the same file, and assuming that the SMB handle access and sharing don't conflict with the REST operation. If there is a conflict, the handle oplock is also broken to ensure that the handle is still open on the client. In the case of a *blocking* oplock break, the File service must wait for an acknowledgement that the break was successful. In the case of a *non-blocking* oplock break, it does not have to wait.  
+   The following table summarizes the behavior of the File service for each REST operation, based on the oplock state of the SMB client that has already acquired a handle on the same file, and assuming that the SMB handle access and sharing don't conflict with the REST operation. If there is a conflict, the handle oplock is also broken to ensure that the handle is still open on the client. In the case of a *blocking* oplock break, the File service must wait for an acknowledgement that the break was successful. In the case of a *non-blocking* oplock break, it does not have to wait.  
   
 |REST Operation|Current OpLock types|OpLock break performed|Resulting Oplock|  
 |--------------------|--------------------------|----------------------------|----------------------|  

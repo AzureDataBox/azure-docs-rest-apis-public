@@ -30,6 +30,7 @@ translation.priority.mt:
 The result of the Service Fabric runtime versions
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [id](#id) | string | No |

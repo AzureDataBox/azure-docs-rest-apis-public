@@ -30,6 +30,7 @@ translation.priority.mt:
 The resource model definition.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [id](#id) | string | No |

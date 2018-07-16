@@ -32,6 +32,7 @@ translation.priority.mt:
 Describes a backup policy for configuring periodic backup.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Name`](#name) | string | Yes |

@@ -30,6 +30,7 @@ translation.priority.mt:
 The settings to enable AAD authentication on the cluster.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [tenantId](#tenantid) | string | No |

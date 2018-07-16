@@ -34,12 +34,14 @@ Get the status of Chaos indicating whether or not Chaos is running, the Chaos pa
 
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/Tools/Chaos?api-version=6.2&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`api-version`](#api-version) | string | Yes | Query |

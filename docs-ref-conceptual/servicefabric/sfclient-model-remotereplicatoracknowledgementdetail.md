@@ -32,6 +32,7 @@ translation.priority.mt:
 Provides various statistics of the acknowledgements that are being received from the remote replicator.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`AverageReceiveDuration`](#averagereceiveduration) | string | No |

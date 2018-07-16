@@ -16,32 +16,32 @@ ms.author: v-brapel
 # Custom Search API v7 reference
 
 The Custom Search API lets you send a search query to Bing and get back web pages found in your custom view of the web. This section provides technical details about the response objects and the query parameters and headers that affect the search results. For examples that show how to define your custom view of the web and make requests, see [Define a custom search instance](https://docs.microsoft.com/azure/cognitive-services/bing-custom-search/define-your-custom-view). 
-  
+
 For information about headers that requests should include, see [Request Headers](#headers).  
-  
+
 For information about query parameters that requests should include, see [Query Parameters](#query-parameters).  
-  
+
 For information about the JSON objects that the response may include, see [Response Body](#response-objects). 
 
 For information about permitted use and display of results, see [Bing Search API Use and Display requirements](https://docs.microsoft.com/azure/cognitive-services/bing-custom-search/use-and-display-requirements).
 
-  
+
 ## Endpoints
 
 To request search results from your custom view of the web, send a GET request to:  
-  
+
 `https://api.cognitive.microsoft.com/bingcustomsearch/v7.0/search`  
-  
+
 The request must use the HTTPS protocol.  
-  
+
 > [!NOTE]
 > The maximum URL length is 2,048 characters. To ensure that your URL length does not exceed the limit, the maximum length of your query parameters should be less than 1,500 characters. If the URL exceeds 2,048 characters, the server returns 404 Not found.  
-  
+
 <a name="headers"></a>
 ## Headers  
 
 The following are the headers that a request and response may include.  
-  
+
 |Header|Description|  
 |------------|-----------------|  
 |Accept|Optional request header.<br /><br /> The default media type is application/json. To specify that the response use [JSON-LD](http://json-ld.org/), set the Accept header to application/ld+json.|  
@@ -57,12 +57,12 @@ The following are the headers that a request and response may include.
 
 > [!NOTE] 
 > Remember that the Terms of Use require compliance with all applicable laws, including regarding use of these headers. For example, in certain jurisdictions, such as Europe, there are requirements to obtain user consent before placing certain tracking devices on user devices.
-  
+
 <a name="queryparameters"></a>  
 ## Query parameters  
 
 The following is the list of query parameters that you may specify. See the Required column for required parameters. The query parameter values must be URL encoded.  
-  
+
 |Name|Value|Type|Required|  
 |----------|-----------|----------|--------------|  
 |<a name="cc" />cc|A 2-character country code of the country where the results come from. For a list of possible values, see [Market Codes](#market-codes).<br /><br /> If you set this parameter, you must also specify the [Accept-Language](#acceptlanguage) header. Bing uses the first supported language it finds in the specified languages and combines it with the country code to determine the market to return results for. If the languages list does not include a supported language, Bing finds the closest language and market that supports the request. Or, Bing may use an aggregated or default market for the results.<br /><br /> Use this query parameter and the `Accept-Language` header only if you specify multiple languages. Otherwise, you should use the `mkt` and `setLang` query parameters.<br /><br /> This parameter and the [mkt](#mkt) query parameter are mutually exclusive&mdash;do not specify both.|String|No|  
@@ -81,7 +81,7 @@ The following is the list of query parameters that you may specify. See the Requ
 
 The following are the JSON response objects that the response may include. If the request is successful, the top-level object in the response is the [SearchResponse](#searchresponse) object; otherwise, it is the [ErrorResponse](#errorresponse) object.
 
-  
+
 |Object|Description|  
 |------------|-----------------|  
 |[Error](#error)|Defines an error that occurred.|  
@@ -90,12 +90,12 @@ The following are the JSON response objects that the response may include. If th
 |[QueryContext](#querycontext)|Defines the query context that Bing used for the request, if the specified query string contains a spelling error.|  
 |[SearchResponse](#searchresponse)|The top-level object that the response includes when the request succeeds.|
 |[Webpage](#webpage)|Defines a webpage that is relevant to the query.|  
-  
-  
+
+
 <a name="error"></a>   
 ### Error  
 Defines an error that occurred.  
-  
+
 |Element|Description|Type|  
 |-------------|-----------------|----------|  
 |<a name="error-code" />code|The error code that identifies the error. For a list of possible codes, see [Error Codes](#error-codes).|String|  
@@ -107,17 +107,17 @@ Defines an error that occurred.
 <a name="errorresponse"></a>   
 ### ErrorResponse  
 The top-level object that the response includes when the request fails.  
-  
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |_type|Type hint.|String|  
 |<a name="errors" />errors|A list of the reasons why the request failed.|[Error](#error)[]|  
 
-  
+
 <a name="metatag"></a>   
 ### MetaTag  
 Defines a webpage's metadata.  
-  
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |content|The metadata.|String|  
@@ -126,6 +126,7 @@ Defines a webpage's metadata.
 <a name="opengraphimage"></a>
 ### OpenGraphImage
 Defines the location and dimensions of an image relevent to a webpage.
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |contentUrl|The image location.|String|
@@ -135,7 +136,7 @@ Defines the location and dimensions of an image relevent to a webpage.
 <a name="query_obj"></a>   
 ### Query  
 Defines a search query.  
-  
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |<a name="query-displaytext" />displayText|The display version of the query string. This version of the query string may contain special characters that highlight the search term found in the query string. The string contains the highlighting characters only if the query enabled hit highlighting (see the [textDecorations](#textdecorations) query parameter). For details about hit highlighting, see [Hit Highlighting](https://docs.microsoft.com/azure/cognitive-services/bing-custom-search/hit-highlighting).|String|  
@@ -145,7 +146,7 @@ Defines a search query.
 <a name="querycontext"></a>   
 ### QueryContext  
 Defines the query string that Bing used for the request if the specified query string contains a spelling mistake.  
-  
+
 |Element|Description|Type|  
 |-------------|-----------------|----------|  
 |<a name="querycontext-adultintent" />adultIntent|A Boolean value that indicates whether the specified query has adult intent. The value is **true** if the query has adult intent.<br /><br /> If **true**, and the request's [safeSearch](#safesearch) query parameter is set to Strict, the response will not contain results.|Boolean|  
@@ -158,9 +159,9 @@ Defines the query string that Bing used for the request if the specified query s
 <a name="searchresponse"></a>   
 ### SearchResponse  
 The response's top-level object for search requests.  
-  
+
 If the service suspects a denial of service attack, the request succeeds (HTTP status code is 200 OK); however, the body of the response is empty.  
-  
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |_type|Type hint, which is set to SearchResponse.|String|  
@@ -170,17 +171,17 @@ If the service suspects a denial of service attack, the request succeeds (HTTP s
 <a name="webanswer"></a>   
 ### WebAnswer  
 Defines a list of relevant webpage links.  
-  
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |<a name="totalestimatedmatches" />totalEstimatedMatches|The estimated number of webpages that are relevant to the query. Use this number along with the [count](#count) and [offset](#offset) query parameters to page through the results. For information, see [Paging Results](https://docs.microsoft.com/azure/cognitive-services/bing-custom-search/page-webpages).|Long|  
 |<a name="webanswer-value" />value|A list of webpages that are relevant to the query.|[WebPage](#webpage)[]|  
 |<a name="webanswer-websearchurl" />webSearchUrl|The URL to the Bing website that contains the search results for the user's query. The results include content that is not limited to your custom view of the web, and may include other types of content such as images and videos. |String|  
-  
+
 <a name="webpage"></a>   
 ### Webpage  
 Defines a webpage that is relevant to the query.  
-  
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |<a name="datelastcrawled" />dateLastCrawled|The last time that Bing crawled the webpage. The date is in the form, YYYY-MM-DDTHH:MM:SS. For example, 2015-04-13T05:23:39.|String|  

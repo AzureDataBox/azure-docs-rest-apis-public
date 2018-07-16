@@ -32,6 +32,7 @@ translation.priority.mt:
 Information about a node in Service Fabric cluster.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Name`](#name) | string | No |

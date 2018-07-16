@@ -32,6 +32,7 @@ translation.priority.mt:
 Node Deactivate Complete event.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Kind`](#kind) | string | Yes |

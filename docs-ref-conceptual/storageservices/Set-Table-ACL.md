@@ -73,15 +73,15 @@ The `Set Table ACL` operation sets the stored access policies for the table that
   
  The `Start` and `Expiry` fields must be expressed as UTC times and must adhere to a valid ISO 8061 format. Supported ISO 8061 formats include the following:  
   
--   `YYYY-MM-DD`  
+- `YYYY-MM-DD`  
   
--   `YYYY-MM-DDThh:mmTZD`  
+- `YYYY-MM-DDThh:mmTZD`  
   
--   `YYYY-MM-DDThh:mm:ssTZD`  
+- `YYYY-MM-DDThh:mm:ssTZD`  
   
--   `YYYY-MM-DDThh:mm:ss.ffffffTZD`  
+- `YYYY-MM-DDThh:mm:ss.ffffffTZD`  
   
- For the date portion of these formats, `YYYY` is a four-digit year representation, `MM` is a two-digit month representation, and `DD` is a two-digit day representation. For the time portion, `hh` is the hour representation in 24-hour notation, `mm` is the two-digit minute representation, `ss` is the two-digit second representation, and `ffffff` is the six-digit millisecond representation. A time designator `T` separates the date and time portions of the string, while a time zone designator `TZD` specifies a time zone.  
+  For the date portion of these formats, `YYYY` is a four-digit year representation, `MM` is a two-digit month representation, and `DD` is a two-digit day representation. For the time portion, `hh` is the hour representation in 24-hour notation, `mm` is the two-digit minute representation, `ss` is the two-digit second representation, and `ffffff` is the six-digit millisecond representation. A time designator `T` separates the date and time portions of the string, while a time zone designator `TZD` specifies a time zone.  
   
 ```xml  
 <?xml version="1.0" encoding="utf-8"?>  

@@ -32,6 +32,7 @@ translation.priority.mt:
 Represents a stateful service replica. This includes information about the identity, role, status, health, node name, uptime, and other details about the replica.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`ServiceKind`](#servicekind) | string | Yes |

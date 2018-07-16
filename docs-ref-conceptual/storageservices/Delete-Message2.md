@@ -91,23 +91,23 @@ The `Delete Message` operation deletes the specified message.
   
  After a client retrieves a message with the [Get Messages](Get-Messages.md) operation, the client is expected to process and delete the message. To delete the message, you must have two items of data returned in the response body of the `Get Messages` operation:  
   
--   The message ID, an opaque GUID value that identifies the message in the queue.  
+- The message ID, an opaque GUID value that identifies the message in the queue.  
   
--   A valid pop receipt, an opaque value that indicates that the message has been retrieved.  
+- A valid pop receipt, an opaque value that indicates that the message has been retrieved.  
   
- The message ID is returned from the previous `Get Messages` operation. The pop receipt is returned from the most recent `Get Messages` or `Update Message` operation. In order for the `Delete Message` operation to succeed, the pop receipt specified on the request must match the pop receipt returned from the `Get Messages` or `Update Message` operation.  
+  The message ID is returned from the previous `Get Messages` operation. The pop receipt is returned from the most recent `Get Messages` or `Update Message` operation. In order for the `Delete Message` operation to succeed, the pop receipt specified on the request must match the pop receipt returned from the `Get Messages` or `Update Message` operation.  
   
- Pop receipts remain valid until one of the following events occurs:  
+  Pop receipts remain valid until one of the following events occurs:  
   
-1.  The message has expired.  
+1. The message has expired.  
   
-2.  The message has been deleted using the last pop receipt received either from `Get Messages` or `Update Message`.  
+2. The message has been deleted using the last pop receipt received either from `Get Messages` or `Update Message`.  
   
-3.  The invisibility timeout has elapsed and the message has been dequeued by a `Get Messages` request. When the invisibility timeout elapses, the message becomes visible again. If it is retrieved by another `Get Messages` request, the returned pop receipt can be used to delete or update the message.  
+3. The invisibility timeout has elapsed and the message has been dequeued by a `Get Messages` request. When the invisibility timeout elapses, the message becomes visible again. If it is retrieved by another `Get Messages` request, the returned pop receipt can be used to delete or update the message.  
   
-4.  The message has been updated with a new visibility timeout. When the message is updated, a new pop receipt will be returned.  
+4. The message has been updated with a new visibility timeout. When the message is updated, a new pop receipt will be returned.  
   
- If a message with a matching pop receipt is not found, the service returns error code 404 (Not Found). This error will happen in the cases listed above where the pop receipt is no longer valid.  
+   If a message with a matching pop receipt is not found, the service returns error code 404 (Not Found). This error will happen in the cases listed above where the pop receipt is no longer valid.  
   
 ## See Also  
  [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md)   

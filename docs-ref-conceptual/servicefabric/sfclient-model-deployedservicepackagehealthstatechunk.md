@@ -33,6 +33,7 @@ Represents the health state chunk of a deployed service package, which contains 
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`HealthState`](#healthstate) | string (enum) | No |

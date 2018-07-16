@@ -32,6 +32,7 @@ translation.priority.mt:
 Describes an update for a stateful service.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [ServiceKind](#servicekind) | string | Yes |

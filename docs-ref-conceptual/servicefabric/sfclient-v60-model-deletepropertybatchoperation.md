@@ -33,6 +33,7 @@ Represents a PropertyBatchOperation that deletes a specified property if it exis
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [Kind](#kind) | string | Yes |

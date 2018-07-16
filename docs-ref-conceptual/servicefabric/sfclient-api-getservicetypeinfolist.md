@@ -33,12 +33,14 @@ Gets the list containing the information about service types that are supported 
 Gets the list containing the information about service types that are supported by a provisioned application type in a Service Fabric cluster. The provided application type must exist. Otherwise, a 404 status is returned.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/ApplicationTypes/{applicationTypeName}/$/GetServiceTypes?api-version=6.0&ApplicationTypeVersion={ApplicationTypeVersion}&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`applicationTypeName`](#applicationtypename) | string | Yes | Path |

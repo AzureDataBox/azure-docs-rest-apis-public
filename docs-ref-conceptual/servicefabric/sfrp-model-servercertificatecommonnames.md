@@ -30,6 +30,7 @@ translation.priority.mt:
 Describes a list of server certificates referenced by common name that are used to secure the cluster.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [commonNames](#commonnames) | array of [ServerCertificateCommonName](sfrp-model-servercertificatecommonname.md) | No |

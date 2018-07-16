@@ -32,6 +32,7 @@ translation.priority.mt:
 Application Upgrade Start event.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Kind`](#kind) | string | Yes |

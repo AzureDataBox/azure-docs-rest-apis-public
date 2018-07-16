@@ -30,6 +30,7 @@ translation.priority.mt:
 Describes a section in the fabric settings of the cluster.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [name](#name) | string | Yes |

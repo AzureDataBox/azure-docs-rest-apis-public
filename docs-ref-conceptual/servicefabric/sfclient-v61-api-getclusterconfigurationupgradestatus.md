@@ -34,12 +34,14 @@ Get the cluster configuration upgrade status details of a Service Fabric standal
 
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/$/GetClusterConfigurationUpgradeStatus?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [api-version](#api-version) | string | Yes | Query |

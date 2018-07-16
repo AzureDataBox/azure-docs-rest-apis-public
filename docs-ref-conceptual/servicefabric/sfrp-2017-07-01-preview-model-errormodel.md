@@ -30,6 +30,7 @@ translation.priority.mt:
 The structure of the error.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [error](#error) | [ErrorModelError](sfrp-2017-07-01-preview-model-errormodelerror.md) | No |

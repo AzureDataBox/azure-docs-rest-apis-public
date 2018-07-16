@@ -33,6 +33,7 @@ The list of deployed application health state chunks that respect the input filt
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [Items](#items) | array of [DeployedApplicationHealthStateChunk](sfclient-v60-model-deployedapplicationhealthstatechunk.md) | No |

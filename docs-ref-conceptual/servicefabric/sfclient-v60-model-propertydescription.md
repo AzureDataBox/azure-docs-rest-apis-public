@@ -32,6 +32,7 @@ translation.priority.mt:
 Description of a Service Fabric property.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [PropertyName](#propertyname) | string | Yes |

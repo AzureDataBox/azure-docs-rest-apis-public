@@ -31,12 +31,14 @@ Gets the list of Service Fabric cluster resources created in the specified subsc
 Gets all Service Fabric cluster resources created or in the process of being created in the subscription.
 
 ## Request
+
 | Method | Request URI |
 | ------ | ----------- |
 | GET | `/subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabric/clusters?api-version=2018-02-01` |
 
 
 ## Parameters
+
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [subscriptionId](#subscriptionid) | string | Yes | Path |

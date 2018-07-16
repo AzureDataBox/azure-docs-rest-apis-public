@@ -32,6 +32,7 @@ translation.priority.mt:
 Information about load reported by replica.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [Name](#name) | string | No |

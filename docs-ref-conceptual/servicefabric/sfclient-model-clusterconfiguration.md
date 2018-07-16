@@ -32,6 +32,7 @@ translation.priority.mt:
 Information about the standalone cluster configuration.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`ClusterConfiguration`](#clusterconfiguration) | string | No |

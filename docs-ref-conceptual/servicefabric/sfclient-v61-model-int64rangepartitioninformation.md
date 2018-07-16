@@ -32,6 +32,7 @@ translation.priority.mt:
 Describes the partition information for the integer range that is based on partition schemes.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [ServicePartitionKind](#servicepartitionkind) | string | Yes |

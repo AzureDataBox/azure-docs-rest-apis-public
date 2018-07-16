@@ -33,6 +33,7 @@ The REST API operations for Service Fabric return standard HTTP status codes. Th
 
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [Error](#error) | [FabricError_Error](sfclient-v60-model-fabricerror_error.md) | Yes |

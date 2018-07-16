@@ -32,6 +32,7 @@ translation.priority.mt:
 A version description for the application type
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [ApplicationTypeVersion](#applicationtypeversion) | string | Yes |

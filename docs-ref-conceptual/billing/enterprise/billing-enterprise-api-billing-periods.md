@@ -23,34 +23,35 @@ ms.author: aedwin
 The Billing Periods API returns a list of billing periods that have consumption data for the specified Enrollment in reverse chronological order. Each Period contains a property pointing to the API route for the four sets of data - BalanceSummary, UsageDetails, Marktplace Charges, and PriceSheet. If the period does not have data, the corresponding property is null. 
 
 
-##Request 
+## Request 
 Common header properties that need to be added are specified [here](https://docs.microsoft.com/azure/billing/billing-enterprise-api). 
 
-|Method | Request URI|
-|-|-|
-|GET| https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/billingperiods|
+
+| Method |                                  Request URI                                   |
+|--------|--------------------------------------------------------------------------------|
+|  GET   | https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/billingperiods |
 
 > [!Note]
 > To use the preview version of API, replace v2 with v1 in the above URL.
 >
 
 ## Response
- 
-	
-	
-  	  [
-		    {
-    		  	"billingPeriodId": "201704",
-      			"billingStart": "2017-04-01T00:00:00Z",
-      			"billingEnd": "2017-04-30T11:59:59Z",
-				"balanceSummary": "/v1/enrollments/100/billingperiods/201704/balancesummary",
-      			"usageDetails": "/v1/enrollments/100/billingperiods/201704/usagedetails",
-      			"marketplaceCharges": "/v1/enrollments/100/billingperiods/201704/marketplacecharges",
-      			"priceSheet": "/v1/enrollments/100/billingperiods/201704/pricesheet"
-    		},    		
-			....
-  	  ]
-	
+
+
+
+      [
+            {
+                "billingPeriodId": "201704",
+                "billingStart": "2017-04-01T00:00:00Z",
+                "billingEnd": "2017-04-30T11:59:59Z",
+                "balanceSummary": "/v1/enrollments/100/billingperiods/201704/balancesummary",
+                "usageDetails": "/v1/enrollments/100/billingperiods/201704/usagedetails",
+                "marketplaceCharges": "/v1/enrollments/100/billingperiods/201704/marketplacecharges",
+                "priceSheet": "/v1/enrollments/100/billingperiods/201704/pricesheet"
+            },          
+            ....
+      ]
+
 
 **Response property definitions**
 

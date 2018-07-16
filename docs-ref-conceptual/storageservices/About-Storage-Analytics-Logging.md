@@ -37,28 +37,28 @@ Storage Analytics logs detailed information about successful and failed requests
 ## Logging Authenticated Requests  
  The following types of authenticated requests are logged:  
   
--   Successful requests  
+- Successful requests  
   
--   Failed requests, including timeout, throttling, network, authorization, and other errors  
+- Failed requests, including timeout, throttling, network, authorization, and other errors  
   
--   Requests using a Shared Access Signature (SAS), including failed and successful requests  
+- Requests using a Shared Access Signature (SAS), including failed and successful requests  
   
--   Requests to analytics data  
+- Requests to analytics data  
   
- Requests made by Storage Analytics itself, such as log creation or deletion, are not logged. A full list of the logged data is documented in the [Storage Analytics Logged Operations and Status Messages](Storage-Analytics-Logged-Operations-and-Status-Messages.md) and [Storage Analytics Log Format](Storage-Analytics-Log-Format.md) topics.  
+  Requests made by Storage Analytics itself, such as log creation or deletion, are not logged. A full list of the logged data is documented in the [Storage Analytics Logged Operations and Status Messages](Storage-Analytics-Logged-Operations-and-Status-Messages.md) and [Storage Analytics Log Format](Storage-Analytics-Log-Format.md) topics.  
   
 ## Logging Anonymous Requests  
  The following types of anonymous requests are logged:  
   
--   Successful requests  
+- Successful requests  
   
--   Server errors  
+- Server errors  
   
--   Timeout errors for both client and server  
+- Timeout errors for both client and server  
   
--   Failed GET requests with error code 304 (Not Modified)  
+- Failed GET requests with error code 304 (Not Modified)  
   
- All other failed anonymous requests are not logged. A full list of the logged data is documented in the [Storage Analytics Logged Operations and Status Messages](Storage-Analytics-Logged-Operations-and-Status-Messages.md) and [Storage Analytics Log Format](Storage-Analytics-Log-Format.md) topics.  
+  All other failed anonymous requests are not logged. A full list of the logged data is documented in the [Storage Analytics Logged Operations and Status Messages](Storage-Analytics-Logged-Operations-and-Status-Messages.md) and [Storage Analytics Log Format](Storage-Analytics-Log-Format.md) topics.  
   
 ## How Logs are Stored  
  All logs are stored in block blobs in a container named `$logs`, which is automatically created when Storage Analytics is enabled for a storage account. The `$logs` container is located in the blob namespace of the storage account, for example: `http://<accountname>.blob.core.windows.net/$logs`. This container cannot be deleted once Storage Analytics has been enabled, though its contents can be deleted.  

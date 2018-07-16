@@ -29,15 +29,15 @@ The `Get Container ACL` operation gets the permissions for the specified contain
   
  Beginning with the 2009-09-19 version, the container permissions provide the following options for managing container access:  
   
--   **Full public read access:** Container and blob data can be read via anonymous request. Clients can enumerate blobs within the container via anonymous request, but cannot enumerate containers within the storage account.  
+- **Full public read access:** Container and blob data can be read via anonymous request. Clients can enumerate blobs within the container via anonymous request, but cannot enumerate containers within the storage account.  
   
--   **Public read access for blobs only:** Blob data within this container can be read via anonymous request, but container data is not available. Clients cannot enumerate blobs within the container via anonymous request.  
+- **Public read access for blobs only:** Blob data within this container can be read via anonymous request, but container data is not available. Clients cannot enumerate blobs within the container via anonymous request.  
   
--   **No public read access:** Container and blob data can be read by the account owner only.  
+- **No public read access:** Container and blob data can be read by the account owner only.  
   
- `Get Container ACL` also returns details about any container-level access policies specified on the container that may be used with Shared Access Signatures. For more information, see [Establishing a Stored Access Policy](Establishing-a-Stored-Access-Policy.md).  
+  `Get Container ACL` also returns details about any container-level access policies specified on the container that may be used with Shared Access Signatures. For more information, see [Establishing a Stored Access Policy](Establishing-a-Stored-Access-Policy.md).  
   
- All public access to the container is anonymous, as is access via a Shared Access Signature.  
+  All public access to the container is anonymous, as is access via a Shared Access Signature.  
   
 ## Request  
  The `Get Container ACL` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  

@@ -32,6 +32,7 @@ translation.priority.mt:
 Describes the parameters for resuming an unmonitored manual Service Fabric application upgrade
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`UpgradeDomainName`](#upgradedomainname) | string | Yes |

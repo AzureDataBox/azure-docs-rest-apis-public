@@ -234,19 +234,19 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
   
  The semantics for setting persisting these property values with the blob as follows:  
   
--   If the client specifies a custom property header, as indicated by the `x-ms-blob` prefix, this value is stored with the blob.  
+- If the client specifies a custom property header, as indicated by the `x-ms-blob` prefix, this value is stored with the blob.  
   
--   If the client specifies a standard HTTP header, but not the custom property header, the value is stored in the corresponding custom property associated with the blob, and is returned by a call to `Get Blob Properties`. For example, if the client sets the `Content-Type` header on the request, that value is stored in the blob's `x-ms-blob-content-type` property.  
+- If the client specifies a standard HTTP header, but not the custom property header, the value is stored in the corresponding custom property associated with the blob, and is returned by a call to `Get Blob Properties`. For example, if the client sets the `Content-Type` header on the request, that value is stored in the blob's `x-ms-blob-content-type` property.  
   
--   If the client sets both the standard HTTP header and the corresponding property header on the same request, the PUT request uses the value provided for the standard HTTP header, but the value specified for the custom property header is persisted with the blob and returned by subsequent GET requests.  
+- If the client sets both the standard HTTP header and the corresponding property header on the same request, the PUT request uses the value provided for the standard HTTP header, but the value specified for the custom property header is persisted with the blob and returned by subsequent GET requests.  
   
- If the blob has an active lease, the client must specify a valid lease ID on the request in order to overwrite the blob. If the client does not specify a lease ID, or specifies an invalid lease ID, the Blob service returns status code 412 (Precondition Failed). If the client specifies a lease ID but the blob does not have an active lease, the Blob service also returns status code 412 (Precondition Failed). If the client specifies a lease ID on a blob that does not yet exist, the Blob service will return status code 412 (Precondition Failed) for requests made against version 2013-08-15 and later; for prior versions the Blob service will return status code 201 (Created).  
+  If the blob has an active lease, the client must specify a valid lease ID on the request in order to overwrite the blob. If the client does not specify a lease ID, or specifies an invalid lease ID, the Blob service returns status code 412 (Precondition Failed). If the client specifies a lease ID but the blob does not have an active lease, the Blob service also returns status code 412 (Precondition Failed). If the client specifies a lease ID on a blob that does not yet exist, the Blob service will return status code 412 (Precondition Failed) for requests made against version 2013-08-15 and later; for prior versions the Blob service will return status code 201 (Created).  
   
- If an existing blob with an active lease is overwritten by a `Put Blob` operation, the lease persists on the updated blob, until it expires or is released.  
+  If an existing blob with an active lease is overwritten by a `Put Blob` operation, the lease persists on the updated blob, until it expires or is released.  
   
- A `Put Blob` operation is permitted 10 minutes per MB to complete. If the operation is taking longer than 10 minutes per MB on average, the operation will timeout.  
+  A `Put Blob` operation is permitted 10 minutes per MB to complete. If the operation is taking longer than 10 minutes per MB on average, the operation will timeout.  
  
- Overwriting an archived blob will fail and overwriting a `hot`/`cool` blob will inherit the tier from the old blob.
+  Overwriting an archived blob will fail and overwriting a `hot`/`cool` blob will inherit the tier from the old blob.
   
 ## See Also  
  [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md)   

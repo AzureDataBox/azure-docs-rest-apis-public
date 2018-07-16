@@ -41,24 +41,24 @@ Some File service GET operations support the use of the standard HTTP `Range` he
 ### Format 1: bytes=startByte-  
  This range will return bytes from the offset `startByte` through the end of the file. For example, to specify a range encompassing all bytes after the first 256 bytes of a file, you can pass in either of the following headers:  
   
--   `Range: bytes=255-`  
+- `Range: bytes=255-`  
   
--   `x-ms-range: bytes=255-`  
+- `x-ms-range: bytes=255-`  
   
- The `Content-Length` header in the response is equal to the number of bytes from the offset until the end of the file. Using the example range above for a file of 1,024 bytes in length, `Content-Length` would be 756.  
+  The `Content-Length` header in the response is equal to the number of bytes from the offset until the end of the file. Using the example range above for a file of 1,024 bytes in length, `Content-Length` would be 756.  
   
- If the offset is valid and does not exceed the file’s total length, the request will return an status code 206 (Partial Content). If the offset is invalid and exceeds the file’s total length, the request will return status code 416 (Requested Range Not Satisfiable).  
+  If the offset is valid and does not exceed the file’s total length, the request will return an status code 206 (Partial Content). If the offset is invalid and exceeds the file’s total length, the request will return status code 416 (Requested Range Not Satisfiable).  
   
 ### Format 2: bytes=startByte-endByte  
  This range will return bytes from the offset `startByte` through `endByte`. For example, to specify a range encompassing the first 512 bytes of a file, you would pass in either of the following headers:  
   
--   `Range: bytes=0-511`  
+- `Range: bytes=0-511`  
   
--   `x-ms-range: bytes=0-511`  
+- `x-ms-range: bytes=0-511`  
   
- The `Content-Length` header in the response is equal to the number of bytes between each offset. Using the example range above for a file of 1,024 bytes in length, `Content-Length` would be 512.  
+  The `Content-Length` header in the response is equal to the number of bytes between each offset. Using the example range above for a file of 1,024 bytes in length, `Content-Length` would be 512.  
   
- If the offset is valid and does not exceed the file’s total length, the request will return an status code 206 (Partial Content). If the offset is invalid and exceeds the file’s total length, the request will return status code 416 (Requested Range Not Satisfiable).  
+  If the offset is valid and does not exceed the file’s total length, the request will return an status code 206 (Partial Content). If the offset is invalid and exceeds the file’s total length, the request will return status code 416 (Requested Range Not Satisfiable).  
   
 ## See Also  
  [File Service Concepts](File-Service-Concepts.md)

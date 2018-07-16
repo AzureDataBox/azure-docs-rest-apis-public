@@ -32,6 +32,7 @@ translation.priority.mt:
 A base type for the list of health state chunks found in the cluster. It contains the total number of health states that match the input filters.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`TotalCount`](#totalcount) | integer (int64) | No |

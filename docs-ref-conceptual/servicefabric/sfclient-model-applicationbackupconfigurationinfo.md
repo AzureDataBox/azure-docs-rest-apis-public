@@ -32,6 +32,7 @@ translation.priority.mt:
 Backup configuration information for a specific Service Fabric application specifying what backup policy is being applied and suspend description, if any.
 
 ## Properties
+
 | Name | Type | Required |
 | --- | --- | --- |
 | [`Kind`](#kind) | string | Yes |
