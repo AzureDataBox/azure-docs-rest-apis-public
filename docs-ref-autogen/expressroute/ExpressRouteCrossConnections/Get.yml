@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.virtualnetwork.expressroutecrossconnections.createorupdate
-name: Create Or Update
-service: Virtual Networks
+uid: management.azure.com.expressroute.expressroutecrossconnections.get
+name: Get
+service: ExpressRoute
 groupName: Express Route Cross Connections
 apiVersion: 2018-04-01
-summary: Update the specified ExpressRouteCrossConnection.
+summary: Gets details about the specified ExpressRouteCrossConnection.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}?api-version=2018-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}?api-version=2018-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -21,13 +21,13 @@ uriParameters:
 - name: resourceGroupName
   in: path
   isRequired: true
-  description: The name of the resource group.
+  description: The name of the resource group (peering location of the circuit).
   types:
   - uid: string
 - name: crossConnectionName
   in: path
   isRequired: true
-  description: The name of the ExpressRouteCrossConnection.
+  description: The name of the ExpressRouteCrossConnection (service key of the circuit).
   types:
   - uid: string
 - name: api-version
@@ -38,55 +38,84 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Update successful. The operation returns the resulting ExpressRouteCrossConnection resource.
+  description: Request successful. The operation returns the resulting ExpressRouteCrossConnection resource.
   types:
   - uid: ExpressRouteCrossConnection
-requestBody:
-- name: default
-  parameters:
+requestHeader: []
+definitions:
+- name: ExpressRouteCrossConnection
+  description: ExpressRouteCrossConnection resource
+  kind: object
+  properties:
+  - name: etag
+    isReadyOnly: true
+    description: Gets a unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.primaryAzurePort
+    isReadyOnly: true
+    description: The name of the primary  port.
+    types:
+    - uid: string
+  - name: properties.secondaryAzurePort
+    isReadyOnly: true
+    description: The name of the secondary  port.
+    types:
+    - uid: string
+  - name: properties.sTag
+    isReadyOnly: true
+    description: The identifier of the circuit traffic.
+    types:
+    - uid: integer
   - name: properties.peeringLocation
-    in: body
     description: The peering location of the ExpressRoute circuit.
     types:
     - uid: string
   - name: properties.bandwidthInMbps
-    in: body
     description: The circuit bandwidth In Mbps.
     types:
     - uid: integer
   - name: properties.expressRouteCircuit
-    in: body
     description: The ExpressRouteCircuit
     types:
     - uid: ExpressRouteCircuitReference
   - name: properties.serviceProviderProvisioningState
-    in: body
     description: The provisioning state of the circuit in the connectivity provider system. Possible values are 'NotProvisioned', 'Provisioning', 'Provisioned'.
     types:
     - uid: ServiceProviderProvisioningState
   - name: properties.serviceProviderNotes
-    in: body
     description: Additional read only notes set by the connectivity provider.
     types:
     - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: "Gets the provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
   - name: properties.peerings
-    in: body
     description: The list of peerings.
     types:
     - uid: ExpressRouteCrossConnectionPeering
       isArray: true
   - name: id
-    in: body
     description: Resource ID.
     types:
     - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
   - name: location
-    in: body
     description: Resource location.
     types:
     - uid: string
   - name: tags
-    in: body
     description: Resource tags.
     types:
     - uid: object
@@ -94,13 +123,27 @@ requestBody:
       additionalTypes:
       - uid: string
       - uid: string
-requestHeader: []
-definitions:
 - name: ExpressRouteCircuitReference
   kind: object
   properties:
   - name: id
     description: Corresponding Express Route Circuit Id.
+    types:
+    - uid: string
+- name: ServiceProviderProvisioningState
+  description: The provisioning state of the circuit in the connectivity provider system. Possible values are 'NotProvisioned', 'Provisioning', 'Provisioned'.
+  kind: enum
+  properties:
+  - name: NotProvisioned
+    types:
+    - uid: string
+  - name: Provisioning
+    types:
+    - uid: string
+  - name: Provisioned
+    types:
+    - uid: string
+  - name: Deprovisioning
     types:
     - uid: string
 - name: ExpressRouteCrossConnectionPeering
@@ -184,86 +227,6 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
-- name: ExpressRouteCrossConnection
-  description: ExpressRouteCrossConnection resource
-  kind: object
-  properties:
-  - name: etag
-    isReadyOnly: true
-    description: Gets a unique read-only string that changes whenever the resource is updated.
-    types:
-    - uid: string
-  - name: properties.primaryAzurePort
-    isReadyOnly: true
-    description: The name of the primary  port.
-    types:
-    - uid: string
-  - name: properties.secondaryAzurePort
-    isReadyOnly: true
-    description: The name of the secondary  port.
-    types:
-    - uid: string
-  - name: properties.sTag
-    isReadyOnly: true
-    description: The identifier of the circuit traffic.
-    types:
-    - uid: integer
-  - name: properties.peeringLocation
-    description: The peering location of the ExpressRoute circuit.
-    types:
-    - uid: string
-  - name: properties.bandwidthInMbps
-    description: The circuit bandwidth In Mbps.
-    types:
-    - uid: integer
-  - name: properties.expressRouteCircuit
-    description: The ExpressRouteCircuit
-    types:
-    - uid: ExpressRouteCircuitReference
-  - name: properties.serviceProviderProvisioningState
-    description: The provisioning state of the circuit in the connectivity provider system. Possible values are 'NotProvisioned', 'Provisioning', 'Provisioned'.
-    types:
-    - uid: ServiceProviderProvisioningState
-  - name: properties.serviceProviderNotes
-    description: Additional read only notes set by the connectivity provider.
-    types:
-    - uid: string
-  - name: properties.provisioningState
-    isReadyOnly: true
-    description: "Gets the provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
-    types:
-    - uid: string
-  - name: properties.peerings
-    description: The list of peerings.
-    types:
-    - uid: ExpressRouteCrossConnectionPeering
-      isArray: true
-  - name: id
-    description: Resource ID.
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource name.
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type.
-    types:
-    - uid: string
-  - name: location
-    description: Resource location.
-    types:
-    - uid: string
-  - name: tags
-    description: Resource tags.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
 - name: ExpressRoutePeeringType
   description: "The PeeringType. Possible values are: 'AzurePublicPeering', 'AzurePrivatePeering', and 'MicrosoftPeering'."
   kind: enum
@@ -341,22 +304,6 @@ definitions:
     description: "The state of peering. Possible values are: 'Disabled' and 'Enabled'"
     types:
     - uid: ExpressRouteCircuitPeeringState
-- name: ServiceProviderProvisioningState
-  description: The provisioning state of the circuit in the connectivity provider system. Possible values are 'NotProvisioned', 'Provisioning', 'Provisioned'.
-  kind: enum
-  properties:
-  - name: NotProvisioned
-    types:
-    - uid: string
-  - name: Provisioning
-    types:
-    - uid: string
-  - name: Provisioned
-    types:
-    - uid: string
-  - name: Deprovisioning
-    types:
-    - uid: string
 - name: ExpressRouteCircuitPeeringAdvertisedPublicPrefixState
   description: AdvertisedPublicPrefixState of the Peering resource. Possible values are 'NotConfigured', 'Configuring', 'Configured', and 'ValidationNeeded'.
   kind: enum
@@ -664,23 +611,18 @@ definitions:
     types:
     - uid: string
 examples:
-- name: UpdateExpressRouteCrossConnection
+- name: GetExpressRouteCrossConnection
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/CrossConnection-SiliconValley/providers/Microsoft.Network/expressRouteCrossConnections/<circuitServiceKey>?api-version=2018-04-01
-    body: >-
-      {
-        "properties": {
-          "serviceProviderProvisioningState": "NotProvisioned"
-        }
-      }
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/CrossConnection-SiliconValley/providers/Microsoft.Network/expressRouteCrossConnections/<circuitServiceKey>?api-version=2018-04-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "name": "<circuitServiceKey>",
-        "id": "/subscriptions/subid/resourceGroups/CrossConnectionSiliconValley/providers/Microsoft.Network/expressRouteCrossConnections/<circuitServiceKey>",
+        "id": "/subscriptions/subid/resourceGroups/CrossConnection-SiliconValley/providers/Microsoft.Network/expressRouteCrossConnections/<circuitServiceKey>",
         "type": "Microsoft.Network/expressRouteCrossConnections",
         "location": "brazilsouth",
+        "etag": "W/\"c0e6477e-8150-4d4f-9bf6-bb10e6acb63a\"",
         "properties": {
           "provisioningState": "Enabled",
           "expressRouteCircuit": {

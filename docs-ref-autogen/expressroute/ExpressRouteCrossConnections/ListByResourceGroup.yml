@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.virtualnetwork.expressroutecrossconnections.updatetags
-name: Update Tags
-service: Virtual Networks
+uid: management.azure.com.expressroute.expressroutecrossconnections.listbyresourcegroup
+name: List By Resource Group
+service: ExpressRoute
 groupName: Express Route Cross Connections
 apiVersion: 2018-04-01
-summary: Updates an express route cross connection tags.
+summary: Retrieves all the ExpressRouteCrossConnections in a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}?api-version=2018-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections?api-version=2018-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -24,12 +24,6 @@ uriParameters:
   description: The name of the resource group.
   types:
   - uid: string
-- name: crossConnectionName
-  in: path
-  isRequired: true
-  description: The name of the cross connection.
-  types:
-  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -38,23 +32,25 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Update successful. The operation returns the resulting ExpressRouteCrossConnection resource.
+  description: Request successful.The operation returns a list of ExpressRouteCrossConnection resources. If there are no crossconnection resources an empty list is returned.
   types:
-  - uid: ExpressRouteCrossConnection
-requestBody:
-- name: default
-  parameters:
-  - name: tags
-    in: body
-    description: Resource tags.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
+  - uid: ExpressRouteCrossConnectionListResult
 requestHeader: []
 definitions:
+- name: ExpressRouteCrossConnectionListResult
+  description: Response for ListExpressRouteCrossConnection API service call.
+  kind: object
+  properties:
+  - name: value
+    description: A list of ExpressRouteCrossConnection resources.
+    types:
+    - uid: ExpressRouteCrossConnection
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The URL to get the next set of results.
+    types:
+    - uid: string
 - name: ExpressRouteCrossConnection
   description: ExpressRouteCrossConnection resource
   kind: object
@@ -127,18 +123,6 @@ definitions:
     description: Resource location.
     types:
     - uid: string
-  - name: tags
-    description: Resource tags.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-- name: TagsObject
-  description: Tags object for patch operations.
-  kind: object
-  properties:
   - name: tags
     description: Resource tags.
     types:
@@ -635,41 +619,34 @@ definitions:
     types:
     - uid: string
 examples:
-- name: UpdateExpressRouteCrossConnectionTags
+- name: ExpressRouteCrossConnectionListByResourceGroup
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/CrossConnection-SiliconValley/providers/Microsoft.Network/expressRouteCrossConnections/<circuitServiceKey>?api-version=2018-04-01
-    body: >-
-      {
-        "tags": {
-          "tag1": "value1",
-          "tag2": "value2"
-        }
-      }
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/CrossConnection-SiliconValley/providers/Microsoft.Network/expressRouteCrossConnections?api-version=2018-04-01
   responses:
   - statusCode: "200"
     body: >-
       {
-        "name": "er1",
-        "id": "/subscriptions/subid/resourceGroups/CrossConnectionSiliconValley/providers/Microsoft.Network/expressRouteCrossConnections/<circuitServiceKey>",
-        "type": "Microsoft.Network/expressRouteCrossConnections",
-        "location": "brazilsouth",
-        "tags": {
-          "tag1": "value1",
-          "tag2": "value2"
-        },
-        "properties": {
-          "provisioningState": "Failed",
-          "expressRouteCircuit": {
-            "id": "/subscriptions/subid/resourceGroups/ertest/providers/Microsoft.Network/expressRouteCircuits/er1"
-          },
-          "peerings": [],
-          "peeringLocation": "SiliconValley",
-          "bandwidthInMbps": 1000,
-          "primaryAzurePort": "bvtazureixp01",
-          "secondaryAzurePort": "bvtazureixp01",
-          "sTag": 2,
-          "serviceProviderProvisioningState": "NotProvisioned"
-        }
+        "value": [
+          {
+            "name": "<circuitServiceKey>",
+            "id": "/subscriptions/subid/resourceGroups/CrossConnectionSilicon-Valley/providers/Microsoft.Network/expressRouteCrossConnections/<circuitServiceKey>",
+            "type": "Microsoft.Network/expressRouteCrossConnections",
+            "location": "brazilsouth",
+            "properties": {
+              "provisioningState": "Enabled",
+              "expressRouteCircuit": {
+                "id": "/subscriptions/subid/resourceGroups/ertest/providers/Microsoft.Network/expressRouteCircuits/er1"
+              },
+              "peerings": [],
+              "peeringLocation": "SiliconValley",
+              "bandwidthInMbps": 1000,
+              "primaryAzurePort": "bvtazureixp01",
+              "secondaryAzurePort": "bvtazureixp01",
+              "sTag": 2,
+              "serviceProviderProvisioningState": "NotProvisioned"
+            }
+          }
+        ]
       }
 security:
 - type: oauth2
