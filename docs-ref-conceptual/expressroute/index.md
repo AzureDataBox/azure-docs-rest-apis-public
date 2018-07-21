@@ -19,7 +19,7 @@ Azure ExpressRoute lets you create private connections between Azure datacenters
 |---|---|
 |[ExpressRoute Service Providers](xref:management.azure.com.expressroute.expressrouteserviceproviders)    |Provides operations listing ExpressRoute providers.|
 |[ExpressRoute Circuits](xref:management.azure.com.expressroute.expressroutecircuits)   | Provides operations for managing ExpressRoute circuit authorizations.|
-|[Cross Connections](xref:management.azure.com.expressroute.expressroutecrossconnections) | Provides operations for managing ExpressRoute cross connection peerings (for authorized partners only).|
+|[Cross Connections](xref:management.azure.com.expressroute.expressroutecrossconnections) | Provides operations for managing ExpressRoute cross connections (for authorized partners only).|
 |[Cross Connection Peerings](xref:management.azure.com.expressroute.expressroutecrossconnectionpeerings) | Provides operations for managing ExpressRoute cross connection peerings (for authorized partners only). |
 |[ExpressRoute Authorizations](xref:management.azure.com.expressroute.expressroutecircuitauthorizations)  |Provides operations for managing ExpressRoute BGP peerings.|
 |[ExpressRoute BGP Peering](xref:management.azure.com.expressroute.expressroutecircuitpeerings)  |Provides operations for managing ExpressRoute BGP peerings.|
