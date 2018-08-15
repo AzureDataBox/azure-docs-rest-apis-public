@@ -1,1 +1,0 @@
-## [TEST IoT in context of KV](../iothub/common-error-codes?context=rest/api/keyvault/rc/rc)
