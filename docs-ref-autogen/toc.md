@@ -3246,7 +3246,7 @@
 ### [Operation Status Lookup](iot-dps/RuntimeRegistration/OperationStatusLookup.yml)
 ### [Register Device](iot-dps/RuntimeRegistration/RegisterDevice.yml)
 # [Key Vault](../docs-ref-conceptual/keyvault/index.md)
-## [TEST IoT in context of KV](../docs-ref-conceptual/iothub/common-error-codes?context=rest/api/keyvault/rc/rc)
+## [TEST IoT in context of KV](../docs-ref-conceptual/iothub/common-error-codes.md?context=rest/api/keyvault/rc/rc)
 ## [Backup Key](keyvault/BackupKey.yml)
 ### [Backup Key](keyvault/BackupKey/BackupKey.yml)
 ## [Backup Secret](keyvault/BackupSecret.yml)
