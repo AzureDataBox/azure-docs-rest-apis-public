@@ -1,1 +1,1 @@
-# [TEST IoT in context of KV](/rest/api/iothub/common-error-codes?context=rest/api/keyvault/rc/rc)
+# [TEST IoT in context of KV](..\iothub\common-error-codes.md?context=rest/api/keyvault/rc/rc)
