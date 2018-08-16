@@ -1,1 +1,1 @@
-# [TEST IoT in context of KV](https://docs.microsoft.com/rest/api/iothub/common-error-codes?context=rest/api/keyvault/rc/rc)
+# [TEST from /azure docset](/azure/key-vault/authentication-requests-and-responses?context=rest/api/keyvault/rc/rc)
