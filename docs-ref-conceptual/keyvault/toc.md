@@ -1,1 +1,2 @@
-# [TEST from /azure docset](https://docs.microsoft.com/azure/key-vault/authentication-requests-and-responses?context=rest/api/keyvault/rc/rc)
+# [Authentication, requests and responses](https://docs.microsoft.com/azure/key-vault/authentication-requests-and-responses?context=rest/api/keyvault/rc/rc)
+# [Common parameters and headers](https://docs.microsoft.com/azure/key-vault/common-parameters-and-headers?context=rest/api/keyvault/rc/rc)
