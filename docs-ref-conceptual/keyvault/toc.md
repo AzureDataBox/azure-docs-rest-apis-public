@@ -1,1 +1,1 @@
-# [TEST from /azure docset](/azure/key-vault/authentication-requests-and-responses?context=rest/api/keyvault/rc/rc)
+# [TEST from /azure docset](https://docs.microsoft.com/azure/key-vault/authentication-requests-and-responses?context=rest/api/keyvault/rc/rc)
