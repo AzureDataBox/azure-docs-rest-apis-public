@@ -3246,6 +3246,7 @@
 ### [Operation Status Lookup](iot-dps/RuntimeRegistration/OperationStatusLookup.yml)
 ### [Register Device](iot-dps/RuntimeRegistration/RegisterDevice.yml)
 # [Key Vault](../docs-ref-conceptual/keyvault/index.md)
+## [TEST from /azure docset](https://docs.microsoft.com/azure/key-vault/authentication-requests-and-responses?context=rest/api/keyvault/rc/rc)
 ## Reference
 ### [Backup Key](keyvault/BackupKey.yml)
 #### [Backup Key](keyvault/BackupKey/BackupKey.yml)
@@ -6793,6 +6794,7 @@
 #### [Delete](sql/SensitivityLabels/Delete.yml)
 #### [Get](sql/SensitivityLabels/Get.yml)
 #### [List By Database](sql/SensitivityLabels/ListByDatabase.yml)
+#### [List By Database With Source](sql/SensitivityLabels/ListByDatabaseWithSource.yml)
 ### [Server Advisors](sql/ServerAdvisors.yml)
 #### [Get](sql/ServerAdvisors/Get.yml)
 #### [List By Server](sql/ServerAdvisors/ListByServer.yml)
