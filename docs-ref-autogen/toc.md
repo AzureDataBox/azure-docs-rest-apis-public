@@ -3248,6 +3248,9 @@
 # [Key Vault](../docs-ref-conceptual/keyvault/index.md)
 ## [Authentication, requests and responses](https://review.docs.microsoft.com/azure/key-vault/authentication-requests-and-responses?context=/rest/api/keyvault/rc/rc)
 ## [Common parameters and headers](https://review.docs.microsoft.com/azure/key-vault/common-parameters-and-headers?context=/rest/api/keyvault/rc/rc)
+# [TEST against same repo using IoT doc](..\iothub\common-error-codes.md?context=/rest/api/keyvault/rc/rc)
+# [TEST against same repo using IoT doc](..\iothub\common-error-codes.md?context=/rc/rc)
+# [TEST against same repo using IoT doc](..\iothub\common-error-codes.md?context=rc/rc)
 ## Reference
 ### [Backup Key](keyvault/BackupKey.yml)
 #### [Backup Key](keyvault/BackupKey/BackupKey.yml)
