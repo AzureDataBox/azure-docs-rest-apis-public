@@ -3248,8 +3248,6 @@
 # [Key Vault](../docs-ref-conceptual/keyvault/index.md)
 ## [Authentication, requests and responses](https://review.docs.microsoft.com/azure/key-vault/authentication-requests-and-responses?context=/rest/api/keyvault/rc/rc)
 ## [Common parameters and headers](https://review.docs.microsoft.com/azure/key-vault/common-parameters-and-headers?context=/rest/api/keyvault/rc/rc)
-## [MANUAL - /rest article (same repo)](/rest/api/iothub/common-error-codes?context=/rest/api/keyvault/rc/rc) 
-## [MANUAL - /azure article (x-repo)](/azure/key-vault/common-parameters-and-headers?context=/rest/api/keyvault/rc/rc) 
 ## Reference
 ### [Backup Key](keyvault/BackupKey.yml)
 #### [Backup Key](keyvault/BackupKey/BackupKey.yml)
@@ -4123,6 +4121,7 @@
 ### [List By Server](postgresql/VirtualNetworkRules/ListByServer.yml)
 # [Power BI Embedded](../docs-ref-conceptual/power-bi-embedded/index.md)
 ## [Capacities](power-bi-embedded/Capacities.yml)
+### [Check Name Availability](power-bi-embedded/Capacities/CheckNameAvailability.yml)
 ### [Create](power-bi-embedded/Capacities/Create.yml)
 ### [Delete](power-bi-embedded/Capacities/Delete.yml)
 ### [Get Details](power-bi-embedded/Capacities/GetDetails.yml)
