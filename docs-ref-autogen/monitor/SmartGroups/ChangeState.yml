@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: alertsmanagement.smartgroups.getbyid
-name: Get By Id
-service: Alerts Management
+uid: monitor.smartgroups.changestate
+name: Change State
+service: Monitor
 groupName: Smart Groups
 apiVersion: 2018-05-05-preview
-summary: "Get information of smart alerts group.  \nGet details of smart group."
+summary: Change the state from unresolved to resolved and all the alerts within the smart group will also be resolved.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https:///subscriptions/{subscriptionId}/providers/Microsoft.AlertsManagement/smartGroups/{smartGroupId}?api-version=2018-05-05-preview
+- content: POST https:///subscriptions/{subscriptionId}/providers/Microsoft.AlertsManagement/smartGroups/{smartGroupId}/changeState?api-version=2018-05-05-preview&newState={newState}
 uriParameters:
 - name: subscriptionId
   in: path
@@ -30,12 +30,18 @@ uriParameters:
   description: client API version
   types:
   - uid: api-version
+- name: newState
+  in: query
+  isRequired: true
+  description: filter by state
+  types:
+  - uid: AlertState
 responses:
 - name: 200 OK
   headers:
   - name: x-ms-request-id
     value: string
-  description: OK. Returns the group with the specified smart group Id.
+  description: OK. Alert state updated.
   types:
   - uid: smartGroup
 - name: Other Status Codes
@@ -52,6 +58,19 @@ definitions:
     types:
     - uid: string
   - name: 2018-05-05-preview
+    types:
+    - uid: string
+- name: AlertState
+  description: Alert object state
+  kind: enum
+  properties:
+  - name: New
+    types:
+    - uid: string
+  - name: Acknowledged
+    types:
+    - uid: string
+  - name: Closed
     types:
     - uid: string
 - name: smartGroup
@@ -215,16 +234,16 @@ definitions:
     - uid: errorResponseBody
       isArray: true
 examples:
-- name: Get
+- name: changestate
   request:
-    uri: GET https:///subscriptions/9e261de7-c804-4b9d-9ebf-6f50fe350a9a/providers/Microsoft.AlertsManagement/smartGroups/603675da-9851-4b26-854a-49fc53d32715?api-version=2018-05-05-preview
+    uri: POST https:///subscriptions/dd91de05-d791-4ceb-b6dc-988682dc7d72/providers/Microsoft.AlertsManagement/smartGroups/a808445e-bb38-4751-85c2-1b109ccc1059/changeState?api-version=2018-05-05-preview&newState=Acknowledged
   responses:
   - statusCode: "200"
     body: >-
       {
         "properties": {
           "alertsCount": 1942,
-          "smartGroupState": "New",
+          "smartGroupState": "Acknowledged",
           "severity": "Sev3",
           "startDateTime": "2018-06-06T12:35:09Z",
           "lastModifiedDateTime": "2018-06-13T06:30:09Z",
