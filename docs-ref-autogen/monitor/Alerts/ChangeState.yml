@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: alertsmanagement.alerts.getbyid
-name: Get By Id
-service: Alerts Management
+uid: monitor.alerts.changestate
+name: Change State
+service: Monitor
 groupName: Alerts
 apiVersion: 2018-05-05-preview
-summary: "Get a specific alert.  \nGet information related to a specific alert"
+summary: Change the state of the alert.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https:///subscriptions/{subscriptionId}/providers/Microsoft.AlertsManagement/alerts/{alertId}?api-version=2018-05-05-preview
+- content: POST https:///subscriptions/{subscriptionId}/providers/Microsoft.AlertsManagement/alerts/{alertId}/changestate?api-version=2018-05-05-preview&newState={newState}
 uriParameters:
 - name: subscriptionId
   in: path
@@ -30,9 +30,15 @@ uriParameters:
   description: client API version
   types:
   - uid: api-version
+- name: newState
+  in: query
+  isRequired: true
+  description: filter by state
+  types:
+  - uid: AlertState
 responses:
 - name: 200 OK
-  description: OK. Returns the alert with the specified ID.
+  description: OK. Alert state updated.
   types:
   - uid: alert
 - name: Other Status Codes
@@ -49,6 +55,19 @@ definitions:
     types:
     - uid: string
   - name: 2018-05-05-preview
+    types:
+    - uid: string
+- name: AlertState
+  description: Alert object state
+  kind: enum
+  properties:
+  - name: New
+    types:
+    - uid: string
+  - name: Acknowledged
+    types:
+    - uid: string
+  - name: Closed
     types:
     - uid: string
 - name: alert
@@ -186,19 +205,6 @@ definitions:
   - name: Unknown
     types:
     - uid: string
-- name: AlertState
-  description: Alert object state
-  kind: enum
-  properties:
-  - name: New
-    types:
-    - uid: string
-  - name: Acknowledged
-    types:
-    - uid: string
-  - name: Closed
-    types:
-    - uid: string
 - name: MonitorCondition
   description: Condition of the rule at the monitor service
   kind: enum
@@ -277,9 +283,9 @@ definitions:
     - uid: errorResponseBody
       isArray: true
 examples:
-- name: GetById
+- name: Resolve
   request:
-    uri: GET https:///subscriptions/9e261de7-c804-4b9d-9ebf-6f50fe350a9a/providers/Microsoft.AlertsManagement/alerts/66114d64-d9d9-478b-95c9-b789d6502100?api-version=2018-05-05-preview
+    uri: POST https:///subscriptions/9e261de7-c804-4b9d-9ebf-6f50fe350a9a/providers/Microsoft.AlertsManagement/alerts/66114d64-d9d9-478b-95c9-b789d6502100/changestate?api-version=2018-05-05-preview&newState=Acknowledged
   responses:
   - statusCode: "200"
     body: >-
@@ -299,7 +305,7 @@ examples:
           "smartGroupingReason": "Alerts that frequently occur together have been grouped.",
           "startDateTime": "2018-06-12T22:05:09Z",
           "lastModifiedDateTime": "2018-06-12T22:05:09Z",
-          "lastModifiedUserName": "System",
+          "lastModifiedUserName": "vikramm@microsoft.com",
           "payload": {}
         },
         "id": "/subscriptions/9e261de7-c804-4b9d-9ebf-6f50fe350a9a/providers/Microsoft.AlertsManagement/alerts/66114d64-d9d9-478b-95c9-b789d6502100",

@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: alertsmanagement.alerts.gethistory
+uid: monitor.smartgroups.gethistory
 name: Get History
-service: Alerts Management
-groupName: Alerts
+service: Monitor
+groupName: Smart Groups
 apiVersion: 2018-05-05-preview
-summary: Get the history of the changes of an alert.
+summary: Get the history of the changes of smart group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https:///subscriptions/{subscriptionId}/providers/Microsoft.AlertsManagement/alerts/{alertId}/history?api-version=2018-05-05-preview
+- content: GET https:///subscriptions/{subscriptionId}/providers/Microsoft.AlertsManagement/smartGroups/{smartGroupId}/history?api-version=2018-05-05-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -18,10 +18,10 @@ uriParameters:
   description: subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
   types:
   - uid: string
-- name: alertId
+- name: smartGroupId
   in: path
   isRequired: true
-  description: Unique ID of an alert object.
+  description: Smart Group Id
   types:
   - uid: string
 - name: api-version
@@ -32,9 +32,9 @@ uriParameters:
   - uid: api-version
 responses:
 - name: 200 OK
-  description: OK. Returns the list of changes of alert.
+  description: OK. Returns the list of changes of smart group.
   types:
-  - uid: alertModification
+  - uid: smartGroupModification
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
@@ -51,14 +51,14 @@ definitions:
   - name: 2018-05-05-preview
     types:
     - uid: string
-- name: alertModification
+- name: smartGroupModification
   description: Alert Modification details
   kind: object
   properties:
   - name: properties
-    description: Properties of the alert modification item.
+    description: Properties of the smartGroup modification item.
     types:
-    - uid: alertModificationProperties
+    - uid: smartGroupModificationProperties
   - name: id
     isReadyOnly: true
     description: Azure resource Id
@@ -82,20 +82,24 @@ definitions:
     description: Details of error response.
     types:
     - uid: errorResponseBody
-- name: alertModificationProperties
-  description: Properties of the alert modification item.
+- name: smartGroupModificationProperties
+  description: Properties of the smartGroup modification item.
   kind: object
   properties:
-  - name: alertId
+  - name: smartGroupId
     isReadyOnly: true
-    description: Unique Id of the alert for which the history is being retrieved
+    description: Unique Id of the smartGroup for which the history is being retrieved
     types:
     - uid: string
   - name: modifications
     description: Modification details
     types:
-    - uid: alertModificationItem
+    - uid: smartGroupModificationItem
       isArray: true
+  - name: nextLink
+    description: URL to fetch the next set of results.
+    types:
+    - uid: string
 - name: errorResponseBody
   description: Details of error response.
   kind: object
@@ -117,14 +121,14 @@ definitions:
     types:
     - uid: errorResponseBody
       isArray: true
-- name: alertModificationItem
-  description: Alert modification item.
+- name: smartGroupModificationItem
+  description: smartGroup modification item.
   kind: object
   properties:
   - name: modificationEvent
     description: Reason for the modification
     types:
-    - uid: AlertModificationEvent
+    - uid: SmartGroupModificationEvent
   - name: oldValue
     description: Old value
     types:
@@ -149,52 +153,46 @@ definitions:
     description: Description of the modification
     types:
     - uid: string
-- name: AlertModificationEvent
+- name: SmartGroupModificationEvent
   description: Reason for the modification
   kind: enum
   properties:
-  - name: AlertCreated
+  - name: SmartGroupCreated
     types:
     - uid: string
   - name: StateChange
     types:
     - uid: string
-  - name: MonitorConditionChange
+  - name: AlertAdded
+    types:
+    - uid: string
+  - name: AlertRemoved
     types:
     - uid: string
 examples:
 - name: Resolve
   request:
-    uri: GET https:///subscriptions/9e261de7-c804-4b9d-9ebf-6f50fe350a9a/providers/Microsoft.AlertsManagement/alerts/66114d64-d9d9-478b-95c9-b789d6502100/history?api-version=2018-05-05-preview
+    uri: GET https:///subscriptions/9e261de7-c804-4b9d-9ebf-6f50fe350a9a/providers/Microsoft.AlertsManagement/smartGroups/a808445e-bb38-4751-85c2-1b109ccc1059/history?api-version=2018-05-05-preview
   responses:
   - statusCode: "200"
     body: >-
       {
         "properties": {
-          "alertId": "66114d64-d9d9-478b-95c9-b789d6502100",
+          "smartGroupId": "a808445e-bb38-4751-85c2-1b109ccc1059",
           "modifications": [
             {
-              "modificationEvent": "StateChange",
-              "oldValue": "New",
-              "newValue": "Acknowledged",
-              "modifiedAt": "2018-06-13T06:14:15.7378737Z",
-              "modifiedBy": "vikramm@microsoft.com",
-              "comments": "Acknowledging alert",
-              "description": "State changed from 'New' to 'Acknowledged'"
-            },
-            {
-              "modificationEvent": "AlertCreated",
+              "modificationEvent": "SmartGroupCreated",
               "oldValue": "",
               "newValue": "",
-              "modifiedAt": "2018-06-13T06:09:01Z",
+              "modifiedAt": "2018-06-06T12:35:09Z",
               "modifiedBy": "System",
               "comments": "",
-              "description": "New Alert Object is created"
+              "description": "New Smart Group is created"
             }
           ]
         },
-        "id": "/subscriptions/9e261de7-c804-4b9d-9ebf-6f50fe350a9a/providers/Microsoft.AlertsManagement/alerts/66114d64-d9d9-478b-95c9-b789d6502100/history/default",
+        "id": "/subscriptions/9e261de7-c804-4b9d-9ebf-6f50fe350a9a/providers/Microsoft.AlertsManagement/smartGroups/a808445e-bb38-4751-85c2-1b109ccc1059/history/default",
         "type": "Microsoft.AlertsManagement/alerts",
-        "name": "CPU Alert"
+        "name": "cpu alert"
       }
 security: []
