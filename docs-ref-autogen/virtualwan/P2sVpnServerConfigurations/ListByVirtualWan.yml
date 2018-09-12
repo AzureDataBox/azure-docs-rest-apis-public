@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.virtualwan.virtualwans.updatetags
-name: Update Tags
+uid: management.azure.com.virtualwan.p2svpnserverconfigurations.listbyvirtualwan
+name: List By Virtual Wan
 service: Virtual WAN
-groupName: Virtual Wans
+groupName: P2s Vpn Server Configurations
 apiVersion: 2018-08-01
-summary: Updates a VirtualWAN tags.
+summary: Retrieves all P2SVpnServerConfigurations for a particular VirtualWan.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}?api-version=2018-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWanName}/p2sVpnServerConfigurations?api-version=2018-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -24,10 +24,10 @@ uriParameters:
   description: The resource group name of the VirtualWan.
   types:
   - uid: string
-- name: VirtualWANName
+- name: virtualWanName
   in: path
   isRequired: true
-  description: The name of the VirtualWAN being updated.
+  description: The name of the VirtualWan.
   types:
   - uid: string
 - name: api-version
@@ -38,109 +38,28 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Request successful. Returns the details of the VirtualWAN updated.
+  description: Request successful. Returns all P2SVpnServerConfigurations for a VirtualWan.
   types:
-  - uid: VirtualWAN
-- name: 201 Created
-  description: Request received successfully. Returns the details of the VirtualWAN updated.
-  types:
-  - uid: VirtualWAN
+  - uid: ListP2SVpnServerConfigurationsResult
 - name: Other Status Codes
   description: Error
   types:
   - uid: Error
-requestBody:
-- name: default
-  parameters:
-  - name: tags
-    in: body
-    description: Resource tags.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
 requestHeader: []
 definitions:
-- name: VirtualWAN
-  description: VirtualWAN Resource.
+- name: ListP2SVpnServerConfigurationsResult
+  description: Result of the request to list all P2SVpnServerConfigurations associated to a VirtualWan. It contains a list of P2SVpnServerConfigurations and a URL nextLink to get the next set of results.
   kind: object
   properties:
-  - name: etag
-    isReadyOnly: true
-    description: Gets a unique read-only string that changes whenever the resource is updated.
-    types:
-    - uid: string
-  - name: properties.disableVpnEncryption
-    description: Vpn encryption to be disabled or not.
-    types:
-    - uid: boolean
-  - name: properties.virtualHubs
-    isReadyOnly: true
-    description: List of VirtualHubs in the VirtualWAN.
-    types:
-    - uid: SubResource
-      isArray: true
-  - name: properties.vpnSites
-    isReadyOnly: true
-    description: Reference to another subresource.
-    types:
-    - uid: SubResource
-      isArray: true
-  - name: properties.securityProviderName
-    description: The Security Provider name.
-    types:
-    - uid: string
-  - name: properties.allowBranchToBranchTraffic
-    description: True if branch to branch traffic is allowed.
-    types:
-    - uid: boolean
-  - name: properties.allowVnetToVnetTraffic
-    description: True if Vnet to Vnet traffic is allowed.
-    types:
-    - uid: boolean
-  - name: properties.office365LocalBreakoutCategory
-    isReadyOnly: true
-    description: The office local breakout category.
-    types:
-    - uid: officeTrafficCategory
-  - name: properties.p2SVpnServerConfigurations
-    description: list of all P2SVpnServerConfigurations associated with the virtual wan.
+  - name: value
+    description: List of P2SVpnServerConfigurations.
     types:
     - uid: P2SVpnServerConfiguration
       isArray: true
-  - name: properties.provisioningState
-    isReadyOnly: true
-    description: The provisioning state of the resource.
-    types:
-    - uid: ProvisioningState
-  - name: id
-    description: Resource ID.
+  - name: nextLink
+    description: URL to get the next set of operation list results if there are any.
     types:
     - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource name.
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type.
-    types:
-    - uid: string
-  - name: location
-    description: Resource location.
-    types:
-    - uid: string
-  - name: tags
-    description: Resource tags.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
 - name: Error
   kind: object
   properties:
@@ -163,42 +82,6 @@ definitions:
       isArray: true
   - name: innerError
     description: ''
-    types:
-    - uid: string
-- name: TagsObject
-  description: Tags object for patch operations.
-  kind: object
-  properties:
-  - name: tags
-    description: Resource tags.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-- name: SubResource
-  description: Reference to another subresource.
-  kind: object
-  properties:
-  - name: id
-    description: Resource ID.
-    types:
-    - uid: string
-- name: officeTrafficCategory
-  description: The office local breakout category.
-  kind: enum
-  properties:
-  - name: Optimize
-    types:
-    - uid: string
-  - name: OptimizeAndAllow
-    types:
-    - uid: string
-  - name: All
-    types:
-    - uid: string
-  - name: None
     types:
     - uid: string
 - name: P2SVpnServerConfiguration
@@ -273,22 +156,6 @@ definitions:
     - uid: string
   - name: id
     description: Resource ID.
-    types:
-    - uid: string
-- name: ProvisioningState
-  description: The current provisisoning state.
-  kind: enum
-  properties:
-  - name: Succeeded
-    types:
-    - uid: string
-  - name: Updating
-    types:
-    - uid: string
-  - name: Deleting
-    types:
-    - uid: string
-  - name: Failed
     types:
     - uid: string
 - name: ErrorDetails
@@ -442,6 +309,14 @@ definitions:
     description: The Pfs Groups used in IKE Phase 2 for new child SA.
     types:
     - uid: PfsGroup
+- name: SubResource
+  description: Reference to another subresource.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
 - name: IpsecEncryption
   description: The IPSec encryption algorithm (IKE phase 1).
   kind: enum
@@ -602,67 +477,87 @@ definitions:
     types:
     - uid: string
 examples:
-- name: VirtualWANUpdate
+- name: P2SVpnServerConfigurationList
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWans/wan1?api-version=2018-08-01
-    body: >-
-      {
-        "tags": {
-          "key1": "value1",
-          "key2": "value2"
-        }
-      }
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWans/virtualWan1/p2sVpnServerConfigurations?api-version=2018-08-01
   responses:
   - statusCode: "200"
     body: >-
-      {
-        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWANs/wan1",
-        "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
-        "location": "West US",
-        "name": "wan1",
-        "type": "Microsoft.Network/virtualWANs",
-        "tags": {
-          "key1": "value1",
-          "key2": "value2"
-        },
-        "properties": {
-          "provisioningState": "Succeeded",
-          "disableVpnEncryption": false,
-          "virtualHubs": [
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub1",
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub2"
-          ],
-          "vpnSites": [
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite1",
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite2"
-          ]
+      [
+        {
+          "name": "p2sVpnServerConfiguration1",
+          "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWans/virtualWan1/p2sVpnServerConfigurations/p2sVpnServerConfiguration1",
+          "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+          "properties": {
+            "provisioningState": "Succeeded",
+            "vpnProtocols": [
+              "IkeV2"
+            ],
+            "vpnClientIpsecPolicies": [
+              {
+                "saLifeTimeSeconds": 86472,
+                "saDataSizeKilobytes": 429497,
+                "ipsecEncryption": "AES256",
+                "ipsecIntegrity": "SHA256",
+                "ikeEncryption": "AES256",
+                "ikeIntegrity": "SHA384",
+                "dhGroup": "DHGroup14",
+                "pfsGroup": "PFS14"
+              }
+            ],
+            "p2SVpnServerConfigVpnClientRootCertificates": [
+              {
+                "name": "p2sVpnServerConfigVpnClientRootCert1",
+                "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWans/virtualWan1/p2sVpnServerConfigurations/p2sVpnServerConfiguration1/p2sVpnServerConfigVpnClientRootCertificates/p2sVpnServerConfigVpnClientRootCert1",
+                "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+                "properties": {
+                  "provisioningState": "Succeeded",
+                  "publicCertData": "MIIC5zCCAc+gAwIBAgIQErQ0Hk4aDJxIA+Q5RagB+jANBgkqhkiG9w0BAQsFADAWMRQwEgYDVQQDDAtQMlNSb290Q2VydDAeFw0xNzEyMTQyMTA3MzhaFw0xODEyMTQyMTI3MzhaMBYxFDASBgNVBAMMC1AyU1Jvb3RDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArP7/NQXmW7cQ/ZR1mv3Y3I29Lt7HTOqzo/1KUOoVH3NItbQIRAQbwKy3UWrOFz4eGNX2GWtNRMdCyWsKeqy9Ltsdfcm1IbKXkl84DFeU/ZacXu4Dl3xX3gV5du4TLZjEowJELyur11Ea2YcjPRQ/FzAF9/hGuboS1HZQEPLx4FdUs9OxCYOtc0MxBCwLfVTTRqarb0Ne+arNYd4kCzIhAke1nOyKAJBda5ZL+VHy3S5S8qGlD46jm8HXugmAkUygS4oIIXOmj/1O9sNAi3LN60zufSzCmP8Rm/iUGX+DHAGGiXxwZOKQLEDaZXKqoHjMPP0XudmSWwOIbyeQVrLhkwIDAQABozEwLzAOBgNVHQ8BAf8EBAMCAgQwHQYDVR0OBBYEFEfeNU2trYxNLF9ONmuJUsT13pKDMA0GCSqGSIb3DQEBCwUAA4IBAQBmM6RJzsGGipxyMhimHKN2xlkejhVsgBoTAhOU0llW9aUSwINJ9zFUGgI8IzUFy1VG776fchHp0LMRmPSIUYk5btEPxbsrPtumPuMH8EQGrS+Rt4pD+78c8H1fEPkq5CmDl/PKu4JoFGv+aFcE+Od0hlILstIF10Qysf++QXDolKfzJa/56bgMeYKFiju73loiRM57ns8ddXpfLl792UVpRkFU62LNns6Y1LKTwapmUF4IvIuAIzd6LZNOQng64LAKXtKnViJ1JQiXwf4CEzhgvAti3/ejpb3U90hsrUcyZi6wBv9bZLcAJRWpz61JNYliM1d1grSwQDKGXNQE4xuN"
+                },
+                "type": "Microsoft.Network/virtualWans/p2sVpnServerConfigurations/p2sVpnServerConfigVpnClientRootCertificates"
+              }
+            ],
+            "p2SVpnServerConfigVpnClientRevokedCertificates": [
+              {
+                "name": "p2sVpnServerConfigVpnClientRevokedCert1",
+                "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWans/virtualWan1/p2sVpnServerConfigurations/p2sVpnServerConfiguration1/p2sVpnServerConfigVpnClientRevokedCertificates/VpnClientRevokedCert2",
+                "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+                "properties": {
+                  "provisioningState": "Succeeded",
+                  "Thumbprint": "83FFBFC8848B5A5836C94D0112367E16148A286F"
+                },
+                "type": "Microsoft.Network/virtualWans/p2sVpnServerConfigurations/p2sVpnServerConfigVpnClientRevokedCertificates"
+              }
+            ],
+            "radiusServerAddress": "8.9.9.9",
+            "radiusServerSecret": "123_abc",
+            "p2SVpnServerConfigRadiusServerRootCertificates": [
+              {
+                "name": "p2sVpnServerConfigRadiusServerRootCert1",
+                "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWans/virtualWan1/p2sVpnServerConfigurations/p2sVpnServerConfiguration1/p2sVpnServerConfigRadiusServerRootCertificates/p2sVpnServerConfigRadiusServerRootCert",
+                "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+                "properties": {
+                  "provisioningState": "Succeeded",
+                  "publicCertData": "MIIC5zCCAc+gAwIBAgIQErQ0Hk4aDJxIA+Q5RagB+jANBgkqhkiG9w0BAQsFADAWMRQwEgYDVQQDDAtQMlNSb290Q2VydDAeFw0xNzEyMTQyMTA3MzhaFw0xODEyMTQyMTI3MzhaMBYxFDASBgNVBAMMC1AyU1Jvb3RDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArP7/NQXmW7cQ/ZR1mv3Y3I29Lt7HTOqzo/1KUOoVH3NItbQIRAQbwKy3UWrOFz4eGNX2GWtNRMdCyWsKeqy9Ltsdfcm1IbKXkl84DFeU/ZacXu4Dl3xX3gV5du4TLZjEowJELyur11Ea2YcjPRQ/FzAF9/hGuboS1HZQEPLx4FdUs9OxCYOtc0MxBCwLfVTTRqarb0Ne+arNYd4kCzIhAke1nOyKAJBda5ZL+VHy3S5S8qGlD46jm8HXugmAkUygS4oIIXOmj/1O9sNAi3LN60zufSzCmP8Rm/iUGX+DHAGGiXxwZOKQLEDaZXKqoHjMPP0XudmSWwOIbyeQVrLhkwIDAQABozEwLzAOBgNVHQ8BAf8EBAMCAgQwHQYDVR0OBBYEFEfeNU2trYxNLF9ONmuJUsT13pKDMA0GCSqGSIb3DQEBCwUAA4IBAQBmM6RJzsGGipxyMhimHKN2xlkejhVsgBoTAhOU0llW9aUSwINJ9zFUGgI8IzUFy1VG776fchHp0LMRmPSIUYk5btEPxbsrPtumPuMH8EQGrS+Rt4pD+78c8H1fEPkq5CmDl/PKu4JoFGv+aFcE+Od0hlILstIF10Qysf++QXDolKfzJa/56bgMeYKFiju73loiRM57ns8ddXpfLl792UVpRkFU62LNns6Y1LKTwapmUF4IvIuAIzd6LZNOQng64LAKXtKnViJ1JQiXwf4CEzhgvAti3/ejpb3U90hsrUcyZi6wBv9bZLcAJRWpz61JNYliM1d1grSwQDKGXNQE4xuM"
+                },
+                "type": "Microsoft.Network/virtualWans/p2sVpnServerConfigurations/p2sVpnServerConfigRadiusServerRootCertificates"
+              }
+            ],
+            "p2SVpnServerConfigRadiusClientRootCertificates": [
+              {
+                "name": "p2sVpnServerConfigRadiusClientRootCert1",
+                "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWans/virtualWan1/p2sVpnServerConfigurations/p2sVpnServerConfiguration1/p2sVpnServerConfigRadiusClientRootCertificates/p2sVpnServerConfigRadiusClientRootCert1",
+                "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+                "properties": {
+                  "provisioningState": "Succeeded",
+                  "Thumbprint": "83FFBFC8848B5A5836C94D0112367E16148A286F"
+                },
+                "type": "Microsoft.Network/virtualWans/p2sVpnServerConfigurations/p2sVpnServerConfigRadiusClientRootCertificates"
+              }
+            ]
+          }
         }
-      }
-  - statusCode: "201"
-    body: >-
-      {
-        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWANs/wan1",
-        "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
-        "location": "West US",
-        "name": "wan1",
-        "type": "Microsoft.Network/virtualWANs",
-        "tags": {
-          "key1": "value1",
-          "key2": "value2"
-        },
-        "properties": {
-          "provisioningState": "Succeeded",
-          "disableVpnEncryption": false,
-          "virtualHubs": [
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub1",
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub2"
-          ],
-          "vpnSites": [
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite1",
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite2"
-          ]
-        }
-      }
+      ]
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
