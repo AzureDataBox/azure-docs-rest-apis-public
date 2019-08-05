@@ -76,7 +76,7 @@ GET/HEAD https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=metadat
  The URI syntax for setting metadata headers on a container is as follows:  
   
 ```  
-PUT https://myaccount.blob.core.windows.net/mycontainer?comp=metadata?restype=container  
+PUT https://myaccount.blob.core.windows.net/mycontainer?comp=metadata&restype=container  
 ```  
   
  The URI syntax for setting metadata headers on a blob is as follows:  
