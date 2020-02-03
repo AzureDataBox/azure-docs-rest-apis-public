@@ -65,9 +65,9 @@ Submit a new batch job from a jar.
 |archives|No|Array of String|Archives to be uncompressed (YARN mode only)|  
   
 ### Response  
- The operation will return 200 (OK) if the request is completed successfully  
+ The operation will return 201 (CREATED) if the request is completed successfully  
   
- **Status code:** 200 OK  
+ **Status code:** 201 CREATED  
   
  **Response body:**  
   
