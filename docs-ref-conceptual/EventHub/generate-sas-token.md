@@ -85,19 +85,16 @@ public static String getHMAC256(String key, String input) {
 
 ## PHP
 ```php
-function generateSasToken($uri, $sasKeyName, $sasKeyValue) 
-{ 
-    $targetUri = strtolower(rawurlencode(strtolower($uri))); 
-    $expires = time();     
-    $expiresInMins = 60; 
-    $week = 60*60*24*7;
-    $expires = $expires + $week; 
-    $toSign = $targetUri . "\n" . $expires; 
-    $signature = rawurlencode(base64_encode(hash_hmac('sha256',             
-    $toSign, $sasKeyValue, TRUE))); 
-
-    $token = "SharedAccessSignature sr=" . $targetUri . "&sig=" . $signature . "&se=" . $expires .         "&skn=" . $sasKeyName; 
-    return $token; 
+function generateSasToken($uri, $sasKeyName, $sasKeyValue)
+{
+    $targetUri = strtolower(rawurlencode(strtolower($uri)));
+    $expires = time();
+    $week = 60 * 60 * 24 * 7;
+    $expires = $expires + $week;
+    $toSign = $targetUri . "\n" . $expires;
+    $signature = rawurlencode(base64_encode(hash_hmac('sha256', $toSign, $sasKeyValue, TRUE)));
+    $token = "SharedAccessSignature sr=" . $targetUri . "&sig=" . $signature . "&se=" . $expires . "&skn=" . $sasKeyName;
+    return $token;
 }
 ```
 
